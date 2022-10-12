@@ -1,46 +1,43 @@
-# Getting Started with Create React App
+# React Force Graph
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Development
 
-In the project directory, you can run:
+### Design Decisions
+We want to keep the CRA (-- Create React App), i.e. we don't want to eject,
+unless absolutely necessary.
 
-### `npm start`
+### Running the Application
+Start the frontend as standalone app
+```sh
+yarn start
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Or run it in a docker container
+```sh
+docker-compose -f ./docker-compose-dev.yml up
+```
+If the backend is started in the same way, communication is possible.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Testing
+Run the tests via
+```sh
+yarn test
+# or
+yarn test-watch
+```
+Note: currently broken, use `yarn test-react`!
 
-### `npm test`
+Framework: We use jest, and @testing-library/react.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Approach: All logic should be tested, including null-coalescing with
+"??"-operator. If inline logic is written inside a component, that component
+should be rendered in a test.
 
-### `npm run build`
+Implementation: We're using the [default jest config](./scripts/config/jest),
+copied from CRA.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Production
+Compilation via 2 stage [Dockerfile](./Dockerfile).
+TODO: push to container image registry & hook 'new-image-event' for CI.
