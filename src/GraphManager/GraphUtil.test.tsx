@@ -1,10 +1,15 @@
 import { sanitizeGraphData } from "./GraphUtil";
 
 describe("sanitizeGraphData", () => {
+  it("should coalesce undefined data", () => {
+    // @ts-ignore
+    expect(sanitizeGraphData(undefined)).toStrictEqual({
+      dataSetName: "graph from backend",
+      data: { nodes: [], links: [] },
+    });
+  });
   it("should coalesce null values for nodes and links", () => {
-    // @ts-ignore | Note: needed to assign null values, which can (I DONT KNOW WHY
-    // YOU HAVE NON NULLABLE TYPES IF THEY CAN BE NULL) occur when deserializing
-    // such an object
+    // @ts-ignore
     expect(sanitizeGraphData({ nodes: null, links: null })).toStrictEqual({
       dataSetName: "graph from backend",
       data: { nodes: [], links: [] },

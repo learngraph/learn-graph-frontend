@@ -11,13 +11,13 @@ export const sanitizeGraphDataset = function (
 
 export const sanitizeGraphData = function (data: GraphData): DataSetType {
   let nodes: NodeType[] = [];
-  if (data.nodes?.length > 0) {
+  if (data?.nodes?.length > 0) {
     nodes = data.nodes.map((node) => {
       return { ...node };
     });
   }
   let links: LinkType[] = [];
-  if (data.links?.length > 0) {
+  if (data?.links?.length > 0) {
     links = data.links.map((link) => {
       return { ...link };
     });
