@@ -1,0 +1,22 @@
+{
+	auto_https off
+}
+http://localhost:80
+
+log {
+	level DEBUG
+}
+
+# handle everything in frontend
+handle {
+	reverse_proxy frontend
+}
+# forward /query requests to backend
+handle /query {
+	reverse_proxy backend:8080
+}
+handle /graphql {
+	reverse_proxy backend:8080 {
+		rewrite /query
+	}
+}
