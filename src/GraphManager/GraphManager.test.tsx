@@ -4,6 +4,7 @@
 import { render, screen } from "@testing-library/react";
 //import { useQuery } from "@apollo/client";
 import "@testing-library/jest-dom";
+import { GraphManager } from "./GraphManager";
 
 // Since render() does not support canvas.getContext('2d')
 // we must mock ForceGraph2D.
@@ -39,6 +40,11 @@ jest.mock("@apollo/client", () => {
   };
 });
 
+jest.mock("./GraphRenderer")
+jest.mock("./components/GraphFileList")
+jest.mock("./components/GraphManagementMenu")
+jest.mock('./components/VoteDialog')
+
 describe("GraphManager", () => {
   test("my understanding of jest&react testing/matching", () => {
     const Hello = () => (
@@ -60,4 +66,17 @@ describe("GraphManager", () => {
     let { loading } = useQueryMock();
     expect(loading).toEqual("LOL");
   });
-});
+})
+
+describe('opening/closing of edit menu', () => {
+    it('should initially be closed', () => {
+      render(
+        <GraphManager 
+          datasets={[{dataSetName: 'mockSEt', data: {nodes: [], links: []}}]}
+          fetchedDataset={{dataSetName: 'mockSEt', data: {nodes: [], links: []}}}
+          queryResponse={{}}
+      />)
+        expect(screen.queryByText('Graph Management Menu')).not.toBeInTheDocument()
+    })
+  })
+
