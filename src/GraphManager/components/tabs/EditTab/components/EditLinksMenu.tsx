@@ -38,6 +38,7 @@ export const EditLinksMenu = ({
               link={link}
               onUpdateLink={onUpdateLink}
               nodes={nodes}
+              key={`${link.source} -> ${link.target}`}
             />
           );
         }) ?? "none"}
@@ -51,6 +52,7 @@ export const EditLinksMenu = ({
               link={link}
               onUpdateLink={onUpdateLink}
               nodes={nodes}
+              key={`${link.source} -> ${link.target}`}
             />
           );
         }) ?? "none"}

@@ -10,6 +10,7 @@ export interface LinkType {
   target: string;
   value: number;
   note?: string;
+  id?: string; // TODO: make it mandatory (it is..)
 }
 
 export interface NodeType {

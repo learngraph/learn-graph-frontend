@@ -42,6 +42,7 @@ describe("opening/closing of edit menu", () => {
     render(
       <GraphManager
         datasets={[{ dataSetName: "mockSEt", data: { nodes: [], links: [] } }]}
+        // @ts-ignore
         fetchedDataset={undefined}
         queryResponse={{}}
       />
@@ -52,6 +53,7 @@ describe("opening/closing of edit menu", () => {
     render(
       <GraphManager
         datasets={[{ dataSetName: "mockSEt", data: { nodes: [], links: [] } }]}
+        // @ts-ignore
         fetchedDataset={undefined}
         queryResponse={{}}
       />
