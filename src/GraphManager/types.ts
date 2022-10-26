@@ -15,6 +15,7 @@ export interface LinkType {
 
 export interface NodeType {
   id: string;
+  //description: string;
   group: number;
 }
 

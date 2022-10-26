@@ -13,9 +13,12 @@ export const editNode = ({
   isNewNode,
 }: EditNodeTypes): GraphData => {
   const graphCopy = { ...graph };
-  const { id: newName } = newNode;
+  const { id: newID, group: newGroup } = newNode;
 
   if (isNewNode) {
+    if (graphCopy.nodes.find((n) => n.id === newNode.id)) {
+      throw new Error("Attempting to create a new Node that already exists");
+    }
     graphCopy.nodes?.push(newNode);
     return graphCopy;
   }
@@ -24,16 +27,17 @@ export const editNode = ({
     throw new Error("Attempting to update a Node when none exist");
   }
 
-  // Update Existing Node
+  // Update existing links to new node ID
   graphCopy?.links?.forEach((link) => {
     if (link.target === selectedNode.id) {
-      link.target = newName;
+      link.target = newID;
     }
     if (link.source === selectedNode.id) {
-      link.source = newName;
+      link.source = newID;
     }
   });
-  selectedNode.id = newName;
+  selectedNode.id = newID;
+  selectedNode.group = newGroup;
 
   return graphCopy;
 };
