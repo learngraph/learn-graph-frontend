@@ -117,7 +117,7 @@ export const EditTab = ({
       </MenuItem>
     );
   });
-  console.log(`desc: ${selectedNodeDescription}, id: ${selectedNodeID}`);
+  const value = selectedNodeDescription && selectedNodeID? selectedNodeDescription + ";DIRTYHACK;" + selectedNodeID: "";
 
   return (
     <>
@@ -126,7 +126,7 @@ export const EditTab = ({
       <Select
         labelId="select-active-node-label"
         id="select-active-node"
-        value={selectedNodeDescription + ";DIRTYHACK;" + selectedNodeID}
+        value={value}
         //value={selectedNodeDescription}
         onChange={handleSelectNode}
       >

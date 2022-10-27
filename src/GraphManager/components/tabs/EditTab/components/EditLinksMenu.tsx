@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { LinkType, NodeType } from "../../../../types";
 import { List, Button, Typography } from "@mui/material";
 import { LinkDisplay } from "./LinkDisplay";

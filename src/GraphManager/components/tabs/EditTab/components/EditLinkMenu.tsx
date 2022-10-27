@@ -25,19 +25,21 @@ export const EditLinkMenu = ({
   onUpdateLink,
   nodes,
 }: EditLinkMenuProps): JSX.Element => {
-  const { source, target, value, note } = link ?? {};
-  const [currentSource, setCurrentSource] = useState(source ?? "");
-  const [currentTarget, setCurrentTarget] = useState(target ?? "");
+  const { source: sourceID, target: targetID, value, note } = link ?? {};
+  const [currentSourceID, setCurrentSourceID] = useState(sourceID ?? "");
+  const [currentTargetID, setCurrentTargetID] = useState(targetID ?? "");
   const [currentValue, setCurrentValue] = useState(value ?? "");
   const [currentNote, setCurrentNote] = useState(note ?? "");
 
-  const isAnyValueChanged =
-    currentSource !== source ||
-    currentTarget !== target ||
-    currentValue !== value ||
-    currentNote !== note;
+  let isAnyValueChanged = currentSourceID !== sourceID || currentTargetID !== targetID || currentValue !== value;
+  if (note) {
+    // note is an optional property and can be undefined, which compares false
+    // for exact inequality "!==", but here empty string is needed as "value"
+    // below
+    isAnyValueChanged ||= currentNote !== note;
+  }
 
-  const areRequiredValuesSet = currentSource && currentTarget && currentValue;
+  const areRequiredValuesSet = currentSourceID && currentTargetID && currentValue;
 
   const canSave = isAnyValueChanged && areRequiredValuesSet;
 
@@ -46,8 +48,8 @@ export const EditLinkMenu = ({
       onUpdateLink({
         oldLink: link,
         updatedLink: {
-          source: currentSource,
-          target: currentTarget,
+          source: currentSourceID,
+          target: currentTargetID,
           value: currentValue,
           note: currentNote,
         },
@@ -56,8 +58,8 @@ export const EditLinkMenu = ({
     toggleIsEditable?.(false);
   };
   const handleCancelButtonClick = (): void => {
-    setCurrentSource(source ?? gUnknown);
-    setCurrentTarget(target ?? gUnknown);
+    setCurrentSourceID(sourceID ?? gUnknown);
+    setCurrentTargetID(targetID ?? gUnknown);
     setCurrentValue(value ?? gUnknown);
     setCurrentNote(note ?? gUnknown);
     toggleIsEditable?.(false);
@@ -68,7 +70,7 @@ export const EditLinkMenu = ({
     _: ReactNode
   ): void => {
     const nodeName = event.target.value as string;
-    setCurrentSource(nodeName);
+    setCurrentSourceID(nodeName);
   };
 
   const handleSelectTargetNode = (
@@ -76,7 +78,7 @@ export const EditLinkMenu = ({
     _: ReactNode
   ): void => {
     const nodeName = event.target.value as string;
-    setCurrentTarget(nodeName);
+    setCurrentTargetID(nodeName);
   };
 
   const renderOptions = nodes?.map(({ id }) => {
@@ -87,12 +89,17 @@ export const EditLinkMenu = ({
     );
   });
 
+  // TODO(skep): remove
+  // console.log(`src: ${currentSourceID}, tgt: ${currentTargetID}`);
+  // console.dir(currentSourceID);
+  // console.dir(currentTargetID);
+
   return (
     <>
       <Select
         labelId="select-source-node-label"
         id="select-source-node"
-        value={currentSource ?? gUnknown}
+        value={currentSourceID ?? gUnknown}
         onChange={handleSelectSourceNode}
       >
         {renderOptions}
@@ -101,7 +108,7 @@ export const EditLinkMenu = ({
       <Select
         labelId="select-target-node-label"
         id="select-target-node"
-        value={currentTarget ?? ""}
+        value={currentTargetID ?? gUnknown}
         onChange={handleSelectTargetNode}
       >
         {renderOptions}
