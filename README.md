@@ -47,4 +47,4 @@ copied from CRA.
 ## Production
 
 Compilation via 2 stage [Dockerfile](./Dockerfile).
-TODO: push to container image registry & hook 'new-image-event' for CI.
+Image is build and pushed to hub.docker.com via [github action](.github/workflows/release.yml).
