@@ -1,16 +1,20 @@
 import { GraphData } from "GraphManager/types";
 const data: GraphData = {
   nodes: [
-    { id: "Public-Key Cryptography", group: 1 },
-    { id: "RSA", group: 1 },
-    { id: "ECC", group: 1 },
-    { id: "Prime Factoring", group: 2 },
-    { id: "Integer Factoring", group: 2 },
-    { id: "F2m", group: 2 },
-    { id: "Prime Fields", group: 2 },
-    { id: "Finite Fields", group: 2 },
-    { id: "Field Theory", group: 2 },
-    { id: "Prime Numbers", group: 2 },
+    {
+      id: "Public-Key Cryptography",
+      description: "Public-Key Cryptography",
+      group: 1,
+    },
+    { id: "RSA", description: "RSA", group: 1 },
+    { id: "ECC", description: "ECC", group: 1 },
+    { id: "Prime Factoring", description: "Prime Factoring", group: 2 },
+    { id: "Integer Factoring", description: "Integer Factoring", group: 2 },
+    { id: "F2m", description: "F2m", group: 2 },
+    { id: "Prime Fields", description: "Prime Fields", group: 2 },
+    { id: "Finite Fields", description: "Finite Fields", group: 2 },
+    { id: "Field Theory", description: "Field Theory", group: 2 },
+    { id: "Prime Numbers", description: "Prime Numbers", group: 2 },
   ],
   links: [
     {

@@ -26,8 +26,8 @@ describe("sanitizeGraphData", () => {
   it("should copy all input nodes/links (since force-graph modifies these objects)", () => {
     let inp = {
       nodes: [
-        { id: "1", group: 1 },
-        { id: "2", group: 2 },
+        { id: "1", description: "1", group: 1 },
+        { id: "2", description: "2", group: 2 },
       ],
       links: [
         { source: "1", target: "2", value: 1.0 },

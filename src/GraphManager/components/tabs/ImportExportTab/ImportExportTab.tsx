@@ -19,8 +19,9 @@ export const ImportExportTab = ({
   const handleExportButtonClick = (): void => {
     const { dataSetName, data } = currentGraphDataset;
     // filter out the properties that got added by the graph framework and are only relevant for internal processing
-    data.nodes = data?.nodes?.map(({ id, group }) => ({
+    data.nodes = data?.nodes?.map(({ id, description, group }) => ({
       id,
+      description,
       group,
     }));
     const dataString = JSON.stringify(data);

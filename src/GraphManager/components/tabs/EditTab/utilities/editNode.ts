@@ -13,7 +13,7 @@ export const editNode = ({
   isNewNode,
 }: EditNodeTypes): GraphData => {
   const graphCopy = { ...graph };
-  const { id: newID, group: newGroup } = newNode;
+  const { id: newID } = newNode;
 
   if (isNewNode) {
     if (graphCopy.nodes.find((n) => n.id === newNode.id)) {
@@ -36,8 +36,8 @@ export const editNode = ({
       link.source = newID;
     }
   });
-  selectedNode.id = newID;
-  selectedNode.group = newGroup;
+  // Update selected node with new content
+  Object.assign(selectedNode, newNode);
 
   return graphCopy;
 };
