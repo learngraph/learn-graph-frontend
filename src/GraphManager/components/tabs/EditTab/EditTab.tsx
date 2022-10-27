@@ -24,12 +24,16 @@ export const EditTab = ({
   const { data: graphData } = currentGraphDataset;
 
   const firstNode = graphData.nodes?.[0];
-  const defaultNodeName = firstNode?.id ?? "";
-  const [selectedNodeId, setSelectedNode] = useState(defaultNodeName);
-  const [currentNodeEditingText, setCurrentNodeEditingText] =
-    useState(defaultNodeName);
-  const selectedNode =
-    graphData.nodes?.find(({ id }) => id === selectedNodeId) ??
+  const [selectedNodeDescription, setSelectedNodeDescription] = useState(
+    firstNode.description
+  );
+  const [currentNodeEditingText, setCurrentNodeEditingText] = useState(
+    selectedNodeDescription
+  );
+  const selectedNodeInGraph =
+    graphData.nodes?.find(
+      ({ description }) => description === selectedNodeDescription
+    ) ?? // TODO: should use ID here!
     graphData.nodes?.[0];
 
   const handleSelectNode = (
@@ -37,7 +41,7 @@ export const EditTab = ({
     _: ReactNode
   ): void => {
     const nodeName = event.target.value as string;
-    setSelectedNode(nodeName);
+    setSelectedNodeDescription(nodeName);
     setCurrentNodeEditingText(nodeName);
   };
 
@@ -48,17 +52,17 @@ export const EditTab = ({
     isNewNode: boolean;
     node: NodeType;
   }): void => {
-    const { id: newName } = node;
+    const { description: newName } = node;
     const newGraph = editNode({
       graph: graphData,
       newNode: node,
-      selectedNode,
+      selectedNode: selectedNodeInGraph,
       isNewNode,
     });
     const { dataSetName } = currentGraphDataset;
 
     updateDisplayedGraph({ dataSetName, data: newGraph });
-    setSelectedNode(newName);
+    setSelectedNodeDescription(newName);
     setCurrentNodeEditingText(newName);
   };
 
@@ -100,8 +104,8 @@ export const EditTab = ({
     return forwardLinks ?? [];
   };
 
-  const forwardLinks = findForwardLinks(graphData, selectedNodeId);
-  const backwardLinks = findBackwardLinks(graphData, selectedNodeId);
+  const forwardLinks = findForwardLinks(graphData, selectedNodeDescription);
+  const backwardLinks = findBackwardLinks(graphData, selectedNodeDescription);
 
   const renderOptions = graphData.nodes?.map(({ id }) => {
     return (
@@ -118,14 +122,14 @@ export const EditTab = ({
       <Select
         labelId="select-active-node-label"
         id="select-active-node"
-        value={selectedNodeId}
+        value={selectedNodeDescription}
         onChange={handleSelectNode}
       >
         {renderOptions}
       </Select>
       <Divider />
       <EditNodeMenu
-        node={selectedNode}
+        node={selectedNodeInGraph}
         currentText={currentNodeEditingText}
         updateText={setCurrentNodeEditingText}
         saveChanges={updateNode}
