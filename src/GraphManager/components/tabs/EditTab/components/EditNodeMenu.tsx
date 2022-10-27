@@ -14,7 +14,7 @@ type EditNodeMenuProps = {
   finishEditing: Function | undefined;
 };
 
-// todo context?
+// TODO(j): context?
 
 export const EditNodeMenu = ({
   node,
@@ -30,12 +30,12 @@ export const EditNodeMenu = ({
   };
 
   const handleCancelButtonClick = (): void => {
-    updateText(node?.id);
+    updateText(node?.description);
     finishEditing?.();
   };
 
   const handleConfirmButtonClick = (): void => {
-    saveChanges({ node: { id: currentText, group: 1 } });
+    saveChanges({ node: { ...node, description: currentText } });
     finishEditing?.();
   };
 

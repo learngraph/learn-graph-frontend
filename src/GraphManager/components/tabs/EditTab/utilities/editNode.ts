@@ -12,15 +12,14 @@ export const editNode = ({
   selectedNode,
   isNewNode,
 }: EditNodeTypes): GraphData => {
-  const graphCopy = { ...graph };
   const { id: newID } = newNode;
 
   if (isNewNode) {
-    if (graphCopy.nodes.find((n) => n.id === newNode.id)) {
+    if (graph.nodes.find((n) => n.id === newNode.id)) {
       throw new Error("Attempting to create a new Node that already exists");
     }
-    graphCopy.nodes?.push(newNode);
-    return graphCopy;
+    graph.nodes?.push(newNode);
+    return graph;
   }
 
   if (!selectedNode) {
@@ -28,7 +27,7 @@ export const editNode = ({
   }
 
   // Update existing links to new node ID
-  graphCopy?.links?.forEach((link) => {
+  graph?.links?.forEach((link) => {
     if (link.target === selectedNode.id) {
       link.target = newID;
     }
@@ -39,5 +38,5 @@ export const editNode = ({
   // Update selected node with new content
   Object.assign(selectedNode, newNode);
 
-  return graphCopy;
+  return graph;
 };

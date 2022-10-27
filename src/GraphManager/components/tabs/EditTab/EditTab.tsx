@@ -24,23 +24,26 @@ export const EditTab = ({
   const { data: graphData } = currentGraphDataset;
 
   const firstNode = graphData.nodes?.[0];
+  const [selectedNodeID, setSelectedNodeID] = useState(firstNode?.id);
   const [selectedNodeDescription, setSelectedNodeDescription] = useState(
-    firstNode.description
+    firstNode?.description
   );
   const [currentNodeEditingText, setCurrentNodeEditingText] = useState(
     selectedNodeDescription
   );
   const selectedNodeInGraph =
-    graphData.nodes?.find(
-      ({ description }) => description === selectedNodeDescription
-    ) ?? // TODO: should use ID here!
+    graphData.nodes?.find(({ id }) => id === selectedNodeID) ??
     graphData.nodes?.[0];
 
   const handleSelectNode = (
     event: SelectChangeEvent<string>,
     _: ReactNode
   ): void => {
-    const nodeName = event.target.value as string;
+    //const nodeName = event.target.value as string;
+    const tmp = event.target.value as string;
+    const nodeName = tmp.split(";DIRTYHACK;")[0];
+    const nodeID = tmp.split(";DIRTYHACK;")[1];
+    setSelectedNodeID(nodeID);
     setSelectedNodeDescription(nodeName);
     setCurrentNodeEditingText(nodeName);
   };
@@ -61,9 +64,9 @@ export const EditTab = ({
     });
     const { dataSetName } = currentGraphDataset;
 
-    updateDisplayedGraph({ dataSetName, data: newGraph });
     setSelectedNodeDescription(newName);
     setCurrentNodeEditingText(newName);
+    updateDisplayedGraph({ dataSetName, data: newGraph });
   };
 
   const updateLink = ({
@@ -104,16 +107,17 @@ export const EditTab = ({
     return forwardLinks ?? [];
   };
 
-  const forwardLinks = findForwardLinks(graphData, selectedNodeDescription);
-  const backwardLinks = findBackwardLinks(graphData, selectedNodeDescription);
+  const forwardLinks = findForwardLinks(graphData, selectedNodeID);
+  const backwardLinks = findBackwardLinks(graphData, selectedNodeID);
 
-  const renderOptions = graphData.nodes?.map(({ id }) => {
+  const renderOptions = graphData.nodes?.map(({ id, description }) => {
     return (
-      <MenuItem key={id} value={id}>
-        {id}
+      <MenuItem key={id} value={description + ";DIRTYHACK;" + id}>
+        {description}
       </MenuItem>
     );
   });
+  console.log(`desc: ${selectedNodeDescription}, id: ${selectedNodeID}`);
 
   return (
     <>
@@ -122,7 +126,8 @@ export const EditTab = ({
       <Select
         labelId="select-active-node-label"
         id="select-active-node"
-        value={selectedNodeDescription}
+        value={selectedNodeDescription + ";DIRTYHACK;" + selectedNodeID}
+        //value={selectedNodeDescription}
         onChange={handleSelectNode}
       >
         {renderOptions}
