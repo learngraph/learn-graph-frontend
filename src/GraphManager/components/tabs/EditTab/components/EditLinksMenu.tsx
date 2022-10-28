@@ -33,7 +33,6 @@ export const EditLinksMenu = ({
       <List component="nav">
         {forwardLinks.map((link) => {
           return (
-            // eslint-disable-next-line react/jsx-key
             <LinkDisplay
               link={link}
               onUpdateLink={onUpdateLink}
@@ -47,7 +46,6 @@ export const EditLinksMenu = ({
       <List component="nav">
         {backwardLinks.map((link) => {
           return (
-            // eslint-disable-next-line react/jsx-key
             <LinkDisplay
               link={link}
               onUpdateLink={onUpdateLink}
@@ -65,7 +63,10 @@ export const EditLinksMenu = ({
           link={undefined}
         />
       ) : (
-        <Button onClick={(): void => setIsAddingNewLink(true)}>
+        <Button
+          aria-label="add new link" // FIXME(skep): attribute is not passed downwards, why?
+          onClick={(): void => setIsAddingNewLink(true)}
+        >
           Add new Link
         </Button>
       )}
@@ -78,7 +79,10 @@ export const EditLinksMenu = ({
           finishEditing={(): void => setIsAddingNewNode(false)}
         />
       ) : (
-        <Button onClick={(): void => setIsAddingNewNode(true)}>
+        <Button
+          aria-label="add new node" // FIXME(skep): attribute is not passed downwards, why?
+          onClick={(): void => setIsAddingNewNode(true)}
+        >
           Add new Node
         </Button>
       )}

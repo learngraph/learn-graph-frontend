@@ -31,7 +31,10 @@ export const EditLinkMenu = ({
   const [currentValue, setCurrentValue] = useState(value ?? "");
   const [currentNote, setCurrentNote] = useState(note ?? "");
 
-  let isAnyValueChanged = currentSourceID !== sourceID || currentTargetID !== targetID || currentValue !== value;
+  let isAnyValueChanged =
+    currentSourceID !== sourceID ||
+    currentTargetID !== targetID ||
+    currentValue !== value;
   if (note) {
     // note is an optional property and can be undefined, which compares false
     // for exact inequality "!==", but here empty string is needed as "value"
@@ -39,7 +42,8 @@ export const EditLinkMenu = ({
     isAnyValueChanged ||= currentNote !== note;
   }
 
-  const areRequiredValuesSet = currentSourceID && currentTargetID && currentValue;
+  const areRequiredValuesSet =
+    currentSourceID && currentTargetID && currentValue;
 
   const canSave = isAnyValueChanged && areRequiredValuesSet;
 

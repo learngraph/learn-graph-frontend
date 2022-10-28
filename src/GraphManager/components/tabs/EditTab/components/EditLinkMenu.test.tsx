@@ -9,12 +9,17 @@ describe("EditLinkMenu", () => {
       expect(onUpdateLink.mock.calls.length).toBe(0);
       expect(toggleIsEditable.mock.calls.length).toBe(0);
     };
-    render(<EditLinkMenu
-      link={{source: "1", target: "2", value: 2.0}}
-      toggleIsEditable={toggleIsEditable}
-      onUpdateLink={onUpdateLink}
-      nodes={[{id: "1", description: "A"}, {id: "2", description: "B"}]}
-    />);
+    render(
+      <EditLinkMenu
+        link={{ source: "1", target: "2", value: 2.0 }}
+        toggleIsEditable={toggleIsEditable}
+        onUpdateLink={onUpdateLink}
+        nodes={[
+          { id: "1", description: "A" },
+          { id: "2", description: "B" },
+        ]}
+      />
+    );
     expectNoCalls();
     const button = screen.queryByLabelText("confirm editing link");
     act(() => {

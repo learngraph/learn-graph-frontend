@@ -117,7 +117,10 @@ export const EditTab = ({
       </MenuItem>
     );
   });
-  const value = selectedNodeDescription && selectedNodeID? selectedNodeDescription + ";DIRTYHACK;" + selectedNodeID: "";
+  const value =
+    selectedNodeDescription && selectedNodeID
+      ? selectedNodeDescription + ";DIRTYHACK;" + selectedNodeID
+      : "";
 
   return (
     <>
