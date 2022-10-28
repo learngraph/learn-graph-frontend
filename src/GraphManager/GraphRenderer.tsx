@@ -12,6 +12,8 @@ export const GraphRenderer = ({
 }: GraphRendererProps) => {
   return (
     <ForceGraph2D
+      // Note: all data must be copied, since force graph changes Link "source"
+      // and "target" fields to directly contain the referred node objects
       graphData={JSON.parse(JSON.stringify(selectedGraphDataset.data))}
       nodeAutoColorBy={"group"}
       onNodeClick={(params) => {
