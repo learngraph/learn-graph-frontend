@@ -12,7 +12,7 @@ export const GraphRenderer = ({
 }: GraphRendererProps) => {
   return (
     <ForceGraph2D
-      graphData={{ ...selectedGraphDataset.data }}
+      graphData={JSON.parse(JSON.stringify(selectedGraphDataset.data))}
       nodeAutoColorBy={"group"}
       onNodeClick={(params) => {
         console.log("clicked", params);
