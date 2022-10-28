@@ -42,9 +42,6 @@ export const EditTab = ({
   const [selectedNodeDescription, setSelectedNodeDescription] = useState(
     firstNode?.description
   );
-  const [currentNodeEditingText, setCurrentNodeEditingText] = useState(
-    selectedNodeDescription
-  );
   const selectedNodeInGraph =
     graphData.nodes?.find(({ id }) => id === selectedNodeID) ??
     graphData.nodes?.[0];
@@ -59,7 +56,6 @@ export const EditTab = ({
     const nodeID = tmp.split(";DIRTYHACK;")[1];
     setSelectedNodeID(nodeID);
     setSelectedNodeDescription(nodeName);
-    setCurrentNodeEditingText(nodeName);
   };
 
   const updateNode = ({
@@ -79,7 +75,6 @@ export const EditTab = ({
     const { dataSetName } = currentGraphDataset;
 
     setSelectedNodeDescription(newName);
-    setCurrentNodeEditingText(newName);
     updateDisplayedGraph({ dataSetName, data: newGraph });
   };
 
@@ -138,8 +133,8 @@ export const EditTab = ({
       <Divider />
       <EditNodeMenu
         node={selectedNodeInGraph}
-        currentText={currentNodeEditingText}
-        updateText={setCurrentNodeEditingText}
+        currentText={selectedNodeDescription}
+        updateText={setSelectedNodeDescription}
         saveChanges={updateNode}
         finishEditing={undefined}
       />

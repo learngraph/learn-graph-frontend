@@ -43,4 +43,30 @@ describe("sanitizeGraphData", () => {
       expect(sanitizeGraphData(inp).data.links[i] === inp.links[i]).toBe(false);
     }
   });
+  it("should verify link type", () => {
+    let node1 = { id: "1", description: "1", group: 1 };
+    let node2 = { id: "1", description: "1", group: 1 };
+    let inp = {
+      nodes: [node1, node2],
+      links: [
+        { source: node1, target: node2, value: 1.0 },
+        { source: node2, target: node1, value: 1.0 },
+      ],
+    };
+    expect(() => {
+      // @ts-ignore
+      sanitizeGraphData(inp);
+    }).toThrow();
+    inp = {
+      nodes: [node1, node2],
+      links: [
+        // @ts-ignore
+        { source: "1", target: node2, value: 1.0 },
+      ],
+    };
+    expect(() => {
+      // @ts-ignore
+      sanitizeGraphData(inp);
+    }).toThrow();
+  });
 });

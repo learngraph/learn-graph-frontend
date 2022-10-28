@@ -19,6 +19,9 @@ export const sanitizeGraphData = function (data: GraphData): DataSetType {
   let links: LinkType[] = [];
   if (data?.links?.length > 0) {
     links = data.links.map((link) => {
+      if (typeof link.source !== "string" || typeof link.target !== "string") {
+        throw new Error("invalid type detected"); // FIXME(skep): should remove this check, exists just for debugging
+      }
       return { ...link };
     });
   }
