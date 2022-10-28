@@ -17,6 +17,20 @@ type EditTabProps = {
   updateDisplayedGraph: (value: DataSetType) => void;
 };
 
+export const findForwardLinks = (
+  graph: GraphData,
+  nodeId: string
+): LinkType[] => {
+  return graph.links?.filter((link: LinkType) => link.target === nodeId) ?? [];
+};
+
+export const findBackwardLinks = (
+  graph: GraphData,
+  nodeId: string
+): LinkType[] => {
+  return graph.links?.filter((link: LinkType) => link.source === nodeId) ?? [];
+};
+
 export const EditTab = ({
   currentGraphDataset,
   updateDisplayedGraph,
@@ -91,20 +105,6 @@ export const EditTab = ({
 
     const newGraph = { nodes, links: updatedLinks };
     updateDisplayedGraph({ dataSetName, data: newGraph });
-  };
-
-  const findForwardLinks = (graph: GraphData, nodeId: string): LinkType[] => {
-    const forwardLinks = graph.links?.filter(
-      (link: LinkType) => link.target === nodeId
-    );
-    return forwardLinks ?? [];
-  };
-
-  const findBackwardLinks = (graph: GraphData, nodeId: string): LinkType[] => {
-    const forwardLinks = graph.links?.filter(
-      (link: LinkType) => link.source === nodeId
-    );
-    return forwardLinks ?? [];
   };
 
   const forwardLinks = findForwardLinks(graphData, selectedNodeID);

@@ -1,4 +1,4 @@
-import { EditTab } from "./EditTab";
+import { EditTab, findBackwardLinks, findForwardLinks } from "./EditTab";
 import { render, screen } from "@testing-library/react";
 import { DataSetType } from "src/GraphManager/types";
 
@@ -42,7 +42,70 @@ describe("EditTab", () => {
       />
     );
     expect(updateDisplayedGraph.mock.calls.length).toBe(0);
-    //expect(screen.get("button")).toEqual("lol");
     expect(screen.getByDisplayValue("A", { exact: false })).toBeInTheDocument();
+  });
+});
+
+describe("findForwardLinks", () => {
+  it("should find no link", () => {
+    expect(
+      findForwardLinks(
+        { nodes: [], links: [{ source: "1", target: "2", value: 8.0 }] },
+        "1"
+      )
+    ).toEqual([]);
+  });
+  it("should find one link", () => {
+    expect(
+      findForwardLinks(
+        { nodes: [], links: [{ source: "2", target: "1", value: 8.0 }] },
+        "1"
+      )
+    ).toEqual([{ source: "2", target: "1", value: 8.0 }]);
+  });
+  it("should find multiple link", () => {
+    expect(
+      findForwardLinks(
+        {
+          nodes: [],
+          links: [
+            { source: "2", target: "1", value: 8.0 },
+            { source: "3", target: "1", value: 2.0 },
+          ],
+        },
+        "1"
+      )
+    ).toEqual([
+      { source: "2", target: "1", value: 8.0 },
+      { source: "3", target: "1", value: 2.0 },
+    ]);
+  });
+});
+
+describe("findBackwardLinks", () => {
+  it("should find one link", () => {
+    expect(
+      findBackwardLinks(
+        { nodes: [], links: [{ source: "1", target: "2", value: 8.0 }] },
+        "1"
+      )
+    ).toEqual([{ source: "1", target: "2", value: 8.0 }]);
+  });
+  it("should find no link", () => {
+    expect(
+      findBackwardLinks(
+        { nodes: [], links: [{ source: "2", target: "1", value: 8.0 }] },
+        "1"
+      )
+    ).toEqual([]);
+  });
+  it("should return an empty error, even if input is undefined", () => {
+    expect(
+      findBackwardLinks(
+        // @ts-ignore
+        { nodes: [], links: undefined },
+        "1"
+      )
+    ).toEqual([]);
   });
 });
