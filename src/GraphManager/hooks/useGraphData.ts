@@ -5,11 +5,13 @@ const GET_GRAPH_DATA = gql`
     graph {
       nodes {
         id
+        description
       }
       edges {
         id
-        from
-        to
+        source: from
+        target: to
+        value: weight
       }
     }
   }

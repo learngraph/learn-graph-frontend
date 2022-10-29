@@ -23,10 +23,11 @@ export const GraphManager = ({
 }: GraphManagerProps): JSX.Element => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [isVoteDialogOpen, setIsVoteDialogOpen] = useState(false);
-  const [voteDialogNodes, setVoteDialogNodes] = useState<{
+  const [voteDialogInput, setVoteDialogInput] = useState<{
+    linkID: string | null;
     source: NodeType | null;
     target: NodeType | null;
-  }>({ source: null, target: null });
+  }>({ linkID: null, source: null, target: null });
 
   const [selectedGraphDataset, setSelectedGraphDataset] = useState<DataSetType>(
     sanitizeGraphDataset(datasets[0])
@@ -44,9 +45,13 @@ export const GraphManager = ({
   };
 
   const openVoteDialog = (params: any): void => {
-    const { sourceNode, targetNode } = params;
+    const { linkID, sourceNode, targetNode } = params;
     setIsVoteDialogOpen(true);
-    setVoteDialogNodes({ source: sourceNode, target: targetNode });
+    setVoteDialogInput({
+      linkID: linkID,
+      source: sourceNode,
+      target: targetNode,
+    });
   };
 
   return (
@@ -83,8 +88,9 @@ export const GraphManager = ({
       <VoteDialog
         isDialogOpen={isVoteDialogOpen}
         setDialogOpen={setIsVoteDialogOpen}
-        sourceNode={voteDialogNodes.source}
-        targetNode={voteDialogNodes.target}
+        linkID={voteDialogInput.linkID}
+        sourceNode={voteDialogInput.source}
+        targetNode={voteDialogInput.target}
       />
       <GraphRenderer
         selectedGraphDataset={selectedGraphDataset}

@@ -30,8 +30,8 @@ describe("EditLinksMenu", () => {
       { id: "2", description: "B" },
       { id: "3", description: "C" },
     ];
-    let forwardLink = { source: "1", target: "2", value: 9.0 };
-    let backwardLink = { source: "2", target: "3", value: 9.0 };
+    let forwardLink = { id: "1", source: "1", target: "2", value: 9.0 };
+    let backwardLink = { id: "2", source: "2", target: "3", value: 9.0 };
     render(
       <EditLinksMenu
         forwardLinks={[forwardLink]}

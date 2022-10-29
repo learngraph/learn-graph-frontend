@@ -30,8 +30,8 @@ describe("sanitizeGraphData", () => {
         { id: "2", description: "2", group: 2 },
       ],
       links: [
-        { source: "1", target: "2", value: 1.0 },
-        { source: "2", target: "1", value: 1.0 },
+        { id: "1", source: "1", target: "2", value: 1.0 },
+        { id: "2", source: "2", target: "1", value: 1.0 },
       ],
     };
     for (let i = 0; i < inp.nodes.length; i++) {
@@ -49,8 +49,8 @@ describe("sanitizeGraphData", () => {
     let inp = {
       nodes: [node1, node2],
       links: [
-        { source: node1, target: node2, value: 1.0 },
-        { source: node2, target: node1, value: 1.0 },
+        { id: "1", source: node1, target: node2, value: 1.0 },
+        { id: "2", source: node2, target: node1, value: 1.0 },
       ],
     };
     expect(() => {

@@ -50,7 +50,10 @@ describe("findForwardLinks", () => {
   it("should find no link", () => {
     expect(
       findForwardLinks(
-        { nodes: [], links: [{ source: "1", target: "2", value: 8.0 }] },
+        {
+          nodes: [],
+          links: [{ id: "1", source: "1", target: "2", value: 8.0 }],
+        },
         "1"
       )
     ).toEqual([]);
@@ -58,10 +61,13 @@ describe("findForwardLinks", () => {
   it("should find one link", () => {
     expect(
       findForwardLinks(
-        { nodes: [], links: [{ source: "2", target: "1", value: 8.0 }] },
+        {
+          nodes: [],
+          links: [{ id: "1", source: "2", target: "1", value: 8.0 }],
+        },
         "1"
       )
-    ).toEqual([{ source: "2", target: "1", value: 8.0 }]);
+    ).toEqual([{ id: "1", source: "2", target: "1", value: 8.0 }]);
   });
   it("should find multiple link", () => {
     expect(
@@ -69,15 +75,15 @@ describe("findForwardLinks", () => {
         {
           nodes: [],
           links: [
-            { source: "2", target: "1", value: 8.0 },
-            { source: "3", target: "1", value: 2.0 },
+            { id: "1", source: "2", target: "1", value: 8.0 },
+            { id: "1", source: "3", target: "1", value: 2.0 },
           ],
         },
         "1"
       )
     ).toEqual([
-      { source: "2", target: "1", value: 8.0 },
-      { source: "3", target: "1", value: 2.0 },
+      { id: "1", source: "2", target: "1", value: 8.0 },
+      { id: "1", source: "3", target: "1", value: 2.0 },
     ]);
   });
 });
@@ -86,15 +92,21 @@ describe("findBackwardLinks", () => {
   it("should find one link", () => {
     expect(
       findBackwardLinks(
-        { nodes: [], links: [{ source: "1", target: "2", value: 8.0 }] },
+        {
+          nodes: [],
+          links: [{ id: "1", source: "1", target: "2", value: 8.0 }],
+        },
         "1"
       )
-    ).toEqual([{ source: "1", target: "2", value: 8.0 }]);
+    ).toEqual([{ id: "1", source: "1", target: "2", value: 8.0 }]);
   });
   it("should find no link", () => {
     expect(
       findBackwardLinks(
-        { nodes: [], links: [{ source: "2", target: "1", value: 8.0 }] },
+        {
+          nodes: [],
+          links: [{ id: "1", source: "2", target: "1", value: 8.0 }],
+        },
         "1"
       )
     ).toEqual([]);

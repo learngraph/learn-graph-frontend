@@ -11,7 +11,7 @@ describe("EditLinkMenu", () => {
     };
     render(
       <EditLinkMenu
-        link={{ source: "1", target: "2", value: 2.0 }}
+        link={{ id: "1", source: "1", target: "2", value: 2.0 }}
         toggleIsEditable={toggleIsEditable}
         onUpdateLink={onUpdateLink}
         nodes={[

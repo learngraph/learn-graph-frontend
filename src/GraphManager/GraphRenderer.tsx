@@ -1,5 +1,5 @@
-import ForceGraph2D from "react-force-graph-2d";
-import { DataSetType } from "./types";
+import ForceGraph2D, { LinkObject } from "react-force-graph-2d";
+import { DataSetType, LinkType } from "./types";
 
 interface GraphRendererProps {
   selectedGraphDataset: DataSetType;
@@ -22,10 +22,18 @@ export const GraphRenderer = ({
       onLinkHover={(params) => {
         console.log("linkHov", params);
       }}
-      onLinkClick={(params) => {
+      onLinkClick={(params: LinkObject) => {
+        console.log("onLinkClick", params);
+        // @ts-ignore: TODO(skep): fundamental type issue here, we have a
+        // NodeType != ForceGraph2D.NodeObject, and a LinkType !=
+        // ForceGraph2D.LinkObject , but we type-cast our types to the force
+        // graph types. Here we access our copied objects, but the type is
+        // obviously the ForceGraph2D type.
+        let link: LinkType = params;
         openVoteDialog({
-          sourceNode: params.source,
-          targetNode: params.target,
+          linkID: link.id,
+          sourceNode: link.source,
+          targetNode: link.target,
         });
       }}
       nodeCanvasObject={(node, ctx, globalScale) => {

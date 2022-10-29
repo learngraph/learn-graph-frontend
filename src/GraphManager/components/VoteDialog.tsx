@@ -15,6 +15,7 @@ type VoteDialogProps = {
   setDialogOpen: (value: boolean) => void;
   sourceNode: NodeType | null;
   targetNode: NodeType | null;
+  linkID: string | null;
 };
 
 const useStyles = makeStyles((_: any) => ({
@@ -34,6 +35,7 @@ export const VoteDialog = ({
   setDialogOpen,
   sourceNode,
   targetNode,
+  linkID,
 }: VoteDialogProps): JSX.Element => {
   const classes = useStyles();
   const { submitVote } = useSubmitVote();
@@ -43,8 +45,7 @@ export const VoteDialog = ({
     setDialogOpen(false);
     submitVote({
       variables: {
-        source: sourceNode?.id,
-        target: targetNode?.id,
+        id: linkID,
         value: sliderValue,
       },
     });

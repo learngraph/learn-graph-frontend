@@ -14,21 +14,23 @@ const data: GraphData = {
   ],
   links: [
     {
+      id: "1",
       source: "Public-Key Cryptography",
       target: "RSA",
       value: 4,
       note: "any(algo)",
     },
     {
+      id: "2",
       source: "Public-Key Cryptography",
       target: "ECC",
       value: 4,
       note: "any(algo)",
     },
-    { source: "RSA", target: "Finite Fields", value: 9 },
-    { source: "RSA", target: "Number Theory", value: 7 },
-    { source: "Finite Fields", target: "Abstract Algebra", value: 2 },
-    { source: "ECC", target: "Number Theory", value: 9 },
+    { id: "3", source: "RSA", target: "Finite Fields", value: 9 },
+    { id: "4", source: "RSA", target: "Number Theory", value: 7 },
+    { id: "5", source: "Finite Fields", target: "Abstract Algebra", value: 2 },
+    { id: "6", source: "ECC", target: "Number Theory", value: 9 },
   ],
 };
 export default data;
