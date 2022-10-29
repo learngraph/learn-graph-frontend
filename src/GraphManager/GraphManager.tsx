@@ -4,11 +4,13 @@ import Grid from "@mui/material/Grid";
 import Fab from "@mui/material/Fab";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import { Box } from "@mui/material";
 
 import { GraphFileList, GraphManagementMenu, VoteDialog } from "./components";
 import { DataSetType, NodeType } from "./types";
 import { GraphRenderer } from "./GraphRenderer";
 import { sanitizeGraphDataset } from "./GraphUtil";
+import SearchAppBar from "./components/SearchAppBar";
 
 interface GraphManagerProps {
   datasets: DataSetType[];
@@ -56,46 +58,58 @@ export const GraphManager = ({
 
   return (
     <>
-      <Fab
-        color="primary"
-        aria-label="toggle menu"
-        onClick={(): void => setIsMenuVisible(!isMenuVisible)}
+      <Box sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)" }}>
+        <Fab
+          color="primary"
+          aria-label="toggle menu"
+          onClick={(): void => setIsMenuVisible(!isMenuVisible)}
+        >
+          {isMenuVisible ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+        </Fab>
+        <SearchAppBar
+          userInputCallback={() => {
+            /*TODO(skep)*/
+          }}
+        />
+      </Box>
+      <Box
+        bgcolor={"palette.background.defa"}
+        sx={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)" }}
       >
-        {isMenuVisible ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-      </Fab>
-      {isMenuVisible && (
-        <>
-          <Grid container spacing={3}>
-            <Grid item xs>
-              <Paper>
-                <GraphManagementMenu
-                  updateDisplayedGraph={handleDatasetChange}
-                  currentGraphDataset={selectedGraphDataset}
-                />
-              </Paper>
+        {isMenuVisible && (
+          <>
+            <Grid container spacing={3} justifyContent="flex-end">
+              <Grid item xs>
+                <Paper>
+                  <GraphManagementMenu
+                    updateDisplayedGraph={handleDatasetChange}
+                    currentGraphDataset={selectedGraphDataset}
+                  />
+                </Paper>
+              </Grid>
+              <Grid item xs>
+                <Paper>
+                  <GraphFileList
+                    datasets={datasets}
+                    onSelectDataSet={handleDatasetChange}
+                  />
+                </Paper>
+              </Grid>
             </Grid>
-            <Grid item xs>
-              <Paper>
-                <GraphFileList
-                  datasets={datasets}
-                  onSelectDataSet={handleDatasetChange}
-                />
-              </Paper>
-            </Grid>
-          </Grid>
-        </>
-      )}
-      <VoteDialog
-        isDialogOpen={isVoteDialogOpen}
-        setDialogOpen={setIsVoteDialogOpen}
-        linkID={voteDialogInput.linkID}
-        sourceNode={voteDialogInput.source}
-        targetNode={voteDialogInput.target}
-      />
-      <GraphRenderer
-        selectedGraphDataset={selectedGraphDataset}
-        openVoteDialog={openVoteDialog}
-      />
+          </>
+        )}
+        <VoteDialog
+          isDialogOpen={isVoteDialogOpen}
+          setDialogOpen={setIsVoteDialogOpen}
+          linkID={voteDialogInput.linkID}
+          sourceNode={voteDialogInput.source}
+          targetNode={voteDialogInput.target}
+        />
+        <GraphRenderer
+          selectedGraphDataset={selectedGraphDataset}
+          openVoteDialog={openVoteDialog}
+        />
+      </Box>
     </>
   );
 };

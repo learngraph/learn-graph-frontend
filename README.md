@@ -1,6 +1,10 @@
 # React Force Graph
 
+See [learn-tree.info](https://learn-tree.info/).
+
 ## Development
+
+- [Discord Server](https://discord.gg/KWAPSjuR)
 
 ### Design Decisions
 

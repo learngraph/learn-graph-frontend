@@ -1,5 +1,4 @@
 import { DataSetType } from "./types";
-
 import crypto1 from "../graphdata/crypto-1";
 import crypto1b from "../graphdata/crypto-1b";
 import crypto2 from "../graphdata/crypto-2";
