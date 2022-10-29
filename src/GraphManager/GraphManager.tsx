@@ -58,7 +58,7 @@ export const GraphManager = ({
 
   return (
     <>
-      <Box sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)" }}>
+      <Box sx={{ display: "grid", gridTemplateColumns: "1fr 2fr" }}>
         <Fab
           color="primary"
           aria-label="toggle menu"
@@ -73,7 +73,6 @@ export const GraphManager = ({
         />
       </Box>
       <Box
-        bgcolor={"palette.background.defa"}
         sx={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)" }}
       >
         {isMenuVisible && (
