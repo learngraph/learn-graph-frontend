@@ -51,11 +51,13 @@ export const EditTab = ({
     _: ReactNode
   ): void => {
     //const nodeName = event.target.value as string;
-    const tmp = event.target.value as string;
-    const nodeName = tmp.split(";DIRTYHACK;")[0];
-    const nodeID = tmp.split(";DIRTYHACK;")[1];
+    const nodeID = event.target.value as string;
+    const node = graphData.nodes.find((node) => node.id === nodeID);
+    if (!node) {
+      throw new Error(`unknown node selected: id=${nodeID}`);
+    }
     setSelectedNodeID(nodeID);
-    setSelectedNodeDescription(nodeName);
+    setSelectedNodeDescription(node?.description);
   };
 
   const updateNode = ({
@@ -107,15 +109,11 @@ export const EditTab = ({
 
   const renderOptions = graphData.nodes?.map(({ id, description }) => {
     return (
-      <MenuItem key={id} value={description + ";DIRTYHACK;" + id}>
+      <MenuItem key={id} value={id}>
         {description}
       </MenuItem>
     );
   });
-  const value =
-    selectedNodeDescription && selectedNodeID
-      ? selectedNodeDescription + ";DIRTYHACK;" + selectedNodeID
-      : "";
 
   return (
     <>
@@ -124,8 +122,7 @@ export const EditTab = ({
       <Select
         labelId="select-active-node-label"
         id="select-active-node"
-        value={value}
-        //value={selectedNodeDescription}
+        value={selectedNodeID ?? ""}
         onChange={handleSelectNode}
       >
         {renderOptions}

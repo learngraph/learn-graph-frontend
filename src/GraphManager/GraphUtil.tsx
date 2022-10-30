@@ -14,7 +14,7 @@ export const sanitizeGraphData = function (data: GraphData): DataSetType {
   let allNodes = new Set();
   if (data?.nodes?.length > 0) {
     nodes = data.nodes.map((node) => {
-      allNodes.add(node.id)
+      allNodes.add(node.id);
       return { ...node };
     });
   }
@@ -23,7 +23,7 @@ export const sanitizeGraphData = function (data: GraphData): DataSetType {
     links = data.links.map((link) => {
       // we want to detect issues before passing the data to ForceGraph2D
       for (let id of [link.source, link.target]) {
-        if (!(allNodes.has(id))) {
+        if (!allNodes.has(id)) {
           //console.dir(data);
           throw new Error(`missing node id for link: id=${id}`);
         }
