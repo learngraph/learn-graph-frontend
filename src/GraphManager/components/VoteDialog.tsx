@@ -43,6 +43,11 @@ export const VoteDialog = ({
 
   const handleSubmitClick = () => {
     setDialogOpen(false);
+    if (!linkID || !sliderValue || typeof sliderValue !== "number") {
+      throw new Error(
+        `incorrect input for submit vote function! linkID: ${linkID}, sliderValue: ${sliderValue}`
+      );
+    }
     submitVote({
       variables: {
         id: linkID,

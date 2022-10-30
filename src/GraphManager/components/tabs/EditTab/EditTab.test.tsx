@@ -4,6 +4,13 @@ import { DataSetType } from "src/GraphManager/types";
 
 jest.mock("./components/EditNodeMenu");
 jest.mock("./components/EditLinksMenu");
+jest.mock("src/GraphManager/hooks/useCreateNode", () => {
+  return {
+    useCreateNode: () => {
+      return { createNode: () => "ok", data: "ok" };
+    },
+  };
+});
 
 describe("EditTab", () => {
   it("should not crash on empty graph", () => {

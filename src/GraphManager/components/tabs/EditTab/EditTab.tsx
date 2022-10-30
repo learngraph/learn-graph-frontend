@@ -1,16 +1,18 @@
 import { useState, ReactNode } from "react";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
-import { DataSetType, GraphData, LinkType, NodeType } from "../../../types";
-import { EditNodeMenu } from "./components/EditNodeMenu";
-import { EditLinksMenu } from "./components/EditLinksMenu";
-import { editNode } from "./utilities/editNode";
 import {
   Divider,
   Typography,
   MenuItem,
   SelectChangeEvent,
 } from "@mui/material";
+
+import { DataSetType, GraphData, LinkType, NodeType } from "GraphManager/types";
+import { EditNodeMenu } from "./components/EditNodeMenu";
+import { EditLinksMenu } from "./components/EditLinksMenu";
+import { editNode } from "./utilities/editNode";
+//import { useCreateNode } from "src/GraphManager/hooks/useCreateNode";
 
 type EditTabProps = {
   currentGraphDataset: DataSetType;
@@ -45,6 +47,8 @@ export const EditTab = ({
   const selectedNodeInGraph =
     graphData.nodes?.find(({ id }) => id === selectedNodeID) ??
     graphData.nodes?.[0];
+  // TODO(skep): node ID in graph einbauen!
+  //const { createNode, data } = useCreateNode();
 
   const handleSelectNode = (
     event: SelectChangeEvent<string>,
@@ -76,6 +80,11 @@ export const EditTab = ({
     });
     const { dataSetName } = currentGraphDataset;
 
+    //if (isNewNode) {
+    //  createNode({variables: {
+    //    description: {translations: [{language: "en", content: node.description}]}
+    //  }});
+    //}
     setSelectedNodeDescription(newName);
     updateDisplayedGraph({ dataSetName, data: newGraph });
   };
