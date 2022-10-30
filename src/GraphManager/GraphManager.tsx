@@ -7,20 +7,20 @@ import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import { Box } from "@mui/material";
 
 import { GraphFileList, GraphManagementMenu, VoteDialog } from "./components";
-import { DataSetType, NodeType } from "./types";
+import { DataSetType, GraphData, NodeType } from "./types";
 import { GraphRenderer } from "./GraphRenderer";
-import { sanitizeGraphDataset } from "./GraphUtil";
+import { sanitizeGraphData, sanitizeGraphDataset } from "./GraphUtil";
 import SearchAppBar from "./components/SearchAppBar";
 
 interface GraphManagerProps {
   datasets: DataSetType[];
-  fetchedDataset: DataSetType;
+  fetchedGraph: GraphData;
   queryResponse: any;
 }
 
 export const GraphManager = ({
   datasets,
-  fetchedDataset,
+  fetchedGraph,
   queryResponse,
 }: GraphManagerProps): JSX.Element => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
@@ -36,11 +36,14 @@ export const GraphManager = ({
   );
 
   useEffect(() => {
-    if (fetchedDataset) {
-      console.log("setting retrieved graph");
-      setSelectedGraphDataset(sanitizeGraphDataset(fetchedDataset));
+    if (fetchedGraph) {
+      const sanitizedDataset = sanitizeGraphData(fetchedGraph);
+      console.log("setting retrieved graph!");
+      //console.dir(fetchedGraph);
+      //console.dir(sanitizedDataset);
+      setSelectedGraphDataset(sanitizedDataset);
     }
-  }, [queryResponse.loading, fetchedDataset]);
+  }, [queryResponse.loading, fetchedGraph]);
 
   const handleDatasetChange = (dataset: DataSetType) => {
     setSelectedGraphDataset(sanitizeGraphDataset(dataset));
@@ -72,9 +75,7 @@ export const GraphManager = ({
           }}
         />
       </Box>
-      <Box
-        sx={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)" }}
-      >
+      <Box sx={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)" }}>
         {isMenuVisible && (
           <>
             <Grid container spacing={3} justifyContent="flex-end">

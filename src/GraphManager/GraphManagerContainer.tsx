@@ -14,14 +14,12 @@ const datasets: DataSetType[] = [
 ];
 
 export const GraphManagerContainer = (): JSX.Element => {
-  const { data, queryResponse } = useGraphData();
-
-  const { graph: graphDataSet } = data ?? {};
+  const { data: queryData, queryResponse } = useGraphData();
 
   return (
     <GraphManager
       datasets={datasets}
-      fetchedDataset={graphDataSet}
+      fetchedGraph={queryData?.graph}
       queryResponse={queryResponse}
     />
   );

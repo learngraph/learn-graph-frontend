@@ -1,3 +1,4 @@
+import {GraphData} from "./types";
 import { sanitizeGraphData } from "./GraphUtil";
 
 describe("sanitizeGraphData", () => {
@@ -66,6 +67,20 @@ describe("sanitizeGraphData", () => {
     };
     expect(() => {
       // @ts-ignore
+      sanitizeGraphData(inp);
+    }).toThrow();
+  });
+  it("should throw on missing nodes / invalid graph", () => {
+    let inp : GraphData = {
+      nodes: [
+        { id: "1", description: "A"},
+        // id: "2" is missing
+      ],
+      links: [
+        { id: "1", source: "1", target: "2", value: 1.0 },
+      ],
+    };
+    expect(() => {
       sanitizeGraphData(inp);
     }).toThrow();
   });

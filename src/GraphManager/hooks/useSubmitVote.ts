@@ -1,7 +1,7 @@
 import { gql, useMutation } from "@apollo/client";
 
 const SUBMIT_VOTE = gql`
-  mutation submitVote($id: ID!, $value: Number!) {
+  mutation submitVote($id: ID!, $value: Float!) {
     submitVote(id: $id, value: $value) {
       Message
     }

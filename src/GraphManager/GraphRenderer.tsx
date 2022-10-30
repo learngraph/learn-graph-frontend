@@ -37,7 +37,8 @@ export const GraphRenderer = ({
         });
       }}
       nodeCanvasObject={(node, ctx, globalScale) => {
-        const label = node.id ?? "";
+        // @ts-ignore: not sure what to do about this, see TODO above
+        const label = node.description ?? "";
         const fontSize = 22 / globalScale;
         ctx.font = `${fontSize}px Sans-Serif`;
         const textWidth = ctx.measureText(String(node.id)).width;
