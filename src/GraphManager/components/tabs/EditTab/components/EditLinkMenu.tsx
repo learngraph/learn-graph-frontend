@@ -85,18 +85,13 @@ export const EditLinkMenu = ({
     setCurrentTargetID(nodeName);
   };
 
-  const renderOptions = nodes?.map(({ id }) => {
+  const renderOptions = nodes?.map(({ id, description }) => {
     return (
       <MenuItem key={id} value={id}>
-        {id}
+        {description}
       </MenuItem>
     );
   });
-
-  // TODO(skep): remove
-  // console.log(`src: ${currentSourceID}, tgt: ${currentTargetID}`);
-  // console.dir(currentSourceID);
-  // console.dir(currentTargetID);
 
   return (
     <>
