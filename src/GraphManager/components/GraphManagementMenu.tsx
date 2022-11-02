@@ -4,7 +4,8 @@ import Tab from "@mui/material/Tab";
 
 import { DataSetType } from "../types";
 
-import { EditTab, ImportExportTab } from "./tabs";
+import { ImportExportTab } from "./tabs";
+import { EditTabContainer } from "./tabs/EditTab/EditTabContainer";
 
 type GraphManagementMenuProps = {
   updateDisplayedGraph: (value: DataSetType) => void;
@@ -27,7 +28,7 @@ export const GraphManagementMenu = ({
 
   const renderTabs = (): JSX.Element => {
     if (selectedTab === 0) {
-      return <EditTab {...props} />;
+      return <EditTabContainer {...props} />;
     } else {
       return <ImportExportTab {...props} />;
     }

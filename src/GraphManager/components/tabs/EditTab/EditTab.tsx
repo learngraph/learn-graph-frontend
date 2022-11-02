@@ -1,4 +1,4 @@
-import { useState, ReactNode } from "react";
+import { useState, ReactNode, useEffect } from "react";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import {
@@ -12,11 +12,16 @@ import { DataSetType, GraphData, LinkType, NodeType } from "GraphManager/types";
 import { EditNodeMenu } from "./components/EditNodeMenu";
 import { EditLinksMenu } from "./components/EditLinksMenu";
 import { editNode } from "./utilities/editNode";
-//import { useCreateNode } from "src/GraphManager/hooks/useCreateNode";
+import {
+  CreateNodeFn,
+  CreateNodeResponse,
+} from "src/GraphManager/hooks/useCreateNode";
 
-type EditTabProps = {
+export type EditTabProps = {
   currentGraphDataset: DataSetType;
   updateDisplayedGraph: (value: DataSetType) => void;
+  createNode: CreateNodeFn;
+  createdNodeResponse: CreateNodeResponse;
 };
 
 export const findForwardLinks = (
@@ -36,6 +41,8 @@ export const findBackwardLinks = (
 export const EditTab = ({
   currentGraphDataset,
   updateDisplayedGraph,
+  createNode,
+  createdNodeResponse,
 }: EditTabProps): JSX.Element => {
   const { data: graphData } = currentGraphDataset;
 
@@ -47,8 +54,7 @@ export const EditTab = ({
   const selectedNodeInGraph =
     graphData.nodes?.find(({ id }) => id === selectedNodeID) ??
     graphData.nodes?.[0];
-  // TODO(skep): node ID in graph einbauen!
-  //const { createNode, data } = useCreateNode();
+  let newlyCreatedNodes: NodeType[] = [];
 
   const handleSelectNode = (
     event: SelectChangeEvent<string>,
@@ -80,14 +86,51 @@ export const EditTab = ({
     });
     const { dataSetName } = currentGraphDataset;
 
-    //if (isNewNode) {
-    //  createNode({variables: {
-    //    description: {translations: [{language: "en", content: node.description}]}
-    //  }});
-    //}
+    if (isNewNode) {
+      newlyCreatedNodes.push(node);
+      createNode({
+        description: {
+          translations: [
+            {
+              language: "en" /*TODO(skep): use language header*/,
+              content: node.description,
+            },
+          ],
+        },
+      });
+    }
     setSelectedNodeDescription(newName);
     updateDisplayedGraph({ dataSetName, data: newGraph });
   };
+
+  useEffect(() => {
+    if (!createdNodeResponse.data) {
+      return;
+    }
+    // TODO(skep): create a consistent temporary node <-> id mapping, until
+    // the backend's response arrives at the frontend
+    console.log("received node-id for newly created node");
+    if (newlyCreatedNodes.length === 0) {
+      console.log(
+        "error: unkown node <-> id mapping: no node present to give the id to"
+      );
+      return;
+    } else if (newlyCreatedNodes.length > 1) {
+      console.log("error: unkown node <-> id mapping: to manny new nodes");
+      return;
+    }
+    let node: NodeType | undefined = newlyCreatedNodes.pop();
+    if (!node) {
+      return;
+    }
+    node.id = createdNodeResponse.data.CreateEntityResult.ID;
+    updateNode({ node, isNewNode: false });
+  }, [
+    createdNodeResponse.apollo.loading,
+    createdNodeResponse.apollo.error,
+    createdNodeResponse.data,
+    //updateNode, newlyCreatedNodes,
+  ]);
 
   const updateLink = ({
     oldLink,

@@ -49,10 +49,8 @@ export const VoteDialog = ({
       );
     }
     submitVote({
-      variables: {
-        id: linkID,
-        value: sliderValue,
-      },
+      linkID: linkID,
+      value: sliderValue,
     });
   };
 

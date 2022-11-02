@@ -39,8 +39,6 @@ export const GraphManager = ({
     if (fetchedGraph) {
       const sanitizedDataset = sanitizeGraphData(fetchedGraph);
       console.log("setting retrieved graph!");
-      //console.dir(fetchedGraph);
-      //console.dir(sanitizedDataset);
       setSelectedGraphDataset(sanitizedDataset);
     }
   }, [queryResponse.loading, fetchedGraph]);

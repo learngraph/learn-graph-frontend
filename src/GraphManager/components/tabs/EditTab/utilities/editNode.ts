@@ -12,8 +12,6 @@ export const editNode = ({
   selectedNode,
   isNewNode,
 }: EditNodeTypes): GraphData => {
-  const { id: newID } = newNode;
-
   if (isNewNode) {
     if (graph.nodes.find((n) => n.id === newNode.id)) {
       throw new Error("Attempting to create a new Node that already exists");
@@ -29,10 +27,10 @@ export const editNode = ({
   // Update existing links to new node ID
   graph?.links?.forEach((link) => {
     if (link.target === selectedNode.id) {
-      link.target = newID;
+      link.target = newNode.id;
     }
     if (link.source === selectedNode.id) {
-      link.source = newID;
+      link.source = newNode.id;
     }
   });
   // Update selected node with new content

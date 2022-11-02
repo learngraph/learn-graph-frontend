@@ -1,5 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
 import { GraphData } from "../types";
+import { ApolloQueryResponse } from "./types";
 
 const GET_GRAPH_DATA = gql`
   query getGraph {
@@ -18,10 +19,12 @@ const GET_GRAPH_DATA = gql`
   }
 `;
 
-export function useGraphData(): {
+export interface GraphDataResponse {
   data: { graph: GraphData };
-  queryResponse: { loading: boolean; error: any; networkStatus: any };
-} {
+  queryResponse: ApolloQueryResponse;
+}
+
+export function useGraphData(): GraphDataResponse {
   const { loading, data, error, networkStatus } = useQuery(GET_GRAPH_DATA, {});
 
   return { data, queryResponse: { loading, error, networkStatus } };

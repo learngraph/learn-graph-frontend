@@ -1,20 +1,14 @@
 import { EditTab, findBackwardLinks, findForwardLinks } from "./EditTab";
-import { render } from "@testing-library/react";
+import { act, render } from "@testing-library/react";
 import { DataSetType } from "src/GraphManager/types";
+import { EditNodeMenu } from "./components/EditNodeMenu";
 
 jest.mock("./components/EditNodeMenu");
 jest.mock("./components/EditLinksMenu");
-jest.mock("src/GraphManager/hooks/useCreateNode", () => {
-  return {
-    useCreateNode: () => {
-      return { createNode: () => "ok", data: "ok" };
-    },
-  };
-});
 
 describe("EditTab", () => {
   it("should not crash on empty graph", () => {
-    let updateDisplayedGraph = jest.fn();
+    let [updateDisplayedGraph, createNode] = [jest.fn(), jest.fn()];
     let graph: DataSetType = {
       dataSetName: "test-graph",
       data: {
@@ -26,9 +20,47 @@ describe("EditTab", () => {
       <EditTab
         updateDisplayedGraph={updateDisplayedGraph}
         currentGraphDataset={graph}
+        createNode={createNode}
+        createdNodeResponse={{
+          data: { CreateEntityResult: { ID: "1" } },
+          apollo: { loading: false, error: false },
+        }}
       />
     );
     expect(updateDisplayedGraph.mock.calls.length).toBe(0);
+  });
+  it("should pass an update function to EditNodeMenu that calls createNode", () => {
+    let [updateDisplayedGraph, createNode] = [jest.fn(), jest.fn()];
+    let graph: DataSetType = {
+      dataSetName: "test-graph",
+      data: {
+        nodes: [{ id: "1", description: "A" }],
+        links: [],
+      },
+    };
+    render(
+      <EditTab
+        updateDisplayedGraph={updateDisplayedGraph}
+        currentGraphDataset={graph}
+        createNode={createNode}
+        createdNodeResponse={{
+          data: { CreateEntityResult: { ID: "1" } },
+          apollo: { loading: false, error: false },
+        }}
+      />
+    );
+    // @ts-ignore
+    let EditNodeMenuMock = EditNodeMenu.mock;
+    expect(EditNodeMenuMock.calls.length).toBe(1);
+    let saveChanges = EditNodeMenuMock.calls[0][0].saveChanges;
+    act(() => {
+      saveChanges({ node: { id: "1", description: "AA" }, isNewNode: false });
+    });
+    expect(createNode.mock.calls.length).toBe(0);
+    act(() => {
+      saveChanges({ node: { id: "2", description: "C" }, isNewNode: true });
+    });
+    expect(createNode.mock.calls.length).toBe(1);
   });
   it("should render all nodes as options", () => {
     // FIXME(skep): for some reason we cannot find the displayOptions of the
