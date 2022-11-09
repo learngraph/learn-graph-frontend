@@ -22,7 +22,11 @@ export interface CreateEntityResult {
 
 // CreateNodeFn creates a new node with given description
 export interface CreateNodeFn {
-  (argument: { description: Text }): any;
+  (argument: { description: Text }): Promise<CreateNodeFnResponse>;
+}
+
+export interface CreateNodeFnResponse {
+  data?: { createNode: { ID: string } };
 }
 
 export interface CreateNodeResponse {

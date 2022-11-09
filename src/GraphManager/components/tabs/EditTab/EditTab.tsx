@@ -14,6 +14,7 @@ import { EditLinksMenu } from "./components/EditLinksMenu";
 import { editNode } from "./utilities/editNode";
 import {
   CreateNodeFn,
+  CreateNodeFnResponse,
   CreateNodeResponse,
 } from "src/GraphManager/hooks/useCreateNode";
 
@@ -38,12 +39,80 @@ export const findBackwardLinks = (
   return graph.links?.filter((link: LinkType) => link.source === nodeId) ?? [];
 };
 
+// TODO: use running index to avoid conflicts when adding nodes in succession
+export const TMPNODE_ID = "TMPNEWNODE";
+
+export const updateNodeFn = (args: {
+  graphData: GraphData;
+  selectedNodeInGraph: NodeType;
+  createNode: CreateNodeFn;
+  currentGraphDataset: DataSetType;
+  setSelectedNodeDescription: (description: string) => void;
+  updateDisplayedGraph: (value: DataSetType) => void;
+}) => {
+  return ({
+    node,
+    isNewNode,
+  }: {
+    isNewNode: boolean;
+    node: NodeType;
+  }): Promise<void> => {
+    return new Promise<void>((resolve, reject) => {
+      const { dataSetName } = args.currentGraphDataset;
+      let newGraph: GraphData | undefined = undefined;
+      if (isNewNode) {
+        newGraph = editNode({
+          graph: args.graphData,
+          newNode: { ...node, id: TMPNODE_ID },
+          selectedNode: args.selectedNodeInGraph,
+          isNewNode,
+        });
+        args
+          .createNode({
+            description: {
+              translations: [
+                {
+                  language: "en" /*TODO(skep): use language header*/,
+                  content: node.description,
+                },
+              ],
+            },
+          })
+          .then((rsp: CreateNodeFnResponse) => {
+            if (!rsp.data) {
+              reject("empty response from backend");
+              return;
+            }
+            const newNewGraph = editNode({
+              graph: args.graphData,
+              newNode: { ...node, id: rsp.data?.createNode.ID },
+              selectedNode: { ...node, id: TMPNODE_ID },
+              isNewNode: false,
+            });
+            args.updateDisplayedGraph({ dataSetName, data: newNewGraph });
+            resolve();
+          });
+      } else {
+        newGraph = editNode({
+          graph: args.graphData,
+          newNode: node,
+          selectedNode: args.selectedNodeInGraph,
+          isNewNode,
+        });
+        resolve();
+      }
+      args.setSelectedNodeDescription(node.description);
+      args.updateDisplayedGraph({ dataSetName, data: newGraph });
+    });
+  };
+};
+
 export const EditTab = ({
   currentGraphDataset,
   updateDisplayedGraph,
   createNode,
-  createdNodeResponse,
-}: EditTabProps): JSX.Element => {
+}: //createdNodeResponse,
+EditTabProps): JSX.Element => {
   const { data: graphData } = currentGraphDataset;
 
   const firstNode = graphData.nodes?.[0];
@@ -54,7 +123,6 @@ export const EditTab = ({
   const selectedNodeInGraph =
     graphData.nodes?.find(({ id }) => id === selectedNodeID) ??
     graphData.nodes?.[0];
-  let newlyCreatedNodes: NodeType[] = [];
 
   const handleSelectNode = (
     event: SelectChangeEvent<string>,
@@ -70,67 +138,25 @@ export const EditTab = ({
     setSelectedNodeDescription(node?.description);
   };
 
-  const updateNode = ({
-    node,
-    isNewNode,
-  }: {
-    isNewNode: boolean;
-    node: NodeType;
-  }): void => {
-    const { description: newName } = node;
-    const newGraph = editNode({
-      graph: graphData,
-      newNode: node,
-      selectedNode: selectedNodeInGraph,
-      isNewNode,
-    });
-    const { dataSetName } = currentGraphDataset;
+  const updateNode = updateNodeFn({
+    graphData,
+    selectedNodeInGraph,
+    createNode,
+    currentGraphDataset,
+    setSelectedNodeDescription,
+    updateDisplayedGraph,
+  });
 
-    if (isNewNode) {
-      newlyCreatedNodes.push(node);
-      createNode({
-        description: {
-          translations: [
-            {
-              language: "en" /*TODO(skep): use language header*/,
-              content: node.description,
-            },
-          ],
-        },
-      });
-    }
-    setSelectedNodeDescription(newName);
-    updateDisplayedGraph({ dataSetName, data: newGraph });
-  };
-
-  useEffect(() => {
-    if (!createdNodeResponse.data) {
-      return;
-    }
-    // TODO(skep): create a consistent temporary node <-> id mapping, until
-    // the backend's response arrives at the frontend
-    console.log("received node-id for newly created node");
-    if (newlyCreatedNodes.length === 0) {
-      console.log(
-        "error: unkown node <-> id mapping: no node present to give the id to"
-      );
-      return;
-    } else if (newlyCreatedNodes.length > 1) {
-      console.log("error: unkown node <-> id mapping: to manny new nodes");
-      return;
-    }
-    let node: NodeType | undefined = newlyCreatedNodes.pop();
-    if (!node) {
-      return;
-    }
-    node.id = createdNodeResponse.data.CreateEntityResult.ID;
-    updateNode({ node, isNewNode: false });
-  }, [
-    createdNodeResponse.apollo.loading,
-    createdNodeResponse.apollo.error,
-    createdNodeResponse.data,
-    //updateNode, newlyCreatedNodes,
-  ]);
+  //useEffect(() => {
+  //  if (!createdNodeResponse.data) {
+  //    return;
+  //  }
+  //  console.log("received node-id for newly created node: " + JSON.stringify(createdNodeResponse.data));
+  //}, [
+  //  createdNodeResponse.apollo.loading,
+  //  createdNodeResponse.apollo.error,
+  //  createdNodeResponse.data,
+  //]);
 
   const updateLink = ({
     oldLink,

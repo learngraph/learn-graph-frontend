@@ -1,10 +1,19 @@
-import { EditTab, findBackwardLinks, findForwardLinks } from "./EditTab";
+import {
+  EditTab,
+  findBackwardLinks,
+  findForwardLinks,
+  TMPNODE_ID,
+  updateNodeFn,
+} from "./EditTab";
 import { act, render } from "@testing-library/react";
 import { DataSetType } from "src/GraphManager/types";
 import { EditNodeMenu } from "./components/EditNodeMenu";
+import { editNode } from "./utilities/editNode";
+import { CreateNodeFnResponse } from "src/GraphManager/hooks/useCreateNode";
 
 jest.mock("./components/EditNodeMenu");
 jest.mock("./components/EditLinksMenu");
+jest.mock("./utilities/editNode");
 
 describe("EditTab", () => {
   it("should not crash on empty graph", () => {
@@ -31,6 +40,11 @@ describe("EditTab", () => {
   });
   it("should pass an update function to EditNodeMenu that calls createNode", () => {
     let [updateDisplayedGraph, createNode] = [jest.fn(), jest.fn()];
+    createNode.mockReturnValueOnce(
+      new Promise(() => {
+        return { id: "1", description: "A" };
+      })
+    );
     let graph: DataSetType = {
       dataSetName: "test-graph",
       data: {
@@ -158,5 +172,57 @@ describe("findBackwardLinks", () => {
         "1"
       )
     ).toEqual([]);
+  });
+});
+
+describe("updateNodeFn", () => {
+  it("should call create node for new nodes", async () => {
+    let graphData = {
+      nodes: [],
+      links: [],
+    };
+    let currentGraphDataset = { dataSetName: "test", data: graphData };
+    let selectedNodeInGraph = { id: "2", description: "B" };
+    let [createNode, setSelectedNodeDescription, updateDisplayedGraph] = [
+      jest.fn(),
+      jest.fn(),
+      jest.fn(),
+    ];
+    createNode.mockReturnValueOnce(
+      Promise.resolve<CreateNodeFnResponse>({
+        data: { createNode: { ID: "NEWID" } },
+      })
+    );
+    let updateNode = updateNodeFn({
+      graphData,
+      selectedNodeInGraph,
+      createNode,
+      currentGraphDataset,
+      setSelectedNodeDescription,
+      updateDisplayedGraph,
+    });
+    // @ts-ignore: a partial node is expected here, since ID is unknown before the backend gets involved
+    await updateNode({ node: { description: "A" }, isNewNode: true });
+    expect(createNode.mock.calls.length).toBe(1);
+    expect(
+      createNode.mock.calls[0][0].description.translations[0].language
+    ).toEqual("en");
+    expect(
+      createNode.mock.calls[0][0].description.translations[0].content
+    ).toEqual("A");
+    // @ts-ignore
+    let editNodeMock = editNode.mock;
+    expect(editNodeMock.calls.length).toBe(2); // since after the promise we update the ID
+    expect(updateDisplayedGraph.mock.calls.length).toBe(2);
+    // first call contains only user input, for local graph changes
+    expect(editNodeMock.calls[0][0].newNode).toEqual({
+      id: TMPNODE_ID,
+      description: "A",
+    });
+    // second call contains the backend result for the id
+    expect(editNodeMock.calls[1][0].newNode).toEqual({
+      id: "NEWID",
+      description: "A",
+    });
   });
 });
