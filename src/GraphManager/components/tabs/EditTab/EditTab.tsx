@@ -1,4 +1,4 @@
-import { useState, ReactNode, useEffect } from "react";
+import { useState, ReactNode } from "react";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import {
@@ -111,8 +111,7 @@ export const EditTab = ({
   currentGraphDataset,
   updateDisplayedGraph,
   createNode,
-}: //createdNodeResponse,
-EditTabProps): JSX.Element => {
+}: EditTabProps): JSX.Element => {
   const { data: graphData } = currentGraphDataset;
 
   const firstNode = graphData.nodes?.[0];
@@ -146,17 +145,6 @@ EditTabProps): JSX.Element => {
     setSelectedNodeDescription,
     updateDisplayedGraph,
   });
-
-  //useEffect(() => {
-  //  if (!createdNodeResponse.data) {
-  //    return;
-  //  }
-  //  console.log("received node-id for newly created node: " + JSON.stringify(createdNodeResponse.data));
-  //}, [
-  //  createdNodeResponse.apollo.loading,
-  //  createdNodeResponse.apollo.error,
-  //  createdNodeResponse.data,
-  //]);
 
   const updateLink = ({
     oldLink,
