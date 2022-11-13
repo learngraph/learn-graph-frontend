@@ -47,13 +47,7 @@ export const GraphRenderer = ({
           (n) => n + fontSize * padding
         );
 
-	let [x,y] = [node.x ?? 0, node.y ?? 0];
-	console.log(`
-          x=${x - bckgDimensions[0] / 2}
-          y=${y - bckgDimensions[1] / 2}
-          bckg[0]=${bckgDimensions[0]}
-          bckg[1]=${bckgDimensions[1]}
-	`)
+        let [x, y] = [node.x ?? 0, node.y ?? 0];
         ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
         ctx.fillRect(
           x - bckgDimensions[0] / 2,
