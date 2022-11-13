@@ -47,10 +47,17 @@ export const GraphRenderer = ({
           (n) => n + fontSize * padding
         );
 
+	let [x,y] = [node.x ?? 0, node.y ?? 0];
+	console.log(`
+          x=${x - bckgDimensions[0] / 2}
+          y=${y - bckgDimensions[1] / 2}
+          bckg[0]=${bckgDimensions[0]}
+          bckg[1]=${bckgDimensions[1]}
+	`)
         ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
         ctx.fillRect(
-          node.x ?? 0 - bckgDimensions[0] / 2,
-          node.y ?? 0 - bckgDimensions[1] / 2,
+          x - bckgDimensions[0] / 2,
+          y - bckgDimensions[1] / 2,
           bckgDimensions[0],
           bckgDimensions[1]
         );
@@ -58,7 +65,7 @@ export const GraphRenderer = ({
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
         ctx.fillStyle = "#000";
-        ctx.fillText(String(label), node.x ?? 0, node.y ?? 0);
+        ctx.fillText(String(label), x, y);
 
         // node.bckgDimensions = bckgDimensions; // to re-use in nodePointerAreaPaint
       }}
