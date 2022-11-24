@@ -15,14 +15,14 @@ import { editNode } from "./utilities/editNode";
 import {
   CreateNodeFn,
   CreateNodeFnResponse,
-  CreateNodeResponse,
 } from "src/GraphManager/hooks/useCreateNode";
+import { CreateEdgeFn } from "src/GraphManager/hooks/useCreateEdge";
 
 export type EditTabProps = {
   currentGraphDataset: DataSetType;
   updateDisplayedGraph: (value: DataSetType) => void;
   createNode: CreateNodeFn;
-  createdNodeResponse: CreateNodeResponse;
+  createEdge: CreateEdgeFn;
 };
 
 export const findForwardLinks = (
@@ -107,12 +107,36 @@ export const updateNodeFn = (args: {
   };
 };
 
-export const EditTab = ({
-  currentGraphDataset,
-  updateDisplayedGraph,
-  createNode,
-}: EditTabProps): JSX.Element => {
-  const { data: graphData } = currentGraphDataset;
+export const updateLinkFn = (props: EditTabProps) => {
+  return ({
+    oldLink,
+    updatedLink,
+  }: {
+    oldLink: LinkType | undefined;
+    updatedLink: LinkType;
+  }): void => {
+    const {
+      dataSetName,
+      data: { nodes, links },
+    } = props.currentGraphDataset;
+    const updatedLinks = [...(links ?? [])];
+    if (!oldLink) {
+      updatedLinks?.push(updatedLink);
+    } else {
+      const linkIndex = links?.findIndex((link) => link === oldLink) ?? 0;
+      updatedLinks[linkIndex] = updatedLink;
+      if (linkIndex === -1) {
+        throw new Error("Something went wrong in the updateLink method!");
+      }
+    }
+
+    const newGraph = { nodes, links: updatedLinks };
+    props.updateDisplayedGraph({ dataSetName, data: newGraph });
+  };
+};
+
+export const EditTab = (props: EditTabProps): JSX.Element => {
+  const { data: graphData } = props.currentGraphDataset;
 
   const firstNode = graphData.nodes?.[0];
   const [selectedNodeID, setSelectedNodeID] = useState(firstNode?.id);
@@ -140,35 +164,13 @@ export const EditTab = ({
   const updateNode = updateNodeFn({
     graphData,
     selectedNodeInGraph,
-    createNode,
-    currentGraphDataset,
+    createNode: props.createNode,
+    currentGraphDataset: props.currentGraphDataset,
     setSelectedNodeDescription,
-    updateDisplayedGraph,
+    updateDisplayedGraph: props.updateDisplayedGraph,
   });
 
-  const updateLink = ({
-    oldLink,
-    updatedLink,
-  }: {
-    oldLink: LinkType | undefined;
-    updatedLink: LinkType;
-  }): void => {
-    const { dataSetName } = currentGraphDataset;
-    const { nodes, links } = graphData;
-    const updatedLinks = [...(links ?? [])];
-    if (!oldLink) {
-      updatedLinks?.push(updatedLink);
-    } else {
-      const linkIndex = links?.findIndex((link) => link === oldLink) ?? 0;
-      updatedLinks[linkIndex] = updatedLink;
-      if (linkIndex === -1) {
-        throw new Error("Something went wrong in the updateLink method!");
-      }
-    }
-
-    const newGraph = { nodes, links: updatedLinks };
-    updateDisplayedGraph({ dataSetName, data: newGraph });
-  };
+  const updateLink = updateLinkFn(props);
 
   const forwardLinks = findForwardLinks(graphData, selectedNodeID);
   const backwardLinks = findBackwardLinks(graphData, selectedNodeID);

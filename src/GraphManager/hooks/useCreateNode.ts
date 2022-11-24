@@ -1,5 +1,5 @@
 import { gql, useMutation } from "@apollo/client";
-import { ApolloQueryResponse } from "./types";
+import { ApolloQueryResponse, CreateEntityResult, Text } from "./types";
 
 const CREATE_NODE = gql`
   mutation createNode($description: Text!) {
@@ -8,17 +8,6 @@ const CREATE_NODE = gql`
     }
   }
 `;
-
-export interface Translation {
-  language: string;
-  content: string;
-}
-export interface Text {
-  translations: Translation[];
-}
-export interface CreateEntityResult {
-  CreateEntityResult: { ID: string };
-}
 
 // CreateNodeFn creates a new node with given description
 export interface CreateNodeFn {
