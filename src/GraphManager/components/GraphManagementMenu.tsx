@@ -6,6 +6,7 @@ import { DataSetType } from "../types";
 
 import { ImportExportTab } from "./tabs";
 import { EditTabContainer } from "./tabs/EditTab/EditTabContainer";
+import { Box } from "@mui/material";
 
 type GraphManagementMenuProps = {
   updateDisplayedGraph: (value: DataSetType) => void;
@@ -42,7 +43,7 @@ export const GraphManagementMenu = ({
       <Tabs value={selectedTab} onChange={handleTabSwitch}>
         {displayTabs}
       </Tabs>
-      <div>{renderTabs()}</div>
+      <Box sx={{display:'flex', flexDirection: 'column', gap: '1em', padding: '1em'}}>{renderTabs()}</Box>
     </>
   );
 };
