@@ -135,10 +135,8 @@ export const updateLinkFn = (props: EditTabProps) => {
               reject(`Could not create Edge in Backend: ${data}`);
               return;
             }
-            console.log("createEdge -> ");
-            console.dir(data);
             const linkIndex =
-              updatedLinks?.findIndex((link) => link.id == TMPLINK_ID) ?? -1;
+              updatedLinks?.findIndex((link) => link.id === TMPLINK_ID) ?? -1;
             if (linkIndex === -1) {
               reject("no recently edited link available (bug!)");
             }

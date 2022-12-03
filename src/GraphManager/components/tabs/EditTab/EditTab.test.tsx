@@ -329,6 +329,7 @@ describe("updateLinkFn", () => {
   it("should reject promise if the old link does not exist", async () => {
     let { updateLink, props } = makeMocks();
     let oldLink = props.currentGraphDataset.data.links[0];
+    let error = undefined;
     try {
       await updateLink({
         oldLink: { ...oldLink, id: "1337" },
@@ -338,7 +339,8 @@ describe("updateLinkFn", () => {
         },
       });
     } catch (e) {
-      expect(e).toMatch("unknown index");
+      error = e;
     }
+    expect(error).toMatch("unknown index");
   });
 });

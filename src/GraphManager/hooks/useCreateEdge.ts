@@ -2,8 +2,10 @@ import { gql, useMutation } from "@apollo/client";
 import { ApolloQueryResponse, CreateEntityResult } from "./types";
 
 const CREATE_EDGE = gql`
-  mutation createEdge($from: ID!, $to: ID!, $weight: Float!) {
-    createEdge(from: $from, to: $to, weight: $weight) {
+  mutation createEdge($from: ID!, $to: ID!) {
+    #, $weight: Float!) {
+    createEdge(from: $from, to: $to, weight: 5.0) {
+      # $weight) {
       ID
     }
   }
