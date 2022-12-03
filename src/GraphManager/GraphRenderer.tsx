@@ -1,9 +1,19 @@
 import ForceGraph2D, { LinkObject } from "react-force-graph-2d";
-import { DataSetType, LinkType } from "./types";
+import { DataSetType, LinkType, NodeType } from "./types";
 
+export interface VoteDialogParams {
+  linkID: string;
+  sourceNode: NodeType;
+  targetNode: NodeType;
+  weight: number;
+}
+
+export interface VoteDialogFn {
+  (params: VoteDialogParams): void;
+}
 interface GraphRendererProps {
   selectedGraphDataset: DataSetType;
-  openVoteDialog: (params: any) => void;
+  openVoteDialog: VoteDialogFn;
 }
 
 export const GraphRenderer = ({
@@ -32,8 +42,11 @@ export const GraphRenderer = ({
         let link: LinkType = params;
         openVoteDialog({
           linkID: link.id,
+          // @ts-ignore: see above
           sourceNode: link.source,
+          // @ts-ignore: see above
           targetNode: link.target,
+          weight: link.value,
         });
       }}
       nodeCanvasObject={(node, ctx, globalScale) => {

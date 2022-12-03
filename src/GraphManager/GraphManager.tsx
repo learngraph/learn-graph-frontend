@@ -7,8 +7,8 @@ import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import { Box } from "@mui/material";
 
 import { GraphFileList, GraphManagementMenu, VoteDialog } from "./components";
-import { DataSetType, GraphData, NodeType } from "./types";
-import { GraphRenderer } from "./GraphRenderer";
+import { DataSetType, GraphData } from "./types";
+import { GraphRenderer, VoteDialogParams } from "./GraphRenderer";
 import { sanitizeGraphData, sanitizeGraphDataset } from "./GraphUtil";
 import SearchAppBar from "./components/SearchAppBar";
 
@@ -25,11 +25,9 @@ export const GraphManager = ({
 }: GraphManagerProps): JSX.Element => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [isVoteDialogOpen, setIsVoteDialogOpen] = useState(false);
-  const [voteDialogInput, setVoteDialogInput] = useState<{
-    linkID: string | null;
-    source: NodeType | null;
-    target: NodeType | null;
-  }>({ linkID: null, source: null, target: null });
+  const [voteDialogInput, setVoteDialogInput] = useState<
+    Partial<VoteDialogParams>
+  >({});
 
   const [selectedGraphDataset, setSelectedGraphDataset] = useState<DataSetType>(
     sanitizeGraphDataset(datasets[0])
@@ -47,14 +45,9 @@ export const GraphManager = ({
     setSelectedGraphDataset(sanitizeGraphDataset(dataset));
   };
 
-  const openVoteDialog = (params: any): void => {
-    const { linkID, sourceNode, targetNode } = params;
+  const openVoteDialog = (params: VoteDialogParams): void => {
     setIsVoteDialogOpen(true);
-    setVoteDialogInput({
-      linkID: linkID,
-      source: sourceNode,
-      target: targetNode,
-    });
+    setVoteDialogInput(params);
   };
 
   return (
@@ -99,9 +92,7 @@ export const GraphManager = ({
         <VoteDialog
           isDialogOpen={isVoteDialogOpen}
           setDialogOpen={setIsVoteDialogOpen}
-          linkID={voteDialogInput.linkID}
-          sourceNode={voteDialogInput.source}
-          targetNode={voteDialogInput.target}
+          linkInfo={voteDialogInput}
         />
         <GraphRenderer
           selectedGraphDataset={selectedGraphDataset}

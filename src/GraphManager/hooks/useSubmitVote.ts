@@ -11,8 +11,12 @@ const SUBMIT_VOTE = gql`
 
 // SubmitVoteFn submits a user vote to the backend, the the weight (value) of
 // specified link (linkID)
-interface SubmitVoteFn {
-  (argument: { linkID: String; value: Number }): any;
+export interface SubmitVoteFnArgs {
+  id: string;
+  value: number;
+}
+export interface SubmitVoteFn {
+  (argument: SubmitVoteFnArgs): any;
 }
 
 export function useSubmitVote(): {
@@ -21,7 +25,7 @@ export function useSubmitVote(): {
   queryResponse: ApolloQueryResponse;
 } {
   const [submitVoteTMP, { data, loading, error }] = useMutation(SUBMIT_VOTE);
-  const submitVote: SubmitVoteFn = ({ linkID, value }) =>
-    submitVoteTMP({ variables: { linkID, value } });
+  const submitVote: SubmitVoteFn = (args: SubmitVoteFnArgs) =>
+    submitVoteTMP({ variables: args });
   return { submitVote, data, queryResponse: { loading, error } };
 }

@@ -7,15 +7,13 @@ import Box from "@mui/material/Box";
 import { makeStyles } from "@mui/styles";
 
 import { useSubmitVote } from "../hooks";
-import { NodeType } from "../types";
 import { Typography } from "@mui/material";
+import { VoteDialogParams } from "../GraphRenderer";
 
 type VoteDialogProps = {
   isDialogOpen: boolean;
   setDialogOpen: (value: boolean) => void;
-  sourceNode: NodeType | null;
-  targetNode: NodeType | null;
-  linkID: string | null;
+  linkInfo: Partial<VoteDialogParams>;
 };
 
 const useStyles = makeStyles((_: any) => ({
@@ -33,9 +31,7 @@ const useStyles = makeStyles((_: any) => ({
 export const VoteDialog = ({
   isDialogOpen,
   setDialogOpen,
-  sourceNode,
-  targetNode,
-  linkID,
+  linkInfo,
 }: VoteDialogProps): JSX.Element => {
   const classes = useStyles();
   const { submitVote } = useSubmitVote();
@@ -43,13 +39,13 @@ export const VoteDialog = ({
 
   const handleSubmitClick = () => {
     setDialogOpen(false);
-    if (!linkID || !sliderValue || typeof sliderValue !== "number") {
+    if (!linkInfo.linkID || !sliderValue || typeof sliderValue !== "number") {
       throw new Error(
-        `incorrect input for submit vote function! linkID: ${linkID}, sliderValue: ${sliderValue}`
+        `incorrect input for submit vote function! linkID: ${linkInfo.linkID}, sliderValue: ${sliderValue}`
       );
     }
     submitVote({
-      linkID: linkID,
+      id: linkInfo.linkID,
       value: sliderValue,
     });
   };
@@ -69,14 +65,14 @@ export const VoteDialog = ({
       <Dialog open={isDialogOpen}>
         <Box className={classes.dialogRoot}>
           <Typography>
-            From {sourceNode?.id} to {targetNode?.id}
+            From {linkInfo.sourceNode?.id} to {linkInfo.targetNode?.id}
           </Typography>
           <Slider
-            defaultValue={0.5}
+            defaultValue={linkInfo.weight ?? 0}
             onChange={onSliderValueChange}
             step={0.01}
             min={0}
-            max={1}
+            max={10}
           />
           <Box className={classes.dialogButtons}>
             <Button onClick={handleCancelClick}>Cancel</Button>
