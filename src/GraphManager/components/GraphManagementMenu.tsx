@@ -43,7 +43,16 @@ export const GraphManagementMenu = ({
       <Tabs value={selectedTab} onChange={handleTabSwitch}>
         {displayTabs}
       </Tabs>
-      <Box sx={{display:'flex', flexDirection: 'column', gap: '1em', padding: '1em'}}>{renderTabs()}</Box>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "1em",
+          padding: "1em",
+        }}
+      >
+        {renderTabs()}
+      </Box>
     </>
   );
 };

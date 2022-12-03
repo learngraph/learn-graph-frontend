@@ -41,6 +41,7 @@ export const findBackwardLinks = (
 
 // TODO: use running index to avoid conflicts when adding nodes in succession
 export const TMPNODE_ID = "TMPNEWNODE";
+export const TMPLINK_ID = "TMPNEWEDGE";
 
 export const updateNodeFn = (args: {
   graphData: GraphData;
@@ -113,25 +114,54 @@ export const updateLinkFn = (props: EditTabProps) => {
     updatedLink,
   }: {
     oldLink: LinkType | undefined;
-    updatedLink: LinkType;
-  }): void => {
-    const {
-      dataSetName,
-      data: { nodes, links },
-    } = props.currentGraphDataset;
-    const updatedLinks = [...(links ?? [])];
-    if (!oldLink) {
-      updatedLinks?.push(updatedLink);
-    } else {
-      const linkIndex = links?.findIndex((link) => link === oldLink) ?? 0;
-      updatedLinks[linkIndex] = updatedLink;
-      if (linkIndex === -1) {
-        throw new Error("Something went wrong in the updateLink method!");
+    updatedLink: LinkType; // TODO: use partial link type w/o ID field here
+  }): Promise<void> => {
+    return new Promise<void>((resolve, reject) => {
+      const {
+        dataSetName,
+        data: { nodes, links },
+      } = props.currentGraphDataset;
+      const updatedLinks = [...(links ?? [])];
+      if (!oldLink) {
+        updatedLinks?.push({ ...updatedLink, id: TMPLINK_ID });
+        props
+          .createEdge({
+            from: updatedLink.source,
+            to: updatedLink.target,
+            weight: updatedLink.value,
+          })
+          .then((data) => {
+            if (!data.data) {
+              reject(`Could not create Edge in Backend: ${data}`);
+              return;
+            }
+            console.log("createEdge -> ");
+            console.dir(data);
+            const linkIndex =
+              updatedLinks?.findIndex((link) => link.id == TMPLINK_ID) ?? -1;
+            if (linkIndex === -1) {
+              reject("no recently edited link available (bug!)");
+            }
+            updatedLinks[linkIndex] = {
+              ...updatedLink,
+              id: data.data?.createEdge.ID,
+            };
+            const newGraph = { nodes, links: updatedLinks };
+            props.updateDisplayedGraph({ dataSetName, data: newGraph });
+            resolve();
+          });
+      } else {
+        const linkIndex = links?.findIndex((link) => link === oldLink) ?? -1;
+        updatedLinks[linkIndex] = updatedLink;
+        if (linkIndex === -1) {
+          reject("unknown index on link update");
+        }
+        resolve();
       }
-    }
 
-    const newGraph = { nodes, links: updatedLinks };
-    props.updateDisplayedGraph({ dataSetName, data: newGraph });
+      const newGraph = { nodes, links: updatedLinks };
+      props.updateDisplayedGraph({ dataSetName, data: newGraph });
+    });
   };
 };
 

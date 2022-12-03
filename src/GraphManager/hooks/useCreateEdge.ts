@@ -11,11 +11,15 @@ const CREATE_EDGE = gql`
 
 // CreateEdgeFn creates a new Edge with given description
 export interface CreateEdgeFn {
-  (argument: { description: Text }): Promise<CreateEdgeFnResponse>;
+  (argument: {
+    from: string;
+    to: string;
+    weight: number;
+  }): Promise<CreateEdgeFnResponse>;
 }
 
 export interface CreateEdgeFnResponse {
-  data?: { createEdge: { from: string; to: string; weight: number } };
+  data?: { createEdge: { ID: string } };
 }
 
 export interface CreateEdgeResponse {
@@ -28,7 +32,7 @@ export function useCreateEdge(): {
   response: CreateEdgeResponse;
 } {
   const [createEdgeTMP, { data, loading, error }] = useMutation(CREATE_EDGE);
-  const createEdge: CreateEdgeFn = ({ description }) =>
-    createEdgeTMP({ variables: { description } });
+  const createEdge: CreateEdgeFn = ({ from, to, weight }) =>
+    createEdgeTMP({ variables: { from, to, weight } });
   return { createEdge, response: { data, apollo: { loading, error } } };
 }

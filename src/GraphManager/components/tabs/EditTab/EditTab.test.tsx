@@ -3,6 +3,7 @@ import {
   findBackwardLinks,
   findForwardLinks,
   TMPNODE_ID,
+  TMPLINK_ID,
   updateNodeFn,
   updateLinkFn,
 } from "./EditTab";
@@ -11,6 +12,7 @@ import { DataSetType } from "src/GraphManager/types";
 import { EditNodeMenu } from "./components/EditNodeMenu";
 import { editNode } from "./utilities/editNode";
 import { CreateNodeFnResponse } from "src/GraphManager/hooks/useCreateNode";
+import { CreateEdgeFnResponse } from "src/GraphManager/hooks/useCreateEdge";
 
 jest.mock("./components/EditNodeMenu");
 jest.mock("./components/EditLinksMenu");
@@ -236,17 +238,19 @@ describe("updateLinkFn", () => {
     let updateDisplayedGraph = jest.fn();
     let createNode = jest.fn();
     let createEdge = jest.fn();
-    let props = {
-      currentGraphDataset: {
-        dataSetName: "test",
-        data: {
-          nodes: [
-            { id: "1", description: "A" },
-            { id: "2", description: "B" },
-          ],
-          links: [{ id: "1", source: "1", target: "2", value: 1 }],
-        },
+    let graphDataset = {
+      dataSetName: "test",
+      data: {
+        nodes: [
+          { id: "1", description: "A" },
+          { id: "2", description: "B" },
+        ],
+        links: [{ id: "l1", source: "1", target: "2", value: 1 }],
       },
+    };
+    let props = {
+      // ensure graph data is copied since we use this function in multiple tests
+      currentGraphDataset: JSON.parse(JSON.stringify(graphDataset)),
       updateDisplayedGraph: updateDisplayedGraph,
       createNode: createNode,
       createEdge: createEdge,
@@ -265,18 +269,32 @@ describe("updateLinkFn", () => {
         value: 3.141,
       },
     });
+    expect(props.createEdge.mock.calls.length).toBe(0);
     expect(updateDisplayedGraph.mock.calls[0][0].data).toEqual({
       ...props.currentGraphDataset.data,
       links: [{ ...props.currentGraphDataset.data.links[0], value: 3.141 }],
     });
   });
 
-  it("should create a new link, when no old link is passed", () => {
+  it("should create a new link, when no old link is passed", async () => {
     let { updateDisplayedGraph, updateLink, props } = makeMocks();
-    updateLink({
+    // need to synchronize calls by resolving the promise with backend data at
+    // the right time
+    let resolver = undefined;
+    let givemeresolver = (fn: any) => {
+      resolver = fn;
+    };
+    props.createEdge.mockReturnValueOnce(
+      new Promise<CreateEdgeFnResponse>((resolve, _) => {
+        givemeresolver(() => {
+          resolve({ data: { createEdge: { ID: "IDFROMBACKEND" } } });
+        });
+      })
+    );
+    let p = updateLink({
       oldLink: undefined,
+      // @ts-ignore: a partial link is passed here since ID is unknown at this time
       updatedLink: {
-        id: "2",
         source: "2",
         target: "1",
         value: 3,
@@ -285,22 +303,42 @@ describe("updateLinkFn", () => {
     expect(updateDisplayedGraph.mock.calls[0][0].data).toEqual({
       ...props.currentGraphDataset.data,
       links: props.currentGraphDataset.data.links.concat([
-        { id: "2", source: "2", target: "1", value: 3 },
+        { id: TMPLINK_ID, source: "2", target: "1", value: 3 },
       ]),
     });
+    // @ts-ignore: it is not undefined
+    resolver();
+    await p;
+    expect(updateDisplayedGraph.mock.calls[1][0].data).toEqual({
+      ...props.currentGraphDataset.data,
+      links: props.currentGraphDataset.data.links.concat([
+        { id: "IDFROMBACKEND", source: "2", target: "1", value: 3 },
+      ]),
+    });
+    // backend API is called
+    expect(props.createEdge.mock.calls.length).toBe(1);
+    expect(props.createEdge.mock.calls[0][0]).toEqual({
+      from: "2",
+      to: "1",
+      weight: 3,
+    });
+
+    expect(updateDisplayedGraph.mock.calls.length).toBe(2);
   });
 
-  it("should throw an error if the old link does not exist", () => {
+  it("should reject promise if the old link does not exist", async () => {
     let { updateLink, props } = makeMocks();
     let oldLink = props.currentGraphDataset.data.links[0];
-    expect(() => {
-      updateLink({
+    try {
+      await updateLink({
         oldLink: { ...oldLink, id: "1337" },
         updatedLink: {
           ...oldLink,
           value: 3.141,
         },
       });
-    }).toThrow();
+    } catch (e) {
+      expect(e).toMatch("unknown index");
+    }
   });
 });

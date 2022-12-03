@@ -52,6 +52,7 @@ export const EditLinkMenu = ({
       onUpdateLink({
         oldLink: link,
         updatedLink: {
+          // TODO: we must pass the link ID as well!
           source: currentSourceID,
           target: currentTargetID,
           value: currentValue,

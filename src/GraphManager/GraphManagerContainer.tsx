@@ -12,7 +12,7 @@ const datasets: DataSetType[] = [
   { dataSetName: "crypto1b", data: crypto1b },
   { dataSetName: "crypto2", data: crypto2 },
   { dataSetName: "math1", data: math1 },
-  { dataSetName: "startup", data: startup }
+  { dataSetName: "startup", data: startup },
 ];
 
 export const GraphManagerContainer = (): JSX.Element => {
