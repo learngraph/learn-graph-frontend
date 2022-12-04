@@ -38,6 +38,7 @@ describe("EditTab", () => {
         currentGraphDataset={graph}
         createNode={createNode}
         createEdge={createEdge}
+        createNodeFromCtx={createNode}
       />
     );
     expect(updateDisplayedGraph.mock.calls.length).toBe(0);
@@ -66,6 +67,7 @@ describe("EditTab", () => {
         currentGraphDataset={graph}
         createNode={createNode}
         createEdge={createEdge}
+        createNodeFromCtx={createNode}
       />
     );
     // @ts-ignore
@@ -254,6 +256,7 @@ describe("updateLinkFn", () => {
       updateDisplayedGraph: updateDisplayedGraph,
       createNode: createNode,
       createEdge: createEdge,
+      createNodeFromCtx: createNode
     };
     let updateLink = updateLinkFn(props);
     return { updateDisplayedGraph, createEdge, createNode, props, updateLink };

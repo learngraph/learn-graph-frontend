@@ -23,6 +23,7 @@ export type EditTabProps = {
   updateDisplayedGraph: (value: DataSetType) => void;
   createNode: CreateNodeFn;
   createEdge: CreateEdgeFn;
+  createNodeFromCtx: CreateNodeFn;
 };
 
 export const findForwardLinks = (

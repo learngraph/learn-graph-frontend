@@ -3,8 +3,6 @@ import Dialog from "@mui/material/Dialog";
 import Button from "@mui/material/Button";
 import Slider from "@mui/material/Slider";
 import Box from "@mui/material/Box";
-// TODO: move to new styles engine in MUI v5, see https://mui.com/material-ui/migration/migration-v4/#mui-material-styles
-import { makeStyles } from "@mui/styles";
 
 import { useSubmitVote } from "../hooks";
 import { Typography } from "@mui/material";
@@ -16,7 +14,7 @@ type VoteDialogProps = {
   linkInfo: Partial<VoteDialogParams>;
 };
 
-const useStyles = makeStyles((_: any) => ({
+const styles = {
   dialogRoot: {
     padding: "40px",
     minWidth: "400px",
@@ -26,14 +24,13 @@ const useStyles = makeStyles((_: any) => ({
     display: "flex",
     justifyContent: "space-evenly",
   },
-}));
+};
 
 export const VoteDialog = ({
   isDialogOpen,
   setDialogOpen,
   linkInfo,
 }: VoteDialogProps): JSX.Element => {
-  const classes = useStyles();
   const { submitVote } = useSubmitVote();
   const [sliderValue, setSliderValue] = useState<Number | Array<Number>>(0.5);
 
@@ -63,7 +60,7 @@ export const VoteDialog = ({
   return (
     <>
       <Dialog open={isDialogOpen}>
-        <Box className={classes.dialogRoot}>
+        <Box sx={styles.dialogRoot}>
           <Typography>
             From {linkInfo.sourceNode?.id} to {linkInfo.targetNode?.id}
           </Typography>
@@ -74,7 +71,7 @@ export const VoteDialog = ({
             min={0}
             max={10}
           />
-          <Box className={classes.dialogButtons}>
+          <Box sx={styles.dialogButtons}>
             <Button onClick={handleCancelClick}>Cancel</Button>
             <Button onClick={handleSubmitClick}>Submit</Button>
           </Box>
