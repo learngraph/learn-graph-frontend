@@ -102,6 +102,9 @@ const data: GraphData = {
     { id: "5", source: "Final Pitch", target: "Learnings", value: 0.5 },
     { id: "5", source: "Final Pitch", target: "Revenue Model", value: 0.5 },
     { id: "5", source: "Final Pitch", target: "Pivot/Persevere", value: 0.5 },
+    { id: "5", source: "Final Pitch", target: "Team", value: 0.5 },
+    { id: "5", source: "USP", target: "Unfair Advantage", value: 0.5 },
+    { id: "5", source: "Cetup.ID", target: "Final Pitch", value: 0.5 },
   ],
 };
 export default data;
