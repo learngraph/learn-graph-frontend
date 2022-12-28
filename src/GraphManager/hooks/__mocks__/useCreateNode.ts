@@ -25,7 +25,7 @@ const promiseToggleFn = (resolve: Function, reject: Function) => {
     setTimeout(() => {
       loading = false
       error = "Test Error";
-      act(() => reject(false))
+      reject(false)
     }, 200)
   }
 }

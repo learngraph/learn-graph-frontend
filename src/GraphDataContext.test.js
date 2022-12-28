@@ -41,7 +41,7 @@ const TestConsumer = () => {
 
 describe('graphDataContext', () => {
   console.time('test')
-  it('should supply a function', (done) => {
+  it('should queue a request, and toggle loading states when the request updates stuff', (done) => {
     customRender(<TestConsumer />)
     // byTestId should be the last choice when testing real components,
     // here we built the component only for the test so its fine
