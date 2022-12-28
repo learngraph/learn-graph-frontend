@@ -256,7 +256,7 @@ describe("updateLinkFn", () => {
       updateDisplayedGraph: updateDisplayedGraph,
       createNode: createNode,
       createEdge: createEdge,
-      createNodeFromCtx: createNode
+      createNodeFromCtx: createNode,
     };
     let updateLink = updateLinkFn(props);
     return { updateDisplayedGraph, createEdge, createNode, props, updateLink };
