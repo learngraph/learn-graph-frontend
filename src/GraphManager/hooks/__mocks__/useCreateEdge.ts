@@ -1,5 +1,5 @@
 /**
- * This mocks the useCreateEdge hook by returning alternating resolves with "id" 
+ * This mocks the useCreateEdge hook by returning alternating resolves with "id"
  * and rejcting
  * maybe it should just always resolve? not sure yet
  */
@@ -13,31 +13,34 @@ let error: string | undefined;
 let loading: boolean;
 
 const promiseToggleFn = (resolve: Function, reject: Function) => {
-  loading = true
+  loading = true;
 
   if (shouldReturnSuccess) {
     setTimeout(() => {
       loading = false;
-      error = undefined
-      resolve(Date.now())
-    }, 200)
+      error = undefined;
+      resolve(Date.now());
+    }, 200);
   } else {
     setTimeout(() => {
-      loading = false
+      loading = false;
       error = "Test Error";
-      reject(false)
-    }, 200)
+      reject(false);
+    }, 200);
   }
-}
+};
 
 const getCreateEdgePromise = () => {
   const createEdgeFn: CreateEdgeFn = () => new Promise(promiseToggleFn);
-  return createEdgeFn
-}
+  return createEdgeFn;
+};
 
 export function useCreateEdge(): {
-  createEdge: CreateEdgeFn,
+  createEdge: CreateEdgeFn;
   response: CreateEdgeResponse;
 } {
-  return { createEdge: getCreateEdgePromise(), response: { data, apollo: { loading, error } } };
+  return {
+    createEdge: getCreateEdgePromise(),
+    response: { data, apollo: { loading, error } },
+  };
 }

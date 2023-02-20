@@ -1,5 +1,5 @@
 /**
- * This mocks the useCreateNode hook by returning alternating resolves with "id" 
+ * This mocks the useCreateNode hook by returning alternating resolves with "id"
  * and rejcting
  * maybe it should just always resolve? not sure yet
  */
@@ -13,31 +13,35 @@ let error: string | undefined;
 let loading: boolean;
 
 const promiseToggleFn = (resolve: Function, reject: Function) => {
-  loading = true
+  loading = true;
 
   if (shouldReturnSuccess) {
     setTimeout(() => {
       loading = false;
-      error = undefined
-      resolve(Date.now())
-    }, 200)
+      error = undefined;
+      resolve(Date.now());
+    }, 200);
   } else {
     setTimeout(() => {
-      loading = false
+      loading = false;
       error = "Test Error";
-      reject(false)
-    }, 200)
+      reject(false);
+    }, 200);
   }
-}
+};
 
 const getCreateNodePromise = () => {
-  const createNodeFn: CreateNodeFn = ({ description }) => new Promise(promiseToggleFn);
-  return createNodeFn
-}
+  const createNodeFn: CreateNodeFn = ({ description }) =>
+    new Promise(promiseToggleFn);
+  return createNodeFn;
+};
 
 export function useCreateNode(): {
-  createNode: CreateNodeFn,
+  createNode: CreateNodeFn;
   response: CreateNodeResponse;
 } {
-  return { createNode: getCreateNodePromise(), response: { data, apollo: { loading, error } } };
+  return {
+    createNode: getCreateNodePromise(),
+    response: { data, apollo: { loading, error } },
+  };
 }

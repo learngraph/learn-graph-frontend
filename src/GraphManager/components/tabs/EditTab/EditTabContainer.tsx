@@ -12,6 +12,13 @@ export type EditTabContainerProps = {
 export const EditTabContainer = (props: EditTabContainerProps) => {
   const { createNode } = useCreateNode();
   const { createEdge } = useCreateEdge();
-  const { createNode: createNodeFromCtx } = useGraphDataContext()
-  return <EditTab {...props} createNode={createNode} createEdge={createEdge} createNodeFromCtx={createNodeFromCtx} />;
+  const { createNode: createNodeFromCtx } = useGraphDataContext();
+  return (
+    <EditTab
+      {...props}
+      createNode={createNode}
+      createEdge={createEdge}
+      createNodeFromCtx={createNodeFromCtx}
+    />
+  );
 };

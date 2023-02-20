@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 
 import { DataSetType, GraphData, LinkType, NodeType } from "GraphManager/types";
-import { Text } from 'src/GraphManager/hooks/types'
+import { Text } from "src/GraphManager/hooks/types";
 import { EditNodeMenu } from "./components/EditNodeMenu";
 import { EditLinksMenu } from "./components/EditLinksMenu";
 import { editNode } from "./utilities/editNode";
