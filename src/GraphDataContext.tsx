@@ -38,10 +38,16 @@ const defaultContextValues = {
   graph: { nodes: [], links: [] },
   requests: [],
   createNode: () => new Promise<string>(() => {}),
-  updateNode: () => {},
-  deleteNode: () => {},
+  updateNode: () => {
+    throw new Error("not implemented");
+  },
+  deleteNode: () => {
+    throw new Error("not implemented");
+  },
   createLink: () => new Promise<string>(() => {}),
-  submitVote: () => {},
+  submitVote: () => {
+    throw new Error("not implemented");
+  },
 };
 
 export enum pendingActionTypes {
