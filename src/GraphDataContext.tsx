@@ -33,10 +33,10 @@ const defaultContextValues = {
   graph: { nodes: [], links: [] },
   requests: [],
   createNode: () => new Promise<string>(() => { }),
-  updateNode: () => { },
-  deleteNode: () => { },
+  updateNode: () => { throw new Error("not implemented"); },
+  deleteNode: () => { throw new Error("not implemented"); },
   createLink: () => new Promise<string>(() => { }),
-  submitVote: () => { },
+  submitVote: () => { throw new Error("not implemented");  },
 }
 
 enum pendingActionTypes {
@@ -120,7 +120,7 @@ const GraphDataContextProvider: React.FC<ProviderProps> = ({ children }) => {
     if (requests.find(({ type, id }) => ((id === argument.from || id === argument.to) && type === pendingActionTypes.CREATE_NODE_WITH_TEMP_ID))) {
       // if used node is being created, throw error and abort
       reject(new Error("Trying to create a link to a Node that hasn't been created yet!"))
-      // (future todo: await other request to finish, then queue this one? could also be bad if the wait time is long and the user changes their mind in the meantime)
+      // (TODO(future): await other request to finish, then queue this one? could also be bad if the wait time is long and the user changes their mind in the meantime)
     }
     const requestId = getRequestId();
     requestsDispatch({
