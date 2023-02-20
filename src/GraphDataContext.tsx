@@ -3,8 +3,9 @@ import { useCreateNode } from './GraphManager/hooks/useCreateNode'
 import { NodeType, LinkType } from './GraphManager/types'
 import { Text } from './GraphManager/hooks/types'
 import { useCreateEdge } from './GraphManager/hooks/useCreateEdge';
+import { getCreateNodeAction } from './GraphDataContextActions';
 
-interface TranslatedNode {
+export interface TranslatedNode {
   id: string
   description: Text
   group?: number
@@ -39,14 +40,14 @@ const defaultContextValues = {
   submitVote: () => { },
 }
 
-enum pendingActionTypes {
+export enum pendingActionTypes {
   CREATE_NODE_WITH_TEMP_ID,
   CREATE_LINK_WITH_TEMP_ID,
   CLEAR_REQUEST,
 }
 
 // An interface for our actions
-interface RequestData {
+export interface RequestData {
   type: pendingActionTypes
   data?: any
   id: string
@@ -69,7 +70,7 @@ const pendingReducer = (state: RequestState, action: RequestData) => {
   }
 }
 
-const getRequestId = () => {
+export const getRequestId = () => {
   return String(Date.now())
 }
 
@@ -81,36 +82,9 @@ const GraphDataContextProvider: React.FC<ProviderProps> = ({ children }) => {
   const [requests, requestsDispatch] = React.useReducer(pendingReducer, [])
 
   const { createNode: createNodeAction } = useCreateNode()
-  const createNode = (argument: { description: Text }) =>
-    new Promise<string>(async (resolve, reject) => {
-      const requestId = getRequestId();
-      requestsDispatch({
-        type: pendingActionTypes.CREATE_NODE_WITH_TEMP_ID,
-        id: requestId,
-        data: argument,
-      })
-      setNodes([...nodes, { ...argument, id: requestId }])
-      try {
-        const response = await createNodeAction(argument)
-        if (!response.data) {
-          throw new Error('creating Node didnt return an ID!')
-        }
-        const nodesWithoutTempNode = nodes.filter((node) => (node.id !== requestId))
-        setNodes([...nodesWithoutTempNode, { ...argument, id: response.data.createNode.ID }])
-      } catch (error) {
-        // remove temp node before escalating error
-        const nodesWithoutTempNode = nodes.filter((node) => node.id !== requestId)
-        setNodes(nodesWithoutTempNode)
-
-        // TODO: report error to user - notistack?
-        // TODO(far future): log error
-        reject(error)
-      }
-      requestsDispatch({ type: pendingActionTypes.CLEAR_REQUEST, id: requestId })
-      resolve("Node successfully created!")
-    })
 
   const { createEdge: createLinkAction } = useCreateEdge()
+  
   const createLink = (argument: {
     from: string;
     to: string;
@@ -154,7 +128,7 @@ const GraphDataContextProvider: React.FC<ProviderProps> = ({ children }) => {
       value={{
         graph: { nodes, links },
         requests,
-        createNode,
+        createNode: getCreateNodeAction({requestsDispatch, setNodes, nodes, createNodeAction}),
         updateNode: () => { },
         deleteNode: () => { },
         createLink,
