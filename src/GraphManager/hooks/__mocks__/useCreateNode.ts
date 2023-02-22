@@ -31,8 +31,7 @@ const promiseToggleFn = (resolve: Function, reject: Function) => {
 };
 
 const getCreateNodePromise = () => {
-  const createNodeFn: CreateNodeFn = (_) =>
-    new Promise(promiseToggleFn);
+  const createNodeFn: CreateNodeFn = (_) => new Promise(promiseToggleFn);
   return createNodeFn;
 };
 
