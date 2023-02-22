@@ -34,7 +34,8 @@
     "test-with-local-config-FAILS": "react-scripts test -- --config=jest.config.ts",
     "eject": "react-scripts eject",
     "fmt": "prettier --write .",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "init-git": "ln -sf ../../tools/pre-commit .git/hooks/pre-commit"
   },
   "eslintConfig": {
     "extends": [
