@@ -5,7 +5,7 @@
  */
 
 import { CreateNodeResponse, CreateNodeFn } from "../useCreateNode";
-import { ApolloQueryResponse, CreateEntityResult, Text } from "../types";
+import { CreateEntityResult } from "../types";
 
 let shouldReturnSuccess = false;
 let data: CreateEntityResult;
@@ -31,7 +31,7 @@ const promiseToggleFn = (resolve: Function, reject: Function) => {
 };
 
 const getCreateNodePromise = () => {
-  const createNodeFn: CreateNodeFn = ({ description }) =>
+  const createNodeFn: CreateNodeFn = (_) =>
     new Promise(promiseToggleFn);
   return createNodeFn;
 };

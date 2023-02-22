@@ -5,7 +5,7 @@
  */
 
 import { CreateEdgeResponse, CreateEdgeFn } from "../useCreateEdge";
-import { ApolloQueryResponse, CreateEntityResult, Text } from "../types";
+import { CreateEntityResult } from "../types";
 
 let shouldReturnSuccess = false;
 let data: CreateEntityResult;

@@ -79,7 +79,7 @@ export function getCreateLinkAction(
             "Trying to create a link to a Node that hasn't been created yet!"
           )
         );
-        // (future todo: await other request to finish, then queue this one? could also be bad if the wait time is long and the user changes their mind in the meantime)
+        // (TODO(future): await other request to finish, then queue this one? could also be bad if the wait time is long and the user changes their mind in the meantime)
       }
       const requestId = getRequestId();
       requestsDispatch({
@@ -100,7 +100,7 @@ export function getCreateLinkAction(
       try {
         const response = await createLinkAction(argument);
         if (!response.data) {
-          throw new Error("Creating Link didnt return an ID!");
+          throw new Error("Creating Link didn't return any data");
         }
         const linksWithoutTempNode = links.filter(
           (node) => node.id !== requestId
