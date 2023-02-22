@@ -15,4 +15,5 @@ describe("getCreateLinkAction", () => {
       expect(value).toBe("Link successfully created!");
     });
   });
+  // TODO(skep): test all them branches
 });
