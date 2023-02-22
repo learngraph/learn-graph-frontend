@@ -6,7 +6,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import { Box } from "@mui/material";
 
-import { useGraphDataContext } from "../GraphDataContext";
+//import { useGraphDataContext } from "../GraphDataContext";
 import { GraphFileList, GraphManagementMenu, VoteDialog } from "./components";
 import { DataSetType, GraphData } from "./types";
 import { GraphRenderer, VoteDialogParams } from "./GraphRenderer";
@@ -51,8 +51,7 @@ export const GraphManager = ({
     setVoteDialogInput(params);
   };
 
-  const { graph, requests } = useGraphDataContext();
-  console.log(graph, requests);
+  //const { graph, requests } = useGraphDataContext();
 
   return (
     <>

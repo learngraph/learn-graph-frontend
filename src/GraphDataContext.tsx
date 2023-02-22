@@ -3,7 +3,10 @@ import { useCreateNode } from "./GraphManager/hooks/useCreateNode";
 import { NodeType, LinkType } from "./GraphManager/types";
 import { Text } from "./GraphManager/hooks/types";
 import { useCreateEdge } from "./GraphManager/hooks/useCreateEdge";
-import { getCreateNodeAction } from "./GraphDataContextActions";
+import {
+  getCreateNodeAction,
+  getCreateLinkAction,
+} from "./GraphDataContextActions";
 
 export interface TranslatedNode {
   id: string;
@@ -96,68 +99,6 @@ const GraphDataContextProvider: React.FC<ProviderProps> = ({ children }) => {
 
   const { createEdge: createLinkAction } = useCreateEdge();
 
-  const createLink = (argument: { from: string; to: string; weight: number }) =>
-    new Promise<string>(async (resolve, reject) => {
-      // check if node exists or id is in requests
-      if (
-        requests.find(
-          ({ type, id }) =>
-            (id === argument.from || id === argument.to) &&
-            type === pendingActionTypes.CREATE_NODE_WITH_TEMP_ID
-        )
-      ) {
-        // if used node is being created, throw error and abort
-        reject(
-          new Error(
-            "Trying to create a link to a Node that hasn't been created yet!"
-          )
-        );
-        // (future todo: await other request to finish, then queue this one? could also be bad if the wait time is long and the user changes their mind in the meantime)
-      }
-      const requestId = getRequestId();
-      requestsDispatch({
-        type: pendingActionTypes.CREATE_LINK_WITH_TEMP_ID,
-        id: requestId,
-        data: argument,
-      });
-      // insert link into links with tmp id
-      setLinks([
-        ...links,
-        {
-          source: argument.from,
-          target: argument.to,
-          value: argument.weight,
-          id: requestId,
-        },
-      ]);
-      try {
-        const response = await createLinkAction(argument);
-        if (!response.data) {
-          throw new Error("Creating Link didnt return an ID!");
-        }
-        const linksWithoutTempNode = links.filter(
-          (node) => node.id !== requestId
-        );
-        setLinks([
-          ...linksWithoutTempNode,
-          {
-            source: argument.from,
-            target: argument.to,
-            value: argument.weight,
-            id: response.data.createEdge.ID,
-          },
-        ]);
-      } catch (error) {
-        setLinks(links.filter((link) => link.id !== requestId));
-        reject(error);
-      }
-      requestsDispatch({
-        type: pendingActionTypes.CLEAR_REQUEST,
-        id: requestId,
-      });
-      resolve("Link successfully created!");
-    });
-
   return (
     <GraphDataContext.Provider
       value={{
@@ -171,7 +112,13 @@ const GraphDataContextProvider: React.FC<ProviderProps> = ({ children }) => {
         }),
         updateNode: () => {},
         deleteNode: () => {},
-        createLink,
+        createLink: getCreateLinkAction(
+          requests,
+          requestsDispatch,
+          setLinks,
+          links,
+          createLinkAction
+        ),
         submitVote: () => {},
       }}
     >

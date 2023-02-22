@@ -1,10 +1,5 @@
 import { useState } from "react";
-import {
-  fireEvent,
-  render,
-  screen,
-  waitForElementToBeRemoved,
-} from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import {
   useGraphDataContext,
   GraphDataContextProvider,
@@ -70,13 +65,11 @@ const TestConsumer = () => {
 };
 
 describe("graphDataContext", () => {
-  console.time("test");
   it("should queue a node creation request, and toggle loading states when the request updates stuff", async () => {
     customRender(<TestConsumer />);
     // byTestId should be the last choice when testing real components,
     // here we built the component only for the test so its fine
     const button = screen.getByTestId("triggerNodeCreation");
-    console.timeLog("test");
     expect(screen.queryByTestId("hasRequests")).toBeNull();
     fireEvent.click(button);
     // => queues request first, then returns and provides the node through the graph export
