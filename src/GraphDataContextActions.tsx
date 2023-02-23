@@ -1,5 +1,8 @@
 import React from "react";
-import { CreateNodeFn } from "./GraphManager/hooks/useCreateNode";
+import {
+  CreateNodeFn,
+  CreateNodeFnResponse,
+} from "./GraphManager/hooks/useCreateNode";
 import { Text } from "./GraphManager/hooks/types";
 import {
   RequestData,
@@ -17,7 +20,7 @@ export function getCreateNodeAction(props: {
   createNodeAction: CreateNodeFn;
 }) {
   return (argument: { description: Text }) =>
-    new Promise<string>(async (resolve, reject) => {
+    new Promise<CreateNodeFnResponse>(async (resolve, reject) => {
       const requestId = getRequestId();
       props.requestsDispatch({
         type: pendingActionTypes.CREATE_NODE_WITH_TEMP_ID,
@@ -52,7 +55,7 @@ export function getCreateNodeAction(props: {
         type: pendingActionTypes.CLEAR_REQUEST,
         id: requestId,
       });
-      resolve("Node successfully created!");
+      resolve({ data: { createNode: { ID: "TMPID1" } } }); // TODO(skep): random tmp id's, since there can be multiple
     });
 }
 

@@ -1,5 +1,9 @@
 import React from "react";
-import { useCreateNode } from "./GraphManager/hooks/useCreateNode";
+import {
+  CreateNodeFn,
+  CreateNodeFnResponse,
+  useCreateNode,
+} from "./GraphManager/hooks/useCreateNode";
 import { NodeType, LinkType } from "./GraphManager/types";
 import { Text } from "./GraphManager/hooks/types";
 import { useCreateEdge } from "./GraphManager/hooks/useCreateEdge";
@@ -22,7 +26,7 @@ interface TranslatedGraphData {
 interface GraphDataContextValues {
   graph: TranslatedGraphData;
   requests: Array<RequestData>;
-  createNode: (args: { description: Text }) => Promise<string | Error>;
+  createNode: CreateNodeFn;
   updateNode: (args: { node: NodeType }) => void;
   deleteNode: (args: { nodeId: string }) => void;
   createLink: (args: {
@@ -40,7 +44,7 @@ interface ProviderProps {
 const defaultContextValues = {
   graph: { nodes: [], links: [] },
   requests: [],
-  createNode: () => new Promise<string>(() => {}),
+  createNode: () => new Promise<CreateNodeFnResponse>(() => {}),
   updateNode: () => {
     throw new Error("not implemented");
   },

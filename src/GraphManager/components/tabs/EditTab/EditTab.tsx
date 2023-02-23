@@ -9,7 +9,6 @@ import {
 } from "@mui/material";
 
 import { DataSetType, GraphData, LinkType, NodeType } from "GraphManager/types";
-import { Text } from "src/GraphManager/hooks/types";
 import { EditNodeMenu } from "./components/EditNodeMenu";
 import { EditLinksMenu } from "./components/EditLinksMenu";
 import { editNode } from "./utilities/editNode";
@@ -24,7 +23,7 @@ export type EditTabProps = {
   updateDisplayedGraph: (value: DataSetType) => void;
   createNode: CreateNodeFn;
   createEdge: CreateEdgeFn;
-  createNodeFromCtx: (args: { description: Text }) => Promise<string | Error>;
+  createNodeFromCtx: CreateNodeFn;
 };
 
 export const findForwardLinks = (
