@@ -11,7 +11,7 @@ import {
 import { DataSetType, GraphData, LinkType, NodeType } from "GraphManager/types";
 import { EditNodeMenu } from "./components/EditNodeMenu";
 import { EditLinksMenu } from "./components/EditLinksMenu";
-import { editNode } from "./utilities/editNode";
+import { createNode, updateNode } from "./utilities/editNode";
 import {
   CreateNodeFn,
   CreateNodeFnResponse,
@@ -45,9 +45,9 @@ export const TMPNODE_ID = "TMPNEWNODE";
 export const TMPLINK_ID = "TMPNEWEDGE";
 
 export const updateNodeFn = (args: {
-  selectedNodeInGraph: NodeType;
-  createNode: CreateNodeFn;
   currentGraphDataset: DataSetType;
+  selectedNodeInGraph: NodeType;
+  createNodeInBackend: CreateNodeFn;
   setSelectedNodeDescription: (description: string) => void;
   updateDisplayedGraph: (value: DataSetType) => void;
 }) => {
@@ -62,14 +62,12 @@ export const updateNodeFn = (args: {
       const { dataSetName } = args.currentGraphDataset;
       let newGraph: GraphData | undefined = undefined;
       if (isNewNode) {
-        newGraph = editNode({
+        newGraph = createNode({
           graph: args.currentGraphDataset.data,
           newNode: { ...node, id: TMPNODE_ID },
-          selectedNode: args.selectedNodeInGraph,
-          isNewNode,
         });
         args
-          .createNode({
+          .createNodeInBackend({
             description: {
               translations: [
                 {
@@ -84,21 +82,19 @@ export const updateNodeFn = (args: {
               reject("empty response from backend");
               return;
             }
-            const newNewGraph = editNode({
+            const newNewGraph = updateNode({
               graph: args.currentGraphDataset.data,
               newNode: { ...node, id: rsp.data?.createNode.ID },
               selectedNode: { ...node, id: TMPNODE_ID },
-              isNewNode: false,
             });
             args.updateDisplayedGraph({ dataSetName, data: newNewGraph });
             resolve();
           });
       } else {
-        newGraph = editNode({
+        newGraph = updateNode({
           graph: args.currentGraphDataset.data,
           newNode: node,
           selectedNode: args.selectedNodeInGraph,
-          isNewNode,
         });
         resolve();
       }
@@ -193,7 +189,7 @@ export const EditTab = (props: EditTabProps): JSX.Element => {
   const updateNode = updateNodeFn({
     currentGraphDataset: props.currentGraphDataset,
     selectedNodeInGraph,
-    createNode: props.createNode,
+    createNodeInBackend: props.createNode,
     setSelectedNodeDescription,
     updateDisplayedGraph: props.updateDisplayedGraph,
   });

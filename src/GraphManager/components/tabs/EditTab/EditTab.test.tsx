@@ -10,7 +10,7 @@ import {
 import { act, render } from "@testing-library/react";
 import { DataSetType } from "src/GraphManager/types";
 import { EditNodeMenu } from "./components/EditNodeMenu";
-import { editNode } from "./utilities/editNode";
+import { createNode, updateNode } from "./utilities/editNode";
 import { CreateNodeFnResponse } from "src/GraphManager/hooks/useCreateNode";
 import { CreateEdgeFnResponse } from "src/GraphManager/hooks/useCreateEdge";
 
@@ -191,43 +191,46 @@ describe("updateNodeFn", () => {
     };
     let currentGraphDataset = { dataSetName: "test", data: graphData };
     let selectedNodeInGraph = { id: "2", description: "B" };
-    let [createNode, setSelectedNodeDescription, updateDisplayedGraph] = [
-      jest.fn(),
-      jest.fn(),
-      jest.fn(),
-    ];
-    createNode.mockReturnValueOnce(
+    let [
+      createNodeInBackend,
+      setSelectedNodeDescription,
+      updateDisplayedGraph,
+    ] = [jest.fn(), jest.fn(), jest.fn()];
+    createNodeInBackend.mockReturnValueOnce(
       Promise.resolve<CreateNodeFnResponse>({
         data: { createNode: { ID: "NEWID" } },
       })
     );
-    let updateNode = updateNodeFn({
+    let updateNodeFunction = updateNodeFn({
       currentGraphDataset,
       selectedNodeInGraph,
-      createNode,
+      createNodeInBackend: createNodeInBackend,
       setSelectedNodeDescription,
       updateDisplayedGraph,
     });
     // @ts-ignore: a partial node is expected here, since ID is unknown before the backend gets involved
-    await updateNode({ node: { description: "A" }, isNewNode: true });
-    expect(createNode.mock.calls.length).toBe(1);
+    await updateNodeFunction({ node: { description: "A" }, isNewNode: true });
+    expect(createNodeInBackend.mock.calls.length).toBe(1);
     expect(
-      createNode.mock.calls[0][0].description.translations[0].language
+      createNodeInBackend.mock.calls[0][0].description.translations[0].language
     ).toEqual("en");
     expect(
-      createNode.mock.calls[0][0].description.translations[0].content
+      createNodeInBackend.mock.calls[0][0].description.translations[0].content
     ).toEqual("A");
     // @ts-ignore
-    let editNodeMock = editNode.mock;
-    expect(editNodeMock.calls.length).toBe(2); // since after the promise we update the ID
+    let createNodeMock = createNode.mock;
+    // @ts-ignore
+    let updateNodeMock = updateNode.mock;
+    expect(createNodeMock.calls.length).toBe(1);
+    expect(updateNodeMock.calls.length).toBe(1); // after the backend response we update the ID
     expect(updateDisplayedGraph.mock.calls.length).toBe(2);
     // first call contains only user input, for local graph changes
-    expect(editNodeMock.calls[0][0].newNode).toEqual({
+    expect(createNodeMock.calls[0][0].newNode).toEqual({
       id: TMPNODE_ID,
       description: "A",
     });
     // second call contains the backend result for the id
-    expect(editNodeMock.calls[1][0].newNode).toEqual({
+    expect(updateNodeMock.calls[0][0].newNode).toEqual({
       id: "NEWID",
       description: "A",
     });

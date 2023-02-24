@@ -1,40 +1,32 @@
 import { GraphData, NodeType } from "../../../../types";
 
-type EditNodeTypes = {
+export const updateNode = (args: {
   graph: GraphData;
   newNode: NodeType;
-  selectedNode: NodeType | undefined;
-  isNewNode: boolean;
-};
-export const editNode = ({
-  graph,
-  newNode,
-  selectedNode,
-  isNewNode,
-}: EditNodeTypes): GraphData => {
-  if (isNewNode) {
-    if (graph.nodes.find((n) => n.id === newNode.id)) {
-      throw new Error("Attempting to create a new Node that already exists");
-    }
-    graph.nodes?.push(newNode);
-    return graph;
-  }
-
-  if (!selectedNode) {
-    throw new Error("Attempting to update a Node when none exist");
-  }
-
+  selectedNode: NodeType;
+}): GraphData => {
   // Update existing links to new node ID
-  graph?.links?.forEach((link) => {
-    if (link.target === selectedNode.id) {
-      link.target = newNode.id;
+  args.graph?.links?.forEach((link) => {
+    if (link.target === args.selectedNode?.id) {
+      link.target = args.newNode.id;
     }
-    if (link.source === selectedNode.id) {
-      link.source = newNode.id;
+    if (link.source === args.selectedNode?.id) {
+      link.source = args.newNode.id;
     }
   });
   // Update selected node with new content
-  Object.assign(selectedNode, newNode);
+  Object.assign(args.selectedNode, args.newNode);
 
-  return graph;
+  return args.graph;
+};
+
+export const createNode = (args: {
+  graph: GraphData;
+  newNode: NodeType;
+}): GraphData => {
+  if (args.graph.nodes.find((n) => n.id === args.newNode.id)) {
+    throw new Error("Attempting to create a new Node that already exists");
+  }
+  args.graph.nodes?.push(args.newNode);
+  return args.graph;
 };
