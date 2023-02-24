@@ -45,7 +45,6 @@ export const TMPNODE_ID = "TMPNEWNODE";
 export const TMPLINK_ID = "TMPNEWEDGE";
 
 export const updateNodeFn = (args: {
-  graphData: GraphData;
   selectedNodeInGraph: NodeType;
   createNode: CreateNodeFn;
   currentGraphDataset: DataSetType;
@@ -64,7 +63,7 @@ export const updateNodeFn = (args: {
       let newGraph: GraphData | undefined = undefined;
       if (isNewNode) {
         newGraph = editNode({
-          graph: args.graphData,
+          graph: args.currentGraphDataset.data,
           newNode: { ...node, id: TMPNODE_ID },
           selectedNode: args.selectedNodeInGraph,
           isNewNode,
@@ -86,7 +85,7 @@ export const updateNodeFn = (args: {
               return;
             }
             const newNewGraph = editNode({
-              graph: args.graphData,
+              graph: args.currentGraphDataset.data,
               newNode: { ...node, id: rsp.data?.createNode.ID },
               selectedNode: { ...node, id: TMPNODE_ID },
               isNewNode: false,
@@ -96,7 +95,7 @@ export const updateNodeFn = (args: {
           });
       } else {
         newGraph = editNode({
-          graph: args.graphData,
+          graph: args.currentGraphDataset.data,
           newNode: node,
           selectedNode: args.selectedNodeInGraph,
           isNewNode,
@@ -165,16 +164,15 @@ export const updateLinkFn = (props: EditTabProps) => {
 };
 
 export const EditTab = (props: EditTabProps): JSX.Element => {
-  const { data: graphData } = props.currentGraphDataset;
-
-  const firstNode = graphData.nodes?.[0];
+  const firstNode = props.currentGraphDataset.data.nodes?.[0];
   const [selectedNodeID, setSelectedNodeID] = useState(firstNode?.id);
   const [selectedNodeDescription, setSelectedNodeDescription] = useState(
     firstNode?.description
   );
   const selectedNodeInGraph =
-    graphData.nodes?.find(({ id }) => id === selectedNodeID) ??
-    graphData.nodes?.[0];
+    props.currentGraphDataset.data.nodes?.find(
+      ({ id }) => id === selectedNodeID
+    ) ?? props.currentGraphDataset.data.nodes?.[0];
 
   const handleSelectNode = (
     event: SelectChangeEvent<string>,
@@ -182,7 +180,9 @@ export const EditTab = (props: EditTabProps): JSX.Element => {
   ): void => {
     //const nodeName = event.target.value as string;
     const nodeID = event.target.value as string;
-    const node = graphData.nodes.find((node) => node.id === nodeID);
+    const node = props.currentGraphDataset.data.nodes.find(
+      (node) => node.id === nodeID
+    );
     if (!node) {
       throw new Error(`unknown node selected: id=${nodeID}`);
     }
@@ -191,26 +191,33 @@ export const EditTab = (props: EditTabProps): JSX.Element => {
   };
 
   const updateNode = updateNodeFn({
-    graphData,
+    currentGraphDataset: props.currentGraphDataset,
     selectedNodeInGraph,
     createNode: props.createNode,
-    currentGraphDataset: props.currentGraphDataset,
     setSelectedNodeDescription,
     updateDisplayedGraph: props.updateDisplayedGraph,
   });
 
   const updateLink = updateLinkFn(props);
 
-  const forwardLinks = findForwardLinks(graphData, selectedNodeID);
-  const backwardLinks = findBackwardLinks(graphData, selectedNodeID);
+  const forwardLinks = findForwardLinks(
+    props.currentGraphDataset.data,
+    selectedNodeID
+  );
+  const backwardLinks = findBackwardLinks(
+    props.currentGraphDataset.data,
+    selectedNodeID
+  );
 
-  const renderOptions = graphData.nodes?.map(({ id, description }) => {
-    return (
-      <MenuItem key={id} value={id}>
-        {description}
-      </MenuItem>
-    );
-  });
+  const renderOptions = props.currentGraphDataset.data.nodes?.map(
+    ({ id, description }) => {
+      return (
+        <MenuItem key={id} value={id}>
+          {description}
+        </MenuItem>
+      );
+    }
+  );
 
   return (
     <>
@@ -233,7 +240,7 @@ export const EditTab = (props: EditTabProps): JSX.Element => {
         finishEditing={undefined}
       />
       <EditLinksMenu
-        nodes={graphData.nodes}
+        nodes={props.currentGraphDataset.data.nodes}
         forwardLinks={forwardLinks}
         backwardLinks={backwardLinks}
         onUpdateLink={updateLink}

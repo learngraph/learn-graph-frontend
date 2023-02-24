@@ -202,10 +202,9 @@ describe("updateNodeFn", () => {
       })
     );
     let updateNode = updateNodeFn({
-      graphData,
+      currentGraphDataset,
       selectedNodeInGraph,
       createNode,
-      currentGraphDataset,
       setSelectedNodeDescription,
       updateDisplayedGraph,
     });

@@ -13,6 +13,7 @@ import {
   getCreateNodeAction,
   getCreateLinkAction,
 } from "./GraphDataContextActions";
+import { SubmitVoteFn } from "./GraphManager/hooks/useSubmitVote";
 
 export interface TranslatedNode {
   id: string;
@@ -32,7 +33,7 @@ interface GraphDataContextValues {
   //updateNode: UpdateNodeFn;
   //deleteNode: DeleteNodeFn;
   createLink: CreateEdgeFn;
-  submitVote: (args: { link: LinkType }) => void;
+  submitVote: SubmitVoteFn;
 }
 
 interface ProviderProps {
@@ -43,9 +44,6 @@ const defaultContextValues = {
   graph: { nodes: [], links: [] },
   requests: [],
   createNode: () => Promise.reject({}),
-  deleteNode: () => {
-    throw new Error("not implemented");
-  },
   createLink: () => Promise.reject({}),
   submitVote: () => {
     throw new Error("not implemented");
