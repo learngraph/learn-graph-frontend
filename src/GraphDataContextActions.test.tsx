@@ -12,7 +12,7 @@ describe("getCreateLinkAction", () => {
     );
     let p = createLink({ from: "A", to: "B", weight: 2 });
     return p.then((value) => {
-      expect(value).toBe("Link successfully created!");
+      expect(value).toEqual({ data: { createEdge: { ID: "TMPEDGEID" } } });
     });
   });
   // TODO(skep): test all them branches

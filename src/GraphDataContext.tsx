@@ -1,12 +1,14 @@
 import React from "react";
 import {
   CreateNodeFn,
-  CreateNodeFnResponse,
   useCreateNode,
 } from "./GraphManager/hooks/useCreateNode";
-import { NodeType, LinkType } from "./GraphManager/types";
+import { LinkType } from "./GraphManager/types";
 import { Text } from "./GraphManager/hooks/types";
-import { useCreateEdge } from "./GraphManager/hooks/useCreateEdge";
+import {
+  CreateEdgeFn,
+  useCreateEdge,
+} from "./GraphManager/hooks/useCreateEdge";
 import {
   getCreateNodeAction,
   getCreateLinkAction,
@@ -27,13 +29,9 @@ interface GraphDataContextValues {
   graph: TranslatedGraphData;
   requests: Array<RequestData>;
   createNode: CreateNodeFn;
-  updateNode: (args: { node: NodeType }) => void;
-  deleteNode: (args: { nodeId: string }) => void;
-  createLink: (args: {
-    from: string;
-    to: string;
-    weight: number;
-  }) => Promise<string | Error>;
+  //updateNode: UpdateNodeFn;
+  //deleteNode: DeleteNodeFn;
+  createLink: CreateEdgeFn;
   submitVote: (args: { link: LinkType }) => void;
 }
 
@@ -44,14 +42,11 @@ interface ProviderProps {
 const defaultContextValues = {
   graph: { nodes: [], links: [] },
   requests: [],
-  createNode: () => new Promise<CreateNodeFnResponse>(() => {}),
-  updateNode: () => {
-    throw new Error("not implemented");
-  },
+  createNode: () => Promise.reject({}),
   deleteNode: () => {
     throw new Error("not implemented");
   },
-  createLink: () => new Promise<string>(() => {}),
+  createLink: () => Promise.reject({}),
   submitVote: () => {
     throw new Error("not implemented");
   },
@@ -114,8 +109,6 @@ const GraphDataContextProvider: React.FC<ProviderProps> = ({ children }) => {
           nodes,
           createNodeAction,
         }),
-        updateNode: () => {},
-        deleteNode: () => {},
         createLink: getCreateLinkAction(
           requests,
           requestsDispatch,

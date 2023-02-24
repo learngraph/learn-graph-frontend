@@ -10,7 +10,10 @@ import {
   getRequestId,
   pendingActionTypes,
 } from "./GraphDataContext";
-import { CreateEdgeFn } from "./GraphManager/hooks/useCreateEdge";
+import {
+  CreateEdgeFn,
+  CreateEdgeFnResponse,
+} from "./GraphManager/hooks/useCreateEdge";
 import { LinkType } from "./GraphManager/types";
 
 export function getCreateNodeAction(props: {
@@ -67,7 +70,7 @@ export function getCreateLinkAction(
   createLinkAction: CreateEdgeFn
 ) {
   return (argument: { from: string; to: string; weight: number }) =>
-    new Promise<string>(async (resolve, reject) => {
+    new Promise<CreateEdgeFnResponse>(async (resolve, reject) => {
       // check if node exists or id is in requests
       if (
         requests.find(
@@ -125,6 +128,6 @@ export function getCreateLinkAction(
         type: pendingActionTypes.CLEAR_REQUEST,
         id: requestId,
       });
-      resolve("Link successfully created!");
+      resolve({ data: { createEdge: { ID: "TMPEDGEID" } } });
     });
 }
