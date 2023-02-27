@@ -66,6 +66,8 @@ export interface RequestData {
 // An interface for our state
 interface RequestState extends Array<RequestData> {}
 
+// XXX(skep): functionality is unclear, please delete or clarify usage via
+// tests
 const pendingReducer = (state: RequestState, action: RequestData) => {
   const { type, ...payload } = action;
   switch (type) {
@@ -87,6 +89,8 @@ export const getRequestId = () => {
 const GraphDataContext =
   React.createContext<GraphDataContextValues>(defaultContextValues);
 
+// EditGraph is only to be used by GraphDataContext related functionality e.g.
+// GraphDataContextActions.
 export interface EditGraph {
   requests: RequestData[];
   requestsDispatch: React.Dispatch<RequestData>;
