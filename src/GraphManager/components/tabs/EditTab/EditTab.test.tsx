@@ -36,8 +36,8 @@ describe("EditTab", () => {
       <EditTab
         updateDisplayedGraph={updateDisplayedGraph}
         currentGraphDataset={graph}
-        createNode={createNode}
-        createEdge={createEdge}
+        createNodeInBackend={createNode}
+        createEdgeInBackend={createEdge}
         createNodeFromCtx={createNode}
       />
     );
@@ -65,8 +65,8 @@ describe("EditTab", () => {
       <EditTab
         updateDisplayedGraph={updateDisplayedGraph}
         currentGraphDataset={graph}
-        createNode={createNode}
-        createEdge={createEdge}
+        createNodeInBackend={createNode}
+        createEdgeInBackend={createEdge}
         createNodeFromCtx={createNode}
       />
     );
@@ -240,8 +240,6 @@ describe("updateNodeFn", () => {
 describe("updateLinkFn", () => {
   const makeMocks = () => {
     let updateDisplayedGraph = jest.fn();
-    let createNode = jest.fn();
-    let createEdge = jest.fn();
     let graphDataset = {
       dataSetName: "test",
       data: {
@@ -255,13 +253,13 @@ describe("updateLinkFn", () => {
     let props = {
       // ensure graph data is copied since we use this function in multiple tests
       currentGraphDataset: JSON.parse(JSON.stringify(graphDataset)),
-      updateDisplayedGraph: updateDisplayedGraph,
-      createNode: createNode,
-      createEdge: createEdge,
-      createNodeFromCtx: createNode,
+      updateDisplayedGraph,
+      createNodeInBackend: jest.fn(),
+      createEdgeInBackend: jest.fn(),
+      createNodeFromCtx: jest.fn(),
     };
     let updateLink = updateLinkFn(props);
-    return { updateDisplayedGraph, createEdge, createNode, props, updateLink };
+    return { updateDisplayedGraph, props, updateLink };
   };
 
   it("should preserve current link content when updating the links' value", () => {
@@ -274,7 +272,7 @@ describe("updateLinkFn", () => {
         value: 3.141,
       },
     });
-    expect(props.createEdge.mock.calls.length).toBe(0);
+    expect(props.createEdgeInBackend.mock.calls.length).toBe(0);
     expect(updateDisplayedGraph.mock.calls[0][0].data).toEqual({
       ...props.currentGraphDataset.data,
       links: [{ ...props.currentGraphDataset.data.links[0], value: 3.141 }],
@@ -289,7 +287,7 @@ describe("updateLinkFn", () => {
     let givemeresolver = (fn: any) => {
       resolver = fn;
     };
-    props.createEdge.mockReturnValueOnce(
+    props.createEdgeInBackend.mockReturnValueOnce(
       new Promise<CreateEdgeFnResponse>((resolve, _) => {
         givemeresolver(() => {
           resolve({ data: { createEdge: { ID: "IDFROMBACKEND" } } });
@@ -321,8 +319,8 @@ describe("updateLinkFn", () => {
       ]),
     });
     // backend API is called
-    expect(props.createEdge.mock.calls.length).toBe(1);
-    expect(props.createEdge.mock.calls[0][0]).toEqual({
+    expect(props.createEdgeInBackend.mock.calls.length).toBe(1);
+    expect(props.createEdgeInBackend.mock.calls[0][0]).toEqual({
       from: "2",
       to: "1",
       weight: 3,

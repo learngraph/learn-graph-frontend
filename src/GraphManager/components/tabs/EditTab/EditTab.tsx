@@ -21,8 +21,8 @@ import { CreateEdgeFn } from "src/GraphManager/hooks/useCreateEdge";
 export type EditTabProps = {
   currentGraphDataset: DataSetType;
   updateDisplayedGraph: (value: DataSetType) => void;
-  createNode: CreateNodeFn;
-  createEdge: CreateEdgeFn;
+  createNodeInBackend: CreateNodeFn;
+  createEdgeInBackend: CreateEdgeFn;
   createNodeFromCtx: CreateNodeFn;
 };
 
@@ -121,7 +121,7 @@ export const updateLinkFn = (props: EditTabProps) => {
       if (!oldLink) {
         updatedLinks?.push({ ...updatedLink, id: TMPLINK_ID });
         props
-          .createEdge({
+          .createEdgeInBackend({
             from: updatedLink.source,
             to: updatedLink.target,
             weight: updatedLink.value,
@@ -189,7 +189,7 @@ export const EditTab = (props: EditTabProps): JSX.Element => {
   const updateNode = updateNodeFn({
     currentGraphDataset: props.currentGraphDataset,
     selectedNodeInGraph,
-    createNodeInBackend: props.createNode,
+    createNodeInBackend: props.createNodeInBackend,
     setSelectedNodeDescription,
     updateDisplayedGraph: props.updateDisplayedGraph,
   });

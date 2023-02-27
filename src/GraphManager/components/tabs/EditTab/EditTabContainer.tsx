@@ -16,8 +16,8 @@ export const EditTabContainer = (props: EditTabContainerProps) => {
   return (
     <EditTab
       {...props}
-      createNode={createNode}
-      createEdge={createEdge}
+      createNodeInBackend={createNode}
+      createEdgeInBackend={createEdge}
       createNodeFromCtx={createNodeFromCtx}
     />
   );
