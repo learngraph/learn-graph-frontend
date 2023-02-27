@@ -87,33 +87,43 @@ export const getRequestId = () => {
 const GraphDataContext =
   React.createContext<GraphDataContextValues>(defaultContextValues);
 
+export interface EditGraph {
+  requests: RequestData[];
+  requestsDispatch: React.Dispatch<RequestData>;
+  nodes: TranslatedNode[];
+  setNodes: React.Dispatch<React.SetStateAction<TranslatedNode[]>>;
+  links: LinkType[];
+  setLinks: React.Dispatch<React.SetStateAction<LinkType[]>>;
+  createLinkInBackend: CreateEdgeFn;
+  createNodeInBackend: CreateNodeFn;
+}
+
 const GraphDataContextProvider: React.FC<ProviderProps> = ({ children }) => {
   const [nodes, setNodes] = React.useState<TranslatedNode[]>([]);
   const [links, setLinks] = React.useState<LinkType[]>([]);
   const [requests, requestsDispatch] = React.useReducer(pendingReducer, []);
 
-  const { createNode: createNodeAction } = useCreateNode();
+  const { createNode: createNodeInBackend } = useCreateNode();
+  const { createEdge: createLinkInBackend } = useCreateEdge();
 
-  const { createEdge: createLinkAction } = useCreateEdge();
+  const editGraph: EditGraph = {
+    requests,
+    requestsDispatch,
+    nodes,
+    setNodes,
+    links,
+    setLinks,
+    createNodeInBackend,
+    createLinkInBackend,
+  };
 
   return (
     <GraphDataContext.Provider
       value={{
         graph: { nodes, links },
         requests,
-        createNode: getCreateNodeAction({
-          requestsDispatch,
-          setNodes,
-          nodes,
-          createNodeAction,
-        }),
-        createLink: getCreateLinkAction(
-          requests,
-          requestsDispatch,
-          setLinks,
-          links,
-          createLinkAction
-        ),
+        createNode: getCreateNodeAction(editGraph),
+        createLink: getCreateLinkAction(editGraph),
         submitVote: () => {},
       }}
     >

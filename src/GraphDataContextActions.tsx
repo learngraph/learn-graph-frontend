@@ -1,60 +1,46 @@
-import React from "react";
-import {
-  CreateNodeFn,
-  CreateNodeFnResponse,
-} from "./GraphManager/hooks/useCreateNode";
+import { CreateNodeFnResponse } from "./GraphManager/hooks/useCreateNode";
 import { Text } from "./GraphManager/hooks/types";
 import {
-  RequestData,
-  TranslatedNode,
   getRequestId,
   pendingActionTypes,
+  EditGraph,
 } from "./GraphDataContext";
-import {
-  CreateEdgeFn,
-  CreateEdgeFnResponse,
-} from "./GraphManager/hooks/useCreateEdge";
-import { LinkType } from "./GraphManager/types";
+import { CreateEdgeFnResponse } from "./GraphManager/hooks/useCreateEdge";
 
-export function getCreateNodeAction(props: {
-  requestsDispatch: React.Dispatch<RequestData>;
-  setNodes: React.Dispatch<React.SetStateAction<TranslatedNode[]>>;
-  nodes: TranslatedNode[];
-  createNodeAction: CreateNodeFn;
-}) {
+export function getCreateNodeAction(graph: EditGraph) {
   return (argument: { description: Text }) =>
     new Promise<CreateNodeFnResponse>(async (resolve, reject) => {
       const requestId = getRequestId();
-      props.requestsDispatch({
+      graph.requestsDispatch({
         type: pendingActionTypes.CREATE_NODE_WITH_TEMP_ID,
         id: requestId,
         data: argument,
       });
-      props.setNodes([...props.nodes, { ...argument, id: requestId }]);
+      graph.setNodes([...graph.nodes, { ...argument, id: requestId }]);
       try {
-        const response = await props.createNodeAction(argument);
+        const response = await graph.createNodeInBackend(argument);
         if (!response.data) {
           throw new Error("creating Node didnt return an ID!");
         }
-        const nodesWithoutTempNode = props.nodes.filter(
+        const nodesWithoutTempNode = graph.nodes.filter(
           (node) => node.id !== requestId
         );
-        props.setNodes([
+        graph.setNodes([
           ...nodesWithoutTempNode,
           { ...argument, id: response.data.createNode.ID },
         ]);
       } catch (error) {
         // remove temp node before escalating error
-        const nodesWithoutTempNode = props.nodes.filter(
+        const nodesWithoutTempNode = graph.nodes.filter(
           (node) => node.id !== requestId
         );
-        props.setNodes(nodesWithoutTempNode);
+        graph.setNodes(nodesWithoutTempNode);
 
         // TODO: report error to user - notistack?
         // TODO(far future): log error
         reject(error);
       }
-      props.requestsDispatch({
+      graph.requestsDispatch({
         type: pendingActionTypes.CLEAR_REQUEST,
         id: requestId,
       });
@@ -62,18 +48,12 @@ export function getCreateNodeAction(props: {
     });
 }
 
-export function getCreateLinkAction(
-  requests: RequestData[],
-  requestsDispatch: React.Dispatch<RequestData>,
-  setLinks: React.Dispatch<React.SetStateAction<LinkType[]>>,
-  links: LinkType[],
-  createLinkAction: CreateEdgeFn
-) {
+export function getCreateLinkAction(graph: EditGraph) {
   return (argument: { from: string; to: string; weight: number }) =>
     new Promise<CreateEdgeFnResponse>(async (resolve, reject) => {
       // check if node exists or id is in requests
       if (
-        requests.find(
+        graph.requests.find(
           ({ type, id }) =>
             (id === argument.from || id === argument.to) &&
             type === pendingActionTypes.CREATE_NODE_WITH_TEMP_ID
@@ -88,14 +68,14 @@ export function getCreateLinkAction(
         // (TODO(future): await other request to finish, then queue this one? could also be bad if the wait time is long and the user changes their mind in the meantime)
       }
       const requestId = getRequestId();
-      requestsDispatch({
+      graph.requestsDispatch({
         type: pendingActionTypes.CREATE_LINK_WITH_TEMP_ID,
         id: requestId,
         data: argument,
       });
       // insert link into links with tmp id
-      setLinks([
-        ...links,
+      graph.setLinks([
+        ...graph.links,
         {
           source: argument.from,
           target: argument.to,
@@ -104,14 +84,14 @@ export function getCreateLinkAction(
         },
       ]);
       try {
-        const response = await createLinkAction(argument);
+        const response = await graph.createLinkInBackend(argument);
         if (!response.data) {
           throw new Error("Creating Link didn't return any data");
         }
-        const linksWithoutTempNode = links.filter(
+        const linksWithoutTempNode = graph.links.filter(
           (node) => node.id !== requestId
         );
-        setLinks([
+        graph.setLinks([
           ...linksWithoutTempNode,
           {
             source: argument.from,
@@ -121,10 +101,10 @@ export function getCreateLinkAction(
           },
         ]);
       } catch (error) {
-        setLinks(links.filter((link) => link.id !== requestId));
+        graph.setLinks(graph.links.filter((link) => link.id !== requestId));
         reject(error);
       }
-      requestsDispatch({
+      graph.requestsDispatch({
         type: pendingActionTypes.CLEAR_REQUEST,
         id: requestId,
       });
