@@ -26,6 +26,12 @@ interface TranslatedGraphData {
   links: LinkType[];
 }
 
+// LocalGraphDataEditor provides all functionality necessary to edit the
+// in-browser (canvas) graph state.
+export interface LocalGraphDataEditor {
+  setSelectedGraphDataset: () => void;
+}
+
 interface GraphDataContextValues {
   graph: TranslatedGraphData;
   requests: Array<RequestData>;
@@ -34,19 +40,21 @@ interface GraphDataContextValues {
   //deleteNode: DeleteNodeFn;
   createLink: CreateEdgeFn;
   submitVote: SubmitVoteFn;
-}
-
-interface ProviderProps {
-  children: React.ReactNode;
+  setLocalGraphDataEditor: (editor: LocalGraphDataEditor) => void;
 }
 
 const defaultContextValues = {
   graph: { nodes: [], links: [] },
   requests: [],
-  createNode: () => Promise.reject({}),
-  createLink: () => Promise.reject({}),
+  createNode: () =>
+    Promise.reject({ error: "defaultContextValues must not be used" }),
+  createLink: () =>
+    Promise.reject({ error: "defaultContextValues must not be used" }),
   submitVote: () => {
-    throw new Error("not implemented");
+    throw new Error("defaultContextValues must not be used");
+  },
+  setLocalGraphDataEditor: () => {
+    throw new Error("defaultContextValues must not be used");
   },
 };
 
@@ -101,6 +109,11 @@ export interface EditGraph {
   setLinks: React.Dispatch<React.SetStateAction<LinkType[]>>;
   createLinkInBackend: CreateEdgeFn;
   createNodeInBackend: CreateNodeFn;
+  localGraphDataEditor: LocalGraphDataEditor | undefined;
+}
+
+interface ProviderProps {
+  children: React.ReactNode;
 }
 
 const GraphDataContextProvider: React.FC<ProviderProps> = ({ children }) => {
@@ -109,6 +122,7 @@ const GraphDataContextProvider: React.FC<ProviderProps> = ({ children }) => {
   const [requests, requestsDispatch] = MakeRequestReducer();
   const { createNode: createNodeInBackend } = useCreateNode();
   const { createEdge: createLinkInBackend } = useCreateEdge();
+  let localGraphDataEditor: LocalGraphDataEditor | undefined = undefined;
   const editGraph: EditGraph = {
     requests,
     requestsDispatch,
@@ -118,6 +132,7 @@ const GraphDataContextProvider: React.FC<ProviderProps> = ({ children }) => {
     setLinks,
     createNodeInBackend,
     createLinkInBackend,
+    localGraphDataEditor,
   };
 
   return (
@@ -128,6 +143,9 @@ const GraphDataContextProvider: React.FC<ProviderProps> = ({ children }) => {
         createNode: getCreateNodeAction(editGraph),
         createLink: getCreateLinkAction(editGraph),
         submitVote: () => {},
+        setLocalGraphDataEditor: (editor: LocalGraphDataEditor) => {
+          localGraphDataEditor = editor;
+        },
       }}
     >
       {children}

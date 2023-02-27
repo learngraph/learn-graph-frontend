@@ -14,18 +14,15 @@ jest.mock("./GraphManager/hooks/useCreateEdge");
  *
  * @see https://testing-library.com/docs/react-testing-library/setup#custom-render
  */
-const customRender = (ui, { providerProps, ...renderOptions } = {}) => {
-  return render(
-    <GraphDataContextProvider {...providerProps}>
-      {ui}
-    </GraphDataContextProvider>,
-    renderOptions
-  );
+const customRender = (ui: any) => {
+  // XXX(skep): unused additional arguments commented out, ok? @j
+  // { providerProps, ...renderOptions }: { providerProps?: any } = {}
+  return render(<GraphDataContextProvider>{ui}</GraphDataContextProvider>);
 };
 
 const TestConsumer = () => {
   const { createNode, createLink, requests } = useGraphDataContext();
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<any>(null);
   const onNodeCreation = () =>
     createNode({
       description: {
@@ -43,7 +40,7 @@ const TestConsumer = () => {
     try {
       await createLink({
         from: id,
-        to: String(Date.now()),
+        to: String(Date.now()), // XXX(skep): @j: why randomness in tests?!
         weight: 0.2,
       });
     } catch (e) {
@@ -64,7 +61,7 @@ const TestConsumer = () => {
   );
 };
 
-describe("graphDataContext", () => {
+describe("GraphDataContext", () => {
   it("should queue a node creation request, and toggle loading states when the request updates stuff", async () => {
     customRender(<TestConsumer />);
     // byTestId should be the last choice when testing real components,
@@ -86,6 +83,49 @@ describe("graphDataContext", () => {
 
     const error = await screen.findByTestId("error");
     expect(error).not.toBeNull();
+  });
+
+  describe("assign graph data edit function", () => {
+    it("should find assign the passed function inside GraphDataCtx & use it for node creation", async () => {
+      const TestAssignGraphDataEditFunction = () => {
+        const { setLocalGraphDataEditor, createNode } = useGraphDataContext();
+        const onNodeCreation = () =>
+          createNode({
+            description: {
+              translations: [
+                {
+                  language: "en",
+                  content: "1",
+                },
+              ],
+            },
+          });
+        let testvalue = 0;
+        setLocalGraphDataEditor({
+          setSelectedGraphDataset: () => {
+            testvalue = 1;
+          },
+        });
+        return (
+          <div>
+            <div data-testid="testvalue">testvalue={testvalue}</div>;
+            <button data-testid="triggerNodeCreation" onClick={onNodeCreation}>
+              click me!
+            </button>
+          </div>
+        );
+      };
+      customRender(<TestAssignGraphDataEditFunction />);
+      expect(screen.queryByTestId("testvalue")?.textContent).toEqual(
+        "testvalue=0"
+      );
+      // TODO(skep): enable once createNode uses the localGraphDataEditor
+      //const nodeButton = await screen.findByTestId("triggerNodeCreation");
+      //fireEvent.click(nodeButton);
+      //expect(screen.queryByTestId("testvalue")?.textContent).toEqual(
+      //  "testvalue=1"
+      //);
+    });
   });
 });
 
