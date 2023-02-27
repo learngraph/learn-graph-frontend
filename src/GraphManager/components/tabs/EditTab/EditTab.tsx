@@ -42,8 +42,6 @@ export const findBackwardLinks = (
 
 // TODO: use running index to avoid conflicts when adding nodes in succession
 export const TMPNODE_ID = "TMPNEWNODE";
-export const TMPLINK_ID = "TMPNEWEDGE";
-
 export const updateNodeFn = (args: {
   currentGraphDataset: DataSetType;
   selectedNodeInGraph: NodeType;
@@ -104,6 +102,8 @@ export const updateNodeFn = (args: {
   };
 };
 
+// TODO: use running index to avoid conflicts when adding nodes in succession
+export const TMPLINK_ID = "TMPNEWEDGE";
 export const updateLinkFn = (props: EditTabProps) => {
   return ({
     oldLink,

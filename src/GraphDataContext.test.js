@@ -88,3 +88,10 @@ describe("graphDataContext", () => {
     expect(error).not.toBeNull();
   });
 });
+
+describe("makeRequestReducer", () => {
+  it("should do something", () => {
+    //const [requests, requestsDispatch] = MakeRequestReducer();
+    // TODO(j): clarify what it should do by writing tests
+  });
+});

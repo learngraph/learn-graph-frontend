@@ -66,8 +66,6 @@ export interface RequestData {
 // An interface for our state
 interface RequestState extends Array<RequestData> {}
 
-// XXX(skep): functionality is unclear, please delete or clarify usage via
-// tests
 const pendingReducer = (state: RequestState, action: RequestData) => {
   const { type, ...payload } = action;
   switch (type) {
@@ -80,6 +78,9 @@ const pendingReducer = (state: RequestState, action: RequestData) => {
     default:
       throw new Error();
   }
+};
+const MakeRequestReducer = () => {
+  return React.useReducer(pendingReducer, []);
 };
 
 export const getRequestId = () => {
@@ -105,11 +106,9 @@ export interface EditGraph {
 const GraphDataContextProvider: React.FC<ProviderProps> = ({ children }) => {
   const [nodes, setNodes] = React.useState<TranslatedNode[]>([]);
   const [links, setLinks] = React.useState<LinkType[]>([]);
-  const [requests, requestsDispatch] = React.useReducer(pendingReducer, []);
-
+  const [requests, requestsDispatch] = MakeRequestReducer();
   const { createNode: createNodeInBackend } = useCreateNode();
   const { createEdge: createLinkInBackend } = useCreateEdge();
-
   const editGraph: EditGraph = {
     requests,
     requestsDispatch,

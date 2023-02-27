@@ -1,4 +1,7 @@
-import { CreateNodeFnResponse } from "./GraphManager/hooks/useCreateNode";
+import {
+  //CreateNodeFn,
+  CreateNodeFnResponse,
+} from "./GraphManager/hooks/useCreateNode";
 import { Text } from "./GraphManager/hooks/types";
 import {
   getRequestId,
@@ -6,6 +9,74 @@ import {
   EditGraph,
 } from "./GraphDataContext";
 import { CreateEdgeFnResponse } from "./GraphManager/hooks/useCreateEdge";
+
+//import { DataSetType, GraphData, NodeType } from "./GraphManager/types";
+//import {
+//  createNode,
+//  updateNode,
+//} from "./GraphManager/components/tabs/EditTab/utilities/editNode"; // TODO(skep): move editNode content here, once migration to GraphDataContext is done
+//
+//// TODO: use running index to avoid conflicts when adding nodes in succession
+//export const TMPNODE_ID = "TMPNEWNODE";
+//export const updateNodeFn = (args: {
+//  currentGraphDataset: DataSetType;
+//  selectedNodeInGraph: NodeType;
+//  createNodeInBackend: CreateNodeFn;
+//  setSelectedNodeDescription: (description: string) => void;
+//  updateDisplayedGraph: (value: DataSetType) => void;
+//}) => {
+//  return ({
+//    node,
+//    isNewNode,
+//  }: {
+//    isNewNode: boolean;
+//    node: NodeType;
+//  }): Promise<void> => {
+//    return new Promise<void>((resolve, reject) => {
+//      const { dataSetName } = args.currentGraphDataset;
+//      let newGraph: GraphData | undefined = undefined;
+//      if (isNewNode) {
+//        newGraph = createNode({
+//          graph: args.currentGraphDataset.data,
+//          newNode: { ...node, id: TMPNODE_ID },
+//        });
+//        args
+//          .createNodeInBackend({
+//            description: {
+//              translations: [
+//                {
+//                  language: "en" /*TODO(skep): use language header*/,
+//                  content: node.description,
+//                },
+//              ],
+//            },
+//          })
+//          .then((rsp: CreateNodeFnResponse) => {
+//            if (!rsp.data) {
+//              reject("empty response from backend");
+//              return;
+//            }
+//            const newNewGraph = updateNode({
+//              graph: args.currentGraphDataset.data,
+//              newNode: { ...node, id: rsp.data?.createNode.ID },
+//              selectedNode: { ...node, id: TMPNODE_ID },
+//            });
+//            args.updateDisplayedGraph({ dataSetName, data: newNewGraph });
+//            resolve();
+//          });
+//      } else {
+//        newGraph = updateNode({
+//          graph: args.currentGraphDataset.data,
+//          newNode: node,
+//          selectedNode: args.selectedNodeInGraph,
+//        });
+//        resolve();
+//      }
+//      args.setSelectedNodeDescription(node.description);
+//      args.updateDisplayedGraph({ dataSetName, data: newGraph });
+//    });
+//  };
+//};
 
 export function getCreateNodeAction(graph: EditGraph) {
   return (argument: { description: Text }) =>
