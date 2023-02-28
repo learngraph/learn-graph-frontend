@@ -3,10 +3,7 @@ import {
   CreateNodeFnResponse,
 } from "./GraphManager/hooks/useCreateNode";
 import { Text } from "./GraphManager/hooks/types";
-import {
-  pendingActionTypes,
-  EditGraph,
-} from "./GraphDataContext";
+import { pendingActionTypes, EditGraph } from "./GraphDataContext";
 import getRequestId from "./getRequestId";
 import { CreateEdgeFnResponse } from "./GraphManager/hooks/useCreateEdge";
 
@@ -156,7 +153,7 @@ export function getCreateLinkAction(graph: EditGraph) {
         },
       ]);
 
-      let responseID: string | undefined
+      let responseID: string | undefined;
       try {
         const response = await graph.createLinkInBackend(argument);
         if (!response.data) {
@@ -166,7 +163,7 @@ export function getCreateLinkAction(graph: EditGraph) {
           (node) => node.id !== requestId
         );
 
-        responseID = response.data.createEdge.ID
+        responseID = response.data.createEdge.ID;
 
         graph.setLinks([
           ...linksWithoutTempNode,
@@ -188,8 +185,8 @@ export function getCreateLinkAction(graph: EditGraph) {
         });
       }
 
-      if(responseID === undefined) {
-        reject('Didnt receive new link ID from the backend!')
+      if (responseID === undefined) {
+        reject("Didnt receive new link ID from the backend!");
         return;
       }
       resolve({ data: { createEdge: { ID: responseID } } });
