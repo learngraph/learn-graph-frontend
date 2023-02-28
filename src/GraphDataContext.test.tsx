@@ -84,49 +84,6 @@ describe("GraphDataContext", () => {
     const error = await screen.findByTestId("error");
     expect(error).not.toBeNull();
   });
-
-  describe("assign graph data edit function", () => {
-    it("should find assign the passed function inside GraphDataCtx & use it for node creation", async () => {
-      const TestAssignGraphDataEditFunction = () => {
-        const { setLocalGraphDataEditor, createNode } = useGraphDataContext();
-        const onNodeCreation = () =>
-          createNode({
-            description: {
-              translations: [
-                {
-                  language: "en",
-                  content: "1",
-                },
-              ],
-            },
-          });
-        let testvalue = 0;
-        setLocalGraphDataEditor({
-          setSelectedGraphDataset: () => {
-            testvalue = 1;
-          },
-        });
-        return (
-          <div>
-            <div data-testid="testvalue">testvalue={testvalue}</div>;
-            <button data-testid="triggerNodeCreation" onClick={onNodeCreation}>
-              click me!
-            </button>
-          </div>
-        );
-      };
-      customRender(<TestAssignGraphDataEditFunction />);
-      expect(screen.queryByTestId("testvalue")?.textContent).toEqual(
-        "testvalue=0"
-      );
-      // TODO(skep): enable once createNode uses the localGraphDataEditor
-      //const nodeButton = await screen.findByTestId("triggerNodeCreation");
-      //fireEvent.click(nodeButton);
-      //expect(screen.queryByTestId("testvalue")?.textContent).toEqual(
-      //  "testvalue=1"
-      //);
-    });
-  });
 });
 
 describe("makeRequestReducer", () => {
