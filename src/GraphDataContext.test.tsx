@@ -131,7 +131,7 @@ describe("GraphDataContext", () => {
 
 describe("makeRequestReducer", () => {
   it("should do something", () => {
-    //const [requests, requestsDispatch] = MakeRequestReducer();
+      // pendingReducer({state,});
     // TODO(j): clarify what it should do by writing tests
   });
 });

@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
-import Paper from "@mui/material/Paper";
-import Grid from "@mui/material/Grid";
-import Fab from "@mui/material/Fab";
+import { Paper, Grid, Fab } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import { Box } from "@mui/material";
@@ -54,7 +52,7 @@ export const GraphManager = ({
   //const { graph, requests } = useGraphDataContext();
 
   return (
-    <>
+    <Box sx={{boxSizing:'border-box'}}>
       <Box sx={{ display: "grid", gridTemplateColumns: "1fr 2fr" }}>
         <Fab
           color="primary"
@@ -69,9 +67,9 @@ export const GraphManager = ({
           }}
         />
       </Box>
-      <Box sx={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)" }}>
+      <Box >
         {isMenuVisible && (
-          <>
+          <Box sx={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", position: 'absolute' }}>
             <Grid container spacing={3} justifyContent="flex-end">
               <Grid item xs>
                 <Paper>
@@ -90,7 +88,7 @@ export const GraphManager = ({
                 </Paper>
               </Grid>
             </Grid>
-          </>
+          </Box>
         )}
         <VoteDialog
           isDialogOpen={isVoteDialogOpen}
@@ -102,6 +100,6 @@ export const GraphManager = ({
           openVoteDialog={openVoteDialog}
         />
       </Box>
-    </>
+    </Box>
   );
 };

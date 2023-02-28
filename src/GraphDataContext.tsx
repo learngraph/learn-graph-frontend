@@ -74,7 +74,7 @@ export interface RequestData {
 // An interface for our state
 interface RequestState extends Array<RequestData> {}
 
-const pendingReducer = (state: RequestState, action: RequestData) => {
+export const pendingReducer = (state: RequestState, action: RequestData) => {
   const { type, ...payload } = action;
   switch (type) {
     case pendingActionTypes.CREATE_NODE_WITH_TEMP_ID:
@@ -89,10 +89,6 @@ const pendingReducer = (state: RequestState, action: RequestData) => {
 };
 const MakeRequestReducer = () => {
   return React.useReducer(pendingReducer, []);
-};
-
-export const getRequestId = () => {
-  return String(Date.now());
 };
 
 const GraphDataContext =
