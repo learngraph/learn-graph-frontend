@@ -116,8 +116,14 @@ export function getCreateNodeAction(graph: EditGraph) {
     });
 }
 
+export interface NewLinkType {
+  from: string;
+  to: string;
+  weight: number;
+}
+
 export function getCreateLinkAction(graph: EditGraph) {
-  return (argument: { from: string; to: string; weight: number }) =>
+  return (argument: NewLinkType) =>
     new Promise<CreateEdgeFnResponse>(async (resolve, reject) => {
       // check if node exists or id is in requests
       if (

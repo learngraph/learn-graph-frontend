@@ -1,5 +1,5 @@
 import { EditGraph } from "./GraphDataContext";
-import { getCreateLinkAction } from "./GraphDataContextActions";
+import { getCreateLinkAction, NewLinkType } from "./GraphDataContextActions";
 //import { pendingActionTypes } from "./GraphDataContext";
 import { pendingActionTypes } from "./GraphDataContext";
 jest.mock("./getRequestId", () => () => "1");
@@ -18,7 +18,7 @@ describe("getCreateLinkAction", () => {
     };
   };
 
-  it("should successfully create a link with id='NEWID'", () => {
+  it("should successfully create a link with id='NEWID'", async () => {
     let editGraph: EditGraph = makeEditGraphMock();
     // backend shall return a new ID successfully
     editGraph.createLinkInBackend = (_) =>
@@ -30,7 +30,7 @@ describe("getCreateLinkAction", () => {
     });
   });
 
-  it("should successfully create a link with the ID we put in", () => {
+  it("should successfully create a link with the ID we put in", async () => {
     let editGraph: EditGraph = makeEditGraphMock();
     // backend shall return a new ID successfully
     editGraph.createLinkInBackend = (_) =>
@@ -42,7 +42,7 @@ describe("getCreateLinkAction", () => {
     });
   });
 
-  it("should store the new link with its id in the links state", () => {
+  it("should store the new link with its id in the links state", async () => {
     let editGraph: EditGraph = makeEditGraphMock();
     const linksEntry1 = {
       source: "123",
@@ -57,7 +57,7 @@ describe("getCreateLinkAction", () => {
     let createLink = getCreateLinkAction(editGraph);
     let p = createLink({ from: "A", to: "B", weight: 2 });
 
-    return p.then((value) => {
+    return p.then(() => {
       // @ts-ignore
       const calls = editGraph.setLinks.mock.calls;
       expect(calls.length).toBe(2);
@@ -85,48 +85,37 @@ describe("getCreateLinkAction", () => {
     });
   });
 
-  it("should fail if it tries to create a link to a node that doesnt exist yet", () => {
-    let editGraph: EditGraph = makeEditGraphMock();
-    editGraph.requests = [
-      {
-        type: pendingActionTypes.CREATE_NODE_WITH_TEMP_ID,
-        id: "NODE_BEING_CREATED",
-      },
-    ];
-    let createLink = getCreateLinkAction(editGraph);
-    let p = createLink({ from: "NODE_BEING_CREATED", to: "B", weight: 2 });
-    return expect(p).rejects.toEqual(
-      new Error(
-        "Trying to create a link to a Node that hasn't been created yet!"
-      )
-    );
-  });
+  it.each([
+    ["from", { from: "NODE_BEING_CREATED", to: "B", weight: 2 }],
+    ["to", { from: "A", to: "NODE_BEING_CREATED", weight: 2 }],
+  ])(
+    "should fail if it tries to create a link %p a node that doesnt exist yet (link:%p)",
+    (_: string, link: NewLinkType) => {
+      let editGraph: EditGraph = makeEditGraphMock();
+      editGraph.requests = [
+        {
+          type: pendingActionTypes.CREATE_NODE_WITH_TEMP_ID,
+          id: "NODE_BEING_CREATED",
+        },
+      ];
+      let createLink = getCreateLinkAction(editGraph);
+      let p = createLink(link);
+      return expect(p).rejects.toEqual(
+        new Error(
+          "Trying to create a link to a Node that hasn't been created yet!"
+        )
+      );
+    }
+  );
 
-  it("should fail if it tries to create a link from a node that doesnt exist yet", () => {
-    let editGraph: EditGraph = makeEditGraphMock();
-    editGraph.requests = [
-      {
-        type: pendingActionTypes.CREATE_NODE_WITH_TEMP_ID,
-        id: "NODE_BEING_CREATED",
-      },
-    ];
-    let createLink = getCreateLinkAction(editGraph);
-    let p = createLink({ from: "A", to: "NODE_BEING_CREATED", weight: 2 });
-    return expect(p).rejects.toEqual(
-      new Error(
-        "Trying to create a link to a Node that hasn't been created yet!"
-      )
-    );
-  });
-
-  it("should queue and delete pending request in a successful call", () => {
+  it("should queue and delete pending request in a successful call", async () => {
     let editGraph: EditGraph = makeEditGraphMock();
     editGraph.createLinkInBackend = (_) =>
       Promise.resolve({ data: { createEdge: { ID: "NEWID" } } });
     let createLink = getCreateLinkAction(editGraph);
     const p = createLink({ from: "A", to: "B", weight: 2 });
 
-    return p.then((value) => {
+    return p.then(() => {
       // @ts-ignore
       const calls = editGraph.requestsDispatch.mock.calls;
       expect(calls.length).toBe(2);
@@ -187,4 +176,4 @@ describe("getCreateLinkAction", () => {
   });
 });
 
-// TODO(skep): test all them branches
+// TODO(skep): test getCreateNodeAction
