@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import { render, screen } from "@testing-library/react";
-import { GraphRenderer } from "./GraphRenderer";
+import { GraphRenderer, onLinkClickFn } from "./GraphRenderer";
 
 //import { useQuery } from "@apollo/client";
 import "@testing-library/jest-dom";
@@ -36,5 +36,29 @@ describe("GraphRenderer", () => {
     expect(
       screen.getByText("test-graph", { exact: false }).textContent
     ).toContain("Number Theory");
+  });
+});
+
+describe("onLinkClickFn", () => {
+  it("should call openVoteDialog with link info", () => {
+    const props = {
+      openVoteDialog: jest.fn(),
+      selectedGraphDataset: { dataSetName: "", data: { nodes: [], links: [] } },
+    };
+    const onLinkClick = onLinkClickFn(props);
+    const link = {
+      source: "A",
+      target: "B",
+      value: 1337,
+      id: "C",
+    };
+    onLinkClick(link);
+    expect(props.openVoteDialog.mock.calls.length).toEqual(1);
+    expect(props.openVoteDialog.mock.calls[0][0]).toEqual({
+      linkID: link.id,
+      sourceNode: link.source,
+      targetNode: link.target,
+      weight: link.value,
+    });
   });
 });
