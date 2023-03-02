@@ -2,7 +2,11 @@
  * @jest-environment jsdom
  */
 import { render, screen } from "@testing-library/react";
-import { GraphRenderer, onLinkClickFn } from "./GraphRenderer";
+import {
+  GraphRenderer,
+  nodeCanvasObject,
+  onLinkClickFn,
+} from "./GraphRenderer";
 
 //import { useQuery } from "@apollo/client";
 import "@testing-library/jest-dom";
@@ -60,5 +64,41 @@ describe("onLinkClickFn", () => {
       targetNode: link.target,
       weight: link.value,
     });
+  });
+});
+
+describe("nodeCanvasObject", () => {
+  it("[SNAPSHOT test] should have reasonable font size and background dimensions", () => {
+    const node = {
+      id: "A",
+      description: "B",
+      x: 5,
+      y: 6,
+    };
+    //const ctx = jest.fn<typeof CanvasRenderingContext2D>();
+    const ctx = {
+      fillStyle: "",
+      fillRect: jest.fn(),
+      fillText: jest.fn(),
+      measureText: jest.fn(),
+      textAlign: "",
+      textBaseline: "",
+      font: "",
+    };
+    ctx.measureText.mockReturnValue({ width: 100 });
+    const scale = 1;
+    // @ts-ignore
+    nodeCanvasObject(node, ctx, scale);
+    expect(ctx.font).toEqual("22px Sans-Serif");
+    expect(ctx.textAlign).toEqual("center");
+    expect(ctx.textBaseline).toEqual("middle");
+    expect(ctx.fillStyle).toEqual("#000");
+    // TODO(skep): test fillStyle for the first fillRect() call
+    expect(ctx.fillRect.mock.calls.length).toBe(1);
+    expect(ctx.fillRect.mock.calls[0]).toEqual([
+      -47.2, -7.199999999999999, 104.4, 26.4,
+    ]);
+    expect(ctx.fillText.mock.calls.length).toBe(1);
+    expect(ctx.fillText.mock.calls[0]).toEqual(["B", 5, 6]);
   });
 });

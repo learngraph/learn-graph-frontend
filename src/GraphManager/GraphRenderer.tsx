@@ -11,27 +11,35 @@ export interface VoteDialogParams {
 export interface VoteDialogFn {
   (params: VoteDialogParams): void;
 }
+
 interface GraphRendererProps {
   selectedGraphDataset: DataSetType;
   openVoteDialog: VoteDialogFn;
 }
 
-const nodeCanvasObject = (
-  node: NodeObject,
-  ctx: CanvasRenderingContext2D,
-  globalScale: number
-) => {
-  // @ts-ignore: not sure what to do about this, see TODO below
-  const label = node.description ?? "";
-  const fontSize = 22 / globalScale;
-  ctx.font = `${fontSize}px Sans-Serif`;
-  const textWidth = ctx.measureText(String(node.id)).width;
-  const padding = 0.2;
-  const bckgDimensions = [textWidth, fontSize].map(
-    (n) => n + fontSize * padding
-  );
+interface Position {
+  x: number;
+  y: number;
+}
 
-  let [x, y] = [node.x ?? 0, node.y ?? 0];
+interface TextRender {
+  text: string;
+  fontSize: number;
+}
+
+// utility functions
+function drawTextWithBackground(
+  text: TextRender,
+  ctx: CanvasRenderingContext2D,
+  position: Partial<Position>
+) {
+  ctx.font = `${text.fontSize}px ${config.font}`;
+  const textWidth = ctx.measureText(text.text).width;
+  const padding = 0.2;
+  const bckgDimensions = [textWidth, text.fontSize].map(
+    (n) => n + text.fontSize * padding
+  );
+  let [x, y] = [position.x ?? 0, position.y ?? 0];
   ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
   ctx.fillRect(
     x - bckgDimensions[0] / 2,
@@ -39,12 +47,39 @@ const nodeCanvasObject = (
     bckgDimensions[0],
     bckgDimensions[1]
   );
-
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.fillStyle = "#000";
-  ctx.fillText(String(label), x, y);
+  ctx.fillText(text.text, x, y);
+}
+
+// node render & interaction
+export const nodeCanvasObject = (
+  nodeForceGraph: NodeObject,
+  ctx: CanvasRenderingContext2D,
+  globalScale: number
+) => {
+  // @ts-ignore: not sure what to do about this, see TODO below
+  const node: NodeType & NodeObject = nodeForceGraph;
+  const label = node.description ?? "";
+  const pos = { x: node.x, y: node.y };
+  drawTextWithBackground(
+    { text: label, fontSize: config.fontSize / globalScale },
+    ctx,
+    pos
+  );
 };
+
+const onNodeClick = (params: NodeObject): void => {
+  console.log("clicked", params);
+};
+
+// link render & interaction
+export const linkCanvasObject = (
+  link: LinkObject,
+  ctx: CanvasRenderingContext2D,
+  globalScale: number
+) => {};
 
 export const onLinkClickFn = (props: GraphRendererProps) => {
   return (params: LinkObject) => {
@@ -54,7 +89,7 @@ export const onLinkClickFn = (props: GraphRendererProps) => {
     // ForceGraph2D.LinkObject , but we type-cast our types to the force
     // graph types. Here we access our copied objects, but the type is
     // obviously the ForceGraph2D type.
-    let link: LinkType = params;
+    let link: LinkType & LinkObject = params;
     props.openVoteDialog({
       linkID: link.id,
       // @ts-ignore: see above
@@ -66,17 +101,17 @@ export const onLinkClickFn = (props: GraphRendererProps) => {
   };
 };
 
+const onLinkHover = (params: LinkObject | null): void => {
+  console.log("linkHov", params);
+};
+
+// global configuration
 const config = {
   linkDirectionalArrowLength: 7,
   linkDirectionalArrowRelPos: 0.75,
-};
-
-const onNodeClick = (params: NodeObject): void => {
-  console.log("clicked", params);
-};
-
-const onLinkHover = (params: LinkObject | null): void => {
-  console.log("linkHov", params);
+  linkCanvasObjectMode: "after",
+  fontSize: 22,
+  font: "Sans-Serif",
 };
 
 export const GraphRenderer = (props: GraphRendererProps) => {
@@ -93,7 +128,8 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       nodeCanvasObject={nodeCanvasObject}
       linkDirectionalArrowLength={config.linkDirectionalArrowLength}
       linkDirectionalArrowRelPos={config.linkDirectionalArrowRelPos}
-      linkCanvasObjectMode={() => "after"}
+      linkCanvasObjectMode={config.linkCanvasObjectMode}
+      linkCanvasObject={linkCanvasObject}
     />
   );
 };
