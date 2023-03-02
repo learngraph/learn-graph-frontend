@@ -53,6 +53,21 @@ function drawTextWithBackground(
   ctx.fillText(text.text, x, y);
 }
 
+function linkDescriptionPosition(link: LinkType & LinkObject) {
+  return Object.assign(
+    // @ts-ignore
+    ...["x", "y"].map((c) => ({
+      // @ts-ignore
+      [c]:
+        // @ts-ignore
+        link.source[c] +
+        // @ts-ignore
+        (link.target[c] - link.source[c]) *
+          (config.linkDirectionalArrowRelPos - 0.1),
+    }))
+  );
+}
+
 // node render & interaction
 export const nodeCanvasObject = (
   nodeForceGraph: NodeObject,
@@ -62,11 +77,10 @@ export const nodeCanvasObject = (
   // @ts-ignore: not sure what to do about this, see TODO below
   const node: NodeType & NodeObject = nodeForceGraph;
   const label = node.description ?? "";
-  const pos = { x: node.x, y: node.y };
   drawTextWithBackground(
     { text: label, fontSize: config.fontSize / globalScale },
     ctx,
-    pos
+    { x: node.x, y: node.y }
   );
 };
 
@@ -76,10 +90,25 @@ const onNodeClick = (params: NodeObject): void => {
 
 // link render & interaction
 export const linkCanvasObject = (
-  link: LinkObject,
+  linkForceGraph: LinkObject,
   ctx: CanvasRenderingContext2D,
   globalScale: number
-) => {};
+) => {
+  // @ts-ignore
+  const link: LinkType & LinkObject = linkForceGraph;
+
+  // ignore unbound links
+  if (typeof link.source !== "object" || typeof link.target !== "object")
+    return;
+
+  const pos = linkDescriptionPosition(link);
+
+  drawTextWithBackground(
+    { text: String(link.value), fontSize: config.fontSize / globalScale },
+    ctx,
+    pos
+  );
+};
 
 export const onLinkClickFn = (props: GraphRendererProps) => {
   return (params: LinkObject) => {
@@ -102,7 +131,7 @@ export const onLinkClickFn = (props: GraphRendererProps) => {
 };
 
 const onLinkHover = (params: LinkObject | null): void => {
-  console.log("linkHov", params);
+  //console.log("linkHov", params);
 };
 
 // global configuration
@@ -121,14 +150,20 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       // Note: all data must be copied, since force graph changes Link "source"
       // and "target" fields to directly contain the referred node objects
       graphData={JSON.parse(JSON.stringify(props.selectedGraphDataset.data))}
+      // nodes:
       nodeAutoColorBy={"group"}
       onNodeClick={onNodeClick}
+      nodeCanvasObject={nodeCanvasObject}
+      // links:
       onLinkHover={onLinkHover}
       onLinkClick={onLinkClick}
-      nodeCanvasObject={nodeCanvasObject}
       linkDirectionalArrowLength={config.linkDirectionalArrowLength}
       linkDirectionalArrowRelPos={config.linkDirectionalArrowRelPos}
-      linkCanvasObjectMode={config.linkCanvasObjectMode}
+      // XXX: linkCanvasObjectMode should just be a string, but due to a bug in
+      // force-graph it must be passed as function, otherwise linkCanvasObject
+      // is never called. -> remove after force-graph module update
+      // @ts-ignore
+      linkCanvasObjectMode={() => config.linkCanvasObjectMode}
       linkCanvasObject={linkCanvasObject}
     />
   );
