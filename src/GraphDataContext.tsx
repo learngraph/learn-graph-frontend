@@ -21,7 +21,7 @@ export interface TranslatedNode {
   group?: number;
 }
 
-interface TranslatedGraphData {
+export interface TranslatedGraphData {
   nodes: TranslatedNode[];
   links: LinkType[];
 }
@@ -34,6 +34,8 @@ interface GraphDataContextValues {
   //deleteNode: DeleteNodeFn;
   createLink: CreateEdgeFn;
   submitVote: SubmitVoteFn;
+  setNodes: React.Dispatch<React.SetStateAction<TranslatedNode[]>>;
+  setLinks: React.Dispatch<React.SetStateAction<LinkType[]>>;
 }
 
 const defaultContextValues = {
@@ -44,6 +46,12 @@ const defaultContextValues = {
   createLink: () =>
     Promise.reject({ error: "defaultContextValues must not be used" }),
   submitVote: () => {
+    throw new Error("defaultContextValues must not be used");
+  },
+  setLinks: () => {
+    throw new Error("defaultContextValues must not be used");
+  },
+  setNodes: () => {
     throw new Error("defaultContextValues must not be used");
   },
 };
@@ -126,6 +134,8 @@ const GraphDataContextProvider: React.FC<ProviderProps> = ({ children }) => {
         createNode: getCreateNodeAction(editGraph),
         createLink: getCreateLinkAction(editGraph),
         submitVote: () => {},
+        setLinks,
+        setNodes,
       }}
     >
       {children}

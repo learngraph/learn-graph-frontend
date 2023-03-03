@@ -1,5 +1,6 @@
 import ForceGraph2D, { LinkObject } from "react-force-graph-2d";
-import { DataSetType, LinkType, NodeType } from "./types";
+import { TranslatedGraphData, useGraphDataContext } from "src/GraphDataContext";
+import { getTranslation } from "./utilities/getTranslation";
 
 export interface VoteDialogParams {
   linkID: string;
@@ -8,23 +9,58 @@ export interface VoteDialogParams {
   weight: number;
 }
 
+export interface GraphData {
+  nodes: NodeType[];
+  links: LinkType[];
+}
+export interface LinkType {
+  source: string;
+  target: string;
+  value: number;
+  note?: string;
+  id: string;
+}
+
+export interface NodeType {
+  id: string;
+  description: string;
+  group?: number;
+}
 export interface VoteDialogFn {
   (params: VoteDialogParams): void;
 }
 interface GraphRendererProps {
-  selectedGraphDataset: DataSetType;
   openVoteDialog: VoteDialogFn;
 }
 
-export const GraphRenderer = ({
-  selectedGraphDataset,
-  openVoteDialog,
-}: GraphRendererProps) => {
+const transformToRenderedType = ({
+  graph,
+}: {
+  graph: TranslatedGraphData;
+}): GraphData => {
+  const language = "en";
+  const transformedNodes = graph.nodes.map(({ id, description, group }) => {
+    return {
+      id,
+      description: getTranslation({ translatedField: description, language }),
+      group,
+    };
+  });
+  return {
+    links: graph.links,
+    nodes: transformedNodes,
+  };
+};
+
+export const GraphRenderer = ({ openVoteDialog }: GraphRendererProps) => {
+  const { graph } = useGraphDataContext();
+
+  const graphDataForRender = transformToRenderedType({ graph });
   return (
     <ForceGraph2D
       // Note: all data must be copied, since force graph changes Link "source"
       // and "target" fields to directly contain the referred node objects
-      graphData={JSON.parse(JSON.stringify(selectedGraphDataset.data))}
+      graphData={JSON.parse(JSON.stringify(graphDataForRender))}
       nodeAutoColorBy={"group"}
       onNodeClick={(params) => {
         console.log("clicked", params);

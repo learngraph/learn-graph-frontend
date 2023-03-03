@@ -12,7 +12,8 @@ import { DataSetType, GraphData } from "./types";
 import { GraphRenderer, VoteDialogParams } from "./GraphRenderer";
 import { sanitizeGraphData, sanitizeGraphDataset } from "./GraphUtil";
 import SearchAppBar from "./components/SearchAppBar";
-
+import { useGraphDataContext } from "src/GraphDataContext";
+import { getTranslation } from "./utilities/getTranslation";
 interface GraphManagerProps {
   datasets: DataSetType[];
   fetchedGraph: GraphData;
@@ -30,28 +31,64 @@ export const GraphManager = ({
     Partial<VoteDialogParams>
   >({});
 
-  const [selectedGraphDataset, setSelectedGraphDataset] = useState<DataSetType>(
-    sanitizeGraphDataset(datasets[0])
-  );
+  const { graph, setLinks, setNodes } = useGraphDataContext();
+
+  const [graphName, setGraphName] = useState<string>("");
+
+  const language = "en";
+  const currentGraphDataset: DataSetType = {
+    dataSetName: graphName,
+    data: {
+      links: graph.links,
+      nodes: graph.nodes.map(({ id, group, description }) => {
+        return {
+          id,
+          group,
+          description: getTranslation({
+            translatedField: description,
+            language,
+          }),
+        };
+      }),
+    },
+  };
 
   useEffect(() => {
     if (fetchedGraph) {
       const sanitizedDataset = sanitizeGraphData(fetchedGraph);
       console.log("setting retrieved graph!");
-      setSelectedGraphDataset(sanitizedDataset);
+      const pseudoTranslatedNodes = sanitizedDataset.data.nodes.map(
+        ({ description, ...rest }) => ({
+          description: {
+            translations: [{ content: description, language: "en" }],
+          },
+          ...rest,
+        })
+      );
+      setLinks(sanitizedDataset.data.links);
+      setNodes(pseudoTranslatedNodes);
     }
-  }, [queryResponse.loading, fetchedGraph]);
+  }, [queryResponse.loading, fetchedGraph, setLinks, setNodes]);
 
   const handleDatasetChange = (dataset: DataSetType) => {
-    setSelectedGraphDataset(sanitizeGraphDataset(dataset));
+    const sanitizedDataset = sanitizeGraphDataset(dataset);
+    setGraphName(dataset.dataSetName);
+    const pseudoTranslatedNodes = sanitizedDataset.data.nodes.map(
+      ({ description, ...rest }) => ({
+        description: {
+          translations: [{ content: description, language: "en" }],
+        },
+        ...rest,
+      })
+    );
+    setLinks(sanitizedDataset.data.links);
+    setNodes(pseudoTranslatedNodes);
   };
 
   const openVoteDialog = (params: VoteDialogParams): void => {
     setIsVoteDialogOpen(true);
     setVoteDialogInput(params);
   };
-
-  //const { graph, requests } = useGraphDataContext();
 
   return (
     <>
@@ -77,7 +114,7 @@ export const GraphManager = ({
                 <Paper>
                   <GraphManagementMenu
                     updateDisplayedGraph={handleDatasetChange}
-                    currentGraphDataset={selectedGraphDataset}
+                    currentGraphDataset={currentGraphDataset}
                   />
                 </Paper>
               </Grid>
@@ -97,10 +134,7 @@ export const GraphManager = ({
           setDialogOpen={setIsVoteDialogOpen}
           linkInfo={voteDialogInput}
         />
-        <GraphRenderer
-          selectedGraphDataset={selectedGraphDataset}
-          openVoteDialog={openVoteDialog}
-        />
+        <GraphRenderer openVoteDialog={openVoteDialog} />
       </Box>
     </>
   );
