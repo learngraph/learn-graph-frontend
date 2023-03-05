@@ -1,30 +1,12 @@
 import ForceGraph2D, { LinkObject } from "react-force-graph-2d";
 import { TranslatedGraphData, useGraphDataContext } from "src/GraphDataContext";
 import { getTranslation } from "./utilities/getTranslation";
-
+import { GraphData, LinkType, NodeType } from "./types"; 
 export interface VoteDialogParams {
   linkID: string;
   sourceNode: NodeType;
   targetNode: NodeType;
   weight: number;
-}
-
-export interface GraphData {
-  nodes: NodeType[];
-  links: LinkType[];
-}
-export interface LinkType {
-  source: string;
-  target: string;
-  value: number;
-  note?: string;
-  id: string;
-}
-
-export interface NodeType {
-  id: string;
-  description: string;
-  group?: number;
 }
 export interface VoteDialogFn {
   (params: VoteDialogParams): void;
@@ -38,6 +20,7 @@ const transformToRenderedType = ({
 }: {
   graph: TranslatedGraphData;
 }): GraphData => {
+  // TODO: use language context
   const language = "en";
   const transformedNodes = graph.nodes.map(({ id, description, group }) => {
     return {
