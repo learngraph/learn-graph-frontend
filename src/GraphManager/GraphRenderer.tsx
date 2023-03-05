@@ -1,7 +1,7 @@
 import ForceGraph2D, { LinkObject } from "react-force-graph-2d";
 import { TranslatedGraphData, useGraphDataContext } from "src/GraphDataContext";
 import { getTranslation } from "./utilities/getTranslation";
-import { GraphData, LinkType, NodeType } from "./types"; 
+import { GraphData, LinkType, NodeType } from "./types";
 export interface VoteDialogParams {
   linkID: string;
   sourceNode: NodeType;
