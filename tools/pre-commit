@@ -1,4 +1,13 @@
 #!/usr/bin/bash
+(
+  # subshell, since exit status is != 0 if changes need to be made
+  yarn run prettier -l . > .tmp-commit
+)
 yarn fmt
+formatted_files=$(grep '^src/' .tmp-commit)
+rm .tmp-commit
+if [[ $(echo $formatted_files|wc -l) -gt 0 ]]; then
+  git add $formatted_files
+fi
 yarn lint
 yarn test

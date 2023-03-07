@@ -14,10 +14,9 @@ jest.mock("./components/EditLinksMenu");
 jest.mock("./utilities/editNode");
 
 describe("EditTab", () => {
-
   const makeMocks = () => {
     let updateDisplayedGraph = jest.fn();
-    let createNode = jest.fn()
+    let createNode = jest.fn();
     let setSelectedNodeDescription = jest.fn();
     let graphDataset = {
       dataSetName: "test",
@@ -30,9 +29,9 @@ describe("EditTab", () => {
       },
     };
     const newNode: NodeType = {
-      id: '1234',
-      description: 'test node'
-    }
+      id: "1234",
+      description: "test node",
+    };
     let props = {
       // ensure graph data is copied since we use this function in multiple tests
       currentGraphDataset: JSON.parse(JSON.stringify(graphDataset)),
@@ -46,9 +45,9 @@ describe("EditTab", () => {
       setSelectedNodeDescription,
       updateDisplayedGraph,
       createNode,
-    })
+    });
     return { updateDisplayedGraph, props, updateNode, createNode };
-  }
+  };
 
   it("should not crash on empty graph", () => {
     let [updateDisplayedGraph, createNode, createEdge] = [
@@ -73,35 +72,37 @@ describe("EditTab", () => {
     );
     expect(updateDisplayedGraph.mock.calls.length).toBe(0);
   });
-  it('should call createNode from props when updating node with no old node', () => {
+  it("should call createNode from props when updating node with no old node", () => {
     let { updateDisplayedGraph, props, updateNode } = makeMocks();
     const inputNode: NodeType = {
-      id: '1234',
-      description: 'testier node'
-    }
+      id: "1234",
+      description: "testier node",
+    };
     interface NodeToBeCreated {
-      description: Text
+      description: Text;
     }
     const outputNode: NodeToBeCreated = {
       description: {
         translations: [
           {
-            language: 'en',
-            content: inputNode.description
-          }
-        ]
-      }
-    }
+            language: "en",
+            content: inputNode.description,
+          },
+        ],
+      },
+    };
     updateNode({
       isNewNode: true,
       node: inputNode,
-    })
-    const calls = props.createNode.mock.calls
-    expect(calls.length).toBe(1)
-    expect(calls[0][0]).toEqual(outputNode)
+    });
+    const calls = props.createNode.mock.calls;
+    expect(calls.length).toBe(1);
+    expect(calls[0][0]).toEqual(outputNode);
     expect(updateDisplayedGraph.mock.calls.length).toBe(0);
-  })
-  it.todo('should call updateDisplayedGraph when updating node with an old node')
+  });
+  it.todo(
+    "should call updateDisplayedGraph when updating node with an old node"
+  );
 });
 
 describe("findForwardLinks", () => {
