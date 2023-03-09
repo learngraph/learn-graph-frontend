@@ -1,12 +1,18 @@
 services:
   frontend:
-    build: .
+    image: node:18.10.0
     ports:
-      - "80:80" # host-port:container-port
+      - "3000:3000" # map <host-port>:<container-port>
     networks:
       - learngraphnet
     environment:
-      REACT_APP_BACKEND_DN: "https://${FRONTEND_DN}/query"
+      REACT_APP_BACKEND_DN: "http://localhost:3000/query"
+    volumes:
+      - type: bind
+        source: ./
+        target: /src
+    working_dir: /src
+    command: yarn start
 networks:
   learngraphnet:
     name: learngraphnet
