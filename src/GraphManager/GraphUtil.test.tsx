@@ -1,5 +1,9 @@
 import { GraphData } from "./types";
-import { sanitizeGraphData } from "./GraphUtil";
+import {
+  sanitizeGraphData,
+  TransformFunctionInput,
+  transformGraphDataForDisplay,
+} from "./GraphUtil";
 
 describe("sanitizeGraphData", () => {
   it("should coalesce undefined data", () => {
@@ -81,5 +85,37 @@ describe("sanitizeGraphData", () => {
     expect(() => {
       sanitizeGraphData(inp);
     }).toThrow();
+  });
+});
+
+describe("transformGraphDataForDisplay", () => {
+  it("should transform a translated graph into a displayed graph", () => {
+    const input: TransformFunctionInput = {
+      language: "en",
+      graph: {
+        nodes: [
+          {
+            id: "1",
+            description: { translations: [{ language: "en", content: "A" }] },
+          },
+          {
+            id: "2",
+            description: { translations: [{ language: "en", content: "B" }] },
+          },
+        ],
+        links: [{ id: "l1", source: "1", target: "2", value: 1 }],
+      },
+    };
+
+    const expected: GraphData = {
+      links: input.graph.links,
+      nodes: [
+        { id: "1", description: "A" },
+        { id: "2", description: "B" },
+      ],
+    };
+
+    const actual = transformGraphDataForDisplay(input);
+    expect(actual).toEqual(expected);
   });
 });

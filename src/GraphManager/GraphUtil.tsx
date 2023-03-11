@@ -1,4 +1,6 @@
+import { TranslatedGraphData } from "src/GraphDataContext";
 import { NodeType, LinkType, DataSetType, GraphData } from "./types";
+import { getTranslation } from "./utilities/getTranslation";
 
 export const sanitizeGraphDataset = function (
   dataset: DataSetType
@@ -36,3 +38,25 @@ export const sanitizeGraphData = function (data: GraphData): DataSetType {
     data: { nodes: nodes, links: links },
   };
 };
+
+export interface TransformFunctionInput {
+  graph: TranslatedGraphData;
+  language: string;
+}
+
+export const transformGraphDataForDisplay = ({
+  graph,
+  language,
+}: TransformFunctionInput): GraphData => ({
+  links: graph.links,
+  nodes: graph.nodes.map(({ id, group, description }) => {
+    return {
+      id,
+      group,
+      description: getTranslation({
+        translatedField: description,
+        language,
+      }),
+    };
+  }),
+});

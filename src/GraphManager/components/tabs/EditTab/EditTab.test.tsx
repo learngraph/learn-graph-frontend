@@ -101,7 +101,7 @@ describe("EditTab", () => {
     expect(updateDisplayedGraph.mock.calls.length).toBe(0);
   });
   it.todo(
-    "should call updateDisplayedGraph when updating node with an old node"
+    "should call updateDisplayedGraph when updating node with an existing node"
   );
 });
 

@@ -10,7 +10,11 @@ import { Box } from "@mui/material";
 import { GraphFileList, GraphManagementMenu, VoteDialog } from "./components";
 import { DataSetType, GraphData } from "./types";
 import { GraphRenderer, VoteDialogParams } from "./GraphRenderer";
-import { sanitizeGraphData, sanitizeGraphDataset } from "./GraphUtil";
+import {
+  sanitizeGraphData,
+  sanitizeGraphDataset,
+  transformGraphDataForDisplay,
+} from "./GraphUtil";
 import SearchAppBar from "./components/SearchAppBar";
 import { useGraphDataContext } from "src/GraphDataContext";
 import { getTranslation } from "./utilities/getTranslation";
@@ -36,21 +40,15 @@ export const GraphManager = ({
   const [graphName, setGraphName] = useState<string>("");
 
   const language = "en";
+
+  const transformedGraphData = transformGraphDataForDisplay({
+    graph,
+    language,
+  });
+
   const currentGraphDataset: DataSetType = {
     dataSetName: graphName,
-    data: {
-      links: graph.links,
-      nodes: graph.nodes.map(({ id, group, description }) => {
-        return {
-          id,
-          group,
-          description: getTranslation({
-            translatedField: description,
-            language,
-          }),
-        };
-      }),
-    },
+    data: transformedGraphData,
   };
 
   useEffect(() => {
