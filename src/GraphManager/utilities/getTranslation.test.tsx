@@ -2,11 +2,11 @@ import { getTranslation } from "./getTranslation";
 import { Text } from "../hooks/types";
 
 describe("translation out of Text extractor", () => {
-  it("should get an empty string if the translation is not defined", () => {
+  it("should get an english warning if the translation is not defined", () => {
     const input: Text = {
       translations: [],
     };
-    const expected = "";
+    const expected = "Translation not found!";
     const output = getTranslation({ translatedField: input, language: "" });
     expect(output).toBe(expected);
   });

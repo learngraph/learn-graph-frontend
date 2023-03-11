@@ -8,4 +8,4 @@ export const getTranslation = ({
   language: string;
 }): string =>
   translatedField.translations.find((entry) => entry.language === language)
-    ?.content || "";
+    ?.content || "Translation not found!";

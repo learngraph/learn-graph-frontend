@@ -15,11 +15,7 @@ interface GraphRendererProps {
   openVoteDialog: VoteDialogFn;
 }
 
-const transformToRenderedType = ({
-  graph,
-}: {
-  graph: TranslatedGraphData;
-}): GraphData => {
+const transformToRenderedType = (graph: TranslatedGraphData): GraphData => {
   // TODO: use language context
   const language = "en";
   const transformedNodes = graph.nodes.map(({ id, description, group }) => {
@@ -38,7 +34,7 @@ const transformToRenderedType = ({
 export const GraphRenderer = ({ openVoteDialog }: GraphRendererProps) => {
   const { graph } = useGraphDataContext();
 
-  const graphDataForRender = transformToRenderedType({ graph });
+  const graphDataForRender = transformToRenderedType(graph);
   return (
     <ForceGraph2D
       // Note: all data must be copied, since force graph changes Link "source"

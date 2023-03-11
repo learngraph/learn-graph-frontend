@@ -18,6 +18,8 @@ describe("EditTab", () => {
     let updateDisplayedGraph = jest.fn();
     let createNode = jest.fn();
     let setSelectedNodeDescription = jest.fn();
+    let getGraphWithUpdatedNode = jest.fn(() => ({ nodes: [], links: [] }));
+    let createEdge = jest.fn();
     let graphDataset = {
       dataSetName: "test",
       data: {
@@ -37,7 +39,9 @@ describe("EditTab", () => {
       currentGraphDataset: JSON.parse(JSON.stringify(graphDataset)),
       updateDisplayedGraph,
       createNode,
-      createEdge: jest.fn(),
+      createEdge,
+      getGraphWithUpdatedNode,
+      selectedNode: newNode,
     };
     const updateNode = updateNodeFn({
       currentGraphDataset: graphDataset,
@@ -45,8 +49,9 @@ describe("EditTab", () => {
       setSelectedNodeDescription,
       updateDisplayedGraph,
       createNode,
+      getGraphWithUpdatedNode,
     });
-    return { updateDisplayedGraph, props, updateNode, createNode };
+    return { props, updateNode, createNode };
   };
 
   it("should not crash on empty graph", () => {
@@ -73,7 +78,7 @@ describe("EditTab", () => {
     expect(updateDisplayedGraph.mock.calls.length).toBe(0);
   });
   it("should call createNode from props when updating node with no old node", () => {
-    let { updateDisplayedGraph, props, updateNode } = makeMocks();
+    let { props, updateNode } = makeMocks();
     const inputNode: NodeType = {
       id: "1234",
       description: "testier node",
@@ -98,11 +103,39 @@ describe("EditTab", () => {
     const calls = props.createNode.mock.calls;
     expect(calls.length).toBe(1);
     expect(calls[0][0]).toEqual(outputNode);
-    expect(updateDisplayedGraph.mock.calls.length).toBe(0);
+    expect(props.updateDisplayedGraph.mock.calls.length).toBe(0);
   });
-  it.todo(
-    "should call updateDisplayedGraph when updating node with an existing node"
-  );
+  it("should call updateDisplayedGraph when updating node with an existing node", () => {
+    let { props, updateNode } = makeMocks();
+    const inputNode: NodeType = {
+      id: "1",
+      description: "testier node",
+    };
+    const expectedTransformCall = {
+      graph: props.currentGraphDataset.data,
+      newNode: inputNode,
+      selectedNode: props.selectedNode,
+    };
+    const expectedUpdateCall: DataSetType = {
+      dataSetName: "test",
+      data: {
+        nodes: [],
+        links: [],
+      },
+    };
+    updateNode({
+      isNewNode: false,
+      node: inputNode,
+    });
+    const transformCalls = props.getGraphWithUpdatedNode.mock.calls;
+    expect(transformCalls.length).toBe(1);
+    // @ts-ignore
+    expect(transformCalls[0][0]).toEqual(expectedTransformCall);
+    const updateCalls = props.updateDisplayedGraph.mock.calls;
+    expect(updateCalls.length).toBe(1);
+    expect(updateCalls[0][0]).toEqual(expectedUpdateCall);
+    expect(props.createNode.mock.calls.length).toBe(0);
+  });
 });
 
 describe("findForwardLinks", () => {
@@ -170,7 +203,7 @@ describe("findBackwardLinks", () => {
       )
     ).toEqual([]);
   });
-  it("should return an empty error, even if input is undefined", () => {
+  it("should return an empty array, even if input is undefined", () => {
     expect(
       findBackwardLinks(
         // @ts-ignore

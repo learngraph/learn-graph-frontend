@@ -1,4 +1,4 @@
-import { createNode, updateNode } from "./editNode";
+import { createNode, updateNodeInGraph } from "./editNode";
 
 describe("editNode", () => {
   it("should create a new node", () => {
@@ -23,7 +23,7 @@ describe("editNode", () => {
       links: [],
     };
     expect(
-      updateNode({
+      updateNodeInGraph({
         graph: graph,
         newNode: { id: "1", description: "BBB", group: 3 },
         selectedNode: graph.nodes[0],

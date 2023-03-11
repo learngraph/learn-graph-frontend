@@ -1,10 +1,12 @@
 import { GraphData, NodeType } from "../../../../types";
 
-export const updateNode = (args: {
+export interface updateNodeInGraphProps {
   graph: GraphData;
   newNode: NodeType;
   selectedNode: NodeType;
-}): GraphData => {
+}
+
+export const updateNodeInGraph = (args: updateNodeInGraphProps): GraphData => {
   // Update existing links to new node ID
   args.graph?.links?.forEach((link) => {
     if (link.target === args.selectedNode?.id) {

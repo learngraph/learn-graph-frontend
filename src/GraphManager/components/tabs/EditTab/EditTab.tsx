@@ -11,7 +11,10 @@ import {
 import { DataSetType, GraphData, LinkType, NodeType } from "GraphManager/types";
 import { EditNodeMenu } from "./components/EditNodeMenu";
 import { EditLinksMenu } from "./components/EditLinksMenu";
-import { updateNode } from "./utilities/editNode";
+import {
+  updateNodeInGraph,
+  updateNodeInGraphProps,
+} from "./utilities/editNode";
 import {
   CreateNodeFn,
   CreateNodeFnResponse,
@@ -50,6 +53,7 @@ export const updateNodeFn = (args: {
   setSelectedNodeDescription: (description: string) => void;
   updateDisplayedGraph: (value: DataSetType) => void;
   createNode: CreateNodeFn;
+  getGraphWithUpdatedNode: (args: updateNodeInGraphProps) => GraphData;
 }) => {
   return ({
     node,
@@ -70,9 +74,10 @@ export const updateNodeFn = (args: {
         },
       });
     } else {
+      // TODO: switch out once updateNode & backend call is available through the context as well
       return new Promise<void>((resolve, reject) => {
         const { dataSetName } = args.currentGraphDataset;
-        const newGraph = updateNode({
+        const newGraph = args.getGraphWithUpdatedNode({
           graph: args.currentGraphDataset.data,
           newNode: node,
           selectedNode: args.selectedNodeInGraph,
@@ -158,6 +163,7 @@ export const EditTab = (props: EditTabProps): JSX.Element => {
     setSelectedNodeDescription,
     updateDisplayedGraph: props.updateDisplayedGraph,
     createNode: props.createNode,
+    getGraphWithUpdatedNode: updateNodeInGraph,
   });
 
   const updateLink = updateLinkFn(props);
