@@ -13,6 +13,7 @@ import { GraphRenderer, VoteDialogParams } from "./GraphRenderer";
 import {
   sanitizeGraphData,
   sanitizeGraphDataset,
+  transformDisplayedNodesToPseudoTranslated,
   transformGraphDataForDisplay,
 } from "./GraphUtil";
 import SearchAppBar from "./components/SearchAppBar";
@@ -55,14 +56,10 @@ export const GraphManager = ({
     if (fetchedGraph) {
       const sanitizedDataset = sanitizeGraphData(fetchedGraph);
       console.log("setting retrieved graph!");
-      const pseudoTranslatedNodes = sanitizedDataset.data.nodes.map(
-        ({ description, ...rest }) => ({
-          description: {
-            translations: [{ content: description, language: "en" }],
-          },
-          ...rest,
-        })
-      );
+      const pseudoTranslatedNodes = transformDisplayedNodesToPseudoTranslated({
+        nodes: sanitizedDataset.data.nodes,
+        language: "en",
+      });
       setLinks(sanitizedDataset.data.links);
       setNodes(pseudoTranslatedNodes);
     }
@@ -71,14 +68,10 @@ export const GraphManager = ({
   const handleDatasetChange = (dataset: DataSetType) => {
     const sanitizedDataset = sanitizeGraphDataset(dataset);
     setGraphName(dataset.dataSetName);
-    const pseudoTranslatedNodes = sanitizedDataset.data.nodes.map(
-      ({ description, ...rest }) => ({
-        description: {
-          translations: [{ content: description, language: "en" }],
-        },
-        ...rest,
-      })
-    );
+    const pseudoTranslatedNodes = transformDisplayedNodesToPseudoTranslated({
+      nodes: sanitizedDataset.data.nodes,
+      language: "en",
+    });
     setLinks(sanitizedDataset.data.links);
     setNodes(pseudoTranslatedNodes);
   };

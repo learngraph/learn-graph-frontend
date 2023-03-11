@@ -1,9 +1,11 @@
-import { GraphData } from "./types";
+import { GraphData, NodeType } from "./types";
 import {
   sanitizeGraphData,
+  transformDisplayedNodesToPseudoTranslated,
   TransformFunctionInput,
   transformGraphDataForDisplay,
 } from "./GraphUtil";
+import { TranslatedNode } from "src/GraphDataContext";
 
 describe("sanitizeGraphData", () => {
   it("should coalesce undefined data", () => {
@@ -115,7 +117,39 @@ describe("transformGraphDataForDisplay", () => {
       ],
     };
 
-    const actual = transformGraphDataForDisplay(input);
-    expect(actual).toEqual(expected);
+    const result = transformGraphDataForDisplay(input);
+    expect(result).toEqual(expected);
   });
+});
+
+describe("makePseudoTranslatedNodes", () => {
+  const inputNodes: NodeType[] = [
+    { id: "1", description: "A" },
+    { id: "2", description: "B" },
+  ];
+  const inputLanguage: string = "en";
+  const expected: TranslatedNode[] = [
+    {
+      id: inputNodes[0].id,
+      description: {
+        translations: [
+          { language: inputLanguage, content: inputNodes[0].description },
+        ],
+      },
+    },
+    {
+      id: inputNodes[1].id,
+      description: {
+        translations: [
+          { language: inputLanguage, content: inputNodes[1].description },
+        ],
+      },
+    },
+  ];
+
+  const result = transformDisplayedNodesToPseudoTranslated({
+    nodes: inputNodes,
+    language: inputLanguage,
+  });
+  expect(result).toEqual(expected);
 });

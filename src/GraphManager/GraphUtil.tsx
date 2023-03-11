@@ -1,4 +1,4 @@
-import { TranslatedGraphData } from "src/GraphDataContext";
+import { TranslatedGraphData, TranslatedNode } from "src/GraphDataContext";
 import { NodeType, LinkType, DataSetType, GraphData } from "./types";
 import { getTranslation } from "./utilities/getTranslation";
 
@@ -60,3 +60,20 @@ export const transformGraphDataForDisplay = ({
     };
   }),
 });
+
+interface PseudoTranslationInput {
+  nodes: NodeType[];
+  language: string;
+}
+
+export const transformDisplayedNodesToPseudoTranslated = ({
+  nodes,
+  language,
+}: PseudoTranslationInput): TranslatedNode[] => {
+  return nodes.map(({ description, ...rest }) => ({
+    description: {
+      translations: [{ content: description, language }],
+    },
+    ...rest,
+  }));
+};
