@@ -18,7 +18,6 @@ import {
 } from "./GraphUtil";
 import SearchAppBar from "./components/SearchAppBar";
 import { useGraphDataContext } from "src/GraphDataContext";
-import { getTranslation } from "./utilities/getTranslation";
 interface GraphManagerProps {
   datasets: DataSetType[];
   fetchedGraph: GraphData;
@@ -51,6 +50,13 @@ export const GraphManager = ({
     dataSetName: graphName,
     data: transformedGraphData,
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (!fetchedGraph) handleDatasetChange(datasets[0]);
+    }, 500);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (fetchedGraph) {
