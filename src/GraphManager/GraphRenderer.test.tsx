@@ -6,6 +6,9 @@ import {
   GraphRenderer,
   nodeCanvasObject,
   onLinkClickFn,
+  makeKeydownListener,
+  zoom,
+  ZoomDirection,
 } from "./GraphRenderer";
 
 //import { useQuery } from "@apollo/client";
@@ -100,5 +103,67 @@ describe("nodeCanvasObject", () => {
     ]);
     expect(ctx.fillText.mock.calls.length).toBe(1);
     expect(ctx.fillText.mock.calls[0]).toEqual(["B", 5, 6]);
+  });
+});
+
+describe("makeKeydownListener", () => {
+  const graphData = { nodes: [], links: [] };
+  it("should call zoom in on key 'p'", () => {
+    let zoom = jest.fn();
+    let keydown = makeKeydownListener(zoom, graphData);
+    let event = { key: "p" };
+    keydown(event);
+    expect(zoom.mock.calls.length).toBe(1);
+    expect(zoom.mock.calls[0][0]).toEqual({
+      direction: ZoomDirection.In,
+      graphData,
+    });
+  });
+  it("should call zoom out on key 'm'", () => {
+    let zoom = jest.fn();
+    let keydown = makeKeydownListener(zoom, graphData);
+    let event = { key: "m" };
+    keydown(event);
+    expect(zoom.mock.calls.length).toBe(1);
+    expect(zoom.mock.calls[0][0]).toEqual({
+      direction: ZoomDirection.Out,
+      graphData,
+    });
+  });
+  it("should call nothing on key 'a'", () => {
+    let zoom = jest.fn();
+    let keydown = makeKeydownListener(zoom, graphData);
+    let event = { key: "a" };
+    keydown(event);
+    expect(zoom.mock.calls.length).toBe(0);
+  });
+});
+
+describe("zoom", () => {
+  describe("merge central nodes, when zooming in", () => {
+    it("should merge 'A -> B <- C' to 'B'", () => {
+      let nodeList = [
+        { id: "A", description: "" },
+        { id: "B", description: "" },
+        { id: "C", description: "" },
+      ];
+      let node = {
+        A: nodeList[0],
+        B: nodeList[1],
+        C: nodeList[2],
+      };
+      let graphData = {
+        nodes: nodeList,
+        links: [
+          { source: node.A, target: node.B, value: 1, id: "1" },
+          { source: node.C, target: node.B, value: 2, id: "2" },
+        ],
+      };
+      zoom({
+        direction: ZoomDirection.In,
+        graphData, // XXX: fix types.. not sure what is best way, due to in-place type changes by ForceGraph2D
+      });
+      expect(graphData).toEqual({ nodes: [node.B], links: [] });
+    });
   });
 });

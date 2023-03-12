@@ -1,5 +1,16 @@
-import ForceGraph2D, { LinkObject, NodeObject } from "react-force-graph-2d";
-import { DataSetType, LinkType, NodeType } from "./types";
+import ForceGraph2D, {
+  GraphData as GraphDataForceGraph,
+  LinkObject,
+  NodeObject,
+} from "react-force-graph-2d";
+import { DataSetType, LinkType, NodeType, GraphData } from "./types";
+
+// TODO(skep): fundamental type issue here, we have a NodeType !=
+// ForceGraph2D.NodeObject, and a LinkType != ForceGraph2D.LinkObject , but we
+// type-cast our types to the force graph types. Here we access our copied
+// objects, but the type is obviously the ForceGraph2D type.
+type Link = LinkType & LinkObject;
+type Node = NodeType & NodeObject;
 
 export interface VoteDialogParams {
   linkID: string;
@@ -53,7 +64,7 @@ function drawTextWithBackground(
   ctx.fillText(text.text, x, y);
 }
 
-function linkDescriptionPosition(link: LinkType & LinkObject) {
+function linkDescriptionPosition(link: Link) {
   return Object.assign(
     // @ts-ignore
     ...["x", "y"].map((c) => ({
@@ -74,8 +85,8 @@ export const nodeCanvasObject = (
   ctx: CanvasRenderingContext2D,
   globalScale: number
 ) => {
-  // @ts-ignore: not sure what to do about this, see TODO below
-  const node: NodeType & NodeObject = nodeForceGraph;
+  // @ts-ignore: not sure what to do about this, see TODO for Node type
+  const node: Node = nodeForceGraph;
   const label = node.description ?? "";
   drawTextWithBackground(
     { text: label, fontSize: config.fontSize / globalScale },
@@ -95,7 +106,7 @@ export const linkCanvasObject = (
   globalScale: number
 ) => {
   // @ts-ignore
-  const link: LinkType & LinkObject = linkForceGraph;
+  const link: Link = linkForceGraph;
 
   // ignore unbound links
   if (typeof link.source !== "object" || typeof link.target !== "object")
@@ -112,13 +123,8 @@ export const linkCanvasObject = (
 
 export const onLinkClickFn = (props: GraphRendererProps) => {
   return (params: LinkObject) => {
-    console.log("onLinkClick", params);
-    // @ts-ignore: TODO(skep): fundamental type issue here, we have a
-    // NodeType != ForceGraph2D.NodeObject, and a LinkType !=
-    // ForceGraph2D.LinkObject , but we type-cast our types to the force
-    // graph types. Here we access our copied objects, but the type is
-    // obviously the ForceGraph2D type.
-    let link: LinkType & LinkObject = params;
+    // @ts-ignore: not sure what to do about this, see TODO for Link type
+    let link: Link = params;
     props.openVoteDialog({
       linkID: link.id,
       // @ts-ignore: see above
@@ -130,8 +136,54 @@ export const onLinkClickFn = (props: GraphRendererProps) => {
   };
 };
 
-const onLinkHover = (params: LinkObject | null): void => {
+const onLinkHover = (_: LinkObject | null): void => {
   //console.log("linkHov", params);
+};
+
+// global input listeners
+// TODO(skep): extract zoom functions to separate file
+interface ZoomFn {
+  (args: ZoomArgs): void;
+}
+
+export enum ZoomDirection {
+  In,
+  Out,
+}
+
+type GraphDataMerged = GraphData & GraphDataForceGraph;
+
+interface ZoomArgs {
+  direction: ZoomDirection;
+  graphData: GraphDataMerged;
+}
+
+const weightFor = (_: Node, __: Link[]) => {};
+
+export const zoom = (args: ZoomArgs): void => {
+  args.graphData.nodes.map((node: Node) =>
+    weightFor(node, args.graphData.links)
+  );
+};
+
+export const makeKeydownListener = (
+  zoom: ZoomFn,
+  graphData: GraphDataMerged
+) => {
+  return (event: Partial<KeyboardEvent>) => {
+    switch (event.key) {
+      // TODO(skep): should probably be something with the mouse wheel, but
+      // that event is somehow hidden by force-graph
+      case "p":
+        zoom({ direction: ZoomDirection.In, graphData });
+        return;
+      case "m":
+        zoom({ direction: ZoomDirection.Out, graphData });
+        return;
+      default:
+        return;
+    }
+  };
 };
 
 // global configuration
@@ -145,11 +197,14 @@ const config = {
 
 export const GraphRenderer = (props: GraphRendererProps) => {
   const onLinkClick = onLinkClickFn(props);
+  // TODO(j): is this the react way of listening for input?
+  let graphData = JSON.parse(JSON.stringify(props.selectedGraphDataset.data));
+  document.addEventListener("keydown", makeKeydownListener(zoom, graphData));
   return (
     <ForceGraph2D
       // Note: all data must be copied, since force graph changes Link "source"
       // and "target" fields to directly contain the referred node objects
-      graphData={JSON.parse(JSON.stringify(props.selectedGraphDataset.data))}
+      graphData={graphData}
       // nodes:
       nodeAutoColorBy={"group"}
       onNodeClick={onNodeClick}
