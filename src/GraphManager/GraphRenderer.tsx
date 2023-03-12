@@ -1,16 +1,31 @@
 import ForceGraph2D, {
-  GraphData as GraphDataForceGraph,
+  //GraphData as GraphDataForceGraph,
   LinkObject,
   NodeObject,
 } from "react-force-graph-2d";
-import { DataSetType, LinkType, NodeType, GraphData } from "./types";
+import { DataSetType, LinkType, NodeType /*, GraphData*/ } from "./types";
 
 // TODO(skep): fundamental type issue here, we have a NodeType !=
 // ForceGraph2D.NodeObject, and a LinkType != ForceGraph2D.LinkObject , but we
 // type-cast our types to the force graph types. Here we access our copied
 // objects, but the type is obviously the ForceGraph2D type.
-type Link = LinkType & LinkObject;
-type Node = NodeType & NodeObject;
+export type Link = LinkType & LinkObject;
+export type Node = NodeType & NodeObject;
+
+// LinkBetweenObjects should resolve type conflicts, since we assume that
+// ForceGraph2D always returns links between objects, even if we input links
+// with string-typed node ID's in the `source` and `target` fields.
+interface LinkBetweenObjects {
+  source: Node;
+  target: Node;
+}
+
+interface GraphDataMerged {
+  nodes: Node[];
+  links: LinkBetweenObjects[];
+}
+// alternative to the newly defined GraphDataMerged interface:
+//export type GraphDataMerged = GraphData & GraphDataForceGraph;
 
 export interface VoteDialogParams {
   linkID: string;
@@ -68,7 +83,6 @@ function linkDescriptionPosition(link: Link) {
   return Object.assign(
     // @ts-ignore
     ...["x", "y"].map((c) => ({
-      // @ts-ignore
       [c]:
         // @ts-ignore
         link.source[c] +
@@ -124,12 +138,10 @@ export const linkCanvasObject = (
 export const onLinkClickFn = (props: GraphRendererProps) => {
   return (params: LinkObject) => {
     // @ts-ignore: not sure what to do about this, see TODO for Link type
-    let link: Link = params;
+    let link: LinkBetweenObjects & LinkType = params;
     props.openVoteDialog({
       linkID: link.id,
-      // @ts-ignore: see above
       sourceNode: link.source,
-      // @ts-ignore: see above
       targetNode: link.target,
       weight: link.value,
     });
@@ -151,19 +163,54 @@ export enum ZoomDirection {
   Out,
 }
 
-type GraphDataMerged = GraphData & GraphDataForceGraph;
-
 interface ZoomArgs {
   direction: ZoomDirection;
   graphData: GraphDataMerged;
 }
 
-const weightFor = (_: Node, __: Link[]) => {};
+export const countLinksToNode = (node: Node, links: LinkBetweenObjects[]) => {
+  return links.reduce((count, link) => {
+    if (link.target.id === node.id) {
+      return count + 1;
+    } else {
+      return count;
+    }
+  }, 0 /*init value for count*/);
+};
+
+const deleteLinksWithID = (
+  id: string,
+  graphData: GraphDataMerged
+): void => {
+  let linksWithoutID = graphData.links.filter(
+    (link) => link.source.id !== id && link.target.id !== id
+  );
+  graphData.links.splice(0, graphData.links.length, ...linksWithoutID);
+};
+
+const deleteNodesThatLinkToNodeID = (
+  id: string,
+  graphData: GraphDataMerged
+) => {
+  let sourceNodes = graphData.links
+    .filter((link) => link.target.id === id)
+    .map((link) => link.source);
+  let leftOverNodes = graphData.nodes.filter(
+    (node) => !sourceNodes.find((findNode) => node.id === findNode.id)
+  );
+  graphData.nodes.splice(0, graphData.nodes.length, ...leftOverNodes);
+};
 
 export const zoom = (args: ZoomArgs): void => {
-  args.graphData.nodes.map((node: Node) =>
-    weightFor(node, args.graphData.links)
-  );
+  const nodesByLinkCount = args.graphData.nodes
+    .map((node) => ({
+      count: countLinksToNode(node, args.graphData.links),
+      node: node,
+    }))
+    .sort((a, b) => b.count - a.count);
+  let targetID = nodesByLinkCount[0].node.id;
+  deleteNodesThatLinkToNodeID(targetID, args.graphData);
+  deleteLinksWithID(targetID, args.graphData);
 };
 
 export const makeKeydownListener = (

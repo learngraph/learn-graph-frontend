@@ -9,6 +9,7 @@ import {
   makeKeydownListener,
   zoom,
   ZoomDirection,
+  countLinksToNode,
 } from "./GraphRenderer";
 
 //import { useQuery } from "@apollo/client";
@@ -142,11 +143,7 @@ describe("makeKeydownListener", () => {
 describe("zoom", () => {
   describe("merge central nodes, when zooming in", () => {
     it("should merge 'A -> B <- C' to 'B'", () => {
-      let nodeList = [
-        { id: "A", description: "" },
-        { id: "B", description: "" },
-        { id: "C", description: "" },
-      ];
+      let nodeList = [{ id: "A" }, { id: "B" }, { id: "C" }];
       let node = {
         A: nodeList[0],
         B: nodeList[1],
@@ -161,9 +158,33 @@ describe("zoom", () => {
       };
       zoom({
         direction: ZoomDirection.In,
-        graphData, // XXX: fix types.. not sure what is best way, due to in-place type changes by ForceGraph2D
+        // @ts-ignore ¯\_(ツ)_/¯
+        graphData,
       });
       expect(graphData).toEqual({ nodes: [node.B], links: [] });
     });
+    it.todo(
+      "should rewrite links to merged nodes: 'A -> B -> C <- D' to 'A -> C'"
+    );
+    it.todo("should pick random node on equal weights (XXX: should it?!)");
+  });
+});
+
+describe("countLinksToNode", () => {
+  it("should count links to node", () => {
+    const nodeList = [{ id: "A" }, { id: "B" }, { id: "C" }];
+    // @ts-ignore: oh come on
+    let node = Object.assign(...nodeList.map((node) => ({ [node.id]: node })));
+    let links = [
+      { source: node.A, target: node.B },
+      { source: node.B, target: node.A },
+      { source: node.C, target: node.A },
+    ];
+    // @ts-ignore: ..
+    expect(countLinksToNode(node.C, links)).toEqual(0);
+    // @ts-ignore: ...
+    expect(countLinksToNode(node.B, links)).toEqual(1);
+    // @ts-ignore: (┙>∧<)┙へ┻┻
+    expect(countLinksToNode(node.A, links)).toEqual(2);
   });
 });
