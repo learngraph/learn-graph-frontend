@@ -178,19 +178,6 @@ export const countLinksToNode = (node: Node, links: LinkBetweenObjects[]) => {
   }, 0 /*init value for count*/);
 };
 
-const deleteNodesThatLinkToNodeID = (
-  id: string,
-  graphData: GraphDataMerged
-) => {
-  let sourceNodes = graphData.links
-    .filter((link) => link.target.id === id)
-    .map((link) => link.source);
-  let leftOverNodes = graphData.nodes.filter(
-    (node) => !sourceNodes.find((findNode) => node.id === findNode.id)
-  );
-  graphData.nodes.splice(0, graphData.nodes.length, ...leftOverNodes);
-};
-
 //export const rewrite2ndOrderLinksTo = (
 //  mergeTargetNode: Node,
 //  graphData: GraphDataMerged
@@ -208,6 +195,7 @@ const deleteNodesThatLinkToNodeID = (
 //  });
 //};
 
+// FIXME(skep): there is a bug here, that leaves some links without source node -> find it!
 export const zoom = (args: ZoomArgs): void => {
   // select node to merge:
   const nodesByLinkCount = args.graphData.nodes
@@ -218,7 +206,6 @@ export const zoom = (args: ZoomArgs): void => {
     .sort((a, b) => b.count - a.count);
   let mergeTargetNode = nodesByLinkCount[0].node;
   // modify graph:
-  deleteNodesThatLinkToNodeID(mergeTargetNode.id, args.graphData);
   // find links, that don't link to mergeTargetNode, to replace them later
   let linksToKeep = args.graphData.links.filter(
     (link) => link.target.id !== mergeTargetNode.id
@@ -238,6 +225,11 @@ export const zoom = (args: ZoomArgs): void => {
   secondOrderNodesAndLinks.forEach((link) => {
     link.target = mergeTargetNode;
   });
+  // delete all firstOrderNodes
+  let leftOverNodes = args.graphData.nodes.filter(
+    (node) => !firstOrderNodes.find((findNode) => node.id === findNode.id)
+  );
+  args.graphData.nodes.splice(0, args.graphData.nodes.length, ...leftOverNodes);
 };
 
 export const makeKeydownListener = (

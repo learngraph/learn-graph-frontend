@@ -189,8 +189,53 @@ describe("zoom", () => {
         links: [{ source: node.A, target: node.C }],
       });
     });
-    it.todo("should rewrite: 'A -> B <- C; B -> D' to 'B -> D'");
-    it.todo("should pick random node on equal weights (XXX: should it?!)");
+    it("should rewrite: 'A -> B <- C; B -> D' to 'B -> D', preserving links", () => {
+      let nodeList = [{ id: "A" }, { id: "B" }, { id: "C" }, { id: "D" }];
+      let node = Object.assign(
+        // @ts-ignore
+        ...nodeList.map((node) => ({ [node.id]: node }))
+      );
+      let graphData = {
+        nodes: nodeList,
+        links: [
+          { source: node.A, target: node.B },
+          { source: node.C, target: node.B },
+          { source: node.B, target: node.D },
+        ],
+      };
+      zoom({
+        direction: ZoomDirection.In,
+        // @ts-ignore
+        graphData,
+      });
+      expect(graphData).toEqual({
+        nodes: [node.B, node.D],
+        links: [{ source: node.B, target: node.D }],
+      });
+    });
+    it("should rewrite 'A -> B; C -> D' to 'B; C -> D', choosing by node order on equal weight", () => {
+      let nodeList = [{ id: "A" }, { id: "B" }, { id: "C" }, { id: "D" }];
+      let node = Object.assign(
+        // @ts-ignore
+        ...nodeList.map((node) => ({ [node.id]: node }))
+      );
+      let graphData = {
+        nodes: nodeList,
+        links: [
+          { source: node.A, target: node.B },
+          { source: node.C, target: node.D },
+        ],
+      };
+      zoom({
+        direction: ZoomDirection.In,
+        // @ts-ignore
+        graphData,
+      });
+      expect(graphData).toEqual({
+        nodes: [node.B, node.C, node.D],
+        links: [{ source: node.C, target: node.D }],
+      });
+    });
   });
   describe("un-merge central nodes, when zooming out", () => {
     it.todo("...tests for zooming out...");
