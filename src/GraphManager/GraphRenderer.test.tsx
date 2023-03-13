@@ -10,6 +10,7 @@ import {
   zoom,
   ZoomDirection,
   countLinksToNode,
+  //rewrite2ndOrderLinksTo,
 } from "./GraphRenderer";
 
 //import { useQuery } from "@apollo/client";
@@ -142,18 +143,19 @@ describe("makeKeydownListener", () => {
 
 describe("zoom", () => {
   describe("merge central nodes, when zooming in", () => {
+    // TODO(skep): use link value (weight) as well for this decision, not only
+    // link count!
     it("should merge 'A -> B <- C' to 'B'", () => {
       let nodeList = [{ id: "A" }, { id: "B" }, { id: "C" }];
-      let node = {
-        A: nodeList[0],
-        B: nodeList[1],
-        C: nodeList[2],
-      };
+      let node = Object.assign(
+        // @ts-ignore
+        ...nodeList.map((node) => ({ [node.id]: node }))
+      );
       let graphData = {
         nodes: nodeList,
         links: [
-          { source: node.A, target: node.B, value: 1, id: "1" },
-          { source: node.C, target: node.B, value: 2, id: "2" },
+          { source: node.A, target: node.B },
+          { source: node.C, target: node.B },
         ],
       };
       zoom({
@@ -163,10 +165,35 @@ describe("zoom", () => {
       });
       expect(graphData).toEqual({ nodes: [node.B], links: [] });
     });
-    it.todo(
-      "should rewrite links to merged nodes: 'A -> B -> C <- D' to 'A -> C'"
-    );
+    it("should rewrite links to merged nodes: 'A -> B -> C <- D' to 'A -> C'", () => {
+      let nodeList = [{ id: "A" }, { id: "B" }, { id: "C" }, { id: "D" }];
+      let node = Object.assign(
+        // @ts-ignore
+        ...nodeList.map((node) => ({ [node.id]: node }))
+      );
+      let graphData = {
+        nodes: nodeList,
+        links: [
+          { source: node.A, target: node.B },
+          { source: node.B, target: node.C },
+          { source: node.D, target: node.C },
+        ],
+      };
+      zoom({
+        direction: ZoomDirection.In,
+        // @ts-ignore ¯\_(ツ)_/¯
+        graphData,
+      });
+      expect(graphData).toEqual({
+        nodes: [node.A, node.C],
+        links: [{ source: node.A, target: node.C }],
+      });
+    });
+    it.todo("should rewrite: 'A -> B <- C; B -> D' to 'B -> D'");
     it.todo("should pick random node on equal weights (XXX: should it?!)");
+  });
+  describe("un-merge central nodes, when zooming out", () => {
+    it.todo("...tests for zooming out...");
   });
 });
 
@@ -188,3 +215,27 @@ describe("countLinksToNode", () => {
     expect(countLinksToNode(node.A, links)).toEqual(2);
   });
 });
+
+//describe("rewrite2ndOrderLinksTo", () => {
+//  it("should rewrite: 'A -> B -> C' to 'A -> C <- B' with input id C", () => {
+//    let nodeList = [{ id: "A" }, { id: "B" }, { id: "C" }];
+//    // @ts-ignore
+//    let node = Object.assign(...nodeList.map((node) => ({ [node.id]: node })));
+//    let graphData = {
+//      nodes: nodeList,
+//      links: [
+//        { source: node.A, target: node.B },
+//        { source: node.B, target: node.C },
+//      ],
+//    };
+//    // @ts-ignore
+//    rewrite2ndOrderLinksTo(node.C, graphData);
+//    expect(graphData).toEqual({
+//      nodes: nodeList,
+//      links: [
+//        { source: node.A, target: node.C },
+//        { source: node.B, target: node.C },
+//      ],
+//    });
+//  });
+//});

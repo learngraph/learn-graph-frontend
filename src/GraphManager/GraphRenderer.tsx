@@ -178,16 +178,6 @@ export const countLinksToNode = (node: Node, links: LinkBetweenObjects[]) => {
   }, 0 /*init value for count*/);
 };
 
-const deleteLinksWithID = (
-  id: string,
-  graphData: GraphDataMerged
-): void => {
-  let linksWithoutID = graphData.links.filter(
-    (link) => link.source.id !== id && link.target.id !== id
-  );
-  graphData.links.splice(0, graphData.links.length, ...linksWithoutID);
-};
-
 const deleteNodesThatLinkToNodeID = (
   id: string,
   graphData: GraphDataMerged
@@ -201,16 +191,53 @@ const deleteNodesThatLinkToNodeID = (
   graphData.nodes.splice(0, graphData.nodes.length, ...leftOverNodes);
 };
 
+export const rewrite2ndOrderLinksTo = (
+  mergeTargetNode: Node,
+  graphData: GraphDataMerged
+) => {
+  let firstOrderNodes = graphData.links
+    .filter((link) => link.target.id === mergeTargetNode.id)
+    .map((link) => link.source);
+  let secondOrderNodesAndLinks = firstOrderNodes.flatMap((firstOrderNode) => {
+    return graphData.links.filter(
+      (link) => link.target.id === firstOrderNode.id
+    );
+  });
+  secondOrderNodesAndLinks.forEach((link) => {
+    link.target = mergeTargetNode;
+  });
+};
+
 export const zoom = (args: ZoomArgs): void => {
+  // select node to merge:
   const nodesByLinkCount = args.graphData.nodes
     .map((node) => ({
       count: countLinksToNode(node, args.graphData.links),
       node: node,
     }))
     .sort((a, b) => b.count - a.count);
-  let targetID = nodesByLinkCount[0].node.id;
-  deleteNodesThatLinkToNodeID(targetID, args.graphData);
-  deleteLinksWithID(targetID, args.graphData);
+  let mergeTargetNode = nodesByLinkCount[0].node;
+  // modify graph:
+  deleteNodesThatLinkToNodeID(mergeTargetNode.id, args.graphData);
+  // find links, that don't link to mergeTargetNode, to replace them later
+  let linksToKeep = args.graphData.links.filter(
+    (link) => link.target.id !== mergeTargetNode.id
+  );
+  // find first order nodes, as long as the first order links still exist
+  let firstOrderNodes = args.graphData.links
+    .filter((link) => link.target.id === mergeTargetNode.id)
+    .map((link) => link.source);
+  // delete first order links
+  args.graphData.links.splice(0, args.graphData.links.length, ...linksToKeep);
+  // rewrite 2nd order links to mergeTargetNode
+  let secondOrderNodesAndLinks = firstOrderNodes.flatMap((firstOrderNode) => {
+    return args.graphData.links.filter(
+      (link) => link.target.id === firstOrderNode.id
+    );
+  });
+  secondOrderNodesAndLinks.forEach((link) => {
+    link.target = mergeTargetNode;
+  });
 };
 
 export const makeKeydownListener = (
