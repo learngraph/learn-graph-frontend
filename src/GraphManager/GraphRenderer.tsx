@@ -191,22 +191,22 @@ const deleteNodesThatLinkToNodeID = (
   graphData.nodes.splice(0, graphData.nodes.length, ...leftOverNodes);
 };
 
-export const rewrite2ndOrderLinksTo = (
-  mergeTargetNode: Node,
-  graphData: GraphDataMerged
-) => {
-  let firstOrderNodes = graphData.links
-    .filter((link) => link.target.id === mergeTargetNode.id)
-    .map((link) => link.source);
-  let secondOrderNodesAndLinks = firstOrderNodes.flatMap((firstOrderNode) => {
-    return graphData.links.filter(
-      (link) => link.target.id === firstOrderNode.id
-    );
-  });
-  secondOrderNodesAndLinks.forEach((link) => {
-    link.target = mergeTargetNode;
-  });
-};
+//export const rewrite2ndOrderLinksTo = (
+//  mergeTargetNode: Node,
+//  graphData: GraphDataMerged
+//) => {
+//  let firstOrderNodes = graphData.links
+//    .filter((link) => link.target.id === mergeTargetNode.id)
+//    .map((link) => link.source);
+//  let secondOrderNodesAndLinks = firstOrderNodes.flatMap((firstOrderNode) => {
+//    return graphData.links.filter(
+//      (link) => link.target.id === firstOrderNode.id
+//    );
+//  });
+//  secondOrderNodesAndLinks.forEach((link) => {
+//    link.target = mergeTargetNode;
+//  });
+//};
 
 export const zoom = (args: ZoomArgs): void => {
   // select node to merge:
