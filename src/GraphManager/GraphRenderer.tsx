@@ -182,9 +182,6 @@ export interface ZoomArgs {
   graphData: GraphDataMerged;
 }
 
-// FIXME(skep): there is a bug here, that leaves some links without source node -> find it!
-// TODO(skep): use link value (weight) as well for this decision, not only link count!
-
 // zoomStep performs `steps` zoom steps, where zooming in by N steps merges N
 // nodes into other nodes, reducing the total node count by N.
 export const zoomStep: ZoomFn = (args: ZoomArgs): void => {
@@ -214,14 +211,23 @@ export const zoomStep: ZoomFn = (args: ZoomArgs): void => {
           link.target.id === mergeTargetNode.id
       )
   );
-  // rewrite links from deleted nodes to 2nd order nodes
+  // rewrite links from deleted nodes to 2nd order nodes, removing duplicates
   let secondOrderSourceLinks = nodesToRemove.flatMap((firstOrderNode) => {
     return linksToKeep.filter((link) => link.source.id === firstOrderNode.id);
   });
   secondOrderSourceLinks.forEach((link) => {
+    const index = linksToKeep.findIndex(
+      (existingLink) =>
+        existingLink.source.id === mergeTargetNode.id &&
+        existingLink.target.id === link.target.id
+    );
+    if (index !== -1) {
+      // TODO: should merge link.value, e.g. average?
+      linksToKeep.splice(index, 1);
+    }
     link.source = mergeTargetNode;
   });
-  // rewrite 2nd order links to mergeTargetNode
+  // rewrite links from 2nd order nodes to mergeTargetNode, removing duplicates
   let secondOrderTargetLinks = nodesToRemove.flatMap((firstOrderNode) => {
     return linksToKeep.filter((link) => link.target.id === firstOrderNode.id);
   });
@@ -232,7 +238,6 @@ export const zoomStep: ZoomFn = (args: ZoomArgs): void => {
         existingLink.target.id === mergeTargetNode.id
     );
     if (index !== -1) {
-      // remove existing link, otherwise a duplicate link would be created
       // TODO: should merge link.value, e.g. average?
       linksToKeep.splice(index, 1);
     }
@@ -270,7 +275,8 @@ export const makeKeydownListener = (
   return (event: Partial<KeyboardEvent>) => {
     switch (event.key) {
       // TODO(skep): should probably be something with the mouse wheel, but
-      // that event is somehow hidden by force-graph
+      // that event is somehow hidden by force-graph - @j you know how to do
+      // this?
       case "p":
         zoom({ direction: ZoomDirection.In, steps: 1, graphData });
         return;

@@ -310,7 +310,7 @@ describe("zoom", () => {
         },
       ],
       [
-        "remove duplicate links, after link forwarding (secondOrderTargetLinks)",
+        "remove duplicate links, after link target forwarding (secondOrderTargetLinks)",
         "A -> B -> C; A -> C",
         "A -> C",
         {
@@ -328,6 +328,31 @@ describe("zoom", () => {
         {
           nodes: [node.A, node.C],
           links: [{ source: node.A, target: node.C }],
+        },
+      ],
+      [
+        "remove duplicate links, after link source forwarding (secondOrderSourceLinks)",
+        "D <- A -> B <- C; B -> D",
+        "D <- B <- C",
+        {
+          steps: 1,
+          direction: ZoomDirection.In,
+          graphData: {
+            nodes: [node.A, node.B, node.C, node.D],
+            links: [
+              { source: node.A, target: node.D },
+              { source: node.B, target: node.D },
+              { source: node.A, target: node.B },
+              { source: node.C, target: node.B },
+            ],
+          },
+        },
+        {
+          nodes: [node.B, node.C, node.D],
+          links: [
+            { source: node.B, target: node.D },
+            { source: node.C, target: node.B },
+          ],
         },
       ],
       //[
@@ -354,10 +379,10 @@ describe("zoom", () => {
         expect(input.graphData).toEqual(expected);
       }
     );
-    it.todo("remove self-referencing links after link rewriting"); // XXX: @j: should we? maybe it's better not to..
     it.todo(
       "choose first order nodes to delete by their link count, not just the mergeTargetNode"
     );
+    it.todo("remove self-referencing links after link rewriting"); // XXX: @j: should we? maybe it's better not to..
   });
   describe("zooming out", () => {
     //it.todo("...tests for zooming out...");
