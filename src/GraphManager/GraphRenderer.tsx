@@ -20,13 +20,6 @@ interface LinkBetweenObjects {
   target: Node;
 }
 
-interface GraphDataMerged {
-  nodes: Node[];
-  links: LinkBetweenObjects[];
-}
-// alternative to the newly defined GraphDataMerged interface:
-//export type GraphDataMerged = GraphData & GraphDataForceGraph;
-
 export interface VoteDialogParams {
   linkID: string;
   sourceNode: NodeType;
@@ -153,7 +146,22 @@ const onLinkHover = (_: LinkObject | null): void => {
 };
 
 // global input listeners
+
 // TODO(skep): extract zoom functions to separate file
+interface HasID {
+  id: string;
+}
+interface LinkBetweenHasIDs {
+  source: HasID;
+  target: HasID;
+}
+// HasID and LinkBetweenHasIDs is the zoom interface to the force-graph, since
+// all it needs are objects with IDs and links between objects with IDs.
+export interface GraphDataMerged {
+  nodes: HasID[];
+  links: LinkBetweenHasIDs[];
+}
+
 interface ZoomFn {
   (args: ZoomArgs): void;
 }
@@ -163,40 +171,25 @@ export enum ZoomDirection {
   Out,
 }
 
-interface ZoomArgs {
+export interface ZoomArgs {
+  // number of nodes to merge/un-merge when zooming In/Out
+  steps: number;
+  // zoom In or Out
   direction: ZoomDirection;
+  // the graph data currently in use by force, that will be modified by a zoom
+  // operation
   graphData: GraphDataMerged;
 }
 
-export const countLinksToNode = (node: Node, links: LinkBetweenObjects[]) => {
-  return links.reduce((count, link) => {
-    if (link.target.id === node.id) {
-      return count + 1;
-    } else {
-      return count;
-    }
-  }, 0 /*init value for count*/);
-};
-
-//export const rewrite2ndOrderLinksTo = (
-//  mergeTargetNode: Node,
-//  graphData: GraphDataMerged
-//) => {
-//  let firstOrderNodes = graphData.links
-//    .filter((link) => link.target.id === mergeTargetNode.id)
-//    .map((link) => link.source);
-//  let secondOrderNodesAndLinks = firstOrderNodes.flatMap((firstOrderNode) => {
-//    return graphData.links.filter(
-//      (link) => link.target.id === firstOrderNode.id
-//    );
-//  });
-//  secondOrderNodesAndLinks.forEach((link) => {
-//    link.target = mergeTargetNode;
-//  });
-//};
-
 // FIXME(skep): there is a bug here, that leaves some links without source node -> find it!
-export const zoom = (args: ZoomArgs): void => {
+// TODO(skep): use link value (weight) as well for this decision, not only link count!
+
+// zoomStep performs `steps` zoom steps, where zooming in by N steps merges N
+// nodes into other nodes, reducing the total node count by N.
+export const zoomStep: ZoomFn = (args: ZoomArgs): void => {
+  if (args.steps >= args.graphData.nodes.length) {
+    return;
+  }
   // select node to merge:
   const nodesByLinkCount = args.graphData.nodes
     .map((node) => ({
@@ -206,18 +199,19 @@ export const zoom = (args: ZoomArgs): void => {
     .sort((a, b) => b.count - a.count);
   let mergeTargetNode = nodesByLinkCount[0].node;
   // modify graph:
-  // find links, that don't link to mergeTargetNode, to replace them later
-  let linksToKeep = args.graphData.links.filter(
-    (link) => link.target.id !== mergeTargetNode.id
-  );
   // find first order nodes, as long as the first order links still exist
   let firstOrderNodes = args.graphData.links
     .filter((link) => link.target.id === mergeTargetNode.id)
     .map((link) => link.source);
+  let nodesToRemove = firstOrderNodes.slice(0, args.steps);
+  // find links, that don't link to mergeTargetNode, to replace them later
+  let linksToKeep = args.graphData.links.filter(
+    (link) => !nodesToRemove.find((node) => node.id === link.source.id)
+  );
   // delete first order links
   args.graphData.links.splice(0, args.graphData.links.length, ...linksToKeep);
   // rewrite 2nd order links to mergeTargetNode
-  let secondOrderNodesAndLinks = firstOrderNodes.flatMap((firstOrderNode) => {
+  let secondOrderNodesAndLinks = nodesToRemove.flatMap((firstOrderNode) => {
     return args.graphData.links.filter(
       (link) => link.target.id === firstOrderNode.id
     );
@@ -225,11 +219,21 @@ export const zoom = (args: ZoomArgs): void => {
   secondOrderNodesAndLinks.forEach((link) => {
     link.target = mergeTargetNode;
   });
-  // delete all firstOrderNodes
+  // delete all nodesToRemove
   let leftOverNodes = args.graphData.nodes.filter(
-    (node) => !firstOrderNodes.find((findNode) => node.id === findNode.id)
+    (node) => !nodesToRemove.find((findNode) => node.id === findNode.id)
   );
   args.graphData.nodes.splice(0, args.graphData.nodes.length, ...leftOverNodes);
+};
+
+export const countLinksToNode = (node: HasID, links: LinkBetweenHasIDs[]) => {
+  return links.reduce((count, link) => {
+    if (link.target.id === node.id) {
+      return count + 1;
+    } else {
+      return count;
+    }
+  }, 0 /*init value for count*/);
 };
 
 export const makeKeydownListener = (
@@ -241,10 +245,10 @@ export const makeKeydownListener = (
       // TODO(skep): should probably be something with the mouse wheel, but
       // that event is somehow hidden by force-graph
       case "p":
-        zoom({ direction: ZoomDirection.In, graphData });
+        zoom({ direction: ZoomDirection.In, steps: 1, graphData });
         return;
       case "m":
-        zoom({ direction: ZoomDirection.Out, graphData });
+        zoom({ direction: ZoomDirection.Out, steps: 1, graphData });
         return;
       default:
         return;
@@ -265,7 +269,10 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   const onLinkClick = onLinkClickFn(props);
   // TODO(j): is this the react way of listening for input?
   let graphData = JSON.parse(JSON.stringify(props.selectedGraphDataset.data));
-  document.addEventListener("keydown", makeKeydownListener(zoom, graphData));
+  document.addEventListener(
+    "keydown",
+    makeKeydownListener(zoomStep, graphData)
+  );
   return (
     <ForceGraph2D
       // Note: all data must be copied, since force graph changes Link "source"

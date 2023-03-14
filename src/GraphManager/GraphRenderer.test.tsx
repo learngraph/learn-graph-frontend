@@ -7,10 +7,11 @@ import {
   nodeCanvasObject,
   onLinkClickFn,
   makeKeydownListener,
-  zoom,
+  zoomStep,
   ZoomDirection,
   countLinksToNode,
-  //rewrite2ndOrderLinksTo,
+  GraphDataMerged,
+  ZoomArgs,
 } from "./GraphRenderer";
 
 //import { useQuery } from "@apollo/client";
@@ -117,6 +118,7 @@ describe("makeKeydownListener", () => {
     keydown(event);
     expect(zoom.mock.calls.length).toBe(1);
     expect(zoom.mock.calls[0][0]).toEqual({
+      steps: 1,
       direction: ZoomDirection.In,
       graphData,
     });
@@ -128,6 +130,7 @@ describe("makeKeydownListener", () => {
     keydown(event);
     expect(zoom.mock.calls.length).toBe(1);
     expect(zoom.mock.calls[0][0]).toEqual({
+      steps: 1,
       direction: ZoomDirection.Out,
       graphData,
     });
@@ -142,103 +145,200 @@ describe("makeKeydownListener", () => {
 });
 
 describe("zoom", () => {
-  describe("merge central nodes, when zooming in", () => {
-    // TODO(skep): use link value (weight) as well for this decision, not only
-    // link count!
-    it("should merge 'A -> B <- C' to 'B'", () => {
-      let nodeList = [{ id: "A" }, { id: "B" }, { id: "C" }];
-      let node = Object.assign(
-        // @ts-ignore
-        ...nodeList.map((node) => ({ [node.id]: node }))
-      );
-      let graphData = {
-        nodes: nodeList,
-        links: [
-          { source: node.A, target: node.B },
-          { source: node.C, target: node.B },
-        ],
-      };
-      zoom({
-        direction: ZoomDirection.In,
-        // @ts-ignore ¯\_(ツ)_/¯
-        graphData,
-      });
-      expect(graphData).toEqual({ nodes: [node.B], links: [] });
-    });
-    it("should rewrite links to merged nodes: 'A -> B -> C <- D' to 'A -> C'", () => {
-      let nodeList = [{ id: "A" }, { id: "B" }, { id: "C" }, { id: "D" }];
-      let node = Object.assign(
-        // @ts-ignore
-        ...nodeList.map((node) => ({ [node.id]: node }))
-      );
-      let graphData = {
-        nodes: nodeList,
-        links: [
-          { source: node.A, target: node.B },
-          { source: node.B, target: node.C },
-          { source: node.D, target: node.C },
-        ],
-      };
-      zoom({
-        direction: ZoomDirection.In,
-        // @ts-ignore ¯\_(ツ)_/¯
-        graphData,
-      });
-      expect(graphData).toEqual({
-        nodes: [node.A, node.C],
-        links: [{ source: node.A, target: node.C }],
-      });
-    });
-    it("should rewrite: 'A -> B <- C; B -> D' to 'B -> D', preserving links", () => {
-      let nodeList = [{ id: "A" }, { id: "B" }, { id: "C" }, { id: "D" }];
-      let node = Object.assign(
-        // @ts-ignore
-        ...nodeList.map((node) => ({ [node.id]: node }))
-      );
-      let graphData = {
-        nodes: nodeList,
-        links: [
-          { source: node.A, target: node.B },
-          { source: node.C, target: node.B },
-          { source: node.B, target: node.D },
-        ],
-      };
-      zoom({
-        direction: ZoomDirection.In,
-        // @ts-ignore
-        graphData,
-      });
-      expect(graphData).toEqual({
-        nodes: [node.B, node.D],
-        links: [{ source: node.B, target: node.D }],
-      });
-    });
-    it("should rewrite 'A -> B; C -> D' to 'B; C -> D', choosing by node order on equal weight", () => {
-      let nodeList = [{ id: "A" }, { id: "B" }, { id: "C" }, { id: "D" }];
-      let node = Object.assign(
-        // @ts-ignore
-        ...nodeList.map((node) => ({ [node.id]: node }))
-      );
-      let graphData = {
-        nodes: nodeList,
-        links: [
-          { source: node.A, target: node.B },
-          { source: node.C, target: node.D },
-        ],
-      };
-      zoom({
-        direction: ZoomDirection.In,
-        // @ts-ignore
-        graphData,
-      });
-      expect(graphData).toEqual({
-        nodes: [node.B, node.C, node.D],
-        links: [{ source: node.C, target: node.D }],
-      });
-    });
+  describe("zooming in", () => {
+    let nodeList = [
+      { id: "A" },
+      { id: "B" },
+      { id: "C" },
+      { id: "D" },
+      { id: "E" },
+    ];
+    let node = Object.assign(
+      // @ts-ignore
+      ...nodeList.map((node) => ({ [node.id]: node }))
+    );
+    it.each([
+      [
+        // test name
+        "zoom a single step",
+        // input state visualized:
+        "A -> B <- C",
+        // expected output state visualized:
+        "B <- C",
+        {
+          steps: 1,
+          direction: ZoomDirection.In,
+          graphData: {
+            nodes: [node.A, node.B, node.C],
+            links: [
+              { source: node.A, target: node.B },
+              { source: node.C, target: node.B },
+            ],
+          },
+        },
+        {
+          nodes: [node.B, node.C],
+          links: [{ source: node.C, target: node.B }],
+        },
+      ],
+      [
+        "zoom 2 steps",
+        "A -> B <- C",
+        "B",
+        {
+          steps: 2,
+          direction: ZoomDirection.In,
+          graphData: {
+            nodes: [node.A, node.B, node.C],
+            links: [
+              { source: node.A, target: node.B },
+              { source: node.C, target: node.B },
+            ],
+          },
+        },
+        { nodes: [node.B], links: [] },
+      ],
+      [
+        "cannot zoom in further than the amount of nodes available",
+        "A -> B <- C",
+        "A -> B <- C",
+        {
+          steps: 3,
+          direction: ZoomDirection.In,
+          graphData: {
+            nodes: [node.A, node.B, node.C],
+            links: [
+              { source: node.A, target: node.B },
+              { source: node.C, target: node.B },
+            ],
+          },
+        },
+        {
+          nodes: [node.A, node.B, node.C],
+          links: [
+            { source: node.A, target: node.B },
+            { source: node.C, target: node.B },
+          ],
+        },
+      ],
+      [
+        "rewrite links to merged nodes",
+        "A -> B -> C <- D",
+        "A -> C",
+        {
+          steps: 2,
+          direction: ZoomDirection.In,
+          graphData: {
+            nodes: [node.A, node.B, node.C, node.D],
+            links: [
+              { source: node.A, target: node.B },
+              { source: node.B, target: node.C },
+              { source: node.D, target: node.C },
+            ],
+          },
+        },
+        {
+          nodes: [node.A, node.C],
+          links: [{ source: node.A, target: node.C }],
+        },
+      ],
+      [
+        "preserve forward links",
+        "A -> B <- C; B -> D",
+        "B -> D",
+        {
+          steps: 2,
+          direction: ZoomDirection.In,
+          graphData: {
+            nodes: [node.A, node.B, node.C, node.D],
+            links: [
+              { source: node.A, target: node.B },
+              { source: node.C, target: node.B },
+              { source: node.B, target: node.D },
+            ],
+          },
+        },
+        {
+          nodes: [node.B, node.D],
+          links: [{ source: node.B, target: node.D }],
+        },
+      ],
+      [
+        "choose by node order on equal weight",
+        "A -> B; C -> D",
+        "B; C -> D",
+        {
+          steps: 1,
+          direction: ZoomDirection.In,
+          graphData: {
+            nodes: [node.A, node.B, node.C, node.D],
+            links: [
+              { source: node.A, target: node.B },
+              { source: node.C, target: node.D },
+            ],
+          },
+        },
+        {
+          nodes: [node.B, node.C, node.D],
+          links: [{ source: node.C, target: node.D }],
+        },
+      ],
+      /// CONTINUE: test is valid, but implementation not yet
+      //[
+      //  "removed node's links, must be moved",
+      //  "A <- B -> C <- D",
+      //  "A <- C <- D",
+      //  {
+      //    steps: 1,
+      //    direction: ZoomDirection.In,
+      //    graphData: {
+      //      nodes: [node.A, node.B, node.C, node.D],
+      //      links: [
+      //        { source: node.B, target: node.A },
+      //        { source: node.B, target: node.C },
+      //        { source: node.D, target: node.C },
+      //      ],
+      //    },
+      //  },
+      //  {
+      //    nodes: [node.A, node.C, node.D],
+      //    links: [
+      //      { source: node.C, target: node.A },
+      //      { source: node.D, target: node.C },
+      //    ],
+      //  },
+      //],
+      //[
+      //  "name",
+      //  "A -> B",
+      //  "A -> B",
+      //  {
+      //    steps: ?,
+      //    direction: ZoomDirection.In,
+      //    graphData: { },
+      //  },
+      //  { },
+      //],
+    ])(
+      "%s: should merge %p to %p",
+      (
+        _test_name: string,
+        _from: string,
+        _to: string,
+        input: ZoomArgs,
+        expected: GraphDataMerged
+      ) => {
+        zoomStep(input);
+        expect(input.graphData).toEqual(expected);
+      }
+    );
+    it.todo("remove duplicate links, after link forwarding");
+    it.todo(
+      "choose nodes to delete by their link count, not just the first one"
+    ); // see test "choose by node order on equal weight" above
   });
-  describe("un-merge central nodes, when zooming out", () => {
-    it.todo("...tests for zooming out...");
+  describe("zooming out", () => {
+    //it.todo("...tests for zooming out...");
   });
 });
 
@@ -252,35 +352,8 @@ describe("countLinksToNode", () => {
       { source: node.B, target: node.A },
       { source: node.C, target: node.A },
     ];
-    // @ts-ignore: ..
     expect(countLinksToNode(node.C, links)).toEqual(0);
-    // @ts-ignore: ...
     expect(countLinksToNode(node.B, links)).toEqual(1);
-    // @ts-ignore: (┙>∧<)┙へ┻┻
     expect(countLinksToNode(node.A, links)).toEqual(2);
   });
 });
-
-//describe("rewrite2ndOrderLinksTo", () => {
-//  it("should rewrite: 'A -> B -> C' to 'A -> C <- B' with input id C", () => {
-//    let nodeList = [{ id: "A" }, { id: "B" }, { id: "C" }];
-//    // @ts-ignore
-//    let node = Object.assign(...nodeList.map((node) => ({ [node.id]: node })));
-//    let graphData = {
-//      nodes: nodeList,
-//      links: [
-//        { source: node.A, target: node.B },
-//        { source: node.B, target: node.C },
-//      ],
-//    };
-//    // @ts-ignore
-//    rewrite2ndOrderLinksTo(node.C, graphData);
-//    expect(graphData).toEqual({
-//      nodes: nodeList,
-//      links: [
-//        { source: node.A, target: node.C },
-//        { source: node.B, target: node.C },
-//      ],
-//    });
-//  });
-//});
