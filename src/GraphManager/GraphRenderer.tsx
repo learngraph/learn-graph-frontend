@@ -198,10 +198,16 @@ export const zoomStep: ZoomFn = (args: ZoomArgs): void => {
   let mergeTargetNode = nodesByLinkCount[0].node;
   // modify graph:
   // find first order nodes, as long as the first order links still exist
-  let firstOrderNodes = args.graphData.links
+  let firstOrderNodesByWeight = args.graphData.links
     .filter((link) => link.target.id === mergeTargetNode.id)
-    .map((link) => link.source);
-  let nodesToRemove = firstOrderNodes.slice(0, args.steps);
+    .map((link) => link.source)
+    .map((node) => ({
+      weight: calculateNodeWeight(node, args.graphData.links),
+      node: node,
+    }))
+    .sort((a, b) => a.weight - b.weight)
+    .map((o) => o.node);
+  let nodesToRemove = firstOrderNodesByWeight.slice(0, args.steps);
   // find links, that will stay unchanged to override current link list later
   let linksToKeep = args.graphData.links.filter(
     (link) =>

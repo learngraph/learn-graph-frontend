@@ -311,23 +311,30 @@ describe("zoom", () => {
       ],
       [
         "remove duplicate links, after link target forwarding (secondOrderTargetLinks)",
-        "A -> B -> C; A -> C",
-        "A -> C",
+        // FIXME: got to complex due to other changes to the zoomStep function
+        // 1. ensure that C stays mergeTargetNode: B -2-> C
+        // 2. ensure A gets deleted (lower node-weight, than B): D -2-> A
+        "D -2-> A -> B -2-> C; A -> C",
+        "D -2-> A -> C",
         {
           steps: 1,
           direction: ZoomDirection.In,
           graphData: {
-            nodes: [node.A, node.B, node.C],
+            nodes: [node.A, node.B, node.C, node.D],
             links: [
-              { source: node.B, target: node.C },
+              { source: node.B, target: node.C, value: 2 },
               { source: node.A, target: node.B },
               { source: node.A, target: node.C },
+              { source: node.D, target: node.A, value: 2 },
             ],
           },
         },
         {
-          nodes: [node.A, node.C],
-          links: [{ source: node.A, target: node.C }],
+          nodes: [node.A, node.C, node.D],
+          links: [
+            { source: node.A, target: node.C },
+            { source: node.D, target: node.A, value: 2 },
+          ],
         },
       ],
       [
@@ -355,6 +362,55 @@ describe("zoom", () => {
           ],
         },
       ],
+      [
+        "select deleted nodes by weight (1/2)",
+        "A -2-> B -2-> C <-2- D <- E",
+        "A -> B -> C <- E",
+        {
+          steps: 1,
+          direction: ZoomDirection.In,
+          graphData: {
+            nodes: [node.A, node.B, node.C, node.D, node.E],
+            links: [
+              { source: node.A, target: node.B, value: 2 },
+              { source: node.B, target: node.C, value: 2 },
+              { source: node.D, target: node.C, value: 2 },
+              { source: node.E, target: node.D },
+            ],
+          },
+        },
+        {
+          nodes: [node.A, node.B, node.C, node.E],
+          links: [
+            { source: node.A, target: node.B, value: 2 },
+            { source: node.B, target: node.C, value: 2 },
+            { source: node.E, target: node.C },
+          ],
+        },
+      ],
+      //[
+      //  "XXX: wtf should happen here?!",
+      //  "A <- B -> C",
+      //  "A <- B -> C",
+      //  {
+      //    steps: 1,
+      //    direction: ZoomDirection.In,
+      //    graphData: {
+      //      nodes: [node.A, node.B, node.C],
+      //      links: [
+      //        { source: node.B, target: node.A },
+      //        { source: node.B, target: node.C },
+      //      ],
+      //    },
+      //  },
+      //  {
+      //    nodes: [node.A, node.B, node.C],
+      //    links: [
+      //      { source: node.B, target: node.A },
+      //      { source: node.B, target: node.C },
+      //    ],
+      //  },
+      //],
       //[
       //  "name",
       //  "A -> B",
@@ -378,9 +434,6 @@ describe("zoom", () => {
         zoomStep(input);
         expect(input.graphData).toEqual(expected);
       }
-    );
-    it.todo(
-      "choose first order nodes to delete by their link count, not just the mergeTargetNode"
     );
     it.todo("remove self-referencing links after link rewriting"); // XXX: @j: should we? maybe it's better not to..
   });
