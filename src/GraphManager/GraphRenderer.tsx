@@ -148,12 +148,13 @@ const onLinkHover = (_: LinkObject | null): void => {
 // global input listeners
 
 // TODO(skep): extract zoom functions to separate file
-interface HasID {
+export interface HasID {
   id: string;
 }
-interface LinkBetweenHasIDs {
+export interface LinkBetweenHasIDs {
   source: HasID;
   target: HasID;
+  value?: number;
 }
 // HasID and LinkBetweenHasIDs is the zoom interface to the force-graph, since
 // all it needs are objects with IDs and links between objects with IDs.
@@ -193,10 +194,10 @@ export const zoomStep: ZoomFn = (args: ZoomArgs): void => {
   // select node to merge:
   const nodesByLinkCount = args.graphData.nodes
     .map((node) => ({
-      count: countLinksToNode(node, args.graphData.links),
+      weight: calculateNodeWeight(node, args.graphData.links),
       node: node,
     }))
-    .sort((a, b) => b.count - a.count);
+    .sort((a, b) => b.weight - a.weight);
   let mergeTargetNode = nodesByLinkCount[0].node;
   // modify graph:
   // find first order nodes, as long as the first order links still exist
@@ -204,19 +205,37 @@ export const zoomStep: ZoomFn = (args: ZoomArgs): void => {
     .filter((link) => link.target.id === mergeTargetNode.id)
     .map((link) => link.source);
   let nodesToRemove = firstOrderNodes.slice(0, args.steps);
-  // find links, that don't link to mergeTargetNode, to replace them later
+  // find links, that will stay unchanged to override current link list later
   let linksToKeep = args.graphData.links.filter(
-    (link) => !nodesToRemove.find((node) => node.id === link.source.id)
+    (link) =>
+      !nodesToRemove.find(
+        (removedNode) =>
+          link.source.id === removedNode.id &&
+          link.target.id === mergeTargetNode.id
+      )
   );
-  // delete first order links
-  args.graphData.links.splice(0, args.graphData.links.length, ...linksToKeep);
-  // rewrite 2nd order links to mergeTargetNode
-  let secondOrderNodesAndLinks = nodesToRemove.flatMap((firstOrderNode) => {
-    return args.graphData.links.filter(
-      (link) => link.target.id === firstOrderNode.id
-    );
+  // rewrite links from deleted nodes to 2nd order nodes
+  let secondOrderSourceLinks = nodesToRemove.flatMap((firstOrderNode) => {
+    return linksToKeep.filter((link) => link.source.id === firstOrderNode.id);
   });
-  secondOrderNodesAndLinks.forEach((link) => {
+  secondOrderSourceLinks.forEach((link) => {
+    link.source = mergeTargetNode;
+  });
+  // rewrite 2nd order links to mergeTargetNode
+  let secondOrderTargetLinks = nodesToRemove.flatMap((firstOrderNode) => {
+    return linksToKeep.filter((link) => link.target.id === firstOrderNode.id);
+  });
+  secondOrderTargetLinks.forEach((link) => {
+    const index = linksToKeep.findIndex(
+      (existingLink) =>
+        existingLink.source.id === link.source.id &&
+        existingLink.target.id === mergeTargetNode.id
+    );
+    if (index !== -1) {
+      // remove existing link, otherwise a duplicate link would be created
+      // TODO: should merge link.value, e.g. average?
+      linksToKeep.splice(index, 1);
+    }
     link.target = mergeTargetNode;
   });
   // delete all nodesToRemove
@@ -224,14 +243,22 @@ export const zoomStep: ZoomFn = (args: ZoomArgs): void => {
     (node) => !nodesToRemove.find((findNode) => node.id === findNode.id)
   );
   args.graphData.nodes.splice(0, args.graphData.nodes.length, ...leftOverNodes);
+  // delete first order links
+  args.graphData.links.splice(0, args.graphData.links.length, ...linksToKeep);
 };
 
-export const countLinksToNode = (node: HasID, links: LinkBetweenHasIDs[]) => {
-  return links.reduce((count, link) => {
+// calculates node weight by first order link count, weighted by link.value
+export const calculateNodeWeight = (
+  node: HasID,
+  links: LinkBetweenHasIDs[]
+) => {
+  const defaultWeight = 1;
+  const weightIncrementPerLink = 1;
+  return links.reduce((weight, link) => {
     if (link.target.id === node.id) {
-      return count + 1;
+      return weight + weightIncrementPerLink * (link.value ?? defaultWeight);
     } else {
-      return count;
+      return weight;
     }
   }, 0 /*init value for count*/);
 };

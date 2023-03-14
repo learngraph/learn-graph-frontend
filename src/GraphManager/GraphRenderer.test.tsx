@@ -9,9 +9,11 @@ import {
   makeKeydownListener,
   zoomStep,
   ZoomDirection,
-  countLinksToNode,
+  calculateNodeWeight,
   GraphDataMerged,
   ZoomArgs,
+  LinkBetweenHasIDs,
+  HasID,
 } from "./GraphRenderer";
 
 //import { useQuery } from "@apollo/client";
@@ -264,7 +266,7 @@ describe("zoom", () => {
         },
       ],
       [
-        "choose by node order on equal weight",
+        "choose mergeTargetNode by node order on equal weight",
         "A -> B; C -> D",
         "B; C -> D",
         {
@@ -283,31 +285,51 @@ describe("zoom", () => {
           links: [{ source: node.C, target: node.D }],
         },
       ],
-      /// CONTINUE: test is valid, but implementation not yet
-      //[
-      //  "removed node's links, must be moved",
-      //  "A <- B -> C <- D",
-      //  "A <- C <- D",
-      //  {
-      //    steps: 1,
-      //    direction: ZoomDirection.In,
-      //    graphData: {
-      //      nodes: [node.A, node.B, node.C, node.D],
-      //      links: [
-      //        { source: node.B, target: node.A },
-      //        { source: node.B, target: node.C },
-      //        { source: node.D, target: node.C },
-      //      ],
-      //    },
-      //  },
-      //  {
-      //    nodes: [node.A, node.C, node.D],
-      //    links: [
-      //      { source: node.C, target: node.A },
-      //      { source: node.D, target: node.C },
-      //    ],
-      //  },
-      //],
+      [
+        "removed node's links, must be moved",
+        "A <- B -> C <- D",
+        "A <- C <- D",
+        {
+          steps: 1,
+          direction: ZoomDirection.In,
+          graphData: {
+            nodes: [node.A, node.B, node.C, node.D],
+            links: [
+              { source: node.B, target: node.A },
+              { source: node.B, target: node.C },
+              { source: node.D, target: node.C },
+            ],
+          },
+        },
+        {
+          nodes: [node.A, node.C, node.D],
+          links: [
+            { source: node.C, target: node.A },
+            { source: node.D, target: node.C },
+          ],
+        },
+      ],
+      [
+        "remove duplicate links, after link forwarding (secondOrderTargetLinks)",
+        "A -> B -> C; A -> C",
+        "A -> C",
+        {
+          steps: 1,
+          direction: ZoomDirection.In,
+          graphData: {
+            nodes: [node.A, node.B, node.C],
+            links: [
+              { source: node.B, target: node.C },
+              { source: node.A, target: node.B },
+              { source: node.A, target: node.C },
+            ],
+          },
+        },
+        {
+          nodes: [node.A, node.C],
+          links: [{ source: node.A, target: node.C }],
+        },
+      ],
       //[
       //  "name",
       //  "A -> B",
@@ -315,9 +337,9 @@ describe("zoom", () => {
       //  {
       //    steps: ?,
       //    direction: ZoomDirection.In,
-      //    graphData: { },
+      //    graphData: {},
       //  },
-      //  { },
+      //  {},
       //],
     ])(
       "%s: should merge %p to %p",
@@ -332,28 +354,57 @@ describe("zoom", () => {
         expect(input.graphData).toEqual(expected);
       }
     );
-    it.todo("remove duplicate links, after link forwarding");
+    it.todo("remove self-referencing links after link rewriting"); // XXX: @j: should we? maybe it's better not to..
     it.todo(
-      "choose nodes to delete by their link count, not just the first one"
-    ); // see test "choose by node order on equal weight" above
+      "choose first order nodes to delete by their link count, not just the mergeTargetNode"
+    );
   });
   describe("zooming out", () => {
     //it.todo("...tests for zooming out...");
   });
 });
 
-describe("countLinksToNode", () => {
-  it("should count links to node", () => {
-    const nodeList = [{ id: "A" }, { id: "B" }, { id: "C" }];
-    // @ts-ignore: oh come on
-    let node = Object.assign(...nodeList.map((node) => ({ [node.id]: node })));
-    let links = [
-      { source: node.A, target: node.B },
-      { source: node.B, target: node.A },
-      { source: node.C, target: node.A },
-    ];
-    expect(countLinksToNode(node.C, links)).toEqual(0);
-    expect(countLinksToNode(node.B, links)).toEqual(1);
-    expect(countLinksToNode(node.A, links)).toEqual(2);
-  });
+describe("calculateNodeWeight", () => {
+  const nodeList = [{ id: "A" }, { id: "B" }, { id: "C" }];
+  // @ts-ignore: oh come on
+  let node = Object.assign(...nodeList.map((node) => ({ [node.id]: node })));
+  it.each([
+    [
+      "count links to node",
+      [
+        { source: node.A, target: node.B },
+        { source: node.B, target: node.A },
+        { source: node.C, target: node.A },
+      ],
+      [
+        { node: node.C, expected: 0 },
+        { node: node.B, expected: 1 },
+        { node: node.A, expected: 2 },
+      ],
+    ],
+    [
+      "weight each link by link.value",
+      [
+        { source: node.A, target: node.B, value: 2 },
+        { source: node.B, target: node.A, value: 3 },
+        { source: node.C, target: node.A, value: 0.5 },
+      ],
+      [
+        { node: node.C, expected: 0 },
+        { node: node.B, expected: 2 },
+        { node: node.A, expected: 3.5 },
+      ],
+    ],
+  ])(
+    "should %s",
+    (
+      _test_name: string,
+      links: LinkBetweenHasIDs[],
+      assertions: { node: HasID; expected: number }[]
+    ) => {
+      assertions.forEach(({ node, expected }) => {
+        expect(calculateNodeWeight(node, links)).toEqual(expected);
+      });
+    }
+  );
 });
