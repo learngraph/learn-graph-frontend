@@ -1,9 +1,11 @@
+import { TranslatedGraphData, useGraphDataContext } from "src/GraphDataContext";
+import { getTranslation } from "./utilities/getTranslation";
 import ForceGraph2D, {
   //GraphData as GraphDataForceGraph,
   LinkObject,
   NodeObject,
 } from "react-force-graph-2d";
-import { DataSetType, LinkType, NodeType /*, GraphData*/ } from "./types";
+import { GraphData, LinkType, NodeType /*, GraphData*/ } from "./types";
 
 // TODO(skep): fundamental type issue here, we have a NodeType !=
 // ForceGraph2D.NodeObject, and a LinkType != ForceGraph2D.LinkObject , but we
@@ -26,13 +28,11 @@ export interface VoteDialogParams {
   targetNode: NodeType;
   weight: number;
 }
-
 export interface VoteDialogFn {
   (params: VoteDialogParams): void;
 }
 
 interface GraphRendererProps {
-  selectedGraphDataset: DataSetType;
   openVoteDialog: VoteDialogFn;
 }
 
@@ -304,19 +304,38 @@ const config = {
   font: "Sans-Serif",
 };
 
+const transformToRenderedType = (graph: TranslatedGraphData): GraphData => {
+  // TODO: use language context
+  const language = "en";
+  const transformedNodes = graph.nodes.map(({ id, description, group }) => {
+    return {
+      id,
+      description: getTranslation({ translatedField: description, language }),
+      group,
+    };
+  });
+  return {
+    links: graph.links,
+    nodes: transformedNodes,
+  };
+};
+
 export const GraphRenderer = (props: GraphRendererProps) => {
+  const { graph } = useGraphDataContext();
+
+  const graphDataForRender = transformToRenderedType(graph);
   const onLinkClick = onLinkClickFn(props);
   // TODO(j): is this the react way of listening for input?
-  let graphData = JSON.parse(JSON.stringify(props.selectedGraphDataset.data));
   document.addEventListener(
     "keydown",
-    makeKeydownListener(zoomStep, graphData)
+    // @ts-ignore (┙>∧<)┙へ┻┻
+    makeKeydownListener(zoomStep, graphDataForRender)
   );
   return (
     <ForceGraph2D
       // Note: all data must be copied, since force graph changes Link "source"
       // and "target" fields to directly contain the referred node objects
-      graphData={graphData}
+      graphData={JSON.parse(JSON.stringify(graphDataForRender))}
       // nodes:
       nodeAutoColorBy={"group"}
       onNodeClick={onNodeClick}

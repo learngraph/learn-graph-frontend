@@ -1,5 +1,4 @@
-import { useCreateEdge } from "src/GraphManager/hooks/useCreateEdge";
-import { useCreateNode } from "src/GraphManager/hooks/useCreateNode";
+import { useGraphDataContext } from "src/GraphDataContext";
 import { DataSetType } from "src/GraphManager/types";
 import { EditTab } from "./EditTab";
 
@@ -9,7 +8,6 @@ export type EditTabContainerProps = {
 };
 
 export const EditTabContainer = (props: EditTabContainerProps) => {
-  const { createNode } = useCreateNode();
-  const { createEdge } = useCreateEdge();
-  return <EditTab {...props} createNode={createNode} createEdge={createEdge} />;
+  const { createNode, createLink } = useGraphDataContext();
+  return <EditTab {...props} createNode={createNode} createEdge={createLink} />;
 };

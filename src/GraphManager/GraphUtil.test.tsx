@@ -1,5 +1,11 @@
-import { GraphData } from "./types";
-import { sanitizeGraphData } from "./GraphUtil";
+import { GraphData, NodeType } from "./types";
+import {
+  sanitizeGraphData,
+  transformDisplayedNodesToPseudoTranslated,
+  TransformFunctionInput,
+  transformGraphDataForDisplay,
+} from "./GraphUtil";
+import { TranslatedNode } from "src/GraphDataContext";
 
 describe("sanitizeGraphData", () => {
   it("should coalesce undefined data", () => {
@@ -82,4 +88,68 @@ describe("sanitizeGraphData", () => {
       sanitizeGraphData(inp);
     }).toThrow();
   });
+});
+
+describe("transformGraphDataForDisplay", () => {
+  it("should transform a translated graph into a displayed graph", () => {
+    const input: TransformFunctionInput = {
+      language: "en",
+      graph: {
+        nodes: [
+          {
+            id: "1",
+            description: { translations: [{ language: "en", content: "A" }] },
+          },
+          {
+            id: "2",
+            description: { translations: [{ language: "en", content: "B" }] },
+          },
+        ],
+        links: [{ id: "l1", source: "1", target: "2", value: 1 }],
+      },
+    };
+
+    const expected: GraphData = {
+      links: input.graph.links,
+      nodes: [
+        { id: "1", description: "A" },
+        { id: "2", description: "B" },
+      ],
+    };
+
+    const result = transformGraphDataForDisplay(input);
+    expect(result).toEqual(expected);
+  });
+});
+
+describe("makePseudoTranslatedNodes", () => {
+  const inputNodes: NodeType[] = [
+    { id: "1", description: "A" },
+    { id: "2", description: "B" },
+  ];
+  const inputLanguage: string = "en";
+  const expected: TranslatedNode[] = [
+    {
+      id: inputNodes[0].id,
+      description: {
+        translations: [
+          { language: inputLanguage, content: inputNodes[0].description },
+        ],
+      },
+    },
+    {
+      id: inputNodes[1].id,
+      description: {
+        translations: [
+          { language: inputLanguage, content: inputNodes[1].description },
+        ],
+      },
+    },
+  ];
+
+  const result = transformDisplayedNodesToPseudoTranslated({
+    nodes: inputNodes,
+    language: inputLanguage,
+  });
+  expect(result).toEqual(expected);
 });

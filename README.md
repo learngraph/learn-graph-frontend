@@ -1,6 +1,6 @@
 # React Force Graph
 
-See [learn-tree.info](https://learn-tree.info/).
+See [learngraph.org](https://learngraph.org/).
 
 ## Development
 
