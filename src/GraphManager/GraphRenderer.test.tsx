@@ -147,7 +147,7 @@ describe("makeKeydownListener", () => {
 });
 
 describe("zoom", () => {
-  describe("zooming in", () => {
+  describe("in", () => {
     let nodeList = [
       { id: "A" },
       { id: "B" },
@@ -388,29 +388,51 @@ describe("zoom", () => {
           ],
         },
       ],
-      //[
-      //  "XXX: wtf should happen here?!",
-      //  "A <- B -> C",
-      //  "A <- B -> C",
-      //  {
-      //    steps: 1,
-      //    direction: ZoomDirection.In,
-      //    graphData: {
-      //      nodes: [node.A, node.B, node.C],
-      //      links: [
-      //        { source: node.B, target: node.A },
-      //        { source: node.B, target: node.C },
-      //      ],
-      //    },
-      //  },
-      //  {
-      //    nodes: [node.A, node.B, node.C],
-      //    links: [
-      //      { source: node.B, target: node.A },
-      //      { source: node.B, target: node.C },
-      //    ],
-      //  },
-      //],
+      [
+        "doubly outgoing links on first order deleted nodes",
+        "A <- B -> C",
+        "A -> C",
+        {
+          steps: 1,
+          direction: ZoomDirection.In,
+          graphData: {
+            nodes: [node.A, node.B, node.C],
+            links: [
+              { source: node.B, target: node.A },
+              { source: node.B, target: node.C },
+            ],
+          },
+        },
+        {
+          nodes: [node.A, node.C],
+          links: [{ source: node.A, target: node.C }],
+        },
+      ],
+      [
+        "self-linking node with otherwise only source links",
+        "A -10-> A; C <- A -> B",
+        "TODO: WTF?!",
+        {
+          steps: 1,
+          direction: ZoomDirection.In,
+          graphData: {
+            nodes: [node.A, node.B, node.C],
+            links: [
+              { source: node.A, target: node.A, value: 10 },
+              { source: node.A, target: node.B, value: 2 },
+              { source: node.A, target: node.C, value: 2 },
+            ],
+          },
+        },
+        {
+          nodes: [/*node.A,*/ node.B, node.C],
+          links: [
+            //{ source: node.A, target: node.A, value: 10 },
+            //{ source: node.A, target: node.B, value: 2 },
+            //{ source: node.A, target: node.C, value: 2 },
+          ],
+        },
+      ],
       //[
       //  "name",
       //  "A -> B",
@@ -435,9 +457,13 @@ describe("zoom", () => {
         expect(input.graphData).toEqual(expected);
       }
     );
+    it.todo(
+      "link weight propagation on merge || maybe tag merge-nodes? think first!"
+    );
+    it.todo("2 steps for 'A -> B; C -> D' [to enforce recursion]");
     it.todo("remove self-referencing links after link rewriting"); // XXX: @j: should we? maybe it's better not to..
   });
-  describe("zooming out", () => {
+  describe("out", () => {
     //it.todo("...tests for zooming out...");
   });
 });
