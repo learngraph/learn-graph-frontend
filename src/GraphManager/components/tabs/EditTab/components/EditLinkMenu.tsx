@@ -6,6 +6,7 @@ import {
   IconButton,
   TextField,
   MenuItem,
+  Box,
 } from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
 import CheckIcon from "@mui/icons-material/Check";
@@ -95,7 +96,7 @@ export const EditLinkMenu = ({
   });
 
   return (
-    <>
+    <Box>
       <Select
         labelId="select-source-node-label"
         id="select-source-node"
@@ -150,6 +151,6 @@ export const EditLinkMenu = ({
       >
         <CancelIcon />
       </IconButton>
-    </>
+    </Box>
   );
 };

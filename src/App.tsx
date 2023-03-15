@@ -1,4 +1,5 @@
 import { ApolloProvider } from "@apollo/client";
+import { GraphDataContextProvider } from "./GraphDataContext";
 //import {ThemeProvider} from "@emotion/react";
 //import { createTheme } from '@mui/material/styles';
 
@@ -17,7 +18,9 @@ export const App = () => {
   return (
     <>
       <ApolloProvider client={client}>
-        <GraphManagerContainer />
+        <GraphDataContextProvider>
+          <GraphManagerContainer />
+        </GraphDataContextProvider>
       </ApolloProvider>
     </>
   );

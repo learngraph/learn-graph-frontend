@@ -1,19 +1,18 @@
 import ForceGraph2D, { LinkObject, NodeObject } from "react-force-graph-2d";
-import { DataSetType, LinkType, NodeType } from "./types";
-
+import { TranslatedGraphData, useGraphDataContext } from "src/GraphDataContext";
+import { getTranslation } from "./utilities/getTranslation";
+import { GraphData, LinkType, NodeType } from "./types";
 export interface VoteDialogParams {
   linkID: string;
   sourceNode: NodeType;
   targetNode: NodeType;
   weight: number;
 }
-
 export interface VoteDialogFn {
   (params: VoteDialogParams): void;
 }
 
 interface GraphRendererProps {
-  selectedGraphDataset: DataSetType;
   openVoteDialog: VoteDialogFn;
 }
 
@@ -143,14 +142,33 @@ const config = {
   font: "Sans-Serif",
 };
 
+const transformToRenderedType = (graph: TranslatedGraphData): GraphData => {
+  // TODO: use language context
+  const language = "en";
+  const transformedNodes = graph.nodes.map(({ id, description, group }) => {
+    return {
+      id,
+      description: getTranslation({ translatedField: description, language }),
+      group,
+    };
+  });
+  return {
+    links: graph.links,
+    nodes: transformedNodes,
+  };
+};
+
 export const GraphRenderer = (props: GraphRendererProps) => {
+  const { graph } = useGraphDataContext();
+
+  const graphDataForRender = transformToRenderedType(graph);
   const onLinkClick = onLinkClickFn(props);
+
   return (
     <ForceGraph2D
       // Note: all data must be copied, since force graph changes Link "source"
       // and "target" fields to directly contain the referred node objects
-      graphData={JSON.parse(JSON.stringify(props.selectedGraphDataset.data))}
-      // nodes:
+      graphData={JSON.parse(JSON.stringify(graphDataForRender))}
       nodeAutoColorBy={"group"}
       onNodeClick={onNodeClick}
       nodeCanvasObject={nodeCanvasObject}

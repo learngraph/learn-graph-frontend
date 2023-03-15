@@ -11,12 +11,18 @@ import {
 import { DataSetType, GraphData, LinkType, NodeType } from "GraphManager/types";
 import { EditNodeMenu } from "./components/EditNodeMenu";
 import { EditLinksMenu } from "./components/EditLinksMenu";
-import { editNode } from "./utilities/editNode";
+import {
+  updateNodeInGraph,
+  updateNodeInGraphProps,
+} from "./utilities/editNode";
 import {
   CreateNodeFn,
   CreateNodeFnResponse,
 } from "src/GraphManager/hooks/useCreateNode";
-import { CreateEdgeFn } from "src/GraphManager/hooks/useCreateEdge";
+import {
+  CreateEdgeFn,
+  CreateEdgeFnResponse,
+} from "src/GraphManager/hooks/useCreateEdge";
 
 export type EditTabProps = {
   currentGraphDataset: DataSetType;
@@ -41,15 +47,13 @@ export const findBackwardLinks = (
 
 // TODO: use running index to avoid conflicts when adding nodes in succession
 export const TMPNODE_ID = "TMPNEWNODE";
-export const TMPLINK_ID = "TMPNEWEDGE";
-
 export const updateNodeFn = (args: {
-  graphData: GraphData;
-  selectedNodeInGraph: NodeType;
-  createNode: CreateNodeFn;
   currentGraphDataset: DataSetType;
+  selectedNodeInGraph: NodeType;
   setSelectedNodeDescription: (description: string) => void;
   updateDisplayedGraph: (value: DataSetType) => void;
+  createNode: CreateNodeFn;
+  getGraphWithUpdatedNode: (args: updateNodeInGraphProps) => GraphData;
 }) => {
   return ({
     node,
@@ -57,57 +61,38 @@ export const updateNodeFn = (args: {
   }: {
     isNewNode: boolean;
     node: NodeType;
-  }): Promise<void> => {
-    return new Promise<void>((resolve, reject) => {
-      const { dataSetName } = args.currentGraphDataset;
-      let newGraph: GraphData | undefined = undefined;
-      if (isNewNode) {
-        newGraph = editNode({
-          graph: args.graphData,
-          newNode: { ...node, id: TMPNODE_ID },
-          selectedNode: args.selectedNodeInGraph,
-          isNewNode,
-        });
-        args
-          .createNode({
-            description: {
-              translations: [
-                {
-                  language: "en" /*TODO(skep): use language header*/,
-                  content: node.description,
-                },
-              ],
+  }): Promise<void | CreateNodeFnResponse> => {
+    if (isNewNode) {
+      return args.createNode({
+        description: {
+          translations: [
+            {
+              language: "en" /*TODO(skep): use language header*/,
+              content: node.description,
             },
-          })
-          .then((rsp: CreateNodeFnResponse) => {
-            if (!rsp.data) {
-              reject("empty response from backend");
-              return;
-            }
-            const newNewGraph = editNode({
-              graph: args.graphData,
-              newNode: { ...node, id: rsp.data?.createNode.ID },
-              selectedNode: { ...node, id: TMPNODE_ID },
-              isNewNode: false,
-            });
-            args.updateDisplayedGraph({ dataSetName, data: newNewGraph });
-            resolve();
-          });
-      } else {
-        newGraph = editNode({
-          graph: args.graphData,
+          ],
+        },
+      });
+    } else {
+      // TODO: switch out once updateNode & backend call is available through the context as well
+      return new Promise<void>((resolve, reject) => {
+        const { dataSetName } = args.currentGraphDataset;
+        const newGraph = args.getGraphWithUpdatedNode({
+          graph: args.currentGraphDataset.data,
           newNode: node,
           selectedNode: args.selectedNodeInGraph,
-          isNewNode,
         });
         resolve();
-      }
-      args.setSelectedNodeDescription(node.description);
-      args.updateDisplayedGraph({ dataSetName, data: newGraph });
-    });
+
+        args.setSelectedNodeDescription(node.description);
+        args.updateDisplayedGraph({ dataSetName, data: newGraph });
+      });
+    }
   };
 };
 
+// TODO: use running index to avoid conflicts when adding nodes in succession
+export const TMPLINK_ID = "TMPNEWEDGE";
 export const updateLinkFn = (props: EditTabProps) => {
   return ({
     oldLink,
@@ -115,65 +100,46 @@ export const updateLinkFn = (props: EditTabProps) => {
   }: {
     oldLink: LinkType | undefined;
     updatedLink: LinkType; // TODO: use partial link type w/o ID field here
-  }): Promise<void> => {
-    return new Promise<void>((resolve, reject) => {
-      const {
-        dataSetName,
-        data: { nodes, links },
-      } = props.currentGraphDataset;
-      const updatedLinks = [...(links ?? [])];
-      if (!oldLink) {
-        updatedLinks?.push({ ...updatedLink, id: TMPLINK_ID });
-        props
-          .createEdge({
-            from: updatedLink.source,
-            to: updatedLink.target,
-            weight: updatedLink.value,
-          })
-          .then((data) => {
-            if (!data.data) {
-              reject(`Could not create Edge in Backend: ${data}`);
-              return;
-            }
-            const linkIndex =
-              updatedLinks?.findIndex((link) => link.id === TMPLINK_ID) ?? -1;
-            if (linkIndex === -1) {
-              reject("no recently edited link available (bug!)");
-            }
-            updatedLinks[linkIndex] = {
-              ...updatedLink,
-              id: data.data?.createEdge.ID,
-            };
-            const newGraph = { nodes, links: updatedLinks };
-            props.updateDisplayedGraph({ dataSetName, data: newGraph });
-            resolve();
-          });
-      } else {
+  }): Promise<void | CreateEdgeFnResponse> => {
+    if (!oldLink) {
+      return props.createEdge({
+        from: updatedLink.source,
+        to: updatedLink.target,
+        weight: updatedLink.value,
+      });
+    } else {
+      return new Promise<void>((resolve, reject) => {
+        const {
+          dataSetName,
+          data: { nodes, links },
+        } = props.currentGraphDataset;
+        const updatedLinks = [...(links ?? [])];
+
         const linkIndex = links?.findIndex((link) => link === oldLink) ?? -1;
         updatedLinks[linkIndex] = updatedLink;
         if (linkIndex === -1) {
           reject("unknown index on link update");
         }
         resolve();
-      }
 
-      const newGraph = { nodes, links: updatedLinks };
-      props.updateDisplayedGraph({ dataSetName, data: newGraph });
-    });
+        const newGraph = { nodes, links: updatedLinks };
+        props.updateDisplayedGraph({ dataSetName, data: newGraph });
+      });
+    }
   };
 };
 
 export const EditTab = (props: EditTabProps): JSX.Element => {
-  const { data: graphData } = props.currentGraphDataset;
-
-  const firstNode = graphData.nodes?.[0];
+  const firstNode = props.currentGraphDataset.data.nodes?.[0];
   const [selectedNodeID, setSelectedNodeID] = useState(firstNode?.id);
   const [selectedNodeDescription, setSelectedNodeDescription] = useState(
     firstNode?.description
   );
+
   const selectedNodeInGraph =
-    graphData.nodes?.find(({ id }) => id === selectedNodeID) ??
-    graphData.nodes?.[0];
+    props.currentGraphDataset.data.nodes?.find(
+      ({ id }) => id === selectedNodeID
+    ) ?? props.currentGraphDataset.data.nodes?.[0];
 
   const handleSelectNode = (
     event: SelectChangeEvent<string>,
@@ -181,7 +147,9 @@ export const EditTab = (props: EditTabProps): JSX.Element => {
   ): void => {
     //const nodeName = event.target.value as string;
     const nodeID = event.target.value as string;
-    const node = graphData.nodes.find((node) => node.id === nodeID);
+    const node = props.currentGraphDataset.data.nodes.find(
+      (node) => node.id === nodeID
+    );
     if (!node) {
       throw new Error(`unknown node selected: id=${nodeID}`);
     }
@@ -190,26 +158,34 @@ export const EditTab = (props: EditTabProps): JSX.Element => {
   };
 
   const updateNode = updateNodeFn({
-    graphData,
-    selectedNodeInGraph,
-    createNode: props.createNode,
     currentGraphDataset: props.currentGraphDataset,
+    selectedNodeInGraph,
     setSelectedNodeDescription,
     updateDisplayedGraph: props.updateDisplayedGraph,
+    createNode: props.createNode,
+    getGraphWithUpdatedNode: updateNodeInGraph,
   });
 
   const updateLink = updateLinkFn(props);
 
-  const forwardLinks = findForwardLinks(graphData, selectedNodeID);
-  const backwardLinks = findBackwardLinks(graphData, selectedNodeID);
+  const forwardLinks = findForwardLinks(
+    props.currentGraphDataset.data,
+    selectedNodeID
+  );
+  const backwardLinks = findBackwardLinks(
+    props.currentGraphDataset.data,
+    selectedNodeID
+  );
 
-  const renderOptions = graphData.nodes?.map(({ id, description }) => {
-    return (
-      <MenuItem key={id} value={id}>
-        {description}
-      </MenuItem>
-    );
-  });
+  const renderOptions = props.currentGraphDataset.data.nodes?.map(
+    ({ id, description }) => {
+      return (
+        <MenuItem key={id} value={id}>
+          {description}
+        </MenuItem>
+      );
+    }
+  );
 
   return (
     <>
@@ -232,7 +208,7 @@ export const EditTab = (props: EditTabProps): JSX.Element => {
         finishEditing={undefined}
       />
       <EditLinksMenu
-        nodes={graphData.nodes}
+        nodes={props.currentGraphDataset.data.nodes}
         forwardLinks={forwardLinks}
         backwardLinks={backwardLinks}
         onUpdateLink={updateLink}
