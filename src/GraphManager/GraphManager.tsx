@@ -53,8 +53,9 @@ export const GraphManager = ({
 
   useEffect(() => {
     setTimeout(() => {
-      if (!fetchedGraph) handleDatasetChange(datasets[0]);
+      if (!fetchedGraph && !graph) handleDatasetChange(datasets[0]);
     }, 500);
+    // should only be executed once on startup, thus no dependencies
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
