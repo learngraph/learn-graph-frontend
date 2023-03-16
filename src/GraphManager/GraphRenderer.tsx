@@ -350,7 +350,9 @@ const transformToRenderedType = (graph: TranslatedGraphData): GraphData => {
 export const GraphRenderer = (props: GraphRendererProps) => {
   const { graph } = useGraphDataContext();
 
-  const graphDataForRender = transformToRenderedType(graph);
+  const graphDataForRender = JSON.parse(
+    JSON.stringify(transformToRenderedType(graph))
+  );
   const onLinkClick = onLinkClickFn(props);
   // TODO(j): is this the react way of listening for input?
   document.addEventListener(
@@ -362,8 +364,8 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     <ForceGraph2D
       // Note: all data must be copied, since force graph changes Link "source"
       // and "target" fields to directly contain the referred node objects
-      graphData={JSON.parse(JSON.stringify(graphDataForRender))}
       // nodes:
+      graphData={graphDataForRender}
       nodeAutoColorBy={"group"}
       onNodeClick={onNodeClick}
       nodeCanvasObject={nodeCanvasObject}
