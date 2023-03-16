@@ -161,14 +161,16 @@ const transformToRenderedType = (graph: TranslatedGraphData): GraphData => {
 export const GraphRenderer = (props: GraphRendererProps) => {
   const { graph } = useGraphDataContext();
 
-  const graphDataForRender = transformToRenderedType(graph);
+  const graphDataForRender = JSON.parse(
+    JSON.stringify(transformToRenderedType(graph))
+  );
   const onLinkClick = onLinkClickFn(props);
 
   return (
     <ForceGraph2D
       // Note: all data must be copied, since force graph changes Link "source"
       // and "target" fields to directly contain the referred node objects
-      graphData={JSON.parse(JSON.stringify(graphDataForRender))}
+      graphData={graphDataForRender}
       nodeAutoColorBy={"group"}
       onNodeClick={onNodeClick}
       nodeCanvasObject={nodeCanvasObject}
