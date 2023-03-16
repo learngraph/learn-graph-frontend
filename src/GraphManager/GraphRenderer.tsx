@@ -207,6 +207,9 @@ export const zoomStep: ZoomFn = (args: ZoomArgs): void => {
     }))
     .sort((a, b) => a.weight - b.weight)
     .map((o) => o.node);
+  if (firstOrderNodesByWeight.length === 0) {
+    return; // nothing left to merge
+  }
   let nodesToRemove = firstOrderNodesByWeight.slice(0, args.steps);
   // find links, that will stay unchanged to override current link list later
   let linksToKeep = args.graphData.links.filter(
@@ -218,44 +221,68 @@ export const zoomStep: ZoomFn = (args: ZoomArgs): void => {
       )
   );
   // rewrite links from deleted nodes to 2nd order nodes, removing duplicates
+  rewrite2ndOrderLinks(nodesToRemove, linksToKeep, mergeTargetNode, {
+    deleted: "source",
+    other: "target",
+  });
+  // rewrite links from 2nd order nodes to mergeTargetNode, removing duplicates
+  rewrite2ndOrderLinks(nodesToRemove, linksToKeep, mergeTargetNode, {
+    deleted: "target",
+    other: "source",
+  });
+  // delete all nodesToRemove
+  deleteFromArray(args.graphData.nodes, nodesToRemove);
+  // delete first order links
+  replaceArray(args.graphData.links, linksToKeep);
+  // recurse if we didn't merge enough nodes yet
+  args.steps -= nodesToRemove.length;
+  if (args.steps > 0) {
+    zoomStep(args);
+  }
+};
+
+function deleteFromArray(nodes: HasID[], nodesToRemove: HasID[]) {
+  let leftOverNodes = nodes.filter(
+    (node) => !nodesToRemove.find((findNode) => node.id === findNode.id)
+  );
+  replaceArray(nodes, leftOverNodes);
+}
+
+// replace the content of `ar` with `newar` (in-place operation)
+function replaceArray<T>(a: T[], newa: T[]) {
+  a.splice(0, a.length, ...newa);
+}
+
+// rewrite2ndOrderLinks rewrites 2nd order links to skip the deleted nodes,
+// `dir` specifies the link's direction
+const rewrite2ndOrderLinks = (
+  nodesToRemove: HasID[],
+  linksToKeep: LinkBetweenHasIDs[],
+  mergeTargetNode: HasID,
+  dir: { deleted: "source" | "target"; other: "source" | "target" }
+) => {
   let secondOrderSourceLinks = nodesToRemove.flatMap((firstOrderNode) => {
-    return linksToKeep.filter((link) => link.source.id === firstOrderNode.id);
+    return linksToKeep.filter(
+      (link) => link[dir.deleted].id === firstOrderNode.id
+    );
   });
   secondOrderSourceLinks.forEach((link) => {
     const index = linksToKeep.findIndex(
       (existingLink) =>
-        existingLink.source.id === mergeTargetNode.id &&
-        existingLink.target.id === link.target.id
+        existingLink[dir.deleted].id === mergeTargetNode.id &&
+        existingLink[dir.other].id === link[dir.other].id
     );
     if (index !== -1) {
-      // TODO: should merge link.value, e.g. average?
       linksToKeep.splice(index, 1);
     }
-    link.source = mergeTargetNode;
-  });
-  // rewrite links from 2nd order nodes to mergeTargetNode, removing duplicates
-  let secondOrderTargetLinks = nodesToRemove.flatMap((firstOrderNode) => {
-    return linksToKeep.filter((link) => link.target.id === firstOrderNode.id);
-  });
-  secondOrderTargetLinks.forEach((link) => {
-    const index = linksToKeep.findIndex(
-      (existingLink) =>
-        existingLink.source.id === link.source.id &&
-        existingLink.target.id === mergeTargetNode.id
-    );
-    if (index !== -1) {
-      // TODO: should merge link.value, e.g. average?
-      linksToKeep.splice(index, 1);
+    link[dir.deleted] = mergeTargetNode;
+    if (link[dir.deleted] === link[dir.other]) {
+      linksToKeep.splice(
+        linksToKeep.findIndex((selfLink) => link === selfLink),
+        1
+      );
     }
-    link.target = mergeTargetNode;
   });
-  // delete all nodesToRemove
-  let leftOverNodes = args.graphData.nodes.filter(
-    (node) => !nodesToRemove.find((findNode) => node.id === findNode.id)
-  );
-  args.graphData.nodes.splice(0, args.graphData.nodes.length, ...leftOverNodes);
-  // delete first order links
-  args.graphData.links.splice(0, args.graphData.links.length, ...linksToKeep);
 };
 
 // calculates node weight by first order link count, weighted by link.value

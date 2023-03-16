@@ -183,6 +183,40 @@ describe("zoom", () => {
         },
       ],
       [
+        "do nothing when steps == 0",
+        "A -> B",
+        "A -> B",
+        {
+          steps: 0,
+          direction: ZoomDirection.In,
+          graphData: {
+            nodes: [node.A, node.B],
+            links: [{ source: node.A, target: node.B }],
+          },
+        },
+        {
+          nodes: [node.A, node.B],
+          links: [{ source: node.A, target: node.B }],
+        },
+      ],
+      [
+        "do nothing when no nodes can be deleted",
+        "A; B",
+        "A; B",
+        {
+          steps: 1,
+          direction: ZoomDirection.In,
+          graphData: {
+            nodes: [node.A, node.B],
+            links: [],
+          },
+        },
+        {
+          nodes: [node.A, node.B],
+          links: [],
+        },
+      ],
+      [
         "zoom 2 steps",
         "A -> B <- C",
         "B",
@@ -388,6 +422,32 @@ describe("zoom", () => {
         },
       ],
       [
+        "select deleted nodes by weight (2/2)",
+        "A -> B -2-> C <-2- D <-2- E",
+        "A -> C <- D <- E",
+        {
+          steps: 1,
+          direction: ZoomDirection.In,
+          graphData: {
+            nodes: [node.A, node.B, node.C, node.D, node.E],
+            links: [
+              { source: node.A, target: node.B },
+              { source: node.B, target: node.C, value: 2 },
+              { source: node.D, target: node.C, value: 2 },
+              { source: node.E, target: node.D, value: 2 },
+            ],
+          },
+        },
+        {
+          nodes: [node.A, node.C, node.D, node.E],
+          links: [
+            { source: node.A, target: node.C },
+            { source: node.D, target: node.C, value: 2 },
+            { source: node.E, target: node.D, value: 2 },
+          ],
+        },
+      ],
+      [
         "doubly outgoing links on first order deleted nodes",
         "A <- B -> C",
         "A -> C",
@@ -432,6 +492,51 @@ describe("zoom", () => {
           ],
         },
       ],
+      [
+        "2 zoom steps in separated graph (enforce recursion)",
+        "A -> B; C -> D",
+        "B; D",
+        {
+          steps: 2,
+          direction: ZoomDirection.In,
+          graphData: {
+            nodes: [node.A, node.B, node.C, node.D],
+            links: [
+              { source: node.A, target: node.B },
+              { source: node.C, target: node.D },
+            ],
+          },
+        },
+        {
+          nodes: [node.B, node.D],
+          links: [],
+        },
+      ],
+      [
+        "remove self-referencing links after link rewriting",
+        "D -1.5-> A -> B <-> C",
+        "D -1.5-> A -> B",
+        {
+          steps: 1,
+          direction: ZoomDirection.In,
+          graphData: {
+            nodes: [node.A, node.B, node.C, node.D],
+            links: [
+              { source: node.D, target: node.A, value: 1.5 },
+              { source: node.A, target: node.B },
+              { source: node.B, target: node.C },
+              { source: node.C, target: node.B },
+            ],
+          },
+        },
+        {
+          nodes: [node.A, node.B, node.D],
+          links: [
+            { source: node.D, target: node.A, value: 1.5 },
+            { source: node.A, target: node.B },
+          ],
+        },
+      ],
       //[
       //  "name",
       //  "A -> B",
@@ -456,11 +561,10 @@ describe("zoom", () => {
         expect(input.graphData).toEqual(expected);
       }
     );
+    it.todo("link.weight propagation (force simmulation weight)"); // XXX: probably already correctly done
     it.todo(
-      "link weight propagation on merge || maybe tag merge-nodes? think first!"
+      "node.weight propagation on merge (node selection weight for merge)"
     );
-    it.todo("2 steps for 'A -> B; C -> D' [to enforce recursion]");
-    it.todo("remove self-referencing links after link rewriting"); // XXX: @j: should we? maybe it's better not to..
   });
   describe("out", () => {
     //it.todo("...tests for zooming out...");
