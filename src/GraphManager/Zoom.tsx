@@ -75,12 +75,12 @@ export const zoomStep: ZoomFn = (args: ZoomArgs): void => {
       )
   );
   // rewrite links from deleted nodes to 2nd order nodes, removing duplicates
-  rewrite2ndOrderLinks(nodesToRemove, linksToKeep, mergeTargetNode, {
+  rewrite2ndOrderLinks(mergeTargetNode, nodesToRemove, linksToKeep, {
     deleted: "source",
     other: "target",
   });
   // rewrite links from 2nd order nodes to mergeTargetNode, removing duplicates
-  rewrite2ndOrderLinks(nodesToRemove, linksToKeep, mergeTargetNode, {
+  rewrite2ndOrderLinks(mergeTargetNode, nodesToRemove, linksToKeep, {
     deleted: "target",
     other: "source",
   });
@@ -94,22 +94,25 @@ export const zoomStep: ZoomFn = (args: ZoomArgs): void => {
     zoomStep(args);
   }
 };
+
 function deleteFromArray(nodes: HasID[], nodesToRemove: HasID[]) {
   let leftOverNodes = nodes.filter(
     (node) => !nodesToRemove.find((findNode) => node.id === findNode.id)
   );
   replaceArray(nodes, leftOverNodes);
 }
+
 // replace the content of `ar` with `newar` (in-place operation)
 function replaceArray<T>(a: T[], newa: T[]) {
   a.splice(0, a.length, ...newa);
 }
+
 // rewrite2ndOrderLinks rewrites 2nd order links to skip the deleted nodes,
 // `dir` specifies the link's direction
 const rewrite2ndOrderLinks = (
+  mergeTargetNode: HasID,
   nodesToRemove: HasID[],
   linksToKeep: LinkBetweenHasIDs[],
-  mergeTargetNode: HasID,
   dir: { deleted: "source" | "target"; other: "source" | "target" }
 ) => {
   let secondOrderSourceLinks = nodesToRemove.flatMap((firstOrderNode) => {

@@ -447,9 +447,9 @@ describe("calculateNodeWeight", () => {
         { source: node.C, target: node.A },
       ],
       [
-        { node: node.C, expected: 0 },
-        { node: node.B, expected: 1 },
-        { node: node.A, expected: 2 },
+        { node: node.C, expectedWeight: 0 },
+        { node: node.B, expectedWeight: 1 },
+        { node: node.A, expectedWeight: 2 },
       ],
     ],
     [
@@ -460,9 +460,9 @@ describe("calculateNodeWeight", () => {
         { source: node.C, target: node.A, value: 0.5 },
       ],
       [
-        { node: node.C, expected: 0 },
-        { node: node.B, expected: 2 },
-        { node: node.A, expected: 3.5 },
+        { node: node.C, expectedWeight: 0 },
+        { node: node.B, expectedWeight: 2 },
+        { node: node.A, expectedWeight: 3.5 },
       ],
     ],
   ])(
@@ -470,10 +470,10 @@ describe("calculateNodeWeight", () => {
     (
       _test_name: string,
       links: LinkBetweenHasIDs[],
-      assertions: { node: HasID; expected: number }[]
+      assertions: { node: HasID; expectedWeight: number }[]
     ) => {
-      assertions.forEach(({ node, expected }) => {
-        expect(calculateNodeWeight(node, links)).toEqual(expected);
+      assertions.forEach(({ node, expectedWeight }) => {
+        expect(calculateNodeWeight(node, links)).toEqual(expectedWeight);
       });
     }
   );
