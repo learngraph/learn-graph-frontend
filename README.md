@@ -6,10 +6,17 @@ See [learngraph.org](https://learngraph.org/).
 
 - [Discord Server](https://discord.gg/KWAPSjuR)
 
-### Design Decisions
+### Development Envorinment
 
-We want to keep the CRA (-- Create React App), i.e. we don't want to eject,
-unless absolutely necessary.
+We develop on linux.
+
+First setup a pre-commit hook via
+
+```sh
+yarn init-git
+```
+
+This will run tests, linter and auto-formatter before every commit.
 
 ### Running the Application
 
@@ -22,10 +29,15 @@ yarn start
 Or run it in a docker container
 
 ```sh
-docker-compose -f ./docker-compose-dev.yml up
+docker-compose up
 ```
 
 If the backend is started in the same way, communication is possible.
+
+### Design Decisions
+
+We want to keep the CRA (-- Create React App), i.e. we don't want to eject,
+unless absolutely necessary.
 
 ### Testing
 

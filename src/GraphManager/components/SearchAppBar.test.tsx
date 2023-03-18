@@ -8,7 +8,9 @@ describe("SearchAppBar", () => {
     render(<SearchAppBar userInputCallback={userInputCallback} />);
     expect(userInputCallback.mock.calls.length).toBe(0);
     let input = screen.getByLabelText("search bar");
-    userEvent.type(input, "lol");
+    const user = userEvent.setup();
+    await user.click(input);
+    await user.keyboard("lol");
     expect(userInputCallback.mock.calls.length).toBe(3);
     expect(userInputCallback.mock.calls[0][0]).toEqual("l");
     expect(userInputCallback.mock.calls[1][0]).toEqual("lo");
