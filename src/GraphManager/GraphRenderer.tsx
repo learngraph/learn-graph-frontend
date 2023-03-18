@@ -129,7 +129,7 @@ export const onLinkClickFn = (props: GraphRendererProps) => {
   };
 };
 
-const onLinkHover = (params: LinkObject | null): void => {
+const onLinkHover = (_: LinkObject | null): void => {
   //console.log("linkHov", params);
 };
 
