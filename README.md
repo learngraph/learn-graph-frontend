@@ -6,31 +6,33 @@ See [learngraph.org](https://learngraph.org/).
 
 - [Discord Server](https://discord.gg/KWAPSjuR)
 
-### Design Decisions
+### Development Envorinment
+We develop on linux.
 
-We want to keep the CRA (-- Create React App), i.e. we don't want to eject,
-unless absolutely necessary.
+First setup a pre-commit hook via
+```sh
+yarn init-git
+```
+This will run tests, linter and auto-formatter before every commit.
 
 ### Running the Application
-
 Start the frontend as standalone app
-
 ```sh
 yarn start
 ```
 
 Or run it in a docker container
-
 ```sh
-docker-compose -f ./docker-compose-dev.yml up
+docker-compose up
 ```
-
 If the backend is started in the same way, communication is possible.
 
+### Design Decisions
+We want to keep the CRA (-- Create React App), i.e. we don't want to eject,
+unless absolutely necessary.
+
 ### Testing
-
 Run the tests via
-
 ```sh
 yarn test
 # or
@@ -49,6 +51,5 @@ Implementation: We're using the [default jest config](./scripts/config/jest),
 copied from CRA.
 
 ## Production
-
 Compilation via 2 stage [Dockerfile](./Dockerfile).
 Image is build and pushed to hub.docker.com via [github action](.github/workflows/release.yml).
