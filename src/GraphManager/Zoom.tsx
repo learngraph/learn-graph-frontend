@@ -44,44 +44,21 @@ export const zoomStep: ZoomFn = (args: ZoomArgs): void => {
   if (args.steps >= args.graphData.nodes.length) {
     return;
   }
-  let { mergeTargetNode, nodesToRemove } = selectMergeTargetAndSources(args);
-  if (nodesToRemove.length === 0) {
+  let selection = selectMergeTargetAndSources(args);
+  if (selection.toRemove.length === 0) {
     return; // nothing left to merge
   }
-  mergeTargetNode.mergeCount = [...nodesToRemove, mergeTargetNode].reduce(
-    (currentMergeCount, node) => currentMergeCount + (node.mergeCount ?? 1),
-    0
-  );
-  // find links, that will stay unchanged to override current link list later
-  let linksToKeep = args.graphData.links.filter(
-    (link) =>
-      !nodesToRemove.find(
-        (removedNode) =>
-          link.source.id === removedNode.id &&
-          link.target.id === mergeTargetNode.id
-      )
-  );
-  rewrite2ndOrderLinks(mergeTargetNode, nodesToRemove, linksToKeep, {
-    deleted: "source",
-    other: "target",
-  });
-  rewrite2ndOrderLinks(mergeTargetNode, nodesToRemove, linksToKeep, {
-    deleted: "target",
-    other: "source",
-  });
-  deleteFromArray(args.graphData.nodes, nodesToRemove);
-  // delete first order links
-  replaceArray(args.graphData.links, linksToKeep);
+  mergeSelection(selection, args);
   // recurse if we didn't merge enough nodes yet
-  args.steps -= nodesToRemove.length;
+  args.steps -= selection.toRemove.length;
   if (args.steps > 0) {
     zoomStep(args);
   }
 };
 
 export interface MergeSelection {
-  mergeTargetNode: HasID;
-  nodesToRemove: HasID[];
+  mergeTarget: HasID;
+  toRemove: HasID[];
 }
 
 // selectMergeTargetAndSources selects a target node `mergeTargetNode` and
@@ -107,7 +84,7 @@ export const selectMergeTargetAndSources: (args: ZoomArgs) => MergeSelection = (
     .sort((a, b) => a.weight - b.weight)
     .map((o) => o.node);
   let nodesToRemove = firstOrderNodesByWeight.slice(0, args.steps);
-  return { mergeTargetNode, nodesToRemove };
+  return { mergeTarget: mergeTargetNode, toRemove: nodesToRemove };
 };
 
 const deleteFromArray = (nodes: HasID[], nodesToRemove: HasID[]) => {
@@ -116,6 +93,38 @@ const deleteFromArray = (nodes: HasID[], nodesToRemove: HasID[]) => {
   );
   replaceArray(nodes, leftOverNodes);
 };
+
+// mergeSelection merges the nodes according to `selection` inside
+// `args.graphData` (inplace!)
+const mergeSelection = (selection: MergeSelection, args: ZoomArgs) => {
+  selection.mergeTarget.mergeCount = [
+    ...selection.toRemove,
+    selection.mergeTarget,
+  ].reduce(
+    (currentMergeCount, node) => currentMergeCount + (node.mergeCount ?? 1),
+    0
+  );
+  // find links, that will stay unchanged to override current link list later
+  let linksToKeep = args.graphData.links.filter(
+    (link) =>
+      !selection.toRemove.find(
+        (removedNode) =>
+          link.source.id === removedNode.id &&
+          link.target.id === selection.mergeTarget.id
+      )
+  );
+  rewrite2ndOrderLinks(selection.mergeTarget, selection.toRemove, linksToKeep, {
+    deleted: "source",
+    other: "target",
+  });
+  rewrite2ndOrderLinks(selection.mergeTarget, selection.toRemove, linksToKeep, {
+    deleted: "target",
+    other: "source",
+  });
+  deleteFromArray(args.graphData.nodes, selection.toRemove);
+  // delete first order links
+  replaceArray(args.graphData.links, linksToKeep);
+}
 
 // replaceArray replaces the content of `a` with `b` (in-place operation)
 function replaceArray<T>(a: T[], b: T[]) {
