@@ -6,6 +6,8 @@ import {
   ZoomArgs,
   LinkBetweenHasIDs,
   HasID,
+  selectMergeTargetAndSources,
+  MergeSelection,
 } from "./Zoom";
 
 describe("zoom", () => {
@@ -401,32 +403,6 @@ describe("zoom", () => {
         },
       ],
       //[
-      //  "node.mergeWeight creation (node selection weight for merge)",
-      //  "A -> B <-1.5- C <- D; B -2-> E",
-      //  "B <-1.5- C <- D; B -2-> E",
-      //  {
-      //    steps: 1,
-      //    direction: ZoomDirection.In,
-      //    graphData: {
-      //      nodes: [node.A, node.B, node.C, node.D, node.E],
-      //      links: [
-      //        { source: node.A, target: node.B },
-      //        { source: node.C, target: node.B, value: 1.5 },
-      //        { source: node.D, target: node.C },
-      //        { source: node.B, target: node.E, value: 2 },
-      //      ],
-      //    },
-      //  },
-      //  {
-      //    nodes: [node.B, node.C, node.D, node.E],
-      //    links: [
-      //      { source: node.C, target: node.B, value: 1.5 },
-      //      { source: node.D, target: node.C },
-      //      { source: node.B, target: node.E, value: 2 },
-      //    ],
-      //  },
-      //],
-      //[
       //  "name",
       //  "A -> B",
       //  "A -> B",
@@ -452,8 +428,40 @@ describe("zoom", () => {
     );
   });
   describe("out", () => {
-    it.todo("...tests for zooming out...");
+    it.todo("tests for zooming out");
   });
+});
+
+describe("selectMergeTargetAndSources", () => {
+  const nodeList = [{ id: "A" }, { id: "B" }, { id: "C" }, { id: "D" }];
+  // @ts-ignore
+  let node = Object.assign(...nodeList.map((node) => ({ [node.id]: node })));
+  it.each([
+    [
+      // TODO: unclear when to use mergeWeight
+      "use node.mergeWeight for selection: 'A -> B[3] -2-> C'",
+      {
+        steps: 1,
+        direction: ZoomDirection.In,
+        graphData: {
+          nodes: [node.A, node.B, node.C],
+          links: [
+            { source: node.A, target: node.B },
+            { source: node.B, target: node.C, value: 2 },
+          ],
+        },
+      },
+      {
+        mergeTargetNode: node.C,
+        nodesToRemove: [node.B],
+      },
+    ],
+  ])(
+    "should %s",
+    (_test_name: string, zoomArgs: ZoomArgs, selection: MergeSelection) => {
+      expect(selectMergeTargetAndSources(zoomArgs)).toEqual(selection);
+    }
+  );
 });
 
 describe("calculateNodeWeight", () => {

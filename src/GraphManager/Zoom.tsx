@@ -1,6 +1,7 @@
 // object with an `id` property
 export interface HasID {
   id: string;
+  mergeWeight?: number; // FIXME: unused for now, need to think more
 }
 
 // links btween objects with `id` property
@@ -73,9 +74,16 @@ export const zoomStep: ZoomFn = (args: ZoomArgs): void => {
   }
 };
 
+export interface MergeSelection {
+  mergeTargetNode: HasID;
+  nodesToRemove: HasID[];
+}
+
 // selectMergeTargetAndSources selects a target node `mergeTargetNode` and
 // `nodesToRemove` which all must have direct links to `mergeTargetNode`
-const selectMergeTargetAndSources = (args: ZoomArgs) => {
+export const selectMergeTargetAndSources: (args: ZoomArgs) => MergeSelection = (
+  args: ZoomArgs
+) => {
   const nodesByLinkCount = args.graphData.nodes
     .map((node) => ({
       weight: calculateNodeWeight(node, args.graphData.links),
