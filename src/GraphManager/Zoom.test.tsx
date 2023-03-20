@@ -6,8 +6,8 @@ import {
   ZoomArgs,
   LinkBetweenHasIDs,
   HasID,
-  selectMergeTargetAndSources,
-  MergeSelection,
+  //selectMergeTargetAndSources,
+  //MergeSelection,
 } from "./Zoom";
 
 describe("zoom", () => {
@@ -43,7 +43,7 @@ describe("zoom", () => {
           },
         },
         {
-          nodes: [node.B, node.C],
+          nodes: [{ mergeCount: 2, ...node.B }, node.C],
           links: [{ source: node.C, target: node.B }],
         },
       ],
@@ -96,7 +96,7 @@ describe("zoom", () => {
             ],
           },
         },
-        { nodes: [node.B], links: [] },
+        { nodes: [{ mergeCount: 3, ...node.B }], links: [] },
       ],
       [
         "cannot zoom in further than the amount of nodes available",
@@ -209,7 +209,7 @@ describe("zoom", () => {
       ],
       [
         "remove duplicate links, after link target forwarding (secondOrderTargetLinks)",
-        // FIXME: got to complex due to other changes to the zoomStep function
+        // Note: got to complex due to other changes to the zoomStep function
         // 1. ensure that C stays mergeTargetNode: B -2-> C
         // 2. ensure A gets deleted (lower node-weight, than B): D -2-> A
         "D -2-> A -> B -2-> C; A -> C",
@@ -402,6 +402,23 @@ describe("zoom", () => {
           ],
         },
       ],
+      [
+        "propagate mergeCount number",
+        "A{mergeCount: 3} -> B",
+        "B{mergeCount: 4}",
+        {
+          steps: 1,
+          direction: ZoomDirection.In,
+          graphData: {
+            nodes: [{ ...node.A, mergeCount: 3 }, node.B],
+            links: [{ source: { ...node.A, mergeCount: 3 }, target: node.B }],
+          },
+        },
+        {
+          nodes: [{ ...node.B, mergeCount: 4 }],
+          links: [],
+        },
+      ],
       //[
       //  "name",
       //  "A -> B",
@@ -422,6 +439,11 @@ describe("zoom", () => {
         input: ZoomArgs,
         expected: GraphDataMerged
       ) => {
+        // reset mutable data on node set (cannot use `beforeEach` due to
+        // `it.each` usage)
+        input.graphData.nodes.forEach((node) => {
+          node.mergeCount = undefined;
+        });
         zoomStep(input);
         expect(input.graphData).toEqual(expected);
       }
@@ -432,37 +454,37 @@ describe("zoom", () => {
   });
 });
 
-describe("selectMergeTargetAndSources", () => {
-  const nodeList = [{ id: "A" }, { id: "B" }, { id: "C" }, { id: "D" }];
-  // @ts-ignore
-  let node = Object.assign(...nodeList.map((node) => ({ [node.id]: node })));
-  it.each([
-    [
-      // TODO: unclear when to use mergeWeight
-      "use node.mergeWeight for selection: 'A -> B[3] -2-> C'",
-      {
-        steps: 1,
-        direction: ZoomDirection.In,
-        graphData: {
-          nodes: [node.A, node.B, node.C],
-          links: [
-            { source: node.A, target: node.B },
-            { source: node.B, target: node.C, value: 2 },
-          ],
-        },
-      },
-      {
-        mergeTargetNode: node.C,
-        nodesToRemove: [node.B],
-      },
-    ],
-  ])(
-    "should %s",
-    (_test_name: string, zoomArgs: ZoomArgs, selection: MergeSelection) => {
-      expect(selectMergeTargetAndSources(zoomArgs)).toEqual(selection);
-    }
-  );
-});
+//describe("selectMergeTargetAndSources", () => {
+//  const nodeList = [{ id: "A" }, { id: "B" }, { id: "C" }, { id: "D" }];
+//  // @ts-ignore
+//  let node = Object.assign(...nodeList.map((node) => ({ [node.id]: node })));
+//  it.each([
+//    [
+//      // TODO: unclear when to use mergeWeight
+//      "use node.mergeWeight for selection: 'A -> B[3] -2-> C'",
+//      {
+//        steps: 1,
+//        direction: ZoomDirection.In,
+//        graphData: {
+//          nodes: [node.A, node.B, node.C],
+//          links: [
+//            { source: node.A, target: node.B },
+//            { source: node.B, target: node.C, value: 2 },
+//          ],
+//        },
+//      },
+//      {
+//        mergeTargetNode: node.C,
+//        nodesToRemove: [node.B],
+//      },
+//    ],
+//  ])(
+//    "should %s",
+//    (_test_name: string, zoomArgs: ZoomArgs, selection: MergeSelection) => {
+//      expect(selectMergeTargetAndSources(zoomArgs)).toEqual(selection);
+//    }
+//  );
+//});
 
 describe("calculateNodeWeight", () => {
   const nodeList = [{ id: "A" }, { id: "B" }, { id: "C" }];

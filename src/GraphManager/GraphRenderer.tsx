@@ -6,23 +6,31 @@ import ForceGraph2D, {
   NodeObject,
 } from "react-force-graph-2d";
 import { GraphData, LinkType, NodeType /*, GraphData*/ } from "./types";
-import { ZoomFn, GraphDataMerged, ZoomDirection, zoomStep } from "./Zoom";
+import {
+  ZoomFn,
+  GraphDataMerged,
+  ZoomDirection,
+  zoomStep,
+  HasID,
+} from "./Zoom";
 
-// TODO(skep): fundamental type issue here, we have a NodeType !=
-// ForceGraph2D.NodeObject, and a LinkType != ForceGraph2D.LinkObject , but we
-// type-cast our types to the force graph types. Here we access our copied
-// objects, but the type is obviously the ForceGraph2D type.
+// TODO(skep): fundamental type issue here, we have 2-3 types in one:
+//  1. `NodeType`: our node type, with added properties, that we use in
+//     callbacks from ForceGraph2D
+//  2. `NodeObject`: ForceGraph2D's node type
+//  3. `HasID`: our Zoom functionality adds properties to the nodes to remember
+//     the zoom state of nodes (e.g. node merges)
+// Similarly we have a defined a LinkType != ForceGraph2D.LinkObject.
 export type Link = LinkType & LinkObject;
-export type Node = NodeType & NodeObject;
+export type Node = NodeType & NodeObject & HasID;
 
-// LinkBetweenObjects should resolve type conflicts, since we assume that
-// ForceGraph2D always returns links between objects, even if we input links
-// with string-typed node ID's in the `source` and `target` fields.
+// LinkBetweenObjects should resolve type conflicts, see explanation above.
 interface LinkBetweenObjects {
   source: Node;
   target: Node;
 }
 
+// TODO: move to VoteDialog.tsx
 export interface VoteDialogParams {
   linkID: string;
   sourceNode: NodeType;
@@ -45,6 +53,7 @@ interface Position {
 interface TextRender {
   text: string;
   fontSize: number;
+  backgroundColor: string;
 }
 
 // utility functions
@@ -60,7 +69,7 @@ function drawTextWithBackground(
     (n) => n + text.fontSize * padding
   );
   let [x, y] = [position.x ?? 0, position.y ?? 0];
-  ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
+  ctx.fillStyle = text.backgroundColor;
   ctx.fillRect(
     x - bckgDimensions[0] / 2,
     y - bckgDimensions[1] / 2,
@@ -88,16 +97,29 @@ function linkDescriptionPosition(link: Link) {
 }
 
 // node render & interaction
+
+// TODO(j): should use react theme for color choice here
+const backgroundColorWhite = "rgba(255, 255, 255, 0.8)";
+
 export const nodeCanvasObject = (
   nodeForceGraph: NodeObject,
   ctx: CanvasRenderingContext2D,
   globalScale: number
 ) => {
-  // @ts-ignore: not sure what to do about this, see TODO for Node type
+  // @ts-ignore: see `Node` type
   const node: Node = nodeForceGraph;
-  const label = node.description ?? "";
+  let label = node.description ?? "";
+  let backgroundColor = backgroundColorWhite;
+  const mergedNodes = node.mergeCount ?? 0;
+  if (mergedNodes > 0) {
+    // TODO(skep): use relative scaling to total number of nodes
+    // TODO(j): should use react theme for color choice here
+    let hue = ((1 - mergedNodes * 0.1) * 120).toString(10);
+    backgroundColor = `hsl(${hue},100%,50%)`;
+    label += ` [${mergedNodes}]`;
+  }
   drawTextWithBackground(
-    { text: label, fontSize: config.fontSize / globalScale },
+    { text: label, fontSize: config.fontSize / globalScale, backgroundColor },
     ctx,
     { x: node.x, y: node.y }
   );
@@ -123,7 +145,11 @@ export const linkCanvasObject = (
   const pos = linkDescriptionPosition(link);
 
   drawTextWithBackground(
-    { text: String(link.value), fontSize: config.fontSize / globalScale },
+    {
+      text: String(link.value),
+      fontSize: config.fontSize / globalScale,
+      backgroundColor: backgroundColorWhite,
+    },
     ctx,
     pos
   );

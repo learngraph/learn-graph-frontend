@@ -1,7 +1,8 @@
 // object with an `id` property
 export interface HasID {
   id: string;
-  mergeWeight?: number; // FIXME: unused for now, need to think more
+  //mergeWeight?: number; // FIXME: unused for now, need to think more
+  mergeCount?: number;
 }
 
 // links btween objects with `id` property
@@ -47,6 +48,10 @@ export const zoomStep: ZoomFn = (args: ZoomArgs): void => {
   if (nodesToRemove.length === 0) {
     return; // nothing left to merge
   }
+  mergeTargetNode.mergeCount = [...nodesToRemove, mergeTargetNode].reduce(
+    (currentMergeCount, node) => currentMergeCount + (node.mergeCount ?? 1),
+    0
+  );
   // find links, that will stay unchanged to override current link list later
   let linksToKeep = args.graphData.links.filter(
     (link) =>
