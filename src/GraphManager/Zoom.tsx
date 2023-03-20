@@ -35,36 +35,17 @@ export interface ZoomArgs {
   // operation
   graphData: GraphDataMerged;
 }
+
 // zoomStep performs `steps` zoom steps, where zooming in by N steps merges N
 // nodes into other nodes, reducing the total node count by N.
-
 export const zoomStep: ZoomFn = (args: ZoomArgs): void => {
   if (args.steps >= args.graphData.nodes.length) {
     return;
   }
-  // select node to merge:
-  const nodesByLinkCount = args.graphData.nodes
-    .map((node) => ({
-      weight: calculateNodeWeight(node, args.graphData.links),
-      node: node,
-    }))
-    .sort((a, b) => b.weight - a.weight);
-  let mergeTargetNode = nodesByLinkCount[0].node;
-  // modify graph:
-  // find first order nodes, as long as the first order links still exist
-  let firstOrderNodesByWeight = args.graphData.links
-    .filter((link) => link.target.id === mergeTargetNode.id)
-    .map((link) => link.source)
-    .map((node) => ({
-      weight: calculateNodeWeight(node, args.graphData.links),
-      node: node,
-    }))
-    .sort((a, b) => a.weight - b.weight)
-    .map((o) => o.node);
-  if (firstOrderNodesByWeight.length === 0) {
+  let { mergeTargetNode, nodesToRemove } = selectMergeTargetAndSources(args);
+  if (nodesToRemove.length === 0) {
     return; // nothing left to merge
   }
-  let nodesToRemove = firstOrderNodesByWeight.slice(0, args.steps);
   // find links, that will stay unchanged to override current link list later
   let linksToKeep = args.graphData.links.filter(
     (link) =>
@@ -74,17 +55,14 @@ export const zoomStep: ZoomFn = (args: ZoomArgs): void => {
           link.target.id === mergeTargetNode.id
       )
   );
-  // rewrite links from deleted nodes to 2nd order nodes, removing duplicates
   rewrite2ndOrderLinks(mergeTargetNode, nodesToRemove, linksToKeep, {
     deleted: "source",
     other: "target",
   });
-  // rewrite links from 2nd order nodes to mergeTargetNode, removing duplicates
   rewrite2ndOrderLinks(mergeTargetNode, nodesToRemove, linksToKeep, {
     deleted: "target",
     other: "source",
   });
-  // delete all nodesToRemove
   deleteFromArray(args.graphData.nodes, nodesToRemove);
   // delete first order links
   replaceArray(args.graphData.links, linksToKeep);
@@ -95,20 +73,45 @@ export const zoomStep: ZoomFn = (args: ZoomArgs): void => {
   }
 };
 
-function deleteFromArray(nodes: HasID[], nodesToRemove: HasID[]) {
+// selectMergeTargetAndSources selects a target node `mergeTargetNode` and
+// `nodesToRemove` which all must have direct links to `mergeTargetNode`
+const selectMergeTargetAndSources = (args: ZoomArgs) => {
+  const nodesByLinkCount = args.graphData.nodes
+    .map((node) => ({
+      weight: calculateNodeWeight(node, args.graphData.links),
+      node: node,
+    }))
+    .sort((a, b) => b.weight - a.weight);
+  let mergeTargetNode = nodesByLinkCount[0].node;
+  // find first order nodes, as long as the first order links still exist
+  let firstOrderNodesByWeight = args.graphData.links
+    .filter((link) => link.target.id === mergeTargetNode.id)
+    .map((link) => link.source)
+    .map((node) => ({
+      weight: calculateNodeWeight(node, args.graphData.links),
+      node: node,
+    }))
+    .sort((a, b) => a.weight - b.weight)
+    .map((o) => o.node);
+  let nodesToRemove = firstOrderNodesByWeight.slice(0, args.steps);
+  return { mergeTargetNode, nodesToRemove };
+};
+
+const deleteFromArray = (nodes: HasID[], nodesToRemove: HasID[]) => {
   let leftOverNodes = nodes.filter(
     (node) => !nodesToRemove.find((findNode) => node.id === findNode.id)
   );
   replaceArray(nodes, leftOverNodes);
-}
+};
 
-// replace the content of `ar` with `newar` (in-place operation)
-function replaceArray<T>(a: T[], newa: T[]) {
-  a.splice(0, a.length, ...newa);
+// replaceArray replaces the content of `a` with `b` (in-place operation)
+function replaceArray<T>(a: T[], b: T[]) {
+  a.splice(0, a.length, ...b);
 }
 
 // rewrite2ndOrderLinks rewrites 2nd order links to skip the deleted nodes,
 // `dir` specifies the link's direction
+// Note: duplicates and self-referencing links are removed!
 const rewrite2ndOrderLinks = (
   mergeTargetNode: HasID,
   nodesToRemove: HasID[],
@@ -138,8 +141,9 @@ const rewrite2ndOrderLinks = (
     }
   });
 };
-// calculates node weight by first order link count, weighted by link.value
 
+// calculateNodeWeight calculates node weight by first order link count,
+// weighted by link.value
 export const calculateNodeWeight = (
   node: HasID,
   links: LinkBetweenHasIDs[]

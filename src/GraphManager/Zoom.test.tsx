@@ -333,7 +333,7 @@ describe("zoom", () => {
       [
         "self-linking node with otherwise only source links",
         "A -10-> A; C <- A -> B",
-        "TODO: WTF?!",
+        "solution: self-linking is not allowed",
         {
           steps: 1,
           direction: ZoomDirection.In,
@@ -401,6 +401,32 @@ describe("zoom", () => {
         },
       ],
       //[
+      //  "node.mergeWeight creation (node selection weight for merge)",
+      //  "A -> B <-1.5- C <- D; B -2-> E",
+      //  "B <-1.5- C <- D; B -2-> E",
+      //  {
+      //    steps: 1,
+      //    direction: ZoomDirection.In,
+      //    graphData: {
+      //      nodes: [node.A, node.B, node.C, node.D, node.E],
+      //      links: [
+      //        { source: node.A, target: node.B },
+      //        { source: node.C, target: node.B, value: 1.5 },
+      //        { source: node.D, target: node.C },
+      //        { source: node.B, target: node.E, value: 2 },
+      //      ],
+      //    },
+      //  },
+      //  {
+      //    nodes: [node.B, node.C, node.D, node.E],
+      //    links: [
+      //      { source: node.C, target: node.B, value: 1.5 },
+      //      { source: node.D, target: node.C },
+      //      { source: node.B, target: node.E, value: 2 },
+      //    ],
+      //  },
+      //],
+      //[
       //  "name",
       //  "A -> B",
       //  "A -> B",
@@ -424,13 +450,9 @@ describe("zoom", () => {
         expect(input.graphData).toEqual(expected);
       }
     );
-    it.todo("link.weight propagation (force simmulation weight)"); // XXX: probably already correctly done
-    it.todo(
-      "node.weight propagation on merge (node selection weight for merge)"
-    );
   });
   describe("out", () => {
-    //it.todo("...tests for zooming out...");
+    it.todo("...tests for zooming out...");
   });
 });
 
