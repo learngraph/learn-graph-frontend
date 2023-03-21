@@ -44,7 +44,7 @@ export const zoomStep: ZoomFn = (args: ZoomArgs): void => {
   if (args.steps >= args.graphData.nodes.length) {
     return;
   }
-  let selection = selectHighestAndLowestLinkWeight(args);
+  let selection = selectNodePairForMerging(args);
   if (selection.toRemove.length === 0) {
     return; // nothing left to merge
   }
@@ -81,22 +81,28 @@ const selectClustersToMerge: SelectorMulti = (_: ZoomArgs) => {
 };
 // XXX(skep): HERE
 
-// selectHighestAndLowestLinkWeight selects a target node `mergeTargetNode` and
-// `nodesToRemove` which all must have direct links to `mergeTargetNode`
-export const selectHighestAndLowestLinkWeight: Selector = (args: ZoomArgs) => {
-  const nodesByLinkCount = args.graphData.nodes
+const NO_MERGE_TARGET_FOUND_ID = "---NONE---";
+
+// selectNodePairForMerging selects a target node `mergeTargetNode` and
+// `nodesToRemove` which all have direct links to `mergeTargetNode`
+export const selectNodePairForMerging: Selector = (args: ZoomArgs) => {
+  const nodesByTargetWeight = args.graphData.nodes
+    .filter((node) => hasLinksTowards(args.graphData.links, node))
     .map((node) => ({
-      weight: calculateNodeWeight(node, args.graphData.links),
+      weight: calculateMergeTargetWeight(node, args.graphData.links),
       node: node,
     }))
     .sort((a, b) => b.weight - a.weight);
-  let mergeTargetNode = nodesByLinkCount[0].node;
+  if (nodesByTargetWeight.length === 0) {
+    return { mergeTarget: { id: NO_MERGE_TARGET_FOUND_ID }, toRemove: [] };
+  }
+  let mergeTargetNode = nodesByTargetWeight[0].node;
   // find first order nodes, as long as the first order links still exist
   let firstOrderNodesByWeight = args.graphData.links
     .filter((link) => link.target.id === mergeTargetNode.id)
     .map((link) => link.source)
     .map((node) => ({
-      weight: calculateWeightWithMergeCount(node, args),
+      weight: calculateDeletionWeight(node, args.graphData.links),
       node: node,
     }))
     .sort((a, b) => a.weight - b.weight)
@@ -182,10 +188,22 @@ const rewrite2ndOrderLinks = (
   });
 };
 
-// calculateWeightWithMergeCount calculates the weight used for picking nodes to
+const calculateMergeTargetWeight = (
+  node: HasID,
+  links: LinkBetweenHasIDs[]
+) => {
+  const mergeCountMultiplier = 5; // TODO(skep): should be depending on the merged nodes' weight, but they are gone now
+  let weight = calculateNodeWeight(node, links);
+  if (node.mergeCount) {
+    weight -= node.mergeCount * mergeCountMultiplier;
+  }
+  return weight;
+};
+
+// calculateDeletionWeight calculates the weight used for picking nodes to
 // merge into the mergeTarget
-const calculateWeightWithMergeCount = (node: HasID, args: ZoomArgs) => {
-  let weight = calculateNodeWeight(node, args.graphData.links);
+const calculateDeletionWeight = (node: HasID, links: LinkBetweenHasIDs[]) => {
+  let weight = calculateNodeWeight(node, links);
   if (node.mergeCount) {
     weight += node.mergeCount;
   }
@@ -207,4 +225,10 @@ export const calculateNodeWeight = (
       return weight;
     }
   }, 0 /*init value for count*/);
+};
+
+// hasLinksTowards returns true if there is at least one link with
+// link.target.id equal to node.id
+const hasLinksTowards = (links: LinkBetweenHasIDs[], node: HasID) => {
+  return links.find((link) => link.target.id === node.id);
 };

@@ -7,7 +7,7 @@ import {
   LinkBetweenHasIDs,
   HasID,
   zoomGeoSpacial,
-  //selectHighestAndLowestLinkWeight,
+  //selectNodePairForMerging,
   //MergeSelection,
 } from "./Zoom";
 
@@ -496,6 +496,26 @@ describe("zoom", () => {
           ],
         },
       ],
+      [
+        "select non-merged nodes as merge target before already merged ones",
+        "B[16] <- C <- D",
+        "B[16] <- C[2]",
+        {
+          steps: 1,
+          direction: ZoomDirection.In,
+          graphData: {
+            nodes: [node.B16, node.C, node.D],
+            links: [
+              { source: node.C, target: node.B16 },
+              { source: node.D, target: node.C },
+            ],
+          },
+        },
+        {
+          nodes: [node.B16, node.C],
+          links: [{ source: { ...node.C, mergeCount: 2 }, target: node.B16 }],
+        },
+      ],
       //[
       //  "name",
       //  "A -> B",
@@ -503,9 +523,9 @@ describe("zoom", () => {
       //  {
       //    steps: ?,
       //    direction: ZoomDirection.In,
-      //    graphData: {},
+      //    graphData: { nodes: [], links: [] },
       //  },
-      //  {},
+      //  { nodes: [], links: [] },
       //],
     ])(
       "%s: should merge %p to %p",
@@ -533,7 +553,7 @@ describe("zoom", () => {
   });
 });
 
-//describe("selectHighestAndLowestLinkWeight", () => {
+//describe("selectNodePairForMerging", () => {
 //  const nodeList = [{ id: "A" }, { id: "B" }, { id: "C" }, { id: "D" }];
 //  // @ts-ignore
 //  let node = Object.assign(...nodeList.map((node) => ({ [node.id]: node })));
@@ -560,7 +580,7 @@ describe("zoom", () => {
 //  ])(
 //    "should %s",
 //    (_test_name: string, zoomArgs: ZoomArgs, selection: MergeSelection) => {
-//      expect(selectHighestAndLowestLinkWeight(zoomArgs)).toEqual(selection);
+//      expect(selectNodePairForMerging(zoomArgs)).toEqual(selection);
 //    }
 //  );
 //});
@@ -581,32 +601,6 @@ describe("zoomGeoSpacial", () => {
       ...nodeList.map((node) => ({ [node.id]: node }))
     );
     it.each([
-      // XXX(skep): enable again
-      //[
-      //  "integration test with many nodes and links",
-      //  "G -> A -> B <- C; B -> D <- E; A -> F -> D",
-      //  "B",
-      //  {
-      //    steps: 6,
-      //    direction: ZoomDirection.In,
-      //    graphData: {
-      //      nodes: [node.A, node.B, node.C, node.D, node.E, node.F, node.G],
-      //      links: [
-      //        {source: node.G, target: node.A},
-      //        {source: node.A, target: node.B},
-      //        {source: node.A, target: node.F},
-      //        {source: node.C, target: node.B},
-      //        {source: node.B, target: node.D},
-      //        {source: node.E, target: node.D},
-      //        {source: node.F, target: node.D},
-      //      ],
-      //    },
-      //  },
-      //  {
-      //    nodes: [node.D],
-      //    links: [],
-      //  },
-      //],
       [
         "no-op",
         "A",
@@ -618,17 +612,6 @@ describe("zoomGeoSpacial", () => {
         },
         { nodes: [node.A], links: [] },
       ],
-      //[
-      //  "name",
-      //  "A -> B",
-      //  "A -> B",
-      //  {
-      //    steps: ?,
-      //    direction: ZoomDirection.In,
-      //    graphData: {},
-      //  },
-      //  {},
-      //],
     ])(
       "%s: should merge %p to %p",
       (
@@ -638,11 +621,6 @@ describe("zoomGeoSpacial", () => {
         input: ZoomArgs,
         expected: GraphDataMerged
       ) => {
-        //// reset mutable data on node set (cannot use `beforeEach` due to
-        //// `it.each` usage)
-        //input.graphData.nodes.forEach((node) => {
-        //  node.mergeCount = undefined;
-        //});
         zoomGeoSpacial(input);
         expect(input.graphData).toEqual(expected);
       }

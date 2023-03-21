@@ -104,4 +104,14 @@ const data: GraphData = {
     { id: "62", source: "Addition", target: "Numbers", value: 6 },
   ],
 };
+let idx = 1000;
+data.nodes.forEach((node) => {
+  data.links.push({
+    id: idx.toString(),
+    source: node.id,
+    target: "Mathematics",
+    value: 1,
+  });
+});
+data.nodes.push({ id: "Mathematics", description: "Mathematics" });
 export default data;
