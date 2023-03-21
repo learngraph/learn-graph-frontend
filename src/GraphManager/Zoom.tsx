@@ -77,8 +77,8 @@ export const zoomGeoSpacial: ZoomFn = (args: ZoomArgs): void => {
   selections.forEach((selection) => mergeSelection(selection, args));
 };
 const selectClustersToMerge: SelectorMulti = (_: ZoomArgs) => {
-  return [{mergeTarget: {id: "A"}, toRemove: []}];
-}
+  return [{ mergeTarget: { id: "A" }, toRemove: [] }];
+};
 // XXX(skep): HERE
 
 // selectHighestAndLowestLinkWeight selects a target node `mergeTargetNode` and
@@ -96,7 +96,7 @@ export const selectHighestAndLowestLinkWeight: Selector = (args: ZoomArgs) => {
     .filter((link) => link.target.id === mergeTargetNode.id)
     .map((link) => link.source)
     .map((node) => ({
-      weight: calculateNodeWeight(node, args.graphData.links),
+      weight: calculateWeightWithMergeCount(node, args),
       node: node,
     }))
     .sort((a, b) => a.weight - b.weight)
@@ -180,6 +180,16 @@ const rewrite2ndOrderLinks = (
       );
     }
   });
+};
+
+// calculateWeightWithMergeCount calculates the weight used for picking nodes to
+// merge into the mergeTarget
+const calculateWeightWithMergeCount = (node: HasID, args: ZoomArgs) => {
+  let weight = calculateNodeWeight(node, args.graphData.links);
+  if (node.mergeCount) {
+    weight += node.mergeCount;
+  }
+  return weight;
 };
 
 // calculateNodeWeight calculates node weight by first order link count,

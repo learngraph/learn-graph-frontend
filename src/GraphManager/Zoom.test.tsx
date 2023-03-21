@@ -13,15 +13,21 @@ import {
 
 describe("zoom", () => {
   describe("in", () => {
-    let nodeList = [
+    const rawData = [
       { id: "A" },
+      { id: "A5", mergeCount: 5 },
       { id: "B" },
+      { id: "B16", mergeCount: 16 },
       { id: "C" },
       { id: "D" },
       { id: "E" },
       { id: "F" },
       { id: "G" },
     ];
+    let nodeList = rawData.map((node) => ({
+      id: node.id,
+      mergeCount: node.mergeCount,
+    }));
     let node = Object.assign(
       // @ts-ignore
       ...nodeList.map((node) => ({ [node.id]: node }))
@@ -46,7 +52,7 @@ describe("zoom", () => {
           },
         },
         {
-          nodes: [{ mergeCount: 2, ...node.B }, node.C],
+          nodes: [{ ...node.B, mergeCount: 2 }, node.C],
           links: [{ source: node.C, target: node.B }],
         },
       ],
@@ -99,7 +105,7 @@ describe("zoom", () => {
             ],
           },
         },
-        { nodes: [{ mergeCount: 3, ...node.B }], links: [] },
+        { nodes: [{ ...node.B, mergeCount: 3 }], links: [] },
       ],
       [
         "cannot zoom in further than the amount of nodes available",
@@ -432,19 +438,62 @@ describe("zoom", () => {
           graphData: {
             nodes: [node.A, node.B, node.C, node.D, node.E, node.F, node.G],
             links: [
-              {source: node.G, target: node.A},
-              {source: node.A, target: node.B},
-              {source: node.A, target: node.F},
-              {source: node.C, target: node.B},
-              {source: node.B, target: node.D},
-              {source: node.E, target: node.D},
-              {source: node.F, target: node.D},
+              { source: node.G, target: node.A },
+              { source: node.A, target: node.B },
+              { source: node.A, target: node.F },
+              { source: node.C, target: node.B },
+              { source: node.B, target: node.D },
+              { source: node.E, target: node.D },
+              { source: node.F, target: node.D },
             ],
           },
         },
         {
           nodes: [node.D],
           links: [],
+        },
+      ],
+      [
+        "merge non-merged nodes before merging more nodes into already merged nodes",
+        // Explanation:
+        // links to G and F ensure, that they are not removed, so that either B
+        // has most links next to the mergeTarget C, but B has a high
+        // mergeCount, so D must be removed instead
+        "A[5] -> B[16] -> C <- D <- E; G -> C <- F -> D; A -> G <- B; A -> F <- B",
+        "A[5] -> B[16] -> C <- E; G -> C <- F -> C",
+        {
+          steps: 1,
+          direction: ZoomDirection.In,
+          graphData: {
+            nodes: [node.A5, node.B16, node.C, node.D, node.E, node.F, node.G],
+            links: [
+              { source: node.A5, target: node.B16 },
+              { source: node.B16, target: node.C },
+              { source: node.D, target: node.C },
+              { source: node.E, target: node.D },
+              { source: node.G, target: node.C },
+              { source: node.F, target: node.C },
+              { source: node.F, target: node.D },
+              { source: node.A5, target: node.G },
+              { source: node.B16, target: node.G },
+              { source: node.A5, target: node.F },
+              { source: node.B16, target: node.F },
+            ],
+          },
+        },
+        {
+          nodes: [node.A5, node.B16, node.C, node.E, node.F, node.G],
+          links: [
+            { source: node.A5, target: node.B16 },
+            { source: node.B16, target: node.C },
+            { source: node.E, target: node.C },
+            { source: node.G, target: node.C },
+            { source: node.F, target: node.C /*, value: 2*/ }, // TODO(skep): enable: duplicate links should add their value?!
+            { source: node.A5, target: node.G },
+            { source: node.B16, target: node.G },
+            { source: node.A5, target: node.F },
+            { source: node.B16, target: node.F },
+          ],
         },
       ],
       //[
@@ -470,7 +519,9 @@ describe("zoom", () => {
         // reset mutable data on node set (cannot use `beforeEach` due to
         // `it.each` usage)
         input.graphData.nodes.forEach((node) => {
-          node.mergeCount = undefined;
+          node.mergeCount = rawData.find(
+            (rawNode) => node.id === rawNode.id
+          )?.mergeCount;
         });
         zoomStep(input);
         expect(input.graphData).toEqual(expected);
@@ -563,9 +614,9 @@ describe("zoomGeoSpacial", () => {
         {
           steps: 1,
           direction: ZoomDirection.In,
-          graphData: {nodes: [node.A], links: []},
+          graphData: { nodes: [node.A], links: [] },
         },
-        {nodes: [node.A], links: []},
+        { nodes: [node.A], links: [] },
       ],
       //[
       //  "name",
