@@ -1,7 +1,6 @@
 // object with an `id` property
 export interface HasID {
   id: string;
-  //mergeWeight?: number; // FIXME: unused for now, need to think more
   mergeCount?: number;
 }
 
@@ -65,27 +64,11 @@ export interface Selector {
   (args: ZoomArgs): MergeSelection;
 }
 
-// XXX(skep): maybe remove again until HERE
-export interface SelectorMulti {
-  (args: ZoomArgs): MergeSelection[];
-}
-export const zoomGeoSpacial: ZoomFn = (args: ZoomArgs): void => {
-  let selections = selectClustersToMerge(args);
-  if (selections.length === 0) {
-    return; // nothing left to merge
-  }
-  selections.forEach((selection) => mergeSelection(selection, args));
-};
-const selectClustersToMerge: SelectorMulti = (_: ZoomArgs) => {
-  return [{ mergeTarget: { id: "A" }, toRemove: [] }];
-};
-// XXX(skep): HERE
-
 const NO_MERGE_TARGET_FOUND_ID = "---NONE---";
 
 // selectNodePairForMerging selects a target node `mergeTargetNode` and
 // `nodesToRemove` which all have direct links to `mergeTargetNode`
-export const selectNodePairForMerging: Selector = (args: ZoomArgs) => {
+const selectNodePairForMerging: Selector = (args: ZoomArgs) => {
   const nodesByTargetWeight = args.graphData.nodes
     .filter((node) => hasLinksTowards(args.graphData.links, node))
     .map((node) => ({
@@ -176,6 +159,7 @@ const rewrite2ndOrderLinks = (
         existingLink[dir.other].id === link[dir.other].id
     );
     if (index !== -1) {
+      averageLinkValue(link, linksToKeep[index]);
       linksToKeep.splice(index, 1);
     }
     link[dir.deleted] = mergeTargetNode;
@@ -210,17 +194,20 @@ const calculateDeletionWeight = (node: HasID, links: LinkBetweenHasIDs[]) => {
   return weight;
 };
 
+const defaultLinkValue = 1;
+const weightIncrementPerLink = 1;
+
 // calculateNodeWeight calculates node weight by first order link count,
 // weighted by link.value
 export const calculateNodeWeight = (
   node: HasID,
   links: LinkBetweenHasIDs[]
 ) => {
-  const defaultWeight = 1;
-  const weightIncrementPerLink = 1;
+  // XXX(skep): maybe add weight for source links as well, but less than for
+  // target links to node?
   return links.reduce((weight, link) => {
     if (link.target.id === node.id) {
-      return weight + weightIncrementPerLink * (link.value ?? defaultWeight);
+      return weight + weightIncrementPerLink * (link.value ?? defaultLinkValue);
     } else {
       return weight;
     }
@@ -231,4 +218,18 @@ export const calculateNodeWeight = (
 // link.target.id equal to node.id
 const hasLinksTowards = (links: LinkBetweenHasIDs[], node: HasID) => {
   return links.find((link) => link.target.id === node.id);
+};
+
+// averageLinkValue averages the target and source node's links value and
+// stores the result in the target link
+const averageLinkValue = (
+  target: LinkBetweenHasIDs,
+  source: LinkBetweenHasIDs
+) => {
+  let value =
+    ((target.value ?? defaultLinkValue) + (source.value ?? defaultLinkValue)) /
+    2;
+  if (value !== defaultLinkValue) {
+    target.value = value;
+  }
 };

@@ -6,9 +6,6 @@ import {
   ZoomArgs,
   LinkBetweenHasIDs,
   HasID,
-  zoomGeoSpacial,
-  //selectNodePairForMerging,
-  //MergeSelection,
 } from "./Zoom";
 
 describe("zoom", () => {
@@ -488,7 +485,7 @@ describe("zoom", () => {
             { source: node.B16, target: node.C },
             { source: node.E, target: node.C },
             { source: node.G, target: node.C },
-            { source: node.F, target: node.C /*, value: 2*/ }, // TODO(skep): enable: duplicate links should add their value?!
+            { source: node.F, target: node.C /*, value: 2*/ }, // TODO(skep): duplicate links should merge their value!
             { source: node.A5, target: node.G },
             { source: node.B16, target: node.G },
             { source: node.A5, target: node.F },
@@ -514,6 +511,37 @@ describe("zoom", () => {
         {
           nodes: [node.B16, node.C],
           links: [{ source: { ...node.C, mergeCount: 2 }, target: node.B16 }],
+        },
+      ],
+      [
+        "duplicate links to side-nodes should average their values",
+        "E <-> D -2-> C -> B <-3- A -> C; E -3-> C",
+        "E <-> D -2-> C -2-> B; E -3-> C",
+        {
+          steps: 1,
+          direction: ZoomDirection.In,
+          graphData: {
+            nodes: [node.A, node.B, node.C, node.D, node.E],
+            links: [
+              { source: node.E, target: node.D },
+              { source: node.E, target: node.C, value: 3 },
+              { source: node.D, target: node.E },
+              { source: node.D, target: node.C, value: 2 },
+              { source: node.C, target: node.B },
+              { source: node.A, target: node.B, value: 3 },
+              { source: node.A, target: node.C },
+            ],
+          },
+        },
+        {
+          nodes: [node.B, node.C, node.D, node.E],
+          links: [
+            { source: node.E, target: node.D },
+            { source: node.E, target: node.C, value: 3 },
+            { source: node.D, target: node.E },
+            { source: node.D, target: node.C, value: 2 },
+            { source: node.C, target: node.B, value: 2 },
+          ],
         },
       ],
       //[
@@ -550,81 +578,6 @@ describe("zoom", () => {
   });
   describe("out", () => {
     it.todo("tests for zooming out");
-  });
-});
-
-//describe("selectNodePairForMerging", () => {
-//  const nodeList = [{ id: "A" }, { id: "B" }, { id: "C" }, { id: "D" }];
-//  // @ts-ignore
-//  let node = Object.assign(...nodeList.map((node) => ({ [node.id]: node })));
-//  it.each([
-//    [
-//      // TODO: unclear when to use mergeWeight
-//      "use node.mergeWeight for selection: 'A -> B[3] -2-> C'",
-//      {
-//        steps: 1,
-//        direction: ZoomDirection.In,
-//        graphData: {
-//          nodes: [node.A, node.B, node.C],
-//          links: [
-//            { source: node.A, target: node.B },
-//            { source: node.B, target: node.C, value: 2 },
-//          ],
-//        },
-//      },
-//      {
-//        mergeTargetNode: node.C,
-//        nodesToRemove: [node.B],
-//      },
-//    ],
-//  ])(
-//    "should %s",
-//    (_test_name: string, zoomArgs: ZoomArgs, selection: MergeSelection) => {
-//      expect(selectNodePairForMerging(zoomArgs)).toEqual(selection);
-//    }
-//  );
-//});
-
-describe("zoomGeoSpacial", () => {
-  describe("in", () => {
-    let nodeList = [
-      { id: "A" },
-      { id: "B" },
-      { id: "C" },
-      { id: "D" },
-      { id: "E" },
-      { id: "F" },
-      { id: "G" },
-    ];
-    let node = Object.assign(
-      // @ts-ignore
-      ...nodeList.map((node) => ({ [node.id]: node }))
-    );
-    it.each([
-      [
-        "no-op",
-        "A",
-        "A",
-        {
-          steps: 1,
-          direction: ZoomDirection.In,
-          graphData: { nodes: [node.A], links: [] },
-        },
-        { nodes: [node.A], links: [] },
-      ],
-    ])(
-      "%s: should merge %p to %p",
-      (
-        _test_name: string,
-        _from: string,
-        _to: string,
-        input: ZoomArgs,
-        expected: GraphDataMerged
-      ) => {
-        zoomGeoSpacial(input);
-        expect(input.graphData).toEqual(expected);
-      }
-    );
   });
 });
 

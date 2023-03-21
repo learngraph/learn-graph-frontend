@@ -23,8 +23,6 @@ import {
 // Similarly we have a defined a LinkType != ForceGraph2D.LinkObject.
 export type Link = LinkType & LinkObject;
 export type Node = NodeType & NodeObject & HasID;
-
-// LinkBetweenObjects should resolve type conflicts, see explanation above.
 interface LinkBetweenObjects {
   source: Node;
   target: Node;
@@ -157,7 +155,7 @@ export const linkCanvasObject = (
 
 export const onLinkClickFn = (props: GraphRendererProps) => {
   return (params: LinkObject) => {
-    // @ts-ignore: not sure what to do about this, see TODO for Link type
+    // @ts-ignore: see LinkBetweenObjects and Link type
     let link: LinkBetweenObjects & LinkType = params;
     props.openVoteDialog({
       linkID: link.id,
@@ -179,9 +177,6 @@ export const makeKeydownListener = (
 ) => {
   return (event: Partial<KeyboardEvent>) => {
     switch (event.key) {
-      // TODO(skep): should probably be something with the mouse wheel, but
-      // that event is somehow hidden by force-graph - @j you know how to do
-      // this?
       case "p":
         zoom({ direction: ZoomDirection.In, steps: 1, graphData });
         return;
@@ -220,6 +215,10 @@ const transformToRenderedType = (graph: TranslatedGraphData): GraphData => {
   };
 };
 
+const onZoom = (_: any) => {
+  // TODO(skep): use this instead of addEventListener below!
+};
+
 export const GraphRenderer = (props: GraphRendererProps) => {
   const { graph } = useGraphDataContext();
 
@@ -227,8 +226,6 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     JSON.stringify(transformToRenderedType(graph))
   );
   const onLinkClick = onLinkClickFn(props);
-  // TODO(j): is this the react way of listening for input?
-  // FIXME(skep): this listener is called 4-times per key-press - why?!
   document.addEventListener(
     "keydown",
     makeKeydownListener(zoomStep, graphDataForRender)
@@ -253,6 +250,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       // @ts-ignore
       linkCanvasObjectMode={() => config.linkCanvasObjectMode}
       linkCanvasObject={linkCanvasObject}
+      onZoom={onZoom}
     />
   );
 };
