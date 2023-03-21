@@ -6,7 +6,8 @@ import {
   ZoomArgs,
   LinkBetweenHasIDs,
   HasID,
-  //selectMergeTargetAndSources,
+  zoomGeoSpacial,
+  //selectHighestAndLowestLinkWeight,
   //MergeSelection,
 } from "./Zoom";
 
@@ -18,6 +19,8 @@ describe("zoom", () => {
       { id: "C" },
       { id: "D" },
       { id: "E" },
+      { id: "F" },
+      { id: "G" },
     ];
     let node = Object.assign(
       // @ts-ignore
@@ -419,6 +422,31 @@ describe("zoom", () => {
           links: [],
         },
       ],
+      [
+        "integration test with many nodes and links",
+        "G -> A -> B <- C; B -> D <- E; A -> F -> D",
+        "B",
+        {
+          steps: 6,
+          direction: ZoomDirection.In,
+          graphData: {
+            nodes: [node.A, node.B, node.C, node.D, node.E, node.F, node.G],
+            links: [
+              {source: node.G, target: node.A},
+              {source: node.A, target: node.B},
+              {source: node.A, target: node.F},
+              {source: node.C, target: node.B},
+              {source: node.B, target: node.D},
+              {source: node.E, target: node.D},
+              {source: node.F, target: node.D},
+            ],
+          },
+        },
+        {
+          nodes: [node.D],
+          links: [],
+        },
+      ],
       //[
       //  "name",
       //  "A -> B",
@@ -454,7 +482,7 @@ describe("zoom", () => {
   });
 });
 
-//describe("selectMergeTargetAndSources", () => {
+//describe("selectHighestAndLowestLinkWeight", () => {
 //  const nodeList = [{ id: "A" }, { id: "B" }, { id: "C" }, { id: "D" }];
 //  // @ts-ignore
 //  let node = Object.assign(...nodeList.map((node) => ({ [node.id]: node })));
@@ -481,10 +509,95 @@ describe("zoom", () => {
 //  ])(
 //    "should %s",
 //    (_test_name: string, zoomArgs: ZoomArgs, selection: MergeSelection) => {
-//      expect(selectMergeTargetAndSources(zoomArgs)).toEqual(selection);
+//      expect(selectHighestAndLowestLinkWeight(zoomArgs)).toEqual(selection);
 //    }
 //  );
 //});
+
+describe("zoomGeoSpacial", () => {
+  describe("in", () => {
+    let nodeList = [
+      { id: "A" },
+      { id: "B" },
+      { id: "C" },
+      { id: "D" },
+      { id: "E" },
+      { id: "F" },
+      { id: "G" },
+    ];
+    let node = Object.assign(
+      // @ts-ignore
+      ...nodeList.map((node) => ({ [node.id]: node }))
+    );
+    it.each([
+      // XXX(skep): enable again
+      //[
+      //  "integration test with many nodes and links",
+      //  "G -> A -> B <- C; B -> D <- E; A -> F -> D",
+      //  "B",
+      //  {
+      //    steps: 6,
+      //    direction: ZoomDirection.In,
+      //    graphData: {
+      //      nodes: [node.A, node.B, node.C, node.D, node.E, node.F, node.G],
+      //      links: [
+      //        {source: node.G, target: node.A},
+      //        {source: node.A, target: node.B},
+      //        {source: node.A, target: node.F},
+      //        {source: node.C, target: node.B},
+      //        {source: node.B, target: node.D},
+      //        {source: node.E, target: node.D},
+      //        {source: node.F, target: node.D},
+      //      ],
+      //    },
+      //  },
+      //  {
+      //    nodes: [node.D],
+      //    links: [],
+      //  },
+      //],
+      [
+        "no-op",
+        "A",
+        "A",
+        {
+          steps: 1,
+          direction: ZoomDirection.In,
+          graphData: {nodes: [node.A], links: []},
+        },
+        {nodes: [node.A], links: []},
+      ],
+      //[
+      //  "name",
+      //  "A -> B",
+      //  "A -> B",
+      //  {
+      //    steps: ?,
+      //    direction: ZoomDirection.In,
+      //    graphData: {},
+      //  },
+      //  {},
+      //],
+    ])(
+      "%s: should merge %p to %p",
+      (
+        _test_name: string,
+        _from: string,
+        _to: string,
+        input: ZoomArgs,
+        expected: GraphDataMerged
+      ) => {
+        //// reset mutable data on node set (cannot use `beforeEach` due to
+        //// `it.each` usage)
+        //input.graphData.nodes.forEach((node) => {
+        //  node.mergeCount = undefined;
+        //});
+        zoomGeoSpacial(input);
+        expect(input.graphData).toEqual(expected);
+      }
+    );
+  });
+});
 
 describe("calculateNodeWeight", () => {
   const nodeList = [{ id: "A" }, { id: "B" }, { id: "C" }];

@@ -44,7 +44,7 @@ export const zoomStep: ZoomFn = (args: ZoomArgs): void => {
   if (args.steps >= args.graphData.nodes.length) {
     return;
   }
-  let selection = selectMergeTargetAndSources(args);
+  let selection = selectHighestAndLowestLinkWeight(args);
   if (selection.toRemove.length === 0) {
     return; // nothing left to merge
   }
@@ -61,11 +61,29 @@ export interface MergeSelection {
   toRemove: HasID[];
 }
 
-// selectMergeTargetAndSources selects a target node `mergeTargetNode` and
+export interface Selector {
+  (args: ZoomArgs): MergeSelection;
+}
+
+// XXX(skep): maybe remove again until HERE
+export interface SelectorMulti {
+  (args: ZoomArgs): MergeSelection[];
+}
+export const zoomGeoSpacial: ZoomFn = (args: ZoomArgs): void => {
+  let selections = selectClustersToMerge(args);
+  if (selections.length === 0) {
+    return; // nothing left to merge
+  }
+  selections.forEach((selection) => mergeSelection(selection, args));
+};
+const selectClustersToMerge: SelectorMulti = (_: ZoomArgs) => {
+  return [{mergeTarget: {id: "A"}, toRemove: []}];
+}
+// XXX(skep): HERE
+
+// selectHighestAndLowestLinkWeight selects a target node `mergeTargetNode` and
 // `nodesToRemove` which all must have direct links to `mergeTargetNode`
-export const selectMergeTargetAndSources: (args: ZoomArgs) => MergeSelection = (
-  args: ZoomArgs
-) => {
+export const selectHighestAndLowestLinkWeight: Selector = (args: ZoomArgs) => {
   const nodesByLinkCount = args.graphData.nodes
     .map((node) => ({
       weight: calculateNodeWeight(node, args.graphData.links),
@@ -124,7 +142,7 @@ const mergeSelection = (selection: MergeSelection, args: ZoomArgs) => {
   deleteFromArray(args.graphData.nodes, selection.toRemove);
   // delete first order links
   replaceArray(args.graphData.links, linksToKeep);
-}
+};
 
 // replaceArray replaces the content of `a` with `b` (in-place operation)
 function replaceArray<T>(a: T[], b: T[]) {
