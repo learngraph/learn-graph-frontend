@@ -148,6 +148,7 @@ describe("makeOnZoomListener", () => {
       // @ts-ignore: don't want to implement all methods
       current: {
         zoom: fgZoom,
+        d3ReheatSimulation: jest.fn(),
       },
     };
     const zoom = jest.fn();
@@ -169,6 +170,7 @@ describe("makeOnZoomListener", () => {
       // @ts-ignore: don't want to implement all methods
       current: {
         zoom: fgZoom,
+        d3ReheatSimulation: jest.fn(),
       },
     };
     const zoom = jest.fn();
@@ -200,6 +202,7 @@ describe("makeOnZoomListener", () => {
       // @ts-ignore: don't want to implement all methods
       current: {
         zoom: fgZoom,
+        d3ReheatSimulation: jest.fn(),
       },
     };
     const zoom = jest.fn();
