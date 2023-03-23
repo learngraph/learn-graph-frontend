@@ -12,6 +12,7 @@ import {
   ZoomDirection,
   zoomStep,
   HasID,
+  ZoomState,
 } from "./Zoom";
 import { MutableRefObject, useRef } from "react";
 
@@ -172,11 +173,7 @@ const onLinkHover = (_: LinkObject | null): void => {
 };
 
 // global input listeners
-export const makeKeydownListener = (
-  zoom: ZoomFn,
-  graphData: GraphDataMerged,
-  fgRef: any
-) => {
+export const makeKeydownListener = (fgRef: any) => {
   return (event: Partial<KeyboardEvent>) => {
     switch (event.key) {
       case "s":
@@ -184,12 +181,6 @@ export const makeKeydownListener = (
           return;
         }
         console.log(`zoom: ${fgRef.current.zoom()}`);
-        return;
-      case "p":
-        zoom({ direction: ZoomDirection.In, steps: 1, graphData });
-        return;
-      case "m":
-        zoom({ direction: ZoomDirection.Out, steps: 1, graphData });
         return;
       default:
         return;
@@ -244,6 +235,7 @@ export const makeOnZoomAndPanListener = (
   graphData: GraphDataMerged
 ) => {
   let lastZoom = ref.current?.zoom();
+  let zoomState: ZoomState = { zoomOperations: [] };
   const onZoomAndPan = (transform: UserZoomEvent) => {
     const forcegraph = ref.current;
     if (!forcegraph) {
@@ -254,9 +246,9 @@ export const makeOnZoomAndPanListener = (
       return;
     }
     if (lastZoom < currentZoom) {
-      zoom({ direction: ZoomDirection.In, steps: 1, graphData });
+      zoom({ direction: ZoomDirection.In, steps: 1, graphData }, zoomState);
     } else {
-      zoom({ direction: ZoomDirection.Out, steps: 1, graphData });
+      zoom({ direction: ZoomDirection.Out, steps: 1, graphData }, zoomState);
     }
     forcegraph.d3ReheatSimulation();
     lastZoom = currentZoom;
@@ -273,10 +265,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   const onLinkClick = onLinkClickFn(props);
   const forcegraphRef = useRef<ForceGraphMethods>();
   // TODO: make it react-isch? not sure where to put it
-  document.addEventListener(
-    "keydown",
-    makeKeydownListener(zoomStep, graphDataForRender, forcegraphRef)
-  );
+  document.addEventListener("keydown", makeKeydownListener(forcegraphRef));
   return (
     <ForceGraph2D
       ref={forcegraphRef}

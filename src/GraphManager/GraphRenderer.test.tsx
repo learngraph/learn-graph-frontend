@@ -107,34 +107,9 @@ describe("nodeCanvasObject", () => {
 });
 
 describe("makeKeydownListener", () => {
-  const graphData = { nodes: [], links: [] };
-  it("should call zoom in on key 'p'", () => {
-    let zoom = jest.fn();
-    let keydown = makeKeydownListener(zoom, graphData, undefined);
-    let event = { key: "p" };
-    keydown(event);
-    expect(zoom.mock.calls.length).toBe(1);
-    expect(zoom.mock.calls[0][0]).toEqual({
-      steps: 1,
-      direction: ZoomDirection.In,
-      graphData,
-    });
-  });
-  it("should call zoom out on key 'm'", () => {
-    let zoom = jest.fn();
-    let keydown = makeKeydownListener(zoom, graphData, undefined);
-    let event = { key: "m" };
-    keydown(event);
-    expect(zoom.mock.calls.length).toBe(1);
-    expect(zoom.mock.calls[0][0]).toEqual({
-      steps: 1,
-      direction: ZoomDirection.Out,
-      graphData,
-    });
-  });
   it("should call nothing on key 'a'", () => {
     let zoom = jest.fn();
-    let keydown = makeKeydownListener(zoom, graphData, undefined);
+    let keydown = makeKeydownListener(undefined);
     let event = { key: "a" };
     keydown(event);
     expect(zoom.mock.calls.length).toBe(0);

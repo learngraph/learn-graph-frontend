@@ -19,7 +19,7 @@ export interface GraphDataMerged {
 }
 
 export interface ZoomFn {
-  (args: ZoomArgs): void;
+  (args: ZoomArgs, state: ZoomState): void;
 }
 
 export enum ZoomDirection {
@@ -44,22 +44,25 @@ export interface ZoomArgs {
   direction: ZoomDirection;
   // the graph data currently in use by force, that will be modified by a zoom
   // operation
-  graphData: GraphDataMerged;
-  zoomOperations?: ZoomOperation[];
+  graphData: GraphDataMerged; // XXX(skep): should probably move this to ZoomState
+}
+
+export interface ZoomState {
+  zoomOperations: ZoomOperation[];
 }
 
 // zoomStep performs `steps` zoom steps, where zooming in by N steps merges N
 // nodes into other nodes, reducing the total node count by N.
-export const zoomStep: ZoomFn = (args: ZoomArgs): void => {
+export const zoomStep: ZoomFn = (args: ZoomArgs, state: ZoomState): void => {
   if (args.direction === ZoomDirection.In) {
-    zoomStepIn(args);
+    zoomStepIn(args, state);
   } else if (args.direction === ZoomDirection.Out) {
-    zoomStepOut(args);
+    zoomStepOut(args, state);
   }
 };
 
-const zoomStepIn: ZoomFn = (args: ZoomArgs): void => {
-  const op = args.zoomOperations?.pop();
+const zoomStepIn: ZoomFn = (args: ZoomArgs, state: ZoomState): void => {
+  const op = state.zoomOperations?.pop();
   if (!op) {
     return;
   }
@@ -71,7 +74,7 @@ function appendArray<T>(a: T[], appendix: T[]) {
   a.splice(a.length, 0, ...appendix);
 }
 
-const zoomStepOut: ZoomFn = (args: ZoomArgs): void => {
+const zoomStepOut: ZoomFn = (args: ZoomArgs, state: ZoomState): void => {
   if (args.steps >= args.graphData.nodes.length) {
     return;
   }
@@ -79,11 +82,11 @@ const zoomStepOut: ZoomFn = (args: ZoomArgs): void => {
   if (selection.toRemove.length === 0) {
     return; // nothing left to merge
   }
-  mergeSelection(selection, args);
+  mergeSelection(selection, args, state);
   // recurse if we didn't merge enough nodes yet
   args.steps -= selection.toRemove.length;
   if (args.steps > 0) {
-    zoomStepOut(args);
+    zoomStepOut(args, state);
   }
 };
 
@@ -135,7 +138,11 @@ const deleteFromArray = (nodes: HasID[], nodesToRemove: HasID[]) => {
 
 // mergeSelection merges the nodes according to `selection` inside
 // `args.graphData` (inplace!)
-const mergeSelection = (selection: MergeSelection, args: ZoomArgs) => {
+const mergeSelection = (
+  selection: MergeSelection,
+  args: ZoomArgs,
+  state: ZoomState
+) => {
   selection.mergeTarget.mergeCount = [
     ...selection.toRemove,
     selection.mergeTarget,
@@ -152,11 +159,7 @@ const mergeSelection = (selection: MergeSelection, args: ZoomArgs) => {
           link.target.id === selection.mergeTarget.id
       )
   );
-  // TODO(skep): refactor
-  if (!args.zoomOperations) {
-    args.zoomOperations = [];
-  }
-  args.zoomOperations.push({
+  state.zoomOperations.push({
     type: ZoomOperationType.Merge,
     removedNodes: selection.toRemove,
     removedLinks: args.graphData.links.filter((link) =>

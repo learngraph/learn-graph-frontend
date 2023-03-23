@@ -7,6 +7,7 @@ import {
   LinkBetweenHasIDs,
   HasID,
   ZoomOperationType,
+  ZoomState,
 } from "./Zoom";
 
 describe("zoom", () => {
@@ -19,8 +20,11 @@ describe("zoom", () => {
         direction: ZoomDirection.Out,
         graphData: { nodes: [A, B], links: [link] },
       };
-      zoomStep(args);
-      expect(args.zoomOperations).toEqual([
+      let state: ZoomState = {
+        zoomOperations: [],
+      };
+      zoomStep(args, state);
+      expect(state.zoomOperations).toEqual([
         {
           type: ZoomOperationType.Merge,
           removedNodes: [B],
@@ -592,7 +596,7 @@ describe("zoom", () => {
             (rawNode) => node.id === rawNode.id
           )?.mergeCount;
         });
-        zoomStep(input);
+        zoomStep(input, { zoomOperations: [] });
         expect(input.graphData).toEqual(expected);
       }
     );
@@ -630,6 +634,8 @@ describe("zoom", () => {
             nodes: [node.A],
             links: [],
           },
+        },
+        {
           zoomOperations: [
             {
               type: ZoomOperationType.Merge,
@@ -650,12 +656,16 @@ describe("zoom", () => {
         _from: string,
         _to: string,
         input: ZoomArgs,
+        state: ZoomState,
         expected: GraphDataMerged
       ) => {
-        zoomStep(input);
+        zoomStep(input, state);
         expect(input.graphData).toEqual(expected);
       }
     );
+    it.todo("should reduce mergeCount on nodes, when un-merging");
+    it.todo("should rewrite links, that were rewritten on merge");
+    it.todo("must re-create exactly the same graph");
   });
 });
 
