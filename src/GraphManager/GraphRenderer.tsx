@@ -1,11 +1,11 @@
 import { TranslatedGraphData, useGraphDataContext } from "src/GraphDataContext";
 import { getTranslation } from "./utilities/getTranslation";
 import ForceGraph2D, {
-  //GraphData as GraphDataForceGraph,
+  ForceGraphMethods,
   LinkObject,
   NodeObject,
 } from "react-force-graph-2d";
-import { GraphData, LinkType, NodeType /*, GraphData*/ } from "./types";
+import { GraphData, LinkType, NodeType } from "./types";
 import {
   ZoomFn,
   GraphDataMerged,
@@ -13,6 +13,7 @@ import {
   zoomStep,
   HasID,
 } from "./Zoom";
+import { MutableRefObject, useRef } from "react";
 
 // TODO(skep): fundamental type issue here, we have 2-3 types in one:
 //  1. `NodeType`: our node type, with added properties, that we use in
@@ -173,10 +174,17 @@ const onLinkHover = (_: LinkObject | null): void => {
 // global input listeners
 export const makeKeydownListener = (
   zoom: ZoomFn,
-  graphData: GraphDataMerged
+  graphData: GraphDataMerged,
+  fgRef: any
 ) => {
   return (event: Partial<KeyboardEvent>) => {
     switch (event.key) {
+      case "s":
+        if (!fgRef.current) {
+          return;
+        }
+        console.log(`zoom: ${fgRef.current.zoom()}`);
+        return;
       case "p":
         zoom({ direction: ZoomDirection.In, steps: 1, graphData });
         return;
@@ -215,8 +223,42 @@ const transformToRenderedType = (graph: TranslatedGraphData): GraphData => {
   };
 };
 
-const onZoom = (_: any) => {
-  // TODO(skep): use this instead of addEventListener below!
+interface UserZoomEvent {
+  // zoom level
+  k: number;
+  x: number;
+  y: number;
+}
+
+export type ForceGraph2DRef = MutableRefObject<ForceGraphMethods | undefined>;
+
+// Note: the returned onZoom function is triggered by user interaction as well
+// as programmatic zooming/panning with zoom() and centerAt().
+// -> will be important for search-node feature using centerAt!
+export const makeOnZoomAndPanListener = (
+  ref: ForceGraph2DRef,
+  zoom: ZoomFn,
+  graphData: GraphDataMerged
+) => {
+  let lastZoom = ref.current?.zoom();
+  const onZoomAndPan = (transform: UserZoomEvent) => {
+    const forcegraph = ref.current;
+    if (!forcegraph) {
+      return;
+    }
+    const currentZoom = transform.k;
+    if (!lastZoom || lastZoom === currentZoom) {
+      return;
+    }
+    if (lastZoom > currentZoom) {
+      zoom({ direction: ZoomDirection.In, steps: 1, graphData });
+    } else {
+      zoom({ direction: ZoomDirection.Out, steps: 1, graphData });
+    }
+    forcegraph.d3ReheatSimulation();
+    lastZoom = currentZoom;
+  };
+  return onZoomAndPan;
 };
 
 export const GraphRenderer = (props: GraphRendererProps) => {
@@ -226,12 +268,15 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     JSON.stringify(transformToRenderedType(graph))
   );
   const onLinkClick = onLinkClickFn(props);
+  const forcegraphRef = useRef<ForceGraphMethods>();
+  // TODO: make it react-isch? not sure where to put it
   document.addEventListener(
     "keydown",
-    makeKeydownListener(zoomStep, graphDataForRender)
+    makeKeydownListener(zoomStep, graphDataForRender, forcegraphRef)
   );
   return (
     <ForceGraph2D
+      ref={forcegraphRef}
       // Note: all data must be copied, since force graph changes Link "source"
       // and "target" fields to directly contain the referred node objects
       // nodes:
@@ -250,7 +295,11 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       // @ts-ignore
       linkCanvasObjectMode={() => config.linkCanvasObjectMode}
       linkCanvasObject={linkCanvasObject}
-      onZoom={onZoom}
+      onZoom={makeOnZoomAndPanListener(
+        forcegraphRef,
+        zoomStep,
+        graphDataForRender
+      )}
     />
   );
 };
