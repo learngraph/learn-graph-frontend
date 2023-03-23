@@ -232,6 +232,9 @@ interface UserZoomEvent {
 
 export type ForceGraph2DRef = MutableRefObject<ForceGraphMethods | undefined>;
 
+// FIXME(skep): BUG: on load zoom is triggered 2 times, so that 1-zoom-in
+// always  happens!
+
 // Note: the returned onZoom function is triggered by user interaction as well
 // as programmatic zooming/panning with zoom() and centerAt().
 // -> will be important for search-node feature using centerAt!
@@ -250,7 +253,7 @@ export const makeOnZoomAndPanListener = (
     if (!lastZoom || lastZoom === currentZoom) {
       return;
     }
-    if (lastZoom > currentZoom) {
+    if (lastZoom < currentZoom) {
       zoom({ direction: ZoomDirection.In, steps: 1, graphData });
     } else {
       zoom({ direction: ZoomDirection.Out, steps: 1, graphData });

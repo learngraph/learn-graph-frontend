@@ -142,7 +142,7 @@ describe("makeKeydownListener", () => {
 });
 
 describe("makeOnZoomListener", () => {
-  it("should zoom out if we changed to a lower zoom number", () => {
+  it("should zoom in if we changed to a lower zoom number", () => {
     const fgZoom = jest.fn().mockReturnValueOnce(1).mockReturnValueOnce(2);
     const forcegraph: ForceGraph2DRef = {
       // @ts-ignore: don't want to implement all methods
@@ -159,12 +159,12 @@ describe("makeOnZoomListener", () => {
     onZoomAndPan({ k: 2, x: 0, y: 0 });
     expect(zoom.mock.calls.length).toEqual(1);
     expect(zoom.mock.calls[0][0]).toEqual({
-      direction: ZoomDirection.Out,
+      direction: ZoomDirection.In,
       steps: 1,
       graphData,
     });
   });
-  it("should zoom in if we changed to a higher zoom number", () => {
+  it("should zoom Out if we changed to a higher zoom number", () => {
     const fgZoom = jest.fn().mockReturnValueOnce(1).mockReturnValueOnce(0.5);
     const forcegraph: ForceGraph2DRef = {
       // @ts-ignore: don't want to implement all methods
@@ -181,7 +181,7 @@ describe("makeOnZoomListener", () => {
     onZoomAndPan({ k: 0.5, x: 0, y: 0 });
     expect(zoom.mock.calls.length).toEqual(1);
     expect(zoom.mock.calls[0][0]).toEqual({
-      direction: ZoomDirection.In,
+      direction: ZoomDirection.Out,
       steps: 1,
       graphData,
     });

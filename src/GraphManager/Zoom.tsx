@@ -27,6 +27,16 @@ export enum ZoomDirection {
   Out,
 }
 
+export enum ZoomOperationType {
+  Merge,
+}
+
+export interface ZoomOperation {
+  type: ZoomOperationType;
+  removedNodes: HasID[];
+  removedLinks: LinkBetweenHasIDs[];
+}
+
 export interface ZoomArgs {
   // number of nodes to merge/un-merge when zooming In/Out
   steps: number;
@@ -35,11 +45,33 @@ export interface ZoomArgs {
   // the graph data currently in use by force, that will be modified by a zoom
   // operation
   graphData: GraphDataMerged;
+  zoomOperations?: ZoomOperation[];
 }
 
 // zoomStep performs `steps` zoom steps, where zooming in by N steps merges N
 // nodes into other nodes, reducing the total node count by N.
 export const zoomStep: ZoomFn = (args: ZoomArgs): void => {
+  if (args.direction === ZoomDirection.In) {
+    zoomStepIn(args);
+  } else if (args.direction === ZoomDirection.Out) {
+    zoomStepOut(args);
+  }
+};
+
+const zoomStepIn: ZoomFn = (args: ZoomArgs): void => {
+  const op = args.zoomOperations?.pop();
+  if (!op) {
+    return;
+  }
+  appendArray(args.graphData.nodes, op.removedNodes);
+  appendArray(args.graphData.links, op.removedLinks);
+};
+
+function appendArray<T>(a: T[], appendix: T[]) {
+  a.splice(a.length, 0, ...appendix);
+}
+
+const zoomStepOut: ZoomFn = (args: ZoomArgs): void => {
   if (args.steps >= args.graphData.nodes.length) {
     return;
   }
@@ -51,7 +83,7 @@ export const zoomStep: ZoomFn = (args: ZoomArgs): void => {
   // recurse if we didn't merge enough nodes yet
   args.steps -= selection.toRemove.length;
   if (args.steps > 0) {
-    zoomStep(args);
+    zoomStepOut(args);
   }
 };
 
@@ -120,6 +152,21 @@ const mergeSelection = (selection: MergeSelection, args: ZoomArgs) => {
           link.target.id === selection.mergeTarget.id
       )
   );
+  // TODO(skep): refactor
+  if (!args.zoomOperations) {
+    args.zoomOperations = [];
+  }
+  args.zoomOperations.push({
+    type: ZoomOperationType.Merge,
+    removedNodes: selection.toRemove,
+    removedLinks: args.graphData.links.filter((link) =>
+      selection.toRemove.find(
+        (removedNode) =>
+          link.source.id === removedNode.id &&
+          link.target.id === selection.mergeTarget.id
+      )
+    ),
+  });
   rewrite2ndOrderLinks(selection.mergeTarget, selection.toRemove, linksToKeep, {
     deleted: "source",
     other: "target",
