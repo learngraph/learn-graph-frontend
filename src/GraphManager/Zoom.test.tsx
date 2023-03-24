@@ -74,6 +74,54 @@ describe("zoom", () => {
         },
       ]);
     });
+    it("should not push self-referencing links", () => {
+      const [A, B, C, D] = [{ id: "A" }, { id: "B" }, { id: "C" }, { id: "D" }];
+      let args: ZoomArgs = {
+        steps: 1,
+        direction: ZoomDirection.Out,
+        graphData: {
+          nodes: [A, B, C, D],
+          links: [
+            { source: D, target: A, value: 1.5 },
+            { source: A, target: B },
+            { source: B, target: C },
+            { source: C, target: B },
+          ],
+        },
+      };
+      let state: ZoomState = {
+        zoomSteps: [],
+      };
+      zoomStep(args, state);
+      expect(args.graphData).toEqual({
+        nodes: [A, B, D],
+        links: [
+          { source: D, target: A, value: 1.5 },
+          { source: A, target: B },
+        ],
+      });
+      expect(state.zoomSteps).toEqual([
+        {
+          operations: [
+            {
+              type: ZoomOperationType.Merge,
+              removedNodes: [C],
+              removedLinks: [{ source: C, target: B }],
+            },
+            {
+              type: ZoomOperationType.Merge,
+              removedNodes: [],
+              removedLinks: [{ source: B, target: C }],
+            },
+            //{
+            //  type: ZoomOperationType.LinkRewrite,
+            //  from: { source: B, target: C },
+            //  to: { source: A, target: C },
+            //},
+          ],
+        },
+      ]);
+    });
   });
 
   describe("out", () => {
@@ -422,12 +470,8 @@ describe("zoom", () => {
           },
         },
         {
-          nodes: [/*node.A,*/ node.B, node.C],
-          links: [
-            //{ source: node.A, target: node.A, value: 10 },
-            //{ source: node.A, target: node.B, value: 2 },
-            //{ source: node.A, target: node.C, value: 2 },
-          ],
+          nodes: [node.B, node.C],
+          links: [],
         },
       ],
       [

@@ -91,6 +91,11 @@ const zoomStepIn: ZoomFn = (args: ZoomArgs, state: ZoomState): void => {
           link.source.id === op.to!.source.id &&
           link.target.id === op.to!.target.id
       );
+      if (!link) {
+        console.log("Error: no link found for rewriting");
+        console.dir(state);
+        console.dir(op);
+      }
       link!.source = op.from!.source;
       link!.target = op.from!.target;
     }
@@ -239,15 +244,26 @@ const rewrite2ndOrderLinks = (
         existingLink[dir.deleted].id === selection.mergeTarget.id &&
         existingLink[dir.other].id === link[dir.other].id
     );
+    const lastOperations =
+      state.zoomSteps[state.zoomSteps.length - 1].operations;
     if (index !== -1) {
+      // TODO(skep): also push this deletion as ZoomOperationType.Merge
       averageLinkValue(link, linksToKeep[index]);
       linksToKeep.splice(index, 1);
     }
-    state.zoomSteps[state.zoomSteps.length - 1].operations.push({
-      type: ZoomOperationType.LinkRewrite,
-      from: { ...link },
-      to: { ...link, [dir.deleted]: selection.mergeTarget },
-    });
+    if (selection.mergeTarget.id !== link[dir.other].id) {
+      lastOperations.push({
+        type: ZoomOperationType.LinkRewrite,
+        from: { ...link },
+        to: { ...link, [dir.deleted]: selection.mergeTarget },
+      });
+    } else {
+      lastOperations.push({
+        type: ZoomOperationType.Merge,
+        removedNodes: [],
+        removedLinks: [{ ...link }],
+      });
+    }
     link[dir.deleted] = selection.mergeTarget;
     if (link[dir.deleted].id === link[dir.other].id) {
       linksToKeep.splice(
