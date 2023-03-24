@@ -201,11 +201,11 @@ const mergeSelection = (
       },
     ],
   });
-  rewrite2ndOrderLinks(selection.mergeTarget, selection.toRemove, linksToKeep, {
+  rewrite2ndOrderLinks(state, selection, linksToKeep, {
     deleted: "source",
     other: "target",
   });
-  rewrite2ndOrderLinks(selection.mergeTarget, selection.toRemove, linksToKeep, {
+  rewrite2ndOrderLinks(state, selection, linksToKeep, {
     deleted: "target",
     other: "source",
   });
@@ -223,13 +223,12 @@ function replaceArray<T>(a: T[], b: T[]) {
 // `dir` specifies the link's direction
 // Note: duplicates and self-referencing links are removed!
 const rewrite2ndOrderLinks = (
-  mergeTargetNode: HasID,
-  nodesToRemove: HasID[],
+  state: ZoomState,
+  selection: MergeSelection,
   linksToKeep: LinkBetweenHasIDs[],
   dir: { deleted: "source" | "target"; other: "source" | "target" }
 ) => {
-  // TODO(skep): add LinkRewrite operation to ZoomState
-  let secondOrderSourceLinks = nodesToRemove.flatMap((firstOrderNode) => {
+  let secondOrderSourceLinks = selection.toRemove.flatMap((firstOrderNode) => {
     return linksToKeep.filter(
       (link) => link[dir.deleted].id === firstOrderNode.id
     );
@@ -237,15 +236,20 @@ const rewrite2ndOrderLinks = (
   secondOrderSourceLinks.forEach((link) => {
     const index = linksToKeep.findIndex(
       (existingLink) =>
-        existingLink[dir.deleted].id === mergeTargetNode.id &&
+        existingLink[dir.deleted].id === selection.mergeTarget.id &&
         existingLink[dir.other].id === link[dir.other].id
     );
     if (index !== -1) {
       averageLinkValue(link, linksToKeep[index]);
       linksToKeep.splice(index, 1);
     }
-    link[dir.deleted] = mergeTargetNode;
-    if (link[dir.deleted] === link[dir.other]) {
+    state.zoomSteps[state.zoomSteps.length - 1].operations.push({
+      type: ZoomOperationType.LinkRewrite,
+      from: { ...link },
+      to: { ...link, [dir.deleted]: selection.mergeTarget },
+    });
+    link[dir.deleted] = selection.mergeTarget;
+    if (link[dir.deleted].id === link[dir.other].id) {
       linksToKeep.splice(
         linksToKeep.findIndex((selfLink) => link === selfLink),
         1

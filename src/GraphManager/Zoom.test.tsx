@@ -12,7 +12,7 @@ import {
 
 describe("zoom", () => {
   describe("meta", () => {
-    it("should store operations done zooming out int args object", () => {
+    it("should push a Merge operation when merging nodes", () => {
       const [A, B] = [{ id: "A" }, { id: "B" }];
       const link = { source: B, target: A };
       let args: ZoomArgs = {
@@ -31,6 +31,44 @@ describe("zoom", () => {
               type: ZoomOperationType.Merge,
               removedNodes: [B],
               removedLinks: [link],
+            },
+          ],
+        },
+      ]);
+    });
+    it("should push a LinkRewrite operation when rewriting links", () => {
+      const [A, B, C] = [{ id: "A" }, { id: "B" }, { id: "C" }];
+      let args: ZoomArgs = {
+        steps: 1,
+        direction: ZoomDirection.Out,
+        graphData: {
+          nodes: [A, B, C],
+          links: [
+            { source: B, target: A },
+            { source: B, target: C },
+          ],
+        },
+      };
+      let state: ZoomState = {
+        zoomSteps: [],
+      };
+      zoomStep(args, state);
+      expect(args.graphData).toEqual({
+        nodes: [A, C],
+        links: [{ source: A, target: C }],
+      });
+      expect(state.zoomSteps).toEqual([
+        {
+          operations: [
+            {
+              type: ZoomOperationType.Merge,
+              removedNodes: [B],
+              removedLinks: [{ source: B, target: A }],
+            },
+            {
+              type: ZoomOperationType.LinkRewrite,
+              from: { source: B, target: C },
+              to: { source: A, target: C },
             },
           ],
         },
