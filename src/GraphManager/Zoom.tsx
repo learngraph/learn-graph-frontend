@@ -28,7 +28,7 @@ export enum ZoomDirection {
 }
 
 export enum ZoomOperationType {
-  Merge,
+  Delete,
   LinkRewrite,
 }
 
@@ -76,12 +76,12 @@ const zoomStepIn: ZoomFn = (args: ZoomArgs, state: ZoomState): void => {
     return;
   }
   step.operations.forEach((op) => {
-    if (op.type === ZoomOperationType.Merge) {
+    if (op.type === ZoomOperationType.Delete) {
       appendArray(args.graphData.nodes, op.removedNodes!);
       appendArray(args.graphData.links, op.removedLinks!);
       op.removedLinks!.forEach((link) => {
         if (!link.target.mergeCount) {
-          throw new Error("logic error: merged nodes must have a mergeCount");
+          return; // link target was not a merged node
         }
         link.target.mergeCount -= link.source.mergeCount ?? 1;
       });
@@ -194,7 +194,7 @@ const mergeSelection = (
   state.zoomSteps.push({
     operations: [
       {
-        type: ZoomOperationType.Merge,
+        type: ZoomOperationType.Delete,
         removedNodes: selection.toRemove,
         removedLinks: args.graphData.links.filter((link) =>
           selection.toRemove.find(
@@ -247,8 +247,13 @@ const rewrite2ndOrderLinks = (
     const lastOperations =
       state.zoomSteps[state.zoomSteps.length - 1].operations;
     if (index !== -1) {
-      // TODO(skep): also push this deletion as ZoomOperationType.Merge
+      // TODO(skep): push previous link values, to be able to restore `link`
       averageLinkValue(link, linksToKeep[index]);
+      lastOperations.push({
+        type: ZoomOperationType.Delete,
+        removedNodes: [],
+        removedLinks: [{ ...linksToKeep[index] }],
+      });
       linksToKeep.splice(index, 1);
     }
     if (selection.mergeTarget.id !== link[dir.other].id) {
@@ -259,7 +264,7 @@ const rewrite2ndOrderLinks = (
       });
     } else {
       lastOperations.push({
-        type: ZoomOperationType.Merge,
+        type: ZoomOperationType.Delete,
         removedNodes: [],
         removedLinks: [{ ...link }],
       });

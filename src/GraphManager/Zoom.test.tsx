@@ -28,7 +28,7 @@ describe("zoom", () => {
         {
           operations: [
             {
-              type: ZoomOperationType.Merge,
+              type: ZoomOperationType.Delete,
               removedNodes: [B],
               removedLinks: [link],
             },
@@ -61,7 +61,7 @@ describe("zoom", () => {
         {
           operations: [
             {
-              type: ZoomOperationType.Merge,
+              type: ZoomOperationType.Delete,
               removedNodes: [B],
               removedLinks: [{ source: B, target: A }],
             },
@@ -104,20 +104,69 @@ describe("zoom", () => {
         {
           operations: [
             {
-              type: ZoomOperationType.Merge,
+              type: ZoomOperationType.Delete,
               removedNodes: [C],
               removedLinks: [{ source: C, target: B }],
             },
             {
-              type: ZoomOperationType.Merge,
+              type: ZoomOperationType.Delete,
               removedNodes: [],
               removedLinks: [{ source: B, target: C }],
             },
-            //{
-            //  type: ZoomOperationType.LinkRewrite,
-            //  from: { source: B, target: C },
-            //  to: { source: A, target: C },
-            //},
+          ],
+        },
+      ]);
+    });
+    it("duplicate links to side-nodes should be pushed as Merge", () => {
+      const [A, B, C, D, E] = [
+        { id: "A" },
+        { id: "B" },
+        { id: "C" },
+        { id: "D" },
+        { id: "E" },
+      ];
+      let args: ZoomArgs = {
+        steps: 1,
+        direction: ZoomDirection.Out,
+        graphData: {
+          nodes: [A, B, C, D, E],
+          links: [
+            { source: E, target: D },
+            { source: E, target: C, value: 3 },
+            { source: D, target: E },
+            { source: D, target: C, value: 2 },
+            { source: C, target: B },
+            { source: A, target: B, value: 3 },
+            { source: A, target: C },
+          ],
+        },
+      };
+      let state: ZoomState = {
+        zoomSteps: [],
+      };
+      zoomStep(args, state);
+      expect(state.zoomSteps).toEqual([
+        {
+          operations: [
+            {
+              type: ZoomOperationType.Delete,
+              removedNodes: [A],
+              removedLinks: [{ source: A, target: C }],
+            },
+            {
+              type: ZoomOperationType.Delete,
+              removedNodes: [],
+              removedLinks: [{ source: C, target: B }],
+            },
+            {
+              type: ZoomOperationType.LinkRewrite,
+              from: {
+                source: A,
+                target: B,
+                value: 2 /*TODO: must be 3, but not yet implemented*/,
+              },
+              to: { source: C, target: B, value: 2 },
+            },
           ],
         },
       ]);
@@ -727,7 +776,7 @@ describe("zoom", () => {
             {
               operations: [
                 {
-                  type: ZoomOperationType.Merge,
+                  type: ZoomOperationType.Delete,
                   removedNodes: [node.B],
                   removedLinks: [{ source: node.B, target: node.A5 }],
                 },
@@ -757,7 +806,7 @@ describe("zoom", () => {
             {
               operations: [
                 {
-                  type: ZoomOperationType.Merge,
+                  type: ZoomOperationType.Delete,
                   removedNodes: [node.C],
                   removedLinks: [{ source: node.C, target: node.A2 }],
                 },
