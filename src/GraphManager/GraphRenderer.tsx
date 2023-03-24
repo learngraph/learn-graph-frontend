@@ -111,7 +111,7 @@ export const nodeCanvasObject = (
   let label = node.description ?? "";
   let backgroundColor = backgroundColorWhite;
   const mergedNodes = node.mergeCount ?? 0;
-  if (mergedNodes > 0) {
+  if (mergedNodes > 1) {
     // TODO(skep): use relative scaling to total number of nodes
     // TODO(j): should use react theme for color choice here
     let hue = ((1 - mergedNodes * 0.1) * 120).toString(10);
@@ -235,7 +235,7 @@ export const makeOnZoomAndPanListener = (
   graphData: GraphDataMerged
 ) => {
   let lastZoom = ref.current?.zoom();
-  let zoomState: ZoomState = { zoomOperations: [] };
+  let zoomState: ZoomState = { zoomSteps: [] };
   const onZoomAndPan = (transform: UserZoomEvent) => {
     const forcegraph = ref.current;
     if (!forcegraph) {

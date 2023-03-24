@@ -21,14 +21,18 @@ describe("zoom", () => {
         graphData: { nodes: [A, B], links: [link] },
       };
       let state: ZoomState = {
-        zoomOperations: [],
+        zoomSteps: [],
       };
       zoomStep(args, state);
-      expect(state.zoomOperations).toEqual([
+      expect(state.zoomSteps).toEqual([
         {
-          type: ZoomOperationType.Merge,
-          removedNodes: [B],
-          removedLinks: [link],
+          operations: [
+            {
+              type: ZoomOperationType.Merge,
+              removedNodes: [B],
+              removedLinks: [link],
+            },
+          ],
         },
       ]);
     });
@@ -596,7 +600,7 @@ describe("zoom", () => {
             (rawNode) => node.id === rawNode.id
           )?.mergeCount;
         });
-        zoomStep(input, { zoomOperations: [] });
+        zoomStep(input, { zoomSteps: [] });
         expect(input.graphData).toEqual(expected);
       }
     );
@@ -605,6 +609,7 @@ describe("zoom", () => {
   describe("in", () => {
     const rawData = [
       { id: "A" },
+      { id: "A2", mergeCount: 2 },
       { id: "A5", mergeCount: 5 },
       { id: "B" },
       { id: "B16", mergeCount: 16 },
@@ -625,28 +630,70 @@ describe("zoom", () => {
     it.each([
       [
         "zoom in a single step",
-        "A, [Merge(B into A)]",
-        "A <- B",
+        "A[5], [Merge(B into A)]",
+        "A[4] <- B[1]",
         {
           steps: 1,
           direction: ZoomDirection.In,
           graphData: {
-            nodes: [node.A],
+            nodes: [node.A5],
             links: [],
           },
         },
         {
-          zoomOperations: [
+          zoomSteps: [
             {
-              type: ZoomOperationType.Merge,
-              removedNodes: [node.B],
-              removedLinks: [{ source: node.B, target: node.A }],
+              operations: [
+                {
+                  type: ZoomOperationType.Merge,
+                  removedNodes: [node.B],
+                  removedLinks: [{ source: node.B, target: node.A5 }],
+                },
+              ],
             },
           ],
         },
         {
-          nodes: [node.A, node.B],
-          links: [{ source: node.B, target: node.A }],
+          nodes: [{ ...node.A5, mergeCount: 4 }, node.B],
+          links: [{ source: node.B, target: { ...node.A5, mergeCount: 4 } }],
+        },
+      ],
+      [
+        "rewrite links, that were rewritten on merge",
+        "A[2] -> B, [Merge(C into A), Rewrite(C->B to A->B)]",
+        "A <- C -> B",
+        {
+          steps: 1,
+          direction: ZoomDirection.In,
+          graphData: {
+            nodes: [node.A2, node.B],
+            links: [{ source: node.A2, target: node.B }],
+          },
+        },
+        {
+          zoomSteps: [
+            {
+              operations: [
+                {
+                  type: ZoomOperationType.Merge,
+                  removedNodes: [node.C],
+                  removedLinks: [{ source: node.C, target: node.A2 }],
+                },
+                {
+                  type: ZoomOperationType.LinkRewrite,
+                  from: { source: node.C, target: node.B },
+                  to: { source: node.A2, target: node.B },
+                },
+              ],
+            },
+          ],
+        },
+        {
+          nodes: [{ ...node.A2, mergeCount: 1 }, node.B, node.C],
+          links: [
+            { source: node.C, target: node.B },
+            { source: node.C, target: { ...node.A2, mergeCount: 1 } },
+          ],
         },
       ],
     ])(
@@ -659,12 +706,17 @@ describe("zoom", () => {
         state: ZoomState,
         expected: GraphDataMerged
       ) => {
+        // reset mutable data on node set
+        input.graphData.nodes.forEach((node) => {
+          node.mergeCount = rawData.find(
+            (rawNode) => node.id === rawNode.id
+          )?.mergeCount;
+        });
         zoomStep(input, state);
         expect(input.graphData).toEqual(expected);
       }
     );
-    it.todo("should reduce mergeCount on nodes, when un-merging");
-    it.todo("should rewrite links, that were rewritten on merge");
+    it.todo("rewrite links, that were rewritten on merge");
     it.todo("must re-create exactly the same graph");
   });
 });

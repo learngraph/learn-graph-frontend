@@ -29,12 +29,21 @@ export enum ZoomDirection {
 
 export enum ZoomOperationType {
   Merge,
+  LinkRewrite,
 }
 
 export interface ZoomOperation {
   type: ZoomOperationType;
-  removedNodes: HasID[];
-  removedLinks: LinkBetweenHasIDs[];
+  // used for type = ZoomOperationType.Merge:
+  removedNodes?: HasID[];
+  removedLinks?: LinkBetweenHasIDs[];
+  // used for type = ZoomOperationType.LinkRewrite:
+  from?: LinkBetweenHasIDs;
+  to?: LinkBetweenHasIDs;
+}
+
+export interface ZoomStep {
+  operations: ZoomOperation[];
 }
 
 export interface ZoomArgs {
@@ -48,7 +57,7 @@ export interface ZoomArgs {
 }
 
 export interface ZoomState {
-  zoomOperations: ZoomOperation[];
+  zoomSteps: ZoomStep[];
 }
 
 // zoomStep performs `steps` zoom steps, where zooming in by N steps merges N
@@ -62,12 +71,30 @@ export const zoomStep: ZoomFn = (args: ZoomArgs, state: ZoomState): void => {
 };
 
 const zoomStepIn: ZoomFn = (args: ZoomArgs, state: ZoomState): void => {
-  const op = state.zoomOperations?.pop();
-  if (!op) {
+  const step = state.zoomSteps?.pop();
+  if (!step) {
     return;
   }
-  appendArray(args.graphData.nodes, op.removedNodes);
-  appendArray(args.graphData.links, op.removedLinks);
+  step.operations.forEach((op) => {
+    if (op.type === ZoomOperationType.Merge) {
+      appendArray(args.graphData.nodes, op.removedNodes!);
+      appendArray(args.graphData.links, op.removedLinks!);
+      op.removedLinks!.forEach((link) => {
+        if (!link.target.mergeCount) {
+          throw new Error("logic error: merged nodes must have a mergeCount");
+        }
+        link.target.mergeCount -= link.source.mergeCount ?? 1;
+      });
+    } else if (op.type === ZoomOperationType.LinkRewrite) {
+      const link = args.graphData.links.find(
+        (link) =>
+          link.source.id === op.to!.source.id &&
+          link.target.id === op.to!.target.id
+      );
+      link!.source = op.from!.source;
+      link!.target = op.from!.target;
+    }
+  });
 };
 
 function appendArray<T>(a: T[], appendix: T[]) {
@@ -159,16 +186,20 @@ const mergeSelection = (
           link.target.id === selection.mergeTarget.id
       )
   );
-  state.zoomOperations.push({
-    type: ZoomOperationType.Merge,
-    removedNodes: selection.toRemove,
-    removedLinks: args.graphData.links.filter((link) =>
-      selection.toRemove.find(
-        (removedNode) =>
-          link.source.id === removedNode.id &&
-          link.target.id === selection.mergeTarget.id
-      )
-    ),
+  state.zoomSteps.push({
+    operations: [
+      {
+        type: ZoomOperationType.Merge,
+        removedNodes: selection.toRemove,
+        removedLinks: args.graphData.links.filter((link) =>
+          selection.toRemove.find(
+            (removedNode) =>
+              link.source.id === removedNode.id &&
+              link.target.id === selection.mergeTarget.id
+          )
+        ),
+      },
+    ],
   });
   rewrite2ndOrderLinks(selection.mergeTarget, selection.toRemove, linksToKeep, {
     deleted: "source",
@@ -197,6 +228,7 @@ const rewrite2ndOrderLinks = (
   linksToKeep: LinkBetweenHasIDs[],
   dir: { deleted: "source" | "target"; other: "source" | "target" }
 ) => {
+  // TODO(skep): add LinkRewrite operation to ZoomState
   let secondOrderSourceLinks = nodesToRemove.flatMap((firstOrderNode) => {
     return linksToKeep.filter(
       (link) => link[dir.deleted].id === firstOrderNode.id
