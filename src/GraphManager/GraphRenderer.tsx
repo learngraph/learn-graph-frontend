@@ -235,7 +235,7 @@ export const makeOnZoomAndPanListener = (
   graphData: GraphDataMerged
 ) => {
   let lastZoom = ref.current?.zoom();
-  let zoomState: ZoomState = { zoomSteps: [] };
+  let zoomState: ZoomState = { zoomSteps: [], graphData };
   const onZoomAndPan = (transform: UserZoomEvent) => {
     const forcegraph = ref.current;
     if (!forcegraph) {
@@ -246,9 +246,9 @@ export const makeOnZoomAndPanListener = (
       return;
     }
     if (lastZoom < currentZoom) {
-      zoom({ direction: ZoomDirection.In, steps: 1, graphData }, zoomState);
+      zoom({ direction: ZoomDirection.In, steps: 1 }, zoomState);
     } else {
-      zoom({ direction: ZoomDirection.Out, steps: 1, graphData }, zoomState);
+      zoom({ direction: ZoomDirection.Out, steps: 1 }, zoomState);
     }
     forcegraph.d3ReheatSimulation();
     lastZoom = currentZoom;

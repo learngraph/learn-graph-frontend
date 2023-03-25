@@ -51,13 +51,14 @@ export interface ZoomArgs {
   steps: number;
   // zoom In or Out
   direction: ZoomDirection;
-  // the graph data currently in use by force, that will be modified by a zoom
-  // operation
-  graphData: GraphDataMerged; // XXX(skep): should probably move this to ZoomState
 }
 
 export interface ZoomState {
+  // stack of zoom out steps, that is used for zooming in
   zoomSteps: ZoomStep[];
+  // the graph data currently in use by force, that will be modified by a zoom
+  // operation
+  graphData: GraphDataMerged;
 }
 
 // zoomStep performs `steps` zoom steps, where zooming in by N steps merges N
@@ -70,15 +71,15 @@ export const zoomStep: ZoomFn = (args: ZoomArgs, state: ZoomState): void => {
   }
 };
 
-const zoomStepIn: ZoomFn = (args: ZoomArgs, state: ZoomState): void => {
+const zoomStepIn: ZoomFn = (_: ZoomArgs, state: ZoomState): void => {
   const step = state.zoomSteps?.pop();
   if (!step) {
     return;
   }
   step.operations.forEach((op) => {
     if (op.type === ZoomOperationType.Delete) {
-      appendArray(args.graphData.nodes, op.removedNodes!);
-      appendArray(args.graphData.links, op.removedLinks!);
+      appendArray(state.graphData.nodes, op.removedNodes!);
+      appendArray(state.graphData.links, op.removedLinks!);
       op.removedLinks!.forEach((link) => {
         if (!link.target.mergeCount) {
           return; // link target was not a merged node
@@ -86,7 +87,7 @@ const zoomStepIn: ZoomFn = (args: ZoomArgs, state: ZoomState): void => {
         link.target.mergeCount -= link.source.mergeCount ?? 1;
       });
     } else if (op.type === ZoomOperationType.LinkRewrite) {
-      const link = args.graphData.links.find(
+      const link = state.graphData.links.find(
         (link) =>
           link.source.id === op.to!.source.id &&
           link.target.id === op.to!.target.id
@@ -107,14 +108,14 @@ function appendArray<T>(a: T[], appendix: T[]) {
 }
 
 const zoomStepOut: ZoomFn = (args: ZoomArgs, state: ZoomState): void => {
-  if (args.steps >= args.graphData.nodes.length) {
+  if (args.steps >= state.graphData.nodes.length) {
     return;
   }
-  let selection = selectNodePairForMerging(args);
+  let selection = selectNodePairForMerging(args, state);
   if (selection.toRemove.length === 0) {
     return; // nothing left to merge
   }
-  mergeSelection(selection, args, state);
+  mergeSelection(selection, state);
   // recurse if we didn't merge enough nodes yet
   args.steps -= selection.toRemove.length;
   if (args.steps > 0) {
@@ -128,18 +129,21 @@ export interface MergeSelection {
 }
 
 export interface Selector {
-  (args: ZoomArgs): MergeSelection;
+  (args: ZoomArgs, state: ZoomState): MergeSelection;
 }
 
 const NO_MERGE_TARGET_FOUND_ID = "---NONE---";
 
 // selectNodePairForMerging selects a target node `mergeTargetNode` and
 // `nodesToRemove` which all have direct links to `mergeTargetNode`
-const selectNodePairForMerging: Selector = (args: ZoomArgs) => {
-  const nodesByTargetWeight = args.graphData.nodes
-    .filter((node) => hasLinksTowards(args.graphData.links, node))
+const selectNodePairForMerging: Selector = (
+  args: ZoomArgs,
+  state: ZoomState
+) => {
+  const nodesByTargetWeight = state.graphData.nodes
+    .filter((node) => hasLinksTowards(state.graphData.links, node))
     .map((node) => ({
-      weight: calculateMergeTargetWeight(node, args.graphData.links),
+      weight: calculateMergeTargetWeight(node, state.graphData.links),
       node: node,
     }))
     .sort((a, b) => b.weight - a.weight);
@@ -148,11 +152,11 @@ const selectNodePairForMerging: Selector = (args: ZoomArgs) => {
   }
   let mergeTargetNode = nodesByTargetWeight[0].node;
   // find first order nodes, as long as the first order links still exist
-  let firstOrderNodesByWeight = args.graphData.links
+  let firstOrderNodesByWeight = state.graphData.links
     .filter((link) => link.target.id === mergeTargetNode.id)
     .map((link) => link.source)
     .map((node) => ({
-      weight: calculateDeletionWeight(node, args.graphData.links),
+      weight: calculateDeletionWeight(node, state.graphData.links),
       node: node,
     }))
     .sort((a, b) => a.weight - b.weight)
@@ -169,12 +173,8 @@ const deleteFromArray = (nodes: HasID[], nodesToRemove: HasID[]) => {
 };
 
 // mergeSelection merges the nodes according to `selection` inside
-// `args.graphData` (inplace!)
-const mergeSelection = (
-  selection: MergeSelection,
-  args: ZoomArgs,
-  state: ZoomState
-) => {
+// `state.graphData` (inplace!)
+const mergeSelection = (selection: MergeSelection, state: ZoomState) => {
   selection.mergeTarget.mergeCount = [
     ...selection.toRemove,
     selection.mergeTarget,
@@ -183,7 +183,7 @@ const mergeSelection = (
     0
   );
   // find links, that will stay unchanged to override current link list later
-  let linksToKeep = args.graphData.links.filter(
+  let linksToKeep = state.graphData.links.filter(
     (link) =>
       !selection.toRemove.find(
         (removedNode) =>
@@ -196,7 +196,7 @@ const mergeSelection = (
       {
         type: ZoomOperationType.Delete,
         removedNodes: selection.toRemove,
-        removedLinks: args.graphData.links.filter((link) =>
+        removedLinks: state.graphData.links.filter((link) =>
           selection.toRemove.find(
             (removedNode) =>
               link.source.id === removedNode.id &&
@@ -214,9 +214,9 @@ const mergeSelection = (
     deleted: "target",
     other: "source",
   });
-  deleteFromArray(args.graphData.nodes, selection.toRemove);
+  deleteFromArray(state.graphData.nodes, selection.toRemove);
   // delete first order links
-  replaceArray(args.graphData.links, linksToKeep);
+  replaceArray(state.graphData.links, linksToKeep);
 };
 
 // replaceArray replaces the content of `a` with `b` (in-place operation)

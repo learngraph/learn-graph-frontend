@@ -133,11 +133,16 @@ describe("makeOnZoomListener", () => {
     expect(zoom.mock.calls.length).toEqual(0);
     onZoomAndPan({ k: 2, x: 0, y: 0 });
     expect(zoom.mock.calls.length).toEqual(1);
-    expect(zoom.mock.calls[0][0]).toEqual({
-      direction: ZoomDirection.In,
-      steps: 1,
-      graphData,
-    });
+    expect(zoom.mock.calls[0]).toEqual([
+      {
+        direction: ZoomDirection.In,
+        steps: 1,
+      },
+      {
+        graphData,
+        zoomSteps: [],
+      },
+    ]);
   });
   it("should zoom Out if we changed to a higher zoom number", () => {
     const fgZoom = jest.fn().mockReturnValueOnce(1).mockReturnValueOnce(0.5);
@@ -155,11 +160,16 @@ describe("makeOnZoomListener", () => {
     expect(zoom.mock.calls.length).toEqual(0);
     onZoomAndPan({ k: 0.5, x: 0, y: 0 });
     expect(zoom.mock.calls.length).toEqual(1);
-    expect(zoom.mock.calls[0][0]).toEqual({
-      direction: ZoomDirection.Out,
-      steps: 1,
-      graphData,
-    });
+    expect(zoom.mock.calls[0]).toEqual([
+      {
+        direction: ZoomDirection.Out,
+        steps: 1,
+      },
+      {
+        graphData,
+        zoomSteps: [],
+      },
+    ]);
   });
   it("should do nothing when no ref.current is empty", () => {
     const forcegraph: ForceGraph2DRef = { current: undefined };

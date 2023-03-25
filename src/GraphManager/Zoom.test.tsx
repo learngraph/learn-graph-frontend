@@ -18,10 +18,10 @@ describe("zoom", () => {
       let args: ZoomArgs = {
         steps: 1,
         direction: ZoomDirection.Out,
-        graphData: { nodes: [A, B], links: [link] },
       };
       let state: ZoomState = {
         zoomSteps: [],
+        graphData: { nodes: [A, B], links: [link] },
       };
       zoomStep(args, state);
       expect(state.zoomSteps).toEqual([
@@ -41,6 +41,9 @@ describe("zoom", () => {
       let args: ZoomArgs = {
         steps: 1,
         direction: ZoomDirection.Out,
+      };
+      let state: ZoomState = {
+        zoomSteps: [],
         graphData: {
           nodes: [A, B, C],
           links: [
@@ -49,11 +52,8 @@ describe("zoom", () => {
           ],
         },
       };
-      let state: ZoomState = {
-        zoomSteps: [],
-      };
       zoomStep(args, state);
-      expect(args.graphData).toEqual({
+      expect(state.graphData).toEqual({
         nodes: [A, C],
         links: [{ source: A, target: C }],
       });
@@ -79,6 +79,9 @@ describe("zoom", () => {
       let args: ZoomArgs = {
         steps: 1,
         direction: ZoomDirection.Out,
+      };
+      let state: ZoomState = {
+        zoomSteps: [],
         graphData: {
           nodes: [A, B, C, D],
           links: [
@@ -89,11 +92,8 @@ describe("zoom", () => {
           ],
         },
       };
-      let state: ZoomState = {
-        zoomSteps: [],
-      };
       zoomStep(args, state);
-      expect(args.graphData).toEqual({
+      expect(state.graphData).toEqual({
         nodes: [A, B, D],
         links: [
           { source: D, target: A, value: 1.5 },
@@ -128,6 +128,9 @@ describe("zoom", () => {
       let args: ZoomArgs = {
         steps: 1,
         direction: ZoomDirection.Out,
+      };
+      let state: ZoomState = {
+        zoomSteps: [],
         graphData: {
           nodes: [A, B, C, D, E],
           links: [
@@ -140,9 +143,6 @@ describe("zoom", () => {
             { source: A, target: C },
           ],
         },
-      };
-      let state: ZoomState = {
-        zoomSteps: [],
       };
       zoomStep(args, state);
       expect(state.zoomSteps).toEqual([
@@ -721,7 +721,7 @@ describe("zoom", () => {
         _test_name: string,
         _from: string,
         _to: string,
-        input: ZoomArgs,
+        input: ZoomArgs & { graphData: GraphDataMerged },
         expected: GraphDataMerged
       ) => {
         // reset mutable data on node set (cannot use `beforeEach` due to
@@ -731,8 +731,16 @@ describe("zoom", () => {
             (rawNode) => node.id === rawNode.id
           )?.mergeCount;
         });
-        zoomStep(input, { zoomSteps: [] });
+        // TODO(skep): zoom in again and assert no change to original data
+        //const inputSaved = {
+        //  ...input,
+        //  graphData: {nodes: {...input.graphData.nodes}, links: {...input.graphData.links}},
+        //};
+        let state = { zoomSteps: [] };
+        zoomStep(input, { ...state, graphData: input.graphData });
         expect(input.graphData).toEqual(expected);
+        //zoomStep({...input, direction: ZoomDirection.In, steps: inputSaved.steps}, state);
+        //expect(input.graphData).toEqual(expected);
       }
     );
   });
@@ -766,12 +774,12 @@ describe("zoom", () => {
         {
           steps: 1,
           direction: ZoomDirection.In,
+        },
+        {
           graphData: {
             nodes: [node.A5],
             links: [],
           },
-        },
-        {
           zoomSteps: [
             {
               operations: [
@@ -796,12 +804,12 @@ describe("zoom", () => {
         {
           steps: 1,
           direction: ZoomDirection.In,
+        },
+        {
           graphData: {
             nodes: [node.A2, node.B],
             links: [{ source: node.A2, target: node.B }],
           },
-        },
-        {
           zoomSteps: [
             {
               operations: [
@@ -833,18 +841,18 @@ describe("zoom", () => {
         _test_name: string,
         _from: string,
         _to: string,
-        input: ZoomArgs,
+        args: ZoomArgs,
         state: ZoomState,
         expected: GraphDataMerged
       ) => {
         // reset mutable data on node set
-        input.graphData.nodes.forEach((node) => {
+        state.graphData.nodes.forEach((node) => {
           node.mergeCount = rawData.find(
             (rawNode) => node.id === rawNode.id
           )?.mergeCount;
         });
-        zoomStep(input, state);
-        expect(input.graphData).toEqual(expected);
+        zoomStep(args, state);
+        expect(state.graphData).toEqual(expected);
       }
     );
     it.todo("rewrite links, that were rewritten on merge");
