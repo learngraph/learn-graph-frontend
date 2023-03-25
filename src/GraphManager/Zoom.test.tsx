@@ -204,6 +204,9 @@ describe("zoom", () => {
         {
           steps: 1,
           direction: ZoomDirection.Out,
+        },
+        {
+          zoomSteps: [],
           graphData: {
             nodes: [node.A, node.B, node.C],
             links: [
@@ -224,6 +227,9 @@ describe("zoom", () => {
         {
           steps: 0,
           direction: ZoomDirection.Out,
+        },
+        {
+          zoomSteps: [],
           graphData: {
             nodes: [node.A, node.B],
             links: [{ source: node.A, target: node.B }],
@@ -241,6 +247,9 @@ describe("zoom", () => {
         {
           steps: 1,
           direction: ZoomDirection.Out,
+        },
+        {
+          zoomSteps: [],
           graphData: {
             nodes: [node.A, node.B],
             links: [],
@@ -258,6 +267,9 @@ describe("zoom", () => {
         {
           steps: 2,
           direction: ZoomDirection.Out,
+        },
+        {
+          zoomSteps: [],
           graphData: {
             nodes: [node.A, node.B, node.C],
             links: [
@@ -275,6 +287,9 @@ describe("zoom", () => {
         {
           steps: 3,
           direction: ZoomDirection.Out,
+        },
+        {
+          zoomSteps: [],
           graphData: {
             nodes: [node.A, node.B, node.C],
             links: [
@@ -298,6 +313,9 @@ describe("zoom", () => {
         {
           steps: 2,
           direction: ZoomDirection.Out,
+        },
+        {
+          zoomSteps: [],
           graphData: {
             nodes: [node.A, node.B, node.C, node.D],
             links: [
@@ -319,6 +337,9 @@ describe("zoom", () => {
         {
           steps: 2,
           direction: ZoomDirection.Out,
+        },
+        {
+          zoomSteps: [],
           graphData: {
             nodes: [node.A, node.B, node.C, node.D],
             links: [
@@ -340,6 +361,9 @@ describe("zoom", () => {
         {
           steps: 1,
           direction: ZoomDirection.Out,
+        },
+        {
+          zoomSteps: [],
           graphData: {
             nodes: [node.A, node.B, node.C, node.D],
             links: [
@@ -360,6 +384,9 @@ describe("zoom", () => {
         {
           steps: 1,
           direction: ZoomDirection.Out,
+        },
+        {
+          zoomSteps: [],
           graphData: {
             nodes: [node.A, node.B, node.C, node.D],
             links: [
@@ -387,6 +414,9 @@ describe("zoom", () => {
         {
           steps: 1,
           direction: ZoomDirection.Out,
+        },
+        {
+          zoomSteps: [],
           graphData: {
             nodes: [node.A, node.B, node.C, node.D],
             links: [
@@ -412,6 +442,9 @@ describe("zoom", () => {
         {
           steps: 1,
           direction: ZoomDirection.Out,
+        },
+        {
+          zoomSteps: [],
           graphData: {
             nodes: [node.A, node.B, node.C, node.D],
             links: [
@@ -437,6 +470,9 @@ describe("zoom", () => {
         {
           steps: 1,
           direction: ZoomDirection.Out,
+        },
+        {
+          zoomSteps: [],
           graphData: {
             nodes: [node.A, node.B, node.C, node.D, node.E],
             links: [
@@ -463,6 +499,9 @@ describe("zoom", () => {
         {
           steps: 1,
           direction: ZoomDirection.Out,
+        },
+        {
+          zoomSteps: [],
           graphData: {
             nodes: [node.A, node.B, node.C, node.D, node.E],
             links: [
@@ -489,6 +528,9 @@ describe("zoom", () => {
         {
           steps: 1,
           direction: ZoomDirection.Out,
+        },
+        {
+          zoomSteps: [],
           graphData: {
             nodes: [node.A, node.B, node.C],
             links: [
@@ -509,6 +551,9 @@ describe("zoom", () => {
         {
           steps: 1,
           direction: ZoomDirection.Out,
+        },
+        {
+          zoomSteps: [],
           graphData: {
             nodes: [node.A, node.B, node.C],
             links: [
@@ -530,6 +575,9 @@ describe("zoom", () => {
         {
           steps: 2,
           direction: ZoomDirection.Out,
+        },
+        {
+          zoomSteps: [],
           graphData: {
             nodes: [node.A, node.B, node.C, node.D],
             links: [
@@ -550,6 +598,9 @@ describe("zoom", () => {
         {
           steps: 1,
           direction: ZoomDirection.Out,
+        },
+        {
+          zoomSteps: [],
           graphData: {
             nodes: [node.A, node.B, node.C, node.D],
             links: [
@@ -575,6 +626,9 @@ describe("zoom", () => {
         {
           steps: 1,
           direction: ZoomDirection.Out,
+        },
+        {
+          zoomSteps: [],
           graphData: {
             nodes: [{ ...node.A, mergeCount: 3 }, node.B],
             links: [{ source: { ...node.A, mergeCount: 3 }, target: node.B }],
@@ -592,6 +646,9 @@ describe("zoom", () => {
         {
           steps: 6,
           direction: ZoomDirection.Out,
+        },
+        {
+          zoomSteps: [],
           graphData: {
             nodes: [node.A, node.B, node.C, node.D, node.E, node.F, node.G],
             links: [
@@ -621,6 +678,9 @@ describe("zoom", () => {
         {
           steps: 1,
           direction: ZoomDirection.Out,
+        },
+        {
+          zoomSteps: [],
           graphData: {
             nodes: [node.A5, node.B16, node.C, node.D, node.E, node.F, node.G],
             links: [
@@ -660,6 +720,9 @@ describe("zoom", () => {
         {
           steps: 1,
           direction: ZoomDirection.Out,
+        },
+        {
+          zoomSteps: [],
           graphData: {
             nodes: [node.B16, node.C, node.D],
             links: [
@@ -680,6 +743,9 @@ describe("zoom", () => {
         {
           steps: 1,
           direction: ZoomDirection.Out,
+        },
+        {
+          zoomSteps: [],
           graphData: {
             nodes: [node.A, node.B, node.C, node.D, node.E],
             links: [
@@ -711,6 +777,9 @@ describe("zoom", () => {
       //  {
       //    steps: ?,
       //    direction: ZoomDirection.Out,
+      //  },
+      //  {
+      //    zoomSteps: [],
       //    graphData: { nodes: [], links: [] },
       //  },
       //  { nodes: [], links: [] },
@@ -721,26 +790,30 @@ describe("zoom", () => {
         _test_name: string,
         _from: string,
         _to: string,
-        input: ZoomArgs & { graphData: GraphDataMerged },
+        args: ZoomArgs,
+        state: ZoomState,
         expected: GraphDataMerged
       ) => {
         // reset mutable data on node set (cannot use `beforeEach` due to
         // `it.each` usage)
-        input.graphData.nodes.forEach((node) => {
+        state.graphData.nodes.forEach((node) => {
           node.mergeCount = rawData.find(
             (rawNode) => node.id === rawNode.id
           )?.mergeCount;
         });
-        // TODO(skep): zoom in again and assert no change to original data
-        //const inputSaved = {
-        //  ...input,
-        //  graphData: {nodes: {...input.graphData.nodes}, links: {...input.graphData.links}},
+        // TODO: zoom in again and assert no change to original data
+        //const argsSaved = {
+        //  ...args,
         //};
-        let state = { zoomSteps: [] };
-        zoomStep(input, { ...state, graphData: input.graphData });
-        expect(input.graphData).toEqual(expected);
-        //zoomStep({...input, direction: ZoomDirection.In, steps: inputSaved.steps}, state);
-        //expect(input.graphData).toEqual(expected);
+        //let state = { zoomSteps: [] };
+        //const stateSaved = {
+        //  ...state,
+        //  graphData: {nodes: {...args.graphData.nodes}, links: {...args.graphData.links}},
+        //};
+        zoomStep(args, state);
+        expect(state.graphData).toEqual(expected);
+        //zoomStep({...args, direction: ZoomDirection.In, steps: argsSaved.steps}, state);
+        //expect(args.graphData).toEqual(expected);
       }
     );
   });
