@@ -801,19 +801,21 @@ describe("zoom", () => {
             (rawNode) => node.id === rawNode.id
           )?.mergeCount;
         });
-        // TODO: zoom in again and assert no change to original data
         //const argsSaved = {
         //  ...args,
         //};
-        //let state = { zoomSteps: [] };
         //const stateSaved = {
         //  ...state,
-        //  graphData: {nodes: {...args.graphData.nodes}, links: {...args.graphData.links}},
+        //  graphData: {
+        //    nodes: { ...state.graphData.nodes },
+        //    links: { ...state.graphData.links },
+        //  },
         //};
         zoomStep(args, state);
         expect(state.graphData).toEqual(expected);
-        //zoomStep({...args, direction: ZoomDirection.In, steps: argsSaved.steps}, state);
-        //expect(args.graphData).toEqual(expected);
+        // TODO(skep): enable this and finish zoom-in implementation
+        //zoomStep({...argsSaved, direction: ZoomDirection.In}, state);
+        //expect(state).toEqual(stateSaved);
       }
     );
   });
@@ -928,8 +930,6 @@ describe("zoom", () => {
         expect(state.graphData).toEqual(expected);
       }
     );
-    it.todo("rewrite links, that were rewritten on merge");
-    it.todo("must re-create exactly the same graph");
   });
 });
 
