@@ -71,31 +71,39 @@ export const zoomStep: ZoomFn = (args: ZoomArgs, state: ZoomState): void => {
   }
 };
 
-const zoomStepIn: ZoomFn = (_: ZoomArgs, state: ZoomState): void => {
+const zoomStepIn: ZoomFn = (args: ZoomArgs, state: ZoomState): void => {
   const step = state.zoomSteps?.pop();
   if (!step) {
     return;
   }
   step.operations.forEach((op) => {
-    if (op.type === ZoomOperationType.Delete) {
-      appendArray(state.graphData.nodes, op.removedNodes!);
-      appendArray(state.graphData.links, op.removedLinks!);
-      op.removedLinks!.forEach((link) => {
-        if (!link.target.mergeCount) {
-          return; // link target was not a merged node
-        }
-        link.target.mergeCount -= link.source.mergeCount ?? 1;
-      });
-    } else if (op.type === ZoomOperationType.LinkRewrite) {
-      const link = state.graphData.links.find(
-        (link) =>
-          link.source.id === op.to!.source.id &&
-          link.target.id === op.to!.target.id
-      );
-      link!.source = op.from!.source;
-      link!.target = op.from!.target;
-    }
+    undoZoomOperation(op, state);
   });
+  args.steps -= 1;
+  if (args.steps > 0) {
+    return zoomStepIn(args, state);
+  }
+};
+
+const undoZoomOperation = (op: ZoomOperation, state: ZoomState) => {
+  if (op.type === ZoomOperationType.Delete) {
+    appendArray(state.graphData.nodes, op.removedNodes!);
+    appendArray(state.graphData.links, op.removedLinks!);
+    op.removedLinks!.forEach((link) => {
+      if (!link.target.mergeCount) {
+        return; // link target was not a merged node
+      }
+      link.target.mergeCount -= link.source.mergeCount ?? 1;
+    });
+  } else if (op.type === ZoomOperationType.LinkRewrite) {
+    const link = state.graphData.links.find(
+      (link) =>
+        link.source.id === op.to!.source.id &&
+        link.target.id === op.to!.target.id
+    );
+    link!.source = op.from!.source;
+    link!.target = op.from!.target;
+  }
 };
 
 function appendArray<T>(a: T[], appendix: T[]) {
