@@ -801,20 +801,31 @@ describe("zoom", () => {
             (rawNode) => node.id === rawNode.id
           )?.mergeCount;
         });
-        //const argsSaved = {
-        //  ...args,
-        //};
-        //const stateSaved = {
-        //  ...state,
-        //  graphData: {
-        //    nodes: { ...state.graphData.nodes },
-        //    links: { ...state.graphData.links },
-        //  },
-        //};
+        const argsSaved = {
+          ...args,
+        };
+        const stateSaved = {
+          ...state,
+          graphData: {
+            nodes: [...state.graphData.nodes],
+            links: [...state.graphData.links],
+          },
+        };
         zoomStep(args, state);
         expect(state.graphData).toEqual(expected);
-        // TODO(skep): enable this and finish zoom-in implementation
-        //zoomStep({...argsSaved, direction: ZoomDirection.In}, state);
+        zoomStep({ ...argsSaved, direction: ZoomDirection.In }, state);
+        // must sort the nodes & links, since zoom-in changes order
+        const compareIDs = (a: HasID, b: HasID) => {
+          return a.id.charCodeAt(0) - b.id.charCodeAt(0);
+        };
+        const compareLinkIDs = (a: LinkBetweenHasIDs, b: LinkBetweenHasIDs) => {
+          return a.source.id.charCodeAt(0) - b.source.id.charCodeAt(0);
+        };
+        state.graphData.nodes.sort(compareIDs);
+        stateSaved.graphData.nodes.sort(compareIDs);
+        state.graphData.links.sort(compareLinkIDs);
+        stateSaved.graphData.links.sort(compareLinkIDs);
+        // TODO(skep): enable again & fit things!
         //expect(state).toEqual(stateSaved);
       }
     );

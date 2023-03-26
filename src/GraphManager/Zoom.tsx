@@ -92,11 +92,6 @@ const zoomStepIn: ZoomFn = (_: ZoomArgs, state: ZoomState): void => {
           link.source.id === op.to!.source.id &&
           link.target.id === op.to!.target.id
       );
-      if (!link) {
-        console.log("Error: no link found for rewriting");
-        console.dir(state);
-        console.dir(op);
-      }
       link!.source = op.from!.source;
       link!.target = op.from!.target;
     }
