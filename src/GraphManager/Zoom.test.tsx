@@ -819,14 +819,17 @@ describe("zoom", () => {
           return a.id.charCodeAt(0) - b.id.charCodeAt(0);
         };
         const compareLinkIDs = (a: LinkBetweenHasIDs, b: LinkBetweenHasIDs) => {
-          return a.source.id.charCodeAt(0) - b.source.id.charCodeAt(0);
+          const diff = a.source.id.charCodeAt(0) - b.source.id.charCodeAt(0);
+          if (diff !== 0) {
+            return diff;
+          }
+          return a.target.id.charCodeAt(0) - b.target.id.charCodeAt(0);
         };
         state.graphData.nodes.sort(compareIDs);
         stateSaved.graphData.nodes.sort(compareIDs);
         state.graphData.links.sort(compareLinkIDs);
         stateSaved.graphData.links.sort(compareLinkIDs);
-        // TODO(skep): enable again & fit things!
-        //expect(state).toEqual(stateSaved);
+        expect(state).toEqual(stateSaved);
       }
     );
   });
