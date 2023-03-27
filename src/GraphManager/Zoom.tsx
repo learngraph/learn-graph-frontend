@@ -30,6 +30,7 @@ export enum ZoomDirection {
 export enum ZoomOperationType {
   Delete,
   LinkRewrite,
+  SetLinkValue,
 }
 
 export interface ZoomOperation {
@@ -40,6 +41,8 @@ export interface ZoomOperation {
   // used for type = ZoomOperationType.LinkRewrite:
   from?: LinkBetweenHasIDs;
   to?: LinkBetweenHasIDs;
+  // used for type = ZoomOperationType.SetLinkValue:
+  link?: LinkBetweenHasIDs;
 }
 
 export interface ZoomStep {
@@ -76,7 +79,7 @@ const zoomStepIn: ZoomFn = (args: ZoomArgs, state: ZoomState): void => {
   if (!step) {
     return;
   }
-  step.operations.forEach((op) => {
+  step.operations.reverse().forEach((op) => {
     undoZoomOperation(op, state);
   });
   args.steps -= 1;
@@ -94,6 +97,9 @@ const undoZoomOperation = (op: ZoomOperation, state: ZoomState) => {
         return; // link target was not a merged node
       }
       link.target.mergeCount -= link.source.mergeCount ?? 1;
+      if (link.target.mergeCount === 1) {
+        link.target.mergeCount = undefined;
+      }
     });
   } else if (op.type === ZoomOperationType.LinkRewrite) {
     const link = state.graphData.links.find(
@@ -103,6 +109,13 @@ const undoZoomOperation = (op: ZoomOperation, state: ZoomState) => {
     );
     link!.source = op.from!.source;
     link!.target = op.from!.target;
+  } else if (op.type === ZoomOperationType.SetLinkValue) {
+    const link = state.graphData.links.find(
+      (link) =>
+        link.source.id === op.link!.source.id &&
+        link.target.id === op.link!.target.id
+    );
+    link!.value = op.link!.value;
   }
 };
 
@@ -250,7 +263,12 @@ const rewrite2ndOrderLinks = (
     const lastOperations =
       state.zoomSteps[state.zoomSteps.length - 1].operations;
     if (index !== -1) {
-      // TODO(skep): push previous link values, to be able to restore `link`
+      if (link.value !== defaultLinkValue) {
+        lastOperations.push({
+          type: ZoomOperationType.SetLinkValue,
+          link: { ...link },
+        });
+      }
       averageLinkValue(link, linksToKeep[index]);
       lastOperations.push({
         type: ZoomOperationType.Delete,
