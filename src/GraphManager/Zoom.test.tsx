@@ -184,6 +184,7 @@ describe("zoom", () => {
   describe("out", () => {
     const rawData = [
       { id: "A" },
+      { id: "A3", mergeCount: 3 },
       { id: "A5", mergeCount: 5 },
       { id: "B" },
       { id: "B16", mergeCount: 16 },
@@ -639,8 +640,8 @@ describe("zoom", () => {
         {
           zoomSteps: [],
           graphData: {
-            nodes: [{ ...node.A, mergeCount: 3 }, node.B],
-            links: [{ source: { ...node.A, mergeCount: 3 }, target: node.B }],
+            nodes: [node.A3, node.B],
+            links: [{ source: node.A3, target: node.B }],
           },
         },
         {
@@ -714,7 +715,7 @@ describe("zoom", () => {
             { source: node.B16, target: node.C },
             { source: node.E, target: node.C },
             { source: node.G, target: node.C },
-            { source: node.F, target: node.C /*, value: 2*/ }, // TODO(skep): duplicate links should merge their value!
+            { source: node.F, target: node.C /*, value: 2*/ }, // XXX(skep): should duplicate links merge their value other than averaging?
             { source: node.A5, target: node.G },
             { source: node.B16, target: node.G },
             { source: node.A5, target: node.F },

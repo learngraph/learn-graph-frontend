@@ -89,6 +89,7 @@ const zoomStepIn: ZoomFn = (args: ZoomArgs, state: ZoomState): void => {
 };
 
 const undoZoomOperation = (op: ZoomOperation, state: ZoomState) => {
+  const defaultMergeWeight = 1;
   if (op.type === ZoomOperationType.Delete) {
     appendArray(state.graphData.nodes, op.removedNodes!);
     appendArray(state.graphData.links, op.removedLinks!);
@@ -96,7 +97,7 @@ const undoZoomOperation = (op: ZoomOperation, state: ZoomState) => {
       if (!link.target.mergeCount) {
         return; // link target was not a merged node
       }
-      link.target.mergeCount -= link.source.mergeCount ?? 1;
+      link.target.mergeCount -= link.source.mergeCount ?? defaultMergeWeight;
       if (link.target.mergeCount === 1) {
         link.target.mergeCount = undefined;
       }
