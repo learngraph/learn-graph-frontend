@@ -11,7 +11,7 @@ import {
 } from "./Zoom";
 
 describe("zoom", () => {
-  describe("meta", () => {
+  describe("zoomSteps data", () => {
     it("should push a Merge operation when merging nodes", () => {
       const [A, B] = [{ id: "A" }, { id: "B" }];
       const link = { source: B, target: A };
@@ -181,7 +181,7 @@ describe("zoom", () => {
     });
   });
 
-  describe("out", () => {
+  describe("zoom out and in again", () => {
     const rawData = [
       { id: "A" },
       { id: "A3", mergeCount: 3 },
@@ -844,7 +844,7 @@ describe("zoom", () => {
     );
   });
 
-  describe("in", () => {
+  describe("zoom in", () => {
     const rawData = [
       { id: "A" },
       { id: "A2", mergeCount: 2 },

@@ -88,16 +88,26 @@ const zoomStepIn: ZoomFn = (args: ZoomArgs, state: ZoomState): void => {
   }
 };
 
+const defaultMergeCount = 1;
+
 const undoZoomOperation = (op: ZoomOperation, state: ZoomState) => {
-  const defaultMergeWeight = 1;
   if (op.type === ZoomOperationType.Delete) {
     appendArray(state.graphData.nodes, op.removedNodes!);
     appendArray(state.graphData.links, op.removedLinks!);
     op.removedLinks!.forEach((link) => {
-      if (!link.target.mergeCount) {
+      // TODO(skep): test case missing that makes !op.removedNodes!.find necessary
+      if (
+        !link.target.mergeCount ||
+        !op.removedNodes!.find((node) => link.source.id === node.id)
+      ) {
         return; // link target was not a merged node
       }
-      link.target.mergeCount -= link.source.mergeCount ?? defaultMergeWeight;
+      link.target.mergeCount -= link.source.mergeCount ?? defaultMergeCount;
+      if (link.target.mergeCount < 0) {
+        // FIXME(skep): must not happen
+        console.error("negative .mergeCount on", link.target, link, op);
+        link.target.mergeCount = undefined;
+      }
       if (link.target.mergeCount === 1) {
         link.target.mergeCount = undefined;
       }
@@ -196,7 +206,8 @@ const mergeSelection = (selection: MergeSelection, state: ZoomState) => {
     ...selection.toRemove,
     selection.mergeTarget,
   ].reduce(
-    (currentMergeCount, node) => currentMergeCount + (node.mergeCount ?? 1),
+    (currentMergeCount, node) =>
+      currentMergeCount + (node.mergeCount ?? defaultMergeCount),
     0
   );
   // find links, that will stay unchanged to override current link list later
