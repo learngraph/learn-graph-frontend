@@ -33,6 +33,7 @@ export enum ZoomOperationType {
   SetLinkValue,
 }
 
+// ZoomOperation defines a single reversible change to the graph
 export interface ZoomOperation {
   type: ZoomOperationType;
   // used for type = ZoomOperationType.Merge:
@@ -45,6 +46,8 @@ export interface ZoomOperation {
   link?: LinkBetweenHasIDs;
 }
 
+// ZoomStep represents a single zoom-out step, as defined by the `steps`
+// counter in ZoomState
 export interface ZoomStep {
   operations: ZoomOperation[];
 }
@@ -130,10 +133,6 @@ const undoZoomOperation = (op: ZoomOperation, state: ZoomState) => {
   }
 };
 
-function appendArray<T>(a: T[], appendix: T[]) {
-  a.splice(a.length, 0, ...appendix);
-}
-
 const zoomStepOut: ZoomFn = (args: ZoomArgs, state: ZoomState): void => {
   if (args.steps >= state.graphData.nodes.length) {
     return;
@@ -150,12 +149,12 @@ const zoomStepOut: ZoomFn = (args: ZoomArgs, state: ZoomState): void => {
   }
 };
 
-export interface MergeSelection {
+interface MergeSelection {
   mergeTarget: HasID;
   toRemove: HasID[];
 }
 
-export interface Selector {
+interface Selector {
   (args: ZoomArgs, state: ZoomState): MergeSelection;
 }
 
@@ -192,13 +191,6 @@ const selectNodePairForMerging: Selector = (
   return { mergeTarget: mergeTargetNode, toRemove: nodesToRemove };
 };
 
-const deleteFromArray = (nodes: HasID[], nodesToRemove: HasID[]) => {
-  let leftOverNodes = nodes.filter(
-    (node) => !nodesToRemove.find((findNode) => node.id === findNode.id)
-  );
-  replaceArray(nodes, leftOverNodes);
-};
-
 // mergeSelection merges the nodes according to `selection` inside
 // `state.graphData` (inplace!)
 const mergeSelection = (selection: MergeSelection, state: ZoomState) => {
@@ -211,26 +203,32 @@ const mergeSelection = (selection: MergeSelection, state: ZoomState) => {
     0
   );
   // find links, that will stay unchanged to override current link list later
-  let linksToKeep = state.graphData.links.filter(
-    (link) =>
-      !selection.toRemove.find(
+  let { linksToKeep, linksToRemove } = state.graphData.links.reduce(
+    (current, link) => {
+      const isLinkFromRemovedToMergeTarget = selection.toRemove.find(
         (removedNode) =>
           link.source.id === removedNode.id &&
           link.target.id === selection.mergeTarget.id
-      )
+      );
+      if (isLinkFromRemovedToMergeTarget) {
+        current.linksToRemove.push(link);
+      } else {
+        current.linksToKeep.push(link);
+      }
+      return current;
+    },
+    // TS requires explicit type decl. here:
+    { linksToKeep: [], linksToRemove: [] } as {
+      linksToKeep: LinkBetweenHasIDs[];
+      linksToRemove: LinkBetweenHasIDs[];
+    }
   );
   state.zoomSteps.push({
     operations: [
       {
         type: ZoomOperationType.Delete,
         removedNodes: selection.toRemove,
-        removedLinks: state.graphData.links.filter((link) =>
-          selection.toRemove.find(
-            (removedNode) =>
-              link.source.id === removedNode.id &&
-              link.target.id === selection.mergeTarget.id
-          )
-        ),
+        removedLinks: linksToRemove,
       },
     ],
   });
@@ -247,47 +245,41 @@ const mergeSelection = (selection: MergeSelection, state: ZoomState) => {
   replaceArray(state.graphData.links, linksToKeep);
 };
 
-// replaceArray replaces the content of `a` with `b` (in-place operation)
-function replaceArray<T>(a: T[], b: T[]) {
-  a.splice(0, a.length, ...b);
-}
-
-// rewrite2ndOrderLinks rewrites 2nd order links to skip the deleted nodes,
-// `dir` specifies the link's direction
-// Note: duplicates and self-referencing links are removed!
+// rewrite2ndOrderLinks rewrites 2nd order links to skip the deleted nodes and
+// deletes duplicates and self-referencing links.
+// `dir`: specifies the link's direction, where the "deleted" direction becomes
+//        the mergeTarget after this function call
 const rewrite2ndOrderLinks = (
   state: ZoomState,
   selection: MergeSelection,
   linksToKeep: LinkBetweenHasIDs[],
   dir: { deleted: "source" | "target"; other: "source" | "target" }
 ) => {
-  let secondOrderSourceLinks = selection.toRemove.flatMap((firstOrderNode) => {
+  const secondOrderLinks = selection.toRemove.flatMap((firstOrderNode) => {
     return linksToKeep.filter(
       (link) => link[dir.deleted].id === firstOrderNode.id
     );
   });
-  secondOrderSourceLinks.forEach((link) => {
-    const index = linksToKeep.findIndex(
+  secondOrderLinks.forEach((link) => {
+    const lastOperations =
+      state.zoomSteps[state.zoomSteps.length - 1].operations;
+    const indexOfDuplicate = linksToKeep.findIndex(
       (existingLink) =>
         existingLink[dir.deleted].id === selection.mergeTarget.id &&
         existingLink[dir.other].id === link[dir.other].id
     );
-    const lastOperations =
-      state.zoomSteps[state.zoomSteps.length - 1].operations;
-    if (index !== -1) {
-      if (link.value !== defaultLinkValue) {
-        lastOperations.push({
-          type: ZoomOperationType.SetLinkValue,
-          link: { ...link },
-        });
-      }
-      averageLinkValue(link, linksToKeep[index]);
+    if (indexOfDuplicate !== -1) {
+      lastOperations.push({
+        type: ZoomOperationType.SetLinkValue,
+        link: { ...link },
+      });
+      averageLinkValue(link, linksToKeep[indexOfDuplicate]);
       lastOperations.push({
         type: ZoomOperationType.Delete,
         removedNodes: [],
-        removedLinks: [{ ...linksToKeep[index] }],
+        removedLinks: [{ ...linksToKeep[indexOfDuplicate] }],
       });
-      linksToKeep.splice(index, 1);
+      linksToKeep.splice(indexOfDuplicate, 1);
     }
     if (selection.mergeTarget.id !== link[dir.other].id) {
       lastOperations.push({
@@ -373,3 +365,21 @@ const averageLinkValue = (
     target.value = value;
   }
 };
+
+// deleteFromArray removes nodesToRemove from array nodes in-place
+const deleteFromArray = (nodes: HasID[], nodesToRemove: HasID[]) => {
+  let leftOverNodes = nodes.filter(
+    (node) => !nodesToRemove.find((findNode) => node.id === findNode.id)
+  );
+  replaceArray(nodes, leftOverNodes);
+};
+
+// replaceArray replaces the content of `a` with `b` (in-place operation)
+function replaceArray<T>(a: T[], b: T[]) {
+  a.splice(0, a.length, ...b);
+}
+
+// appendArray appends array `a` with `appendix` (in-place operation)
+function appendArray<T>(a: T[], appendix: T[]) {
+  a.splice(a.length, 0, ...appendix);
+}
