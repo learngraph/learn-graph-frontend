@@ -121,6 +121,14 @@ const undoZoomOperation = (op: ZoomOperation, state: ZoomState) => {
         link.source.id === op.to!.source.id &&
         link.target.id === op.to!.target.id
     );
+    if (
+      op.from!.source.id === op.to!.source.id &&
+      op.from!.target.id === op.to!.target.id
+    ) {
+      // FIXME(skep): how does it happen? write a test for this
+      console.error("links have already been rewritten", op);
+      return;
+    }
     link!.source = op.from!.source;
     link!.target = op.from!.target;
   } else if (op.type === ZoomOperationType.SetLinkValue) {
