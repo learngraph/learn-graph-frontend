@@ -6,7 +6,11 @@ import {
   // GraphRenderer,
   nodeCanvasObject,
   onLinkClickFn,
+  makeKeydownListener,
+  makeOnZoomAndPanListener,
+  ForceGraph2DRef,
 } from "./GraphRenderer";
+import { ZoomDirection } from "./Zoom";
 
 //import { useQuery } from "@apollo/client";
 import "@testing-library/jest-dom";
@@ -99,5 +103,99 @@ describe("nodeCanvasObject", () => {
     ]);
     expect(ctx.fillText.mock.calls.length).toBe(1);
     expect(ctx.fillText.mock.calls[0]).toEqual(["B", 5, 6]);
+  });
+});
+
+describe("makeKeydownListener", () => {
+  it("should call nothing on key 'a'", () => {
+    let zoom = jest.fn();
+    let keydown = makeKeydownListener(undefined);
+    let event = { key: "a" };
+    keydown(event);
+    expect(zoom.mock.calls.length).toBe(0);
+  });
+});
+
+describe("makeOnZoomListener", () => {
+  it("should zoom in if we changed to a lower zoom number", () => {
+    const fgZoom = jest.fn().mockReturnValueOnce(1).mockReturnValueOnce(2);
+    const forcegraph: ForceGraph2DRef = {
+      // @ts-ignore: don't want to implement all methods
+      current: {
+        zoom: fgZoom,
+        d3ReheatSimulation: jest.fn(),
+      },
+    };
+    const zoom = jest.fn();
+    let graphData = { nodes: [], links: [] };
+    const onZoomAndPan = makeOnZoomAndPanListener(forcegraph, zoom, graphData);
+    onZoomAndPan({ k: 1, x: 0, y: 0 });
+    expect(zoom.mock.calls.length).toEqual(0);
+    onZoomAndPan({ k: 2, x: 0, y: 0 });
+    expect(zoom.mock.calls.length).toEqual(1);
+    expect(zoom.mock.calls[0]).toEqual([
+      {
+        direction: ZoomDirection.In,
+        steps: 1,
+      },
+      {
+        graphData,
+        zoomSteps: [],
+      },
+    ]);
+  });
+  it("should zoom Out if we changed to a higher zoom number", () => {
+    const fgZoom = jest.fn().mockReturnValueOnce(1).mockReturnValueOnce(0.5);
+    const forcegraph: ForceGraph2DRef = {
+      // @ts-ignore: don't want to implement all methods
+      current: {
+        zoom: fgZoom,
+        d3ReheatSimulation: jest.fn(),
+      },
+    };
+    const zoom = jest.fn();
+    let graphData = { nodes: [], links: [] };
+    const onZoomAndPan = makeOnZoomAndPanListener(forcegraph, zoom, graphData);
+    onZoomAndPan({ k: 1, x: 0, y: 0 });
+    expect(zoom.mock.calls.length).toEqual(0);
+    onZoomAndPan({ k: 0.5, x: 0, y: 0 });
+    expect(zoom.mock.calls.length).toEqual(1);
+    expect(zoom.mock.calls[0]).toEqual([
+      {
+        direction: ZoomDirection.Out,
+        steps: 1,
+      },
+      {
+        graphData,
+        zoomSteps: [],
+      },
+    ]);
+  });
+  it("should do nothing when no ref.current is empty", () => {
+    const forcegraph: ForceGraph2DRef = { current: undefined };
+    const zoom = jest.fn();
+    let graphData = { nodes: [], links: [] };
+    const onZoomAndPan = makeOnZoomAndPanListener(forcegraph, zoom, graphData);
+    onZoomAndPan({ k: 1, x: 0, y: 0 });
+    expect(zoom.mock.calls.length).toEqual(0);
+    onZoomAndPan({ k: 0.5, x: 0, y: 0 });
+    expect(zoom.mock.calls.length).toEqual(0);
+  });
+  it("should do nothing, when panning", () => {
+    const fgZoom = jest.fn().mockReturnValue(1);
+    const forcegraph: ForceGraph2DRef = {
+      // @ts-ignore: don't want to implement all methods
+      current: {
+        zoom: fgZoom,
+        d3ReheatSimulation: jest.fn(),
+      },
+    };
+    const zoom = jest.fn();
+    let graphData = { nodes: [], links: [] };
+    const onZoomAndPan = makeOnZoomAndPanListener(forcegraph, zoom, graphData);
+    onZoomAndPan({ k: 1, x: 0, y: 0 });
+    expect(zoom.mock.calls.length).toEqual(0);
+    onZoomAndPan({ k: 1, x: 1, y: 1 });
+    expect(zoom.mock.calls.length).toEqual(0);
   });
 });

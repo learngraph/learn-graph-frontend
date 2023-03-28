@@ -1,7 +1,36 @@
-import ForceGraph2D, { LinkObject, NodeObject } from "react-force-graph-2d";
 import { TranslatedGraphData, useGraphDataContext } from "src/GraphDataContext";
 import { getTranslation } from "./utilities/getTranslation";
+import ForceGraph2D, {
+  ForceGraphMethods,
+  LinkObject,
+  NodeObject,
+} from "react-force-graph-2d";
 import { GraphData, LinkType, NodeType } from "./types";
+import {
+  ZoomFn,
+  GraphDataMerged,
+  ZoomDirection,
+  zoomStep,
+  HasID,
+  ZoomState,
+} from "./Zoom";
+import { MutableRefObject, useRef } from "react";
+
+// TODO(skep): fundamental type issue here, we have 2-3 types in one:
+//  1. `NodeType`: our node type, with added properties, that we use in
+//     callbacks from ForceGraph2D
+//  2. `NodeObject`: ForceGraph2D's node type
+//  3. `HasID`: our Zoom functionality adds properties to the nodes to remember
+//     the zoom state of nodes (e.g. node merges)
+// Similarly we have a defined a LinkType != ForceGraph2D.LinkObject.
+export type Link = LinkType & LinkObject;
+export type Node = NodeType & NodeObject & HasID;
+interface LinkBetweenObjects {
+  source: Node;
+  target: Node;
+}
+
+// TODO: move to VoteDialog.tsx
 export interface VoteDialogParams {
   linkID: string;
   sourceNode: NodeType;
@@ -24,6 +53,7 @@ interface Position {
 interface TextRender {
   text: string;
   fontSize: number;
+  backgroundColor: string;
 }
 
 // utility functions
@@ -39,7 +69,7 @@ function drawTextWithBackground(
     (n) => n + text.fontSize * padding
   );
   let [x, y] = [position.x ?? 0, position.y ?? 0];
-  ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
+  ctx.fillStyle = text.backgroundColor;
   ctx.fillRect(
     x - bckgDimensions[0] / 2,
     y - bckgDimensions[1] / 2,
@@ -52,11 +82,10 @@ function drawTextWithBackground(
   ctx.fillText(text.text, x, y);
 }
 
-function linkDescriptionPosition(link: LinkType & LinkObject) {
+function linkDescriptionPosition(link: Link) {
   return Object.assign(
     // @ts-ignore
     ...["x", "y"].map((c) => ({
-      // @ts-ignore
       [c]:
         // @ts-ignore
         link.source[c] +
@@ -68,16 +97,29 @@ function linkDescriptionPosition(link: LinkType & LinkObject) {
 }
 
 // node render & interaction
+
+// TODO(j): should use react theme for color choice here
+const backgroundColorWhite = "rgba(255, 255, 255, 0.8)";
+
 export const nodeCanvasObject = (
   nodeForceGraph: NodeObject,
   ctx: CanvasRenderingContext2D,
   globalScale: number
 ) => {
-  // @ts-ignore: not sure what to do about this, see TODO below
-  const node: NodeType & NodeObject = nodeForceGraph;
-  const label = node.description ?? "";
+  // @ts-ignore: see `Node` type
+  const node: Node = nodeForceGraph;
+  let label = node.description ?? "";
+  let backgroundColor = backgroundColorWhite;
+  const mergedNodes = node.mergeCount ?? 0;
+  if (mergedNodes > 1) {
+    // TODO(skep): use relative scaling to total number of nodes
+    // TODO(j): should use react theme for color choice here
+    let hue = ((1 - mergedNodes * 0.1) * 120).toString(10);
+    backgroundColor = `hsl(${hue},100%,50%)`;
+    label += ` [${mergedNodes}]`;
+  }
   drawTextWithBackground(
-    { text: label, fontSize: config.fontSize / globalScale },
+    { text: label, fontSize: config.fontSize / globalScale, backgroundColor },
     ctx,
     { x: node.x, y: node.y }
   );
@@ -94,7 +136,7 @@ export const linkCanvasObject = (
   globalScale: number
 ) => {
   // @ts-ignore
-  const link: LinkType & LinkObject = linkForceGraph;
+  const link: Link = linkForceGraph;
 
   // ignore unbound links
   if (typeof link.source !== "object" || typeof link.target !== "object")
@@ -103,7 +145,11 @@ export const linkCanvasObject = (
   const pos = linkDescriptionPosition(link);
 
   drawTextWithBackground(
-    { text: String(link.value), fontSize: config.fontSize / globalScale },
+    {
+      text: String(link.value),
+      fontSize: config.fontSize / globalScale,
+      backgroundColor: backgroundColorWhite,
+    },
     ctx,
     pos
   );
@@ -111,18 +157,11 @@ export const linkCanvasObject = (
 
 export const onLinkClickFn = (props: GraphRendererProps) => {
   return (params: LinkObject) => {
-    console.log("onLinkClick", params);
-    // @ts-ignore: TODO(skep): fundamental type issue here, we have a
-    // NodeType != ForceGraph2D.NodeObject, and a LinkType !=
-    // ForceGraph2D.LinkObject , but we type-cast our types to the force
-    // graph types. Here we access our copied objects, but the type is
-    // obviously the ForceGraph2D type.
-    let link: LinkType & LinkObject = params;
+    // @ts-ignore: see LinkBetweenObjects and Link type
+    let link: LinkBetweenObjects & LinkType = params;
     props.openVoteDialog({
       linkID: link.id,
-      // @ts-ignore: see above
       sourceNode: link.source,
-      // @ts-ignore: see above
       targetNode: link.target,
       weight: link.value,
     });
@@ -131,6 +170,22 @@ export const onLinkClickFn = (props: GraphRendererProps) => {
 
 const onLinkHover = (_: LinkObject | null): void => {
   //console.log("linkHov", params);
+};
+
+// global input listeners
+export const makeKeydownListener = (fgRef: any) => {
+  return (event: Partial<KeyboardEvent>) => {
+    switch (event.key) {
+      case "s":
+        if (!fgRef.current) {
+          return;
+        }
+        console.log(`zoom: ${fgRef.current.zoom()}`);
+        return;
+      default:
+        return;
+    }
+  };
 };
 
 // global configuration
@@ -142,6 +197,7 @@ const config = {
   font: "Sans-Serif",
 };
 
+// TODO: extract to another file
 const transformToRenderedType = (graph: TranslatedGraphData): GraphData => {
   // TODO: use language context
   const language = "en";
@@ -158,6 +214,48 @@ const transformToRenderedType = (graph: TranslatedGraphData): GraphData => {
   };
 };
 
+interface UserZoomEvent {
+  // zoom level
+  k: number;
+  x: number;
+  y: number;
+}
+
+export type ForceGraph2DRef = MutableRefObject<ForceGraphMethods | undefined>;
+
+// FIXME(skep): BUG: on load zoom is triggered 2 times, so that 1-zoom-in
+// always  happens!
+
+// Note: the returned onZoom function is triggered by user interaction as well
+// as programmatic zooming/panning with zoom() and centerAt().
+// -> will be important for search-node feature using centerAt!
+export const makeOnZoomAndPanListener = (
+  ref: ForceGraph2DRef,
+  zoom: ZoomFn,
+  graphData: GraphDataMerged
+) => {
+  let lastZoom = ref.current?.zoom();
+  let zoomState: ZoomState = { zoomSteps: [], graphData };
+  const onZoomAndPan = (transform: UserZoomEvent) => {
+    const forcegraph = ref.current;
+    if (!forcegraph) {
+      return;
+    }
+    const currentZoom = transform.k;
+    if (!lastZoom || lastZoom === currentZoom) {
+      return;
+    }
+    if (lastZoom < currentZoom) {
+      zoom({ direction: ZoomDirection.In, steps: 1 }, zoomState);
+    } else {
+      zoom({ direction: ZoomDirection.Out, steps: 1 }, zoomState);
+    }
+    forcegraph.d3ReheatSimulation();
+    lastZoom = currentZoom;
+  };
+  return onZoomAndPan;
+};
+
 export const GraphRenderer = (props: GraphRendererProps) => {
   const { graph } = useGraphDataContext();
 
@@ -165,11 +263,15 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     JSON.stringify(transformToRenderedType(graph))
   );
   const onLinkClick = onLinkClickFn(props);
-
+  const forcegraphRef = useRef<ForceGraphMethods>();
+  // TODO: make it react-isch? not sure where to put it
+  document.addEventListener("keydown", makeKeydownListener(forcegraphRef));
   return (
     <ForceGraph2D
+      ref={forcegraphRef}
       // Note: all data must be copied, since force graph changes Link "source"
       // and "target" fields to directly contain the referred node objects
+      // nodes:
       graphData={graphDataForRender}
       nodeAutoColorBy={"group"}
       onNodeClick={onNodeClick}
@@ -185,6 +287,11 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       // @ts-ignore
       linkCanvasObjectMode={() => config.linkCanvasObjectMode}
       linkCanvasObject={linkCanvasObject}
+      onZoom={makeOnZoomAndPanListener(
+        forcegraphRef,
+        zoomStep,
+        graphDataForRender
+      )}
     />
   );
 };
