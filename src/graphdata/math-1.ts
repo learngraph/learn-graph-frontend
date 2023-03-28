@@ -112,6 +112,7 @@ data.nodes.forEach((node) => {
     target: "Mathematics",
     value: 1,
   });
+  idx += 1;
 });
 data.nodes.push({ id: "Mathematics", description: "Mathematics" });
 export default data;

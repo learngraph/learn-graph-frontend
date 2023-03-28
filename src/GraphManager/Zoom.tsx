@@ -6,6 +6,7 @@ export interface HasID {
 
 // links btween objects with `id` property
 export interface LinkBetweenHasIDs {
+  id: string;
   source: HasID;
   target: HasID;
   value?: number;
@@ -268,44 +269,47 @@ const rewrite2ndOrderLinks = (
       (link) => link[dir.deleted].id === firstOrderNode.id
     );
   });
-  secondOrderLinks.forEach((link) => {
+  secondOrderLinks.forEach((link2ndOrder) => {
     const lastOperations =
       state.zoomSteps[state.zoomSteps.length - 1].operations;
-    const indexOfDuplicate = linksToKeep.findIndex(
+    const duplicateLink = linksToKeep.find(
       (existingLink) =>
         existingLink[dir.deleted].id === selection.mergeTarget.id &&
-        existingLink[dir.other].id === link[dir.other].id
+        existingLink[dir.other].id === link2ndOrder[dir.other].id
     );
-    if (indexOfDuplicate !== -1) {
+    if (duplicateLink) {
       lastOperations.push({
         type: ZoomOperationType.SetLinkValue,
-        link: { ...link },
+        link: { ...duplicateLink },
       });
-      averageLinkValue(link, linksToKeep[indexOfDuplicate]);
+      averageLinkValue(duplicateLink, link2ndOrder);
       lastOperations.push({
         type: ZoomOperationType.Delete,
         removedNodes: [],
-        removedLinks: [{ ...linksToKeep[indexOfDuplicate] }],
+        removedLinks: [{ ...link2ndOrder }],
       });
-      linksToKeep.splice(indexOfDuplicate, 1);
+      linksToKeep.splice(
+        linksToKeep.findIndex((selfLink) => link2ndOrder === selfLink),
+        1
+      );
+      return;
     }
-    if (selection.mergeTarget.id !== link[dir.other].id) {
+    if (selection.mergeTarget.id !== link2ndOrder[dir.other].id) {
       lastOperations.push({
         type: ZoomOperationType.LinkRewrite,
-        from: { ...link },
-        to: { ...link, [dir.deleted]: selection.mergeTarget },
+        from: { ...link2ndOrder },
+        to: { ...link2ndOrder, [dir.deleted]: selection.mergeTarget },
       });
+      link2ndOrder[dir.deleted] = selection.mergeTarget;
     } else {
+      // delete self-referencing links that would occur after rewriting
       lastOperations.push({
         type: ZoomOperationType.Delete,
         removedNodes: [],
-        removedLinks: [{ ...link }],
+        removedLinks: [{ ...link2ndOrder }],
       });
-    }
-    link[dir.deleted] = selection.mergeTarget;
-    if (link[dir.deleted].id === link[dir.other].id) {
       linksToKeep.splice(
-        linksToKeep.findIndex((selfLink) => link === selfLink),
+        linksToKeep.findIndex((selfLink) => link2ndOrder === selfLink),
         1
       );
     }

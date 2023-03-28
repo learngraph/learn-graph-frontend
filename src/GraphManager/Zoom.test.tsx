@@ -10,11 +10,15 @@ import {
   ZoomState,
 } from "./Zoom";
 
+// Note: throughout these test-cases descriptions exist:
+//  - "A -> B" denotes a link from a node with id="A" to a node with id="B".
+//  - "A -> B* -> C; B <- D" the "*" symbol denotes that B is the mergeTarget
+//    in this test cases
 describe("zoom", () => {
   describe("zoomSteps data", () => {
     it("should push a Merge operation when merging nodes", () => {
       const [A, B] = [{ id: "A" }, { id: "B" }];
-      const link = { source: B, target: A };
+      const link = { id: "BA", source: B, target: A };
       let args: ZoomArgs = {
         steps: 1,
         direction: ZoomDirection.Out,
@@ -47,15 +51,15 @@ describe("zoom", () => {
         graphData: {
           nodes: [A, B, C],
           links: [
-            { source: B, target: A },
-            { source: B, target: C },
+            { id: "BA", source: B, target: A },
+            { id: "BC", source: B, target: C },
           ],
         },
       };
       zoomStep(args, state);
       expect(state.graphData).toEqual({
         nodes: [A, C],
-        links: [{ source: A, target: C }],
+        links: [{ id: "BC", source: A, target: C }],
       });
       expect(state.zoomSteps).toEqual([
         {
@@ -63,12 +67,12 @@ describe("zoom", () => {
             {
               type: ZoomOperationType.Delete,
               removedNodes: [B],
-              removedLinks: [{ source: B, target: A }],
+              removedLinks: [{ id: "BA", source: B, target: A }],
             },
             {
               type: ZoomOperationType.LinkRewrite,
-              from: { source: B, target: C },
-              to: { source: A, target: C },
+              from: { id: "BC", source: B, target: C },
+              to: { id: "BC", source: A, target: C },
             },
           ],
         },
@@ -85,10 +89,10 @@ describe("zoom", () => {
         graphData: {
           nodes: [A, B, C, D],
           links: [
-            { source: D, target: A, value: 1.5 },
-            { source: A, target: B },
-            { source: B, target: C },
-            { source: C, target: B },
+            { id: "DA", source: D, target: A, value: 1.5 },
+            { id: "AB", source: A, target: B },
+            { id: "BC", source: B, target: C },
+            { id: "CB", source: C, target: B },
           ],
         },
       };
@@ -96,8 +100,8 @@ describe("zoom", () => {
       expect(state.graphData).toEqual({
         nodes: [A, B, D],
         links: [
-          { source: D, target: A, value: 1.5 },
-          { source: A, target: B },
+          { id: "DA", source: D, target: A, value: 1.5 },
+          { id: "AB", source: A, target: B },
         ],
       });
       expect(state.zoomSteps).toEqual([
@@ -106,12 +110,12 @@ describe("zoom", () => {
             {
               type: ZoomOperationType.Delete,
               removedNodes: [C],
-              removedLinks: [{ source: C, target: B }],
+              removedLinks: [{ id: "CB", source: C, target: B }],
             },
             {
               type: ZoomOperationType.Delete,
               removedNodes: [],
-              removedLinks: [{ source: B, target: C }],
+              removedLinks: [{ id: "BC", source: B, target: C }],
             },
           ],
         },
@@ -134,13 +138,13 @@ describe("zoom", () => {
         graphData: {
           nodes: [A, B, C, D, E],
           links: [
-            { source: E, target: D },
-            { source: E, target: C, value: 3 },
-            { source: D, target: E },
-            { source: D, target: C, value: 2 },
-            { source: C, target: B },
-            { source: A, target: B, value: 3 },
-            { source: A, target: C },
+            { id: "ED", source: E, target: D },
+            { id: "EC", source: E, target: C, value: 3 },
+            { id: "DE", source: D, target: E },
+            { id: "DC", source: D, target: C, value: 2 },
+            { id: "CB", source: C, target: B },
+            { id: "AB", source: A, target: B, value: 3 },
+            { id: "AC", source: A, target: C },
           ],
         },
       };
@@ -151,29 +155,20 @@ describe("zoom", () => {
             {
               type: ZoomOperationType.Delete,
               removedNodes: [A],
-              removedLinks: [{ source: A, target: C }],
+              removedLinks: [{ id: "AC", source: A, target: C }],
             },
             {
               type: ZoomOperationType.SetLinkValue,
               link: {
-                source: A,
+                id: "CB",
+                source: C,
                 target: B,
-                value: 3,
               },
             },
             {
               type: ZoomOperationType.Delete,
               removedNodes: [],
-              removedLinks: [{ source: C, target: B }],
-            },
-            {
-              type: ZoomOperationType.LinkRewrite,
-              from: {
-                source: A,
-                target: B,
-                value: 2,
-              },
-              to: { source: C, target: B, value: 2 },
+              removedLinks: [{ id: "AB", source: A, target: B, value: 3 }],
             },
           ],
         },
@@ -219,14 +214,14 @@ describe("zoom", () => {
           graphData: {
             nodes: [node.A, node.B, node.C],
             links: [
-              { source: node.A, target: node.B },
-              { source: node.C, target: node.B },
+              { id: "AB", source: node.A, target: node.B },
+              { id: "CB", source: node.C, target: node.B },
             ],
           },
         },
         {
           nodes: [{ ...node.B, mergeCount: 2 }, node.C],
-          links: [{ source: node.C, target: node.B }],
+          links: [{ id: "CB", source: node.C, target: node.B }],
         },
       ],
       [
@@ -241,12 +236,12 @@ describe("zoom", () => {
           zoomSteps: [],
           graphData: {
             nodes: [node.A, node.B],
-            links: [{ source: node.A, target: node.B }],
+            links: [{ id: "AB", source: node.A, target: node.B }],
           },
         },
         {
           nodes: [node.A, node.B],
-          links: [{ source: node.A, target: node.B }],
+          links: [{ id: "AB", source: node.A, target: node.B }],
         },
       ],
       [
@@ -282,8 +277,8 @@ describe("zoom", () => {
           graphData: {
             nodes: [node.A, node.B, node.C],
             links: [
-              { source: node.A, target: node.B },
-              { source: node.C, target: node.B },
+              { id: "AB", source: node.A, target: node.B },
+              { id: "CB", source: node.C, target: node.B },
             ],
           },
         },
@@ -302,16 +297,16 @@ describe("zoom", () => {
           graphData: {
             nodes: [node.A, node.B, node.C],
             links: [
-              { source: node.A, target: node.B },
-              { source: node.C, target: node.B },
+              { id: "AB", source: node.A, target: node.B },
+              { id: "CB", source: node.C, target: node.B },
             ],
           },
         },
         {
           nodes: [node.A, node.B, node.C],
           links: [
-            { source: node.A, target: node.B },
-            { source: node.C, target: node.B },
+            { id: "AB", source: node.A, target: node.B },
+            { id: "CB", source: node.C, target: node.B },
           ],
         },
       ],
@@ -328,15 +323,15 @@ describe("zoom", () => {
           graphData: {
             nodes: [node.A, node.B, node.C, node.D],
             links: [
-              { source: node.A, target: node.B },
-              { source: node.B, target: node.C },
-              { source: node.D, target: node.C },
+              { id: "AB", source: node.A, target: node.B },
+              { id: "BC", source: node.B, target: node.C },
+              { id: "DC", source: node.D, target: node.C },
             ],
           },
         },
         {
           nodes: [node.A, node.C],
-          links: [{ source: node.A, target: node.C }],
+          links: [{ id: "AB", source: node.A, target: node.C }],
         },
       ],
       [
@@ -352,15 +347,15 @@ describe("zoom", () => {
           graphData: {
             nodes: [node.A, node.B, node.C, node.D],
             links: [
-              { source: node.A, target: node.B },
-              { source: node.C, target: node.B },
-              { source: node.B, target: node.D },
+              { id: "AB", source: node.A, target: node.B },
+              { id: "CB", source: node.C, target: node.B },
+              { id: "BD", source: node.B, target: node.D },
             ],
           },
         },
         {
           nodes: [node.B, node.D],
-          links: [{ source: node.B, target: node.D }],
+          links: [{ id: "BD", source: node.B, target: node.D }],
         },
       ],
       [
@@ -376,14 +371,14 @@ describe("zoom", () => {
           graphData: {
             nodes: [node.A, node.B, node.C, node.D],
             links: [
-              { source: node.A, target: node.B },
-              { source: node.C, target: node.D },
+              { id: "AB", source: node.A, target: node.B },
+              { id: "CD", source: node.C, target: node.D },
             ],
           },
         },
         {
           nodes: [node.B, node.C, node.D],
-          links: [{ source: node.C, target: node.D }],
+          links: [{ id: "CD", source: node.C, target: node.D }],
         },
       ],
       [
@@ -399,26 +394,26 @@ describe("zoom", () => {
           graphData: {
             nodes: [node.A, node.B, node.C, node.D],
             links: [
-              { source: node.B, target: node.A },
-              { source: node.B, target: node.C },
-              { source: node.D, target: node.C },
+              { id: "BA", source: node.B, target: node.A },
+              { id: "BC", source: node.B, target: node.C },
+              { id: "DC", source: node.D, target: node.C },
             ],
           },
         },
         {
           nodes: [node.A, node.C, node.D],
           links: [
-            { source: node.C, target: node.A },
-            { source: node.D, target: node.C },
+            { id: "BA", source: node.C, target: node.A },
+            { id: "DC", source: node.D, target: node.C },
           ],
         },
       ],
       [
         "remove duplicate links, after link target forwarding (secondOrderTargetLinks)",
-        // Note: got to complex due to other changes to the zoomStep function
+        // Note: got too complex due to other changes:
         // 1. ensure that C stays mergeTargetNode: B -2-> C
-        // 2. ensure A gets deleted (lower node-weight, than B): D -2-> A
-        "D -2-> A -> B -2-> C; A -> C",
+        // 2. ensure B gets deleted (lower node-weight, than A): D -2-> A
+        "D -2-> A -> B -2-> C*; A -> C",
         "D -2-> A -> C",
         {
           steps: 1,
@@ -429,24 +424,24 @@ describe("zoom", () => {
           graphData: {
             nodes: [node.A, node.B, node.C, node.D],
             links: [
-              { source: node.B, target: node.C, value: 2 },
-              { source: node.A, target: node.B },
-              { source: node.A, target: node.C },
-              { source: node.D, target: node.A, value: 2 },
+              { id: "BC", source: node.B, target: node.C, value: 2 },
+              { id: "AB", source: node.A, target: node.B },
+              { id: "AC", source: node.A, target: node.C },
+              { id: "DA", source: node.D, target: node.A, value: 2 },
             ],
           },
         },
         {
           nodes: [node.A, node.C, node.D],
           links: [
-            { source: node.A, target: node.C },
-            { source: node.D, target: node.A, value: 2 },
+            { id: "AC", source: node.A, target: node.C },
+            { id: "DA", source: node.D, target: node.A, value: 2 },
           ],
         },
       ],
       [
         "remove duplicate links, after link source forwarding (secondOrderSourceLinks)",
-        "D <- A -> B <- C; B -> D",
+        "D <- A -> B* <- C; B -> D",
         "D <- B <- C",
         {
           steps: 1,
@@ -457,18 +452,18 @@ describe("zoom", () => {
           graphData: {
             nodes: [node.A, node.B, node.C, node.D],
             links: [
-              { source: node.A, target: node.D },
-              { source: node.B, target: node.D },
-              { source: node.A, target: node.B },
-              { source: node.C, target: node.B },
+              { id: "AD", source: node.A, target: node.D },
+              { id: "BD", source: node.B, target: node.D },
+              { id: "AB", source: node.A, target: node.B },
+              { id: "CB", source: node.C, target: node.B },
             ],
           },
         },
         {
           nodes: [node.B, node.C, node.D],
           links: [
-            { source: node.B, target: node.D },
-            { source: node.C, target: node.B },
+            { id: "BD", source: node.B, target: node.D },
+            { id: "CB", source: node.C, target: node.B },
           ],
         },
       ],
@@ -485,19 +480,19 @@ describe("zoom", () => {
           graphData: {
             nodes: [node.A, node.B, node.C, node.D, node.E],
             links: [
-              { source: node.A, target: node.B, value: 2 },
-              { source: node.B, target: node.C, value: 2 },
-              { source: node.D, target: node.C, value: 2 },
-              { source: node.E, target: node.D },
+              { id: "AB", source: node.A, target: node.B, value: 2 },
+              { id: "BC", source: node.B, target: node.C, value: 2 },
+              { id: "DC", source: node.D, target: node.C, value: 2 },
+              { id: "ED", source: node.E, target: node.D },
             ],
           },
         },
         {
           nodes: [node.A, node.B, node.C, node.E],
           links: [
-            { source: node.A, target: node.B, value: 2 },
-            { source: node.B, target: node.C, value: 2 },
-            { source: node.E, target: node.C },
+            { id: "AB", source: node.A, target: node.B, value: 2 },
+            { id: "BC", source: node.B, target: node.C, value: 2 },
+            { id: "ED", source: node.E, target: node.C },
           ],
         },
       ],
@@ -514,25 +509,25 @@ describe("zoom", () => {
           graphData: {
             nodes: [node.A, node.B, node.C, node.D, node.E],
             links: [
-              { source: node.A, target: node.B },
-              { source: node.B, target: node.C, value: 2 },
-              { source: node.D, target: node.C, value: 2 },
-              { source: node.E, target: node.D, value: 2 },
+              { id: "AB", source: node.A, target: node.B },
+              { id: "BC", source: node.B, target: node.C, value: 2 },
+              { id: "DC", source: node.D, target: node.C, value: 2 },
+              { id: "ED", source: node.E, target: node.D, value: 2 },
             ],
           },
         },
         {
           nodes: [node.A, node.C, node.D, node.E],
           links: [
-            { source: node.A, target: node.C },
-            { source: node.D, target: node.C, value: 2 },
-            { source: node.E, target: node.D, value: 2 },
+            { id: "AB", source: node.A, target: node.C },
+            { id: "DC", source: node.D, target: node.C, value: 2 },
+            { id: "ED", source: node.E, target: node.D, value: 2 },
           ],
         },
       ],
       [
         "doubly outgoing links on first order deleted nodes",
-        "A <- B -> C",
+        "A* <- B -> C",
         "A -> C",
         {
           steps: 1,
@@ -543,14 +538,14 @@ describe("zoom", () => {
           graphData: {
             nodes: [node.A, node.B, node.C],
             links: [
-              { source: node.B, target: node.A },
-              { source: node.B, target: node.C },
+              { id: "BA", source: node.B, target: node.A },
+              { id: "BC", source: node.B, target: node.C },
             ],
           },
         },
         {
           nodes: [node.A, node.C],
-          links: [{ source: node.A, target: node.C }],
+          links: [{ id: "BC", source: node.A, target: node.C }],
         },
       ],
       // solution: self-linking is not allowed! TODO(skep): enforce it everywhere!
@@ -591,8 +586,8 @@ describe("zoom", () => {
           graphData: {
             nodes: [node.A, node.B, node.C, node.D],
             links: [
-              { source: node.A, target: node.B },
-              { source: node.C, target: node.D },
+              { id: "AB", source: node.A, target: node.B },
+              { id: "CD", source: node.C, target: node.D },
             ],
           },
         },
@@ -614,18 +609,18 @@ describe("zoom", () => {
           graphData: {
             nodes: [node.A, node.B, node.C, node.D],
             links: [
-              { source: node.D, target: node.A, value: 1.5 },
-              { source: node.A, target: node.B },
-              { source: node.B, target: node.C },
-              { source: node.C, target: node.B },
+              { id: "DA", source: node.D, target: node.A, value: 1.5 },
+              { id: "AB", source: node.A, target: node.B },
+              { id: "BC", source: node.B, target: node.C },
+              { id: "CB", source: node.C, target: node.B },
             ],
           },
         },
         {
           nodes: [node.A, node.B, node.D],
           links: [
-            { source: node.D, target: node.A, value: 1.5 },
-            { source: node.A, target: node.B },
+            { id: "DA", source: node.D, target: node.A, value: 1.5 },
+            { id: "AB", source: node.A, target: node.B },
           ],
         },
       ],
@@ -641,7 +636,7 @@ describe("zoom", () => {
           zoomSteps: [],
           graphData: {
             nodes: [node.A3, node.B],
-            links: [{ source: node.A3, target: node.B }],
+            links: [{ id: "AB", source: node.A3, target: node.B }],
           },
         },
         {
@@ -662,13 +657,13 @@ describe("zoom", () => {
           graphData: {
             nodes: [node.A, node.B, node.C, node.D, node.E, node.F, node.G],
             links: [
-              { source: node.G, target: node.A },
-              { source: node.A, target: node.B },
-              { source: node.A, target: node.F },
-              { source: node.C, target: node.B },
-              { source: node.B, target: node.D },
-              { source: node.E, target: node.D },
-              { source: node.F, target: node.D },
+              { id: "GA", source: node.G, target: node.A },
+              { id: "AB", source: node.A, target: node.B },
+              { id: "AF", source: node.A, target: node.F },
+              { id: "CB", source: node.C, target: node.B },
+              { id: "BD", source: node.B, target: node.D },
+              { id: "ED", source: node.E, target: node.D },
+              { id: "FD", source: node.F, target: node.D },
             ],
           },
         },
@@ -694,32 +689,32 @@ describe("zoom", () => {
           graphData: {
             nodes: [node.A5, node.B16, node.C, node.D, node.E, node.F, node.G],
             links: [
-              { source: node.A5, target: node.B16 },
-              { source: node.B16, target: node.C },
-              { source: node.D, target: node.C },
-              { source: node.E, target: node.D },
-              { source: node.G, target: node.C },
-              { source: node.F, target: node.C },
-              { source: node.F, target: node.D },
-              { source: node.A5, target: node.G },
-              { source: node.B16, target: node.G },
-              { source: node.A5, target: node.F },
-              { source: node.B16, target: node.F },
+              { id: "AB", source: node.A5, target: node.B16 },
+              { id: "BC", source: node.B16, target: node.C },
+              { id: "DC", source: node.D, target: node.C },
+              { id: "ED", source: node.E, target: node.D },
+              { id: "GC", source: node.G, target: node.C },
+              { id: "FC", source: node.F, target: node.C },
+              { id: "FD", source: node.F, target: node.D },
+              { id: "AG", source: node.A5, target: node.G },
+              { id: "BG", source: node.B16, target: node.G },
+              { id: "AF", source: node.A5, target: node.F },
+              { id: "BF", source: node.B16, target: node.F },
             ],
           },
         },
         {
           nodes: [node.A5, node.B16, node.C, node.E, node.F, node.G],
           links: [
-            { source: node.A5, target: node.B16 },
-            { source: node.B16, target: node.C },
-            { source: node.E, target: node.C },
-            { source: node.G, target: node.C },
-            { source: node.F, target: node.C /*, value: 2*/ }, // XXX(skep): should duplicate links merge their value other than averaging?
-            { source: node.A5, target: node.G },
-            { source: node.B16, target: node.G },
-            { source: node.A5, target: node.F },
-            { source: node.B16, target: node.F },
+            { id: "AB", source: node.A5, target: node.B16 },
+            { id: "BC", source: node.B16, target: node.C },
+            { id: "ED", source: node.E, target: node.C },
+            { id: "GC", source: node.G, target: node.C },
+            { id: "FC", source: node.F, target: node.C /*, value: 2*/ }, // XXX(skep): should duplicate links merge their value other than averaging?
+            { id: "AG", source: node.A5, target: node.G },
+            { id: "BG", source: node.B16, target: node.G },
+            { id: "AF", source: node.A5, target: node.F },
+            { id: "BF", source: node.B16, target: node.F },
           ],
         },
       ],
@@ -736,14 +731,20 @@ describe("zoom", () => {
           graphData: {
             nodes: [node.B16, node.C, node.D],
             links: [
-              { source: node.C, target: node.B16 },
-              { source: node.D, target: node.C },
+              { id: "CB", source: node.C, target: node.B16 },
+              { id: "DC", source: node.D, target: node.C },
             ],
           },
         },
         {
           nodes: [node.B16, node.C],
-          links: [{ source: { ...node.C, mergeCount: 2 }, target: node.B16 }],
+          links: [
+            {
+              id: "CB",
+              source: { ...node.C, mergeCount: 2 },
+              target: node.B16,
+            },
+          ],
         },
       ],
       [
@@ -759,24 +760,24 @@ describe("zoom", () => {
           graphData: {
             nodes: [node.A, node.B, node.C, node.D, node.E],
             links: [
-              { source: node.E, target: node.D },
-              { source: node.E, target: node.C, value: 3 },
-              { source: node.D, target: node.E },
-              { source: node.D, target: node.C, value: 2 },
-              { source: node.C, target: node.B },
-              { source: node.A, target: node.B, value: 3 },
-              { source: node.A, target: node.C },
+              { id: "ED", source: node.E, target: node.D },
+              { id: "EC", source: node.E, target: node.C, value: 3 },
+              { id: "DE", source: node.D, target: node.E },
+              { id: "DC", source: node.D, target: node.C, value: 2 },
+              { id: "CB", source: node.C, target: node.B },
+              { id: "AB", source: node.A, target: node.B, value: 3 },
+              { id: "AC", source: node.A, target: node.C },
             ],
           },
         },
         {
           nodes: [node.B, node.C, node.D, node.E],
           links: [
-            { source: node.E, target: node.D },
-            { source: node.E, target: node.C, value: 3 },
-            { source: node.D, target: node.E },
-            { source: node.D, target: node.C, value: 2 },
-            { source: node.C, target: node.B, value: 2 },
+            { id: "ED", source: node.E, target: node.D },
+            { id: "EC", source: node.E, target: node.C, value: 3 },
+            { id: "DE", source: node.D, target: node.E },
+            { id: "DC", source: node.D, target: node.C, value: 2 },
+            { id: "CB", source: node.C, target: node.B, value: 2 },
           ],
         },
       ],
@@ -885,7 +886,7 @@ describe("zoom", () => {
                 {
                   type: ZoomOperationType.Delete,
                   removedNodes: [node.B],
-                  removedLinks: [{ source: node.B, target: node.A5 }],
+                  removedLinks: [{ id: "BA", source: node.B, target: node.A5 }],
                 },
               ],
             },
@@ -893,7 +894,9 @@ describe("zoom", () => {
         },
         {
           nodes: [{ ...node.A5, mergeCount: 4 }, node.B],
-          links: [{ source: node.B, target: { ...node.A5, mergeCount: 4 } }],
+          links: [
+            { id: "BA", source: node.B, target: { ...node.A5, mergeCount: 4 } },
+          ],
         },
       ],
       [
@@ -907,7 +910,7 @@ describe("zoom", () => {
         {
           graphData: {
             nodes: [node.A2, node.B],
-            links: [{ source: node.A2, target: node.B }],
+            links: [{ id: "CB", source: node.A2, target: node.B }],
           },
           zoomSteps: [
             {
@@ -915,12 +918,12 @@ describe("zoom", () => {
                 {
                   type: ZoomOperationType.Delete,
                   removedNodes: [node.C],
-                  removedLinks: [{ source: node.C, target: node.A2 }],
+                  removedLinks: [{ id: "CA", source: node.C, target: node.A2 }],
                 },
                 {
                   type: ZoomOperationType.LinkRewrite,
-                  from: { source: node.C, target: node.B },
-                  to: { source: node.A2, target: node.B },
+                  from: { id: "CB", source: node.C, target: node.B },
+                  to: { id: "CB", source: node.A2, target: node.B },
                 },
               ],
             },
@@ -929,8 +932,12 @@ describe("zoom", () => {
         {
           nodes: [{ ...node.A2, mergeCount: undefined }, node.B, node.C],
           links: [
-            { source: node.C, target: node.B },
-            { source: node.C, target: { ...node.A2, mergeCount: undefined } },
+            { id: "CB", source: node.C, target: node.B },
+            {
+              id: "CA",
+              source: node.C,
+              target: { ...node.A2, mergeCount: undefined },
+            },
           ],
         },
       ],
@@ -965,9 +972,9 @@ describe("calculateNodeWeight", () => {
     [
       "count links to node",
       [
-        { source: node.A, target: node.B },
-        { source: node.B, target: node.A },
-        { source: node.C, target: node.A },
+        { id: "AB", source: node.A, target: node.B },
+        { id: "BA", source: node.B, target: node.A },
+        { id: "CA", source: node.C, target: node.A },
       ],
       [
         { node: node.C, expectedWeight: 0 },
@@ -978,9 +985,9 @@ describe("calculateNodeWeight", () => {
     [
       "weight each link by link.value",
       [
-        { source: node.A, target: node.B, value: 2 },
-        { source: node.B, target: node.A, value: 3 },
-        { source: node.C, target: node.A, value: 0.5 },
+        { id: "AB", source: node.A, target: node.B, value: 2 },
+        { id: "BA", source: node.B, target: node.A, value: 3 },
+        { id: "CA", source: node.C, target: node.A, value: 0.5 },
       ],
       [
         { node: node.C, expectedWeight: 0 },
