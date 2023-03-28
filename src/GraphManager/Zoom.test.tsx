@@ -678,7 +678,7 @@ describe("zoom", () => {
         // links to G and F ensure, that they are not removed, so that either B
         // has most links next to the mergeTarget C, but B has a high
         // mergeCount, so D must be removed instead
-        "A[5] -> B[16] -> C <- D <- E; G -> C <- F -> D; A -> G <- B; A -> F <- B",
+        "A[5] -> B[16] -> *C <- D <- E; G -> C <- F -> D; A -> G <- B; A -> F <- B",
         "A[5] -> B[16] -> C <- E; G -> C <- F -> C",
         {
           steps: 1,

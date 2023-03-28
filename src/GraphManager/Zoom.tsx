@@ -320,7 +320,7 @@ const calculateMergeTargetWeight = (
   node: HasID,
   links: LinkBetweenHasIDs[]
 ) => {
-  const mergeCountMultiplier = 5; // TODO(skep): should be depending on the merged nodes' weight, but they are gone now
+  const mergeCountMultiplier = 5; // XXX(skep): should be depending on the merged nodes' weight, but they are gone now
   let weight = calculateNodeWeight(node, links);
   if (node.mergeCount) {
     weight -= node.mergeCount * mergeCountMultiplier;
