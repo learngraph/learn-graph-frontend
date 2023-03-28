@@ -288,31 +288,31 @@ const rewrite2ndOrderLinks = (
         removedNodes: [],
         removedLinks: [{ ...link2ndOrder }],
       });
-      linksToKeep.splice(
-        linksToKeep.findIndex((selfLink) => link2ndOrder === selfLink),
-        1
+      deleteIndex(
+        linksToKeep,
+        linksToKeep.findIndex((selfLink) => link2ndOrder === selfLink)
       );
       return;
     }
-    if (selection.mergeTarget.id !== link2ndOrder[dir.other].id) {
-      lastOperations.push({
-        type: ZoomOperationType.LinkRewrite,
-        from: { ...link2ndOrder },
-        to: { ...link2ndOrder, [dir.deleted]: selection.mergeTarget },
-      });
-      link2ndOrder[dir.deleted] = selection.mergeTarget;
-    } else {
+    if (selection.mergeTarget.id === link2ndOrder[dir.other].id) {
       // delete self-referencing links that would occur after rewriting
       lastOperations.push({
         type: ZoomOperationType.Delete,
         removedNodes: [],
         removedLinks: [{ ...link2ndOrder }],
       });
-      linksToKeep.splice(
-        linksToKeep.findIndex((selfLink) => link2ndOrder === selfLink),
-        1
+      deleteIndex(
+        linksToKeep,
+        linksToKeep.findIndex((selfLink) => link2ndOrder === selfLink)
       );
+      return;
     }
+    lastOperations.push({
+      type: ZoomOperationType.LinkRewrite,
+      from: { ...link2ndOrder },
+      to: { ...link2ndOrder, [dir.deleted]: selection.mergeTarget },
+    });
+    link2ndOrder[dir.deleted] = selection.mergeTarget;
   });
 };
 
@@ -394,4 +394,10 @@ function replaceArray<T>(a: T[], b: T[]) {
 // appendArray appends array `a` with `appendix` (in-place operation)
 function appendArray<T>(a: T[], appendix: T[]) {
   a.splice(a.length, 0, ...appendix);
+}
+
+// deleteIndex deletes the element at `index` from array `a` (in-place
+// operation)
+function deleteIndex<T>(a: T[], index: number) {
+  a.splice(index, 1);
 }
