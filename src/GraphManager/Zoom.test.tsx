@@ -548,31 +548,30 @@ describe("zoom", () => {
           links: [{ id: "BC", source: node.A, target: node.C }],
         },
       ],
-      // solution: self-linking is not allowed! TODO(skep): enforce it everywhere!
-      //[
-      //  "self-linking node with otherwise only source links",
-      //  "A -10-> A; C <- A -> B",
-      //  "solution: self-linking is not allowed",
-      //  {
-      //    steps: 1,
-      //    direction: ZoomDirection.Out,
-      //  },
-      //  {
-      //    zoomSteps: [],
-      //    graphData: {
-      //      nodes: [node.A, node.B, node.C],
-      //      links: [
-      //        { source: node.A, target: node.A, value: 10 },
-      //        { source: node.A, target: node.B, value: 2 },
-      //        { source: node.A, target: node.C, value: 2 },
-      //      ],
-      //    },
-      //  },
-      //  {
-      //    nodes: [node.B, node.C],
-      //    links: [],
-      //  },
-      //],
+      [
+        "self-linking node with otherwise only source links",
+        "A -10-> A; C <- A -> B",
+        "self-linking is not allowed (this is a snapshot-test)",
+        {
+          steps: 1,
+          direction: ZoomDirection.Out,
+        },
+        {
+          zoomSteps: [],
+          graphData: {
+            nodes: [node.A, node.B, node.C],
+            links: [
+              { id: "AA", source: node.A, target: node.A, value: 10 },
+              { id: "AB", source: node.A, target: node.B, value: 2 },
+              { id: "AC", source: node.A, target: node.C, value: 2 },
+            ],
+          },
+        },
+        {
+          nodes: [node.B, node.C],
+          links: [],
+        },
+      ],
       [
         "2 zoom steps in separated graph (enforce recursion)",
         "A -> B; C -> D",

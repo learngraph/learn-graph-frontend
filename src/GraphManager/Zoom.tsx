@@ -110,9 +110,8 @@ const undoZoomOperation = (op: ZoomOperation, state: ZoomState) => {
       if (link.target.mergeCount < 0) {
         // FIXME(skep): must not happen
         console.error("negative .mergeCount on", link.target, link, op);
-        link.target.mergeCount = undefined;
       }
-      if (link.target.mergeCount === 1) {
+      if (link.target.mergeCount !== undefined && link.target.mergeCount <= 1) {
         link.target.mergeCount = undefined;
       }
     });
