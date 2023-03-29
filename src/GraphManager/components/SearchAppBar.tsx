@@ -49,11 +49,20 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-interface SearchAppBarProps {
-  userInputCallback: (query: string) => void;
+export interface SearchCallback {
+  (query: string): void;
 }
 
-export default function SearchAppBar({ userInputCallback }: SearchAppBarProps) {
+interface SearchAppBarProps {
+  userInputCallback: SearchCallback;
+}
+
+export default function SearchAppBar(props: SearchAppBarProps) {
+  const callCallbackIfMoreThan3Chars = (userInput: string) => {
+    if (userInput.length >= 3) {
+      props.userInputCallback(userInput);
+    }
+  };
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -74,8 +83,7 @@ export default function SearchAppBar({ userInputCallback }: SearchAppBarProps) {
               placeholder="Search…"
               inputProps={{ "aria-label": "search bar" }}
               onChange={(event) => {
-                //console.log(`search input: ${event.target.value}`)
-                userInputCallback(event.target.value);
+                callCallbackIfMoreThan3Chars(event.target.value);
               }}
             />
           </Search>

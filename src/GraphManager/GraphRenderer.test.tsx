@@ -52,7 +52,7 @@ describe("onLinkClickFn", () => {
       openVoteDialog: jest.fn(),
       selectedGraphDataset: { dataSetName: "", data: { nodes: [], links: [] } },
     };
-    const onLinkClick = onLinkClickFn(props);
+    const onLinkClick = onLinkClickFn(props.openVoteDialog);
     const link = {
       source: "A",
       target: "B",
@@ -91,7 +91,7 @@ describe("nodeCanvasObject", () => {
     ctx.measureText.mockReturnValue({ width: 100 });
     const scale = 1;
     // @ts-ignore
-    nodeCanvasObject(node, ctx, scale);
+    nodeCanvasObject(node, ctx, scale, new Set());
     expect(ctx.font).toEqual("22px Sans-Serif");
     expect(ctx.textAlign).toEqual("center");
     expect(ctx.textBaseline).toEqual("middle");

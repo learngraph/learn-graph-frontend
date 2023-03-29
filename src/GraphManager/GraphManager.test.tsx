@@ -4,7 +4,9 @@ import { GraphManager } from "./GraphManager";
 import { act } from "react-dom/test-utils";
 
 jest.mock("./GraphRenderer", () => {
-  return { GraphRenderer: () => <div></div> };
+  return {
+    GraphRenderer: () => <div></div>,
+  };
 });
 jest.mock("./components/GraphFileList");
 jest.mock("./components/GraphManagementMenu", () => {
@@ -14,7 +16,7 @@ jest.mock("./components/GraphManagementMenu", () => {
 });
 jest.mock("./components/VoteDialog");
 
-describe("GraphManager", () => {
+describe("understanding of jest", () => {
   test("my understanding of jest&react testing/matching", () => {
     const Hello = () => (
       <div>
@@ -25,7 +27,6 @@ describe("GraphManager", () => {
     expect(screen.getByText("Hello").textContent).toEqual("Hello world");
     expect(screen.getByText("world").textContent).toEqual("world");
   });
-
   test("my understanding of jest.fn", () => {
     let useQueryMock = jest.fn();
     useQueryMock.mockReturnValue({
@@ -37,35 +38,39 @@ describe("GraphManager", () => {
   });
 });
 
-describe("opening/closing of edit menu", () => {
-  it("should initially be closed", () => {
-    render(
-      <GraphManager
-        datasets={[{ dataSetName: "mockSEt", data: { nodes: [], links: [] } }]}
-        // @ts-ignore
-        fetchedGraph={undefined}
-        queryResponse={{}}
-      />
-    );
-    expect(screen.queryByTestId("GMM")).not.toBeInTheDocument();
-  });
-  it("should be opened & closed after button click", () => {
-    render(
-      <GraphManager
-        datasets={[{ dataSetName: "mockSEt", data: { nodes: [], links: [] } }]}
-        // @ts-ignore
-        fetchedGraph={undefined}
-        queryResponse={{}}
-      />
-    );
-    const button = screen.queryByLabelText("toggle menu");
-    act(() => {
-      button?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+describe("GraphManager", () => {
+  describe("opening/closing of edit menu", () => {
+    it("should initially be closed", () => {
+      render(
+        <GraphManager
+          datasets={[
+            { dataSetName: "mockSet", data: { nodes: [], links: [] } },
+          ]}
+          fetchedGraph={undefined}
+          queryResponse={{}}
+        />
+      );
+      expect(screen.queryByTestId("GMM")).not.toBeInTheDocument();
     });
-    expect(screen.getByTestId("GMM")).toBeInTheDocument();
-    act(() => {
-      button?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    it("should be opened & closed after button click", () => {
+      render(
+        <GraphManager
+          datasets={[
+            { dataSetName: "mockSet", data: { nodes: [], links: [] } },
+          ]}
+          fetchedGraph={undefined}
+          queryResponse={{}}
+        />
+      );
+      const button = screen.queryByLabelText("toggle menu");
+      act(() => {
+        button?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+      });
+      expect(screen.getByTestId("GMM")).toBeInTheDocument();
+      act(() => {
+        button?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+      });
+      expect(screen.queryByTestId("GMM")).not.toBeInTheDocument();
     });
-    expect(screen.queryByTestId("GMM")).not.toBeInTheDocument();
   });
 });

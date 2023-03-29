@@ -1,11 +1,9 @@
-import { TranslatedGraphData, useGraphDataContext } from "src/GraphDataContext";
-import { getTranslation } from "./utilities/getTranslation";
 import ForceGraph2D, {
   ForceGraphMethods,
   LinkObject,
   NodeObject,
 } from "react-force-graph-2d";
-import { GraphData, LinkType, NodeType } from "./types";
+import { LinkType, NodeType } from "./types";
 import {
   ZoomFn,
   GraphDataMerged,
@@ -25,9 +23,16 @@ import { MutableRefObject, useRef } from "react";
 // Similarly we have a defined a LinkType != ForceGraph2D.LinkObject.
 export type Link = LinkType & LinkObject;
 export type Node = NodeType & NodeObject & HasID;
-interface LinkBetweenObjects {
+
+interface LinkBetweenNode {
+  id: string;
   source: Node;
   target: Node;
+}
+
+export interface GraphDataForceGraph {
+  nodes: Node[];
+  links: LinkBetweenNode[];
 }
 
 // TODO: move to VoteDialog.tsx
@@ -42,7 +47,9 @@ export interface VoteDialogFn {
 }
 
 interface GraphRendererProps {
+  graphData: GraphDataForceGraph;
   openVoteDialog: VoteDialogFn;
+  highlightNodes: Set<Node>;
 }
 
 interface Position {
@@ -101,10 +108,21 @@ function linkDescriptionPosition(link: Link) {
 // TODO(j): should use react theme for color choice here
 const backgroundColorWhite = "rgba(255, 255, 255, 0.8)";
 
+const makeNodeCanvasObject = (highlightNodes: Set<Node>) => {
+  return (
+    nodeForceGraph: NodeObject,
+    ctx: CanvasRenderingContext2D,
+    globalScale: number
+  ) => {
+    return nodeCanvasObject(nodeForceGraph, ctx, globalScale, highlightNodes);
+  };
+};
+
 export const nodeCanvasObject = (
   nodeForceGraph: NodeObject,
   ctx: CanvasRenderingContext2D,
-  globalScale: number
+  globalScale: number,
+  highlightNodes: Set<Node>
 ) => {
   // @ts-ignore: see `Node` type
   const node: Node = nodeForceGraph;
@@ -117,6 +135,9 @@ export const nodeCanvasObject = (
     let hue = ((1 - mergedNodes * 0.1) * 120).toString(10);
     backgroundColor = `hsl(${hue},100%,50%)`;
     label += ` [${mergedNodes}]`;
+  }
+  if (highlightNodes.has(node)) {
+    backgroundColor = `hsl(1,100%,50%)`;
   }
   drawTextWithBackground(
     { text: label, fontSize: config.fontSize / globalScale, backgroundColor },
@@ -155,11 +176,11 @@ export const linkCanvasObject = (
   );
 };
 
-export const onLinkClickFn = (props: GraphRendererProps) => {
+export const onLinkClickFn = (openVoteDialog: VoteDialogFn) => {
   return (params: LinkObject) => {
     // @ts-ignore: see LinkBetweenObjects and Link type
-    let link: LinkBetweenObjects & LinkType = params;
-    props.openVoteDialog({
+    let link: LinkBetweenNode & LinkType = params;
+    openVoteDialog({
       linkID: link.id,
       sourceNode: link.source,
       targetNode: link.target,
@@ -195,23 +216,6 @@ const config = {
   linkCanvasObjectMode: "after",
   fontSize: 22,
   font: "Sans-Serif",
-};
-
-// TODO: extract to another file
-const transformToRenderedType = (graph: TranslatedGraphData): GraphData => {
-  // TODO: use language context
-  const language = "en";
-  const transformedNodes = graph.nodes.map(({ id, description, group }) => {
-    return {
-      id,
-      description: getTranslation({ translatedField: description, language }),
-      group,
-    };
-  });
-  return {
-    links: graph.links,
-    nodes: transformedNodes,
-  };
 };
 
 interface UserZoomEvent {
@@ -257,25 +261,22 @@ export const makeOnZoomAndPanListener = (
 };
 
 export const GraphRenderer = (props: GraphRendererProps) => {
-  const { graph } = useGraphDataContext();
-
-  const graphDataForRender = JSON.parse(
-    JSON.stringify(transformToRenderedType(graph))
-  );
-  const onLinkClick = onLinkClickFn(props);
+  const onLinkClick = onLinkClickFn(props.openVoteDialog);
   const forcegraphRef = useRef<ForceGraphMethods>();
+
   // TODO: make it react-isch? not sure where to put it
   document.addEventListener("keydown", makeKeydownListener(forcegraphRef));
+
   return (
     <ForceGraph2D
       ref={forcegraphRef}
       // Note: all data must be copied, since force graph changes Link "source"
       // and "target" fields to directly contain the referred node objects
       // nodes:
-      graphData={graphDataForRender}
+      graphData={props.graphData}
       nodeAutoColorBy={"group"}
       onNodeClick={onNodeClick}
-      nodeCanvasObject={nodeCanvasObject}
+      nodeCanvasObject={makeNodeCanvasObject(props.highlightNodes)}
       // links:
       onLinkHover={onLinkHover}
       onLinkClick={onLinkClick}
@@ -290,7 +291,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       onZoom={makeOnZoomAndPanListener(
         forcegraphRef,
         zoomStep,
-        graphDataForRender
+        props.graphData
       )}
     />
   );
