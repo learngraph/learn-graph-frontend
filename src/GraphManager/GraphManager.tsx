@@ -9,7 +9,12 @@ import { Box } from "@mui/material";
 //import { useGraphDataContext } from "../GraphDataContext";
 import { GraphFileList, GraphManagementMenu, VoteDialog } from "./components";
 import { DataSetType, GraphData } from "./types";
-import { GraphRenderer, VoteDialogParams } from "./GraphRenderer";
+import {
+  GraphRenderer,
+  VoteDialogParams,
+  Node,
+  GraphDataForceGraph,
+} from "./GraphRenderer";
 import {
   sanitizeGraphData,
   sanitizeGraphDataset,
@@ -17,18 +22,17 @@ import {
   transformGraphDataForDisplay,
 } from "./GraphUtil";
 import SearchAppBar from "./components/SearchAppBar";
-import { useGraphDataContext } from "src/GraphDataContext";
+import { TranslatedGraphData, useGraphDataContext } from "src/GraphDataContext";
+import { getTranslation } from "./utilities/getTranslation";
+import { userSearchMatching } from "./components/Search";
+
 interface GraphManagerProps {
   datasets: DataSetType[];
-  fetchedGraph: GraphData;
+  fetchedGraph: GraphData | undefined;
   queryResponse: any;
 }
 
-export const GraphManager = ({
-  datasets,
-  fetchedGraph,
-  queryResponse,
-}: GraphManagerProps): JSX.Element => {
+export const GraphManager = (props: GraphManagerProps): JSX.Element => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [isVoteDialogOpen, setIsVoteDialogOpen] = useState(false);
   const [voteDialogInput, setVoteDialogInput] = useState<
@@ -39,7 +43,7 @@ export const GraphManager = ({
 
   const [graphName, setGraphName] = useState<string>("");
 
-  const language = "en";
+  const language = "en"; // TODO: use language context
 
   const transformedGraphData = transformGraphDataForDisplay({
     graph,
@@ -51,33 +55,34 @@ export const GraphManager = ({
     data: transformedGraphData,
   };
 
+  // FIXME(j): does not work (test: don't start backend, no graph is visible)
   useEffect(() => {
     setTimeout(() => {
-      if (!fetchedGraph && !graph) handleDatasetChange(datasets[0]);
+      if (!props.fetchedGraph && !graph) handleDatasetChange(props.datasets[0]);
     }, 500);
     // should only be executed once on startup, thus no dependencies
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    if (fetchedGraph) {
-      const sanitizedDataset = sanitizeGraphData(fetchedGraph);
+    if (props.fetchedGraph) {
+      const sanitizedDataset = sanitizeGraphData(props.fetchedGraph);
       console.log("setting retrieved graph!");
       const pseudoTranslatedNodes = transformDisplayedNodesToPseudoTranslated({
         nodes: sanitizedDataset.data.nodes,
-        language: "en",
+        language,
       });
       setLinks(sanitizedDataset.data.links);
       setNodes(pseudoTranslatedNodes);
     }
-  }, [queryResponse.loading, fetchedGraph, setLinks, setNodes]);
+  }, [props.queryResponse.loading, props.fetchedGraph, setLinks, setNodes]);
 
   const handleDatasetChange = (dataset: DataSetType) => {
     const sanitizedDataset = sanitizeGraphDataset(dataset);
     setGraphName(dataset.dataSetName);
     const pseudoTranslatedNodes = transformDisplayedNodesToPseudoTranslated({
       nodes: sanitizedDataset.data.nodes,
-      language: "en",
+      language,
     });
     setLinks(sanitizedDataset.data.links);
     setNodes(pseudoTranslatedNodes);
@@ -86,6 +91,15 @@ export const GraphManager = ({
   const openVoteDialog = (params: VoteDialogParams): void => {
     setIsVoteDialogOpen(true);
     setVoteDialogInput(params);
+  };
+
+  const graphDataForRender: GraphDataForceGraph = JSON.parse(
+    JSON.stringify(transformToRenderedType(graph))
+  );
+
+  const highlightNodes = new Set<Node>();
+  const searchCallback = (userInput: string) => {
+    userSearchMatching(highlightNodes, graphDataForRender, userInput);
   };
 
   return (
@@ -98,11 +112,7 @@ export const GraphManager = ({
         >
           {isMenuVisible ? <ExpandLessIcon /> : <ExpandMoreIcon />}
         </Fab>
-        <SearchAppBar
-          userInputCallback={() => {
-            /*TODO(skep)*/
-          }}
-        />
+        <SearchAppBar userInputCallback={searchCallback} />
       </Box>
       <Box sx={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)" }}>
         {isMenuVisible && (
@@ -119,7 +129,7 @@ export const GraphManager = ({
               <Grid item xs>
                 <Paper>
                   <GraphFileList
-                    datasets={datasets}
+                    datasets={props.datasets}
                     onSelectDataSet={handleDatasetChange}
                   />
                 </Paper>
@@ -132,8 +142,29 @@ export const GraphManager = ({
           setDialogOpen={setIsVoteDialogOpen}
           linkInfo={voteDialogInput}
         />
-        <GraphRenderer openVoteDialog={openVoteDialog} />
+        <GraphRenderer
+          graphData={graphDataForRender}
+          openVoteDialog={openVoteDialog}
+          highlightNodes={highlightNodes}
+        />
       </Box>
     </>
   );
+};
+
+// TODO: extract to another file
+const transformToRenderedType = (graph: TranslatedGraphData): GraphData => {
+  // TODO: use language context
+  const language = "en";
+  const transformedNodes = graph.nodes.map(({ id, description, group }) => {
+    return {
+      id,
+      description: getTranslation({ translatedField: description, language }),
+      group,
+    };
+  });
+  return {
+    links: graph.links,
+    nodes: transformedNodes,
+  };
 };
