@@ -10,9 +10,10 @@ describe("SearchAppBar", () => {
     let input = screen.getByLabelText("search bar");
     const user = userEvent.setup();
     await user.click(input);
-    await user.keyboard("1234");
-    expect(userInputCallback.mock.calls.length).toBe(2);
-    expect(userInputCallback.mock.calls[0][0]).toEqual("123");
-    expect(userInputCallback.mock.calls[1][0]).toEqual("1234");
+    await user.keyboard("123");
+    expect(userInputCallback.mock.calls.length).toBe(3);
+    expect(userInputCallback.mock.calls[0][0]).toEqual("1");
+    expect(userInputCallback.mock.calls[1][0]).toEqual("12");
+    expect(userInputCallback.mock.calls[2][0]).toEqual("123");
   });
 });

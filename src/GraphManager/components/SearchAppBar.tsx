@@ -58,11 +58,6 @@ interface SearchAppBarProps {
 }
 
 export default function SearchAppBar(props: SearchAppBarProps) {
-  const callCallbackIfMoreThan3Chars = (userInput: string) => {
-    if (userInput.length >= 3) {
-      props.userInputCallback(userInput);
-    }
-  };
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -83,7 +78,7 @@ export default function SearchAppBar(props: SearchAppBarProps) {
               placeholder="Search…"
               inputProps={{ "aria-label": "search bar" }}
               onChange={(event) => {
-                callCallbackIfMoreThan3Chars(event.target.value);
+                props.userInputCallback(event.target.value);
               }}
             />
           </Search>

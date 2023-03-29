@@ -5,10 +5,10 @@ export const userSearchMatching = (
   graphDataForRender: GraphDataForceGraph,
   userInput: string
 ) => {
+  highlightNodes.clear();
   if (!userInput) {
     return;
   }
-  highlightNodes.clear();
   graphDataForRender.nodes
     .filter((node) =>
       node.description.toLowerCase().includes(userInput.toLowerCase())
