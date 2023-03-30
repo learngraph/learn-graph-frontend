@@ -9,7 +9,7 @@ import { setContext, ContextSetter } from "@apollo/client/link/context";
 import fetch from "cross-fetch";
 
 const linkHttp: ApolloLink = new HttpLink({
-  uri: process.env.REACT_APP_BACKEND_DN,
+  uri: process.env.REACT_APP_BACKEND_DN, // TODO(skep): not working, option seems to be ignored, since learngraph.org is working and we currently set this to https://learn-tree.info/query, which should not work at all
   fetch,
 });
 const cache = new InMemoryCache();
