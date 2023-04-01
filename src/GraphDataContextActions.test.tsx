@@ -5,7 +5,6 @@ import {
   getCreateLinkAction,
   NewLinkType,
 } from "./GraphDataContextActions";
-//import { pendingActionTypes } from "./GraphDataContext";
 import { pendingActionTypes } from "./GraphDataContext";
 jest.mock("./getRequestId", () => () => "1");
 
@@ -279,5 +278,125 @@ describe("getUpdateNodeAction", () => {
     });
   });
 });
+describe("getCreateNodeAction", () => {
+  it("should create a new node and return its ID", async () => {
+    const graph = {
+      setLinks: jest.fn(),
+      createLinkInBackend: () => Promise.reject({}),
+      updateNodeInBackend: () => Promise.reject({}),
+      nodes: [],
+      links: [],
+      requests: [],
+      requestsDispatch: jest.fn(),
+      setNodes: jest.fn(),
+      createNodeInBackend: jest.fn(() =>
+        Promise.resolve({ data: { createNode: { ID: "new-node-id" } } })
+      ),
+    };
 
-// TODO(skep): test getCreateNodeAction
+    const createNodeAction = getCreateNodeAction(graph);
+
+    await expect(
+      createNodeAction({
+        description: {
+          translations: [{ language: "en", content: "new description" }],
+        },
+      })
+    ).resolves.toEqual({
+      data: { createNode: { ID: "new-node-id" } },
+    });
+
+    expect(graph.requestsDispatch).toHaveBeenCalledTimes(2);
+    expect(graph.requestsDispatch).toHaveBeenNthCalledWith(1, {
+      type: pendingActionTypes.CREATE_NODE_WITH_TEMP_ID,
+      id: expect.any(String),
+      data: {
+        description: {
+          translations: [{ language: "en", content: "new description" }],
+        },
+      },
+    });
+    expect(graph.requestsDispatch).toHaveBeenNthCalledWith(2, {
+      type: pendingActionTypes.CLEAR_REQUEST,
+      id: expect.any(String),
+    });
+
+    expect(graph.setNodes).toHaveBeenCalledTimes(2);
+    expect(graph.setNodes).toHaveBeenCalledWith([
+      {
+        description: {
+          translations: [{ language: "en", content: "new description" }],
+        },
+        id: expect.any(String),
+      },
+    ]);
+
+    expect(graph.createNodeInBackend).toHaveBeenCalledTimes(1);
+    expect(graph.createNodeInBackend).toHaveBeenCalledWith({
+      description: {
+        translations: [{ language: "en", content: "new description" }],
+      },
+    });
+
+    expect(graph.setNodes).toHaveBeenCalledTimes(2);
+    expect(graph.setNodes).toHaveBeenNthCalledWith(2, [
+      {
+        description: {
+          translations: [{ language: "en", content: "new description" }],
+        },
+        id: expect.any(String),
+      },
+    ]);
+  });
+
+  it("should reject if node creation fails", async () => {
+    const graph = {
+      setLinks: jest.fn(),
+      createLinkInBackend: () => Promise.reject({}),
+      updateNodeInBackend: () => Promise.reject({}),
+      nodes: [],
+      links: [],
+      requests: [],
+      requestsDispatch: jest.fn(),
+      setNodes: jest.fn(),
+      createNodeInBackend: jest.fn(() => {
+        throw new Error("Failed to create node");
+      }),
+    };
+
+    const createNodeAction = getCreateNodeAction(graph);
+
+    await expect(
+      createNodeAction({
+        description: {
+          translations: [{ language: "en", content: "new description" }],
+        },
+      })
+    ).rejects.toThrowError("Failed to create node");
+
+    expect(graph.requestsDispatch).toHaveBeenCalledTimes(2);
+    expect(graph.requestsDispatch).toHaveBeenNthCalledWith(1, {
+      type: pendingActionTypes.CREATE_NODE_WITH_TEMP_ID,
+      id: expect.any(String),
+      data: {
+        description: {
+          translations: [{ language: "en", content: "new description" }],
+        },
+      },
+    });
+    expect(graph.requestsDispatch).toHaveBeenNthCalledWith(2, {
+      type: pendingActionTypes.CLEAR_REQUEST,
+      id: expect.any(String),
+    });
+
+    expect(graph.setNodes).toHaveBeenCalledTimes(2);
+    expect(graph.setNodes).toHaveBeenCalledWith([]);
+
+    expect(graph.createNodeInBackend).toHaveBeenCalledTimes(1);
+    expect(graph.createNodeInBackend).toHaveBeenCalledWith({
+      description: {
+        translations: [{ language: "en", content: "new description" }],
+      },
+    });
+  });
+});
