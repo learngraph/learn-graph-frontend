@@ -1,5 +1,10 @@
 import { EditGraph } from "./GraphDataContext";
-import { getUpdateNodeAction, getCreateNodeAction, getCreateLinkAction, NewLinkType } from "./GraphDataContextActions";
+import {
+  getUpdateNodeAction,
+  getCreateNodeAction,
+  getCreateLinkAction,
+  NewLinkType,
+} from "./GraphDataContextActions";
 //import { pendingActionTypes } from "./GraphDataContext";
 import { pendingActionTypes } from "./GraphDataContext";
 jest.mock("./getRequestId", () => () => "1");
@@ -177,8 +182,7 @@ describe("getCreateLinkAction", () => {
   });
 });
 
-describe('getUpdateNodeAction', () => {
-
+describe("getUpdateNodeAction", () => {
   const makeEditGraphMock = () => {
     return {
       requests: [],
@@ -193,22 +197,34 @@ describe('getUpdateNodeAction', () => {
     };
   };
 
-  it('should reject if node does not exist', async () => {
-    let graph: EditGraph = makeEditGraphMock()
-    graph.updateNodeInBackend = jest.fn()
+  it("should reject if node does not exist", async () => {
+    let graph: EditGraph = makeEditGraphMock();
+    graph.updateNodeInBackend = jest.fn();
 
     const updateNodeAction = getUpdateNodeAction(graph);
-    const input = { description: { translations: [{ language: 'en', content: 'new description' }] }, id: '1' }
-    const expected = new Error(
-      "Attempting to update non-existing Node!"
-    )
+    const input = {
+      description: {
+        translations: [{ language: "en", content: "new description" }],
+      },
+      id: "1",
+    };
+    const expected = new Error("Attempting to update non-existing Node!");
     await expect(updateNodeAction(input)).rejects.toEqual(expected);
   });
 
-  it('should update node and return response', async () => {
+  it("should update node and return response", async () => {
     const graph = {
-      nodes: [{ id: '1', description: { translations: [{ language: 'en', content: 'old description' }] } }],
-      updateNodeInBackend: jest.fn(() => Promise.resolve({ data: { updateNode: { ID: '1' } } })),
+      nodes: [
+        {
+          id: "1",
+          description: {
+            translations: [{ language: "en", content: "old description" }],
+          },
+        },
+      ],
+      updateNodeInBackend: jest.fn(() =>
+        Promise.resolve({ data: { updateNode: { ID: "1" } } })
+      ),
       requests: [],
       requestsDispatch: jest.fn(),
       setNodes: jest.fn(),
@@ -216,17 +232,30 @@ describe('getUpdateNodeAction', () => {
       setLinks: jest.fn(),
       createNodeInBackend: () => Promise.reject({}),
       createLinkInBackend: () => Promise.reject({}),
-
     };
     const updateNodeAction = getUpdateNodeAction(graph);
-    const result = await updateNodeAction({ description: { translations: [{ language: 'en', content: 'new description' }] }, id: '1' });
-    expect(graph.nodes[0].description).toEqual({ translations: [{ language: 'en', content: 'new description' }] });
-    expect(result).toEqual({ data: { updateNode: { ID: '1' } } });
+    const result = await updateNodeAction({
+      description: {
+        translations: [{ language: "en", content: "new description" }],
+      },
+      id: "1",
+    });
+    expect(graph.nodes[0].description).toEqual({
+      translations: [{ language: "en", content: "new description" }],
+    });
+    expect(result).toEqual({ data: { updateNode: { ID: "1" } } });
   });
 
-  it('should reject and undo changes if updateNodeInBackend fails', async () => {
+  it("should reject and undo changes if updateNodeInBackend fails", async () => {
     const graph = {
-      nodes: [{ id: '1', description: { translations: [{ language: 'en', content: 'new description' }] } }],
+      nodes: [
+        {
+          id: "1",
+          description: {
+            translations: [{ language: "en", content: "new description" }],
+          },
+        },
+      ],
       updateNodeInBackend: jest.fn(() => Promise.reject()),
       requestsDispatch: jest.fn(),
       requests: [],
@@ -237,8 +266,17 @@ describe('getUpdateNodeAction', () => {
       createLinkInBackend: () => Promise.reject({}),
     };
     const updateNodeAction = getUpdateNodeAction(graph);
-    await expect(updateNodeAction({ description: { translations: [{ language: 'en', content: 'new description' }] }, id: '1' })).rejects.toEqual(undefined);
-    expect(graph.nodes[0].description).toEqual({ translations: [{ language: 'en', content: 'new description' }] });
+    await expect(
+      updateNodeAction({
+        description: {
+          translations: [{ language: "en", content: "new description" }],
+        },
+        id: "1",
+      })
+    ).rejects.toEqual(undefined);
+    expect(graph.nodes[0].description).toEqual({
+      translations: [{ language: "en", content: "new description" }],
+    });
   });
 });
 

@@ -4,7 +4,7 @@
  * maybe it should just always resolve? not sure yet
  */
 
-import { UpdateNodeResponse, UpdateNodeFn,  } from "../useUpdateNode";
+import { UpdateNodeResponse, UpdateNodeFn } from "../useUpdateNode";
 import { CreateEntityResult } from "../types";
 
 let shouldReturnSuccess = false;

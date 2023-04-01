@@ -9,9 +9,9 @@ import { CreateEdgeFnResponse } from "./GraphManager/hooks/useCreateEdge";
 import { UpdateNodeFnResponse } from "./GraphManager/hooks/useUpdateNode";
 
 export function getUpdateNodeAction(graph: EditGraph) {
-  return (argument: { description: Text, id: string }) =>
+  return (argument: { description: Text; id: string }) =>
     new Promise<UpdateNodeFnResponse>(async (resolve, reject) => {
-      let responseID: string | undefined
+      let responseID: string | undefined;
 
       const requestId = getRequestId();
       graph.requestsDispatch({
@@ -19,7 +19,9 @@ export function getUpdateNodeAction(graph: EditGraph) {
         id: requestId,
         data: argument,
       });
-      const updatingNode = graph.nodes.find(({ id: searchedId }) => searchedId === argument.id)
+      const updatingNode = graph.nodes.find(
+        ({ id: searchedId }) => searchedId === argument.id
+      );
       if (!updatingNode) {
         reject(new Error("Attempting to update non-existing Node!"));
         return;
@@ -44,14 +46,14 @@ export function getUpdateNodeAction(graph: EditGraph) {
         reject(new Error("Didnt receive updated node ID from the backend!"));
         return;
       }
-      resolve({ data: { updateNode: { ID: responseID } } })
+      resolve({ data: { updateNode: { ID: responseID } } });
     });
-};
+}
 
 export function getCreateNodeAction(graph: EditGraph) {
   return (argument: { description: Text }) =>
     new Promise<CreateNodeFnResponse>(async (resolve, reject) => {
-      let responseID: string | undefined
+      let responseID: string | undefined;
 
       const requestId = getRequestId();
       graph.requestsDispatch({

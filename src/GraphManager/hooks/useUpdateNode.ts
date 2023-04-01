@@ -11,7 +11,7 @@ const UPDATE_NODE = gql`
 
 // UpdateNodeFn updates a new node with given description
 export interface UpdateNodeFn {
-  (argument: { id: string, description: Text }): Promise<UpdateNodeFnResponse>;
+  (argument: { id: string; description: Text }): Promise<UpdateNodeFnResponse>;
 }
 
 export interface UpdateNodeFnResponse {

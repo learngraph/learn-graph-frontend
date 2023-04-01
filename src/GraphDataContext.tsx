@@ -22,7 +22,6 @@ import {
   getUpdateNodeAction,
 } from "./GraphDataContextActions";
 
-
 export interface TranslatedNode {
   id: string;
   description: Text;
@@ -81,7 +80,7 @@ export interface RequestData {
 }
 
 // An interface for our state
-interface RequestState extends Array<RequestData> { }
+interface RequestState extends Array<RequestData> {}
 
 export const pendingReducer = (state: RequestState, action: RequestData) => {
   const { type, ...payload } = action;
@@ -89,6 +88,8 @@ export const pendingReducer = (state: RequestState, action: RequestData) => {
     case pendingActionTypes.CREATE_NODE_WITH_TEMP_ID:
       return [...state, { type, ...payload }];
     case pendingActionTypes.CREATE_LINK_WITH_TEMP_ID:
+      return [...state, { type, ...payload }];
+    case pendingActionTypes.UPDATE_NODE:
       return [...state, { type, ...payload }];
     case pendingActionTypes.CLEAR_REQUEST:
       return state.filter(({ id }) => id !== payload.id);
@@ -148,7 +149,7 @@ const GraphDataContextProvider: React.FC<ProviderProps> = ({ children }) => {
         createNode: getCreateNodeAction(editGraph),
         createLink: getCreateLinkAction(editGraph),
         updateNode: getUpdateNodeAction(editGraph),
-        submitVote: () => { },
+        submitVote: () => {},
         setLinks,
         setNodes,
       }}
