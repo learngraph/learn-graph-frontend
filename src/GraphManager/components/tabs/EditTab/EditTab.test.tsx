@@ -105,6 +105,7 @@ describe("EditTab", () => {
     expect(calls[0][0]).toEqual(outputNode);
     expect(props.updateDisplayedGraph.mock.calls.length).toBe(0);
   });
+  it.todo('should call updateNode from props when updating with an existing node');
   it("should call updateDisplayedGraph when updating node with an existing node", () => {
     let { props, updateNode } = makeMocks();
     const inputNode: NodeType = {
@@ -136,6 +137,7 @@ describe("EditTab", () => {
     expect(updateCalls[0][0]).toEqual(expectedUpdateCall);
     expect(props.createNode.mock.calls.length).toBe(0);
   });
+  it.todo('should call updateLink when updating an existing link');
 });
 
 describe("findForwardLinks", () => {

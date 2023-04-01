@@ -6,6 +6,7 @@ import {
 } from "./GraphDataContext";
 jest.mock("./GraphManager/hooks/useCreateNode");
 jest.mock("./GraphManager/hooks/useCreateEdge");
+jest.mock("./GraphManager/hooks/useUpdateNode");
 
 /**
  * A custom render to setup providers. Extends regular
@@ -15,8 +16,6 @@ jest.mock("./GraphManager/hooks/useCreateEdge");
  * @see https://testing-library.com/docs/react-testing-library/setup#custom-render
  */
 const customRender = (ui: any) => {
-  // XXX(skep): unused additional arguments commented out, ok? @j
-  // { providerProps, ...renderOptions }: { providerProps?: any } = {}
   return render(<GraphDataContextProvider>{ui}</GraphDataContextProvider>);
 };
 
@@ -91,4 +90,6 @@ describe("makeRequestReducer", () => {
     // pendingReducer({state,});
     // TODO(j): clarify what it should do by writing tests
   });
+  it.todo('should queue requests with their data')
+  it.todo('should remove requests with their data on "clear" calls')
 });

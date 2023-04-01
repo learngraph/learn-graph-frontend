@@ -6,78 +6,53 @@ import { Text } from "./GraphManager/hooks/types";
 import { pendingActionTypes, EditGraph } from "./GraphDataContext";
 import getRequestId from "./getRequestId";
 import { CreateEdgeFnResponse } from "./GraphManager/hooks/useCreateEdge";
+import { UpdateNodeFnResponse } from "./GraphManager/hooks/useUpdateNode";
 
-//import { DataSetType, GraphData, NodeType } from "./GraphManager/types";
-//import {
-//  createNode,
-//  updateNode,
-//} from "./GraphManager/components/tabs/EditTab/utilities/editNode"; // TODO(skep): move editNode content here, once migration to GraphDataContext is done
-//
-//// TODO: use running index to avoid conflicts when adding nodes in succession
-//export const TMPNODE_ID = "TMPNEWNODE";
-//export const updateNodeFn = (args: {
-//  currentGraphDataset: DataSetType;
-//  selectedNodeInGraph: NodeType;
-//  createNodeInBackend: CreateNodeFn;
-//  setSelectedNodeDescription: (description: string) => void;
-//  updateDisplayedGraph: (value: DataSetType) => void;
-//}) => {
-//  return ({
-//    node,
-//    isNewNode,
-//  }: {
-//    isNewNode: boolean;
-//    node: NodeType;
-//  }): Promise<void> => {
-//    return new Promise<void>((resolve, reject) => {
-//      const { dataSetName } = args.currentGraphDataset;
-//      let newGraph: GraphData | undefined = undefined;
-//      if (isNewNode) {
-//        newGraph = createNode({
-//          graph: args.currentGraphDataset.data,
-//          newNode: { ...node, id: TMPNODE_ID },
-//        });
-//        args
-//          .createNodeInBackend({
-//            description: {
-//              translations: [
-//                {
-//                  language: "en" /*TODO(skep): use language header*/,
-//                  content: node.description,
-//                },
-//              ],
-//            },
-//          })
-//          .then((rsp: CreateNodeFnResponse) => {
-//            if (!rsp.data) {
-//              reject("empty response from backend");
-//              return;
-//            }
-//            const newNewGraph = updateNode({
-//              graph: args.currentGraphDataset.data,
-//              newNode: { ...node, id: rsp.data?.createNode.ID },
-//              selectedNode: { ...node, id: TMPNODE_ID },
-//            });
-//            args.updateDisplayedGraph({ dataSetName, data: newNewGraph });
-//            resolve();
-//          });
-//      } else {
-//        newGraph = updateNode({
-//          graph: args.currentGraphDataset.data,
-//          newNode: node,
-//          selectedNode: args.selectedNodeInGraph,
-//        });
-//        resolve();
-//      }
-//      args.setSelectedNodeDescription(node.description);
-//      args.updateDisplayedGraph({ dataSetName, data: newGraph });
-//    });
-//  };
-//};
+export function getUpdateNodeAction(graph: EditGraph) {
+  return (argument: { description: Text, id: string }) =>
+    new Promise<UpdateNodeFnResponse>(async (resolve, reject) => {
+      let responseID: string | undefined
+
+      const requestId = getRequestId();
+      graph.requestsDispatch({
+        type: pendingActionTypes.UPDATE_NODE,
+        id: requestId,
+        data: argument,
+      });
+      const updatingNode = graph.nodes.find(({ id: searchedId }) => searchedId === argument.id)
+      if (!updatingNode) {
+        reject(new Error("Attempting to update non-existing Node!"));
+        return;
+      }
+      const { description: oldDescription } = updatingNode;
+      try {
+        //TODO: check if in place updating works, otherwise replace
+        updatingNode.description = argument.description;
+
+        const response = await graph.updateNodeInBackend(argument);
+        responseID = response.data?.updateNode.ID;
+      } catch (e) {
+        updatingNode.description = oldDescription;
+        reject(e);
+      }
+
+      graph.requestsDispatch({
+        type: pendingActionTypes.CLEAR_REQUEST,
+        id: requestId,
+      });
+      if (responseID === undefined) {
+        reject(new Error("Didnt receive updated node ID from the backend!"));
+        return;
+      }
+      resolve({ data: { updateNode: { ID: responseID } } })
+    });
+};
 
 export function getCreateNodeAction(graph: EditGraph) {
   return (argument: { description: Text }) =>
     new Promise<CreateNodeFnResponse>(async (resolve, reject) => {
+      let responseID: string | undefined
+
       const requestId = getRequestId();
       graph.requestsDispatch({
         type: pendingActionTypes.CREATE_NODE_WITH_TEMP_ID,
@@ -85,11 +60,14 @@ export function getCreateNodeAction(graph: EditGraph) {
         data: argument,
       });
       graph.setNodes([...graph.nodes, { ...argument, id: requestId }]);
+
       try {
         const response = await graph.createNodeInBackend(argument);
         if (!response.data) {
           throw new Error("creating Node didnt return an ID!");
         }
+        responseID = response.data.createNode.ID;
+
         const nodesWithoutTempNode = graph.nodes.filter(
           (node) => node.id !== requestId
         );
@@ -108,11 +86,16 @@ export function getCreateNodeAction(graph: EditGraph) {
         // TODO(far future): log error
         reject(error);
       }
+
       graph.requestsDispatch({
         type: pendingActionTypes.CLEAR_REQUEST,
         id: requestId,
       });
-      resolve({ data: { createNode: { ID: "TMPID1" } } }); // TODO(skep): random tmp id's, since there can be multiple
+      if (responseID === undefined) {
+        reject("Didnt receive updated node ID from the backend!");
+        return;
+      }
+      resolve({ data: { createNode: { ID: responseID } } });
     });
 }
 

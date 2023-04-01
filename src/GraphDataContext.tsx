@@ -1,19 +1,27 @@
 import React from "react";
+
+import { LinkType } from "./GraphManager/types";
+import { Text } from "./GraphManager/hooks/types";
+
 import {
   CreateNodeFn,
   useCreateNode,
 } from "./GraphManager/hooks/useCreateNode";
-import { LinkType } from "./GraphManager/types";
-import { Text } from "./GraphManager/hooks/types";
 import {
   CreateEdgeFn,
   useCreateEdge,
 } from "./GraphManager/hooks/useCreateEdge";
 import {
+  UpdateNodeFn,
+  useUpdateNode,
+} from "./GraphManager/hooks/useUpdateNode";
+import { SubmitVoteFn } from "./GraphManager/hooks/useSubmitVote";
+import {
   getCreateNodeAction,
   getCreateLinkAction,
+  getUpdateNodeAction,
 } from "./GraphDataContextActions";
-import { SubmitVoteFn } from "./GraphManager/hooks/useSubmitVote";
+
 
 export interface TranslatedNode {
   id: string;
@@ -30,7 +38,7 @@ interface GraphDataContextValues {
   graph: TranslatedGraphData;
   requests: Array<RequestData>;
   createNode: CreateNodeFn;
-  //updateNode: UpdateNodeFn;
+  updateNode: UpdateNodeFn;
   //deleteNode: DeleteNodeFn;
   createLink: CreateEdgeFn;
   submitVote: SubmitVoteFn;
@@ -44,6 +52,8 @@ const defaultContextValues = {
   createNode: () =>
     Promise.reject({ error: "defaultContextValues must not be used" }),
   createLink: () =>
+    Promise.reject({ error: "defaultContextValues must not be used" }),
+  updateNode: () =>
     Promise.reject({ error: "defaultContextValues must not be used" }),
   submitVote: () => {
     throw new Error("defaultContextValues must not be used");
@@ -59,6 +69,7 @@ const defaultContextValues = {
 export enum pendingActionTypes {
   CREATE_NODE_WITH_TEMP_ID,
   CREATE_LINK_WITH_TEMP_ID,
+  UPDATE_NODE,
   CLEAR_REQUEST,
 }
 
@@ -70,7 +81,7 @@ export interface RequestData {
 }
 
 // An interface for our state
-interface RequestState extends Array<RequestData> {}
+interface RequestState extends Array<RequestData> { }
 
 export const pendingReducer = (state: RequestState, action: RequestData) => {
   const { type, ...payload } = action;
@@ -103,6 +114,7 @@ export interface EditGraph {
   setLinks: React.Dispatch<React.SetStateAction<LinkType[]>>;
   createLinkInBackend: CreateEdgeFn;
   createNodeInBackend: CreateNodeFn;
+  updateNodeInBackend: UpdateNodeFn;
 }
 
 interface ProviderProps {
@@ -115,6 +127,7 @@ const GraphDataContextProvider: React.FC<ProviderProps> = ({ children }) => {
   const [requests, requestsDispatch] = MakeRequestReducer();
   const { createNode: createNodeInBackend } = useCreateNode();
   const { createEdge: createLinkInBackend } = useCreateEdge();
+  const { updateNode: updateNodeInBackend } = useUpdateNode();
   const editGraph: EditGraph = {
     requests,
     requestsDispatch,
@@ -124,6 +137,7 @@ const GraphDataContextProvider: React.FC<ProviderProps> = ({ children }) => {
     setLinks,
     createNodeInBackend,
     createLinkInBackend,
+    updateNodeInBackend,
   };
 
   return (
@@ -133,7 +147,8 @@ const GraphDataContextProvider: React.FC<ProviderProps> = ({ children }) => {
         requests,
         createNode: getCreateNodeAction(editGraph),
         createLink: getCreateLinkAction(editGraph),
-        submitVote: () => {},
+        updateNode: getUpdateNodeAction(editGraph),
+        submitVote: () => { },
         setLinks,
         setNodes,
       }}
