@@ -213,6 +213,7 @@ describe("getUpdateNodeAction", () => {
 
   it("should update node and return response", async () => {
     const graph = {
+      ...makeEditGraphMock(),
       nodes: [
         {
           id: "1",
@@ -224,14 +225,8 @@ describe("getUpdateNodeAction", () => {
       updateNodeInBackend: jest.fn(() =>
         Promise.resolve({ data: { updateNode: { ID: "1" } } })
       ),
-      requests: [],
-      requestsDispatch: jest.fn(),
-      setNodes: jest.fn(),
-      links: [],
-      setLinks: jest.fn(),
-      createNodeInBackend: () => Promise.reject({}),
-      createLinkInBackend: () => Promise.reject({}),
     };
+
     const updateNodeAction = getUpdateNodeAction(graph);
     const result = await updateNodeAction({
       description: {
@@ -246,23 +241,18 @@ describe("getUpdateNodeAction", () => {
   });
 
   it("should reject and undo changes if updateNodeInBackend fails", async () => {
+    const rejectError = new Error("backend reject");
     const graph = {
+      ...makeEditGraphMock(),
       nodes: [
         {
           id: "1",
           description: {
-            translations: [{ language: "en", content: "new description" }],
+            translations: [{ language: "en", content: "old description" }],
           },
         },
       ],
-      updateNodeInBackend: jest.fn(() => Promise.reject()),
-      requestsDispatch: jest.fn(),
-      requests: [],
-      setNodes: jest.fn(),
-      links: [],
-      setLinks: jest.fn(),
-      createNodeInBackend: () => Promise.reject({}),
-      createLinkInBackend: () => Promise.reject({}),
+      updateNodeInBackend: () => Promise.reject(rejectError),
     };
     const updateNodeAction = getUpdateNodeAction(graph);
     await expect(
@@ -272,9 +262,9 @@ describe("getUpdateNodeAction", () => {
         },
         id: "1",
       })
-    ).rejects.toEqual(undefined);
+    ).rejects.toEqual(rejectError);
     expect(graph.nodes[0].description).toEqual({
-      translations: [{ language: "en", content: "new description" }],
+      translations: [{ language: "en", content: "old description" }],
     });
   });
 });
@@ -321,16 +311,6 @@ describe("getCreateNodeAction", () => {
       id: expect.any(String),
     });
 
-    expect(graph.setNodes).toHaveBeenCalledTimes(2);
-    expect(graph.setNodes).toHaveBeenCalledWith([
-      {
-        description: {
-          translations: [{ language: "en", content: "new description" }],
-        },
-        id: expect.any(String),
-      },
-    ]);
-
     expect(graph.createNodeInBackend).toHaveBeenCalledTimes(1);
     expect(graph.createNodeInBackend).toHaveBeenCalledWith({
       description: {
@@ -339,12 +319,20 @@ describe("getCreateNodeAction", () => {
     });
 
     expect(graph.setNodes).toHaveBeenCalledTimes(2);
-    expect(graph.setNodes).toHaveBeenNthCalledWith(2, [
+    expect(graph.setNodes).toHaveBeenNthCalledWith(1, [
       {
         description: {
           translations: [{ language: "en", content: "new description" }],
         },
         id: expect.any(String),
+      },
+    ]);
+    expect(graph.setNodes).toHaveBeenNthCalledWith(2, [
+      {
+        description: {
+          translations: [{ language: "en", content: "new description" }],
+        },
+        id: "new-node-id",
       },
     ]);
   });
@@ -386,7 +374,7 @@ describe("getCreateNodeAction", () => {
     });
     expect(graph.requestsDispatch).toHaveBeenNthCalledWith(2, {
       type: pendingActionTypes.CLEAR_REQUEST,
-      id: expect.any(String),
+      id: graph.requestsDispatch.mock.calls[0][0].id,
     });
 
     expect(graph.setNodes).toHaveBeenCalledTimes(2);
