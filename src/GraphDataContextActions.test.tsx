@@ -3,6 +3,7 @@ import {
   getUpdateNodeAction,
   getCreateNodeAction,
   getCreateLinkAction,
+  getSubmitVoteAction,
   NewLinkType,
 } from "./GraphDataContextActions";
 import { pendingActionTypes } from "./GraphDataContext";
@@ -20,6 +21,7 @@ describe("getCreateLinkAction", () => {
       createNodeInBackend: () => Promise.reject({}),
       createLinkInBackend: () => Promise.reject({}),
       updateNodeInBackend: () => Promise.reject({}),
+      submitVoteInBackend: () => Promise.reject({}),
     };
   };
 
@@ -193,6 +195,7 @@ describe("getUpdateNodeAction", () => {
       createNodeInBackend: () => Promise.reject({}),
       createLinkInBackend: () => Promise.reject({}),
       updateNodeInBackend: () => Promise.reject({}),
+      submitVoteInBackend: () => Promise.reject({}),
     };
   };
 
@@ -274,6 +277,7 @@ describe("getCreateNodeAction", () => {
       setLinks: jest.fn(),
       createLinkInBackend: () => Promise.reject({}),
       updateNodeInBackend: () => Promise.reject({}),
+      submitVoteInBackend: () => Promise.reject({}),
       nodes: [],
       links: [],
       requests: [],
@@ -342,6 +346,7 @@ describe("getCreateNodeAction", () => {
       setLinks: jest.fn(),
       createLinkInBackend: () => Promise.reject({}),
       updateNodeInBackend: () => Promise.reject({}),
+      submitVoteInBackend: () => Promise.reject({}),
       nodes: [],
       links: [],
       requests: [],
@@ -386,5 +391,122 @@ describe("getCreateNodeAction", () => {
         translations: [{ language: "en", content: "new description" }],
       },
     });
+  });
+});
+
+describe("getSubmitVoteAction", () => {
+  const makeEditGraphMock = () => {
+    return {
+      requests: [],
+      requestsDispatch: jest.fn(),
+      nodes: [],
+      setNodes: jest.fn(),
+      links: [{ id: "some-id", source: "abc", target: "xyz", value: 2 }],
+      setLinks: jest.fn(),
+      createNodeInBackend: () => Promise.reject({}),
+      createLinkInBackend: () => Promise.reject({}),
+      updateNodeInBackend: () => Promise.reject({}),
+      submitVoteInBackend: () => Promise.reject({}),
+    };
+  };
+
+  it("should successfully submit a vote, queue and delete the call and store the updated values in state", async () => {
+    let editGraph: EditGraph = makeEditGraphMock();
+    editGraph.submitVoteInBackend = (input) => Promise.resolve({ data: input });
+    const linkID = "some-id";
+    const value = 5;
+    const submitVoteAction = getSubmitVoteAction(editGraph);
+    await expect(
+      submitVoteAction({ ID: linkID, value: value })
+    ).resolves.toEqual({
+      data: {
+        ID: linkID,
+        value,
+      },
+    });
+
+    expect(editGraph.requestsDispatch).toHaveBeenCalledTimes(2);
+    expect(editGraph.requestsDispatch).toHaveBeenNthCalledWith(1, {
+      type: pendingActionTypes.SUBMIT_VOTE,
+      id: expect.any(String),
+      data: { ID: linkID, value: value },
+    });
+    expect(editGraph.requestsDispatch).toHaveBeenNthCalledWith(2, {
+      type: pendingActionTypes.CLEAR_REQUEST,
+      id: expect.any(String),
+    });
+
+    expect(editGraph.setLinks).toHaveBeenCalledTimes(1);
+    expect(editGraph.setLinks).toHaveBeenCalledWith([
+      {
+        ...editGraph.links[0],
+        id: linkID,
+        value,
+      },
+    ]);
+  });
+
+  it.each([
+    ["link not found", "Link not found!"],
+    [
+      "link is being created",
+      "Trying to update a link that is already being updated!",
+    ],
+  ])(
+    "should abort the call if %p",
+    async (testCase: string, rejectMessage: string) => {
+      const linkID = "link-id";
+      const value = 3;
+      let editGraph: EditGraph = makeEditGraphMock();
+      if (testCase === "link is being created") {
+        editGraph.requests = [
+          { type: pendingActionTypes.SUBMIT_VOTE, id: linkID },
+        ];
+      }
+      const submitVoteAction = getSubmitVoteAction(editGraph);
+      await expect(
+        submitVoteAction({ ID: linkID, value: value })
+      ).rejects.toEqual(rejectMessage);
+
+      expect(editGraph.requestsDispatch).not.toHaveBeenCalled();
+
+      expect(editGraph.setLinks).not.toHaveBeenCalled();
+    }
+  );
+
+  it("should queue and delete the call, do and undo the changes in state if the API call fails", async () => {
+    const editGraph: EditGraph = makeEditGraphMock();
+    const failingRequest = {
+      ID: "some-link-id",
+      value: 5,
+    };
+    const prevLinksState = [
+      { id: "some-link-id", value: 2, source: "123", target: "234" },
+      { id: "another-link-id", value: 7, source: "1234", target: "2345" },
+    ];
+    editGraph.links = prevLinksState;
+
+    editGraph.submitVoteInBackend = jest.fn(() =>
+      Promise.reject("API call fail!")
+    );
+
+    const submitVoteAction = getSubmitVoteAction(editGraph);
+    await expect(submitVoteAction(failingRequest)).rejects.toEqual(
+      "API call fail!"
+    );
+
+    expect(editGraph.requestsDispatch).toHaveBeenCalledTimes(2);
+    expect(editGraph.requestsDispatch).toHaveBeenNthCalledWith(1, {
+      type: pendingActionTypes.SUBMIT_VOTE,
+      id: expect.any(String),
+      data: { ID: failingRequest.ID, value: failingRequest.value },
+    });
+    expect(editGraph.requestsDispatch).toHaveBeenNthCalledWith(2, {
+      type: pendingActionTypes.CLEAR_REQUEST,
+      id: expect.any(String),
+    });
+
+    // The state should be updated optimistically (optimistic update)
+    expect(editGraph.setLinks).toHaveBeenCalledTimes(2);
   });
 });

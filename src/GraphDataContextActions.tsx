@@ -7,6 +7,7 @@ import { pendingActionTypes, EditGraph } from "./GraphDataContext";
 import getRequestId from "./getRequestId";
 import { CreateEdgeFnResponse } from "./GraphManager/hooks/useCreateEdge";
 import { UpdateNodeFnResponse } from "./GraphManager/hooks/useUpdateNode";
+import { SubmitVoteFnResponse } from "./GraphManager/hooks/useSubmitVote";
 
 export function getUpdateNodeAction(graph: EditGraph) {
   return (argument: { description: Text; id: string }) =>
@@ -181,5 +182,72 @@ export function getCreateLinkAction(graph: EditGraph) {
         return;
       }
       resolve({ data: { createEdge: { ID: responseID } } });
+    });
+}
+
+interface SubmitVoteType {
+  ID: string;
+  value: number;
+}
+
+export function getSubmitVoteAction(graph: EditGraph) {
+  return (argument: SubmitVoteType) =>
+    new Promise<SubmitVoteFnResponse>(async (resolve, reject) => {
+      if (
+        graph.requests.find(
+          ({ type, id }) =>
+            id === argument.ID && type === pendingActionTypes.SUBMIT_VOTE
+        )
+      ) {
+        // if used node is being created, throw error and abort
+        reject("Trying to update a link that is already being updated!");
+        return;
+      }
+
+      //TODO: reject on update link that is being created
+
+      const linkIndex = graph.links.findIndex(({ id }) => id === argument.ID);
+      if (linkIndex === -1) {
+        reject("Link not found!");
+        return;
+      }
+
+      const requestId = getRequestId();
+      graph.requestsDispatch({
+        type: pendingActionTypes.SUBMIT_VOTE,
+        id: requestId,
+        data: argument,
+      });
+
+      const oldLink = graph.links[linkIndex];
+      const updatedLink = { ...oldLink, value: argument.value };
+      const newLinks = [...graph.links];
+      newLinks.splice(linkIndex, 1, updatedLink);
+      graph.setLinks(newLinks);
+
+      let response: SubmitVoteFnResponse | undefined;
+      try {
+        response = await graph.submitVoteInBackend(argument);
+        if (!response?.data) {
+          throw new Error("Creating Link didn't return any data");
+        }
+      } catch (error) {
+        const linkIndex = graph.links.findIndex(({ id }) => id === argument.ID);
+        const oldLinks = [...graph.links].splice(linkIndex, 1, oldLink);
+        graph.setLinks(oldLinks);
+        reject(error);
+      } finally {
+        graph.requestsDispatch({
+          type: pendingActionTypes.CLEAR_REQUEST,
+          id: requestId,
+        });
+      }
+
+      if (!response) {
+        reject("Didnt receive a response from the backend!");
+        return;
+      }
+
+      resolve(response);
     });
 }

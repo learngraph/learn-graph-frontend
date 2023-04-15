@@ -15,7 +15,10 @@ import {
   UpdateNodeFn,
   useUpdateNode,
 } from "./GraphManager/hooks/useUpdateNode";
-import { SubmitVoteFn } from "./GraphManager/hooks/useSubmitVote";
+import {
+  SubmitVoteFn,
+  useSubmitVote,
+} from "./GraphManager/hooks/useSubmitVote";
 import {
   getCreateNodeAction,
   getCreateLinkAction,
@@ -69,6 +72,7 @@ export enum pendingActionTypes {
   CREATE_NODE_WITH_TEMP_ID,
   CREATE_LINK_WITH_TEMP_ID,
   UPDATE_NODE,
+  SUBMIT_VOTE,
   CLEAR_REQUEST,
 }
 
@@ -86,10 +90,9 @@ export const pendingReducer = (state: RequestState, action: RequestData) => {
   const { type, ...payload } = action;
   switch (type) {
     case pendingActionTypes.CREATE_NODE_WITH_TEMP_ID:
-      return [...state, { type, ...payload }];
     case pendingActionTypes.CREATE_LINK_WITH_TEMP_ID:
-      return [...state, { type, ...payload }];
     case pendingActionTypes.UPDATE_NODE:
+    case pendingActionTypes.SUBMIT_VOTE:
       return [...state, { type, ...payload }];
     case pendingActionTypes.CLEAR_REQUEST:
       return state.filter(({ id }) => id !== payload.id);
@@ -116,6 +119,7 @@ export interface EditGraph {
   createLinkInBackend: CreateEdgeFn;
   createNodeInBackend: CreateNodeFn;
   updateNodeInBackend: UpdateNodeFn;
+  submitVoteInBackend: SubmitVoteFn;
 }
 
 interface ProviderProps {
@@ -129,6 +133,7 @@ const GraphDataContextProvider: React.FC<ProviderProps> = ({ children }) => {
   const { createNode: createNodeInBackend } = useCreateNode();
   const { createEdge: createLinkInBackend } = useCreateEdge();
   const { updateNode: updateNodeInBackend } = useUpdateNode();
+  const { submitVote: submitVoteInBackend } = useSubmitVote();
   const editGraph: EditGraph = {
     requests,
     requestsDispatch,
@@ -139,6 +144,7 @@ const GraphDataContextProvider: React.FC<ProviderProps> = ({ children }) => {
     createNodeInBackend,
     createLinkInBackend,
     updateNodeInBackend,
+    submitVoteInBackend,
   };
 
   return (

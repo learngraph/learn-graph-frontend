@@ -10,6 +10,7 @@ import {
 jest.mock("./GraphManager/hooks/useCreateNode");
 jest.mock("./GraphManager/hooks/useCreateEdge");
 jest.mock("./GraphManager/hooks/useUpdateNode");
+jest.mock("./GraphManager/hooks/useSubmitVote");
 
 /**
  * A custom render to setup providers. Extends regular
