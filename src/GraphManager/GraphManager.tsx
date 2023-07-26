@@ -6,7 +6,6 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import { Box } from "@mui/material";
 
-//import { useGraphDataContext } from "../GraphDataContext";
 import { GraphFileList, GraphManagementMenu, VoteDialog } from "./components";
 import { DataSetType, GraphData } from "./types";
 import { GraphRenderer, VoteDialogParams } from "./GraphRenderer";
@@ -35,7 +34,7 @@ export const GraphManager = ({
     Partial<VoteDialogParams>
   >({});
 
-  const { graph, setLinks, setNodes } = useGraphDataContext();
+  const { graph, setLinks, setNodes, submitVote } = useGraphDataContext();
 
   const [graphName, setGraphName] = useState<string>("");
 
@@ -132,6 +131,7 @@ export const GraphManager = ({
           isDialogOpen={isVoteDialogOpen}
           setDialogOpen={setIsVoteDialogOpen}
           linkInfo={voteDialogInput}
+          submitVote={submitVote}
         />
         <GraphRenderer openVoteDialog={openVoteDialog} />
       </Box>

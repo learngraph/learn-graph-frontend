@@ -4,14 +4,15 @@ import Button from "@mui/material/Button";
 import Slider from "@mui/material/Slider";
 import Box from "@mui/material/Box";
 
-import { useSubmitVote } from "../hooks";
 import { Typography } from "@mui/material";
 import { VoteDialogParams } from "../GraphRenderer";
+import { SubmitVoteFn } from "../hooks/useSubmitVote";
 
 type VoteDialogProps = {
   isDialogOpen: boolean;
   setDialogOpen: (value: boolean) => void;
   linkInfo: Partial<VoteDialogParams>;
+  submitVote: SubmitVoteFn;
 };
 
 const styles = {
@@ -30,8 +31,8 @@ export const VoteDialog = ({
   isDialogOpen,
   setDialogOpen,
   linkInfo,
+  submitVote,
 }: VoteDialogProps): JSX.Element => {
-  const { submitVote } = useSubmitVote();
   const [sliderValue, setSliderValue] = useState<Number | Array<Number>>(0.5);
 
   const handleSubmitClick = () => {
@@ -42,7 +43,7 @@ export const VoteDialog = ({
       );
     }
     submitVote({
-      id: linkInfo.linkID,
+      ID: linkInfo.linkID,
       value: sliderValue,
     });
   };
