@@ -23,11 +23,14 @@ import {
   CreateEdgeFn,
   CreateEdgeFnResponse,
 } from "src/GraphManager/hooks/useCreateEdge";
+import { UpdateNodeFn } from "src/GraphManager/hooks/useUpdateNode";
+import { UpdateNodeFnResponse } from "src/GraphManager/hooks/useUpdateNode";
 
 export type EditTabProps = {
   currentGraphDataset: DataSetType;
   updateDisplayedGraph: (value: DataSetType) => void;
   createNode: CreateNodeFn;
+  updateNode: UpdateNodeFn;
   createEdge: CreateEdgeFn;
 };
 
@@ -53,6 +56,7 @@ export const updateNodeFn = (args: {
   setSelectedNodeDescription: (description: string) => void;
   updateDisplayedGraph: (value: DataSetType) => void;
   createNode: CreateNodeFn;
+  updateNode: UpdateNodeFn;
   getGraphWithUpdatedNode: (args: updateNodeInGraphProps) => GraphData;
 }) => {
   return ({
@@ -61,7 +65,7 @@ export const updateNodeFn = (args: {
   }: {
     isNewNode: boolean;
     node: NodeType;
-  }): Promise<void | CreateNodeFnResponse> => {
+  }): Promise<void | CreateNodeFnResponse | UpdateNodeFnResponse> => {
     if (isNewNode) {
       return args.createNode({
         description: {
@@ -75,17 +79,16 @@ export const updateNodeFn = (args: {
       });
     } else {
       // TODO: switch out once updateNode & backend call is available through the context as well
-      return new Promise<void>((resolve, reject) => {
-        const { dataSetName } = args.currentGraphDataset;
-        const newGraph = args.getGraphWithUpdatedNode({
-          graph: args.currentGraphDataset.data,
-          newNode: node,
-          selectedNode: args.selectedNodeInGraph,
-        });
-        resolve();
-
-        args.setSelectedNodeDescription(node.description);
-        args.updateDisplayedGraph({ dataSetName, data: newGraph });
+      return args.updateNode({
+        id: node.id,
+        description: {
+          translations: [
+            {
+              language: "en" /*TODO(skep): use language header*/,
+              content: node.description,
+            },
+          ],
+        },
       });
     }
   };
@@ -163,6 +166,7 @@ export const EditTab = (props: EditTabProps): JSX.Element => {
     setSelectedNodeDescription,
     updateDisplayedGraph: props.updateDisplayedGraph,
     createNode: props.createNode,
+    updateNode: props.updateNode,
     getGraphWithUpdatedNode: updateNodeInGraph,
   });
 
