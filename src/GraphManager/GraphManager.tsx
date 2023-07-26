@@ -89,7 +89,15 @@ export const GraphManager = ({
   };
 
   return (
-    <>
+    <Box
+      id="wholePageWrapper"
+      sx={{
+        height: "100vh",
+        width: "100vw",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
       <Box sx={{ display: "grid", gridTemplateColumns: "1fr 2fr" }}>
         <Fab
           color="primary"
@@ -104,7 +112,7 @@ export const GraphManager = ({
           }}
         />
       </Box>
-      <Box sx={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)" }}>
+      <Box sx={{ flex: 1, width: "100%" }}>
         {isMenuVisible && (
           <>
             <Grid
@@ -146,6 +154,6 @@ export const GraphManager = ({
         />
         <GraphRenderer openVoteDialog={openVoteDialog} />
       </Box>
-    </>
+    </Box>
   );
 };

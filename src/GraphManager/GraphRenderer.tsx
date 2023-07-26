@@ -1,7 +1,10 @@
+import { useRef, useState, useLayoutEffect } from "react";
 import ForceGraph2D, { LinkObject, NodeObject } from "react-force-graph-2d";
 import { TranslatedGraphData, useGraphDataContext } from "src/GraphDataContext";
 import { getTranslation } from "./utilities/getTranslation";
 import { GraphData, LinkType, NodeType } from "./types";
+import { Box } from "@mui/material";
+
 export interface VoteDialogParams {
   linkID: string;
   sourceNode: NodeType;
@@ -160,6 +163,23 @@ const transformToRenderedType = (graph: TranslatedGraphData): GraphData => {
 
 export const GraphRenderer = (props: GraphRendererProps) => {
   const { graph } = useGraphDataContext();
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const [availableSpace, setAvailableSpace] = useState({
+    height: 400,
+    width: 600,
+  });
+
+  useLayoutEffect(() => {
+    const containerElement = wrapperRef.current;
+    if (containerElement) {
+      const rect = containerElement.getBoundingClientRect();
+      setAvailableSpace({
+        width: rect.width,
+        height: rect.height,
+      });
+    }
+  }, []);
+  console.log(availableSpace);
 
   const graphDataForRender = JSON.parse(
     JSON.stringify(transformToRenderedType(graph))
@@ -167,24 +187,32 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   const onLinkClick = onLinkClickFn(props);
 
   return (
-    <ForceGraph2D
-      // Note: all data must be copied, since force graph changes Link "source"
-      // and "target" fields to directly contain the referred node objects
-      graphData={graphDataForRender}
-      nodeAutoColorBy={"group"}
-      onNodeClick={onNodeClick}
-      nodeCanvasObject={nodeCanvasObject}
-      // links:
-      onLinkHover={onLinkHover}
-      onLinkClick={onLinkClick}
-      linkDirectionalArrowLength={config.linkDirectionalArrowLength}
-      linkDirectionalArrowRelPos={config.linkDirectionalArrowRelPos}
-      // XXX: linkCanvasObjectMode should just be a string, but due to a bug in
-      // force-graph it must be passed as function, otherwise linkCanvasObject
-      // is never called. -> remove after force-graph module update
-      // @ts-ignore
-      linkCanvasObjectMode={() => config.linkCanvasObjectMode}
-      linkCanvasObject={linkCanvasObject}
-    />
+    <Box
+      id="canvasWrapper"
+      ref={wrapperRef}
+      sx={{ height: "100%", width: "100%" }}
+    >
+      <ForceGraph2D
+        height={availableSpace.height}
+        width={availableSpace.width}
+        // Note: all data must be copied, since force graph changes Link "source"
+        // and "target" fields to directly contain the referred node objects
+        graphData={graphDataForRender}
+        nodeAutoColorBy={"group"}
+        onNodeClick={onNodeClick}
+        nodeCanvasObject={nodeCanvasObject}
+        // links:
+        onLinkHover={onLinkHover}
+        onLinkClick={onLinkClick}
+        linkDirectionalArrowLength={config.linkDirectionalArrowLength}
+        linkDirectionalArrowRelPos={config.linkDirectionalArrowRelPos}
+        // XXX: linkCanvasObjectMode should just be a string, but due to a bug in
+        // force-graph it must be passed as function, otherwise linkCanvasObject
+        // is never called. -> remove after force-graph module update
+        // @ts-ignore
+        linkCanvasObjectMode={() => config.linkCanvasObjectMode}
+        linkCanvasObject={linkCanvasObject}
+      />
+    </Box>
   );
 };
