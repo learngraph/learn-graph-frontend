@@ -107,7 +107,18 @@ export const GraphManager = ({
       <Box sx={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)" }}>
         {isMenuVisible && (
           <>
-            <Grid container spacing={3} justifyContent="flex-end">
+            <Grid
+              container
+              spacing={3}
+              justifyContent="flex-end"
+              sx={{
+                position: "fixed",
+                maxWidth: "350px",
+                overflowY: "auto",
+                height: "100%",
+                zIndex: 2,
+              }}
+            >
               <Grid item xs>
                 <Paper>
                   <GraphManagementMenu
