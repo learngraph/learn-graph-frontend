@@ -3,9 +3,14 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import {
   useGraphDataContext,
   GraphDataContextProvider,
+  pendingReducer,
+  RequestData,
+  pendingActionTypes,
 } from "./GraphDataContext";
 jest.mock("./GraphManager/hooks/useCreateNode");
 jest.mock("./GraphManager/hooks/useCreateEdge");
+jest.mock("./GraphManager/hooks/useUpdateNode");
+jest.mock("./GraphManager/hooks/useSubmitVote");
 
 /**
  * A custom render to setup providers. Extends regular
@@ -15,8 +20,6 @@ jest.mock("./GraphManager/hooks/useCreateEdge");
  * @see https://testing-library.com/docs/react-testing-library/setup#custom-render
  */
 const customRender = (ui: any) => {
-  // XXX(skep): unused additional arguments commented out, ok? @j
-  // { providerProps, ...renderOptions }: { providerProps?: any } = {}
   return render(<GraphDataContextProvider>{ui}</GraphDataContextProvider>);
 };
 
@@ -86,9 +89,101 @@ describe("GraphDataContext", () => {
   });
 });
 
-describe("makeRequestReducer", () => {
-  it("should do something", () => {
-    // pendingReducer({state,});
-    // TODO(j): clarify what it should do by writing tests
+describe("pendingReducer", () => {
+  let initialState: RequestData[];
+
+  beforeEach(() => {
+    initialState = [];
+  });
+
+  it("should add a request into the queue on CREATE_NODE_WITH_TEMP_ID", () => {
+    const action = {
+      type: pendingActionTypes.CREATE_NODE_WITH_TEMP_ID,
+      data: { name: "Node 1" },
+      id: "temp-123",
+    };
+
+    const expectedState = [
+      {
+        type: pendingActionTypes.CREATE_NODE_WITH_TEMP_ID,
+        data: { name: "Node 1" },
+        id: "temp-123",
+      },
+    ];
+    expect(pendingReducer(initialState, action)).toEqual(expectedState);
+  });
+
+  it("should add a request into the queue on UPDATE_NODE", () => {
+    const action = {
+      type: pendingActionTypes.UPDATE_NODE,
+      data: { name: "Node 1" },
+      id: "temp-123",
+    };
+
+    const expectedState = [
+      {
+        type: pendingActionTypes.UPDATE_NODE,
+        data: { name: "Node 1" },
+        id: "temp-123",
+      },
+    ];
+    expect(pendingReducer(initialState, action)).toEqual(expectedState);
+  });
+
+  it("should add a request into the queue on CREATE_LINK_WITH_TEMP_ID", () => {
+    const action = {
+      type: pendingActionTypes.CREATE_LINK_WITH_TEMP_ID,
+      data: { source: "temp-123", target: "temp-456" },
+      id: "temp-789",
+    };
+
+    const expectedState = [
+      {
+        type: pendingActionTypes.CREATE_LINK_WITH_TEMP_ID,
+        data: { source: "temp-123", target: "temp-456" },
+        id: "temp-789",
+      },
+    ];
+    expect(pendingReducer(initialState, action)).toEqual(expectedState);
+  });
+
+  it("should clear a request out of the queue on CLEAR_REQUEST", () => {
+    initialState = [
+      {
+        type: pendingActionTypes.CREATE_NODE_WITH_TEMP_ID,
+        data: { name: "Node 1" },
+        id: "temp-123",
+      },
+      {
+        type: pendingActionTypes.CREATE_LINK_WITH_TEMP_ID,
+        data: { source: "temp-123", target: "temp-456" },
+        id: "temp-789",
+      },
+      {
+        type: pendingActionTypes.CREATE_NODE_WITH_TEMP_ID,
+        data: { name: "Node 2" },
+        id: "temp-abc",
+      },
+    ];
+
+    const action = {
+      type: pendingActionTypes.CLEAR_REQUEST,
+      id: "temp-789",
+    };
+
+    const expectedState = [
+      {
+        type: pendingActionTypes.CREATE_NODE_WITH_TEMP_ID,
+        data: { name: "Node 1" },
+        id: "temp-123",
+      },
+      {
+        type: pendingActionTypes.CREATE_NODE_WITH_TEMP_ID,
+        data: { name: "Node 2" },
+        id: "temp-abc",
+      },
+    ];
+
+    expect(pendingReducer(initialState, action)).toEqual(expectedState);
   });
 });

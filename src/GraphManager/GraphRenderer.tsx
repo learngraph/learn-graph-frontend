@@ -12,7 +12,9 @@ import {
   HasID,
   ZoomState,
 } from "./Zoom";
-import { MutableRefObject, useRef } from "react";
+import { MutableRefObject, useRef, useState, useLayoutEffect } from "react";
+import { useGraphDataContext } from "src/GraphDataContext";
+import { Box } from "@mui/material";
 
 // TODO(skep): fundamental type issue here, we have 2-3 types in one:
 //  1. `NodeType`: our node type, with added properties, that we use in
@@ -270,35 +272,60 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   const onLinkClick = onLinkClickFn(props.openVoteDialog);
   const forcegraphRef = useRef<ForceGraphMethods>();
 
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const [availableSpace, setAvailableSpace] = useState({
+    height: 400,
+    width: 600,
+  });
+
+  useLayoutEffect(() => {
+    const containerElement = wrapperRef.current;
+    if (containerElement) {
+      const rect = containerElement.getBoundingClientRect();
+      setAvailableSpace({
+        width: rect.width,
+        height: rect.height,
+      });
+    }
+  }, []);
+
   // TODO: make it react-isch? not sure where to put it
   document.addEventListener("keydown", makeKeydownListener(forcegraphRef));
 
   return (
-    <ForceGraph2D
-      ref={forcegraphRef}
-      // Note: all data must be copied, since force graph changes Link "source"
-      // and "target" fields to directly contain the referred node objects
-      // nodes:
-      graphData={props.graphData}
-      nodeAutoColorBy={"group"}
-      onNodeClick={onNodeClick}
-      nodeCanvasObject={makeNodeCanvasObject(props.highlightNodes)}
-      // links:
-      onLinkHover={onLinkHover}
-      onLinkClick={onLinkClick}
-      linkDirectionalArrowLength={config.linkDirectionalArrowLength}
-      linkDirectionalArrowRelPos={config.linkDirectionalArrowRelPos}
-      // XXX: linkCanvasObjectMode should just be a string, but due to a bug in
-      // force-graph it must be passed as function, otherwise linkCanvasObject
-      // is never called. -> remove after force-graph module update
-      // @ts-ignore
-      linkCanvasObjectMode={() => config.linkCanvasObjectMode}
-      linkCanvasObject={linkCanvasObject}
-      onZoom={makeOnZoomAndPanListener(
-        forcegraphRef,
-        zoomStep,
-        props.graphData
-      )}
-    />
+    <Box
+      id="canvasWrapper"
+      ref={wrapperRef}
+      sx={{ height: "100%", width: "100%" }}
+    >
+      <ForceGraph2D
+        height={availableSpace.height}
+        width={availableSpace.width}
+        ref={forcegraphRef}
+        // Note: all data must be copied, since force graph changes Link "source"
+        // and "target" fields to directly contain the referred node objects
+        // nodes:
+        graphData={props.graphData}
+        nodeAutoColorBy={"group"}
+        onNodeClick={onNodeClick}
+        nodeCanvasObject={makeNodeCanvasObject(props.highlightNodes)}
+        // links:
+        onLinkHover={onLinkHover}
+        onLinkClick={onLinkClick}
+        linkDirectionalArrowLength={config.linkDirectionalArrowLength}
+        linkDirectionalArrowRelPos={config.linkDirectionalArrowRelPos}
+        // XXX: linkCanvasObjectMode should just be a string, but due to a bug in
+        // force-graph it must be passed as function, otherwise linkCanvasObject
+        // is never called. -> remove after force-graph module update
+        // @ts-ignore
+        linkCanvasObjectMode={() => config.linkCanvasObjectMode}
+        linkCanvasObject={linkCanvasObject}
+        onZoom={makeOnZoomAndPanListener(
+          forcegraphRef,
+          zoomStep,
+          props.graphData
+        )}
+      />
+    </Box>
   );
 };

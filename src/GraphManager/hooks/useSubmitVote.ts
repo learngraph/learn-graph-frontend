@@ -4,7 +4,9 @@ import { ApolloQueryResponse } from "./types";
 const SUBMIT_VOTE = gql`
   mutation submitVote($id: ID!, $value: Float!) {
     submitVote(id: $id, value: $value) {
-      Message
+      ID
+      message
+      value
     }
   }
 `;
@@ -12,11 +14,21 @@ const SUBMIT_VOTE = gql`
 // SubmitVoteFn submits a user vote to the backend, the the weight (value) of
 // specified link (linkID)
 export interface SubmitVoteFnArgs {
-  id: string;
+  ID: string;
   value: number;
 }
 export interface SubmitVoteFn {
   (argument: SubmitVoteFnArgs): any;
+}
+
+export interface SubmitVoteFnResponse {
+  data?: {
+    submitVote: {
+      ID: string;
+      message: string;
+      value: number;
+    };
+  };
 }
 
 export function useSubmitVote(): {

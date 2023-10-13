@@ -6,7 +6,6 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import { Box } from "@mui/material";
 
-//import { useGraphDataContext } from "../GraphDataContext";
 import { GraphFileList, GraphManagementMenu, VoteDialog } from "./components";
 import { DataSetType, GraphData } from "./types";
 import {
@@ -39,7 +38,7 @@ export const GraphManager = (props: GraphManagerProps): JSX.Element => {
     Partial<VoteDialogParams>
   >({});
 
-  const { graph, setLinks, setNodes } = useGraphDataContext();
+  const { graph, setLinks, setNodes, submitVote } = useGraphDataContext();
 
   const [graphName, setGraphName] = useState<string>("");
 
@@ -103,7 +102,15 @@ export const GraphManager = (props: GraphManagerProps): JSX.Element => {
   };
 
   return (
-    <>
+    <Box
+      id="wholePageWrapper"
+      sx={{
+        height: "100vh",
+        width: "100vw",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
       <Box sx={{ display: "grid", gridTemplateColumns: "1fr 2fr" }}>
         <Fab
           color="primary"
@@ -114,10 +121,21 @@ export const GraphManager = (props: GraphManagerProps): JSX.Element => {
         </Fab>
         <SearchAppBar userInputCallback={searchCallback} />
       </Box>
-      <Box sx={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)" }}>
+      <Box sx={{ flex: 1, width: "100%" }}>
         {isMenuVisible && (
           <>
-            <Grid container spacing={3} justifyContent="flex-end">
+            <Grid
+              container
+              spacing={3}
+              justifyContent="flex-end"
+              sx={{
+                position: "fixed",
+                maxWidth: "350px",
+                overflowY: "auto",
+                height: "100%",
+                zIndex: 2,
+              }}
+            >
               <Grid item xs>
                 <Paper>
                   <GraphManagementMenu
@@ -141,6 +159,7 @@ export const GraphManager = (props: GraphManagerProps): JSX.Element => {
           isDialogOpen={isVoteDialogOpen}
           setDialogOpen={setIsVoteDialogOpen}
           linkInfo={voteDialogInput}
+          submitVote={submitVote}
         />
         <GraphRenderer
           graphData={graphDataForRender}
@@ -148,7 +167,7 @@ export const GraphManager = (props: GraphManagerProps): JSX.Element => {
           highlightNodes={highlightNodes}
         />
       </Box>
-    </>
+    </Box>
   );
 };
 

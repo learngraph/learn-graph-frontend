@@ -18,6 +18,9 @@ export const LinkDisplay = ({
   const [isEditable, setIsEditable] = useState<boolean>(false);
   const { source, target, value, note } = link;
 
+  const sourceDescription = nodes?.find(({ id }) => id === source)?.description;
+  const targetDescription = nodes?.find(({ id }) => id === target)?.description;
+
   if (isEditable) {
     return (
       <ListItem>
@@ -33,7 +36,7 @@ export const LinkDisplay = ({
   return (
     <ListItem button onClick={(): void => setIsEditable(true)}>
       <ListItemText
-        primary={`${source} --> ${target} (value: ${value})${
+        primary={`${sourceDescription} --> ${targetDescription} (value: ${value})${
           note ? " (note: " + note + ")" : ""
         }`}
       />

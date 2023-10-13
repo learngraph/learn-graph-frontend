@@ -17,6 +17,7 @@ describe("EditTab", () => {
   const makeMocks = () => {
     let updateDisplayedGraph = jest.fn();
     let createNode = jest.fn();
+    let updateNode = jest.fn();
     let setSelectedNodeDescription = jest.fn();
     let getGraphWithUpdatedNode = jest.fn(() => ({ nodes: [], links: [] }));
     let createEdge = jest.fn();
@@ -39,23 +40,26 @@ describe("EditTab", () => {
       currentGraphDataset: JSON.parse(JSON.stringify(graphDataset)),
       updateDisplayedGraph,
       createNode,
+      updateNode,
       createEdge,
       getGraphWithUpdatedNode,
       selectedNode: newNode,
     };
-    const updateNode = updateNodeFn({
+    const updateNodeWrapper = updateNodeFn({
       currentGraphDataset: graphDataset,
       selectedNodeInGraph: newNode,
       setSelectedNodeDescription,
       updateDisplayedGraph,
       createNode,
+      updateNode,
       getGraphWithUpdatedNode,
     });
-    return { props, updateNode, createNode };
+    return { props, updateNode: updateNodeWrapper, createNode };
   };
 
   it("should not crash on empty graph", () => {
-    let [updateDisplayedGraph, createNode, createEdge] = [
+    let [updateDisplayedGraph, createNode, createEdge, updateNode] = [
+      jest.fn(),
       jest.fn(),
       jest.fn(),
       jest.fn(),
@@ -72,6 +76,7 @@ describe("EditTab", () => {
         updateDisplayedGraph={updateDisplayedGraph}
         currentGraphDataset={graph}
         createEdge={createEdge}
+        updateNode={updateNode}
         createNode={createNode}
       />
     );
@@ -105,37 +110,37 @@ describe("EditTab", () => {
     expect(calls[0][0]).toEqual(outputNode);
     expect(props.updateDisplayedGraph.mock.calls.length).toBe(0);
   });
-  it("should call updateDisplayedGraph when updating node with an existing node", () => {
+  it("should call updateNode from props when updating with an existing node", () => {
     let { props, updateNode } = makeMocks();
     const inputNode: NodeType = {
-      id: "1",
+      id: "myId123",
       description: "testier node",
     };
-    const expectedTransformCall = {
-      graph: props.currentGraphDataset.data,
-      newNode: inputNode,
-      selectedNode: props.selectedNode,
-    };
-    const expectedUpdateCall: DataSetType = {
-      dataSetName: "test",
-      data: {
-        nodes: [],
-        links: [],
+    interface NodeToBeCreated {
+      id: string;
+      description: Text;
+    }
+    const outputNode: NodeToBeCreated = {
+      id: "myId123",
+      description: {
+        translations: [
+          {
+            language: "en",
+            content: inputNode.description,
+          },
+        ],
       },
     };
     updateNode({
       isNewNode: false,
       node: inputNode,
     });
-    const transformCalls = props.getGraphWithUpdatedNode.mock.calls;
-    expect(transformCalls.length).toBe(1);
-    // @ts-ignore
-    expect(transformCalls[0][0]).toEqual(expectedTransformCall);
-    const updateCalls = props.updateDisplayedGraph.mock.calls;
-    expect(updateCalls.length).toBe(1);
-    expect(updateCalls[0][0]).toEqual(expectedUpdateCall);
-    expect(props.createNode.mock.calls.length).toBe(0);
+    const calls = props.updateNode.mock.calls;
+    expect(calls.length).toBe(1);
+    expect(calls[0][0]).toEqual(outputNode);
+    expect(props.updateDisplayedGraph.mock.calls.length).toBe(0);
   });
+  it.todo("should call updateLink when updating an existing link");
 });
 
 describe("findForwardLinks", () => {
@@ -232,6 +237,7 @@ describe("updateLinkFn", () => {
       currentGraphDataset: JSON.parse(JSON.stringify(graphDataset)),
       updateDisplayedGraph,
       createNode: jest.fn(),
+      updateNode: jest.fn(),
       createEdge: jest.fn(),
     };
     let updateLink = updateLinkFn(props);
