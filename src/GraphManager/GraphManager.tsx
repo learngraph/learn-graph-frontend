@@ -20,7 +20,7 @@ import {
   transformDisplayedNodesToPseudoTranslated,
   transformGraphDataForDisplay,
 } from "./GraphUtil";
-import SearchAppBar from "./components/SearchAppBar";
+import HeaderBar from "./components/HeaderBar";
 import { TranslatedGraphData, useGraphDataContext } from "src/GraphDataContext";
 import { getTranslation } from "./utilities/getTranslation";
 import { userSearchMatching } from "./components/Search";
@@ -119,7 +119,7 @@ export const GraphManager = (props: GraphManagerProps): JSX.Element => {
         >
           {isMenuVisible ? <ExpandLessIcon /> : <ExpandMoreIcon />}
         </Fab>
-        <SearchAppBar userInputCallback={searchCallback} />
+        <HeaderBar userInputCallback={searchCallback} />
       </Box>
       <Box sx={{ flex: 1, width: "100%" }}>
         {isMenuVisible && (

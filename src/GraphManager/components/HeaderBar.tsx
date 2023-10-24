@@ -6,6 +6,12 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
+import LoginManager from "./LoginManager";
+
+const BarItems = styled("div")(({ theme }) => ({
+  display: "flex",
+  gap: theme.spacing(2),
+}));
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -53,11 +59,11 @@ export interface SearchCallback {
   (query: string): void;
 }
 
-interface SearchAppBarProps {
+interface HeaderBarProps {
   userInputCallback: SearchCallback;
 }
 
-export default function SearchAppBar(props: SearchAppBarProps) {
+export default function HeaderBar(props: HeaderBarProps) {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -70,18 +76,21 @@ export default function SearchAppBar(props: SearchAppBarProps) {
           >
             Learn Graph
           </Typography>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search bar" }}
-              onChange={(event) => {
-                props.userInputCallback(event.target.value);
-              }}
-            />
-          </Search>
+          <BarItems>
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="Search…"
+                inputProps={{ "aria-label": "search bar" }}
+                onChange={(event) => {
+                  props.userInputCallback(event.target.value);
+                }}
+              />
+            </Search>
+            <LoginManager />
+          </BarItems>
         </Toolbar>
       </AppBar>
     </Box>
