@@ -13,7 +13,6 @@ import {
   ZoomState,
 } from "./Zoom";
 import { MutableRefObject, useRef, useState, useLayoutEffect } from "react";
-import { useGraphDataContext } from "src/GraphDataContext";
 import { Box } from "@mui/material";
 
 // TODO(skep): fundamental type issue here, we have 2-3 types in one:
