@@ -51,8 +51,8 @@ export const SignUpForm = (props: SignUpFormProps) => {
             <TextField
                 fullWidth
                 id="userName"
-                name="User Name"
-                label="userName"
+                name="userName"
+                label="User Name *"
                 type="text"
                 value={formik.values.userName}
                 onChange={formik.handleChange}
@@ -64,8 +64,8 @@ export const SignUpForm = (props: SignUpFormProps) => {
             <TextField
                 fullWidth
                 id="email"
-                name="EMail"
-                label="email"
+                name="email"
+                label="Email Address *"
                 type="email"
                 value={formik.values.email}
                 onChange={formik.handleChange}
@@ -76,8 +76,8 @@ export const SignUpForm = (props: SignUpFormProps) => {
             <TextField
                 fullWidth
                 id="password"
-                name="Password"
-                label="password"
+                name="password"
+                label="Password *"
                 type="password"
                 value={formik.values.password}
                 onChange={formik.handleChange}
