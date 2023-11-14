@@ -35,7 +35,12 @@ export default function LoginForm(props: LoginFormProps) {
       <Typography component="h1" variant="h5">
         Login
       </Typography>
-      <Box component="form" onSubmit={handleSubmit} noValidate sx={{ my: 3, mx: 3 }}>
+      <Box
+        component="form"
+        onSubmit={handleSubmit}
+        noValidate
+        sx={{ my: 3, mx: 3 }}
+      >
         <TextField
           margin="normal"
           required

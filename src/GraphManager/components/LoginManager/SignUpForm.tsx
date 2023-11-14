@@ -1,7 +1,14 @@
 import { SignUpRequestData, SignUpRequestReturn } from "./LoginSignupMenu";
-import { Avatar, Box, Button, TextField, Typography } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Button,
+  //styled,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useFormik } from "formik";
-import { LockOutlined } from "@mui/icons-material";
+import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import * as yup from "yup";
 
 interface SignUpFormProps {
@@ -15,92 +22,99 @@ const validationSchema = yup.object({
     .required("Email is required"),
   password: yup
     .string()
-    .min(8, "Password should be of minimum 8 characters length")
+    .min(10, "Password should be of minimum 10 characters length")
     .required("Password is required"),
 });
 
+// TODO(skep): extract styles to reuse them
+//const StyledBox = styled(Box)(({ theme }: any) => ({
+//  width: "100%",
+//  minWidth: '50vh',
+//  padding: theme.spacing(3),
+//  display: "flex",
+//  flexDirection: "column",
+//  alignItems: "center",
+//  textAlign: "center",
+//}));
+
 export const SignUpForm = (props: SignUpFormProps) => {
-  const onSubmit = (data: any) => {
-    console.log(data);
-    props.onSubmit(data);
-  };
   const formik = useFormik({
-          initialValues:{
-            userName: "",
-            email: "",
-            password: "",
-          },
-          validationSchema, onSubmit });
+    initialValues: {
+      userName: "",
+      email: "",
+      password: "",
+    },
+    validationSchema,
+    onSubmit: () => {},
+  });
+  const onSubmit = (event: any) => {
+    event?.preventDefault();
+    const { userName: username, email, password } = formik.values;
+    props.onSubmit({ username, email, password });
+  };
   return (
     <Box
       sx={{
-        marginTop: 4,
+        mt: 4,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        minWidth: "50vh",
+        my: 3,
+        mx: 3,
       }}
     >
       <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-        <LockOutlined />
+        <PersonAddAltIcon />
       </Avatar>
-      <Typography component="h1" variant="h5">
+      <Typography component="h1" variant="h5" sx={{ mb: 4 }}>
         Sign Up
       </Typography>
-      <Box component="form" sx={{ my: 3, mx: 3 }}>
-            <TextField
-                fullWidth
-                margin="normal"
-                id="userName"
-                name="userName"
-                label="User Name"
-                type="text"
-                required
-                value={formik.values.userName}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                error={formik.touched.userName && Boolean(formik.errors.userName)}
-                helperText={formik.touched.userName && formik.errors.userName}
-                autoFocus
-            />
-            <TextField
-                fullWidth
-                margin="normal"
-                id="email"
-                name="email"
-                label="Email Address"
-                type="email"
-                required
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                error={formik.touched.email && Boolean(formik.errors.email)}
-                helperText={formik.touched.email && formik.errors.email}
-            />
-            <TextField
-                fullWidth
-                margin="normal"
-                id="password"
-                name="password"
-                label="Password"
-                type="password"
-                required
-                value={formik.values.password}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                error={formik.touched.password && Boolean(formik.errors.password)}
-                helperText={formik.touched.password && formik.errors.password}
-            />
-            <Button variant="contained" type="submit">
-                Submit
-            </Button>
+      <Box component="form" onSubmit={onSubmit}>
+        <TextField
+          fullWidth
+          id="userName"
+          name="userName"
+          label="User Name"
+          type="text"
+          required
+          value={formik.values.userName}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.touched.userName && Boolean(formik.errors.userName)}
+          helperText={formik.touched.userName && formik.errors.userName}
+          autoFocus
+        />
+        <TextField
+          fullWidth
+          id="email"
+          name="email"
+          label="Email Address"
+          type="email"
+          required
+          value={formik.values.email}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.touched.email && Boolean(formik.errors.email)}
+          helperText={formik.touched.email && formik.errors.email}
+        />
+        <TextField
+          fullWidth
+          id="password"
+          name="password"
+          label="Password"
+          type="password"
+          required
+          value={formik.values.password}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.touched.password && Boolean(formik.errors.password)}
+          helperText={formik.touched.password && formik.errors.password}
+        />
+        <Button variant="contained" type="submit">
+          Submit
+        </Button>
       </Box>
     </Box>
   );
 };
-
-//<Field name="userName" />
-//{errors.userName && touched.userName ? ( <div>{errors.userName}</div>) : null}
-//<Field name="email" type="email" />
-//{errors.email && touched.email ? <div>{errors.email}</div> : null}
-//<Field name="password" type="password" />
-//{errors.password && touched.password ? ( <div>{errors.password}</div>) : null}

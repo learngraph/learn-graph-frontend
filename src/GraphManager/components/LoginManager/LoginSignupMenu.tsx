@@ -23,8 +23,8 @@ export interface LoginRequestReturn {
 }
 
 export interface SignUpRequestData {
-  email: string;
   username: string;
+  email: string;
   password: string;
 }
 
