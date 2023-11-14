@@ -4,6 +4,7 @@ import Dialog from "@mui/material/Dialog";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import LoginForm from "./LoginForm";
+import { SignUpForm } from "./SignUpForm";
 
 enum TabNames {
   "LOGIN",
@@ -17,6 +18,17 @@ export interface LoginRequestData {
 }
 
 export interface LoginRequestReturn {
+  success: boolean;
+  token?: string;
+}
+
+export interface SignUpRequestData {
+  email: string;
+  username: string;
+  password: string;
+}
+
+export interface SignUpRequestReturn {
   success: boolean;
   token?: string;
 }
@@ -65,11 +77,15 @@ export default function LoginSignupMenu() {
     setSelectedTab(newValue);
   };
 
-  const handleLoginSubmit = ({
-    username,
-    password,
-  }: LoginRequestData): Promise<LoginRequestReturn> => {
+  const handleLoginSubmit = (
+    login: LoginRequestData
+  ): Promise<LoginRequestReturn> => {
     // TODO: write user management context with login RPC
+    return Promise.resolve({ success: true });
+  };
+  const handleSignUpSubmit = (
+    signup: LoginRequestData
+  ): Promise<LoginRequestReturn> => {
     return Promise.resolve({ success: true });
   };
 
@@ -91,7 +107,7 @@ export default function LoginSignupMenu() {
           <LoginForm onSubmit={handleLoginSubmit} />
         </FormTab>
         <FormTab value={selectedTab} index={1}>
-          SignupForm
+          <SignUpForm onSubmit={handleSignUpSubmit} />
         </FormTab>
       </Dialog>
     </Box>
