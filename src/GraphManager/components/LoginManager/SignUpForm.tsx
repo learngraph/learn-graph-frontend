@@ -46,14 +46,15 @@ export const SignUpForm = (props: SignUpFormProps) => {
       <Typography component="h1" variant="h5">
         Sign Up
       </Typography>
-      <Box sx={{ my: 3, mx: 3 }}>
-        <form>
+      <Box component="form" sx={{ my: 3, mx: 3 }}>
             <TextField
                 fullWidth
+                margin="normal"
                 id="userName"
                 name="userName"
-                label="User Name *"
+                label="User Name"
                 type="text"
+                required
                 value={formik.values.userName}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -63,10 +64,12 @@ export const SignUpForm = (props: SignUpFormProps) => {
             />
             <TextField
                 fullWidth
+                margin="normal"
                 id="email"
                 name="email"
-                label="Email Address *"
+                label="Email Address"
                 type="email"
+                required
                 value={formik.values.email}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -75,10 +78,12 @@ export const SignUpForm = (props: SignUpFormProps) => {
             />
             <TextField
                 fullWidth
+                margin="normal"
                 id="password"
                 name="password"
-                label="Password *"
+                label="Password"
                 type="password"
+                required
                 value={formik.values.password}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -88,7 +93,6 @@ export const SignUpForm = (props: SignUpFormProps) => {
             <Button variant="contained" type="submit">
                 Submit
             </Button>
-        </form>
       </Box>
     </Box>
   );
