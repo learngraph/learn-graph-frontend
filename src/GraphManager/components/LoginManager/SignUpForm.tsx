@@ -15,7 +15,13 @@ interface SignUpFormProps {
   onSubmit: (data: SignUpRequestData) => Promise<SignUpRequestReturn>;
 }
 
+// NOTE: this must be kept in sync with the backend's requirements!
+// see https://github.com/suxatcode/learn-graph-backend/blob/68b56824fd48b7cc785a5e98ee83ef04d6a0f500/db/arangodb.go#L31
 const validationSchema = yup.object({
+  username: yup
+    .string()
+    .min(4, "Username should be of minimum 4 characters length")
+    .required("Username is required"),
   email: yup
     .string()
     .email("Enter a valid email")
@@ -38,20 +44,18 @@ const validationSchema = yup.object({
 //}));
 
 export const SignUpForm = (props: SignUpFormProps) => {
+  const onSubmit = (user: SignUpRequestData) => {
+    props.onSubmit(user);
+  };
   const formik = useFormik({
     initialValues: {
-      userName: "",
+      username: "",
       email: "",
       password: "",
     },
     validationSchema,
-    onSubmit: () => {},
+    onSubmit,
   });
-  const onSubmit = (event: any) => {
-    event?.preventDefault();
-    const { userName: username, email, password } = formik.values;
-    props.onSubmit({ username, email, password });
-  };
   return (
     <Box
       sx={{
@@ -70,23 +74,25 @@ export const SignUpForm = (props: SignUpFormProps) => {
       <Typography component="h1" variant="h5" sx={{ mb: 4 }}>
         Sign Up
       </Typography>
-      <Box component="form" onSubmit={onSubmit}>
+      <Box component="form" onSubmit={formik.handleSubmit}>
         <TextField
           fullWidth
-          id="userName"
-          name="userName"
+          margin="normal"
+          id="username"
+          name="username"
           label="User Name"
           type="text"
           required
-          value={formik.values.userName}
+          value={formik.values.username}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          error={formik.touched.userName && Boolean(formik.errors.userName)}
-          helperText={formik.touched.userName && formik.errors.userName}
+          error={formik.touched.username && Boolean(formik.errors.username)}
+          helperText={formik.touched.username && formik.errors.username}
           autoFocus
         />
         <TextField
           fullWidth
+          margin="normal"
           id="email"
           name="email"
           label="Email Address"
@@ -100,6 +106,7 @@ export const SignUpForm = (props: SignUpFormProps) => {
         />
         <TextField
           fullWidth
+          margin="normal"
           id="password"
           name="password"
           label="Password"
@@ -111,7 +118,7 @@ export const SignUpForm = (props: SignUpFormProps) => {
           error={formik.touched.password && Boolean(formik.errors.password)}
           helperText={formik.touched.password && formik.errors.password}
         />
-        <Button variant="contained" type="submit">
+        <Button variant="contained" type="submit" fullWidth sx={{ mt: 3 }}>
           Submit
         </Button>
       </Box>
