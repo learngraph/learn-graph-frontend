@@ -17,7 +17,7 @@ interface SignUpFormProps {
 
 // NOTE: this must be kept in sync with the backend's requirements!
 // see https://github.com/suxatcode/learn-graph-backend/blob/68b56824fd48b7cc785a5e98ee83ef04d6a0f500/db/arangodb.go#L31
-const validationSchema = yup.object({
+export const validateUserSignupRequest = yup.object({
   username: yup
     .string()
     .min(4, "Username should be of minimum 4 characters length")
@@ -53,7 +53,7 @@ export const SignUpForm = (props: SignUpFormProps) => {
       email: "",
       password: "",
     },
-    validationSchema,
+    validationSchema: validateUserSignupRequest,
     onSubmit,
   });
   return (
