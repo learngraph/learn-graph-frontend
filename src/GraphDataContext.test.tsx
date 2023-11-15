@@ -43,7 +43,7 @@ const TestConsumer = () => {
     try {
       await createLink({
         from: id,
-        to: String(Date.now()), // XXX(skep): @j: why randomness in tests?!
+        to: "irrelevant",
         weight: 0.2,
       });
     } catch (e) {

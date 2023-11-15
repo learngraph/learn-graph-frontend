@@ -81,7 +81,7 @@ export enum pendingActionTypes {
 // An interface for our actions
 export interface RequestData {
   type: pendingActionTypes;
-  data?: any;
+  data?: any; // TODO(skep): define types explicitly that are possible here
   id: string;
 }
 
