@@ -4,7 +4,7 @@ See [learngraph.org](https://learngraph.org/).
 
 ## Development
 
-- [Discord Server](https://discord.gg/KWAPSjuR)
+- [Discord Server](https://discord.gg/eyEsvgt4y8)
 
 ### Development Envorinment
 
