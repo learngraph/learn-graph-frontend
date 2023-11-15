@@ -8,12 +8,7 @@ import { Box } from "@mui/material";
 
 import { GraphFileList, GraphManagementMenu, VoteDialog } from "./components";
 import { DataSetType, GraphData } from "./types";
-import {
-  GraphRenderer,
-  VoteDialogParams,
-  Node,
-  GraphDataForceGraph,
-} from "./GraphRenderer";
+import { GraphRenderer, Node, GraphDataForceGraph } from "./GraphRenderer";
 import {
   sanitizeGraphData,
   sanitizeGraphDataset,
@@ -24,6 +19,7 @@ import HeaderBar from "./components/HeaderBar";
 import { TranslatedGraphData, useGraphDataContext } from "src/GraphDataContext";
 import { getTranslation } from "./utilities/getTranslation";
 import { userSearchMatching } from "./components/Search";
+import { VoteDialogParams } from "./components/VoteDialog";
 
 interface GraphManagerProps {
   datasets: DataSetType[];

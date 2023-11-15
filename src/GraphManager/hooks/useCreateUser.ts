@@ -39,11 +39,13 @@ export interface LoginResponse {
   message?: string;
 }
 
+export interface CreateUserWithMailResponseData {
+  newUserID: string;
+  login: LoginResponse;
+}
+
 export interface CreateUserWithMailResponse {
-  data: {
-    newUserID: string;
-    login: LoginResponse;
-  };
+  data: CreateUserWithMailResponseData;
   apollo: ApolloQueryResponse;
 }
 
