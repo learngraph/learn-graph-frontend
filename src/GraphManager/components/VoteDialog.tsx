@@ -5,8 +5,8 @@ import Slider from "@mui/material/Slider";
 import Box from "@mui/material/Box";
 
 import { Typography } from "@mui/material";
-import { VoteDialogParams } from "../GraphRenderer";
 import { SubmitVoteFn } from "../hooks/useSubmitVote";
+import { NodeType } from "../types";
 
 type VoteDialogProps = {
   isDialogOpen: boolean;
@@ -14,6 +14,16 @@ type VoteDialogProps = {
   linkInfo: Partial<VoteDialogParams>;
   submitVote: SubmitVoteFn;
 };
+
+export interface VoteDialogParams {
+  linkID: string;
+  sourceNode: NodeType;
+  targetNode: NodeType;
+  weight: number;
+}
+export interface VoteDialogFn {
+  (params: VoteDialogParams): void;
+}
 
 const styles = {
   dialogRoot: {

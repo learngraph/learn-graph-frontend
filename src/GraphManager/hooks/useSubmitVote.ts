@@ -33,7 +33,7 @@ export interface SubmitVoteFnResponse {
 
 export function useSubmitVote(): {
   submitVote: SubmitVoteFn;
-  data: any; // TODO(skep): Message with ID?
+  data: SubmitVoteFnResponse;
   queryResponse: ApolloQueryResponse;
 } {
   const [submitVoteTMP, { data, loading, error }] = useMutation(SUBMIT_VOTE);

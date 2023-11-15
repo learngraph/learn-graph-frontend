@@ -85,8 +85,7 @@ export function getCreateNodeAction(graph: EditGraph) {
         );
         graph.setNodes(nodesWithoutTempNode);
 
-        // TODO: report error to user - notistack?
-        // TODO(far future): log error
+        // TODO: report error to user - notistack? (+ log error)
         reject(error);
       }
 

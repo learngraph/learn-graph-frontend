@@ -37,15 +37,20 @@ export interface TranslatedGraphData {
 }
 
 interface GraphDataContextValues {
+  // internal data
   graph: TranslatedGraphData;
   requests: Array<RequestData>;
+  // GQL queries & mutations
   createNode: CreateNodeFn;
   updateNode: UpdateNodeFn;
-  //deleteNode: DeleteNodeFn;
   createLink: CreateEdgeFn;
   submitVote: SubmitVoteFn;
+  // apply graph data changes to react state
   setNodes: React.Dispatch<React.SetStateAction<TranslatedNode[]>>;
   setLinks: React.Dispatch<React.SetStateAction<LinkType[]>>;
+  //deleteNode: DeleteNodeFn;
+  //deleteEdge: ?;
+  //deleteAccount: ?;
 }
 
 const defaultContextValues = {
@@ -57,15 +62,12 @@ const defaultContextValues = {
     Promise.reject({ error: "defaultContextValues must not be used" }),
   updateNode: () =>
     Promise.reject({ error: "defaultContextValues must not be used" }),
-  submitVote: () => {
-    throw new Error("defaultContextValues must not be used");
-  },
-  setLinks: () => {
-    throw new Error("defaultContextValues must not be used");
-  },
-  setNodes: () => {
-    throw new Error("defaultContextValues must not be used");
-  },
+  submitVote: () =>
+    Promise.reject({ error: "defaultContextValues must not be used" }),
+  setLinks: () =>
+    Promise.reject({ error: "defaultContextValues must not be used" }),
+  setNodes: () =>
+    Promise.reject({ error: "defaultContextValues must not be used" }),
 };
 
 export enum pendingActionTypes {
@@ -155,7 +157,9 @@ const GraphDataContextProvider: React.FC<ProviderProps> = ({ children }) => {
         createNode: getCreateNodeAction(editGraph),
         createLink: getCreateLinkAction(editGraph),
         updateNode: getUpdateNodeAction(editGraph),
-        submitVote: () => {},
+        submitVote: () => {
+          console.log("NOT IMPLEMENTED"); // TODO(skep): implement
+        },
         setLinks,
         setNodes,
       }}
