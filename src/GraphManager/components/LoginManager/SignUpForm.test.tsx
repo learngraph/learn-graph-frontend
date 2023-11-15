@@ -1,7 +1,6 @@
-import { SignUpForm, validateUserSignupRequest } from "./SignUpForm";
+import { SignUpForm } from "./SignUpForm";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { SignUpRequestData } from "./LoginSignupMenu";
 
 describe("SignUpForm", () => {
   it("should submit form content", async () => {
@@ -30,34 +29,4 @@ describe("SignUpForm", () => {
       password: "1234567890",
     });
   });
-});
-
-describe("validateUserSignupRequest", () => {
-  it.each([
-    [
-      { username: "abcd", email: "a@b.com", password: "1234567890" },
-      true,
-      "good case",
-    ],
-    [
-      { username: "abc", email: "a@b.com", password: "1234567890" },
-      false,
-      "username too short",
-    ],
-    [
-      { username: "abcd", email: "ab.com", password: "1234567890" },
-      false,
-      "email invalid",
-    ],
-    [
-      { username: "abcd", email: "a@b.com", password: "123456789" },
-      false,
-      "password < 10 chars",
-    ],
-  ])(
-    "should validate %p expects %p",
-    async (userInput: SignUpRequestData, valid: boolean, _: string) => {
-      expect(await validateUserSignupRequest.isValid(userInput)).toBe(valid);
-    }
-  );
 });

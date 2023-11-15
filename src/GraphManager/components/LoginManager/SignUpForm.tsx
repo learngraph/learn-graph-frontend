@@ -9,28 +9,11 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
-import * as yup from "yup";
+import { validateUserSignupRequest } from "./InputValidation";
 
 interface SignUpFormProps {
   onSubmit: (data: SignUpRequestData) => Promise<SignUpRequestReturn>;
 }
-
-// NOTE: this must be kept in sync with the backend's requirements!
-// see https://github.com/suxatcode/learn-graph-backend/blob/68b56824fd48b7cc785a5e98ee83ef04d6a0f500/db/arangodb.go#L31
-export const validateUserSignupRequest = yup.object({
-  username: yup
-    .string()
-    .min(4, "Username should be of minimum 4 characters length")
-    .required("Username is required"),
-  email: yup
-    .string()
-    .email("Enter a valid email")
-    .required("Email is required"),
-  password: yup
-    .string()
-    .min(10, "Password should be of minimum 10 characters length")
-    .required("Password is required"),
-});
 
 // TODO(skep): extract styles to reuse them
 //const StyledBox = styled(Box)(({ theme }: any) => ({
