@@ -12,9 +12,8 @@ export function useCreateUserWithEmail(): {
   createUserWithEMail: CreateUserWithMailFn;
   response: CreateUserWithMailResponse;
 } {
-  const createUserFn: CreateUserWithMailFn = () => new Promise(() => {});
   return {
-    createUserWithEMail: createUserFn,
+    createUserWithEMail: jest.fn(),
     response: { data, apollo: { loading, error } },
   };
 }

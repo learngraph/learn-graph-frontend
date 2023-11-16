@@ -7,6 +7,9 @@ import {
   RequestData,
   pendingActionTypes,
 } from "./GraphDataContext";
+import userEvent from "@testing-library/user-event";
+import { useCreateUserWithEmail } from "./GraphManager/hooks/useCreateUser";
+
 jest.mock("./GraphManager/hooks/useCreateNode");
 jest.mock("./GraphManager/hooks/useCreateEdge");
 jest.mock("./GraphManager/hooks/useUpdateNode");
@@ -20,7 +23,7 @@ jest.mock("./GraphManager/hooks/useCreateUser");
  *
  * @see https://testing-library.com/docs/react-testing-library/setup#custom-render
  */
-const customRender = (ui: any) => {
+const renderGraphDataContextProvider = (ui: any) => {
   return render(<GraphDataContextProvider>{ui}</GraphDataContextProvider>);
 };
 
@@ -67,7 +70,7 @@ const TestConsumer = () => {
 
 describe("GraphDataContext", () => {
   it("should queue a node creation request, and toggle loading states when the request updates stuff", async () => {
-    customRender(<TestConsumer />);
+    renderGraphDataContextProvider(<TestConsumer />);
     // byTestId should be the last choice when testing real components,
     // here we built the component only for the test so its fine
     const button = screen.getByTestId("triggerNodeCreation");
@@ -78,7 +81,7 @@ describe("GraphDataContext", () => {
   });
 
   it("should not queue a link creation to a node that isnt completed yet", async () => {
-    customRender(<TestConsumer />);
+    renderGraphDataContextProvider(<TestConsumer />);
     const nodeButton = await screen.findByTestId("triggerNodeCreation");
     const edgeButton = await screen.findByTestId("triggerEdgeCreation");
     fireEvent.click(nodeButton);
@@ -87,6 +90,32 @@ describe("GraphDataContext", () => {
 
     const error = await screen.findByTestId("error");
     expect(error).not.toBeNull();
+  });
+
+  it("should forward useCreateUser calls", async () => {
+    const userinfo = { username: "me", email: "me@ok.com", password: "1234" };
+    const ConsumeCreateUser = () => {
+      const { createUserWithEMail: createUserWithEMailCtx } =
+        useGraphDataContext();
+      const onClick = () => {
+        createUserWithEMailCtx(userinfo);
+      };
+      return (
+        <button data-testid="button" onClick={onClick}>
+          click me!
+        </button>
+      );
+    };
+    renderGraphDataContextProvider(<ConsumeCreateUser />);
+    const { createUserWithEMail } = useCreateUserWithEmail();
+    // @ts-ignore
+    const mock = createUserWithEMail.mock;
+    expect(mock.calls.length).toBe(0);
+    const button = await screen.findByTestId("button");
+    const user = userEvent.setup();
+    await user.click(button);
+    expect(mock.calls.length).toBe(1);
+    expect(mock.calls[0][0]).toEqual(userinfo);
   });
 });
 
