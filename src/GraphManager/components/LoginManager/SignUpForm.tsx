@@ -1,4 +1,3 @@
-import { SignUpRequestData, SignUpRequestReturn } from "./LoginSignupMenu";
 import {
   Avatar,
   Box,
@@ -10,9 +9,10 @@ import {
 import { useFormik } from "formik";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import { validateUserSignupRequest } from "./InputValidation";
+import { CreateUserWithMailFn } from "src/GraphManager/hooks/useCreateUser";
 
 interface SignUpFormProps {
-  onSubmit: (data: SignUpRequestData) => Promise<SignUpRequestReturn>;
+  onSubmit: CreateUserWithMailFn;
 }
 
 // TODO(skep): extract styles to reuse them
@@ -27,9 +27,6 @@ interface SignUpFormProps {
 //}));
 
 export const SignUpForm = (props: SignUpFormProps) => {
-  const onSubmit = (user: SignUpRequestData) => {
-    props.onSubmit(user);
-  };
   const formik = useFormik({
     initialValues: {
       username: "",
@@ -37,7 +34,7 @@ export const SignUpForm = (props: SignUpFormProps) => {
       password: "",
     },
     validationSchema: validateUserSignupRequest,
-    onSubmit,
+    onSubmit: props.onSubmit,
   });
   return (
     <Box

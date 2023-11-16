@@ -3,45 +3,45 @@ import { ApolloQueryResponse } from "./types";
 
 const CREATE_USER_WITHMAIL = gql`
   mutation createUserWithEMail(
-    $user: String!
+    $username: String!
     $password: String!
     $email: String!
   ) {
-    createUserWithEMail(user: $user, password: $password, email: $email) {
+    createUserWithEMail(username: $username, password: $password, email: $email) {
       login {
         success
         message
+        token
       }
+      newUserID
     }
   }
 `;
 
-// CreateNodeFn creates a new node with given description
+export interface UserSignupInfo {
+  username: string;
+  password: string;
+  email: string;
+}
 export interface CreateUserWithMailFn {
-  (userInfo: {
-    username: string;
-    password: string;
-    email: string;
-  }): Promise<CreateUserWithMailFnResponse>;
+  (userInfo: UserSignupInfo): Promise<CreateUserWithMailFnResponse>;
 }
 
 export interface CreateUserWithMailFnResponse {
   data?: {
-    createUserWithEMail: {
-      login: { success: boolean; token?: string; message?: string };
-    };
+    createUserWithEMail: CreateUserWithMailResponseData;
   };
 }
 
 export interface LoginResponse {
   success: boolean;
-  token: string;
+  token?: string;
   message?: string;
 }
 
 export interface CreateUserWithMailResponseData {
-  newUserID: string;
   login: LoginResponse;
+  newUserID?: string;
 }
 
 export interface CreateUserWithMailResponse {

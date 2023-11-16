@@ -1,5 +1,5 @@
+import { UserSignupInfo } from "src/GraphManager/hooks/useCreateUser";
 import { validateUserSignupRequest } from "./InputValidation";
-import { SignUpRequestData } from "./LoginSignupMenu";
 
 describe("validateUserSignupRequest", () => {
   it.each([
@@ -25,7 +25,7 @@ describe("validateUserSignupRequest", () => {
     ],
   ])(
     "should validate %p expects %p",
-    async (userInput: SignUpRequestData, valid: boolean, _: string) => {
+    async (userInput: UserSignupInfo, valid: boolean, _: string) => {
       expect(await validateUserSignupRequest.isValid(userInput)).toBe(valid);
     }
   );

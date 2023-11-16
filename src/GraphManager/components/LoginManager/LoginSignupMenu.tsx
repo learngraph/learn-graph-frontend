@@ -5,6 +5,8 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import LoginForm from "./LoginForm";
 import { SignUpForm } from "./SignUpForm";
+import { useGraphDataContext } from "src/GraphDataContext";
+import { UserSignupInfo } from "src/GraphManager/hooks/useCreateUser";
 
 enum TabNames {
   "LOGIN",
@@ -16,19 +18,7 @@ export interface LoginRequestData {
   username: string;
   password: string;
 }
-
 export interface LoginRequestReturn {
-  success: boolean;
-  token?: string;
-}
-
-export interface SignUpRequestData {
-  username: string;
-  email: string;
-  password: string;
-}
-
-export interface SignUpRequestReturn {
   success: boolean;
   token?: string;
 }
@@ -73,20 +63,21 @@ export default function LoginSignupMenu() {
     setOpen(false);
   };
 
-  const handleSelectTab = (event: React.SyntheticEvent, newValue: number) => {
+  const handleSelectTab = (_: React.SyntheticEvent, newValue: number) => {
     setSelectedTab(newValue);
   };
 
+  const { createUserWithEMail } = useGraphDataContext();
+
   const handleLoginSubmit = (
-    login: LoginRequestData
+    _: LoginRequestData
   ): Promise<LoginRequestReturn> => {
     // TODO: write user management context with login RPC
     return Promise.resolve({ success: true });
   };
-  const handleSignUpSubmit = (
-    signup: LoginRequestData
-  ): Promise<LoginRequestReturn> => {
-    return Promise.resolve({ success: true });
+  const handleSignUpSubmit = (signup: UserSignupInfo) => {
+    console.log(JSON.stringify(signup));
+    return createUserWithEMail(signup);
   };
 
   return (
