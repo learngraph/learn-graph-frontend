@@ -9,8 +9,9 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { LoginRequestData, LoginRequestReturn } from "./LoginSignupMenu";
 import { LockOutlined } from "@mui/icons-material";
+import { LoginRequestData, LoginRequestReturn } from "./LoginSignupMenu";
+import { StyledBox, StyledBoxSX } from "./Styles";
 
 interface LoginFormProps {
   onSubmit: (data: LoginRequestData) => Promise<LoginRequestReturn>;
@@ -21,26 +22,14 @@ export default function LoginForm(props: LoginFormProps) {
     console.log(data);
   };
   return (
-    <Box
-      sx={{
-        marginTop: 4,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-      }}
-    >
+    <StyledBox sx={StyledBoxSX}>
       <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
         <LockOutlined />
       </Avatar>
       <Typography component="h1" variant="h5">
         Login
       </Typography>
-      <Box
-        component="form"
-        onSubmit={handleSubmit}
-        noValidate
-        sx={{ my: 3, mx: 3 }}
-      >
+      <Box component="form" onSubmit={handleSubmit}>
         <TextField
           margin="normal"
           required
@@ -86,6 +75,6 @@ export default function LoginForm(props: LoginFormProps) {
           </Grid>
         </Grid>
       </Box>
-    </Box>
+    </StyledBox>
   );
 }

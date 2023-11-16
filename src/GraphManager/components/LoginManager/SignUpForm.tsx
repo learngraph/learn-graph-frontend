@@ -1,30 +1,13 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  //styled,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Avatar, Box, Button, TextField, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
-import { validateUserSignupRequest } from "./InputValidation";
 import { CreateUserWithMailFn } from "src/GraphManager/hooks/useCreateUser";
+import { validateUserSignupRequest } from "./InputValidation";
+import { StyledBox, StyledBoxSX } from "./Styles";
 
 interface SignUpFormProps {
   onSubmit: CreateUserWithMailFn;
 }
-
-// TODO(skep): extract styles to reuse them
-//const StyledBox = styled(Box)(({ theme }: any) => ({
-//  width: "100%",
-//  minWidth: '50vh',
-//  padding: theme.spacing(3),
-//  display: "flex",
-//  flexDirection: "column",
-//  alignItems: "center",
-//  textAlign: "center",
-//}));
 
 export const SignUpForm = (props: SignUpFormProps) => {
   const formik = useFormik({
@@ -37,17 +20,7 @@ export const SignUpForm = (props: SignUpFormProps) => {
     onSubmit: props.onSubmit,
   });
   return (
-    <Box
-      sx={{
-        mt: 4,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        minWidth: "50vh",
-        my: 3,
-        mx: 3,
-      }}
-    >
+    <StyledBox sx={StyledBoxSX}>
       <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
         <PersonAddAltIcon />
       </Avatar>
@@ -102,6 +75,6 @@ export const SignUpForm = (props: SignUpFormProps) => {
           Submit
         </Button>
       </Box>
-    </Box>
+    </StyledBox>
   );
 };

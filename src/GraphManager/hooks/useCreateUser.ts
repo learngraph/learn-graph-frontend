@@ -7,7 +7,11 @@ const CREATE_USER_WITHMAIL = gql`
     $password: String!
     $email: String!
   ) {
-    createUserWithEMail(username: $username, password: $password, email: $email) {
+    createUserWithEMail(
+      username: $username
+      password: $password
+      email: $email
+    ) {
       login {
         success
         message
