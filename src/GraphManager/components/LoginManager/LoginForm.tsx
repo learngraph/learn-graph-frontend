@@ -21,11 +21,16 @@ interface LoginFormProps {
   onSubmit: (data: UserLoginInfo) => Promise<LoginUserFnResponse>;
 }
 
+interface LoginFormValues extends UserLoginInfo {
+  rememberme: boolean;
+}
+
 export default function LoginForm(props: LoginFormProps) {
-  const formik = useFormik<UserLoginInfo>({
+  const formik = useFormik<LoginFormValues>({
     initialValues: {
       email: "",
       password: "",
+      rememberme: false,
     },
     validationSchema: validateUserLoginRequest,
     onSubmit: props.onSubmit,
@@ -51,8 +56,16 @@ export default function LoginForm(props: LoginFormProps) {
           formik={formik}
         />
         <FormControlLabel
-          control={<Checkbox value="remember" color="primary" />}
+          control={
+            <Checkbox
+              value="remember"
+              color="primary"
+              checked={formik.values.rememberme}
+            />
+          }
           label="Remember me"
+          name="rememberme"
+          onChange={formik.handleChange}
         />
         <Button
           type="submit"

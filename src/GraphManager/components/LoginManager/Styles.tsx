@@ -23,7 +23,7 @@ export const TextFieldFormikGenerator = <T extends FormikValues>(conf: T) => {
       id={conf.fieldName}
       name={conf.fieldName}
       label={conf.fieldLabel}
-      type="text"
+      type={conf.fieldName === "password" ? "password" : "text"}
       required
       value={conf.formik.values[conf.fieldName]}
       onChange={conf.formik.handleChange}
