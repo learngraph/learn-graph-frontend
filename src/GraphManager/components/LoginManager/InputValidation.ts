@@ -28,3 +28,8 @@ export const validateUserSignupRequest = yup.object({
   ...email,
   ...password,
 });
+
+export const validateUserLoginRequest = yup.object({
+  ...email,
+  ...password,
+});

@@ -1,16 +1,23 @@
-import { Avatar, Box, Button, TextField, Typography } from "@mui/material";
+import { Avatar, Box, Button, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
-import { CreateUserWithMailFn } from "src/GraphManager/hooks/useCreateUser";
+import {
+  CreateUserWithMailFn,
+  UserSignupInfo,
+} from "src/GraphManager/hooks/useCreateUser";
 import { validateUserSignupRequest } from "./InputValidation";
-import { StyledBox, StyledBoxSX } from "./Styles";
+import {
+  StyledBox,
+  StyledBoxSX,
+  TextFieldFormikSignup /*,TextFieldFormikGenerator*/,
+} from "./Styles";
 
 interface SignUpFormProps {
   onSubmit: CreateUserWithMailFn;
 }
 
 export const SignUpForm = (props: SignUpFormProps) => {
-  const formik = useFormik({
+  const formik = useFormik<UserSignupInfo>({
     initialValues: {
       username: "",
       email: "",
@@ -28,48 +35,20 @@ export const SignUpForm = (props: SignUpFormProps) => {
         Sign Up
       </Typography>
       <Box component="form" onSubmit={formik.handleSubmit}>
-        <TextField
-          fullWidth
-          margin="normal"
-          id="username"
-          name="username"
-          label="User Name"
-          type="text"
-          required
-          value={formik.values.username}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          error={formik.touched.username && Boolean(formik.errors.username)}
-          helperText={formik.touched.username && formik.errors.username}
-          autoFocus
+        <TextFieldFormikSignup
+          fieldName="username"
+          fieldLabel="User Name"
+          formik={formik}
         />
-        <TextField
-          fullWidth
-          margin="normal"
-          id="email"
-          name="email"
-          label="Email Address"
-          type="email"
-          required
-          value={formik.values.email}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          error={formik.touched.email && Boolean(formik.errors.email)}
-          helperText={formik.touched.email && formik.errors.email}
+        <TextFieldFormikSignup
+          fieldName="email"
+          fieldLabel="Email Address"
+          formik={formik}
         />
-        <TextField
-          fullWidth
-          margin="normal"
-          id="password"
-          name="password"
-          label="Password"
-          type="password"
-          required
-          value={formik.values.password}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          error={formik.touched.password && Boolean(formik.errors.password)}
-          helperText={formik.touched.password && formik.errors.password}
+        <TextFieldFormikSignup
+          fieldName="password"
+          fieldLabel="Password"
+          formik={formik}
         />
         <Button variant="contained" type="submit" fullWidth sx={{ mt: 3 }}>
           Submit

@@ -28,6 +28,7 @@ import {
   CreateUserWithMailFn,
   useCreateUserWithEmail,
 } from "./GraphManager/hooks/useCreateUser";
+import { LoginFn, useLogin } from "./GraphManager/hooks/useLoginUser";
 
 export interface TranslatedNode {
   id: string;
@@ -50,6 +51,7 @@ interface GraphDataContextValues {
   createLink: CreateEdgeFn;
   submitVote: SubmitVoteFn;
   createUserWithEMail: CreateUserWithMailFn;
+  loginUser: LoginFn;
   // apply graph data changes to react state
   setNodes: React.Dispatch<React.SetStateAction<TranslatedNode[]>>;
   setLinks: React.Dispatch<React.SetStateAction<LinkType[]>>;
@@ -74,6 +76,8 @@ const defaultContextValues = {
   setNodes: () =>
     Promise.reject({ error: "defaultContextValues must not be used" }),
   createUserWithEMail: () =>
+    Promise.reject({ error: "defaultContextValues must not be used" }),
+  loginUser: () =>
     Promise.reject({ error: "defaultContextValues must not be used" }),
 };
 
@@ -144,6 +148,7 @@ const GraphDataContextProvider: React.FC<ProviderProps> = ({ children }) => {
   const { updateNode: updateNodeInBackend } = useUpdateNode();
   const { submitVote: submitVoteInBackend } = useSubmitVote();
   const { createUserWithEMail } = useCreateUserWithEmail();
+  const { login: loginUser } = useLogin();
   const editGraph: EditGraph = {
     requests,
     requestsDispatch,
@@ -168,6 +173,7 @@ const GraphDataContextProvider: React.FC<ProviderProps> = ({ children }) => {
           console.log("NOT IMPLEMENTED"); // TODO(skep): implement
         },
         createUserWithEMail,
+        loginUser,
         setLinks,
         setNodes,
       }}

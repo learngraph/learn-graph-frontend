@@ -6,21 +6,30 @@ import {
   FormControlLabel,
   Grid,
   Link,
-  TextField,
   Typography,
 } from "@mui/material";
 import { LockOutlined } from "@mui/icons-material";
-import { LoginRequestData, LoginRequestReturn } from "./LoginSignupMenu";
-import { StyledBox, StyledBoxSX } from "./Styles";
+import { StyledBox, StyledBoxSX, TextFieldFormikLogin } from "./Styles";
+import { useFormik } from "formik";
+import {
+  LoginUserFnResponse,
+  UserLoginInfo,
+} from "src/GraphManager/hooks/useLoginUser";
+import { validateUserLoginRequest } from "./InputValidation";
 
 interface LoginFormProps {
-  onSubmit: (data: LoginRequestData) => Promise<LoginRequestReturn>;
+  onSubmit: (data: UserLoginInfo) => Promise<LoginUserFnResponse>;
 }
 
 export default function LoginForm(props: LoginFormProps) {
-  const handleSubmit = (data: any) => {
-    console.log(data);
-  };
+  const formik = useFormik<UserLoginInfo>({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: validateUserLoginRequest,
+    onSubmit: props.onSubmit,
+  });
   return (
     <StyledBox sx={StyledBoxSX}>
       <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
@@ -29,26 +38,16 @@ export default function LoginForm(props: LoginFormProps) {
       <Typography component="h1" variant="h5">
         Login
       </Typography>
-      <Box component="form" onSubmit={handleSubmit}>
-        <TextField
-          margin="normal"
-          required
-          fullWidth
-          id="email"
-          label="Email Address"
-          name="email"
-          autoComplete="email"
-          autoFocus
+      <Box component="form" onSubmit={formik.handleSubmit}>
+        <TextFieldFormikLogin
+          fieldName="email"
+          fieldLabel="Email Address"
+          formik={formik}
         />
-        <TextField
-          margin="normal"
-          required
-          fullWidth
-          name="password"
-          label="Password"
-          type="password"
-          id="password"
-          autoComplete="current-password"
+        <TextFieldFormikLogin
+          fieldName="password"
+          fieldLabel="Password"
+          formik={formik}
         />
         <FormControlLabel
           control={<Checkbox value="remember" color="primary" />}

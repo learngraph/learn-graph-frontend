@@ -7,20 +7,11 @@ import LoginForm from "./LoginForm";
 import { SignUpForm } from "./SignUpForm";
 import { useGraphDataContext } from "src/GraphDataContext";
 import { UserSignupInfo } from "src/GraphManager/hooks/useCreateUser";
+import { UserLoginInfo } from "src/GraphManager/hooks/useLoginUser";
 
 enum TabNames {
   "LOGIN",
   "SIGNUP",
-}
-
-// TODO: grab the request and return types from the RPC I/O Types instead of redefining them here
-export interface LoginRequestData {
-  username: string;
-  password: string;
-}
-export interface LoginRequestReturn {
-  success: boolean;
-  token?: string;
 }
 
 interface FormTabProps {
@@ -67,16 +58,11 @@ export default function LoginSignupMenu() {
     setSelectedTab(newValue);
   };
 
-  const { createUserWithEMail } = useGraphDataContext();
-
-  const handleLoginSubmit = (
-    _: LoginRequestData
-  ): Promise<LoginRequestReturn> => {
-    // TODO: write user management context with login RPC
-    return Promise.resolve({ success: true });
+  const { createUserWithEMail, loginUser } = useGraphDataContext();
+  const handleLoginSubmit = (userInput: UserLoginInfo) => {
+    return loginUser(userInput);
   };
   const handleSignUpSubmit = (signup: UserSignupInfo) => {
-    console.log(JSON.stringify(signup));
     return createUserWithEMail(signup);
   };
 
