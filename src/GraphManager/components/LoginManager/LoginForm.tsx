@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import { LockOutlined } from "@mui/icons-material";
-import { StyledBox, StyledBoxSX, TextFieldFormikLogin } from "./Styles";
+import { StyledBox, StyledBoxSX, TextFieldFormikGenerator } from "./Styles";
 import { useFormik } from "formik";
 import {
   LoginUserFnResponse,
@@ -39,12 +39,13 @@ export default function LoginForm(props: LoginFormProps) {
         Login
       </Typography>
       <Box component="form" onSubmit={formik.handleSubmit}>
-        <TextFieldFormikLogin
+        <TextFieldFormikGenerator
           fieldName="email"
           fieldLabel="Email Address"
           formik={formik}
+          autoFocus
         />
-        <TextFieldFormikLogin
+        <TextFieldFormikGenerator
           fieldName="password"
           fieldLabel="Password"
           formik={formik}

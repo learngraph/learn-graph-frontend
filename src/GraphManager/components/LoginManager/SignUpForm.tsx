@@ -6,11 +6,7 @@ import {
   UserSignupInfo,
 } from "src/GraphManager/hooks/useCreateUser";
 import { validateUserSignupRequest } from "./InputValidation";
-import {
-  StyledBox,
-  StyledBoxSX,
-  TextFieldFormikSignup /*,TextFieldFormikGenerator*/,
-} from "./Styles";
+import { StyledBox, StyledBoxSX, TextFieldFormikGenerator } from "./Styles";
 
 interface SignUpFormProps {
   onSubmit: CreateUserWithMailFn;
@@ -35,17 +31,18 @@ export const SignUpForm = (props: SignUpFormProps) => {
         Sign Up
       </Typography>
       <Box component="form" onSubmit={formik.handleSubmit}>
-        <TextFieldFormikSignup
+        <TextFieldFormikGenerator
           fieldName="username"
           fieldLabel="User Name"
           formik={formik}
+          autoFocus
         />
-        <TextFieldFormikSignup
+        <TextFieldFormikGenerator
           fieldName="email"
           fieldLabel="Email Address"
           formik={formik}
         />
-        <TextFieldFormikSignup
+        <TextFieldFormikGenerator
           fieldName="password"
           fieldLabel="Password"
           formik={formik}
