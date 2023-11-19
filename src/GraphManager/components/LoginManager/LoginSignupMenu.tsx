@@ -6,8 +6,12 @@ import Tab from "@mui/material/Tab";
 import LoginForm from "./LoginForm";
 import { SignUpForm } from "./SignUpForm";
 import { useGraphDataContext } from "src/GraphDataContext";
-import { UserSignupInfo } from "src/GraphManager/hooks/useCreateUser";
+import {
+  LoginResponse,
+  UserSignupInfo,
+} from "src/GraphManager/hooks/useCreateUser";
 import { UserLoginInfo } from "src/GraphManager/hooks/useLoginUser";
+import { useUserDataContext } from "src/UserDataContext";
 
 enum TabNames {
   "LOGIN",
@@ -59,11 +63,25 @@ export default function LoginSignupMenu() {
   };
 
   const { createUserWithEMail, loginUser } = useGraphDataContext();
-  const handleLoginSubmit = (userInput: UserLoginInfo) => {
-    return loginUser(userInput);
+  const { setUserID, setAuthenticationToken } = useUserDataContext();
+  const loginUserInContext = (login: LoginResponse | undefined) => {
+    if (login?.success) {
+      setUserID(login.userID);
+      setAuthenticationToken(login.token);
+      console.log(
+        `setting login info in context: id=${login.userID}, id=${login.token}`
+      );
+    } else {
+      console.log(`login failed: ${login}`);
+    }
   };
-  const handleSignUpSubmit = (signup: UserSignupInfo) => {
-    return createUserWithEMail(signup);
+  const handleLoginSubmit = async (userInput: UserLoginInfo) => {
+    const rsp = await loginUser(userInput);
+    loginUserInContext(rsp.data?.login);
+  };
+  const handleSignUpSubmit = async (signup: UserSignupInfo) => {
+    const rsp = await createUserWithEMail(signup);
+    loginUserInContext(rsp.data?.createUserWithEMail.login);
   };
 
   return (

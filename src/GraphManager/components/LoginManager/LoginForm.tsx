@@ -11,14 +11,11 @@ import {
 import { LockOutlined } from "@mui/icons-material";
 import { StyledBox, StyledBoxSX, TextFieldFormikGenerator } from "./Styles";
 import { useFormik } from "formik";
-import {
-  LoginUserFnResponse,
-  UserLoginInfo,
-} from "src/GraphManager/hooks/useLoginUser";
+import { UserLoginInfo } from "src/GraphManager/hooks/useLoginUser";
 import { validateUserLoginRequest } from "./InputValidation";
 
 interface LoginFormProps {
-  onSubmit: (data: UserLoginInfo) => Promise<LoginUserFnResponse>;
+  onSubmit: (data: UserLoginInfo) => void;
 }
 
 interface LoginFormValues extends UserLoginInfo {

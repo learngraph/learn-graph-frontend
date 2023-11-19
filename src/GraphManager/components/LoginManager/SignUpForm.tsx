@@ -1,15 +1,12 @@
 import { Avatar, Box, Button, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
-import {
-  CreateUserWithMailFn,
-  UserSignupInfo,
-} from "src/GraphManager/hooks/useCreateUser";
+import { UserSignupInfo } from "src/GraphManager/hooks/useCreateUser";
 import { validateUserSignupRequest } from "./InputValidation";
 import { StyledBox, StyledBoxSX, TextFieldFormikGenerator } from "./Styles";
 
 interface SignUpFormProps {
-  onSubmit: CreateUserWithMailFn;
+  onSubmit: (data: UserSignupInfo) => void;
 }
 
 export const SignUpForm = (props: SignUpFormProps) => {

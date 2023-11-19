@@ -1,44 +1,50 @@
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloLink,
-  HttpLink,
-} from "@apollo/client";
-import { setContext, ContextSetter } from "@apollo/client/link/context";
+interface AuthHeaderArgs {
+  headers: any;
+  token: string;
+}
+interface HeaderArgs {
+  headers: any;
+  header: string;
+  content: string;
+}
 
-import fetch from "cross-fetch";
-
-const linkHttp: ApolloLink = new HttpLink({
-  uri: process.env.REACT_APP_BACKEND_DN, // TODO(skep): not working, option seems to be ignored, since learngraph.org is working and we currently set this to https://learn-tree.info/query, which should not work at all
-  fetch,
-});
-const cache = new InMemoryCache();
-
-export const addAuthHeader: ContextSetter = (_, { headers }) => {
-  // TODO(skep): user authentication?
-  // get the authentication token from local storage if it exists
-  const token = localStorage.getItem("token");
-  // return the headers to the context so httpLink can read them
+export const addHeaderWithContent = (args: HeaderArgs) => {
   return {
     headers: {
-      ...headers,
-      Authentication: token ? `Bearer ${token}` : "unauthenticated",
+      ...args.headers,
+      [args.header]: args.content,
     },
   };
 };
-const linkAuth = setContext(addAuthHeader);
 
-export const addLanguageHeader: ContextSetter = (_, { headers }) => {
-  return {
-    headers: {
-      ...headers,
-      Language: "en", // TODO(skep): create context w/ language setting und use it's language value here
-    },
-  };
+export const addAuthHeader = (args: AuthHeaderArgs) => {
+  return addHeaderWithContent({
+    headers: args.headers,
+    header: "Authentication",
+    content: args.token ? `Bearer ${args.token}` : "unauthenticated",
+  });
 };
-const linkLang = setContext(addLanguageHeader);
 
-export const client = new ApolloClient({
-  cache: cache,
-  link: linkLang.concat(linkAuth.concat(linkHttp)),
-});
+interface LanguageHeaderArgs {
+  headers: any;
+  language: string;
+}
+export const addLanguageHeader = (args: LanguageHeaderArgs) => {
+  return addHeaderWithContent({
+    headers: args.headers,
+    header: "Language",
+    content: args.language,
+  });
+};
+
+interface UserIDHeaderArgs {
+  headers: any;
+  userID: string;
+}
+export const addUserIDHeader = (args: UserIDHeaderArgs) => {
+  return addHeaderWithContent({
+    headers: args.headers,
+    header: "UserID",
+    content: args.userID,
+  });
+};
