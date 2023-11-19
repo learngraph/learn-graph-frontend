@@ -16,8 +16,8 @@ const CREATE_USER_WITHMAIL = gql`
         success
         message
         token
+        userID
       }
-      newUserID
     }
   }
 `;
@@ -39,13 +39,13 @@ export interface CreateUserWithMailFnResponse {
 
 export interface LoginResponse {
   success: boolean;
-  token?: string;
+  token: string;
+  userID: string;
   message?: string;
 }
 
 export interface CreateUserWithMailResponseData {
   login: LoginResponse;
-  newUserID?: string;
 }
 
 export interface CreateUserWithMailResponse {
