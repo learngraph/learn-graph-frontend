@@ -41,6 +41,7 @@ export interface LoginResponse {
   success: boolean;
   token: string;
   userID: string;
+  userName?: string; // not set on signup response
   message?: string;
 }
 

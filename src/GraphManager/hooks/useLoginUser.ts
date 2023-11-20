@@ -9,6 +9,7 @@ const LOGIN = gql`
       token
       message
       userID
+      userName
     }
   }
 `;

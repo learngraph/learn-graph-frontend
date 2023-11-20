@@ -14,7 +14,9 @@ export interface UserDataContextValues {
   language: string;
   setLanguage: React.Dispatch<React.SetStateAction<string>>;
   userID: string;
+  userName: string;
   setUserID: React.Dispatch<React.SetStateAction<string>>;
+  setUserName: React.Dispatch<React.SetStateAction<string>>;
   authenticationToken: string;
   setAuthenticationToken: React.Dispatch<React.SetStateAction<string>>;
 }
@@ -25,9 +27,11 @@ const errMsgNoDefault =
 const defaultContextValues = {
   language: defaultLanguage,
   userID: "",
+  userName: "",
   authenticationToken: "",
   setLanguage: () => Promise.reject({ error: errMsgNoDefault }),
   setUserID: () => Promise.reject({ error: errMsgNoDefault }),
+  setUserName: () => Promise.reject({ error: errMsgNoDefault }),
   setAuthenticationToken: () => Promise.reject({ error: errMsgNoDefault }),
 };
 
@@ -41,6 +45,7 @@ export const UserDataContextProvider: React.FC<{
 }> = ({ children }) => {
   const [language, setLanguage] = React.useState<string>(defaultLanguage);
   const [userID, setUserID] = React.useState<string>("");
+  const [userName, setUserName] = React.useState<string>("");
   const [authenticationToken, setAuthenticationToken] =
     React.useState<string>("");
 
@@ -73,7 +78,9 @@ export const UserDataContextProvider: React.FC<{
         language,
         setLanguage,
         userID,
+        userName,
         setUserID,
+        setUserName,
         authenticationToken,
         setAuthenticationToken,
       }}

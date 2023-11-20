@@ -63,13 +63,16 @@ export default function LoginSignupMenu() {
   };
 
   const { createUserWithEMail, loginUser } = useGraphDataContext();
-  const { setUserID, setAuthenticationToken } = useUserDataContext();
+  const { setUserID, setUserName, setAuthenticationToken } =
+    useUserDataContext();
   const loginUserInContext = (login: LoginResponse | undefined) => {
     if (login?.success) {
+      const username = login.userName ?? "unknown";
       setUserID(login.userID);
+      setUserName(username);
       setAuthenticationToken(login.token);
       console.log(
-        `setting login info in context: id=${login.userID}, id=${login.token}`
+        `setting login info in context: username=${username} id=${login.userID}, token=${login.token}`
       );
     } else {
       console.log(`login failed: ${login}`);
