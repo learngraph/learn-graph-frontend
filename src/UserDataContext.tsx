@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   ApolloProvider,
   ApolloClient,
@@ -40,6 +40,20 @@ const UserDataContext =
 
 export const useUserDataContext = () => React.useContext(UserDataContext);
 
+//// maybe?
+//interface UserData {
+//    userID: string;
+//    userName: string;
+//    authenticationToken: string;
+//};
+
+const storageSave = (key: string, value: any) => {
+  localStorage.setItem(key, JSON.stringify(value));
+};
+const storageLoad = (key: string) => {
+  return JSON.parse(localStorage.getItem(key) ?? `""`);
+};
+
 export const UserDataContextProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
@@ -48,6 +62,26 @@ export const UserDataContextProvider: React.FC<{
   const [userName, setUserName] = React.useState<string>("");
   const [authenticationToken, setAuthenticationToken] =
     React.useState<string>("");
+
+  useEffect(() => {
+    if (userID === "" || authenticationToken === "" || userName === "") {
+      return;
+    }
+    storageSave("userID", userID);
+    storageSave("userName", userName);
+    storageSave("authenticationToken", authenticationToken);
+  }, [userID, userName, authenticationToken]);
+  useEffect(() => {
+    const id = storageLoad("userID");
+    const name = storageLoad("userName");
+    const token = storageLoad("authenticationToken");
+    if (id === "" || name === "" || token === "") {
+      return;
+    }
+    setUserID(id);
+    setUserName(name);
+    setAuthenticationToken(token);
+  }, []);
 
   // TODO(skep): save/fetch {authToken, userID, language} from local storage
   const addUserIDHeaderFromContext: ContextSetter = (_, { headers }) => {
