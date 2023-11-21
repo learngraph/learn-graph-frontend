@@ -60,7 +60,7 @@ export default function LoginForm(props: LoginFormProps) {
               checked={formik.values.rememberme}
             />
           }
-          label="Remember me"
+          label="Remember me (not implemented)"
           name="rememberme"
           onChange={formik.handleChange}
         />
