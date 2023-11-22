@@ -44,7 +44,7 @@ export function getUpdateNodeAction(graph: EditGraph) {
         id: requestId,
       });
       if (responseID === undefined) {
-        reject(new Error("Didnt receive updated node ID from the backend!"));
+        reject(new Error("Didn't receive updated node ID from the backend!"));
         return;
       }
       resolve({ data: { updateNode: { ID: responseID } } });
@@ -93,8 +93,8 @@ export function getCreateNodeAction(graph: EditGraph) {
         type: pendingActionTypes.CLEAR_REQUEST,
         id: requestId,
       });
-      if (responseID === undefined) {
-        reject("Didnt receive updated node ID from the backend!");
+      if (responseID === undefined || responseID === "") {
+        reject("Didn't receive updated node ID from the backend!");
         return;
       }
       resolve({ data: { createNode: { ID: responseID } } });

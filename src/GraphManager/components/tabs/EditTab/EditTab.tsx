@@ -94,8 +94,6 @@ export const updateNodeFn = (args: {
   };
 };
 
-// TODO: use running index to avoid conflicts when adding nodes in succession
-export const TMPLINK_ID = "TMPNEWEDGE";
 export const updateLinkFn = (props: EditTabProps) => {
   return ({
     oldLink,

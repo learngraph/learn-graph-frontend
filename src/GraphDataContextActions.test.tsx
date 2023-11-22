@@ -9,24 +9,24 @@ import {
 import { pendingActionTypes } from "./GraphDataContext";
 jest.mock("./getRequestId", () => () => "1");
 
-describe("getCreateLinkAction", () => {
-  const makeEditGraphMock = () => {
-    return {
-      requests: [],
-      requestsDispatch: jest.fn(),
-      nodes: [],
-      setNodes: jest.fn(),
-      links: [],
-      setLinks: jest.fn(),
-      createNodeInBackend: () => Promise.reject({}),
-      createLinkInBackend: () => Promise.reject({}),
-      updateNodeInBackend: () => Promise.reject({}),
-      submitVoteInBackend: () => Promise.reject({}),
-    };
+const makeDefaultEditGraphMock = () => {
+  return {
+    requests: [],
+    requestsDispatch: jest.fn(),
+    nodes: [],
+    setNodes: jest.fn(),
+    links: [],
+    setLinks: jest.fn(),
+    createNodeInBackend: () => Promise.reject({}),
+    createLinkInBackend: () => Promise.reject({}),
+    updateNodeInBackend: () => Promise.reject({}),
+    submitVoteInBackend: () => Promise.reject({}),
   };
+};
 
+describe("getCreateLinkAction", () => {
   it("should successfully create a link with id='NEWID'", async () => {
-    let editGraph: EditGraph = makeEditGraphMock();
+    let editGraph: EditGraph = makeDefaultEditGraphMock();
     // backend shall return a new ID successfully
     editGraph.createLinkInBackend = (_) =>
       Promise.resolve({ data: { createEdge: { ID: "NEWID" } } });
@@ -38,7 +38,7 @@ describe("getCreateLinkAction", () => {
   });
 
   it("should successfully create a link with the ID we put in", async () => {
-    let editGraph: EditGraph = makeEditGraphMock();
+    let editGraph: EditGraph = makeDefaultEditGraphMock();
     // backend shall return a new ID successfully
     editGraph.createLinkInBackend = (_) =>
       Promise.resolve({ data: { createEdge: { ID: "ANOTHER_ID" } } });
@@ -50,7 +50,7 @@ describe("getCreateLinkAction", () => {
   });
 
   it("should store the new link with its id in the links state", async () => {
-    let editGraph: EditGraph = makeEditGraphMock();
+    let editGraph: EditGraph = makeDefaultEditGraphMock();
     const linksEntry1 = {
       source: "123",
       target: "234",
@@ -98,7 +98,7 @@ describe("getCreateLinkAction", () => {
   ])(
     "should fail if it tries to create a link %p a node that doesnt exist yet (link:%p)",
     (_: string, link: NewLinkType) => {
-      let editGraph: EditGraph = makeEditGraphMock();
+      let editGraph: EditGraph = makeDefaultEditGraphMock();
       editGraph.requests = [
         {
           type: pendingActionTypes.CREATE_NODE_WITH_TEMP_ID,
@@ -116,7 +116,7 @@ describe("getCreateLinkAction", () => {
   );
 
   it("should queue and delete pending request in a successful call", async () => {
-    let editGraph: EditGraph = makeEditGraphMock();
+    let editGraph: EditGraph = makeDefaultEditGraphMock();
     editGraph.createLinkInBackend = (_) =>
       Promise.resolve({ data: { createEdge: { ID: "NEWID" } } });
     let createLink = getCreateLinkAction(editGraph);
@@ -140,7 +140,7 @@ describe("getCreateLinkAction", () => {
   });
 
   it("should queue and delete pending request in a failing call", async () => {
-    let editGraph: EditGraph = makeEditGraphMock();
+    let editGraph: EditGraph = makeDefaultEditGraphMock();
     editGraph.createLinkInBackend = (_) => Promise.reject("some error i guess");
     let createLink = getCreateLinkAction(editGraph);
     try {
@@ -164,7 +164,7 @@ describe("getCreateLinkAction", () => {
     }
   });
   it("should not queue pending request in a call that doesnt get send", async () => {
-    let editGraph: EditGraph = makeEditGraphMock();
+    let editGraph: EditGraph = makeDefaultEditGraphMock();
     editGraph.requests = [
       {
         type: pendingActionTypes.CREATE_NODE_WITH_TEMP_ID,
@@ -184,23 +184,8 @@ describe("getCreateLinkAction", () => {
 });
 
 describe("getUpdateNodeAction", () => {
-  const makeEditGraphMock = () => {
-    return {
-      requests: [],
-      requestsDispatch: jest.fn(),
-      nodes: [],
-      setNodes: jest.fn(),
-      links: [],
-      setLinks: jest.fn(),
-      createNodeInBackend: () => Promise.reject({}),
-      createLinkInBackend: () => Promise.reject({}),
-      updateNodeInBackend: () => Promise.reject({}),
-      submitVoteInBackend: () => Promise.reject({}),
-    };
-  };
-
   it("should reject if node does not exist", async () => {
-    let graph: EditGraph = makeEditGraphMock();
+    let graph: EditGraph = makeDefaultEditGraphMock();
     graph.updateNodeInBackend = jest.fn();
 
     const updateNodeAction = getUpdateNodeAction(graph);
@@ -216,7 +201,7 @@ describe("getUpdateNodeAction", () => {
 
   it("should update node and return response", async () => {
     const graph = {
-      ...makeEditGraphMock(),
+      ...makeDefaultEditGraphMock(),
       nodes: [
         {
           id: "1",
@@ -246,7 +231,7 @@ describe("getUpdateNodeAction", () => {
   it("should reject and undo changes if updateNodeInBackend fails", async () => {
     const rejectError = new Error("backend reject");
     const graph = {
-      ...makeEditGraphMock(),
+      ...makeDefaultEditGraphMock(),
       nodes: [
         {
           id: "1",
@@ -271,23 +256,27 @@ describe("getUpdateNodeAction", () => {
     });
   });
 });
-describe("getCreateNodeAction", () => {
-  it("should create a new node and return its ID", async () => {
-    const graph = {
-      setLinks: jest.fn(),
-      createLinkInBackend: () => Promise.reject({}),
-      updateNodeInBackend: () => Promise.reject({}),
-      submitVoteInBackend: () => Promise.reject({}),
-      nodes: [],
-      links: [],
-      requests: [],
-      requestsDispatch: jest.fn(),
-      setNodes: jest.fn(),
-      createNodeInBackend: jest.fn(() =>
-        Promise.resolve({ data: { createNode: { ID: "new-node-id" } } })
-      ),
-    };
 
+describe("getCreateNodeAction", () => {
+  it("should handle empty IDs from backend as error", async () => {
+    let graph: EditGraph = makeDefaultEditGraphMock();
+    graph.createNodeInBackend = jest.fn(() =>
+      Promise.resolve({ data: { createNode: { ID: "" } } })
+    );
+    const createNodeAction = getCreateNodeAction(graph);
+    await expect(
+      createNodeAction({
+        description: {
+          translations: [{ language: "en", content: "new description" }],
+        },
+      })
+    ).rejects.toContain("Didn't receive updated node ID from the backend");
+  });
+  it("should create a new node and return its ID", async () => {
+    let graph: EditGraph = makeDefaultEditGraphMock();
+    graph.createNodeInBackend = jest.fn(() =>
+      Promise.resolve({ data: { createNode: { ID: "new-node-id" } } })
+    );
     const createNodeAction = getCreateNodeAction(graph);
 
     await expect(
@@ -342,21 +331,10 @@ describe("getCreateNodeAction", () => {
   });
 
   it("should reject if node creation fails", async () => {
-    const graph = {
-      setLinks: jest.fn(),
-      createLinkInBackend: () => Promise.reject({}),
-      updateNodeInBackend: () => Promise.reject({}),
-      submitVoteInBackend: () => Promise.reject({}),
-      nodes: [],
-      links: [],
-      requests: [],
-      requestsDispatch: jest.fn(),
-      setNodes: jest.fn(),
-      createNodeInBackend: jest.fn(() => {
-        throw new Error("Failed to create node");
-      }),
-    };
-
+    let graph: EditGraph = makeDefaultEditGraphMock();
+    graph.createNodeInBackend = jest.fn(() => {
+      throw new Error("Failed to create node");
+    });
     const createNodeAction = getCreateNodeAction(graph);
 
     await expect(
@@ -379,6 +357,7 @@ describe("getCreateNodeAction", () => {
     });
     expect(graph.requestsDispatch).toHaveBeenNthCalledWith(2, {
       type: pendingActionTypes.CLEAR_REQUEST,
+      // @ts-ignore
       id: graph.requestsDispatch.mock.calls[0][0].id,
     });
 
@@ -396,18 +375,9 @@ describe("getCreateNodeAction", () => {
 
 describe("getSubmitVoteAction", () => {
   const makeEditGraphMock = () => {
-    return {
-      requests: [],
-      requestsDispatch: jest.fn(),
-      nodes: [],
-      setNodes: jest.fn(),
-      links: [{ id: "some-id", source: "abc", target: "xyz", value: 2 }],
-      setLinks: jest.fn(),
-      createNodeInBackend: () => Promise.reject({}),
-      createLinkInBackend: () => Promise.reject({}),
-      updateNodeInBackend: () => Promise.reject({}),
-      submitVoteInBackend: () => Promise.reject({}),
-    };
+    let graph: EditGraph = makeDefaultEditGraphMock();
+    graph.links = [{ id: "some-id", source: "abc", target: "xyz", value: 2 }];
+    return graph;
   };
 
   it("should successfully submit a vote, queue and delete the call and store the updated values in state", async () => {
