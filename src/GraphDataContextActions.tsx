@@ -176,8 +176,8 @@ export function getCreateLinkAction(graph: EditGraph) {
         });
       }
 
-      if (responseID === undefined) {
-        reject("Didnt receive new link ID from the backend!");
+      if (responseID === undefined || responseID === '') {
+        reject("Didn't receive new link ID from the backend!");
         return;
       }
       resolve({ data: { createEdge: { ID: responseID } } });

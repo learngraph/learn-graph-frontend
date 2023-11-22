@@ -37,6 +37,17 @@ describe("getCreateLinkAction", () => {
     });
   });
 
+  it("should report error on empty id from backend", async () => {
+    let editGraph: EditGraph = makeDefaultEditGraphMock();
+    // backend fails to deliver ID
+    editGraph.createLinkInBackend = (_) =>
+      Promise.resolve({ data: { createEdge: { ID: "" } } });
+    let createLink = getCreateLinkAction(editGraph);
+    await expect(createLink({ from: "A", to: "B", weight: 2 })).rejects.toEqual(
+      "Didn't receive new link ID from the backend!"
+    );
+  });
+
   it("should successfully create a link with the ID we put in", async () => {
     let editGraph: EditGraph = makeDefaultEditGraphMock();
     // backend shall return a new ID successfully
