@@ -176,7 +176,7 @@ export function getCreateLinkAction(graph: EditGraph) {
         });
       }
 
-      if (responseID === undefined || responseID === '') {
+      if (responseID === undefined || responseID === "") {
         reject("Didn't receive new link ID from the backend!");
         return;
       }

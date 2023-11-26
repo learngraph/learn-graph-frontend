@@ -1,7 +1,7 @@
 import { gql, useMutation } from "@apollo/client";
 import { ApolloQueryResponse } from "./types";
 
-const CREATE_USER_WITHMAIL = gql`
+export const CREATE_USER_WITHMAIL = gql`
   mutation createUserWithEMail(
     $username: String!
     $password: String!
@@ -16,6 +16,7 @@ const CREATE_USER_WITHMAIL = gql`
         success
         message
         token
+        userName
         userID
       }
     }
