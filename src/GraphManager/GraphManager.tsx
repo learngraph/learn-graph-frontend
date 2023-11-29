@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, MutableRefObject } from "react";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import Fab from "@mui/material/Fab";
@@ -84,13 +84,12 @@ export const GraphManager = (props: GraphManagerProps): JSX.Element => {
     setVoteDialogInput(params);
   };
 
-  const graphDataForRender: GraphDataForceGraph = JSON.parse(
-    JSON.stringify(transformToRenderedType(graph, language))
-  );
+  const graphDataForRenderRef: MutableRefObject<GraphDataForceGraph | null> =
+    useRef<GraphDataForceGraph | null>(null);
 
   const highlightNodes = new Set<Node>();
   const searchCallback = (userInput: string) => {
-    userSearchMatching(highlightNodes, graphDataForRender, userInput);
+    userSearchMatching(highlightNodes, graphDataForRenderRef, userInput);
   };
 
   return (
@@ -154,7 +153,7 @@ export const GraphManager = (props: GraphManagerProps): JSX.Element => {
           submitVote={submitVote}
         />
         <GraphRenderer
-          graphData={graphDataForRender}
+          ref={graphDataForRenderRef}
           openVoteDialog={openVoteDialog}
           highlightNodes={highlightNodes}
         />
@@ -164,7 +163,7 @@ export const GraphManager = (props: GraphManagerProps): JSX.Element => {
 };
 
 // TODO: extract to another file
-const transformToRenderedType = (
+export const transformToRenderedType = (
   graph: TranslatedGraphData,
   language: string
 ): GraphData => {

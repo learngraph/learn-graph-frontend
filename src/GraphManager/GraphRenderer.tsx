@@ -15,6 +15,9 @@ import {
 import { MutableRefObject, useRef, useState, useLayoutEffect } from "react";
 import { Box } from "@mui/material";
 import { VoteDialogFn } from "./components/VoteDialog";
+import { transformToRenderedType } from "./GraphManager";
+import { useGraphDataContext } from "src/GraphDataContext";
+import { useUserDataContext } from "src/UserDataContext";
 
 // TODO(skep): fundamental type issue here, we have 2-3 types in one:
 //  1. `NodeType`: our node type, with added properties, that we use in
@@ -38,7 +41,7 @@ export interface GraphDataForceGraph {
 }
 
 interface GraphRendererProps {
-  graphData: GraphDataForceGraph;
+  ref: MutableRefObject<GraphDataForceGraph | null>;
   openVoteDialog: VoteDialogFn;
   highlightNodes: Set<Node>;
 }
@@ -258,6 +261,15 @@ export const makeOnZoomAndPanListener = (
 };
 
 export const GraphRenderer = (props: GraphRendererProps) => {
+  const { graph, setLinks, setNodes /*, submitVote*/ } = useGraphDataContext();
+  const { language } = useUserDataContext();
+  // @ts-ignore: FIXME: should not be necessary
+  const graphData: GraphDataForceGraph = transformToRenderedType(
+    graph,
+    language
+  );
+  //props.ref.current = graphData; // TODO: fix with forward ref
+
   const onLinkClick = onLinkClickFn(props.openVoteDialog);
   const forcegraphRef = useRef<ForceGraphMethods>();
 
@@ -281,6 +293,16 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   // TODO: make it react-isch? not sure where to put it
   document.addEventListener("keydown", makeKeydownListener(forcegraphRef));
 
+  const onClickCreateNode = (mouse: MouseEvent) => {
+    const [x, y] = [mouse.x, mouse.y];
+    console.log(`clicked background @ ${x}, ${y}`);
+    graphData.nodes = [
+      ...graphData.nodes,
+      { id: "new1", description: "NEW!!" },
+    ];
+    forcegraphRef.current?.d3ReheatSimulation();
+  };
+
   return (
     <Box
       id="canvasWrapper"
@@ -294,7 +316,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
         // Note: all data must be copied, since force graph changes Link "source"
         // and "target" fields to directly contain the referred node objects
         // nodes:
-        graphData={props.graphData}
+        graphData={graphData}
         nodeAutoColorBy={"group"}
         onNodeClick={onNodeClick}
         nodeCanvasObject={makeNodeCanvasObject(props.highlightNodes)}
@@ -309,11 +331,8 @@ export const GraphRenderer = (props: GraphRendererProps) => {
         // @ts-ignore
         linkCanvasObjectMode={() => config.linkCanvasObjectMode}
         linkCanvasObject={linkCanvasObject}
-        onZoom={makeOnZoomAndPanListener(
-          forcegraphRef,
-          zoomStep,
-          props.graphData
-        )}
+        onZoom={makeOnZoomAndPanListener(forcegraphRef, zoomStep, graphData)}
+        onBackgroundClick={onClickCreateNode}
       />
     </Box>
   );
