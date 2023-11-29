@@ -8,22 +8,19 @@ import { Box } from "@mui/material";
 
 import { GraphFileList, GraphManagementMenu, VoteDialog } from "./components";
 import { DataSetType, GraphData } from "./types";
-import {
-  GraphRenderer,
-  VoteDialogParams,
-  Node,
-  GraphDataForceGraph,
-} from "./GraphRenderer";
+import { GraphRenderer, Node, GraphDataForceGraph } from "./GraphRenderer";
 import {
   sanitizeGraphData,
   sanitizeGraphDataset,
   transformDisplayedNodesToPseudoTranslated,
   transformGraphDataForDisplay,
 } from "./GraphUtil";
-import SearchAppBar from "./components/SearchAppBar";
+import HeaderBar from "./components/HeaderBar";
 import { TranslatedGraphData, useGraphDataContext } from "src/GraphDataContext";
 import { getTranslation } from "./utilities/getTranslation";
 import { userSearchMatching } from "./components/Search";
+import { VoteDialogParams } from "./components/VoteDialog";
+import { useUserDataContext } from "src/UserDataContext";
 
 interface GraphManagerProps {
   datasets: DataSetType[];
@@ -42,26 +39,15 @@ export const GraphManager = (props: GraphManagerProps): JSX.Element => {
 
   const [graphName, setGraphName] = useState<string>("");
 
-  const language = "en"; // TODO: use language context
-
-  const transformedGraphData = transformGraphDataForDisplay({
-    graph,
-    language,
-  });
+  const { language } = useUserDataContext();
 
   const currentGraphDataset: DataSetType = {
     dataSetName: graphName,
-    data: transformedGraphData,
+    data: transformGraphDataForDisplay({
+      graph,
+      language,
+    }),
   };
-
-  // FIXME(j): does not work (test: don't start backend, no graph is visible)
-  useEffect(() => {
-    setTimeout(() => {
-      if (!props.fetchedGraph && !graph) handleDatasetChange(props.datasets[0]);
-    }, 500);
-    // should only be executed once on startup, thus no dependencies
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   useEffect(() => {
     if (props.fetchedGraph) {
@@ -74,7 +60,13 @@ export const GraphManager = (props: GraphManagerProps): JSX.Element => {
       setLinks(sanitizedDataset.data.links);
       setNodes(pseudoTranslatedNodes);
     }
-  }, [props.queryResponse.loading, props.fetchedGraph, setLinks, setNodes]);
+  }, [
+    props.queryResponse.loading,
+    props.fetchedGraph,
+    setLinks,
+    setNodes,
+    language,
+  ]);
 
   const handleDatasetChange = (dataset: DataSetType) => {
     const sanitizedDataset = sanitizeGraphDataset(dataset);
@@ -93,7 +85,7 @@ export const GraphManager = (props: GraphManagerProps): JSX.Element => {
   };
 
   const graphDataForRender: GraphDataForceGraph = JSON.parse(
-    JSON.stringify(transformToRenderedType(graph))
+    JSON.stringify(transformToRenderedType(graph, language))
   );
 
   const highlightNodes = new Set<Node>();
@@ -119,7 +111,7 @@ export const GraphManager = (props: GraphManagerProps): JSX.Element => {
         >
           {isMenuVisible ? <ExpandLessIcon /> : <ExpandMoreIcon />}
         </Fab>
-        <SearchAppBar userInputCallback={searchCallback} />
+        <HeaderBar userInputCallback={searchCallback} />
       </Box>
       <Box sx={{ flex: 1, width: "100%" }}>
         {isMenuVisible && (
@@ -172,9 +164,10 @@ export const GraphManager = (props: GraphManagerProps): JSX.Element => {
 };
 
 // TODO: extract to another file
-const transformToRenderedType = (graph: TranslatedGraphData): GraphData => {
-  // TODO: use language context
-  const language = "en";
+const transformToRenderedType = (
+  graph: TranslatedGraphData,
+  language: string
+): GraphData => {
   const transformedNodes = graph.nodes.map(({ id, description, group }) => {
     return {
       id,

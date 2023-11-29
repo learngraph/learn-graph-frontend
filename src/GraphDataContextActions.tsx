@@ -44,7 +44,7 @@ export function getUpdateNodeAction(graph: EditGraph) {
         id: requestId,
       });
       if (responseID === undefined) {
-        reject(new Error("Didnt receive updated node ID from the backend!"));
+        reject(new Error("Didn't receive updated node ID from the backend!"));
         return;
       }
       resolve({ data: { updateNode: { ID: responseID } } });
@@ -85,8 +85,7 @@ export function getCreateNodeAction(graph: EditGraph) {
         );
         graph.setNodes(nodesWithoutTempNode);
 
-        // TODO: report error to user - notistack?
-        // TODO(far future): log error
+        // TODO: report error to user - notistack? (+ log error)
         reject(error);
       }
 
@@ -94,8 +93,8 @@ export function getCreateNodeAction(graph: EditGraph) {
         type: pendingActionTypes.CLEAR_REQUEST,
         id: requestId,
       });
-      if (responseID === undefined) {
-        reject("Didnt receive updated node ID from the backend!");
+      if (responseID === undefined || responseID === "") {
+        reject("Didn't receive updated node ID from the backend!");
         return;
       }
       resolve({ data: { createNode: { ID: responseID } } });
@@ -177,8 +176,8 @@ export function getCreateLinkAction(graph: EditGraph) {
         });
       }
 
-      if (responseID === undefined) {
-        reject("Didnt receive new link ID from the backend!");
+      if (responseID === undefined || responseID === "") {
+        reject("Didn't receive new link ID from the backend!");
         return;
       }
       resolve({ data: { createEdge: { ID: responseID } } });

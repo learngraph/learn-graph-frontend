@@ -22,7 +22,7 @@ const submitVoteFn: SubmitVoteFn = () =>
 
 export function useSubmitVote(): {
   submitVote: SubmitVoteFn;
-  data: any; // TODO(skep): Message with ID?
+  data: SubmitVoteFnResponse;
   queryResponse: ApolloQueryResponse;
 } {
   return {

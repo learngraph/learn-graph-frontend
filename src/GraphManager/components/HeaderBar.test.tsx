@@ -1,11 +1,11 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import SearchAppBar from "./SearchAppBar";
+import HeaderBar from "./HeaderBar";
 
-describe("SearchAppBar", () => {
+describe("HeaderBar", () => {
   it("should call userInputCallback on input change", async () => {
     let userInputCallback = jest.fn();
-    render(<SearchAppBar userInputCallback={userInputCallback} />);
+    render(<HeaderBar userInputCallback={userInputCallback} />);
     expect(userInputCallback.mock.calls.length).toBe(0);
     let input = screen.getByLabelText("search bar");
     const user = userEvent.setup();

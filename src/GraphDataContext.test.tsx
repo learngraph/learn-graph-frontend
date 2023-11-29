@@ -7,10 +7,13 @@ import {
   RequestData,
   pendingActionTypes,
 } from "./GraphDataContext";
+
 jest.mock("./GraphManager/hooks/useCreateNode");
 jest.mock("./GraphManager/hooks/useCreateEdge");
 jest.mock("./GraphManager/hooks/useUpdateNode");
 jest.mock("./GraphManager/hooks/useSubmitVote");
+jest.mock("./GraphManager/hooks/useCreateUser");
+jest.mock("./GraphManager/hooks/useLoginUser");
 
 /**
  * A custom render to setup providers. Extends regular
@@ -19,7 +22,7 @@ jest.mock("./GraphManager/hooks/useSubmitVote");
  *
  * @see https://testing-library.com/docs/react-testing-library/setup#custom-render
  */
-const customRender = (ui: any) => {
+const renderGraphDataContextProvider = (ui: any) => {
   return render(<GraphDataContextProvider>{ui}</GraphDataContextProvider>);
 };
 
@@ -43,7 +46,7 @@ const TestConsumer = () => {
     try {
       await createLink({
         from: id,
-        to: String(Date.now()), // XXX(skep): @j: why randomness in tests?!
+        to: "irrelevant",
         weight: 0.2,
       });
     } catch (e) {
@@ -66,7 +69,7 @@ const TestConsumer = () => {
 
 describe("GraphDataContext", () => {
   it("should queue a node creation request, and toggle loading states when the request updates stuff", async () => {
-    customRender(<TestConsumer />);
+    renderGraphDataContextProvider(<TestConsumer />);
     // byTestId should be the last choice when testing real components,
     // here we built the component only for the test so its fine
     const button = screen.getByTestId("triggerNodeCreation");
@@ -77,7 +80,7 @@ describe("GraphDataContext", () => {
   });
 
   it("should not queue a link creation to a node that isnt completed yet", async () => {
-    customRender(<TestConsumer />);
+    renderGraphDataContextProvider(<TestConsumer />);
     const nodeButton = await screen.findByTestId("triggerNodeCreation");
     const edgeButton = await screen.findByTestId("triggerEdgeCreation");
     fireEvent.click(nodeButton);
@@ -87,6 +90,37 @@ describe("GraphDataContext", () => {
     const error = await screen.findByTestId("error");
     expect(error).not.toBeNull();
   });
+
+  //----------------------------------------------------------------------------
+  //// RFC(skep):
+  //// Invalid test case: cannot use `useGraphDataContext` outside of function
+  //// component, but that is necessary here to test it.
+  //// We also cannot test the hook with https://react-hooks-testing-library.com/,
+  //// since there is no logic inside the context itself.
+  //----------------------------------------------------------------------------
+  //it("should forward useCreateUser calls", async () => {
+  //  const userinfo = { username: "me", email: "me@ok.com", password: "1234" };
+  //  const ButtonCallsCreateUserWithEMail = () => {
+  //    const { createUserWithEMail: createUserWithEMailCtx } = useGraphDataContext();
+  //    return (
+  //      <button data-testid="button" onClick={() => { createUserWithEMailCtx(userinfo); }}>
+  //        click me!
+  //      </button>
+  //    );
+  //  };
+  //  renderGraphDataContextProvider(<ButtonCallsCreateUserWithEMail />);
+  //  const { createUserWithEMail } = useGraphDataContext();
+  //  // @ts-ignore
+  //  const mock = createUserWithEMail.mock;
+  //  expect(mock.calls.length).toBe(0);
+  //  var button = await screen.findByTestId("button");
+  //  await act(async () => {
+  //    const user = userEvent.setup();
+  //    await user.click(button);
+  //  });
+  //  expect(mock.calls.length).toBe(1);
+  //  expect(mock.calls[0][0]).toEqual(userinfo);
+  //});
 });
 
 describe("pendingReducer", () => {

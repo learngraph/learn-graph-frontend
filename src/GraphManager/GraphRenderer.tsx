@@ -13,8 +13,8 @@ import {
   ZoomState,
 } from "./Zoom";
 import { MutableRefObject, useRef, useState, useLayoutEffect } from "react";
-import { useGraphDataContext } from "src/GraphDataContext";
 import { Box } from "@mui/material";
+import { VoteDialogFn } from "./components/VoteDialog";
 
 // TODO(skep): fundamental type issue here, we have 2-3 types in one:
 //  1. `NodeType`: our node type, with added properties, that we use in
@@ -35,17 +35,6 @@ interface LinkBetweenNode {
 export interface GraphDataForceGraph {
   nodes: Node[];
   links: LinkBetweenNode[];
-}
-
-// TODO: move to VoteDialog.tsx
-export interface VoteDialogParams {
-  linkID: string;
-  sourceNode: NodeType;
-  targetNode: NodeType;
-  weight: number;
-}
-export interface VoteDialogFn {
-  (params: VoteDialogParams): void;
 }
 
 interface GraphRendererProps {

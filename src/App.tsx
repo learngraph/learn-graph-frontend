@@ -1,10 +1,8 @@
-import { ApolloProvider } from "@apollo/client";
+import { GraphManagerContainer } from "./GraphManager/GraphManagerContainer";
 import { GraphDataContextProvider } from "./GraphDataContext";
+import { UserDataContextProvider } from "./UserDataContext";
 //import {ThemeProvider} from "@emotion/react";
 //import { createTheme } from '@mui/material/styles';
-
-import { GraphManagerContainer } from "./GraphManager/GraphManagerContainer";
-import { client } from "./rpc/link";
 
 //const theme = createTheme({
 //  palette: {
@@ -17,11 +15,11 @@ export const App = () => {
   //</ThemeProvider>
   return (
     <>
-      <ApolloProvider client={client}>
+      <UserDataContextProvider>
         <GraphDataContextProvider>
           <GraphManagerContainer />
         </GraphDataContextProvider>
-      </ApolloProvider>
+      </UserDataContextProvider>
     </>
   );
 };

@@ -24,6 +24,11 @@ import {
   getCreateLinkAction,
   getUpdateNodeAction,
 } from "./GraphDataContextActions";
+import {
+  CreateUserWithMailFn,
+  useCreateUserWithEmail,
+} from "./GraphManager/hooks/useCreateUser";
+import { LoginFn, useLogin } from "./GraphManager/hooks/useLoginUser";
 
 export interface TranslatedNode {
   id: string;
@@ -37,15 +42,22 @@ export interface TranslatedGraphData {
 }
 
 interface GraphDataContextValues {
+  // internal data
   graph: TranslatedGraphData;
   requests: Array<RequestData>;
+  // GQL queries & mutations
   createNode: CreateNodeFn;
   updateNode: UpdateNodeFn;
-  //deleteNode: DeleteNodeFn;
   createLink: CreateEdgeFn;
   submitVote: SubmitVoteFn;
+  createUserWithEMail: CreateUserWithMailFn;
+  loginUser: LoginFn;
+  // apply graph data changes to react state
   setNodes: React.Dispatch<React.SetStateAction<TranslatedNode[]>>;
   setLinks: React.Dispatch<React.SetStateAction<LinkType[]>>;
+  //deleteNode: DeleteNodeFn;
+  //deleteEdge: ?;
+  //deleteAccount: ?;
 }
 
 const defaultContextValues = {
@@ -57,15 +69,16 @@ const defaultContextValues = {
     Promise.reject({ error: "defaultContextValues must not be used" }),
   updateNode: () =>
     Promise.reject({ error: "defaultContextValues must not be used" }),
-  submitVote: () => {
-    throw new Error("defaultContextValues must not be used");
-  },
-  setLinks: () => {
-    throw new Error("defaultContextValues must not be used");
-  },
-  setNodes: () => {
-    throw new Error("defaultContextValues must not be used");
-  },
+  submitVote: () =>
+    Promise.reject({ error: "defaultContextValues must not be used" }),
+  setLinks: () =>
+    Promise.reject({ error: "defaultContextValues must not be used" }),
+  setNodes: () =>
+    Promise.reject({ error: "defaultContextValues must not be used" }),
+  createUserWithEMail: () =>
+    Promise.reject({ error: "defaultContextValues must not be used" }),
+  loginUser: () =>
+    Promise.reject({ error: "defaultContextValues must not be used" }),
 };
 
 export enum pendingActionTypes {
@@ -79,7 +92,7 @@ export enum pendingActionTypes {
 // An interface for our actions
 export interface RequestData {
   type: pendingActionTypes;
-  data?: any;
+  data?: any; // TODO(skep): define types explicitly that are possible here
   id: string;
 }
 
@@ -134,6 +147,8 @@ const GraphDataContextProvider: React.FC<ProviderProps> = ({ children }) => {
   const { createEdge: createLinkInBackend } = useCreateEdge();
   const { updateNode: updateNodeInBackend } = useUpdateNode();
   const { submitVote: submitVoteInBackend } = useSubmitVote();
+  const { createUserWithEMail } = useCreateUserWithEmail();
+  const { login: loginUser } = useLogin();
   const editGraph: EditGraph = {
     requests,
     requestsDispatch,
@@ -146,7 +161,6 @@ const GraphDataContextProvider: React.FC<ProviderProps> = ({ children }) => {
     updateNodeInBackend,
     submitVoteInBackend,
   };
-
   return (
     <GraphDataContext.Provider
       value={{
@@ -155,7 +169,11 @@ const GraphDataContextProvider: React.FC<ProviderProps> = ({ children }) => {
         createNode: getCreateNodeAction(editGraph),
         createLink: getCreateLinkAction(editGraph),
         updateNode: getUpdateNodeAction(editGraph),
-        submitVote: () => {},
+        submitVote: () => {
+          console.log("NOT IMPLEMENTED"); // TODO(skep): implement
+        },
+        createUserWithEMail,
+        loginUser,
         setLinks,
         setNodes,
       }}
