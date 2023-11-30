@@ -4,20 +4,20 @@ import ForceGraph2D, {
   NodeObject,
 } from "react-force-graph-2d";
 import { LinkType, NodeType } from "./types";
+import { zoomStep, HasID } from "./Zoom";
 import {
-  ZoomFn,
-  GraphDataMerged,
-  ZoomDirection,
-  zoomStep,
-  HasID,
-  ZoomState,
-} from "./Zoom";
-import { MutableRefObject, useRef, useState, useLayoutEffect } from "react";
+  MutableRefObject,
+  useRef,
+  useState,
+  useLayoutEffect,
+  useEffect,
+  Dispatch,
+  SetStateAction,
+} from "react";
 import { Box } from "@mui/material";
 import { VoteDialogFn } from "./components/VoteDialog";
-import { transformToRenderedType } from "./GraphManager";
-import { useGraphDataContext } from "src/GraphDataContext";
-import { useUserDataContext } from "src/UserDataContext";
+import { useGraphData } from "./hooks";
+import { makeOnZoomAndPanListener } from "./ZoomForceGraphIntegration";
 
 // TODO(skep): fundamental type issue here, we have 2-3 types in one:
 //  1. `NodeType`: our node type, with added properties, that we use in
@@ -41,7 +41,7 @@ export interface GraphDataForceGraph {
 }
 
 interface GraphRendererProps {
-  ref: MutableRefObject<GraphDataForceGraph | null>;
+  graphDataRef: MutableRefObject<GraphDataForceGraph | null>;
   openVoteDialog: VoteDialogFn;
   highlightNodes: Set<Node>;
 }
@@ -212,73 +212,85 @@ const config = {
   font: "Sans-Serif",
 };
 
-interface UserZoomEvent {
-  // zoom level
-  k: number;
-  x: number;
-  y: number;
+interface GraphState {
+  current: GraphDataForceGraph;
+  setGraph: Dispatch<SetStateAction<GraphDataForceGraph>>;
+  addLink: (link: LinkBetweenNode) => void;
+  addNode: (node: Node) => void;
 }
 
-export type ForceGraph2DRef = MutableRefObject<ForceGraphMethods | undefined>;
-
-// FIXME(skep): BUG: on load zoom is triggered 2 times, so that 1-zoom-in
-// always  happens!
-
-export const MIN_ZOOM_PERCENTAGE_DIFFERENCE = 0.05;
-
-// Note: the returned onZoom function is triggered by user interaction as well
-// as programmatic zooming/panning with zoom() and centerAt().
-// -> will be important for search-node feature using centerAt!
-export const makeOnZoomAndPanListener = (
-  ref: ForceGraph2DRef,
-  zoom: ZoomFn,
-  graphData: GraphDataMerged
-) => {
-  let lastZoom = ref.current?.zoom();
-  let zoomState: ZoomState = { zoomSteps: [], graphData };
-  const onZoomAndPan = (transform: UserZoomEvent) => {
-    const forcegraph = ref.current;
-    if (!forcegraph) {
-      return;
-    }
-    const currentZoom = transform.k;
-    if (!lastZoom || lastZoom === currentZoom) {
-      return;
-    }
-    const diffPercentage = Math.abs(lastZoom - currentZoom) / currentZoom;
-    if (diffPercentage < MIN_ZOOM_PERCENTAGE_DIFFERENCE) {
-      return;
-    }
-    if (lastZoom < currentZoom) {
-      zoom({ direction: ZoomDirection.In, steps: 1 }, zoomState);
-    } else {
-      zoom({ direction: ZoomDirection.Out, steps: 1 }, zoomState);
-    }
-    forcegraph.d3ReheatSimulation();
-    lastZoom = currentZoom;
-  };
-  return onZoomAndPan;
-};
-
 export const GraphRenderer = (props: GraphRendererProps) => {
-  const { graph, setLinks, setNodes /*, submitVote*/ } = useGraphDataContext();
-  const { language } = useUserDataContext();
-  // @ts-ignore: FIXME: should not be necessary
-  const graphData: GraphDataForceGraph = transformToRenderedType(
-    graph,
-    language
-  );
-  //props.ref.current = graphData; // TODO: fix with forward ref
+  //const { language } = useUserDataContext();
+  const [n_graph, n_is, n_loading] = [
+    { id: "1", description: "graph" },
+    { id: "2", description: "is" },
+    { id: "2", description: "loading" },
+  ];
+  const [graph, setGraph] = useState<GraphDataForceGraph>({
+    nodes: [n_graph, n_is, n_loading],
+    // @ts-ignore
+    links: [
+      { id: "1", source: n_graph, target: n_is, value: 5 },
+      { id: "2", source: n_is, target: n_loading, value: 5 },
+    ],
+  });
+  const { data, queryResponse } = useGraphData();
+  useEffect(() => {
+    if (data === null || data === undefined) {
+      return;
+    }
+    // @ts-ignore
+    setGraph(JSON.parse(JSON.stringify(data.graph)));
+  }, [queryResponse.loading, data]);
+  //props.graphDataRef.current = graph;
 
   const onLinkClick = onLinkClickFn(props.openVoteDialog);
   const forcegraphRef = useRef<ForceGraphMethods>();
+  document.addEventListener("keydown", makeKeydownListener(forcegraphRef)); // TODO: make it react-isch? not sure where to put it
 
+  // XXX: testing code
+  let tmpID = 91823;
+  let graphState: GraphState = {
+    current: graph,
+    setGraph,
+    addLink: (_: LinkBetweenNode) => {},
+    addNode: (_: Node) => {},
+  };
+  const createNodeFromMouseEvent = (state: GraphState, mouse: MouseEvent) => {};
+  const onClickCreateNode = (mouse: MouseEvent) => {
+    console.log(mouse);
+    if (mouse.ctrlKey) {
+      createNodeFromMouseEvent(graphState, mouse);
+    }
+    //const graphData: GraphDataForceGraph = transformToRenderedType(
+    //  graph,
+    //  language
+    //);
+    //const [x, y] = [mouse.offsetX, mouse.offsetY];
+    const [x, y] = [mouse.x, mouse.y];
+    console.log(`clicked background @ ${x}, ${y}`);
+    tmpID += 1;
+    const newNode = { id: `${tmpID}`, x, y, description: `new[${tmpID}]` };
+    const newLink = {
+      id: `${tmpID}`,
+      source: newNode,
+      target: graph.nodes[0],
+      value: 10,
+    };
+    setGraph({
+      nodes: [...graph.nodes, newNode],
+      links: [...graph.links, newLink],
+    });
+    forcegraphRef.current?.d3ReheatSimulation();
+  };
+
+  // FIXME(umb): It looks like it should remove the empty space below the
+  // canvas. Unfortuantely this code does nothing.
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [availableSpace, setAvailableSpace] = useState({
     height: 400,
     width: 600,
   });
-
   useLayoutEffect(() => {
     const containerElement = wrapperRef.current;
     if (containerElement) {
@@ -289,19 +301,6 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       });
     }
   }, []);
-
-  // TODO: make it react-isch? not sure where to put it
-  document.addEventListener("keydown", makeKeydownListener(forcegraphRef));
-
-  const onClickCreateNode = (mouse: MouseEvent) => {
-    const [x, y] = [mouse.x, mouse.y];
-    console.log(`clicked background @ ${x}, ${y}`);
-    graphData.nodes = [
-      ...graphData.nodes,
-      { id: "new1", description: "NEW!!" },
-    ];
-    forcegraphRef.current?.d3ReheatSimulation();
-  };
 
   return (
     <Box
@@ -316,7 +315,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
         // Note: all data must be copied, since force graph changes Link "source"
         // and "target" fields to directly contain the referred node objects
         // nodes:
-        graphData={graphData}
+        graphData={graph}
         nodeAutoColorBy={"group"}
         onNodeClick={onNodeClick}
         nodeCanvasObject={makeNodeCanvasObject(props.highlightNodes)}
@@ -331,7 +330,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
         // @ts-ignore
         linkCanvasObjectMode={() => config.linkCanvasObjectMode}
         linkCanvasObject={linkCanvasObject}
-        onZoom={makeOnZoomAndPanListener(forcegraphRef, zoomStep, graphData)}
+        onZoom={makeOnZoomAndPanListener(forcegraphRef, zoomStep, graph)}
         onBackgroundClick={onClickCreateNode}
       />
     </Box>

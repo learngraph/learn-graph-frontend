@@ -1,19 +1,15 @@
 import { useState, useEffect, useRef, MutableRefObject } from "react";
-import Paper from "@mui/material/Paper";
-import Grid from "@mui/material/Grid";
 import Fab from "@mui/material/Fab";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import { Box } from "@mui/material";
 
-import { GraphFileList, GraphManagementMenu, VoteDialog } from "./components";
+import { VoteDialog } from "./components";
 import { DataSetType, GraphData } from "./types";
 import { GraphRenderer, Node, GraphDataForceGraph } from "./GraphRenderer";
 import {
   sanitizeGraphData,
-  sanitizeGraphDataset,
   transformDisplayedNodesToPseudoTranslated,
-  transformGraphDataForDisplay,
 } from "./GraphUtil";
 import HeaderBar from "./components/HeaderBar";
 import { TranslatedGraphData, useGraphDataContext } from "src/GraphDataContext";
@@ -35,19 +31,9 @@ export const GraphManager = (props: GraphManagerProps): JSX.Element => {
     Partial<VoteDialogParams>
   >({});
 
-  const { graph, setLinks, setNodes, submitVote } = useGraphDataContext();
-
-  const [graphName, setGraphName] = useState<string>("");
+  const { setLinks, setNodes, submitVote } = useGraphDataContext();
 
   const { language } = useUserDataContext();
-
-  const currentGraphDataset: DataSetType = {
-    dataSetName: graphName,
-    data: transformGraphDataForDisplay({
-      graph,
-      language,
-    }),
-  };
 
   useEffect(() => {
     if (props.fetchedGraph) {
@@ -67,17 +53,6 @@ export const GraphManager = (props: GraphManagerProps): JSX.Element => {
     setNodes,
     language,
   ]);
-
-  const handleDatasetChange = (dataset: DataSetType) => {
-    const sanitizedDataset = sanitizeGraphDataset(dataset);
-    setGraphName(dataset.dataSetName);
-    const pseudoTranslatedNodes = transformDisplayedNodesToPseudoTranslated({
-      nodes: sanitizedDataset.data.nodes,
-      language,
-    });
-    setLinks(sanitizedDataset.data.links);
-    setNodes(pseudoTranslatedNodes);
-  };
 
   const openVoteDialog = (params: VoteDialogParams): void => {
     setIsVoteDialogOpen(true);
@@ -113,39 +88,6 @@ export const GraphManager = (props: GraphManagerProps): JSX.Element => {
         <HeaderBar userInputCallback={searchCallback} />
       </Box>
       <Box sx={{ flex: 1, width: "100%" }}>
-        {isMenuVisible && (
-          <>
-            <Grid
-              container
-              spacing={3}
-              justifyContent="flex-end"
-              sx={{
-                position: "fixed",
-                maxWidth: "350px",
-                overflowY: "auto",
-                height: "100%",
-                zIndex: 2,
-              }}
-            >
-              <Grid item xs>
-                <Paper>
-                  <GraphManagementMenu
-                    updateDisplayedGraph={handleDatasetChange}
-                    currentGraphDataset={currentGraphDataset}
-                  />
-                </Paper>
-              </Grid>
-              <Grid item xs>
-                <Paper>
-                  <GraphFileList
-                    datasets={props.datasets}
-                    onSelectDataSet={handleDatasetChange}
-                  />
-                </Paper>
-              </Grid>
-            </Grid>
-          </>
-        )}
         <VoteDialog
           isDialogOpen={isVoteDialogOpen}
           setDialogOpen={setIsVoteDialogOpen}
@@ -153,7 +95,7 @@ export const GraphManager = (props: GraphManagerProps): JSX.Element => {
           submitVote={submitVote}
         />
         <GraphRenderer
-          ref={graphDataForRenderRef}
+          graphDataRef={graphDataForRenderRef}
           openVoteDialog={openVoteDialog}
           highlightNodes={highlightNodes}
         />
