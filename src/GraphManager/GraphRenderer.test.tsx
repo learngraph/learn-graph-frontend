@@ -3,6 +3,7 @@ import {
   nodeCanvasObject,
   onLinkClickFn,
   makeKeydownListener,
+  makeSetUnlessUndefined,
 } from "./GraphRenderer";
 import "@testing-library/jest-dom";
 
@@ -80,5 +81,17 @@ describe("makeKeydownListener", () => {
     let event = { key: "a" };
     keydown(event);
     expect(zoom.mock.calls.length).toBe(0);
+  });
+});
+
+describe("setUnlessUndefined", () => {
+  it("should set the graph, only if it's non-null/undefined", () => {
+    let setter = jest.fn();
+    // @ts-ignore
+    makeSetUnlessUndefined({}, setter)();
+    expect(setter.mock.calls.length).toBe(0);
+    makeSetUnlessUndefined({ graph: { nodes: [], links: [] } }, setter)();
+    expect(setter.mock.calls.length).toBe(1);
+    expect(setter.mock.calls[0][0]).toEqual({ nodes: [], links: [] });
   });
 });

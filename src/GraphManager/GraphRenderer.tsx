@@ -3,7 +3,7 @@ import ForceGraph2D, {
   LinkObject,
   NodeObject,
 } from "react-force-graph-2d";
-import { LinkType, NodeType } from "./types";
+import { LinkType, NodeType, GraphData } from "./types";
 import { zoomStep, HasID } from "./Zoom";
 import {
   MutableRefObject,
@@ -18,6 +18,9 @@ import { Box } from "@mui/material";
 import { VoteDialogFn } from "./components/VoteDialog";
 import { useGraphData } from "./hooks";
 import { makeOnZoomAndPanListener } from "./ZoomForceGraphIntegration";
+import { GraphState, Backend, makeOnBackgroundClick } from "./GraphEdit";
+import { GraphEditPopUp, PopUpControls } from "./GraphEditPopUp";
+import {useCreateNode} from "./hooks/useCreateNode";
 
 // TODO(skep): fundamental type issue here, we have 2-3 types in one:
 //  1. `NodeType`: our node type, with added properties, that we use in
@@ -29,10 +32,11 @@ import { makeOnZoomAndPanListener } from "./ZoomForceGraphIntegration";
 export type Link = LinkType & LinkObject;
 export type Node = NodeType & NodeObject & HasID;
 
-interface LinkBetweenNode {
+export interface LinkBetweenNode {
   id: string;
   source: Node;
   target: Node;
+  value: number;
 }
 
 export interface GraphDataForceGraph {
@@ -212,12 +216,26 @@ const config = {
   font: "Sans-Serif",
 };
 
-interface GraphState {
-  current: GraphDataForceGraph;
-  setGraph: Dispatch<SetStateAction<GraphDataForceGraph>>;
-  addLink: (link: LinkBetweenNode) => void;
-  addNode: (node: Node) => void;
-}
+export type ForceGraphRef = MutableRefObject<ForceGraphMethods | undefined>;
+
+export const makeSetUnlessUndefined = (
+  data: { graph: GraphData },
+  setGraph: Dispatch<SetStateAction<GraphDataForceGraph>>
+) => {
+  return () => {
+    if (
+      data === null ||
+      data === undefined ||
+      data.graph === null ||
+      data.graph === undefined
+    ) {
+      return;
+    }
+    //const graphData: GraphDataForceGraph = transformToRenderedType( graph, language); // XXX: isn't this necessary?
+    // @ts-ignore
+    setGraph(JSON.parse(JSON.stringify(data.graph)));
+  };
+};
 
 export const GraphRenderer = (props: GraphRendererProps) => {
   //const { language } = useUserDataContext();
@@ -228,62 +246,40 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   ];
   const [graph, setGraph] = useState<GraphDataForceGraph>({
     nodes: [n_graph, n_is, n_loading],
-    // @ts-ignore
     links: [
       { id: "1", source: n_graph, target: n_is, value: 5 },
       { id: "2", source: n_is, target: n_loading, value: 5 },
     ],
   });
   const { data, queryResponse } = useGraphData();
-  useEffect(() => {
-    if (data === null || data === undefined) {
-      return;
-    }
-    // @ts-ignore
-    setGraph(JSON.parse(JSON.stringify(data.graph)));
-  }, [queryResponse.loading, data]);
+  useEffect(makeSetUnlessUndefined(data, setGraph), [
+    queryResponse.loading,
+    data,
+  ]);
   //props.graphDataRef.current = graph;
-
   const onLinkClick = onLinkClickFn(props.openVoteDialog);
-  const forcegraphRef = useRef<ForceGraphMethods>();
-  document.addEventListener("keydown", makeKeydownListener(forcegraphRef)); // TODO: make it react-isch? not sure where to put it
-
-  // XXX: testing code
-  let tmpID = 91823;
+  const forceGraphRef: ForceGraphRef = useRef<ForceGraphMethods>();
+  document.addEventListener("keydown", makeKeydownListener(forceGraphRef)); // TODO: make it react-isch? not sure where to put it
   let graphState: GraphState = {
     current: graph,
     setGraph,
     addLink: (_: LinkBetweenNode) => {},
     addNode: (_: Node) => {},
   };
-  const createNodeFromMouseEvent = (state: GraphState, mouse: MouseEvent) => {};
-  const onClickCreateNode = (mouse: MouseEvent) => {
-    console.log(mouse);
-    if (mouse.ctrlKey) {
-      createNodeFromMouseEvent(graphState, mouse);
-    }
-    //const graphData: GraphDataForceGraph = transformToRenderedType(
-    //  graph,
-    //  language
-    //);
-    //const [x, y] = [mouse.offsetX, mouse.offsetY];
-    const [x, y] = [mouse.x, mouse.y];
-    console.log(`clicked background @ ${x}, ${y}`);
-    tmpID += 1;
-    const newNode = { id: `${tmpID}`, x, y, description: `new[${tmpID}]` };
-    const newLink = {
-      id: `${tmpID}`,
-      source: newNode,
-      target: graph.nodes[0],
-      value: 10,
-    };
-    setGraph({
-      nodes: [...graph.nodes, newNode],
-      links: [...graph.links, newLink],
-    });
-    forcegraphRef.current?.d3ReheatSimulation();
+  const { createNode } = useCreateNode();
+  const backend: Backend = {
+    createNode,
   };
-
+  const [editPopUpState, setEditPopUpState] = useState({ isOpen: false, title: "", details: "" });
+  const popUpCtrl: PopUpControls = {
+    state: editPopUpState,
+    setState: setEditPopUpState,
+  };
+  const onBackgroundClick = makeOnBackgroundClick(
+    graphState,
+    forceGraphRef,
+    popUpCtrl
+  );
   // FIXME(umb): It looks like it should remove the empty space below the
   // canvas. Unfortuantely this code does nothing.
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -301,7 +297,6 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       });
     }
   }, []);
-
   return (
     <Box
       id="canvasWrapper"
@@ -311,7 +306,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       <ForceGraph2D
         height={availableSpace.height}
         width={availableSpace.width}
-        ref={forcegraphRef}
+        ref={forceGraphRef}
         // Note: all data must be copied, since force graph changes Link "source"
         // and "target" fields to directly contain the referred node objects
         // nodes:
@@ -330,9 +325,10 @@ export const GraphRenderer = (props: GraphRendererProps) => {
         // @ts-ignore
         linkCanvasObjectMode={() => config.linkCanvasObjectMode}
         linkCanvasObject={linkCanvasObject}
-        onZoom={makeOnZoomAndPanListener(forcegraphRef, zoomStep, graph)}
-        onBackgroundClick={onClickCreateNode}
+        onZoom={makeOnZoomAndPanListener(forceGraphRef, zoomStep, graph)}
+        onBackgroundClick={onBackgroundClick}
       />
+      <GraphEditPopUp ctrl={popUpCtrl} />
     </Box>
   );
 };
