@@ -1,7 +1,6 @@
 import { ForceGraphMethods } from "react-force-graph-2d";
 import { Dispatch, MutableRefObject, SetStateAction } from "react";
 import {
-  ForceGraphRef,
   GraphDataForceGraph,
   LinkBetweenNode,
   Node,
@@ -20,7 +19,7 @@ export interface Backend {
 }
 
 export const createNodeFromMouseEvent = (
-  mouse: MouseEvent,
+  _: MouseEvent,
   { backend, graph, popUp }: Controller
 ) => {
   const onFormSubmit = async (form: NewNodeForm) => {

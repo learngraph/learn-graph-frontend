@@ -20,7 +20,7 @@ import { useGraphData } from "./hooks";
 import { makeOnZoomAndPanListener } from "./ZoomForceGraphIntegration";
 import { GraphState, Backend, makeOnBackgroundClick } from "./GraphEdit";
 import { GraphEditPopUp, PopUpControls } from "./GraphEditPopUp";
-import {useCreateNode} from "./hooks/useCreateNode";
+import { useCreateNode } from "./hooks/useCreateNode";
 
 // TODO(skep): fundamental type issue here, we have 2-3 types in one:
 //  1. `NodeType`: our node type, with added properties, that we use in
@@ -252,6 +252,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     ],
   });
   const { data, queryResponse } = useGraphData();
+  // linter-disable: react-hooks/exhaustive-deps
   useEffect(makeSetUnlessUndefined(data, setGraph), [
     queryResponse.loading,
     data,
@@ -270,7 +271,11 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   const backend: Backend = {
     createNode,
   };
-  const [editPopUpState, setEditPopUpState] = useState({ isOpen: false, title: "", details: "" });
+  const [editPopUpState, setEditPopUpState] = useState({
+    isOpen: false,
+    title: "",
+    details: "",
+  });
   const popUpCtrl: PopUpControls = {
     state: editPopUpState,
     setState: setEditPopUpState,
@@ -278,7 +283,8 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   const onBackgroundClick = makeOnBackgroundClick(
     graphState,
     forceGraphRef,
-    popUpCtrl
+    popUpCtrl,
+    backend
   );
   // FIXME(umb): It looks like it should remove the empty space below the
   // canvas. Unfortuantely this code does nothing.

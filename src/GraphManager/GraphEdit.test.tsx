@@ -1,7 +1,7 @@
 import { createNodeFromMouseEvent } from "./GraphEdit";
 
 describe("createNodeFromMouseEvent", () => {
-  it("should change graph state, when backend returns a valid node ID", () => {
+  it("should change graph state, when backend returns a valid node ID", async () => {
     // @ts-ignore: too many unused fields
     const mouse: MouseEvent = { x: 1, y: 2 };
     // @ts-ignore: too many unused fields
@@ -32,5 +32,4 @@ describe("createNodeFromMouseEvent", () => {
       y: 2,
     });
   });
-  it.todo("should not change graph state, when backend fails", () => {});
 });
