@@ -264,8 +264,12 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   let graphState: GraphState = {
     current: graph,
     setGraph,
-    addLink: (_: LinkBetweenNode) => {},
-    addNode: (_: Node) => {},
+    addLink: (link: LinkBetweenNode) => {
+      setGraph({ nodes: graph.nodes, links: [...graph.links, link] });
+    },
+    addNode: (node: Node) => {
+      setGraph({ nodes: [...graph.nodes, node], links: graph.links });
+    },
   };
   const { createNode } = useCreateNode();
   const backend: Backend = {

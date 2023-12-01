@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import { useEffect, Dispatch, SetStateAction } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -63,6 +63,20 @@ export const GraphEditPopUp = ({ ctrl }: GraphEditPopUpProps) => {
       handleClose();
     },
   });
+  useEffect(() => {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      // Check if Ctrl key is pressed and Enter key is pressed
+      if (event.ctrlKey && event.key === "Enter") {
+        formik.submitForm();
+      }
+    };
+    // Add event listener when the component mounts
+    document.addEventListener("keydown", handleKeyPress);
+    // Remove event listener when the component unmounts
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+    };
+  }, [formik]);
   return (
     <>
       <Dialog
