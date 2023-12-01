@@ -33,14 +33,17 @@ export const createNodeFromMouseEvent = (
           console.log("failed to create node in backend");
           return;
         }
-        const [x, y] = [mouse.x, mouse.y];
-        //// FIXME(skep): what the hell is this coordinate-transformation?!
-        //const [x, y] = [mouse.x - 400, mouse.y - 600];
-        //console.log(`mouse.x,mouse.y = (${mouse.x},${mouse.y})`);
-        //console.log(`offsetX,offsetY = (${mouse.offsetX},${mouse.offsetY})`);
-        //console.log(`clientX,clientY = (${mouse.clientX},${mouse.clientY})`);
-        //console.log(`screenX,screenY = (${mouse.screenX},${mouse.screenY})`);
-        //console.log(`x,y = (${x},${y})`);
+        const coords = forceGraphRef.current?.screen2GraphCoords(
+          mouse.pageX,
+          mouse.pageY,
+        );
+        if (coords === undefined) {
+          console.log(
+            `failed to translate coordinates: page[x,y]=[${mouse.pageX},${mouse.pageY}]`,
+          );
+          return;
+        }
+        const { x, y } = coords;
         const newNode = {
           id: result.data!.createNode.ID,
           description: form.nodeDescription,

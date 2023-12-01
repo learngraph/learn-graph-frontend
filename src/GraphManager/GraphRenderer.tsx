@@ -322,9 +322,6 @@ export const GraphRenderer = (props: GraphRendererProps) => {
         height={availableSpace.height}
         width={availableSpace.width}
         ref={forceGraphRef}
-        // Note: all data must be copied, since force graph changes Link "source"
-        // and "target" fields to directly contain the referred node objects
-        // nodes:
         graphData={graph}
         nodeAutoColorBy={"group"}
         onNodeClick={onNodeClick}
@@ -340,7 +337,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
         // @ts-ignore
         linkCanvasObjectMode={() => config.linkCanvasObjectMode}
         linkCanvasObject={linkCanvasObject}
-        // @ts-ignore
+        // @ts-ignore: FIXME(skep): problem with graph-data type, to be debugged
         onZoom={makeOnZoomAndPanListener(forceGraphRef, zoomStep, graph)}
         onBackgroundClick={onBackgroundClick}
       />

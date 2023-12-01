@@ -7,6 +7,9 @@ describe("createNodeFromMouseEvent", () => {
     "react-force-graph-2d",
   );
   forceGraphMethods.centerAt = jest.fn().mockName("forceGraphRef.centerAt");
+  forceGraphMethods.screen2GraphCoords = jest
+    .fn()
+    .mockName("forceGraphRef.screen2GraphCoords");
   const makeMockController = () => {
     const ctrl = {
       backend: {
@@ -40,11 +43,16 @@ describe("createNodeFromMouseEvent", () => {
     return mouse;
   };
   it("should change graph state, when backend returns a valid node ID", async () => {
-    const mouse = makeMockMouseEvent({ x: 1, y: 2 });
+    const mouse = makeMockMouseEvent({ pageX: 321, pageY: 987 });
     const ctrl = makeMockController();
     ctrl.backend.createNode.mockReturnValue(
       Promise.resolve({ data: { createNode: { ID: "123" } } }),
     );
+    // @ts-ignore
+    ctrl.forceGraphRef.current.screen2GraphCoords.mockReturnValue({
+      x: 333,
+      y: 444,
+    });
     // @ts-ignore
     createNodeFromMouseEvent(mouse, ctrl);
     expect(ctrl.popUp.setState).toHaveBeenCalledTimes(1);
@@ -60,13 +68,19 @@ describe("createNodeFromMouseEvent", () => {
     expect(ctrl.graph.addNode).toHaveBeenNthCalledWith(1, {
       id: "123",
       description: "AAA",
-      x: 1,
-      y: 2,
+      x: 333,
+      y: 444,
     });
+    expect(ctrl.forceGraphRef.current.screen2GraphCoords).toHaveBeenCalledTimes(
+      1,
+    );
+    expect(
+      ctrl.forceGraphRef.current.screen2GraphCoords,
+    ).toHaveBeenNthCalledWith(1, 321, 987);
     expect(ctrl.forceGraphRef.current.centerAt).toHaveBeenNthCalledWith(
       1,
-      1,
-      2,
+      333,
+      444,
       1000,
     );
   });
