@@ -16,7 +16,7 @@ export interface Backend {
 
 export const createNodeFromMouseEvent = (
   mouse: MouseEvent,
-  { backend, graph, popUp }: Controller
+  { backend, graph, popUp, forceGraphRef }: Controller
 ) => {
   const onFormSubmit = async (form: NewNodeForm) => {
     backend
@@ -34,12 +34,13 @@ export const createNodeFromMouseEvent = (
           return;
         }
         const [x, y] = [mouse.x, mouse.y];
-        //const [x, y] = [mouse.x - 400, mouse.y - 600]; // XXX: what the hell is this coordinate-transformation?!
-        console.log(`mouse.x,mouse.y = (${mouse.x},${mouse.y})`);
-        console.log(`offsetX,offsetY = (${mouse.offsetX},${mouse.offsetY})`);
-        console.log(`clientX,clientY = (${mouse.clientX},${mouse.clientY})`);
-        console.log(`screenX,screenY = (${mouse.screenX},${mouse.screenY})`);
-        console.log(`x,y = (${x},${y})`);
+        //// FIXME(skep): what the hell is this coordinate-transformation?!
+        //const [x, y] = [mouse.x - 400, mouse.y - 600];
+        //console.log(`mouse.x,mouse.y = (${mouse.x},${mouse.y})`);
+        //console.log(`offsetX,offsetY = (${mouse.offsetX},${mouse.offsetY})`);
+        //console.log(`clientX,clientY = (${mouse.clientX},${mouse.clientY})`);
+        //console.log(`screenX,screenY = (${mouse.screenX},${mouse.screenY})`);
+        //console.log(`x,y = (${x},${y})`);
         const newNode = {
           id: result.data!.createNode.ID,
           description: form.nodeDescription,
@@ -47,6 +48,7 @@ export const createNodeFromMouseEvent = (
           y,
         };
         graph.addNode(newNode);
+        forceGraphRef.current?.centerAt(x, y, 1000);
       });
   };
   popUp.setState({ ...popUp.state, isOpen: true, onFormSubmit });
