@@ -195,7 +195,7 @@ describe("zoom", () => {
     }));
     let node = Object.assign(
       // @ts-ignore
-      ...nodeList.map((node) => ({ [node.id]: node }))
+      ...nodeList.map((node) => ({ [node.id]: node })),
     );
     it.each([
       [
@@ -802,14 +802,13 @@ describe("zoom", () => {
         _to: string,
         args: ZoomArgs,
         state: ZoomState,
-        expected: GraphDataMerged
+        expected: GraphDataMerged,
       ) => {
         // reset mutable data on node set (cannot use `beforeEach` due to
         // `it.each` usage)
         state.graphData.nodes.forEach((node) => {
-          node.mergeCount = rawData.find(
-            (rawNode) => node.id === rawNode.id
-          )?.mergeCount;
+          node.mergeCount = rawData.find((rawNode) => node.id === rawNode.id)
+            ?.mergeCount;
         });
         const argsSaved = {
           ...args,
@@ -840,7 +839,7 @@ describe("zoom", () => {
         state.graphData.links.sort(compareLinkIDs);
         stateSaved.graphData.links.sort(compareLinkIDs);
         expect(state).toEqual(stateSaved);
-      }
+      },
     );
   });
 
@@ -863,7 +862,7 @@ describe("zoom", () => {
     }));
     let node = Object.assign(
       // @ts-ignore
-      ...nodeList.map((node) => ({ [node.id]: node }))
+      ...nodeList.map((node) => ({ [node.id]: node })),
     );
     it.each([
       [
@@ -948,17 +947,16 @@ describe("zoom", () => {
         _to: string,
         args: ZoomArgs,
         state: ZoomState,
-        expected: GraphDataMerged
+        expected: GraphDataMerged,
       ) => {
         // reset mutable data on node set
         state.graphData.nodes.forEach((node) => {
-          node.mergeCount = rawData.find(
-            (rawNode) => node.id === rawNode.id
-          )?.mergeCount;
+          node.mergeCount = rawData.find((rawNode) => node.id === rawNode.id)
+            ?.mergeCount;
         });
         zoomStep(args, state);
         expect(state.graphData).toEqual(expected);
-      }
+      },
     );
   });
 });
@@ -999,11 +997,11 @@ describe("calculateNodeWeight", () => {
     (
       _test_name: string,
       links: LinkBetweenHasIDs[],
-      assertions: { node: HasID; expectedWeight: number }[]
+      assertions: { node: HasID; expectedWeight: number }[],
     ) => {
       assertions.forEach(({ node, expectedWeight }) => {
         expect(calculateNodeWeight(node, links)).toEqual(expectedWeight);
       });
-    }
+    },
   );
 });

@@ -5,8 +5,8 @@ import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import { Box } from "@mui/material";
 
 import { VoteDialog } from "./components";
-import { DataSetType, GraphData } from "./types";
-import { GraphRenderer, Node, GraphDataForceGraph } from "./GraphRenderer";
+import { DataSetType, ForceGraphGraphData, BackendGraphData } from "./types";
+import { GraphRenderer, Node } from "./GraphRenderer";
 import {
   sanitizeGraphData,
   transformDisplayedNodesToPseudoTranslated,
@@ -20,7 +20,7 @@ import { useUserDataContext } from "src/UserDataContext";
 
 interface GraphManagerProps {
   datasets: DataSetType[];
-  fetchedGraph: GraphData | undefined;
+  fetchedGraph: BackendGraphData | undefined;
   queryResponse: any;
 }
 
@@ -59,8 +59,8 @@ export const GraphManager = (props: GraphManagerProps): JSX.Element => {
     setVoteDialogInput(params);
   };
 
-  const graphDataForRenderRef: MutableRefObject<GraphDataForceGraph | null> =
-    useRef<GraphDataForceGraph | null>(null);
+  const graphDataForRenderRef: MutableRefObject<ForceGraphGraphData | null> =
+    useRef<ForceGraphGraphData | null>(null);
 
   const highlightNodes = new Set<Node>();
   const searchCallback = (userInput: string) => {
@@ -107,8 +107,8 @@ export const GraphManager = (props: GraphManagerProps): JSX.Element => {
 // TODO: extract to another file
 export const transformToRenderedType = (
   graph: TranslatedGraphData,
-  language: string
-): GraphData => {
+  language: string,
+): BackendGraphData => {
   const transformedNodes = graph.nodes.map(({ id, description, group }) => {
     return {
       id,

@@ -1,10 +1,10 @@
-import { GraphData } from "../../../../types";
+import { BackendGraphData } from "../../../../types";
 
 export const findNodeIndex = ({
   graph,
   nodeId,
 }: {
-  graph: GraphData;
+  graph: BackendGraphData;
   nodeId: string | undefined;
 }): number | -1 => {
   if (!graph.nodes) {

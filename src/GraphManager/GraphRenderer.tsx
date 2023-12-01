@@ -1,9 +1,12 @@
-import ForceGraph2D, {
-  ForceGraphMethods,
-  LinkObject,
-  NodeObject,
-} from "react-force-graph-2d";
-import { LinkType, NodeType, GraphData } from "./types";
+import ForceGraph2D, { ForceGraphMethods } from "react-force-graph-2d";
+import {
+  LinkType,
+  NodeType,
+  BackendGraphData,
+  ForceGraphGraphData,
+  ForceGraphNodeObject,
+  ForceGraphLinkObject,
+} from "./types";
 import { zoomStep, HasID } from "./Zoom";
 import {
   MutableRefObject,
@@ -39,13 +42,12 @@ export interface LinkBetweenNode {
   value: number;
 }
 
-export interface GraphDataForceGraph {
-  nodes: Node[];
-  links: LinkBetweenNode[];
-}
+// TODO: remove these renames
+type LinkObject = ForceGraphLinkObject;
+type NodeObject = ForceGraphNodeObject;
 
 interface GraphRendererProps {
-  graphDataRef: MutableRefObject<GraphDataForceGraph | null>;
+  graphDataRef: MutableRefObject<ForceGraphGraphData | null>;
   openVoteDialog: VoteDialogFn;
   highlightNodes: Set<Node>;
 }
@@ -65,13 +67,13 @@ interface TextRender {
 function drawTextWithBackground(
   text: TextRender,
   ctx: CanvasRenderingContext2D,
-  position: Partial<Position>
+  position: Partial<Position>,
 ) {
   ctx.font = `${text.fontSize}px ${config.font}`;
   const textWidth = ctx.measureText(text.text).width;
   const padding = 0.2;
   const bckgDimensions = [textWidth, text.fontSize].map(
-    (n) => n + text.fontSize * padding
+    (n) => n + text.fontSize * padding,
   );
   let [x, y] = [position.x ?? 0, position.y ?? 0];
   ctx.fillStyle = text.backgroundColor;
@@ -79,7 +81,7 @@ function drawTextWithBackground(
     x - bckgDimensions[0] / 2,
     y - bckgDimensions[1] / 2,
     bckgDimensions[0],
-    bckgDimensions[1]
+    bckgDimensions[1],
   );
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
@@ -97,7 +99,7 @@ function linkDescriptionPosition(link: Link) {
         // @ts-ignore
         (link.target[c] - link.source[c]) *
           (config.linkDirectionalArrowRelPos - 0.1),
-    }))
+    })),
   );
 }
 
@@ -110,7 +112,7 @@ const makeNodeCanvasObject = (highlightNodes: Set<Node>) => {
   return (
     nodeForceGraph: NodeObject,
     ctx: CanvasRenderingContext2D,
-    globalScale: number
+    globalScale: number,
   ) => {
     return nodeCanvasObject(nodeForceGraph, ctx, globalScale, highlightNodes);
   };
@@ -120,7 +122,7 @@ export const nodeCanvasObject = (
   nodeForceGraph: NodeObject,
   ctx: CanvasRenderingContext2D,
   globalScale: number,
-  highlightNodes: Set<Node>
+  highlightNodes: Set<Node>,
 ) => {
   // @ts-ignore: see `Node` type
   const node: Node = nodeForceGraph;
@@ -140,7 +142,7 @@ export const nodeCanvasObject = (
   drawTextWithBackground(
     { text: label, fontSize: config.fontSize / globalScale, backgroundColor },
     ctx,
-    { x: node.x, y: node.y }
+    { x: node.x, y: node.y },
   );
 };
 
@@ -152,7 +154,7 @@ const onNodeClick = (params: NodeObject): void => {
 export const linkCanvasObject = (
   linkForceGraph: LinkObject,
   ctx: CanvasRenderingContext2D,
-  globalScale: number
+  globalScale: number,
 ) => {
   // @ts-ignore
   const link: Link = linkForceGraph;
@@ -170,7 +172,7 @@ export const linkCanvasObject = (
       backgroundColor: backgroundColorWhite,
     },
     ctx,
-    pos
+    pos,
   );
 };
 
@@ -216,11 +218,16 @@ const config = {
   font: "Sans-Serif",
 };
 
-export type ForceGraphRef = MutableRefObject<ForceGraphMethods | undefined>;
+type LocalForceGraphMethods =
+  | ForceGraphMethods<ForceGraphNodeObject, ForceGraphLinkObject>
+  | undefined;
+export type ForceGraphRef = MutableRefObject<
+  LocalForceGraphMethods | undefined
+>;
 
 export const makeSetUnlessUndefined = (
-  data: { graph: GraphData },
-  setGraph: Dispatch<SetStateAction<GraphDataForceGraph>>
+  data: { graph: BackendGraphData },
+  setGraph: Dispatch<SetStateAction<ForceGraphGraphData>>,
 ) => {
   return () => {
     if (
@@ -239,12 +246,10 @@ export const makeSetUnlessUndefined = (
 
 export const GraphRenderer = (props: GraphRendererProps) => {
   //const { language } = useUserDataContext();
-  const [n_graph, n_is, n_loading] = [
-    { id: "1", description: "graph" },
-    { id: "2", description: "is" },
-    { id: "2", description: "loading" },
-  ];
-  const [graph, setGraph] = useState<GraphDataForceGraph>({
+  const n_graph: ForceGraphNodeObject = { id: "1", description: "graph" };
+  const n_is: ForceGraphNodeObject = { id: "2", description: "is" };
+  const n_loading: ForceGraphNodeObject = { id: "2", description: "loading" };
+  const [graph, setGraph] = useState<ForceGraphGraphData>({
     nodes: [n_graph, n_is, n_loading],
     links: [
       { id: "1", source: n_graph, target: n_is, value: 5 },
@@ -259,7 +264,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   ]);
   //props.graphDataRef.current = graph;
   const onLinkClick = onLinkClickFn(props.openVoteDialog);
-  const forceGraphRef: ForceGraphRef = useRef<ForceGraphMethods>();
+  const forceGraphRef: ForceGraphRef = useRef<LocalForceGraphMethods>();
   document.addEventListener("keydown", makeKeydownListener(forceGraphRef)); // TODO: make it react-isch? not sure where to put it
   let graphState: GraphState = {
     current: graph,
@@ -288,7 +293,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     graphState,
     forceGraphRef,
     popUpCtrl,
-    backend
+    backend,
   );
   // FIXME(umb): It looks like it should remove the empty space below the
   // canvas. Unfortuantely this code does nothing.
@@ -335,6 +340,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
         // @ts-ignore
         linkCanvasObjectMode={() => config.linkCanvasObjectMode}
         linkCanvasObject={linkCanvasObject}
+        // @ts-ignore
         onZoom={makeOnZoomAndPanListener(forceGraphRef, zoomStep, graph)}
         onBackgroundClick={onBackgroundClick}
       />

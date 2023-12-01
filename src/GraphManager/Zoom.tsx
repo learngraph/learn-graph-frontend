@@ -119,7 +119,7 @@ const undoZoomOperation = (op: ZoomOperation, state: ZoomState) => {
     const link = state.graphData.links.find(
       (link) =>
         link.source.id === op.to!.source.id &&
-        link.target.id === op.to!.target.id
+        link.target.id === op.to!.target.id,
     );
     if (
       op.from!.source.id === op.to!.source.id &&
@@ -135,7 +135,7 @@ const undoZoomOperation = (op: ZoomOperation, state: ZoomState) => {
     const link = state.graphData.links.find(
       (link) =>
         link.source.id === op.link!.source.id &&
-        link.target.id === op.link!.target.id
+        link.target.id === op.link!.target.id,
     );
     link!.value = op.link!.value;
   }
@@ -172,7 +172,7 @@ const NO_MERGE_TARGET_FOUND_ID = "---NONE---";
 // `nodesToRemove` which all have direct links to `mergeTargetNode`
 const selectNodePairForMerging: Selector = (
   args: ZoomArgs,
-  state: ZoomState
+  state: ZoomState,
 ) => {
   const nodesByTargetWeight = state.graphData.nodes
     .filter((node) => hasLinksTowards(state.graphData.links, node))
@@ -208,7 +208,7 @@ const mergeSelection = (selection: MergeSelection, state: ZoomState) => {
   ].reduce(
     (currentMergeCount, node) =>
       currentMergeCount + (node.mergeCount ?? defaultMergeCount),
-    0
+    0,
   );
   // find links, that will stay unchanged to override current link list later
   let { linksToKeep, linksToRemove } = state.graphData.links.reduce(
@@ -216,7 +216,7 @@ const mergeSelection = (selection: MergeSelection, state: ZoomState) => {
       const isLinkFromRemovedToMergeTarget = selection.toRemove.find(
         (removedNode) =>
           link.source.id === removedNode.id &&
-          link.target.id === selection.mergeTarget.id
+          link.target.id === selection.mergeTarget.id,
       );
       if (isLinkFromRemovedToMergeTarget) {
         current.linksToRemove.push(link);
@@ -229,7 +229,7 @@ const mergeSelection = (selection: MergeSelection, state: ZoomState) => {
     { linksToKeep: [], linksToRemove: [] } as {
       linksToKeep: LinkBetweenHasIDs[];
       linksToRemove: LinkBetweenHasIDs[];
-    }
+    },
   );
   state.zoomSteps.push({
     operations: [
@@ -261,11 +261,11 @@ const rewrite2ndOrderLinks = (
   state: ZoomState,
   selection: MergeSelection,
   linksToKeep: LinkBetweenHasIDs[],
-  dir: { deleted: "source" | "target"; other: "source" | "target" }
+  dir: { deleted: "source" | "target"; other: "source" | "target" },
 ) => {
   const secondOrderLinks = selection.toRemove.flatMap((firstOrderNode) => {
     return linksToKeep.filter(
-      (link) => link[dir.deleted].id === firstOrderNode.id
+      (link) => link[dir.deleted].id === firstOrderNode.id,
     );
   });
   secondOrderLinks.forEach((link2ndOrder) => {
@@ -274,7 +274,7 @@ const rewrite2ndOrderLinks = (
     const duplicateLink = linksToKeep.find(
       (existingLink) =>
         existingLink[dir.deleted].id === selection.mergeTarget.id &&
-        existingLink[dir.other].id === link2ndOrder[dir.other].id
+        existingLink[dir.other].id === link2ndOrder[dir.other].id,
     );
     if (duplicateLink) {
       lastOperations.push({
@@ -289,7 +289,7 @@ const rewrite2ndOrderLinks = (
       });
       deleteIndex(
         linksToKeep,
-        linksToKeep.findIndex((selfLink) => link2ndOrder === selfLink)
+        linksToKeep.findIndex((selfLink) => link2ndOrder === selfLink),
       );
       return;
     }
@@ -302,7 +302,7 @@ const rewrite2ndOrderLinks = (
       });
       deleteIndex(
         linksToKeep,
-        linksToKeep.findIndex((selfLink) => link2ndOrder === selfLink)
+        linksToKeep.findIndex((selfLink) => link2ndOrder === selfLink),
       );
       return;
     }
@@ -317,7 +317,7 @@ const rewrite2ndOrderLinks = (
 
 const calculateMergeTargetWeight = (
   node: HasID,
-  links: LinkBetweenHasIDs[]
+  links: LinkBetweenHasIDs[],
 ) => {
   const mergeCountMultiplier = 5; // XXX(skep): should be depending on the merged nodes' weight, but they are gone now
   let weight = calculateNodeWeight(node, links);
@@ -344,7 +344,7 @@ const weightIncrementPerLink = 1;
 // weighted by link.value
 export const calculateNodeWeight = (
   node: HasID,
-  links: LinkBetweenHasIDs[]
+  links: LinkBetweenHasIDs[],
 ) => {
   // XXX(skep): maybe add weight for source links as well, but less than for
   // target links to node?
@@ -367,7 +367,7 @@ const hasLinksTowards = (links: LinkBetweenHasIDs[], node: HasID) => {
 // stores the result in the target link
 const averageLinkValue = (
   target: LinkBetweenHasIDs,
-  source: LinkBetweenHasIDs
+  source: LinkBetweenHasIDs,
 ) => {
   let value =
     ((target.value ?? defaultLinkValue) + (source.value ?? defaultLinkValue)) /
@@ -380,7 +380,7 @@ const averageLinkValue = (
 // deleteFromArray removes nodesToRemove from array nodes in-place
 const deleteFromArray = (nodes: HasID[], nodesToRemove: HasID[]) => {
   let leftOverNodes = nodes.filter(
-    (node) => !nodesToRemove.find((findNode) => node.id === findNode.id)
+    (node) => !nodesToRemove.find((findNode) => node.id === findNode.id),
   );
   replaceArray(nodes, leftOverNodes);
 };

@@ -1,22 +1,23 @@
-import { Node, GraphDataForceGraph } from "GraphManager/GraphRenderer";
+import { Node } from "GraphManager/GraphRenderer";
 import { MutableRefObject } from "react";
+import { ForceGraphGraphData } from "../types";
 
 export const userSearchMatching = (
   highlightNodes: Set<Node>,
-  graphDataForRender: MutableRefObject<GraphDataForceGraph | null>,
-  userInput: string
+  graphDataForRender: MutableRefObject<ForceGraphGraphData | null>,
+  userInput: string,
 ) => {
   return userSearchMatchingInternal(
     highlightNodes,
     graphDataForRender.current,
-    userInput
+    userInput,
   );
 };
 
 export const userSearchMatchingInternal = (
   highlightNodes: Set<Node>,
-  graphDataForRender: GraphDataForceGraph | null,
-  userInput: string
+  graphDataForRender: ForceGraphGraphData | null,
+  userInput: string,
 ) => {
   highlightNodes.clear();
   if (!userInput) {
@@ -24,7 +25,7 @@ export const userSearchMatchingInternal = (
   }
   graphDataForRender?.nodes
     .filter((node) =>
-      node.description.toLowerCase().includes(userInput.toLowerCase())
+      node.description.toLowerCase().includes(userInput.toLowerCase()),
     )
     .forEach((node) => highlightNodes.add(node));
 };

@@ -8,7 +8,12 @@ import {
   SelectChangeEvent,
 } from "@mui/material";
 
-import { DataSetType, GraphData, LinkType, NodeType } from "GraphManager/types";
+import {
+  DataSetType,
+  BackendGraphData,
+  LinkType,
+  NodeType,
+} from "GraphManager/types";
 import { EditNodeMenu } from "./components/EditNodeMenu";
 import { EditLinksMenu } from "./components/EditLinksMenu";
 import {
@@ -35,15 +40,15 @@ export type EditTabProps = {
 };
 
 export const findForwardLinks = (
-  graph: GraphData,
-  nodeId: string
+  graph: BackendGraphData,
+  nodeId: string,
 ): LinkType[] => {
   return graph.links?.filter((link: LinkType) => link.target === nodeId) ?? [];
 };
 
 export const findBackwardLinks = (
-  graph: GraphData,
-  nodeId: string
+  graph: BackendGraphData,
+  nodeId: string,
 ): LinkType[] => {
   return graph.links?.filter((link: LinkType) => link.source === nodeId) ?? [];
 };
@@ -57,7 +62,7 @@ export const updateNodeFn = (args: {
   updateDisplayedGraph: (value: DataSetType) => void;
   createNode: CreateNodeFn;
   updateNode: UpdateNodeFn;
-  getGraphWithUpdatedNode: (args: updateNodeInGraphProps) => GraphData;
+  getGraphWithUpdatedNode: (args: updateNodeInGraphProps) => BackendGraphData;
 }) => {
   return ({
     node,
@@ -134,22 +139,22 @@ export const EditTab = (props: EditTabProps): JSX.Element => {
   const firstNode = props.currentGraphDataset.data.nodes?.[0];
   const [selectedNodeID, setSelectedNodeID] = useState(firstNode?.id);
   const [selectedNodeDescription, setSelectedNodeDescription] = useState(
-    firstNode?.description
+    firstNode?.description,
   );
 
   const selectedNodeInGraph =
     props.currentGraphDataset.data.nodes?.find(
-      ({ id }) => id === selectedNodeID
+      ({ id }) => id === selectedNodeID,
     ) ?? props.currentGraphDataset.data.nodes?.[0];
 
   const handleSelectNode = (
     event: SelectChangeEvent<string>,
-    _: ReactNode
+    _: ReactNode,
   ): void => {
     //const nodeName = event.target.value as string;
     const nodeID = event.target.value as string;
     const node = props.currentGraphDataset.data.nodes.find(
-      (node) => node.id === nodeID
+      (node) => node.id === nodeID,
     );
     if (!node) {
       throw new Error(`unknown node selected: id=${nodeID}`);
@@ -172,11 +177,11 @@ export const EditTab = (props: EditTabProps): JSX.Element => {
 
   const forwardLinks = findForwardLinks(
     props.currentGraphDataset.data,
-    selectedNodeID
+    selectedNodeID,
   );
   const backwardLinks = findBackwardLinks(
     props.currentGraphDataset.data,
-    selectedNodeID
+    selectedNodeID,
   );
 
   const renderOptions = props.currentGraphDataset.data.nodes?.map(
@@ -186,7 +191,7 @@ export const EditTab = (props: EditTabProps): JSX.Element => {
           {description}
         </MenuItem>
       );
-    }
+    },
   );
 
   return (

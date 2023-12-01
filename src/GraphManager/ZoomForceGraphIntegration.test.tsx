@@ -3,12 +3,12 @@
  */
 import {
   makeOnZoomAndPanListener,
-  ForceGraph2DRef,
   MIN_ZOOM_PERCENTAGE_DIFFERENCE,
 } from "./ZoomForceGraphIntegration";
 import { ZoomDirection } from "./Zoom";
 
 import "@testing-library/jest-dom";
+import { ForceGraphRef } from "./GraphRenderer";
 
 // Since render() does not support canvas.getContext('2d')
 // we must mock ForceGraph2D.
@@ -20,7 +20,7 @@ jest.mock("react-force-graph-2d", () => (props: any) => {
 describe("makeOnZoomListener", () => {
   it("should zoom in if we changed to a lower zoom number", () => {
     const fgZoom = jest.fn().mockReturnValueOnce(1).mockReturnValueOnce(2);
-    const forcegraph: ForceGraph2DRef = {
+    const forcegraph: ForceGraphRef = {
       // @ts-ignore: don't want to implement all methods
       current: {
         zoom: fgZoom,
@@ -47,7 +47,7 @@ describe("makeOnZoomListener", () => {
   });
   it("should zoom Out if we changed to a higher zoom number", () => {
     const fgZoom = jest.fn().mockReturnValueOnce(1).mockReturnValueOnce(0.5);
-    const forcegraph: ForceGraph2DRef = {
+    const forcegraph: ForceGraphRef = {
       // @ts-ignore: don't want to implement all methods
       current: {
         zoom: fgZoom,
@@ -73,7 +73,7 @@ describe("makeOnZoomListener", () => {
     ]);
   });
   it("should do nothing when no ref.current is empty", () => {
-    const forcegraph: ForceGraph2DRef = { current: undefined };
+    const forcegraph: ForceGraphRef = { current: undefined };
     const zoom = jest.fn();
     let graphData = { nodes: [], links: [] };
     const onZoomAndPan = makeOnZoomAndPanListener(forcegraph, zoom, graphData);
@@ -84,7 +84,7 @@ describe("makeOnZoomListener", () => {
   });
   it("should do nothing, when panning", () => {
     const fgZoom = jest.fn().mockReturnValue(1);
-    const forcegraph: ForceGraph2DRef = {
+    const forcegraph: ForceGraphRef = {
       // @ts-ignore: don't want to implement all methods
       current: {
         zoom: fgZoom,
@@ -101,7 +101,7 @@ describe("makeOnZoomListener", () => {
   });
   it("should do nothing when zoom diff is small", () => {
     const fgZoom = jest.fn().mockReturnValueOnce(1).mockReturnValueOnce(0.95);
-    const forcegraph: ForceGraph2DRef = {
+    const forcegraph: ForceGraphRef = {
       // @ts-ignore: don't want to implement all methods
       current: {
         zoom: fgZoom,
@@ -121,7 +121,7 @@ describe("makeOnZoomListener", () => {
   });
   it("should zoom after multiple small zoom diffs (summing up the difference)", () => {
     const fgZoom = jest.fn().mockReturnValueOnce(1).mockReturnValueOnce(0.95);
-    const forcegraph: ForceGraph2DRef = {
+    const forcegraph: ForceGraphRef = {
       // @ts-ignore: don't want to implement all methods
       current: {
         zoom: fgZoom,

@@ -4,7 +4,7 @@ import { createNodeFromMouseEvent } from "./GraphEdit";
 describe("createNodeFromMouseEvent", () => {
   // @ts-ignore: typescript does not understand jest.mock
   const forceGraphMethods: ForceGraphMethods = jest.mock<ForceGraphMethods>(
-    "react-force-graph-2d"
+    "react-force-graph-2d",
   );
   forceGraphMethods.centerAt = jest.fn().mockName("forceGraphRef.centerAt");
   const makeMockController = () => {
@@ -43,7 +43,7 @@ describe("createNodeFromMouseEvent", () => {
     const mouse = makeMockMouseEvent({ x: 1, y: 2 });
     const ctrl = makeMockController();
     ctrl.backend.createNode.mockReturnValue(
-      Promise.resolve({ data: { createNode: { ID: "123" } } })
+      Promise.resolve({ data: { createNode: { ID: "123" } } }),
     );
     // @ts-ignore
     createNodeFromMouseEvent(mouse, ctrl);
@@ -67,14 +67,14 @@ describe("createNodeFromMouseEvent", () => {
       1,
       1,
       2,
-      1000
+      1000,
     );
   });
   it("should not change graph state, when backend fails", async () => {
     const mouse = makeMockMouseEvent({ x: 1, y: 2 });
     const ctrl = makeMockController();
     ctrl.backend.createNode.mockReturnValue(
-      Promise.resolve({ data: { createNode: { ID: "" } } })
+      Promise.resolve({ data: { createNode: { ID: "" } } }),
     );
     // @ts-ignore
     createNodeFromMouseEvent(mouse, ctrl);

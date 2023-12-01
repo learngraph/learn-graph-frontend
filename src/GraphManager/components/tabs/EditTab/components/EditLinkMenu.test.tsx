@@ -18,7 +18,7 @@ describe("EditLinkMenu", () => {
           { id: "1", description: "A" },
           { id: "2", description: "B" },
         ]}
-      />
+      />,
     );
     expectNoCalls();
     const button = screen.queryByLabelText("confirm editing link");

@@ -18,14 +18,14 @@ export function buildGraphFromData(data) {
     const textWidth = ctx.measureText(label).width;
     const padding = 0.2;
     const bckgDimensions = [textWidth, fontSize].map(
-      (n) => n + fontSize * padding
+      (n) => n + fontSize * padding,
     );
 
     ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
     ctx.fillRect(
       node.x - bckgDimensions[0] / 2,
       node.y - bckgDimensions[1] / 2,
-      ...bckgDimensions
+      ...bckgDimensions,
     );
 
     ctx.textAlign = "center";
@@ -42,7 +42,7 @@ export function buildGraphFromData(data) {
       ctx.fillRect(
         node.x - bckgDimensions[0] / 2,
         node.y - bckgDimensions[1] / 2,
-        ...bckgDimensions
+        ...bckgDimensions,
       );
   });
 
@@ -83,7 +83,7 @@ export function buildGraphFromData(data) {
   const linkForce = d3.forceLink(data.links);
   linkForce.strength((l, _, __) => {
     console.log(
-      `linkForce=${l.value ? l.value / maxLinkValue : defaultLinkForce}`
+      `linkForce=${l.value ? l.value / maxLinkValue : defaultLinkForce}`,
     );
     return l.value ? l.value / maxLinkValue : defaultLinkForce;
   });

@@ -27,6 +27,6 @@ describe("validateUserSignupRequest", () => {
     "should validate %p expects %p",
     async (userInput: UserSignupInfo, valid: boolean, _: string) => {
       expect(await validateUserSignupRequest.isValid(userInput)).toBe(valid);
-    }
+    },
   );
 });

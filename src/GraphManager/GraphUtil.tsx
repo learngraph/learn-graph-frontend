@@ -1,9 +1,9 @@
 import { TranslatedGraphData, TranslatedNode } from "src/GraphDataContext";
-import { NodeType, LinkType, DataSetType, GraphData } from "./types";
+import { NodeType, LinkType, DataSetType, BackendGraphData } from "./types";
 import { getTranslation } from "./utilities/getTranslation";
 
 export const sanitizeGraphDataset = function (
-  dataset: DataSetType
+  dataset: DataSetType,
 ): DataSetType {
   return {
     dataSetName: dataset.dataSetName,
@@ -11,7 +11,9 @@ export const sanitizeGraphDataset = function (
   };
 };
 
-export const sanitizeGraphData = function (data: GraphData): DataSetType {
+export const sanitizeGraphData = function (
+  data: BackendGraphData,
+): DataSetType {
   let nodes: NodeType[] = [];
   let allNodes = new Set();
   if (data?.nodes?.length > 0) {
@@ -47,7 +49,7 @@ export interface TransformFunctionInput {
 export const transformGraphDataForDisplay = ({
   graph,
   language,
-}: TransformFunctionInput): GraphData => ({
+}: TransformFunctionInput): BackendGraphData => ({
   links: graph.links,
   nodes: graph.nodes.map(({ id, group, description }) => {
     return {

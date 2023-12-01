@@ -21,7 +21,7 @@ export function getUpdateNodeAction(graph: EditGraph) {
         data: argument,
       });
       const updatingNode = graph.nodes.find(
-        ({ id: searchedId }) => searchedId === argument.id
+        ({ id: searchedId }) => searchedId === argument.id,
       );
       if (!updatingNode) {
         reject(new Error("Attempting to update non-existing Node!"));
@@ -72,7 +72,7 @@ export function getCreateNodeAction(graph: EditGraph) {
         responseID = response.data.createNode.ID;
 
         const nodesWithoutTempNode = graph.nodes.filter(
-          (node) => node.id !== requestId
+          (node) => node.id !== requestId,
         );
         graph.setNodes([
           ...nodesWithoutTempNode,
@@ -81,7 +81,7 @@ export function getCreateNodeAction(graph: EditGraph) {
       } catch (error) {
         // remove temp node before escalating error
         const nodesWithoutTempNode = graph.nodes.filter(
-          (node) => node.id !== requestId
+          (node) => node.id !== requestId,
         );
         graph.setNodes(nodesWithoutTempNode);
 
@@ -115,14 +115,14 @@ export function getCreateLinkAction(graph: EditGraph) {
         graph.requests.find(
           ({ type, id }) =>
             (id === argument.from || id === argument.to) &&
-            type === pendingActionTypes.CREATE_NODE_WITH_TEMP_ID
+            type === pendingActionTypes.CREATE_NODE_WITH_TEMP_ID,
         )
       ) {
         // if used node is being created, throw error and abort
         reject(
           new Error(
-            "Trying to create a link to a Node that hasn't been created yet!"
-          )
+            "Trying to create a link to a Node that hasn't been created yet!",
+          ),
         );
         return;
         // (TODO(future): await other request to finish, then queue this one? could also be bad if the wait time is long and the user changes their mind in the meantime)
@@ -151,7 +151,7 @@ export function getCreateLinkAction(graph: EditGraph) {
           throw new Error("Creating Link didn't return any data");
         }
         const linksWithoutTempNode = graph.links.filter(
-          (node) => node.id !== requestId
+          (node) => node.id !== requestId,
         );
 
         responseID = response.data.createEdge.ID;
@@ -195,7 +195,7 @@ export function getSubmitVoteAction(graph: EditGraph) {
       if (
         graph.requests.find(
           ({ type, id }) =>
-            id === argument.ID && type === pendingActionTypes.SUBMIT_VOTE
+            id === argument.ID && type === pendingActionTypes.SUBMIT_VOTE,
         )
       ) {
         // if used node is being created, throw error and abort

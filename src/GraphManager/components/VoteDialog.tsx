@@ -49,7 +49,7 @@ export const VoteDialog = ({
     setDialogOpen(false);
     if (!linkInfo.linkID || !sliderValue || typeof sliderValue !== "number") {
       throw new Error(
-        `incorrect input for submit vote function! linkID: ${linkInfo.linkID}, sliderValue: ${sliderValue}`
+        `incorrect input for submit vote function! linkID: ${linkInfo.linkID}, sliderValue: ${sliderValue}`,
       );
     }
     submitVote({
@@ -64,7 +64,7 @@ export const VoteDialog = ({
 
   const onSliderValueChange = (
     _event: any,
-    newValue: Number | Array<Number>
+    newValue: Number | Array<Number>,
   ) => {
     setSliderValue(newValue);
   };

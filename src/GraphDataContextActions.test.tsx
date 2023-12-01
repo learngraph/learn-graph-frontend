@@ -44,7 +44,7 @@ describe("getCreateLinkAction", () => {
       Promise.resolve({ data: { createEdge: { ID: "" } } });
     let createLink = getCreateLinkAction(editGraph);
     await expect(createLink({ from: "A", to: "B", weight: 2 })).rejects.toEqual(
-      "Didn't receive new link ID from the backend!"
+      "Didn't receive new link ID from the backend!",
     );
   });
 
@@ -120,10 +120,10 @@ describe("getCreateLinkAction", () => {
       let p = createLink(link);
       return expect(p).rejects.toEqual(
         new Error(
-          "Trying to create a link to a Node that hasn't been created yet!"
-        )
+          "Trying to create a link to a Node that hasn't been created yet!",
+        ),
       );
-    }
+    },
   );
 
   it("should queue and delete pending request in a successful call", async () => {
@@ -222,7 +222,7 @@ describe("getUpdateNodeAction", () => {
         },
       ],
       updateNodeInBackend: jest.fn(() =>
-        Promise.resolve({ data: { updateNode: { ID: "1" } } })
+        Promise.resolve({ data: { updateNode: { ID: "1" } } }),
       ),
     };
 
@@ -260,7 +260,7 @@ describe("getUpdateNodeAction", () => {
           translations: [{ language: "en", content: "new description" }],
         },
         id: "1",
-      })
+      }),
     ).rejects.toEqual(rejectError);
     expect(graph.nodes[0].description).toEqual({
       translations: [{ language: "en", content: "old description" }],
@@ -272,7 +272,7 @@ describe("getCreateNodeAction", () => {
   it("should handle empty IDs from backend as error", async () => {
     let graph: EditGraph = makeDefaultEditGraphMock();
     graph.createNodeInBackend = jest.fn(() =>
-      Promise.resolve({ data: { createNode: { ID: "" } } })
+      Promise.resolve({ data: { createNode: { ID: "" } } }),
     );
     const createNodeAction = getCreateNodeAction(graph);
     await expect(
@@ -280,13 +280,13 @@ describe("getCreateNodeAction", () => {
         description: {
           translations: [{ language: "en", content: "new description" }],
         },
-      })
+      }),
     ).rejects.toContain("Didn't receive updated node ID from the backend");
   });
   it("should create a new node and return its ID", async () => {
     let graph: EditGraph = makeDefaultEditGraphMock();
     graph.createNodeInBackend = jest.fn(() =>
-      Promise.resolve({ data: { createNode: { ID: "new-node-id" } } })
+      Promise.resolve({ data: { createNode: { ID: "new-node-id" } } }),
     );
     const createNodeAction = getCreateNodeAction(graph);
 
@@ -295,7 +295,7 @@ describe("getCreateNodeAction", () => {
         description: {
           translations: [{ language: "en", content: "new description" }],
         },
-      })
+      }),
     ).resolves.toEqual({
       data: { createNode: { ID: "new-node-id" } },
     });
@@ -353,7 +353,7 @@ describe("getCreateNodeAction", () => {
         description: {
           translations: [{ language: "en", content: "new description" }],
         },
-      })
+      }),
     ).rejects.toThrowError("Failed to create node");
 
     expect(graph.requestsDispatch).toHaveBeenCalledTimes(2);
@@ -398,7 +398,7 @@ describe("getSubmitVoteAction", () => {
     const value = 5;
     const submitVoteAction = getSubmitVoteAction(editGraph);
     await expect(
-      submitVoteAction({ ID: linkID, value: value })
+      submitVoteAction({ ID: linkID, value: value }),
     ).resolves.toEqual({
       data: {
         ID: linkID,
@@ -446,13 +446,13 @@ describe("getSubmitVoteAction", () => {
       }
       const submitVoteAction = getSubmitVoteAction(editGraph);
       await expect(
-        submitVoteAction({ ID: linkID, value: value })
+        submitVoteAction({ ID: linkID, value: value }),
       ).rejects.toEqual(rejectMessage);
 
       expect(editGraph.requestsDispatch).not.toHaveBeenCalled();
 
       expect(editGraph.setLinks).not.toHaveBeenCalled();
-    }
+    },
   );
 
   it("should queue and delete the call, do and undo the changes in state if the API call fails", async () => {
@@ -468,12 +468,12 @@ describe("getSubmitVoteAction", () => {
     editGraph.links = prevLinksState;
 
     editGraph.submitVoteInBackend = jest.fn(() =>
-      Promise.reject("API call fail!")
+      Promise.reject("API call fail!"),
     );
 
     const submitVoteAction = getSubmitVoteAction(editGraph);
     await expect(submitVoteAction(failingRequest)).rejects.toEqual(
-      "API call fail!"
+      "API call fail!",
     );
 
     expect(editGraph.requestsDispatch).toHaveBeenCalledTimes(2);

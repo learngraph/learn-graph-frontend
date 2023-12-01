@@ -1,6 +1,6 @@
-import { GraphData } from "GraphManager/types";
+import { BackendGraphData } from "GraphManager/types";
 // prettier-ignore
-const data: GraphData = {
+const data: BackendGraphData = {
   nodes: [
     { id: "arithm-ops", description: "Basic Arithmetic Operations" },
     { id: "Addition", description: "Addition" },

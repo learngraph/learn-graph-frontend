@@ -1,12 +1,12 @@
-import { ForceGraphMethods } from "react-force-graph-2d";
-import { Dispatch, MutableRefObject, SetStateAction } from "react";
-import { GraphDataForceGraph, LinkBetweenNode, Node } from "./GraphRenderer";
+import { Dispatch, SetStateAction } from "react";
+import { ForceGraphRef, LinkBetweenNode, Node } from "./GraphRenderer";
 import { NewNodeForm, PopUpControls } from "./GraphEditPopUp";
 import { CreateNodeFn } from "./hooks/useCreateNode";
+import { ForceGraphGraphData } from "./types";
 
 export interface GraphState {
-  current: GraphDataForceGraph;
-  setGraph: Dispatch<SetStateAction<GraphDataForceGraph>>;
+  current: ForceGraphGraphData;
+  setGraph: Dispatch<SetStateAction<ForceGraphGraphData>>;
   addLink: (link: LinkBetweenNode) => void;
   addNode: (node: Node) => void;
 }
@@ -16,7 +16,7 @@ export interface Backend {
 
 export const createNodeFromMouseEvent = (
   mouse: MouseEvent,
-  { backend, graph, popUp, forceGraphRef }: Controller
+  { backend, graph, popUp, forceGraphRef }: Controller,
 ) => {
   const onFormSubmit = async (form: NewNodeForm) => {
     backend
@@ -30,7 +30,7 @@ export const createNodeFromMouseEvent = (
           result.data?.createNode.ID === undefined ||
           result.data?.createNode.ID === ""
         ) {
-          console.error("failed to create node in backend");
+          console.log("failed to create node in backend");
           return;
         }
         const [x, y] = [mouse.x, mouse.y];
@@ -56,16 +56,16 @@ export const createNodeFromMouseEvent = (
 
 export interface Controller {
   graph: GraphState;
-  forceGraphRef: MutableRefObject<ForceGraphMethods | undefined>;
+  forceGraphRef: ForceGraphRef;
   popUp: PopUpControls;
   backend: Backend;
 }
 
 export const makeOnBackgroundClick = (
   graph: GraphState,
-  forceGraphRef: MutableRefObject<ForceGraphMethods | undefined>,
+  forceGraphRef: ForceGraphRef,
   popUp: PopUpControls,
-  backend: Backend
+  backend: Backend,
 ) => {
   return (mouse: MouseEvent) => {
     console.log(mouse);

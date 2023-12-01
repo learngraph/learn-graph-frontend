@@ -1,5 +1,5 @@
-import { GraphData } from "GraphManager/types";
-const data: GraphData = {
+import { BackendGraphData } from "GraphManager/types";
+const data: BackendGraphData = {
   nodes: [
     { id: "Cetup.ID", description: "Cetup.ID" },
     { id: "Motivation", description: "Why found a startup?", group: 1 },

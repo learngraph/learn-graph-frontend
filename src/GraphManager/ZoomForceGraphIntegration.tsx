@@ -1,6 +1,5 @@
-import { ForceGraphMethods } from "react-force-graph-2d";
 import { ZoomFn, GraphDataMerged, ZoomDirection, ZoomState } from "./Zoom";
-import { MutableRefObject } from "react";
+import { ForceGraphRef } from "./GraphRenderer";
 
 interface UserZoomEvent {
   // zoom level
@@ -8,8 +7,6 @@ interface UserZoomEvent {
   x: number;
   y: number;
 }
-
-export type ForceGraph2DRef = MutableRefObject<ForceGraphMethods | undefined>;
 
 // FIXME(skep): BUG: on load zoom is triggered 2 times, so that 1-zoom-in
 // always  happens!
@@ -20,9 +17,9 @@ export const MIN_ZOOM_PERCENTAGE_DIFFERENCE = 0.05;
 // as programmatic zooming/panning with zoom() and centerAt().
 // -> will be important for search-node feature using centerAt!
 export const makeOnZoomAndPanListener = (
-  ref: ForceGraph2DRef,
+  ref: ForceGraphRef,
   zoom: ZoomFn,
-  graphData: GraphDataMerged
+  graphData: GraphDataMerged,
 ) => {
   let lastZoom = ref.current?.zoom();
   let zoomState: ZoomState = { zoomSteps: [], graphData };

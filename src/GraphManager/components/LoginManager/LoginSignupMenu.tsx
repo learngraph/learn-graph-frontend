@@ -72,7 +72,7 @@ export default function LoginSignupMenu() {
       setUserName(username);
       setAuthenticationToken(login.token);
       console.log(
-        `setting login info in context: username=${username} id=${login.userID}, token=${login.token}`
+        `setting login info in context: username=${username} id=${login.userID}, token=${login.token}`,
       );
     } else {
       console.log(`login failed: ${login}`);

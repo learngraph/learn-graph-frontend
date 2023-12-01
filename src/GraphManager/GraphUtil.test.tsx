@@ -1,4 +1,4 @@
-import { GraphData, NodeType } from "./types";
+import { BackendGraphData, NodeType } from "./types";
 import {
   sanitizeGraphData,
   transformDisplayedNodesToPseudoTranslated,
@@ -77,7 +77,7 @@ describe("sanitizeGraphData", () => {
     }).toThrow();
   });
   it("should throw on missing nodes / invalid graph", () => {
-    let inp: GraphData = {
+    let inp: BackendGraphData = {
       nodes: [
         { id: "1", description: "A" },
         // id: "2" is missing
@@ -109,7 +109,7 @@ describe("transformGraphDataForDisplay", () => {
       },
     };
 
-    const expected: GraphData = {
+    const expected: BackendGraphData = {
       links: input.graph.links,
       nodes: [
         { id: "1", description: "A" },
