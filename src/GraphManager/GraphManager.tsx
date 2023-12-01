@@ -5,8 +5,15 @@ import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import { Box } from "@mui/material";
 
 import { VoteDialog } from "./components";
-import { DataSetType, ForceGraphGraphData, BackendGraphData } from "./types";
-import { GraphRenderer, Node } from "./GraphRenderer";
+import {
+  DataSetType,
+  ForceGraphGraphData,
+  BackendGraphData,
+  ForceGraphRef,
+  LocalForceGraphMethods,
+  ForceGraphNodeObject,
+} from "./types";
+import { GraphRenderer } from "./GraphRenderer";
 import {
   sanitizeGraphData,
   transformDisplayedNodesToPseudoTranslated,
@@ -59,12 +66,18 @@ export const GraphManager = (props: GraphManagerProps): JSX.Element => {
     setVoteDialogInput(params);
   };
 
+  const forceGraphRef: ForceGraphRef = useRef<LocalForceGraphMethods>();
   const graphDataForRenderRef: MutableRefObject<ForceGraphGraphData | null> =
     useRef<ForceGraphGraphData | null>(null);
 
-  const highlightNodes = new Set<Node>();
+  const highlightNodes = new Set<ForceGraphNodeObject>();
   const searchCallback = (userInput: string) => {
-    userSearchMatching(highlightNodes, graphDataForRenderRef, userInput);
+    userSearchMatching(
+      highlightNodes,
+      graphDataForRenderRef,
+      forceGraphRef,
+      userInput,
+    );
   };
 
   return (
@@ -96,6 +109,7 @@ export const GraphManager = (props: GraphManagerProps): JSX.Element => {
         />
         <GraphRenderer
           graphDataRef={graphDataForRenderRef}
+          forceGraphRef={forceGraphRef}
           openVoteDialog={openVoteDialog}
           highlightNodes={highlightNodes}
         />

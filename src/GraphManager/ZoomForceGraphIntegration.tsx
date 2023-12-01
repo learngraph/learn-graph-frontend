@@ -1,5 +1,5 @@
 import { ZoomFn, GraphDataMerged, ZoomDirection, ZoomState } from "./Zoom";
-import { ForceGraphRef } from "./GraphRenderer";
+import { ForceGraphRef } from "./types";
 
 interface UserZoomEvent {
   // zoom level

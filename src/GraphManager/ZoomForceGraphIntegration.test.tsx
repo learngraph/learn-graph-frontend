@@ -8,7 +8,7 @@ import {
 import { ZoomDirection } from "./Zoom";
 
 import "@testing-library/jest-dom";
-import { ForceGraphRef } from "./GraphRenderer";
+import { ForceGraphRef } from "./types";
 
 // Since render() does not support canvas.getContext('2d')
 // we must mock ForceGraph2D.

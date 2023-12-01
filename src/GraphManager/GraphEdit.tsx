@@ -1,8 +1,8 @@
 import { Dispatch, SetStateAction } from "react";
-import { ForceGraphRef, LinkBetweenNode, Node } from "./GraphRenderer";
+import { LinkBetweenNode, Node } from "./GraphRenderer";
 import { NewNodeForm, PopUpControls } from "./GraphEditPopUp";
 import { CreateNodeFn } from "./hooks/useCreateNode";
-import { ForceGraphGraphData } from "./types";
+import { ForceGraphRef, ForceGraphGraphData } from "./types";
 
 export interface GraphState {
   current: ForceGraphGraphData;

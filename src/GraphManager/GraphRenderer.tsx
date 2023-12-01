@@ -1,4 +1,4 @@
-import ForceGraph2D, { ForceGraphMethods } from "react-force-graph-2d";
+import ForceGraph2D from "react-force-graph-2d";
 import {
   LinkType,
   NodeType,
@@ -6,6 +6,7 @@ import {
   ForceGraphGraphData,
   ForceGraphNodeObject,
   ForceGraphLinkObject,
+  ForceGraphRef,
 } from "./types";
 import { zoomStep, HasID } from "./Zoom";
 import {
@@ -48,6 +49,7 @@ type NodeObject = ForceGraphNodeObject;
 
 interface GraphRendererProps {
   graphDataRef: MutableRefObject<ForceGraphGraphData | null>;
+  forceGraphRef: ForceGraphRef;
   openVoteDialog: VoteDialogFn;
   highlightNodes: Set<Node>;
 }
@@ -218,13 +220,6 @@ const config = {
   font: "Sans-Serif",
 };
 
-type LocalForceGraphMethods =
-  | ForceGraphMethods<ForceGraphNodeObject, ForceGraphLinkObject>
-  | undefined;
-export type ForceGraphRef = MutableRefObject<
-  LocalForceGraphMethods | undefined
->;
-
 export const makeSetUnlessUndefined = (
   data: { graph: BackendGraphData },
   setGraph: Dispatch<SetStateAction<ForceGraphGraphData>>,
@@ -256,16 +251,18 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       { id: "2", source: n_is, target: n_loading, value: 5 },
     ],
   });
+  props.graphDataRef.current = graph;
   const { data, queryResponse } = useGraphData();
   // linter-disable: react-hooks/exhaustive-deps
   useEffect(makeSetUnlessUndefined(data, setGraph), [
     queryResponse.loading,
     data,
   ]);
-  //props.graphDataRef.current = graph;
   const onLinkClick = onLinkClickFn(props.openVoteDialog);
-  const forceGraphRef: ForceGraphRef = useRef<LocalForceGraphMethods>();
-  document.addEventListener("keydown", makeKeydownListener(forceGraphRef)); // TODO: make it react-isch? not sure where to put it
+  document.addEventListener(
+    "keydown",
+    makeKeydownListener(props.forceGraphRef),
+  ); // TODO: make it react-isch? not sure where to put it
   let graphState: GraphState = {
     current: graph,
     setGraph,
@@ -291,7 +288,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   };
   const onBackgroundClick = makeOnBackgroundClick(
     graphState,
-    forceGraphRef,
+    props.forceGraphRef,
     popUpCtrl,
     backend,
   );
@@ -321,7 +318,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       <ForceGraph2D
         height={availableSpace.height}
         width={availableSpace.width}
-        ref={forceGraphRef}
+        ref={props.forceGraphRef}
         graphData={graph}
         nodeAutoColorBy={"group"}
         onNodeClick={onNodeClick}
@@ -338,7 +335,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
         linkCanvasObjectMode={() => config.linkCanvasObjectMode}
         linkCanvasObject={linkCanvasObject}
         // @ts-ignore: FIXME(skep): problem with graph-data type, to be debugged
-        onZoom={makeOnZoomAndPanListener(forceGraphRef, zoomStep, graph)}
+        onZoom={makeOnZoomAndPanListener(props.forceGraphRef, zoomStep, graph)}
         onBackgroundClick={onBackgroundClick}
       />
       <GraphEditPopUp ctrl={popUpCtrl} />
