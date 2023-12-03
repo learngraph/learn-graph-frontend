@@ -4,6 +4,7 @@ import {
   onLinkClickFn,
   makeKeydownListener,
   makeSetUnlessUndefined,
+  SpecialNodes,
 } from "./GraphRenderer";
 import "@testing-library/jest-dom";
 
@@ -39,39 +40,58 @@ describe("onLinkClickFn", () => {
 });
 
 describe("nodeCanvasObject", () => {
-  it("[SNAPSHOT test] should have reasonable font size and background dimensions", () => {
-    const node = {
-      id: "A",
-      description: "B",
-      x: 5,
-      y: 6,
-    };
-    //const ctx = jest.fn<typeof CanvasRenderingContext2D>();
-    const ctx = {
+  const makeCanvasRenderingContext2D = () => {
+    let fillRectCalls: any = [];
+    // @ts-ignore
+    let ctx: CanvasRenderingContext2D = {
       fillStyle: "",
       fillRect: jest.fn(),
       fillText: jest.fn(),
-      measureText: jest.fn(),
-      textAlign: "",
-      textBaseline: "",
+      measureText: jest.fn().mockReturnValue({ width: 100 }),
+      textAlign: "center",
+      textBaseline: "alphabetic",
       font: "",
     };
-    ctx.measureText.mockReturnValue({ width: 100 });
+    const fillRect = jest.fn((args) => { fillRectCalls.push({args: args, fillStyle: ctx.fillStyle}); });
+    ctx.fillRect = fillRect;
+    return { ctx, fillRectCalls: fillRectCalls };
+  };
+  const node = {
+    id: "A",
+    description: "B",
+    x: 5,
+    y: 6,
+  };
+  it("[SNAPSHOT test] should have reasonable font size and background dimensions", () => {
+    const {ctx, fillRectCalls} = makeCanvasRenderingContext2D();
     const scale = 1;
-    // @ts-ignore
-    nodeCanvasObject(node, ctx, scale, new Set());
+    const special: SpecialNodes = {hoveredNode: null};
+    nodeCanvasObject(node, ctx, scale, new Set(), special);
     expect(ctx.font).toEqual("22px Sans-Serif");
     expect(ctx.textAlign).toEqual("center");
     expect(ctx.textBaseline).toEqual("middle");
     expect(ctx.fillStyle).toEqual("#000");
-    // TODO(skep): test fillStyle for the first fillRect() call
-    expect(ctx.fillRect.mock.calls.length).toBe(1);
-    expect(ctx.fillRect.mock.calls[0]).toEqual([
-      -47.2, -7.199999999999999, 104.4, 26.4,
-    ]);
-    expect(ctx.fillText.mock.calls.length).toBe(1);
-    expect(ctx.fillText.mock.calls[0]).toEqual(["B", 5, 6]);
+    expect(ctx.fillRect).toHaveBeenCalledTimes(1);
+    expect(ctx.fillRect).toHaveBeenCalledWith(-47.2, -7.199999999999999, 104.4, 26.4);
+    expect(fillRectCalls[0].fillStyle).toEqual("rgba(190, 190, 190, 0.8)");
+    expect(ctx.fillText).toHaveBeenCalledTimes(1);
+    expect(ctx.fillText).toHaveBeenCalledWith("B", 5, 6);
   });
+  //// TODO(skep): continue here vvv
+  //it("should highlight nodes", () => {
+  //  const ctx = makeCanvasRenderingContext2D();
+  //  const scale = 1;
+  //  const special: SpecialNodes = {hoveredNode: null};
+  //  nodeCanvasObject(node, ctx, scale, new Set(), special);
+  //  expect(ctx.font).toEqual("22px Sans-Serif");
+  //  expect(ctx.textAlign).toEqual("center");
+  //  expect(ctx.textBaseline).toEqual("middle");
+  //  expect(ctx.fillStyle).toEqual("#000");
+  //  expect(ctx.fillRect).toHaveBeenCalledTimes(1);
+  //  expect(ctx.fillRect).toHaveBeenCalledWith(-47.2, -7.199999999999999, 104.4, 26.4);
+  //  expect(ctx.fillText).toHaveBeenCalledTimes(1);
+  //  expect(ctx.fillText).toHaveBeenCalledWith("B", 5, 6);
+  //});
 });
 
 describe("makeKeydownListener", () => {

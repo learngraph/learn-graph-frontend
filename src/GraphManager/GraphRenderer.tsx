@@ -109,27 +109,31 @@ function linkDescriptionPosition(link: Link) {
 
 // TODO(j): should use react theme for color choice here
 const backgroundColorWhite = "rgba(255, 255, 255, 0.8)";
+const backgroundColorGrey = "rgba(190, 190, 190, 0.8)";
 
-const makeNodeCanvasObject = (highlightNodes: Set<Node>) => {
+export interface SpecialNodes {
+  hoveredNode?: ForceGraphNodeObject | undefined | null
+};
+
+const makeNodeCanvasObject = (highlightNodes: Set<Node>, specialNodes: SpecialNodes) => {
   return (
     nodeForceGraph: NodeObject,
     ctx: CanvasRenderingContext2D,
     globalScale: number,
   ) => {
-    return nodeCanvasObject(nodeForceGraph, ctx, globalScale, highlightNodes);
+    return nodeCanvasObject(nodeForceGraph, ctx, globalScale, highlightNodes, specialNodes);
   };
 };
 
 export const nodeCanvasObject = (
-  nodeForceGraph: NodeObject,
+  node: ForceGraphNodeObject,
   ctx: CanvasRenderingContext2D,
   globalScale: number,
   highlightNodes: Set<Node>,
+  specialNodes: SpecialNodes,
 ) => {
-  // @ts-ignore: see `Node` type
-  const node: Node = nodeForceGraph;
   let label = node.description ?? "";
-  let backgroundColor = backgroundColorWhite;
+  let backgroundColor = backgroundColorGrey;
   const mergedNodes = node.mergeCount ?? 0;
   if (mergedNodes > 1) {
     // TODO(skep): use relative scaling to total number of nodes
@@ -140,6 +144,9 @@ export const nodeCanvasObject = (
   }
   if (highlightNodes.has(node)) {
     backgroundColor = `hsl(1,100%,50%)`;
+  }
+  if (specialNodes.hoveredNode?.id == node.id) {
+    backgroundColor = `hsl(30,100%,50%)`;
   }
   drawTextWithBackground(
     { text: label, fontSize: config.fontSize / globalScale, backgroundColor },
@@ -309,6 +316,10 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       });
     }
   }, []);
+  const specialNodes: SpecialNodes = {};
+  const onNodeHover = (node: ForceGraphNodeObject | null, _: ForceGraphNodeObject | null) => {
+    specialNodes.hoveredNode = node;
+  };
   return (
     <Box
       id="canvasWrapper"
@@ -322,7 +333,8 @@ export const GraphRenderer = (props: GraphRendererProps) => {
         graphData={graph}
         nodeAutoColorBy={"group"}
         onNodeClick={onNodeClick}
-        nodeCanvasObject={makeNodeCanvasObject(props.highlightNodes)}
+        onNodeHover={onNodeHover}
+        nodeCanvasObject={makeNodeCanvasObject(props.highlightNodes, specialNodes)}
         // links:
         onLinkHover={onLinkHover}
         onLinkClick={onLinkClick}
