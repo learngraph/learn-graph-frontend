@@ -66,11 +66,11 @@ interface TextRender {
 }
 
 // utility functions
-function drawTextWithBackground(
+const drawTextBackgroundBox = (
   text: TextRender,
   ctx: CanvasRenderingContext2D,
   position: Partial<Position>,
-) {
+) => {
   ctx.font = `${text.fontSize}px ${config.font}`;
   const textWidth = ctx.measureText(text.text).width;
   const padding = 0.2;
@@ -85,13 +85,31 @@ function drawTextWithBackground(
     bckgDimensions[0],
     bckgDimensions[1],
   );
+};
+
+const drawText = (
+  text: TextRender,
+  ctx: CanvasRenderingContext2D,
+  position: Partial<Position>,
+) => {
+  ctx.font = `${text.fontSize}px ${config.font}`;
+  let [x, y] = [position.x ?? 0, position.y ?? 0];
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.fillStyle = "#000";
   ctx.fillText(text.text, x, y);
-}
+};
 
-function linkDescriptionPosition(link: Link) {
+const drawTextWithBackground = (
+  text: TextRender,
+  ctx: CanvasRenderingContext2D,
+  position: Partial<Position>,
+) => {
+  drawTextBackgroundBox(text, ctx, position);
+  drawText(text, ctx, position);
+};
+
+const linkDescriptionPosition = (link: ForceGraphLinkObject) => {
   return Object.assign(
     // @ts-ignore
     ...["x", "y"].map((c) => ({
@@ -103,25 +121,35 @@ function linkDescriptionPosition(link: Link) {
           (config.linkDirectionalArrowRelPos - 0.1),
     })),
   );
-}
+};
 
 // node render & interaction
 
 // TODO(j): should use react theme for color choice here
 const backgroundColorWhite = "rgba(255, 255, 255, 0.8)";
 const backgroundColorGrey = "rgba(190, 190, 190, 0.8)";
+const backgroundColorOrange = `hsl(30,100%,50%)`;
 
 export interface SpecialNodes {
-  hoveredNode?: ForceGraphNodeObject | undefined | null
-};
+  hoveredNode?: ForceGraphNodeObject | undefined | null;
+}
 
-const makeNodeCanvasObject = (highlightNodes: Set<Node>, specialNodes: SpecialNodes) => {
+const makeNodeCanvasObject = (
+  highlightNodes: Set<Node>,
+  specialNodes: SpecialNodes,
+) => {
   return (
     nodeForceGraph: NodeObject,
     ctx: CanvasRenderingContext2D,
     globalScale: number,
   ) => {
-    return nodeCanvasObject(nodeForceGraph, ctx, globalScale, highlightNodes, specialNodes);
+    return nodeCanvasObject(
+      nodeForceGraph,
+      ctx,
+      globalScale,
+      highlightNodes,
+      specialNodes,
+    );
   };
 };
 
@@ -145,11 +173,28 @@ export const nodeCanvasObject = (
   if (highlightNodes.has(node)) {
     backgroundColor = `hsl(1,100%,50%)`;
   }
-  if (specialNodes.hoveredNode?.id == node.id) {
-    backgroundColor = `hsl(30,100%,50%)`;
+  if (specialNodes.hoveredNode?.id === node.id) {
+    backgroundColor = backgroundColorOrange;
   }
   drawTextWithBackground(
     { text: label, fontSize: config.fontSize / globalScale, backgroundColor },
+    ctx,
+    { x: node.x, y: node.y },
+  );
+};
+
+export const nodePointerAreaPaint = (
+  node: ForceGraphNodeObject,
+  color: string,
+  ctx: CanvasRenderingContext2D,
+  globalScale: number,
+) => {
+  drawTextBackgroundBox(
+    {
+      text: node.description ?? "",
+      fontSize: config.fontSize / globalScale,
+      backgroundColor: color,
+    },
     ctx,
     { x: node.x, y: node.y },
   );
@@ -161,19 +206,14 @@ const onNodeClick = (params: NodeObject): void => {
 
 // link render & interaction
 export const linkCanvasObject = (
-  linkForceGraph: LinkObject,
+  link: ForceGraphLinkObject,
   ctx: CanvasRenderingContext2D,
   globalScale: number,
 ) => {
-  // @ts-ignore
-  const link: Link = linkForceGraph;
-
   // ignore unbound links
   if (typeof link.source !== "object" || typeof link.target !== "object")
     return;
-
   const pos = linkDescriptionPosition(link);
-
   drawTextWithBackground(
     {
       text: String(link.value),
@@ -317,7 +357,10 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     }
   }, []);
   const specialNodes: SpecialNodes = {};
-  const onNodeHover = (node: ForceGraphNodeObject | null, _: ForceGraphNodeObject | null) => {
+  const onNodeHover = (
+    node: ForceGraphNodeObject | null,
+    _: ForceGraphNodeObject | null,
+  ) => {
     specialNodes.hoveredNode = node;
   };
   return (
@@ -334,7 +377,11 @@ export const GraphRenderer = (props: GraphRendererProps) => {
         nodeAutoColorBy={"group"}
         onNodeClick={onNodeClick}
         onNodeHover={onNodeHover}
-        nodeCanvasObject={makeNodeCanvasObject(props.highlightNodes, specialNodes)}
+        nodeCanvasObject={makeNodeCanvasObject(
+          props.highlightNodes,
+          specialNodes,
+        )}
+        nodePointerAreaPaint={nodePointerAreaPaint}
         // links:
         onLinkHover={onLinkHover}
         onLinkClick={onLinkClick}
