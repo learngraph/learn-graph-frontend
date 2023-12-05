@@ -6,7 +6,7 @@ import Box from "@mui/material/Box";
 
 import { Typography } from "@mui/material";
 import { SubmitVoteFn } from "../hooks/useSubmitVote";
-import { NodeType } from "../types";
+import { ForceGraphNodeObject } from "../types";
 
 type VoteDialogProps = {
   isDialogOpen: boolean;
@@ -17,8 +17,8 @@ type VoteDialogProps = {
 
 export interface VoteDialogParams {
   linkID: string;
-  sourceNode: NodeType;
-  targetNode: NodeType;
+  sourceNode: ForceGraphNodeObject;
+  targetNode: ForceGraphNodeObject;
   weight: number;
 }
 export interface VoteDialogFn {

@@ -37,6 +37,10 @@ interface LinkTypeAddition {
   value: number;
   note?: string;
   id: string;
+  // After starting the force graph, there will always be objects in
+  // source/target properties => ensure typescript understands.
+  source: ForceGraphNodeObject;
+  target: ForceGraphNodeObject;
 }
 
 // NodeTypeAddition is an extension to force-graph's NodeObject with additional
@@ -57,8 +61,8 @@ export type ForceGraphLinkObject = FGLinkObject<
   LinkTypeAddition
 >;
 export type ForceGraphGraphData = FGGraphData<
-  ForceGraphNodeObject,
-  ForceGraphLinkObject
+  NodeTypeAddition,
+  LinkTypeAddition
 >;
 
 export type LocalForceGraphMethods =

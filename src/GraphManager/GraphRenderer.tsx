@@ -22,9 +22,15 @@ import { Box } from "@mui/material";
 import { VoteDialogFn } from "./components/VoteDialog";
 import { useGraphData } from "./hooks";
 import { makeOnZoomAndPanListener } from "./ZoomForceGraphIntegration";
-import { GraphState, Backend, makeOnBackgroundClick } from "./GraphEdit";
+import {
+  GraphState,
+  Backend,
+  makeOnBackgroundClick,
+  Controller,
+} from "./GraphEdit";
 import { GraphEditPopUp, PopUpControls } from "./GraphEditPopUp";
 import { useCreateNode } from "./hooks/useCreateNode";
+import { useCreateEdge } from "./hooks/useCreateEdge";
 
 // TODO(skep): fundamental type issue here, we have 2-3 types in one:
 //  1. `NodeType`: our node type, with added properties, that we use in
@@ -204,16 +210,39 @@ const onNodeClick = (params: NodeObject): void => {
   console.log("clicked", params);
 };
 
+const makeLinkCanvasObject = (drag: NodeDragState) => {
+  return (
+    link: ForceGraphLinkObject,
+    ctx: CanvasRenderingContext2D,
+    globalScale: number,
+  ) => {
+    return linkCanvasObject(drag, link, ctx, globalScale);
+  };
+};
 // link render & interaction
 export const linkCanvasObject = (
+  drag: NodeDragState,
   link: ForceGraphLinkObject,
   ctx: CanvasRenderingContext2D,
   globalScale: number,
 ) => {
-  // ignore unbound links
-  if (typeof link.source !== "object" || typeof link.target !== "object")
+  if (typeof link.source !== "object" || typeof link.target !== "object") {
     return;
+  }
   const pos = linkDescriptionPosition(link);
+  if (link === drag.interimLink) {
+    // XXX(skep): remove again, should be visually appealing instead of text
+    drawTextWithBackground(
+      {
+        text: String("TEMPORARY"),
+        fontSize: config.fontSize / globalScale,
+        backgroundColor: backgroundColorGrey,
+      },
+      ctx,
+      pos,
+    );
+    return;
+  }
   drawTextWithBackground(
     {
       text: String(link.value),
@@ -226,9 +255,13 @@ export const linkCanvasObject = (
 };
 
 export const onLinkClickFn = (openVoteDialog: VoteDialogFn) => {
-  return (params: LinkObject) => {
-    // @ts-ignore: see LinkBetweenObjects and Link type
-    let link: LinkBetweenNode & LinkType = params;
+  return (link: ForceGraphLinkObject) => {
+    if (typeof link.source !== "object") {
+      return;
+    }
+    if (typeof link.target !== "object") {
+      return;
+    }
     openVoteDialog({
       linkID: link.id,
       sourceNode: link.source,
@@ -280,24 +313,115 @@ export const makeSetUnlessUndefined = (
     ) {
       return;
     }
-    //const graphData: GraphDataForceGraph = transformToRenderedType( graph, language); // XXX: isn't this necessary?
     // @ts-ignore
     setGraph(JSON.parse(JSON.stringify(data.graph)));
   };
 };
 
-export const GraphRenderer = (props: GraphRendererProps) => {
-  //const { language } = useUserDataContext();
+const makeInitialGraphData = () => {
   const n_graph: ForceGraphNodeObject = { id: "1", description: "graph" };
   const n_is: ForceGraphNodeObject = { id: "2", description: "is" };
   const n_loading: ForceGraphNodeObject = { id: "2", description: "loading" };
-  const [graph, setGraph] = useState<ForceGraphGraphData>({
+  return {
     nodes: [n_graph, n_is, n_loading],
     links: [
       { id: "1", source: n_graph, target: n_is, value: 5 },
       { id: "2", source: n_is, target: n_loading, value: 5 },
     ],
+  };
+};
+
+export interface NodeDragState {
+  dragSourceNode?: ForceGraphNodeObject;
+  interimLink?: ForceGraphLinkObject;
+}
+
+export const DRAG_snapInDistanceSquared = 100 * 100;
+export const DRAG_snapOutDistanceSquared = 300 * 300;
+export const onNodeDrag = (
+  { graph, nodeDrag }: Controller,
+  dragSourceNode: ForceGraphNodeObject,
+  _: Position,
+) => {
+  const distanceSquared = (a: Partial<Position>, b: Partial<Position>) => {
+    return Math.pow(a.x! - b.x!, 2) + Math.pow(a.y! - b.y!, 2);
+  };
+  nodeDrag.dragSourceNode = dragSourceNode;
+  for (let node of graph.current.nodes) {
+    if (node === dragSourceNode) {
+      continue;
+    }
+    if (
+      nodeDrag.interimLink === undefined &&
+      distanceSquared(dragSourceNode, node) < DRAG_snapInDistanceSquared
+    ) {
+      const link = {
+        id: "interim_1",
+        source: dragSourceNode,
+        target: node,
+        value: 10,
+      };
+      nodeDrag.interimLink = link;
+      graph.addLink(nodeDrag.interimLink);
+    }
+    if (distanceSquared(dragSourceNode, node) > DRAG_snapOutDistanceSquared) {
+      graph.removeLink(nodeDrag.interimLink!);
+      nodeDrag.interimLink = undefined;
+    }
+    if (
+      nodeDrag.interimLink !== undefined &&
+      node !== nodeDrag.interimLink.target &&
+      distanceSquared(dragSourceNode, node) < DRAG_snapInDistanceSquared
+    ) {
+      graph.removeLink(nodeDrag.interimLink);
+      const link = {
+        id: "interim_1",
+        source: dragSourceNode,
+        target: node,
+        value: 10,
+      };
+      nodeDrag.interimLink = link;
+      graph.addLink(nodeDrag.interimLink);
+    }
+  }
+};
+const makeOnNodeDrag = (controller: Controller) => {
+  return (dragSourceNode: ForceGraphNodeObject, translate: Position) => {
+    onNodeDrag(controller, dragSourceNode, translate);
+  };
+};
+
+export const onNodeDragEnd = (
+  { backend, nodeDrag }: Controller,
+  _: ForceGraphNodeObject,
+  __: Position,
+) => {
+  if (nodeDrag.interimLink === undefined) {
+    return;
+  }
+  const link = nodeDrag.interimLink;
+  nodeDrag.interimLink = undefined;
+  nodeDrag.dragSourceNode = undefined;
+  backend.createLink({
+    from: link.source.id,
+    to: link.target.id,
+    weight: link.value,
   });
+  // TODO(skep): CONTINUE: insert new link ID from backend into graph
+  // NOTE(skep): consecutive user edits on the link, e.g. a vote will be
+  // incorrect, this race-condition should be fixed by integrating the
+  // GraphDataContextActions into this new editing schema
+};
+const makeOnNodeDragEnd = (controller: Controller) => {
+  return (dragSourceNode: ForceGraphNodeObject, translate: Position) => {
+    onNodeDragEnd(controller, dragSourceNode, translate);
+  };
+};
+
+export const GraphRenderer = (props: GraphRendererProps) => {
+  const [graph, setGraph] = useState<ForceGraphGraphData>(
+    makeInitialGraphData(),
+  );
   props.graphDataRef.current = graph;
   const { data, queryResponse } = useGraphData();
   // linter-disable: react-hooks/exhaustive-deps
@@ -306,23 +430,42 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     data,
   ]);
   const onLinkClick = onLinkClickFn(props.openVoteDialog);
-  document.addEventListener(
-    "keydown",
-    makeKeydownListener(props.forceGraphRef),
-  ); // TODO: make it react-isch? not sure where to put it
+  useEffect(() => {
+    const keyDownListener = makeKeydownListener(props.forceGraphRef);
+    document.addEventListener("keydown", keyDownListener);
+    return () => {
+      document.removeEventListener("keydown", keyDownListener);
+    };
+  });
+  useEffect(() => {
+    const rightClickAction = (event: any) => event.preventDefault();
+    document.addEventListener("contextmenu", rightClickAction);
+    return () => {
+      document.removeEventListener("contextmenu", rightClickAction);
+    };
+  });
   let graphState: GraphState = {
     current: graph,
     setGraph,
-    addLink: (link: LinkBetweenNode) => {
+    removeLink: (toRemove: ForceGraphLinkObject) => {
+      graph.links.splice(
+        graph.links.findIndex((link) => link === toRemove),
+        1,
+      );
+      setGraph({ nodes: graph.nodes, links: graph.links });
+    },
+    addLink: (link: ForceGraphLinkObject) => {
       setGraph({ nodes: graph.nodes, links: [...graph.links, link] });
     },
-    addNode: (node: Node) => {
+    addNode: (node: ForceGraphNodeObject) => {
       setGraph({ nodes: [...graph.nodes, node], links: graph.links });
     },
   };
   const { createNode } = useCreateNode();
+  const { createEdge } = useCreateEdge();
   const backend: Backend = {
     createNode,
+    createLink: createEdge,
   };
   const [editPopUpState, setEditPopUpState] = useState({
     isOpen: false,
@@ -333,14 +476,24 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     state: editPopUpState,
     setState: setEditPopUpState,
   };
-  const onBackgroundClick = makeOnBackgroundClick(
-    graphState,
-    props.forceGraphRef,
-    popUpCtrl,
+  const nodeDragState: NodeDragState = {};
+  const controller: Controller = {
     backend,
-  );
+    popUp: popUpCtrl,
+    graph: graphState,
+    forceGraphRef: props.forceGraphRef,
+    nodeDrag: nodeDragState,
+  };
+  const onBackgroundClick = makeOnBackgroundClick(controller);
+  const specialNodes: SpecialNodes = {};
+  const onNodeHover = (
+    node: ForceGraphNodeObject | null,
+    _ /*prevNode*/ : ForceGraphNodeObject | null,
+  ) => {
+    specialNodes.hoveredNode = node;
+  };
   // FIXME(umb): It looks like it should remove the empty space below the
-  // canvas. Unfortuantely this code does nothing.
+  // canvas. Unfortuantely this code does nothing when the window is resized.
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [availableSpace, setAvailableSpace] = useState({
     height: 400,
@@ -356,13 +509,6 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       });
     }
   }, []);
-  const specialNodes: SpecialNodes = {};
-  const onNodeHover = (
-    node: ForceGraphNodeObject | null,
-    _: ForceGraphNodeObject | null,
-  ) => {
-    specialNodes.hoveredNode = node;
-  };
   return (
     <Box
       id="canvasWrapper"
@@ -374,14 +520,15 @@ export const GraphRenderer = (props: GraphRendererProps) => {
         width={availableSpace.width}
         ref={props.forceGraphRef}
         graphData={graph}
-        nodeAutoColorBy={"group"}
-        onNodeClick={onNodeClick}
-        onNodeHover={onNodeHover}
         nodeCanvasObject={makeNodeCanvasObject(
           props.highlightNodes,
           specialNodes,
         )}
         nodePointerAreaPaint={nodePointerAreaPaint}
+        onNodeClick={onNodeClick}
+        onNodeHover={onNodeHover}
+        onNodeDrag={makeOnNodeDrag(controller)}
+        onNodeDragEnd={makeOnNodeDragEnd(controller)}
         // links:
         onLinkHover={onLinkHover}
         onLinkClick={onLinkClick}
@@ -392,7 +539,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
         // is never called. -> remove after force-graph module update
         // @ts-ignore
         linkCanvasObjectMode={() => config.linkCanvasObjectMode}
-        linkCanvasObject={linkCanvasObject}
+        linkCanvasObject={makeLinkCanvasObject(nodeDragState)}
         // @ts-ignore: FIXME(skep): problem with graph-data type, to be debugged
         onZoom={makeOnZoomAndPanListener(props.forceGraphRef, zoomStep, graph)}
         onBackgroundClick={onBackgroundClick}

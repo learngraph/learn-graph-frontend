@@ -1,17 +1,25 @@
 import { Dispatch, SetStateAction } from "react";
-import { LinkBetweenNode, Node } from "./GraphRenderer";
 import { NewNodeForm, PopUpControls } from "./GraphEditPopUp";
 import { CreateNodeFn } from "./hooks/useCreateNode";
-import { ForceGraphRef, ForceGraphGraphData } from "./types";
+import { CreateEdgeFn } from "./hooks/useCreateEdge";
+import {
+  ForceGraphRef,
+  ForceGraphGraphData,
+  ForceGraphLinkObject,
+  ForceGraphNodeObject,
+} from "./types";
+import { NodeDragState } from "./GraphRenderer";
 
 export interface GraphState {
   current: ForceGraphGraphData;
   setGraph: Dispatch<SetStateAction<ForceGraphGraphData>>;
-  addLink: (link: LinkBetweenNode) => void;
-  addNode: (node: Node) => void;
+  addLink: (link: ForceGraphLinkObject) => void;
+  removeLink: (link: ForceGraphLinkObject) => void;
+  addNode: (node: ForceGraphNodeObject) => void;
 }
 export interface Backend {
   createNode: CreateNodeFn;
+  createLink: CreateEdgeFn;
 }
 
 export const createNodeFromMouseEvent = (
@@ -62,18 +70,14 @@ export interface Controller {
   forceGraphRef: ForceGraphRef;
   popUp: PopUpControls;
   backend: Backend;
+  nodeDrag: NodeDragState;
 }
 
-export const makeOnBackgroundClick = (
-  graph: GraphState,
-  forceGraphRef: ForceGraphRef,
-  popUp: PopUpControls,
-  backend: Backend,
-) => {
+export const makeOnBackgroundClick = (controller: Controller) => {
   return (mouse: MouseEvent) => {
     console.log(mouse);
     if (mouse.ctrlKey) {
-      createNodeFromMouseEvent(mouse, { graph, popUp, backend, forceGraphRef });
+      createNodeFromMouseEvent(mouse, controller);
     }
   };
 };
