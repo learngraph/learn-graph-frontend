@@ -27,6 +27,9 @@ import {
   Backend,
   makeOnBackgroundClick,
   Controller,
+  NodeDragState,
+  makeOnNodeDrag,
+  makeOnNodeDragEnd,
 } from "./GraphEdit";
 import { GraphEditPopUp, PopUpControls } from "./GraphEditPopUp";
 import { useCreateNode } from "./hooks/useCreateNode";
@@ -60,7 +63,7 @@ interface GraphRendererProps {
   highlightNodes: Set<Node>;
 }
 
-interface Position {
+export interface Position {
   x: number;
   y: number;
 }
@@ -328,93 +331,6 @@ const makeInitialGraphData = () => {
       { id: "1", source: n_graph, target: n_is, value: 5 },
       { id: "2", source: n_is, target: n_loading, value: 5 },
     ],
-  };
-};
-
-export interface NodeDragState {
-  dragSourceNode?: ForceGraphNodeObject;
-  interimLink?: ForceGraphLinkObject;
-}
-
-export const DRAG_snapInDistanceSquared = 100 * 100;
-export const DRAG_snapOutDistanceSquared = 300 * 300;
-export const onNodeDrag = (
-  { graph, nodeDrag }: Controller,
-  dragSourceNode: ForceGraphNodeObject,
-  _: Position,
-) => {
-  const distanceSquared = (a: Partial<Position>, b: Partial<Position>) => {
-    return Math.pow(a.x! - b.x!, 2) + Math.pow(a.y! - b.y!, 2);
-  };
-  nodeDrag.dragSourceNode = dragSourceNode;
-  for (let node of graph.current.nodes) {
-    if (node === dragSourceNode) {
-      continue;
-    }
-    if (
-      nodeDrag.interimLink === undefined &&
-      distanceSquared(dragSourceNode, node) < DRAG_snapInDistanceSquared
-    ) {
-      const link = {
-        id: "interim_1",
-        source: dragSourceNode,
-        target: node,
-        value: 10,
-      };
-      nodeDrag.interimLink = link;
-      graph.addLink(nodeDrag.interimLink);
-    }
-    if (distanceSquared(dragSourceNode, node) > DRAG_snapOutDistanceSquared) {
-      graph.removeLink(nodeDrag.interimLink!);
-      nodeDrag.interimLink = undefined;
-    }
-    if (
-      nodeDrag.interimLink !== undefined &&
-      node !== nodeDrag.interimLink.target &&
-      distanceSquared(dragSourceNode, node) < DRAG_snapInDistanceSquared
-    ) {
-      graph.removeLink(nodeDrag.interimLink);
-      const link = {
-        id: "interim_1",
-        source: dragSourceNode,
-        target: node,
-        value: 10,
-      };
-      nodeDrag.interimLink = link;
-      graph.addLink(nodeDrag.interimLink);
-    }
-  }
-};
-const makeOnNodeDrag = (controller: Controller) => {
-  return (dragSourceNode: ForceGraphNodeObject, translate: Position) => {
-    onNodeDrag(controller, dragSourceNode, translate);
-  };
-};
-
-export const onNodeDragEnd = (
-  { backend, nodeDrag }: Controller,
-  _: ForceGraphNodeObject,
-  __: Position,
-) => {
-  if (nodeDrag.interimLink === undefined) {
-    return;
-  }
-  const link = nodeDrag.interimLink;
-  nodeDrag.interimLink = undefined;
-  nodeDrag.dragSourceNode = undefined;
-  backend.createLink({
-    from: link.source.id,
-    to: link.target.id,
-    weight: link.value,
-  });
-  // TODO(skep): CONTINUE: insert new link ID from backend into graph
-  // NOTE(skep): consecutive user edits on the link, e.g. a vote will be
-  // incorrect, this race-condition should be fixed by integrating the
-  // GraphDataContextActions into this new editing schema
-};
-const makeOnNodeDragEnd = (controller: Controller) => {
-  return (dragSourceNode: ForceGraphNodeObject, translate: Position) => {
-    onNodeDragEnd(controller, dragSourceNode, translate);
   };
 };
 

@@ -1,7 +1,17 @@
 import { ForceGraphMethods } from "react-force-graph-2d";
-import { createNodeFromMouseEvent } from "./GraphEdit";
+import {
+  createNodeFromMouseEvent,
+  GraphState,
+  onNodeDrag,
+  NodeDragState,
+  DRAG_snapOutDistanceSquared,
+  DRAG_snapInDistanceSquared,
+  onNodeDragEnd,
+  Backend,
+} from "./GraphEdit";
+import { ForceGraphLinkObject } from "./types";
 
-describe("createNodeFromMouseEvent", () => {
+const makeMockController = () => {
   // @ts-ignore: typescript does not understand jest.mock
   const forceGraphMethods: ForceGraphMethods = jest.mock<ForceGraphMethods>(
     "react-force-graph-2d",
@@ -10,33 +20,36 @@ describe("createNodeFromMouseEvent", () => {
   forceGraphMethods.screen2GraphCoords = jest
     .fn()
     .mockName("forceGraphRef.screen2GraphCoords");
-  const makeMockController = () => {
-    const ctrl = {
-      backend: {
-        createNode: jest.fn().mockName("backend.createNode"),
+  const ctrl = {
+    backend: {
+      createNode: jest.fn().mockName("backend.createNode"),
+    },
+    graph: {
+      current: { nodes: [], links: [] },
+      setGraph: jest.fn().mockName("graph.setGraph"),
+      addNode: jest.fn().mockName("graph.addNode"),
+      addLink: jest.fn().mockName("graph.addLink"),
+      removeLink: jest.fn().mockName("graph.removeLink"),
+    },
+    popUp: {
+      state: {
+        isOpen: false,
+        title: "",
+        details: "",
+        onFormSubmit: jest.fn().mockName("popUp.state.onFormSubmit"),
       },
-      graph: {
-        current: { nodes: [], links: [] },
-        setGraph: jest.fn().mockName("graph.setGraph"),
-        addNode: jest.fn().mockName("graph.addNode"),
-        addLink: jest.fn().mockName("graph.addLink"),
-      },
-      popUp: {
-        state: {
-          isOpen: false,
-          title: "",
-          details: "",
-          onFormSubmit: jest.fn().mockName("popUp.state.onFormSubmit"),
-        },
-        setState: jest.fn().mockName("popUp.setState"),
-      },
-      // @ts-ignore
-      forceGraphRef: {
-        current: forceGraphMethods,
-      },
-    };
-    return ctrl;
+      setState: jest.fn().mockName("popUp.setState"),
+    },
+    // @ts-ignore
+    forceGraphRef: {
+      current: forceGraphMethods,
+    },
+    nodeDrag: {},
   };
+  return ctrl;
+};
+
+describe("createNodeFromMouseEvent", () => {
   const makeMockMouseEvent = (props: any) => {
     // @ts-ignore: too many unused fields
     const mouse: MouseEvent = { ...props };
@@ -102,5 +115,137 @@ describe("createNodeFromMouseEvent", () => {
       description: { translations: [{ language: "en", content: "AAA" }] },
     });
     expect(ctrl.graph.addNode).not.toHaveBeenCalled();
+  });
+});
+
+const makeGraphState = () => {
+  const g: GraphState = {
+    current: { nodes: [], links: [] },
+    setGraph: jest.fn(),
+    addLink: jest.fn(),
+    removeLink: jest.fn(),
+    addNode: jest.fn(),
+  };
+  return g;
+};
+
+describe("onNodeDrag", () => {
+  const makeNodes = () => {
+    const node_1 = { id: "1", x: 0, y: 0, description: "1" };
+    const node_2_far = {
+      id: "2",
+      x: Math.sqrt(DRAG_snapInDistanceSquared) + 1,
+      y: 0,
+      description: "2",
+    };
+    const node_3_close = {
+      id: "3",
+      x: Math.sqrt(DRAG_snapInDistanceSquared) - 1,
+      y: 0,
+      description: "3",
+    };
+    return { node_1, node_2_far, node_3_close };
+  };
+  it("should add currently dragged node to NodeDragState, and do nothing else if no other node in range", () => {
+    const { node_1, node_2_far } = makeNodes();
+    const drag: NodeDragState = {};
+    const graph = makeGraphState();
+    graph.current.nodes = [node_1, node_2_far];
+    //const ctrl = makeMockController();
+    //ctrl.graph = graph;
+    //ctrl.nodeDrag = drag;
+    // @ts-ignore
+    onNodeDrag({ graph, nodeDrag: drag }, node_1, { x: 0, y: 0 });
+    expect(drag).toEqual({ dragSourceNode: node_1 });
+  });
+  it("should add interimLink for in-range node and remove for out-of-range node", () => {
+    const graph = makeGraphState();
+    const { node_1, node_3_close } = makeNodes();
+    graph.current.nodes = [node_1, node_3_close];
+    const drag: NodeDragState = { dragSourceNode: node_1 };
+    // @ts-ignore
+    onNodeDrag({ graph, nodeDrag: drag }, node_1, { x: 0, y: 0 });
+    const interimLink: ForceGraphLinkObject = {
+      id: "interim_1",
+      source: node_1,
+      target: node_3_close,
+      value: 10,
+    };
+    const expDrag: NodeDragState = {
+      dragSourceNode: node_1,
+      interimLink: interimLink,
+    };
+    expect(drag).toEqual(expDrag);
+    expect(graph.addLink).toHaveBeenCalledTimes(1);
+    expect(graph.addLink).toHaveBeenNthCalledWith(1, interimLink);
+    graph.current.nodes[1].x = Math.sqrt(DRAG_snapOutDistanceSquared) + 1;
+    // @ts-ignore
+    onNodeDrag({ graph, nodeDrag: drag }, node_1, { x: 0, y: 0 });
+    expect(graph.removeLink).toHaveBeenCalledTimes(1);
+    expect(graph.removeLink).toHaveBeenNthCalledWith(1, interimLink);
+    expect(drag).toEqual({ dragSourceNode: node_1 });
+  });
+  it("should switch interim link if getting close to another node", () => {
+    const graph = makeGraphState();
+    const { node_1, node_2_far, node_3_close } = makeNodes();
+    graph.current.nodes = [node_1, node_3_close, node_2_far];
+    const drag: NodeDragState = { dragSourceNode: node_1 };
+    // @ts-ignore
+    onNodeDrag({ graph, nodeDrag: drag }, node_1, { x: 0, y: 0 });
+    const interimLink: ForceGraphLinkObject = {
+      id: "interim_1",
+      source: node_1,
+      target: node_3_close,
+      value: 10,
+    };
+    const expDrag: NodeDragState = {
+      dragSourceNode: node_1,
+      interimLink: interimLink,
+    };
+    expect(drag).toEqual(expDrag);
+    expect(graph.addLink).toHaveBeenCalledTimes(1);
+    expect(graph.addLink).toHaveBeenNthCalledWith(1, interimLink);
+    node_2_far.x = node_3_close.x - 1;
+    // @ts-ignore
+    onNodeDrag({ graph, nodeDrag: drag }, node_1, { x: 0, y: 0 });
+    const interimLink2: ForceGraphLinkObject = {
+      id: "interim_1",
+      source: node_1,
+      target: node_2_far,
+      value: 10,
+    };
+    const expDrag2: NodeDragState = {
+      dragSourceNode: node_1,
+      interimLink: interimLink2,
+    };
+    expect(drag).toEqual(expDrag2);
+    expect(graph.removeLink).toHaveBeenCalledTimes(1);
+    expect(graph.removeLink).toHaveBeenNthCalledWith(1, interimLink);
+    expect(graph.addLink).toHaveBeenCalledTimes(2);
+    expect(graph.addLink).toHaveBeenNthCalledWith(2, interimLink2);
+  });
+});
+
+describe("onNodeDragEnd", () => {
+  const makeBackend = () => {
+    const b: Backend = {
+      createNode: jest.fn(),
+      createLink: jest.fn(),
+    };
+    return b;
+  };
+  it("shoud do nothing if no interimLink exists", () => {
+    const graph = makeGraphState();
+    const nodeDrag: NodeDragState = {};
+    const backend = makeBackend();
+    onNodeDragEnd(
+      // @ts-ignore
+      { backend, graph, nodeDrag },
+      { id: "idk", description: "ok" },
+      { x: 0, y: 0 },
+    );
+  });
+  it("shoud clear NodeDragState", () => {
+    // TODO(skep): continue
   });
 });

@@ -6,15 +6,8 @@ import {
   makeSetUnlessUndefined,
   SpecialNodes,
   nodePointerAreaPaint,
-  onNodeDrag,
-  NodeDragState,
-  DRAG_snapOutDistanceSquared,
-  DRAG_snapInDistanceSquared,
-  onNodeDragEnd,
 } from "./GraphRenderer";
 import "@testing-library/jest-dom";
-import { Backend, GraphState } from "./GraphEdit";
-import { ForceGraphLinkObject } from "./types";
 
 // Since render() does not support canvas.getContext('2d')
 // we must mock ForceGraph2D.
@@ -137,127 +130,5 @@ describe("setUnlessUndefined", () => {
     makeSetUnlessUndefined({ graph: { nodes: [], links: [] } }, setter)();
     expect(setter.mock.calls.length).toBe(1);
     expect(setter.mock.calls[0][0]).toEqual({ nodes: [], links: [] });
-  });
-});
-
-const makeGraphState = () => {
-  const g: GraphState = {
-    current: { nodes: [], links: [] },
-    setGraph: jest.fn(),
-    addLink: jest.fn(),
-    removeLink: jest.fn(),
-    addNode: jest.fn(),
-  };
-  return g;
-};
-describe("onNodeDrag", () => {
-  const makeNodes = () => {
-    const node_1 = { id: "1", x: 0, y: 0, description: "1" };
-    const node_2_far = {
-      id: "2",
-      x: Math.sqrt(DRAG_snapInDistanceSquared) + 1,
-      y: 0,
-      description: "2",
-    };
-    const node_3_close = {
-      id: "3",
-      x: Math.sqrt(DRAG_snapInDistanceSquared) - 1,
-      y: 0,
-      description: "3",
-    };
-    return { node_1, node_2_far, node_3_close };
-  };
-  it("should add currently dragged node to NodeDragState, and do nothing else if no other node in range", () => {
-    const { node_1, node_2_far } = makeNodes();
-    const graph = makeGraphState();
-    graph.current.nodes = [node_1, node_2_far];
-    const drag: NodeDragState = {};
-    onNodeDrag({ graph, nodeDrag: drag }, node_1, { x: 0, y: 0 });
-    expect(drag).toEqual({ dragSourceNode: node_1 });
-  });
-  it("should add interimLink for in-range node and remove for out-of-range node", () => {
-    const graph = makeGraphState();
-    const { node_1, node_3_close } = makeNodes();
-    graph.current.nodes = [node_1, node_3_close];
-    const drag: NodeDragState = { dragSourceNode: node_1 };
-    onNodeDrag({ graph, nodeDrag: drag }, node_1, { x: 0, y: 0 });
-    const interimLink: ForceGraphLinkObject = {
-      id: "interim_1",
-      source: node_1,
-      target: node_3_close,
-      value: 10,
-    };
-    const expDrag: NodeDragState = {
-      dragSourceNode: node_1,
-      interimLink: interimLink,
-    };
-    expect(drag).toEqual(expDrag);
-    expect(graph.addLink).toHaveBeenCalledTimes(1);
-    expect(graph.addLink).toHaveBeenNthCalledWith(1, interimLink);
-    graph.current.nodes[1].x = Math.sqrt(DRAG_snapOutDistanceSquared) + 1;
-    onNodeDrag({ graph, nodeDrag: drag }, node_1, { x: 0, y: 0 });
-    expect(graph.removeLink).toHaveBeenCalledTimes(1);
-    expect(graph.removeLink).toHaveBeenNthCalledWith(1, interimLink);
-    expect(drag).toEqual({ dragSourceNode: node_1 });
-  });
-  it("should switch interim link if getting close to another node", () => {
-    const graph = makeGraphState();
-    const { node_1, node_2_far, node_3_close } = makeNodes();
-    graph.current.nodes = [node_1, node_3_close, node_2_far];
-    const drag: NodeDragState = { dragSourceNode: node_1 };
-    onNodeDrag({ graph, nodeDrag: drag }, node_1, { x: 0, y: 0 });
-    const interimLink: ForceGraphLinkObject = {
-      id: "interim_1",
-      source: node_1,
-      target: node_3_close,
-      value: 10,
-    };
-    const expDrag: NodeDragState = {
-      dragSourceNode: node_1,
-      interimLink: interimLink,
-    };
-    expect(drag).toEqual(expDrag);
-    expect(graph.addLink).toHaveBeenCalledTimes(1);
-    expect(graph.addLink).toHaveBeenNthCalledWith(1, interimLink);
-    node_2_far.x = node_3_close.x - 1;
-    onNodeDrag({ graph, nodeDrag: drag }, node_1, { x: 0, y: 0 });
-    const interimLink2: ForceGraphLinkObject = {
-      id: "interim_1",
-      source: node_1,
-      target: node_2_far,
-      value: 10,
-    };
-    const expDrag2: NodeDragState = {
-      dragSourceNode: node_1,
-      interimLink: interimLink2,
-    };
-    expect(drag).toEqual(expDrag2);
-    expect(graph.removeLink).toHaveBeenCalledTimes(1);
-    expect(graph.removeLink).toHaveBeenNthCalledWith(1, interimLink);
-    expect(graph.addLink).toHaveBeenCalledTimes(2);
-    expect(graph.addLink).toHaveBeenNthCalledWith(2, interimLink2);
-  });
-});
-
-describe("onNodeDragEnd", () => {
-  const makeBackend = () => {
-    const b: Backend = {
-      createNode: jest.fn(),
-      createLink: jest.fn(),
-    };
-    return b;
-  };
-  it("shoud do nothing if no interimLink exists", () => {
-    const graph = makeGraphState();
-    const nodeDrag: NodeDragState = {};
-    const backend = makeBackend();
-    onNodeDragEnd(
-      { backend, graph, nodeDrag },
-      { id: "idk", description: "ok" },
-      { x: 0, y: 0 },
-    );
-  });
-  it("shoud clear NodeDragState", () => {
-    //onNodeDragEnd()
   });
 });

@@ -8,7 +8,7 @@ import {
   ForceGraphLinkObject,
   ForceGraphNodeObject,
 } from "./types";
-import { NodeDragState } from "./GraphRenderer";
+import { Position } from "./GraphRenderer";
 
 export interface GraphState {
   current: ForceGraphGraphData;
@@ -79,5 +79,95 @@ export const makeOnBackgroundClick = (controller: Controller) => {
     if (mouse.ctrlKey) {
       createNodeFromMouseEvent(mouse, controller);
     }
+  };
+};
+
+export interface NodeDragState {
+  dragSourceNode?: ForceGraphNodeObject;
+  interimLink?: ForceGraphLinkObject;
+}
+
+export const DRAG_snapInDistanceSquared = 100 * 100;
+export const DRAG_snapOutDistanceSquared = 300 * 300;
+export const onNodeDrag = (
+  { graph, nodeDrag }: Controller,
+  dragSourceNode: ForceGraphNodeObject,
+  _: Position,
+) => {
+  const distanceSquared = (a: Partial<Position>, b: Partial<Position>) => {
+    return Math.pow(a.x! - b.x!, 2) + Math.pow(a.y! - b.y!, 2);
+  };
+  nodeDrag.dragSourceNode = dragSourceNode;
+  for (let node of graph.current.nodes) {
+    if (node === dragSourceNode) {
+      continue;
+    }
+    if (
+      nodeDrag.interimLink === undefined &&
+      distanceSquared(dragSourceNode, node) < DRAG_snapInDistanceSquared
+    ) {
+      const link = {
+        id: "interim_1",
+        source: dragSourceNode,
+        target: node,
+        value: 10,
+      };
+      nodeDrag.interimLink = link;
+      graph.addLink(nodeDrag.interimLink);
+    }
+    if (distanceSquared(dragSourceNode, node) > DRAG_snapOutDistanceSquared) {
+      graph.removeLink(nodeDrag.interimLink!);
+      nodeDrag.interimLink = undefined;
+    }
+    if (
+      nodeDrag.interimLink !== undefined &&
+      node !== nodeDrag.interimLink.target &&
+      distanceSquared(dragSourceNode, node) < DRAG_snapInDistanceSquared
+    ) {
+      graph.removeLink(nodeDrag.interimLink);
+      const link = {
+        id: "interim_1",
+        source: dragSourceNode,
+        target: node,
+        value: 10,
+      };
+      nodeDrag.interimLink = link;
+      graph.addLink(nodeDrag.interimLink);
+    }
+  }
+};
+export const makeOnNodeDrag = (controller: Controller) => {
+  return (dragSourceNode: ForceGraphNodeObject, translate: Position) => {
+    onNodeDrag(controller, dragSourceNode, translate);
+  };
+};
+
+export const onNodeDragEnd = (
+  { backend, nodeDrag }: Controller,
+  _: ForceGraphNodeObject,
+  __: Position,
+) => {
+  if (nodeDrag.interimLink === undefined) {
+    return;
+  }
+  const link = nodeDrag.interimLink;
+  nodeDrag.interimLink = undefined;
+  nodeDrag.dragSourceNode = undefined;
+  backend.createLink({
+    from: link.source.id,
+    to: link.target.id,
+    weight: link.value,
+  });
+  // TODO(skep): CONTINUE: insert new link ID from backend into graph
+  // use this solution to reduce chaos while dragging:
+  //    https://github.com/vasturiano/react-force-graph/issues/124
+
+  // NOTE(skep): consecutive user edits on the link, e.g. a vote will be
+  // incorrect, this race-condition should be fixed by integrating the
+  // GraphDataContextActions into this new editing schema
+};
+export const makeOnNodeDragEnd = (controller: Controller) => {
+  return (dragSourceNode: ForceGraphNodeObject, translate: Position) => {
+    onNodeDragEnd(controller, dragSourceNode, translate);
   };
 };
