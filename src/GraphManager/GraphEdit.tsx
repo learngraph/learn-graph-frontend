@@ -87,8 +87,10 @@ export interface NodeDragState {
   interimLink?: ForceGraphLinkObject;
 }
 
-export const DRAG_snapInDistanceSquared = 100 * 100;
-export const DRAG_snapOutDistanceSquared = 300 * 300;
+const snapInOutDistances = [5, 20];
+export const DRAG_snapInDistanceSquared = Math.pow(snapInOutDistances[0], 2);
+export const DRAG_snapOutDistanceSquared = Math.pow(snapInOutDistances[1], 2);
+
 export const onNodeDrag = (
   { graph, nodeDrag }: Controller,
   dragSourceNode: ForceGraphNodeObject,
@@ -98,6 +100,15 @@ export const onNodeDrag = (
     return Math.pow(a.x! - b.x!, 2) + Math.pow(a.y! - b.y!, 2);
   };
   nodeDrag.dragSourceNode = dragSourceNode;
+  const addInterimLink = (
+    source: ForceGraphNodeObject,
+    target: ForceGraphNodeObject,
+  ) => {
+    //console.log(`addInterimLink: from ${source.description} to ${target.description} (nodeDrag.dragSourceNode=${nodeDrag.dragSourceNode?.description})`);
+    nodeDrag.interimLink = { id: "interim_1", source, target, value: 10 };
+    graph.addLink(nodeDrag.interimLink);
+    console.log(`nodeDrag=${JSON.stringify(nodeDrag)}`);
+  };
   for (let node of graph.current.nodes) {
     if (node === dragSourceNode) {
       continue;
@@ -106,18 +117,16 @@ export const onNodeDrag = (
       nodeDrag.interimLink === undefined &&
       distanceSquared(dragSourceNode, node) < DRAG_snapInDistanceSquared
     ) {
-      const link = {
-        id: "interim_1",
-        source: dragSourceNode,
-        target: node,
-        value: 10,
-      };
-      nodeDrag.interimLink = link;
-      graph.addLink(nodeDrag.interimLink);
+      addInterimLink(dragSourceNode, node);
     }
-    if (distanceSquared(dragSourceNode, node) > DRAG_snapOutDistanceSquared) {
+    if (
+      nodeDrag.interimLink?.source.id === dragSourceNode.id &&
+      nodeDrag.interimLink?.target.id === node.id &&
+      distanceSquared(dragSourceNode, node) > DRAG_snapOutDistanceSquared
+    ) {
       graph.removeLink(nodeDrag.interimLink!);
       nodeDrag.interimLink = undefined;
+      console.log(`[rm] nodeDrag=${JSON.stringify(nodeDrag)}`);
     }
     if (
       nodeDrag.interimLink !== undefined &&
@@ -125,16 +134,10 @@ export const onNodeDrag = (
       distanceSquared(dragSourceNode, node) < DRAG_snapInDistanceSquared
     ) {
       graph.removeLink(nodeDrag.interimLink);
-      const link = {
-        id: "interim_1",
-        source: dragSourceNode,
-        target: node,
-        value: 10,
-      };
-      nodeDrag.interimLink = link;
-      graph.addLink(nodeDrag.interimLink);
+      addInterimLink(dragSourceNode, node);
     }
   }
+  //console.log(`[final] nodeDrag=${JSON.stringify(nodeDrag)}`);
 };
 export const makeOnNodeDrag = (controller: Controller) => {
   return (dragSourceNode: ForceGraphNodeObject, translate: Position) => {
@@ -147,9 +150,14 @@ export const onNodeDragEnd = (
   _: ForceGraphNodeObject,
   __: Position,
 ) => {
+  // FIXME(skep): interimLink is always undefined!? maybe object destrucring problem?!
   if (nodeDrag.interimLink === undefined) {
+    console.log(
+      `onNodeDragEnd: NO link present (nodeDrag=${JSON.stringify(nodeDrag)})`,
+    );
     return;
   }
+  console.log("onNodeDragEnd: creating link");
   const link = nodeDrag.interimLink;
   nodeDrag.interimLink = undefined;
   nodeDrag.dragSourceNode = undefined;

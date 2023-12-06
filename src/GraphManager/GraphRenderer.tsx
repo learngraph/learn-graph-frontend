@@ -24,14 +24,13 @@ import { useGraphData } from "./hooks";
 import { makeOnZoomAndPanListener } from "./ZoomForceGraphIntegration";
 import {
   GraphState,
-  Backend,
   makeOnBackgroundClick,
   Controller,
   NodeDragState,
   makeOnNodeDrag,
   makeOnNodeDragEnd,
 } from "./GraphEdit";
-import { GraphEditPopUp, PopUpControls } from "./GraphEditPopUp";
+import { GraphEditPopUp } from "./GraphEditPopUp";
 import { useCreateNode } from "./hooks/useCreateNode";
 import { useCreateEdge } from "./hooks/useCreateEdge";
 
@@ -334,13 +333,40 @@ const makeInitialGraphData = () => {
   };
 };
 
+export const makeGraphState = (
+  graph: ForceGraphGraphData,
+  setGraph: Dispatch<SetStateAction<ForceGraphGraphData>>,
+) => {
+  const state: GraphState = {
+    current: graph,
+    setGraph,
+    removeLink: (toRemove: ForceGraphLinkObject) => {
+      console.log(
+        `removing link from ${toRemove.source.description} to ${toRemove.target.description}`,
+      );
+      graph.links.splice(
+        graph.links.findIndex((link) => link.id === toRemove.id),
+        1,
+      );
+      setGraph({ nodes: graph.nodes, links: graph.links });
+    },
+    addLink: (link: ForceGraphLinkObject) => {
+      setGraph({ nodes: graph.nodes, links: [...graph.links, link] });
+    },
+    addNode: (node: ForceGraphNodeObject) => {
+      setGraph({ nodes: [...graph.nodes, node], links: graph.links });
+    },
+  };
+  return state;
+};
+
 export const GraphRenderer = (props: GraphRendererProps) => {
   const [graph, setGraph] = useState<ForceGraphGraphData>(
     makeInitialGraphData(),
   );
   props.graphDataRef.current = graph;
   const { data, queryResponse } = useGraphData();
-  // linter-disable: react-hooks/exhaustive-deps
+  // XXX: how to disable linter? 'react-hooks/exhaustive-deps' this should not be inline, deps are correct
   useEffect(makeSetUnlessUndefined(data, setGraph), [
     queryResponse.loading,
     data,
@@ -360,48 +386,28 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       document.removeEventListener("contextmenu", rightClickAction);
     };
   });
-  let graphState: GraphState = {
-    current: graph,
-    setGraph,
-    removeLink: (toRemove: ForceGraphLinkObject) => {
-      graph.links.splice(
-        graph.links.findIndex((link) => link === toRemove),
-        1,
-      );
-      setGraph({ nodes: graph.nodes, links: graph.links });
-    },
-    addLink: (link: ForceGraphLinkObject) => {
-      setGraph({ nodes: graph.nodes, links: [...graph.links, link] });
-    },
-    addNode: (node: ForceGraphNodeObject) => {
-      setGraph({ nodes: [...graph.nodes, node], links: graph.links });
-    },
-  };
   const { createNode } = useCreateNode();
   const { createEdge } = useCreateEdge();
-  const backend: Backend = {
-    createNode,
-    createLink: createEdge,
-  };
   const [editPopUpState, setEditPopUpState] = useState({
     isOpen: false,
     title: "",
     details: "",
   });
-  const popUpCtrl: PopUpControls = {
-    state: editPopUpState,
-    setState: setEditPopUpState,
-  };
-  const nodeDragState: NodeDragState = {};
   const controller: Controller = {
-    backend,
-    popUp: popUpCtrl,
-    graph: graphState,
+    backend: {
+      createNode,
+      createLink: createEdge,
+    },
+    popUp: {
+      state: editPopUpState,
+      setState: setEditPopUpState,
+    },
+    graph: makeGraphState(graph, setGraph),
     forceGraphRef: props.forceGraphRef,
-    nodeDrag: nodeDragState,
+    nodeDrag: {},
   };
   const onBackgroundClick = makeOnBackgroundClick(controller);
-  const specialNodes: SpecialNodes = {};
+  const specialNodes: SpecialNodes = {}; // TODO(skep): move this into the Controller
   const onNodeHover = (
     node: ForceGraphNodeObject | null,
     _ /*prevNode*/ : ForceGraphNodeObject | null,
@@ -455,12 +461,12 @@ export const GraphRenderer = (props: GraphRendererProps) => {
         // is never called. -> remove after force-graph module update
         // @ts-ignore
         linkCanvasObjectMode={() => config.linkCanvasObjectMode}
-        linkCanvasObject={makeLinkCanvasObject(nodeDragState)}
+        linkCanvasObject={makeLinkCanvasObject(controller.nodeDrag)}
         // @ts-ignore: FIXME(skep): problem with graph-data type, to be debugged
         onZoom={makeOnZoomAndPanListener(props.forceGraphRef, zoomStep, graph)}
         onBackgroundClick={onBackgroundClick}
       />
-      <GraphEditPopUp ctrl={popUpCtrl} />
+      <GraphEditPopUp ctrl={controller.popUp} />
     </Box>
   );
 };
