@@ -249,3 +249,19 @@ describe("onNodeDragEnd", () => {
     // TODO(skep): continue
   });
 });
+
+describe("wtf", () => {
+  test("my understanding of js object references", () => {
+    let o: {a?: number, b?: number} = {a: undefined};
+    const chage = (o: {a?: number, b?: number}) => {
+      o.a = 1;
+      o.b = 2;
+    };
+    const expectation = (o: {a?: number, b?: number}) => {
+      expect(o.a).toBe(1);
+      expect(o.b).toBe(2);
+    };
+    chage(o);
+    expectation(o);
+  });
+});

@@ -342,7 +342,7 @@ export const makeGraphState = (
     setGraph,
     removeLink: (toRemove: ForceGraphLinkObject) => {
       console.log(
-        `removing link from ${toRemove.source.description} to ${toRemove.target.description}`,
+        `[rm] link from ${toRemove.source.description} to ${toRemove.target.description}`,
       );
       graph.links.splice(
         graph.links.findIndex((link) => link.id === toRemove.id),
@@ -393,6 +393,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     title: "",
     details: "",
   });
+  const [nodeDrag, setNodeDrag] = useState<NodeDragState>({});
   const controller: Controller = {
     backend: {
       createNode,
@@ -404,8 +405,22 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     },
     graph: makeGraphState(graph, setGraph),
     forceGraphRef: props.forceGraphRef,
-    nodeDrag: {},
+    nodeDrag: {
+      state: nodeDrag,
+      setState: setNodeDrag,
+    },
   };
+  //Object.defineProperty(controller.nodeDrag, 'interimLink', {
+  //    get: function () {
+  //        // @ts-ignore
+  //        return controller.nodeDrag._interimLink;
+  //    },
+  //    set: function (value) {
+  //        debugger; // sets breakpoint
+  //        // @ts-ignore
+  //        controller.nodeDrag._interimLink = value;
+  //    }
+  //});
   const onBackgroundClick = makeOnBackgroundClick(controller);
   const specialNodes: SpecialNodes = {}; // TODO(skep): move this into the Controller
   const onNodeHover = (
@@ -461,7 +476,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
         // is never called. -> remove after force-graph module update
         // @ts-ignore
         linkCanvasObjectMode={() => config.linkCanvasObjectMode}
-        linkCanvasObject={makeLinkCanvasObject(controller.nodeDrag)}
+        linkCanvasObject={makeLinkCanvasObject(controller.nodeDrag.state)}
         // @ts-ignore: FIXME(skep): problem with graph-data type, to be debugged
         onZoom={makeOnZoomAndPanListener(props.forceGraphRef, zoomStep, graph)}
         onBackgroundClick={onBackgroundClick}
