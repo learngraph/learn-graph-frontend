@@ -14,6 +14,10 @@ export interface GraphState {
   current: ForceGraphGraphData;
   setGraph: Dispatch<SetStateAction<ForceGraphGraphData>>;
   addLink: (link: ForceGraphLinkObject) => void;
+  updateLink: (
+    link: ForceGraphLinkObject,
+    newLink: ForceGraphLinkObject,
+  ) => void;
   removeLink: (link: ForceGraphLinkObject) => void;
   addNode: (node: ForceGraphNodeObject) => void;
 }
@@ -107,17 +111,19 @@ export const onNodeDrag = (
     return Math.pow(a.x! - b.x!, 2) + Math.pow(a.y! - b.y!, 2);
   };
   if (nodeDrag.dragSourceNode !== dragSourceNode) {
-    setNodeDrag({...nodeDrag, dragSourceNode: dragSourceNode});
+    setNodeDrag({ ...nodeDrag, dragSourceNode: dragSourceNode });
   }
   const addInterimLink = (
     source: ForceGraphNodeObject,
     target: ForceGraphNodeObject,
   ) => {
-    const interimLink = { id: "interim_1", source, target, value: 10 };
-    setNodeDrag({...nodeDrag, interimLink });
+    const interimLink = { id: "INTERIM_TMP", source, target, value: 10 };
+    setNodeDrag({ ...nodeDrag, interimLink });
     graph.addLink(interimLink!);
-    console.log(`[add] nodeDrag.interimLink=${JSON.stringify(nodeDrag.interimLink)}`);
-    console.log(`               interimLink=${JSON.stringify(interimLink)}`);
+    //console.log(
+    //  `[add] nodeDrag.interimLink=${JSON.stringify(nodeDrag.interimLink)}`,
+    //);
+    //console.log(`               interimLink=${JSON.stringify(interimLink)}`);
   };
   for (let node of graph.current.nodes) {
     if (node === dragSourceNode || !node) {
@@ -130,13 +136,13 @@ export const onNodeDrag = (
       addInterimLink(dragSourceNode, node);
     }
     if (
+      // XXX(skep): should be necessary, but tests are ok.. (┙>∧<)┙へ┻┻
       //nodeDrag.interimLink?.source.id === dragSourceNode.id &&
       nodeDrag.interimLink?.target.id === node.id &&
       distanceSquared(dragSourceNode, node) > DRAG_snapOutDistanceSquared
     ) {
       graph.removeLink(nodeDrag.interimLink!);
-      setNodeDrag({...nodeDrag, interimLink: undefined});
-      console.log(`[rm] nodeDrag.interimLink=${JSON.stringify(nodeDrag.interimLink)}`);
+      setNodeDrag({ ...nodeDrag, interimLink: undefined });
     }
     if (
       nodeDrag.interimLink !== undefined &&
@@ -147,7 +153,6 @@ export const onNodeDrag = (
       addInterimLink(dragSourceNode, node);
     }
   }
-  //console.log(`[final] nodeDrag.interimLink=${JSON.stringify(nodeDrag.interimLink)}`);
 };
 export const makeOnNodeDrag = (controller: Controller) => {
   return (dragSourceNode: ForceGraphNodeObject, translate: Position) => {
@@ -155,26 +160,31 @@ export const makeOnNodeDrag = (controller: Controller) => {
   };
 };
 
-export const onNodeDragEnd = (
-  { backend, nodeDrag: {state: nodeDrag, setState: setNodeDrag} }: Controller,
+export const onNodeDragEnd = async (
+  {
+    graph,
+    backend,
+    nodeDrag: { state: nodeDrag, setState: setNodeDrag },
+  }: Controller,
   _: ForceGraphNodeObject,
   __: Position,
 ) => {
-  // FIXME(skep): nodeDrag.interimLink is always undefined!? maybe object destrucring problem?!
   if (nodeDrag.interimLink === undefined) {
-    console.log(
-      `onNodeDragEnd: NO link present (nodeDrag=${JSON.stringify(nodeDrag)})`,
-    );
     return;
   }
-  console.log("onNodeDragEnd: creating link");
   const link = nodeDrag.interimLink;
   setNodeDrag({});
-  backend.createLink({
+  const newLink = await backend.createLink({
     from: link.source.id,
     to: link.target.id,
     weight: link.value,
   });
+  if (!newLink || !newLink.data || !newLink.data.createEdge.ID) {
+    console.log("failed to create link in backend");
+    return;
+  }
+  graph.updateLink(link, { ...link, id: newLink.data.createEdge.ID });
+
   // TODO(skep): CONTINUE: insert new link ID from backend into graph
   // use this solution to reduce chaos while dragging:
   //    https://github.com/vasturiano/react-force-graph/issues/124

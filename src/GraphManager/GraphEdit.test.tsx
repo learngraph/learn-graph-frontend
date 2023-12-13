@@ -124,28 +124,35 @@ const makeGraphState = () => {
     setGraph: jest.fn(),
     addLink: jest.fn(),
     removeLink: jest.fn(),
+    updateLink: jest.fn(),
     addNode: jest.fn(),
   };
   return g;
 };
 
-describe("onNodeDrag", () => {
-  const makeNodes = () => {
-    const node_1 = { id: "1", x: 0, y: 0, description: "1" };
-    const node_2_far = {
-      id: "2",
-      x: Math.sqrt(DRAG_snapInDistanceSquared) + 1,
-      y: 0,
-      description: "2",
-    };
-    const node_3_close = {
-      id: "3",
-      x: Math.sqrt(DRAG_snapInDistanceSquared) - 1,
-      y: 0,
-      description: "3",
-    };
-    return { node_1, node_2_far, node_3_close };
+const makeNodes = () => {
+  const node_1 = { id: "1", x: 0, y: 0, description: "1" };
+  const node_2_far = {
+    id: "2",
+    x: Math.sqrt(DRAG_snapInDistanceSquared) + 1,
+    y: 0,
+    description: "2",
   };
+  const node_3_close = {
+    id: "3",
+    x: Math.sqrt(DRAG_snapInDistanceSquared) - 1,
+    y: 0,
+    description: "3",
+  };
+  const node_4_far = {
+    id: "4",
+    x: node_2_far.x + Math.sqrt(DRAG_snapInDistanceSquared) + 1,
+    y: 0,
+    description: "4",
+  };
+  return { node_1, node_2_far, node_3_close, node_4_far };
+};
+describe("onNodeDrag", () => {
   const makeNodeDragState = (initialState: NodeDragState) => {
     let state: NodeDragState = initialState;
     return {
@@ -173,7 +180,7 @@ describe("onNodeDrag", () => {
     // @ts-ignore
     onNodeDrag({ graph, nodeDrag }, node_1, { x: 0, y: 0 });
     const interimLink: ForceGraphLinkObject = {
-      id: "interim_1",
+      id: "INTERIM_TMP",
       source: node_1,
       target: node_3_close,
       value: 10,
@@ -200,7 +207,7 @@ describe("onNodeDrag", () => {
     // @ts-ignore
     onNodeDrag({ graph, nodeDrag }, node_1, { x: 0, y: 0 });
     const interimLink: ForceGraphLinkObject = {
-      id: "interim_1",
+      id: "INTERIM_TMP",
       source: node_1,
       target: node_3_close,
       value: 10,
@@ -216,7 +223,7 @@ describe("onNodeDrag", () => {
     // @ts-ignore
     onNodeDrag({ graph, nodeDrag }, node_1, { x: 0, y: 0 });
     const interimLink2: ForceGraphLinkObject = {
-      id: "interim_1",
+      id: "INTERIM_TMP",
       source: node_1,
       target: node_2_far,
       value: 10,
@@ -230,6 +237,27 @@ describe("onNodeDrag", () => {
     expect(graph.removeLink).toHaveBeenNthCalledWith(1, interimLink);
     expect(graph.addLink).toHaveBeenCalledTimes(2);
     expect(graph.addLink).toHaveBeenNthCalledWith(2, interimLink2);
+  });
+  it("should not remove links where the source node, is not the currently dragged one", () => {
+    const graph = makeGraphState();
+    const { node_1, node_2_far, node_3_close, node_4_far } = makeNodes();
+    graph.current.nodes = [node_1, node_4_far, node_3_close, node_2_far];
+    const link_12 = { id: "1", source: node_1, target: node_2_far, value: 5 };
+    const link_42 = {
+      id: "INTERIM_TMP",
+      source: node_4_far,
+      target: node_2_far,
+      value: 10,
+    };
+    graph.current.links = [link_12, link_42];
+    const nodeDrag = makeNodeDragState({
+      dragSourceNode: node_4_far,
+      interimLink: link_42,
+    });
+    // @ts-ignore
+    onNodeDrag({ graph, nodeDrag }, node_1, { x: 0, y: 0 });
+    expect(graph.removeLink).toHaveBeenCalledTimes(1);
+    expect(graph.removeLink).toHaveBeenNthCalledWith(1, link_42);
   });
 });
 
@@ -251,9 +279,42 @@ describe("onNodeDragEnd", () => {
       { id: "idk", description: "ok" },
       { x: 0, y: 0 },
     );
+    expect(backend.createLink).not.toHaveBeenCalled();
   });
-  it("shoud clear NodeDragState", () => {
-    // TODO(skep): continue
+  it("shoud create link in backend, clear NodeDragState and assign new link ID from backend to interimLink", async () => {
+    const graph = makeGraphState();
+    const { node_1, node_3_close } = makeNodes();
+    const interimLink = {
+      id: "INTERIM_TMP",
+      source: node_1,
+      target: node_3_close,
+      value: 10,
+    };
+    const state: NodeDragState = { dragSourceNode: node_1, interimLink };
+    const nodeDrag = { state, setState: jest.fn() };
+    const backend = makeBackend();
+    backend.createLink = jest
+      .fn()
+      .mockReturnValue({ data: { createEdge: { ID: "NEWID" } } });
+    await onNodeDragEnd(
+      // @ts-ignore
+      { backend, graph, nodeDrag },
+      node_1,
+      { x: 0, y: 0 },
+    );
+    expect(backend.createLink).toHaveBeenCalledTimes(1);
+    expect(backend.createLink).toHaveBeenNthCalledWith(1, {
+      from: interimLink.source.id,
+      to: interimLink.target.id,
+      weight: interimLink.value,
+    });
+    expect(nodeDrag.setState).toHaveBeenCalledTimes(1);
+    expect(nodeDrag.setState).toHaveBeenNthCalledWith(1, {});
+    expect(graph.updateLink).toHaveBeenCalledTimes(1);
+    expect(graph.updateLink).toHaveBeenNthCalledWith(1, interimLink, {
+      ...interimLink,
+      id: "NEWID",
+    });
   });
 });
 

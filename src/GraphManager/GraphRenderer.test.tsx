@@ -174,4 +174,25 @@ describe("makeGraphState", () => {
       });
     });
   });
+  describe("updateLink", () => {
+    it("should update the link", () => {
+      const [node1, node2, node3] = [
+        { id: "1", description: "1" },
+        { id: "2", description: "2" },
+        { id: "3", description: "3" },
+      ];
+      const link = { id: "1", source: node1, target: node2, value: 10 };
+      const newLink = { id: "1", source: node1, target: node2, value: 5 };
+      const state = makeGraphState(
+        { nodes: [node1, node2, node3], links: [link] },
+        jest.fn(),
+      );
+      state.updateLink(link, newLink);
+      expect(state.setGraph).toHaveBeenCalledTimes(1);
+      expect(state.setGraph).toHaveBeenNthCalledWith(1, {
+        nodes: [node1, node2, node3],
+        links: [newLink],
+      });
+    });
+  });
 });

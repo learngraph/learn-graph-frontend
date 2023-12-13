@@ -356,7 +356,24 @@ export const makeGraphState = (
     addNode: (node: ForceGraphNodeObject) => {
       setGraph({ nodes: [...graph.nodes, node], links: graph.links });
     },
+    updateLink: (link: ForceGraphLinkObject, newLink: ForceGraphLinkObject) => {
+      const linkInGraph = graph.links.find((l) => l.id === link.id);
+      if (!linkInGraph) {
+        return;
+      }
+      //Object.keys(linkInGraph).forEach((key) => {linkInGraph[key] = newLink[key];})
+      linkInGraph.id = newLink.id;
+      linkInGraph.note = newLink.note;
+      linkInGraph.source = newLink.source;
+      linkInGraph.target = newLink.target;
+      linkInGraph.value = newLink.value;
+      setGraph(graph);
+    },
   };
+  //state.updateLink = (link: ForceGraphLinkObject, newLink: ForceGraphLinkObject) => {
+  //  state.removeLink(link);
+  //  state.addLink(newLink);
+  //};
   return state;
 };
 
