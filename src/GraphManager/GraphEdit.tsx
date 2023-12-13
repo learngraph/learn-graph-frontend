@@ -94,7 +94,7 @@ export interface NodeDragState {
 
 //let interimLink: ForceGraphLinkObject | undefined = undefined;
 
-const snapInOutDistances = [10, 400];
+const snapInOutDistances = [15, 40];
 export const DRAG_snapInDistanceSquared = Math.pow(snapInOutDistances[0], 2);
 export const DRAG_snapOutDistanceSquared = Math.pow(snapInOutDistances[1], 2);
 
@@ -113,12 +113,14 @@ export const onNodeDrag = (
     source: ForceGraphNodeObject,
     target: ForceGraphNodeObject,
   ) => {
-    setNodeDrag({...nodeDrag, interimLink: { id: "interim_1", source, target, value: 10 }});
-    graph.addLink(nodeDrag.interimLink!);
+    const interimLink = { id: "interim_1", source, target, value: 10 };
+    setNodeDrag({...nodeDrag, interimLink });
+    graph.addLink(interimLink!);
     console.log(`[add] nodeDrag.interimLink=${JSON.stringify(nodeDrag.interimLink)}`);
+    console.log(`               interimLink=${JSON.stringify(interimLink)}`);
   };
   for (let node of graph.current.nodes) {
-    if (node === dragSourceNode) {
+    if (node === dragSourceNode || !node) {
       continue;
     }
     if (
@@ -128,7 +130,7 @@ export const onNodeDrag = (
       addInterimLink(dragSourceNode, node);
     }
     if (
-      nodeDrag.interimLink?.source.id === dragSourceNode.id &&
+      //nodeDrag.interimLink?.source.id === dragSourceNode.id &&
       nodeDrag.interimLink?.target.id === node.id &&
       distanceSquared(dragSourceNode, node) > DRAG_snapOutDistanceSquared
     ) {
@@ -145,7 +147,7 @@ export const onNodeDrag = (
       addInterimLink(dragSourceNode, node);
     }
   }
-  console.log(`[final] nodeDrag.interimLink=${JSON.stringify(nodeDrag.interimLink)}`);
+  //console.log(`[final] nodeDrag.interimLink=${JSON.stringify(nodeDrag.interimLink)}`);
 };
 export const makeOnNodeDrag = (controller: Controller) => {
   return (dragSourceNode: ForceGraphNodeObject, translate: Position) => {
