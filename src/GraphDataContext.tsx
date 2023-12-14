@@ -23,6 +23,7 @@ import {
   getCreateNodeAction,
   getCreateLinkAction,
   getUpdateNodeAction,
+  getSubmitVoteAction,
 } from "./GraphDataContextActions";
 import {
   CreateUserWithMailFn,
@@ -176,9 +177,7 @@ const GraphDataContextProvider: React.FC<ProviderProps> = ({ children }) => {
         createNode: getCreateNodeAction(editGraph),
         createLink: getCreateLinkAction(editGraph),
         updateNode: getUpdateNodeAction(editGraph),
-        submitVote: () => {
-          console.log("NOT IMPLEMENTED"); // TODO(skep): implement
-        },
+        submitVote: getSubmitVoteAction(editGraph),
         createUserWithEMail,
         loginUser,
         setLinks,

@@ -4,9 +4,7 @@ import { ApolloQueryResponse } from "./types";
 const SUBMIT_VOTE = gql`
   mutation submitVote($id: ID!, $value: Float!) {
     submitVote(id: $id, value: $value) {
-      ID
-      message
-      value
+      Message
     }
   }
 `;
@@ -24,9 +22,7 @@ export interface SubmitVoteFn {
 export interface SubmitVoteFnResponse {
   data?: {
     submitVote: {
-      ID: string;
       message: string;
-      value: number;
     };
   };
 }
@@ -38,6 +34,6 @@ export function useSubmitVote(): {
 } {
   const [submitVoteTMP, { data, loading, error }] = useMutation(SUBMIT_VOTE);
   const submitVote: SubmitVoteFn = (args: SubmitVoteFnArgs) =>
-    submitVoteTMP({ variables: args });
+    submitVoteTMP({ variables: { ...args, id: args.ID } });
   return { submitVote, data, queryResponse: { loading, error } };
 }

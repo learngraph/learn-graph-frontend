@@ -1,7 +1,4 @@
 import { useState, useEffect, useRef, MutableRefObject } from "react";
-import Fab from "@mui/material/Fab";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import { Box } from "@mui/material";
 
 import { VoteDialog } from "./components";
@@ -32,7 +29,6 @@ interface GraphManagerProps {
 }
 
 export const GraphManager = (props: GraphManagerProps): JSX.Element => {
-  const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [isVoteDialogOpen, setIsVoteDialogOpen] = useState(false);
   const [voteDialogInput, setVoteDialogInput] = useState<
     Partial<VoteDialogParams>
