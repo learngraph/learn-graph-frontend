@@ -3,6 +3,7 @@ import Dialog from "@mui/material/Dialog";
 import Button from "@mui/material/Button";
 import Slider from "@mui/material/Slider";
 import Box from "@mui/material/Box";
+import { Mark } from "@mui/base/useSlider";
 
 import { Typography } from "@mui/material";
 import { SubmitVoteFn } from "../hooks/useSubmitVote";
@@ -68,12 +69,28 @@ export const VoteDialog = ({
   ) => {
     setSliderValue(newValue);
   };
+  // TODO(skep): translations
+  const marks: Mark[] = [
+    {
+      value: 0,
+      label: "Irrelevant",
+    },
+    {
+      value: 5,
+      label: "Useful",
+    },
+    {
+      value: 10,
+      label: "Necessary",
+    },
+  ];
   return (
     <>
       <Dialog open={isDialogOpen}>
         <Box sx={styles.dialogRoot}>
           <Typography>
-            From {linkInfo.sourceNode?.id} to {linkInfo.targetNode?.id}
+            To learn about "{linkInfo.sourceNode?.description}" knowledge of "
+            {linkInfo.targetNode?.description}" is required with a weight of
           </Typography>
           <Slider
             defaultValue={linkInfo.weight ?? 0}
@@ -81,6 +98,9 @@ export const VoteDialog = ({
             step={0.01}
             min={0}
             max={10}
+            marks={marks}
+            //getAriaValueText={(value) => `${value}`}
+            //valueLabelDisplay="on"
           />
           <Box sx={styles.dialogButtons}>
             <Button onClick={handleCancelClick}>Cancel</Button>

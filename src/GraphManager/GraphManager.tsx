@@ -90,14 +90,12 @@ export const GraphManager = (props: GraphManagerProps): JSX.Element => {
         flexDirection: "column",
       }}
     >
-      <Box sx={{ display: "grid", gridTemplateColumns: "1fr 2fr" }}>
-        <Fab
-          color="primary"
-          aria-label="toggle menu"
-          onClick={(): void => setIsMenuVisible(!isMenuVisible)}
-        >
-          {isMenuVisible ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-        </Fab>
+      <Box
+        sx={{
+          display:
+            "grid" /* FIXME(skep): if this is removed the force graph will only fill half height */,
+        }}
+      >
         <HeaderBar userInputCallback={searchCallback} />
       </Box>
       <Box sx={{ flex: 1, width: "100%" }}>
