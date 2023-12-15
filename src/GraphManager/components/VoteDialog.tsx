@@ -7,7 +7,7 @@ import { Mark } from "@mui/base/useSlider";
 
 import { Typography } from "@mui/material";
 import { SubmitVoteFn } from "../hooks/useSubmitVote";
-import { ForceGraphNodeObject } from "../types";
+import { ForceGraphLinkObject } from "../types";
 
 type VoteDialogProps = {
   isDialogOpen: boolean;
@@ -17,20 +17,16 @@ type VoteDialogProps = {
 };
 
 export interface VoteDialogParams {
-  linkID: string;
-  sourceNode: ForceGraphNodeObject;
-  targetNode: ForceGraphNodeObject;
-  weight: number;
+  link: ForceGraphLinkObject;
 }
 export interface VoteDialogFn {
   (params: VoteDialogParams): void;
 }
 
-const styles = {
+export const DialogueStyles = {
   dialogRoot: {
     padding: "40px",
     minWidth: "400px",
-    minHeight: "300px",
   },
   dialogButtons: {
     display: "flex",
@@ -41,20 +37,19 @@ const styles = {
 export const VoteDialog = ({
   isDialogOpen,
   setDialogOpen,
-  linkInfo,
+  linkInfo: { link },
   submitVote,
 }: VoteDialogProps): JSX.Element => {
   const [sliderValue, setSliderValue] = useState<Number | Array<Number>>(0.5);
-
   const handleSubmitClick = () => {
     setDialogOpen(false);
-    if (!linkInfo.linkID || !sliderValue || typeof sliderValue !== "number") {
+    if (!link || !link.id || !sliderValue || typeof sliderValue !== "number") {
       throw new Error(
-        `incorrect input for submit vote function! linkID: ${linkInfo.linkID}, sliderValue: ${sliderValue}`,
+        `incorrect input for submit vote function! linkID: ${link?.id}, sliderValue: ${sliderValue}`,
       );
     }
     submitVote({
-      ID: linkInfo.linkID,
+      ID: link.id,
       value: sliderValue,
     });
   };
@@ -63,11 +58,39 @@ export const VoteDialog = ({
     setDialogOpen(false);
   };
 
+  return (
+    <>
+      <Dialog open={isDialogOpen}>
+        <Box sx={DialogueStyles.dialogRoot}>
+          <Typography>
+            To learn about "{link?.source?.description}" knowledge of "
+            {link?.target?.description}" is required with a weight of
+          </Typography>
+          <LinkWeightSlider
+            defaultValue={link?.value ?? 0}
+            setSliderValue={setSliderValue}
+          />
+          <Box sx={DialogueStyles.dialogButtons}>
+            <Button onClick={handleCancelClick}>Cancel</Button>
+            <Button onClick={handleSubmitClick}>Submit</Button>
+          </Box>
+        </Box>
+      </Dialog>
+    </>
+  );
+};
+
+interface LinkWeightSliderProps {
+  defaultValue: number;
+  setSliderValue: React.Dispatch<React.SetStateAction<Number | Array<Number>>>;
+}
+
+export const LinkWeightSlider = (props: LinkWeightSliderProps) => {
   const onSliderValueChange = (
     _event: any,
     newValue: Number | Array<Number>,
   ) => {
-    setSliderValue(newValue);
+    props.setSliderValue(newValue);
   };
   // TODO(skep): translations
   const marks: Mark[] = [
@@ -85,29 +108,13 @@ export const VoteDialog = ({
     },
   ];
   return (
-    <>
-      <Dialog open={isDialogOpen}>
-        <Box sx={styles.dialogRoot}>
-          <Typography>
-            To learn about "{linkInfo.sourceNode?.description}" knowledge of "
-            {linkInfo.targetNode?.description}" is required with a weight of
-          </Typography>
-          <Slider
-            defaultValue={linkInfo.weight ?? 0}
-            onChange={onSliderValueChange}
-            step={0.01}
-            min={0}
-            max={10}
-            marks={marks}
-            //getAriaValueText={(value) => `${value}`}
-            //valueLabelDisplay="on"
-          />
-          <Box sx={styles.dialogButtons}>
-            <Button onClick={handleCancelClick}>Cancel</Button>
-            <Button onClick={handleSubmitClick}>Submit</Button>
-          </Box>
-        </Box>
-      </Dialog>
-    </>
+    <Slider
+      defaultValue={props.defaultValue}
+      onChange={onSliderValueChange}
+      step={0.01}
+      min={0}
+      max={10}
+      marks={marks}
+    />
   );
 };

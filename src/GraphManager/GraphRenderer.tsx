@@ -264,12 +264,7 @@ export const onLinkClickFn = (openVoteDialog: VoteDialogFn) => {
     if (typeof link.target !== "object") {
       return;
     }
-    openVoteDialog({
-      linkID: link.id,
-      sourceNode: link.source,
-      targetNode: link.target,
-      weight: link.value,
-    });
+    openVoteDialog({ link });
   };
 };
 
@@ -391,9 +386,6 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   const { createEdge } = useCreateEdge();
   const initPopUp: GraphEditPopUpState = {
     isOpen: false,
-    title: "",
-    details: "",
-    onFormSubmit: (_: any) => {},
   };
   const [editPopUpState, setEditPopUpState] = useState(initPopUp);
   const [nodeDrag, setNodeDrag] = useState<NodeDragState>({});
@@ -473,7 +465,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
         onZoom={makeOnZoomAndPanListener(props.forceGraphRef, zoomStep, graph)}
         onBackgroundClick={onBackgroundClick}
       />
-      <GraphEditPopUp ctrl={controller.popUp} />
+      <GraphEditPopUp ctrl={controller} popUp={controller.popUp} />
       <CreateButton ctrl={controller} />
     </Box>
   );

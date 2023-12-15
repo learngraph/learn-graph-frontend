@@ -32,10 +32,12 @@ describe("onLinkClickFn", () => {
     onLinkClick(link);
     expect(props.openVoteDialog.mock.calls.length).toEqual(1);
     expect(props.openVoteDialog.mock.calls[0][0]).toEqual({
-      linkID: link.id,
-      sourceNode: link.source,
-      targetNode: link.target,
-      weight: link.value,
+      link: {
+        id: link.id,
+        source: link.source,
+        target: link.target,
+        value: link.value,
+      },
     });
   });
 });

@@ -1,5 +1,7 @@
 import { Box, styled, TextField } from "@mui/material";
 import { FormikValues, useFormik } from "formik";
+import { useState } from "react";
+import Autocomplete from "@mui/material/Autocomplete";
 
 export const StyledBox = styled(Box)(() => ({
   display: "flex",
@@ -37,6 +39,61 @@ export const TextFieldFormikGenerator = <T extends FormikValues>(conf: T) => {
         conf.formik.errors[conf.fieldName]
       }
       autoFocus={conf.autoFocus ?? false}
+    />
+  );
+};
+
+type AutocompleteFormikProps = FormikValues & {
+  options: string[];
+  optionLabel: (op: string) => string;
+};
+
+// TextFieldFormikGeneratorAutocomplete enables the user to freely type while
+// autocompleting the options passed
+export const TextFieldFormikGeneratorAutocomplete = (
+  conf: AutocompleteFormikProps,
+) => {
+  const [selectedOption, setSelectedOption] = useState("");
+  const handleInputChange = (_: any, value: any) => {
+    setSelectedOption(value);
+  };
+  //const handleKeyDown = (event: any) => {
+  //  if (event.key === 'Tab') {
+  //    select next entry?
+  //  }
+  //};
+  return (
+    <Autocomplete
+      options={conf.options}
+      getOptionLabel={conf.optionLabel}
+      value={selectedOption}
+      onChange={handleInputChange}
+      freeSolo
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          fullWidth
+          autoFocus
+          margin="normal"
+          id={conf.fieldName}
+          name={conf.fieldName}
+          label={conf.fieldLabel}
+          type="text"
+          required
+          value={conf.formik.values[conf.fieldName]}
+          onChange={conf.formik.handleChange}
+          onBlur={conf.formik.handleBlur}
+          error={
+            conf.formik.touched[conf.fieldName] &&
+            Boolean(conf.formik.errors[conf.fieldName])
+          }
+          helperText={
+            conf.formik.touched[conf.fieldName] &&
+            conf.formik.errors[conf.fieldName]
+          }
+          //onKeyDown={handleKeyDown}
+        />
+      )}
     />
   );
 };

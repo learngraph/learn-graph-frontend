@@ -37,7 +37,9 @@ const makeMockController = () => {
         isOpen: false,
         title: "",
         details: "",
-        onFormSubmit: jest.fn().mockName("popUp.state.onFormSubmit"),
+        nodeEdit: {
+          onFormSubmit: jest.fn().mockName("popUp.state.onFormSubmit"),
+        },
       },
       setState: jest.fn().mockName("popUp.setState"),
     },
@@ -72,7 +74,7 @@ describe("createNodeFromMouseEvent", () => {
     expect(ctrl.popUp.setState).toHaveBeenCalledTimes(1);
     const popUpState = ctrl.popUp.setState.mock.calls[0][0];
     expect(popUpState.isOpen).toBe(true);
-    const onFormSubmit = popUpState.onFormSubmit;
+    const onFormSubmit = popUpState.nodeEdit.onFormSubmit;
     await onFormSubmit({ nodeDescription: "AAA" });
     expect(ctrl.backend.createNode).toHaveBeenCalledTimes(1);
     expect(ctrl.backend.createNode).toHaveBeenNthCalledWith(1, {
@@ -109,7 +111,7 @@ describe("createNodeFromMouseEvent", () => {
     expect(ctrl.popUp.setState).toHaveBeenCalledTimes(1);
     const popUpState = ctrl.popUp.setState.mock.calls[0][0];
     expect(popUpState.isOpen).toBe(true);
-    const onFormSubmit = popUpState.onFormSubmit;
+    const onFormSubmit = popUpState.nodeEdit.onFormSubmit;
     await onFormSubmit({ nodeDescription: "AAA" });
     expect(ctrl.backend.createNode).toHaveBeenCalledTimes(1);
     expect(ctrl.backend.createNode.mock.calls[0][0]).toEqual({

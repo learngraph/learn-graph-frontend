@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { NewNodeForm, PopUpControls } from "./GraphEditPopUp";
+import { NewLinkForm, NewNodeForm, PopUpControls } from "./GraphEditPopUp";
 import { CreateNodeFn } from "./hooks/useCreateNode";
 import { CreateEdgeFn } from "./hooks/useCreateEdge";
 import {
@@ -30,7 +30,10 @@ export const openCreateNodePopUpAtMousePosition = (
   mouse: MouseEvent,
   ctrl: Controller,
 ) => {
-  return openCreateNodePopUpAtPagePosition({x: mouse.pageX, y: mouse.pageY}, ctrl);
+  return openCreateNodePopUpAtPagePosition(
+    { x: mouse.pageX, y: mouse.pageY },
+    ctrl,
+  );
 };
 
 export const openCreateNodePopUpAtPagePosition = (
@@ -73,7 +76,12 @@ export const openCreateNodePopUpAtPagePosition = (
         forceGraphRef.current?.centerAt(x, y, 1000);
       });
   };
-  popUp.setState({ ...popUp.state, isOpen: true, onFormSubmit });
+  popUp.setState({
+    ...popUp.state,
+    isOpen: true,
+    title: "Create new knowledge node",
+    nodeEdit: { onFormSubmit },
+  });
 };
 
 export interface Controller {
@@ -202,5 +210,13 @@ export const makeOnNodeDragEnd = (controller: Controller) => {
   };
 };
 
-export const openCreateLinkPopUp = (_: Controller) => {
+export const openCreateLinkPopUp = ({ popUp }: Controller) => {
+  const onFormSubmit = (form: NewLinkForm) => {};
+  // TODO(skep): CONTINUE
+  popUp.setState({
+    nodeEdit: undefined,
+    isOpen: true,
+    title: "Create new learning dependency",
+    linkEdit: { onFormSubmit },
+  });
 };
