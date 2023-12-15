@@ -1,6 +1,6 @@
 import { ForceGraphMethods } from "react-force-graph-2d";
 import {
-  createNodeFromMouseEvent,
+  openCreateNodePopUpAtMousePosition,
   GraphState,
   onNodeDrag,
   NodeDragState,
@@ -8,6 +8,7 @@ import {
   DRAG_snapInDistanceSquared,
   onNodeDragEnd,
   Backend,
+  openCreateLinkPopUp,
 } from "./GraphEdit";
 import { ForceGraphLinkObject } from "./types";
 
@@ -67,7 +68,7 @@ describe("createNodeFromMouseEvent", () => {
       y: 444,
     });
     // @ts-ignore
-    createNodeFromMouseEvent(mouse, ctrl);
+    openCreateNodePopUpAtMousePosition(mouse, ctrl);
     expect(ctrl.popUp.setState).toHaveBeenCalledTimes(1);
     const popUpState = ctrl.popUp.setState.mock.calls[0][0];
     expect(popUpState.isOpen).toBe(true);
@@ -104,7 +105,7 @@ describe("createNodeFromMouseEvent", () => {
       Promise.resolve({ data: { createNode: { ID: "" } } }),
     );
     // @ts-ignore
-    createNodeFromMouseEvent(mouse, ctrl);
+    openCreateNodePopUpAtMousePosition(mouse, ctrl);
     expect(ctrl.popUp.setState).toHaveBeenCalledTimes(1);
     const popUpState = ctrl.popUp.setState.mock.calls[0][0];
     expect(popUpState.isOpen).toBe(true);
@@ -318,18 +319,10 @@ describe("onNodeDragEnd", () => {
   });
 });
 
-describe("wtf", () => {
-  test("my understanding of js object references", () => {
-    let o: { a?: number; b?: number } = { a: undefined };
-    const chage = (o: { a?: number; b?: number }) => {
-      o.a = 1;
-      o.b = 2;
-    };
-    const expectation = (o: { a?: number; b?: number }) => {
-      expect(o.a).toBe(1);
-      expect(o.b).toBe(2);
-    };
-    chage(o);
-    expectation(o);
+describe("openCreateLinkPopUp", () => {
+  it("should open a popUp with..", () => {
+    const ctrl = makeMockController();
+    // @ts-ignore
+    openCreateLinkPopUp(ctrl);
   });
 });

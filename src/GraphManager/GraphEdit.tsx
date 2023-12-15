@@ -26,8 +26,15 @@ export interface Backend {
   createLink: CreateEdgeFn;
 }
 
-export const createNodeFromMouseEvent = (
+export const openCreateNodePopUpAtMousePosition = (
   mouse: MouseEvent,
+  ctrl: Controller,
+) => {
+  return openCreateNodePopUpAtPagePosition({x: mouse.pageX, y: mouse.pageY}, ctrl);
+};
+
+export const openCreateNodePopUpAtPagePosition = (
+  pagePosition: Position,
   { backend, graph, popUp, forceGraphRef }: Controller,
 ) => {
   const onFormSubmit = async (form: NewNodeForm) => {
@@ -45,17 +52,17 @@ export const createNodeFromMouseEvent = (
           console.log("failed to create node in backend");
           return;
         }
-        const coords = forceGraphRef.current?.screen2GraphCoords(
-          mouse.pageX,
-          mouse.pageY,
+        const graphCoordinates = forceGraphRef.current?.screen2GraphCoords(
+          pagePosition.x,
+          pagePosition.y,
         );
-        if (coords === undefined) {
+        if (graphCoordinates === undefined) {
           console.log(
-            `failed to translate coordinates: page[x,y]=[${mouse.pageX},${mouse.pageY}]`,
+            `failed to translate coordinates: page[x,y]=[${pagePosition.x},${pagePosition.y}]`,
           );
           return;
         }
-        const { x, y } = coords;
+        const { x, y } = graphCoordinates;
         const newNode = {
           id: result.data!.createNode.ID,
           description: form.nodeDescription,
@@ -81,7 +88,7 @@ export const makeOnBackgroundClick = (controller: Controller) => {
   return (mouse: MouseEvent) => {
     console.log(mouse);
     if (mouse.ctrlKey) {
-      createNodeFromMouseEvent(mouse, controller);
+      openCreateNodePopUpAtMousePosition(mouse, controller);
     }
   };
 };
@@ -117,13 +124,9 @@ export const onNodeDrag = (
     source: ForceGraphNodeObject,
     target: ForceGraphNodeObject,
   ) => {
-    const interimLink = { id: "INTERIM_TMP", source, target, value: 10 };
+    const interimLink = { id: "INTERIM_TMP", source, target, value: 10 }; // TODO(skep): using GraphDataContextActions will remove the in-line temporary string
     setNodeDrag({ ...nodeDrag, interimLink });
     graph.addLink(interimLink!);
-    //console.log(
-    //  `[add] nodeDrag.interimLink=${JSON.stringify(nodeDrag.interimLink)}`,
-    //);
-    //console.log(`               interimLink=${JSON.stringify(interimLink)}`);
   };
   for (let node of graph.current.nodes) {
     if (node === dragSourceNode || !node) {
@@ -197,4 +200,7 @@ export const makeOnNodeDragEnd = (controller: Controller) => {
   return (dragSourceNode: ForceGraphNodeObject, translate: Position) => {
     onNodeDragEnd(controller, dragSourceNode, translate);
   };
+};
+
+export const openCreateLinkPopUp = (_: Controller) => {
 };

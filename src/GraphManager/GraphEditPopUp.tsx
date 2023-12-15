@@ -1,7 +1,7 @@
 import {
   useEffect,
   Dispatch,
-  SetStateAction /*, forwardRef, RefObject, ForwardedRef*/,
+  SetStateAction,
 } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -10,6 +10,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Paper, { PaperProps } from "@mui/material/Paper";
+import Tooltip from '@mui/material/Tooltip';
 import Draggable from "react-draggable";
 import { TextFieldFormikGenerator } from "./components/LoginManager/Styles";
 import { useFormik } from "formik";
@@ -27,8 +28,8 @@ const DraggablePaperComponent = (props: PaperProps) => {
 
 export interface GraphEditPopUpState {
   isOpen: boolean;
-  title: string;
-  details: string;
+  title?: string;
+  details?: string;
   onFormSubmit?: (form: NewNodeForm) => void;
 }
 
@@ -59,7 +60,7 @@ export const GraphEditPopUp = ({ ctrl }: GraphEditPopUpProps) => {
     },
     validationSchema: null,
     onSubmit: (form: NewNodeForm) => {
-      if (ctrl.state.onFormSubmit === undefined) {
+      if (!ctrl.state.onFormSubmit) {
         console.error("logic error: no submit handler given");
         return;
       }
@@ -81,6 +82,13 @@ export const GraphEditPopUp = ({ ctrl }: GraphEditPopUpProps) => {
       document.removeEventListener("keydown", handleKeyPress);
     };
   }, [formik]);
+  const fields = [];
+  fields.push(<TextFieldFormikGenerator
+    fieldName="nodeDescription"
+    fieldLabel="Node Description"
+    formik={formik}
+    autoFocus
+  />);
   return (
     <>
       <Dialog
@@ -94,16 +102,15 @@ export const GraphEditPopUp = ({ ctrl }: GraphEditPopUpProps) => {
         </DialogTitle>
         <DialogContent>
           <DialogContentText>{ctrl.state.details}</DialogContentText>
-          <TextFieldFormikGenerator
-            fieldName="nodeDescription"
-            fieldLabel="Node Description"
-            formik={formik}
-            autoFocus
-          />
+          {fields}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}> Cancel </Button>
-          <Button onClick={() => formik.submitForm()}> Save </Button>
+          <Tooltip title="Esc">
+            <Button onClick={handleClose}> Cancel </Button>
+          </Tooltip>
+          <Tooltip title="Ctrl + Enter">
+            <Button onClick={() => formik.submitForm()}> Save </Button>
+          </Tooltip>
         </DialogActions>
       </Dialog>
     </>

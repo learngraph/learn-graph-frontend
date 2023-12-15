@@ -2,7 +2,6 @@ import ForceGraph2D from "react-force-graph-2d";
 import {
   LinkType,
   NodeType,
-  BackendGraphData,
   ForceGraphGraphData,
   ForceGraphNodeObject,
   ForceGraphLinkObject,
@@ -30,9 +29,10 @@ import {
   makeOnNodeDrag,
   makeOnNodeDragEnd,
 } from "./GraphEdit";
-import { GraphEditPopUp } from "./GraphEditPopUp";
+import { GraphEditPopUp, GraphEditPopUpState } from "./GraphEditPopUp";
 import { useCreateNode } from "./hooks/useCreateNode";
 import { useCreateEdge } from "./hooks/useCreateEdge";
+import { CreateButton } from "./GraphEditCreateButton";
 
 // TODO(skep): fundamental type issue here, we have 2-3 types in one:
 //  1. `NodeType`: our node type, with added properties, that we use in
@@ -302,24 +302,6 @@ const config = {
   font: "Sans-Serif",
 };
 
-export const makeSetUnlessUndefined = (
-  data: { graph: BackendGraphData },
-  setGraph: Dispatch<SetStateAction<ForceGraphGraphData>>,
-) => {
-  return () => {
-    if (
-      data === null ||
-      data === undefined ||
-      data.graph === null ||
-      data.graph === undefined
-    ) {
-      return;
-    }
-    // @ts-ignore
-    setGraph(JSON.parse(JSON.stringify(data.graph)));
-  };
-};
-
 const makeInitialGraphData = () => {
   const n_graph: ForceGraphNodeObject = { id: "1", description: "graph" };
   const n_is: ForceGraphNodeObject = { id: "2", description: "is" };
@@ -383,11 +365,13 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   );
   props.graphDataRef.current = graph;
   const { data, queryResponse } = useGraphData();
-  // XXX: how to disable linter? 'react-hooks/exhaustive-deps' this should not be inline, deps are correct
-  useEffect(makeSetUnlessUndefined(data, setGraph), [
-    queryResponse.loading,
-    data,
-  ]);
+  useEffect(() => {
+    if (!data || !data.graph) {
+      return;
+    }
+    // @ts-ignore
+    setGraph(JSON.parse(JSON.stringify(data.graph)));
+  }, [queryResponse.loading, data]);
   const onLinkClick = onLinkClickFn(props.openVoteDialog);
   useEffect(() => {
     const keyDownListener = makeKeydownListener(props.forceGraphRef);
@@ -405,11 +389,13 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   });
   const { createNode } = useCreateNode();
   const { createEdge } = useCreateEdge();
-  const [editPopUpState, setEditPopUpState] = useState({
+  const initPopUp: GraphEditPopUpState = {
     isOpen: false,
     title: "",
     details: "",
-  });
+    onFormSubmit: (_: any) => {},
+  };
+  const [editPopUpState, setEditPopUpState] = useState(initPopUp);
   const [nodeDrag, setNodeDrag] = useState<NodeDragState>({});
   const controller: Controller = {
     backend: {
@@ -427,17 +413,6 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       setState: setNodeDrag,
     },
   };
-  //Object.defineProperty(controller.nodeDrag, 'interimLink', {
-  //    get: function () {
-  //        // @ts-ignore
-  //        return controller.nodeDrag._interimLink;
-  //    },
-  //    set: function (value) {
-  //        debugger; // sets breakpoint
-  //        // @ts-ignore
-  //        controller.nodeDrag._interimLink = value;
-  //    }
-  //});
   const onBackgroundClick = makeOnBackgroundClick(controller);
   const specialNodes: SpecialNodes = {}; // TODO(skep): move this into the Controller
   const onNodeHover = (
@@ -499,6 +474,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
         onBackgroundClick={onBackgroundClick}
       />
       <GraphEditPopUp ctrl={controller.popUp} />
+      <CreateButton ctrl={controller} />
     </Box>
   );
 };
