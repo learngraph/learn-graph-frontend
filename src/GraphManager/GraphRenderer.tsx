@@ -318,9 +318,6 @@ export const makeGraphState = (
     current: graph,
     setGraph,
     removeLink: (toRemove: ForceGraphLinkObject) => {
-      console.log(
-        `[rm] link from ${toRemove.source.description} to ${toRemove.target.description}`,
-      );
       graph.links.splice(
         graph.links.findIndex((link) => link.id === toRemove.id),
         1,
@@ -465,7 +462,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
         onZoom={makeOnZoomAndPanListener(props.forceGraphRef, zoomStep, graph)}
         onBackgroundClick={onBackgroundClick}
       />
-      <GraphEditPopUp ctrl={controller} popUp={controller.popUp} />
+      <GraphEditPopUp ctrl={controller} />
       <CreateButton ctrl={controller} />
     </Box>
   );

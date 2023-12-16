@@ -10,9 +10,10 @@ import {
   Backend,
   openCreateLinkPopUp,
 } from "./GraphEdit";
-import { ForceGraphLinkObject } from "./types";
+import { NewLinkForm } from "./GraphEditPopUp";
+import { ForceGraphLinkObject, ForceGraphNodeObject } from "./types";
 
-const makeMockController = () => {
+export const makeMockController = () => {
   // @ts-ignore: typescript does not understand jest.mock
   const forceGraphMethods: ForceGraphMethods = jest.mock<ForceGraphMethods>(
     "react-force-graph-2d",
@@ -21,12 +22,17 @@ const makeMockController = () => {
   forceGraphMethods.screen2GraphCoords = jest
     .fn()
     .mockName("forceGraphRef.screen2GraphCoords");
+  const emptyGraph: {
+    nodes: ForceGraphNodeObject[];
+    links: ForceGraphLinkObject[];
+  } = { nodes: [], links: [] };
   const ctrl = {
     backend: {
       createNode: jest.fn().mockName("backend.createNode"),
+      createLink: jest.fn().mockName("backend.createLink"),
     },
     graph: {
-      current: { nodes: [], links: [] },
+      current: emptyGraph,
       setGraph: jest.fn().mockName("graph.setGraph"),
       addNode: jest.fn().mockName("graph.addNode"),
       addLink: jest.fn().mockName("graph.addLink"),
@@ -322,9 +328,29 @@ describe("onNodeDragEnd", () => {
 });
 
 describe("openCreateLinkPopUp", () => {
-  it("should open a popUp with..", () => {
+  it("should open a popUp, and call createLink on submit", () => {
     const ctrl = makeMockController();
+    ctrl.graph.current.nodes = [{ id: "1", description: "ok 1" }];
     // @ts-ignore
     openCreateLinkPopUp(ctrl);
+    expect(ctrl.popUp.setState).toHaveBeenCalledTimes(1);
+    const popUpSetState0 = ctrl.popUp.setState.mock.calls[0][0];
+    expect(popUpSetState0.nodeEdit).toBe(undefined);
+    expect(popUpSetState0.isOpen).toBe(true);
+    expect(popUpSetState0.title).toEqual("Create new learning dependency");
+    expect(popUpSetState0.linkEdit.onFormSubmit).not.toBe(undefined);
+    const content: NewLinkForm = {
+      sourceNode: "123",
+      targetNode: "345",
+      linkWeight: 2.2,
+    };
+    popUpSetState0.linkEdit.onFormSubmit(content);
+    expect(ctrl.backend.createLink).toHaveBeenCalledTimes(1);
+    expect(ctrl.backend.createLink).toHaveBeenNthCalledWith(1, {
+      from: "123",
+      to: "345",
+      weight: 2.2,
+    });
+    // TODO(skep): continue
   });
 });

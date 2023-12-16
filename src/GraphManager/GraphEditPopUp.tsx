@@ -15,6 +15,8 @@ import {
 import { useFormik } from "formik";
 import { Controller } from "./GraphEdit";
 import { DialogueStyles, LinkWeightSlider } from "./components/VoteDialog";
+import { ForceGraphNodeObject } from "./types";
+import * as yup from "yup";
 
 const DraggablePaperComponent = (props: PaperProps) => {
   return (
@@ -58,25 +60,21 @@ export interface PopUpControls {
 
 export interface GraphEditPopUpProps {
   ctrl: Controller;
-  popUp: PopUpControls;
 }
 
 type SubGraphEditPopUpProps = GraphEditPopUpProps & {
   handleClose: () => void;
 };
 
-export const GraphEditPopUp = ({ ctrl, popUp }: GraphEditPopUpProps) => {
+export const GraphEditPopUp = ({ ctrl }: GraphEditPopUpProps) => {
+  const popUp = ctrl.popUp;
   const handleClose = () => {
     popUp.setState({ ...popUp.state, isOpen: false });
   };
   if (!!popUp.state.nodeEdit) {
-    return (
-      <NodeEditPopUp handleClose={handleClose} ctrl={ctrl} popUp={popUp} />
-    );
+    return <NodeEditPopUp handleClose={handleClose} ctrl={ctrl} />;
   } else if (!!popUp.state.linkEdit) {
-    return (
-      <LinkEditPopUp handleClose={handleClose} ctrl={ctrl} popUp={popUp} />
-    );
+    return <LinkCreatePopUp handleClose={handleClose} ctrl={ctrl} />;
   } else {
     return <></>;
   }
@@ -97,9 +95,22 @@ const addKeyboardShortcuts = (formik: any) => {
   };
 };
 
-const LinkEditPopUp = ({
+//// TODO(skep): input validation
+////  - node id exists
+////  - edge does not yet exist
+//yup.addMethod(yup.string, "isNodeinGraph", function (errorMessage) {
+//  return this.test(`test-node-in-graph`, errorMessage, function (value) {
+//    const { path, createError } = this;
+//    return (
+//      (!!graph.nodes.find(node => node.id === value)) || createError({ path, message: errorMessage })
+//    );
+//  });
+//});
+//const isNodeID = (graph) => yup.string().isNodeinGraph(graph);
+export const isNodeID = yup.string().min(6).matches(/^\d+$/);
+
+export const LinkCreatePopUp = ({
   handleClose,
-  popUp,
   ctrl,
 }: SubGraphEditPopUpProps) => {
   const [sliderValue, setSliderValue] = useState<Number | Array<Number>>(0.5);
@@ -109,11 +120,14 @@ const LinkEditPopUp = ({
       targetNode: "",
       linkWeight: 5,
     },
-    validationSchema: null,
+    validationSchema: yup.object({
+      sourceNode: isNodeID,
+      targetNode: isNodeID,
+    }),
     onSubmit: (form: NewLinkForm) => {
       // @ts-ignore: FIXME
       const value: number = sliderValue;
-      popUp.state.linkEdit?.onFormSubmit({ ...form, linkWeight: value });
+      ctrl.popUp.state.linkEdit?.onFormSubmit({ ...form, linkWeight: value });
       handleClose();
     },
   });
@@ -121,18 +135,24 @@ const LinkEditPopUp = ({
     return addKeyboardShortcuts(formik);
   }, [formik]);
   const fields = [];
-  const nodeIDs = ctrl.graph.current.nodes.map((node) => node.id);
-  const getNodeLabelForID = (nodeID: string) =>
-    `${ctrl.graph.current.nodes.find((n) => n.id === nodeID)
-      ?.description} (${nodeID})`;
+  const nodes = ctrl.graph.current.nodes;
+  const getLabelForNode = (node: ForceGraphNodeObject) => {
+    if (!node) {
+      return "";
+    }
+    return `${node?.description} (${node.id})`;
+  };
+  const getIDForNode = (node: ForceGraphNodeObject) => node?.id ?? "";
   fields.push(
     <TextFieldFormikGeneratorAutocomplete
       fieldName="sourceNode"
       fieldLabel="Source Node"
       formik={formik}
       autoFocus
-      options={nodeIDs}
-      optionLabel={getNodeLabelForID}
+      options={nodes}
+      optionLabel={getLabelForNode}
+      optionValue={getIDForNode}
+      defaultValue=""
     />,
   );
   fields.push(
@@ -140,8 +160,10 @@ const LinkEditPopUp = ({
       fieldName="targetNode"
       fieldLabel="Target Node"
       formik={formik}
-      options={nodeIDs}
-      optionLabel={getNodeLabelForID}
+      options={nodes}
+      optionLabel={getLabelForNode}
+      optionValue={getIDForNode}
+      defaultValue=""
     />,
   );
   fields.push(
@@ -150,7 +172,7 @@ const LinkEditPopUp = ({
   return (
     <DraggableForm
       ctrl={ctrl}
-      popUp={popUp}
+      popUp={ctrl.popUp}
       handleClose={handleClose}
       fields={fields}
       formik={formik}
@@ -158,18 +180,14 @@ const LinkEditPopUp = ({
   );
 };
 
-const NodeEditPopUp = ({
-  handleClose,
-  popUp,
-  ctrl,
-}: SubGraphEditPopUpProps) => {
+const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
   const formik = useFormik<NewNodeForm>({
     initialValues: {
       nodeDescription: "",
     },
     validationSchema: null,
     onSubmit: (form: NewNodeForm) => {
-      popUp.state.nodeEdit?.onFormSubmit(form);
+      ctrl.popUp.state.nodeEdit?.onFormSubmit(form);
       handleClose();
     },
   });
@@ -188,7 +206,7 @@ const NodeEditPopUp = ({
   return (
     <DraggableForm
       ctrl={ctrl}
-      popUp={popUp}
+      popUp={ctrl.popUp}
       handleClose={handleClose}
       fields={fields}
       formik={formik}
@@ -197,6 +215,7 @@ const NodeEditPopUp = ({
 };
 
 type DraggableFormPorops = SubGraphEditPopUpProps & {
+  popUp: PopUpControls;
   fields: any;
   formik: { submitForm: () => void };
 };
@@ -214,6 +233,7 @@ export const DraggableForm = ({
         onClose={handleClose}
         PaperComponent={DraggablePaperComponent}
         aria-labelledby="draggable-dialog-title"
+        sx={DialogueStyles.dialogRoot}
       >
         <DialogTitle style={{ cursor: "move" }} id="draggable-dialog-title">
           {popUp.state.title}

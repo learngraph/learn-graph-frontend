@@ -25,7 +25,7 @@ export interface VoteDialogFn {
 
 export const DialogueStyles = {
   dialogRoot: {
-    padding: "40px",
+    padding: "20px",
     minWidth: "400px",
   },
   dialogButtons: {
@@ -95,7 +95,7 @@ export const LinkWeightSlider = (props: LinkWeightSliderProps) => {
   // TODO(skep): translations
   const marks: Mark[] = [
     {
-      value: 0,
+      value: 1,
       label: "Irrelevant",
     },
     {
@@ -103,7 +103,7 @@ export const LinkWeightSlider = (props: LinkWeightSliderProps) => {
       label: "Useful",
     },
     {
-      value: 10,
+      value: 9,
       label: "Necessary",
     },
   ];

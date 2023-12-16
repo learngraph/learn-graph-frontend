@@ -44,8 +44,13 @@ export const TextFieldFormikGenerator = <T extends FormikValues>(conf: T) => {
 };
 
 type AutocompleteFormikProps = FormikValues & {
-  options: string[];
-  optionLabel: (op: string) => string;
+  // list of options that can be selected by the user
+  options: any[];
+  // display an option as a string to the user
+  optionLabel: (op: any) => string;
+  // assign a result that is passed to onFormSubmit
+  optionValue: (op: any) => string;
+  defaultValue?: any;
 };
 
 // TextFieldFormikGeneratorAutocomplete enables the user to freely type while
@@ -54,8 +59,9 @@ export const TextFieldFormikGeneratorAutocomplete = (
   conf: AutocompleteFormikProps,
 ) => {
   const [selectedOption, setSelectedOption] = useState("");
-  const handleInputChange = (_: any, value: any) => {
-    setSelectedOption(value);
+  const handleInputChange = (_: any, option: any) => {
+    setSelectedOption(option);
+    conf.formik.setFieldValue(conf.fieldName, conf.optionValue(option));
   };
   //const handleKeyDown = (event: any) => {
   //  if (event.key === 'Tab') {
@@ -68,6 +74,7 @@ export const TextFieldFormikGeneratorAutocomplete = (
       getOptionLabel={conf.optionLabel}
       value={selectedOption}
       onChange={handleInputChange}
+      defaultValue={conf.defaultValue}
       freeSolo
       renderInput={(params) => (
         <TextField

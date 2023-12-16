@@ -210,10 +210,16 @@ export const makeOnNodeDragEnd = (controller: Controller) => {
   };
 };
 
-export const openCreateLinkPopUp = ({ popUp }: Controller) => {
-  const onFormSubmit = (form: NewLinkForm) => {};
-  // TODO(skep): CONTINUE
-  popUp.setState({
+export const openCreateLinkPopUp = (ctrl: Controller) => {
+  const onFormSubmit = (form: NewLinkForm) => {
+    console.log("XXX", form);
+    ctrl.backend.createLink({
+      from: form.sourceNode,
+      to: form.targetNode,
+      weight: form.linkWeight,
+    });
+  };
+  ctrl.popUp.setState({
     nodeEdit: undefined,
     isOpen: true,
     title: "Create new learning dependency",
