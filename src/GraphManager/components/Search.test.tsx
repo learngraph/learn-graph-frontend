@@ -1,6 +1,6 @@
 import { userSearchMatchingInternal } from "./Search";
-import { Node } from "GraphManager/GraphRenderer";
 import { LocalForceGraphMethods } from "../types";
+import { HasID } from "../Zoom";
 
 describe("userSearchMatchingInternal", () => {
   const makeFGMethodsMock = () => {
@@ -13,7 +13,7 @@ describe("userSearchMatchingInternal", () => {
   };
   it("should do nothing on an empty highlight set", () => {
     let fgRef = makeFGMethodsMock();
-    let highlight = new Set<Node>();
+    let highlight = new Set<HasID>();
     let graphData = { nodes: [{ id: "1", description: "A" }], links: [] };
     let userInput = "";
     userSearchMatchingInternal(highlight, graphData, fgRef, userInput);
@@ -21,7 +21,7 @@ describe("userSearchMatchingInternal", () => {
   });
   it("should match substring and clear after call without match", () => {
     let fgRef = makeFGMethodsMock();
-    let highlight = new Set<Node>();
+    let highlight = new Set<HasID>();
     let A = { id: "A", description: "XYabcZ" };
     let graphData = { nodes: [A], links: [] };
     let userInput = "abc";
@@ -34,7 +34,7 @@ describe("userSearchMatchingInternal", () => {
   });
   it("should match case-insensitive", () => {
     let fgRef = makeFGMethodsMock();
-    let highlight = new Set<Node>();
+    let highlight = new Set<HasID>();
     let A = { id: "A", description: "XYabcZ" };
     let graphData = { nodes: [A], links: [] };
     let userInput = "xyA";

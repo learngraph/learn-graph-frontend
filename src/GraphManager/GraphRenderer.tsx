@@ -1,13 +1,11 @@
 import ForceGraph2D from "react-force-graph-2d";
 import {
-  LinkType,
-  NodeType,
   ForceGraphGraphData,
   ForceGraphNodeObject,
   ForceGraphLinkObject,
   ForceGraphRef,
 } from "./types";
-import { zoomStep, HasID } from "./Zoom";
+import { /*zoomStep,*/ HasID } from "./Zoom";
 import {
   MutableRefObject,
   useRef,
@@ -20,7 +18,7 @@ import {
 import { Box } from "@mui/material";
 import { VoteDialogFn } from "./components/VoteDialog";
 import { useGraphData } from "./hooks";
-import { makeOnZoomAndPanListener } from "./ZoomForceGraphIntegration";
+//import { makeOnZoomAndPanListener } from "./ZoomForceGraphIntegration";
 import {
   GraphState,
   makeOnBackgroundClick,
@@ -34,32 +32,11 @@ import { useCreateNode } from "./hooks/useCreateNode";
 import { useCreateEdge } from "./hooks/useCreateEdge";
 import { CreateButton } from "./GraphEditCreateButton";
 
-// TODO(skep): fundamental type issue here, we have 2-3 types in one:
-//  1. `NodeType`: our node type, with added properties, that we use in
-//     callbacks from ForceGraph2D
-//  2. `NodeObject`: ForceGraph2D's node type
-//  3. `HasID`: our Zoom functionality adds properties to the nodes to remember
-//     the zoom state of nodes (e.g. node merges)
-// Similarly we have a defined a LinkType != ForceGraph2D.LinkObject.
-export type Link = LinkType & LinkObject;
-export type Node = NodeType & NodeObject & HasID;
-
-export interface LinkBetweenNode {
-  id: string;
-  source: Node;
-  target: Node;
-  value: number;
-}
-
-// TODO: remove these renames
-type LinkObject = ForceGraphLinkObject;
-type NodeObject = ForceGraphNodeObject;
-
 interface GraphRendererProps {
   graphDataRef: MutableRefObject<ForceGraphGraphData | null>;
   forceGraphRef: ForceGraphRef;
   openVoteDialog: VoteDialogFn;
-  highlightNodes: Set<Node>;
+  highlightNodes: Set<HasID>;
 }
 
 export interface Position {
@@ -143,11 +120,11 @@ export interface SpecialNodes {
 }
 
 const makeNodeCanvasObject = (
-  highlightNodes: Set<Node>,
+  highlightNodes: Set<HasID>,
   specialNodes: SpecialNodes,
 ) => {
   return (
-    nodeForceGraph: NodeObject,
+    nodeForceGraph: ForceGraphNodeObject,
     ctx: CanvasRenderingContext2D,
     globalScale: number,
   ) => {
@@ -165,7 +142,7 @@ export const nodeCanvasObject = (
   node: ForceGraphNodeObject,
   ctx: CanvasRenderingContext2D,
   globalScale: number,
-  highlightNodes: Set<Node>,
+  highlightNodes: Set<HasID>,
   specialNodes: SpecialNodes,
 ) => {
   let label = node.description ?? "";
@@ -208,7 +185,7 @@ export const nodePointerAreaPaint = (
   );
 };
 
-const onNodeClick = (params: NodeObject): void => {
+const onNodeClick = (params: ForceGraphNodeObject): void => {
   console.log("clicked", params);
 };
 
@@ -228,9 +205,6 @@ export const linkCanvasObject = (
   ctx: CanvasRenderingContext2D,
   globalScale: number,
 ) => {
-  if (typeof link.source !== "object" || typeof link.target !== "object") {
-    return;
-  }
   const pos = linkDescriptionPosition(link);
   if (link === drag.interimLink) {
     // XXX(skep): remove again, should be visually appealing instead of text
@@ -268,7 +242,7 @@ export const onLinkClickFn = (openVoteDialog: VoteDialogFn) => {
   };
 };
 
-const onLinkHover = (_: LinkObject | null): void => {
+const onLinkHover = (_: ForceGraphLinkObject | null): void => {
   //console.log("linkHov", params);
 };
 
@@ -458,8 +432,8 @@ export const GraphRenderer = (props: GraphRendererProps) => {
         // @ts-ignore
         linkCanvasObjectMode={() => config.linkCanvasObjectMode}
         linkCanvasObject={makeLinkCanvasObject(controller.nodeDrag.state)}
-        // @ts-ignore: FIXME(skep): problem with graph-data type, to be debugged
-        onZoom={makeOnZoomAndPanListener(props.forceGraphRef, zoomStep, graph)}
+        // XXX(skep): disable zoom until it's better balanced
+        //onZoom={makeOnZoomAndPanListener(props.forceGraphRef, zoomStep, graph)}
         onBackgroundClick={onBackgroundClick}
       />
       <GraphEditPopUp ctrl={controller} />

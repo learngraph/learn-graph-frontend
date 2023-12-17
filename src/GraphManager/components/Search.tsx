@@ -1,13 +1,13 @@
 import { MutableRefObject } from "react";
 import {
   ForceGraphGraphData,
-  ForceGraphNodeObject,
   ForceGraphRef,
   LocalForceGraphMethods,
 } from "../types";
+import { HasID } from "../Zoom";
 
 export const userSearchMatching = (
-  highlightNodes: Set<ForceGraphNodeObject>,
+  highlightNodes: Set<HasID>,
   graphDataForRender: MutableRefObject<ForceGraphGraphData | null>,
   forceGraphRef: ForceGraphRef,
   userInput: string,
@@ -21,7 +21,7 @@ export const userSearchMatching = (
 };
 
 export const userSearchMatchingInternal = (
-  highlightNodes: Set<ForceGraphNodeObject>,
+  highlightNodes: Set<HasID>,
   graphDataForRender: ForceGraphGraphData | null,
   forceGraphRef: LocalForceGraphMethods,
   userInput: string,
