@@ -212,7 +212,6 @@ export const makeOnNodeDragEnd = (controller: Controller) => {
 
 export const openCreateLinkPopUp = (ctrl: Controller) => {
   const onFormSubmit = (form: NewLinkForm) => {
-    console.log("XXX", form);
     ctrl.backend.createLink({
       from: form.sourceNode,
       to: form.targetNode,

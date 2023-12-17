@@ -15,7 +15,7 @@ import {
 import { useFormik } from "formik";
 import { Controller } from "./GraphEdit";
 import { DialogueStyles, LinkWeightSlider } from "./components/VoteDialog";
-import { ForceGraphNodeObject } from "./types";
+import { ForceGraphGraphData, ForceGraphNodeObject } from "./types";
 import * as yup from "yup";
 
 const DraggablePaperComponent = (props: PaperProps) => {
@@ -95,19 +95,45 @@ const addKeyboardShortcuts = (formik: any) => {
   };
 };
 
-//// TODO(skep): input validation
-////  - node id exists
-////  - edge does not yet exist
-//yup.addMethod(yup.string, "isNodeinGraph", function (errorMessage) {
-//  return this.test(`test-node-in-graph`, errorMessage, function (value) {
-//    const { path, createError } = this;
-//    return (
-//      (!!graph.nodes.find(node => node.id === value)) || createError({ path, message: errorMessage })
-//    );
-//  });
-//});
-//const isNodeID = (graph) => yup.string().isNodeinGraph(graph);
-export const isNodeID = yup.string().min(6).matches(/^\d+$/);
+export const isValidNodeForLink = (graph: ForceGraphGraphData) => {
+  const conf: yup.TestConfig<string | undefined, yup.AnyObject> = {
+    name: "isValidNodeForLink",
+    message: "unknown",
+    // @ts-ignore: not sure what's happening here
+    test: function (value: string | undefined) {
+      const { parent }: { parent: NewLinkForm } = this;
+      const sourceID = parent.sourceNode;
+      const targetID = parent.targetNode;
+      if (!sourceID && !targetID) {
+        return true;
+      }
+      if (sourceID === targetID) {
+        throw this.createError({
+          path: this.path,
+          message: "self-linking is not allowed",
+        });
+      }
+      if (!graph.nodes.find((node) => node.id === value)) {
+        throw this.createError({
+          path: this.path,
+          message: `node ${value} does not exist`,
+        });
+      }
+      if (
+        !!graph.links.find(
+          (link) => link.source.id === sourceID && link.target.id === targetID,
+        )
+      ) {
+        throw this.createError({
+          path: this.path,
+          message: "link already exists",
+        });
+      }
+      return true;
+    },
+  };
+  return conf;
+};
 
 export const LinkCreatePopUp = ({
   handleClose,
@@ -121,8 +147,8 @@ export const LinkCreatePopUp = ({
       linkWeight: 5,
     },
     validationSchema: yup.object({
-      sourceNode: isNodeID,
-      targetNode: isNodeID,
+      sourceNode: yup.string().test(isValidNodeForLink(ctrl.graph.current)),
+      targetNode: yup.string().test(isValidNodeForLink(ctrl.graph.current)),
     }),
     onSubmit: (form: NewLinkForm) => {
       // @ts-ignore: FIXME
