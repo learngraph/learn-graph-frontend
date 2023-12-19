@@ -327,10 +327,26 @@ describe("onNodeDragEnd", () => {
   });
 });
 
+// doesn't work, probably due to some async/await missing?
+//type MockController = ReturnType<typeof makeMockController>;
+//type FnCtrl = (ctrl: MockController) => void;
+//it.each([
+//  ...,
+//])("should %s", async (_: string, mockCtrl: FnCtrl, expectations: FnCtrl) => {
+//  const ctrl = makeMockController();
+//  mockCtrl(ctrl);
+//  // @ts-ignore
+//  openCreateLinkPopUp(ctrl);
+//  expectations(ctrl);
+//});
+
 describe("openCreateLinkPopUp", () => {
-  it("should open a popUp, and call createLink on submit", () => {
+  it("should open a popUp, and call createLink on submit", async () => {
     const ctrl = makeMockController();
     ctrl.graph.current.nodes = [{ id: "1", description: "ok 1" }];
+    ctrl.backend.createLink.mockResolvedValue({
+      data: { createEdge: { ID: "newid" } },
+    });
     // @ts-ignore
     openCreateLinkPopUp(ctrl);
     expect(ctrl.popUp.setState).toHaveBeenCalledTimes(1);
@@ -344,13 +360,73 @@ describe("openCreateLinkPopUp", () => {
       targetNode: "345",
       linkWeight: 2.2,
     };
-    popUpSetState0.linkEdit.onFormSubmit(content);
+    await popUpSetState0.linkEdit.onFormSubmit(content);
     expect(ctrl.backend.createLink).toHaveBeenCalledTimes(1);
     expect(ctrl.backend.createLink).toHaveBeenNthCalledWith(1, {
       from: "123",
       to: "345",
       weight: 2.2,
     });
-    // TODO(skep): continue
+    expect(ctrl.graph.addLink).toHaveBeenCalledTimes(1);
+    expect(ctrl.graph.addLink).toHaveBeenNthCalledWith(1, {
+      id: "newid",
+      source: "123",
+      target: "345",
+      value: 2.2,
+    });
+  });
+  it("should not append node to graph on backend failure", async () => {
+    const ctrl = makeMockController();
+    ctrl.graph.current.nodes = [{ id: "1", description: "ok 1" }];
+    ctrl.backend.createLink.mockResolvedValue({});
+    // @ts-ignore
+    openCreateLinkPopUp(ctrl);
+    expect(ctrl.popUp.setState).toHaveBeenCalledTimes(1);
+    const popUpSetState0 = ctrl.popUp.setState.mock.calls[0][0];
+    expect(popUpSetState0.nodeEdit).toBe(undefined);
+    expect(popUpSetState0.isOpen).toBe(true);
+    expect(popUpSetState0.title).toEqual("Create new learning dependency");
+    expect(popUpSetState0.linkEdit.onFormSubmit).not.toBe(undefined);
+    const content: NewLinkForm = {
+      sourceNode: "123",
+      targetNode: "345",
+      linkWeight: 2.2,
+    };
+    await popUpSetState0.linkEdit.onFormSubmit(content);
+    expect(ctrl.backend.createLink).toHaveBeenCalledTimes(1);
+    expect(ctrl.backend.createLink).toHaveBeenNthCalledWith(1, {
+      from: "123",
+      to: "345",
+      weight: 2.2,
+    });
+    expect(ctrl.graph.addLink).toHaveBeenCalledTimes(0);
+  });
+  it("should not append node to graph on backend failure (empty ID)", async () => {
+    const ctrl = makeMockController();
+    ctrl.graph.current.nodes = [{ id: "1", description: "ok 1" }];
+    ctrl.backend.createLink.mockResolvedValue({
+      data: { createEdge: { ID: "" } },
+    });
+    // @ts-ignore
+    openCreateLinkPopUp(ctrl);
+    expect(ctrl.popUp.setState).toHaveBeenCalledTimes(1);
+    const popUpSetState0 = ctrl.popUp.setState.mock.calls[0][0];
+    expect(popUpSetState0.nodeEdit).toBe(undefined);
+    expect(popUpSetState0.isOpen).toBe(true);
+    expect(popUpSetState0.title).toEqual("Create new learning dependency");
+    expect(popUpSetState0.linkEdit.onFormSubmit).not.toBe(undefined);
+    const content: NewLinkForm = {
+      sourceNode: "123",
+      targetNode: "345",
+      linkWeight: 2.2,
+    };
+    await popUpSetState0.linkEdit.onFormSubmit(content);
+    expect(ctrl.backend.createLink).toHaveBeenCalledTimes(1);
+    expect(ctrl.backend.createLink).toHaveBeenNthCalledWith(1, {
+      from: "123",
+      to: "345",
+      weight: 2.2,
+    });
+    expect(ctrl.graph.addLink).toHaveBeenCalledTimes(0);
   });
 });

@@ -4,6 +4,7 @@ import {
   ForceGraphNodeObject,
   ForceGraphLinkObject,
   ForceGraphRef,
+  ForceGraphLinkObjectInitial,
 } from "./types";
 import { /*zoomStep,*/ HasID } from "./Zoom";
 import {
@@ -274,7 +275,7 @@ const config = {
 const makeInitialGraphData = () => {
   const n_graph: ForceGraphNodeObject = { id: "1", description: "graph" };
   const n_is: ForceGraphNodeObject = { id: "2", description: "is" };
-  const n_loading: ForceGraphNodeObject = { id: "2", description: "loading" };
+  const n_loading: ForceGraphNodeObject = { id: "3", description: "loading" };
   return {
     nodes: [n_graph, n_is, n_loading],
     links: [
@@ -298,7 +299,8 @@ export const makeGraphState = (
       );
       setGraph({ nodes: graph.nodes, links: graph.links });
     },
-    addLink: (link: ForceGraphLinkObject) => {
+    addLink: (link: ForceGraphLinkObject | ForceGraphLinkObjectInitial) => {
+      // @ts-ignore: FIXME(skep): change graph data type to accept the initial types as well!
       setGraph({ nodes: graph.nodes, links: [...graph.links, link] });
     },
     addNode: (node: ForceGraphNodeObject) => {

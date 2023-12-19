@@ -21,7 +21,7 @@ export interface LinkType {
   id: string;
 }
 
-// NodeType is the raw node data, coming from the backend.
+// TODO(skep): remove this type and remove the old menu using it
 export interface NodeType {
   id: string;
   description: string;
@@ -37,6 +37,9 @@ interface LinkTypeAddition {
   value: number;
   note?: string;
   id: string;
+}
+
+interface LinkTypeMandatoryNodes {
   // After starting the force graph, there will always be objects in
   // source/target properties => ensure typescript understands.
   source: ForceGraphNodeObject;
@@ -58,11 +61,18 @@ export interface DataSetType {
 export type ForceGraphNodeObject = FGNodeObject<NodeTypeAddition>;
 export type ForceGraphLinkObject = FGLinkObject<
   NodeTypeAddition,
+  LinkTypeAddition & LinkTypeMandatoryNodes
+>;
+// ForceGraphLinkObjectInitial is the initial link object passed to the force
+// graph, that does not contain object references, but string IDs that
+// reference the nodes.
+export type ForceGraphLinkObjectInitial = FGLinkObject<
+  NodeTypeAddition,
   LinkTypeAddition
 >;
 export type ForceGraphGraphData = FGGraphData<
   NodeTypeAddition,
-  LinkTypeAddition
+  LinkTypeAddition & LinkTypeMandatoryNodes
 >;
 
 export type LocalForceGraphMethods =

@@ -152,7 +152,7 @@ export const LinkCreatePopUp = ({
     }),
     onSubmit: (form: NewLinkForm) => {
       // @ts-ignore: FIXME
-      const value: number = sliderValue;
+      const value: number = sliderValue * 10;
       ctrl.popUp.state.linkEdit?.onFormSubmit({ ...form, linkWeight: value });
       handleClose();
     },

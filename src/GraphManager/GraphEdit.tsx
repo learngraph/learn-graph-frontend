@@ -7,13 +7,14 @@ import {
   ForceGraphGraphData,
   ForceGraphLinkObject,
   ForceGraphNodeObject,
+  ForceGraphLinkObjectInitial,
 } from "./types";
 import { Position } from "./GraphRenderer";
 
 export interface GraphState {
   current: ForceGraphGraphData;
   setGraph: Dispatch<SetStateAction<ForceGraphGraphData>>;
-  addLink: (link: ForceGraphLinkObject) => void;
+  addLink: (link: ForceGraphLinkObject | ForceGraphLinkObjectInitial) => void;
   updateLink: (
     link: ForceGraphLinkObject,
     newLink: ForceGraphLinkObject,
@@ -211,12 +212,23 @@ export const makeOnNodeDragEnd = (controller: Controller) => {
 };
 
 export const openCreateLinkPopUp = (ctrl: Controller) => {
-  const onFormSubmit = (form: NewLinkForm) => {
-    ctrl.backend.createLink({
+  const onFormSubmit = async (form: NewLinkForm) => {
+    const result = await ctrl.backend.createLink({
       from: form.sourceNode,
       to: form.targetNode,
       weight: form.linkWeight,
     });
+    if (!result.data?.createEdge.ID) {
+      // TODO(skep): display error to user?!
+      return;
+    }
+    const link: ForceGraphLinkObjectInitial = {
+      id: result.data!.createEdge.ID,
+      source: form.sourceNode,
+      target: form.targetNode,
+      value: form.linkWeight,
+    };
+    ctrl.graph.addLink(link);
   };
   ctrl.popUp.setState({
     nodeEdit: undefined,
@@ -224,5 +236,4 @@ export const openCreateLinkPopUp = (ctrl: Controller) => {
     title: "Create new learning dependency",
     linkEdit: { onFormSubmit },
   });
-  // CONTINUE :)
 };
