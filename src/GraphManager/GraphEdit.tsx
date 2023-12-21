@@ -114,8 +114,6 @@ export interface NodeDragState {
   interimLink?: ForceGraphLinkObject;
 }
 
-//let interimLink: ForceGraphLinkObject | undefined = undefined;
-
 const snapInOutDistances = [15, 40];
 export const DRAG_snapInDistanceSquared = Math.pow(snapInOutDistances[0], 2);
 export const DRAG_snapOutDistanceSquared = Math.pow(snapInOutDistances[1], 2);
@@ -171,25 +169,11 @@ export const onNodeDrag = (
     }
   }
   if (removeCurrentInterimLink) {
-    if (nodeDrag.interimLink!.id !== "INTERIM_TMP") {
-      console.log(
-        `WTF remove link ${nodeDrag.interimLink!.source.description} -> ${
-          nodeDrag.interimLink!.target.description
-        }`,
-      );
-    }
     graph.removeLink(nodeDrag.interimLink!);
     setNodeDrag({ ...nodeDrag, interimLink: undefined });
   }
   if (!!newInterimLinkTarget) {
     if (!!nodeDrag.interimLink) {
-      if (nodeDrag.interimLink!.id !== "INTERIM_TMP") {
-        console.log(
-          `WTF remove link ${nodeDrag.interimLink!.source.description} -> ${
-            nodeDrag.interimLink!.target.description
-          }`,
-        );
-      }
       graph.removeLink(nodeDrag.interimLink);
     }
     addInterimLink(dragSourceNode, newInterimLinkTarget);

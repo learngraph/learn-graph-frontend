@@ -1,4 +1,4 @@
-import { isValidNodeForLink } from "./GraphEditPopUp";
+import { isValidNodeForLink, nodeValidation } from "./GraphEditPopUp";
 import { ForceGraphNodeObject } from "./types";
 //import { LinkCreatePopUp, GraphEditPopUp } from "./GraphEditPopUp";
 //import { render } from "@testing-library/react";
@@ -102,4 +102,17 @@ describe("isValidNodeForLink", () => {
     // @ts-ignore
     expect(() => isValid.test("1")).toThrow("self-linking is not allowed");
   });
+});
+
+describe("nodeValidation", () => {
+  it.each([
+    ["reject empty strings", "", false],
+    ["reject long strings", "A".repeat(41), false],
+    ["accept reasonable length name", "i'm ok!".repeat(41), false],
+  ])(
+    "should %s: '%s' -> %p",
+    async (_: string, input: string, expected: boolean) => {
+      expect(await nodeValidation.isValid(input)).toBe(expected);
+    },
+  );
 });

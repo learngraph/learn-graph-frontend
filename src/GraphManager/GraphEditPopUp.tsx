@@ -206,12 +206,16 @@ export const LinkCreatePopUp = ({
   );
 };
 
+export const nodeValidation = yup.object({
+  nodeDescription: yup.string().min(4).max(40),
+});
+
 const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
   const formik = useFormik<NewNodeForm>({
     initialValues: {
       nodeDescription: "",
     },
-    validationSchema: null,
+    validationSchema: nodeValidation,
     onSubmit: (form: NewNodeForm) => {
       ctrl.popUp.state.nodeEdit?.onFormSubmit(form);
       handleClose();
