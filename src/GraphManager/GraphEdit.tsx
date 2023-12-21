@@ -11,6 +11,8 @@ import {
 } from "./types";
 import { Position } from "./GraphRenderer";
 
+export const MAX_LINK_WEIGHT = 10;
+
 export interface GraphState {
   current: ForceGraphGraphData;
   setGraph: Dispatch<SetStateAction<ForceGraphGraphData>>;
@@ -133,10 +135,17 @@ export const onNodeDrag = (
     source: ForceGraphNodeObject,
     target: ForceGraphNodeObject,
   ) => {
-    const interimLink = { id: "INTERIM_TMP", source, target, value: 10 }; // TODO(skep): using GraphDataContextActions will remove the in-line temporary string
+    const interimLink = {
+      id: "INTERIM_TMP",
+      source,
+      target,
+      value: MAX_LINK_WEIGHT,
+    }; // TODO(skep): using GraphDataContextActions will remove the in-line temporary string
     setNodeDrag({ ...nodeDrag, interimLink });
     graph.addLink(interimLink!);
   };
+  let newInterimLinkTarget: ForceGraphNodeObject | null = null;
+  let removeCurrentInterimLink: boolean = false;
   for (let node of graph.current.nodes) {
     if (node === dragSourceNode || !node) {
       continue;
@@ -145,25 +154,45 @@ export const onNodeDrag = (
       nodeDrag.interimLink === undefined &&
       distanceSquared(dragSourceNode, node) < DRAG_snapInDistanceSquared
     ) {
-      addInterimLink(dragSourceNode, node);
+      newInterimLinkTarget = node;
     }
     if (
-      // XXX(skep): should be necessary, but tests are ok.. (┙>∧<)┙へ┻┻
-      //nodeDrag.interimLink?.source.id === dragSourceNode.id &&
       nodeDrag.interimLink?.target.id === node.id &&
       distanceSquared(dragSourceNode, node) > DRAG_snapOutDistanceSquared
     ) {
-      graph.removeLink(nodeDrag.interimLink!);
-      setNodeDrag({ ...nodeDrag, interimLink: undefined });
+      removeCurrentInterimLink = true;
     }
     if (
       nodeDrag.interimLink !== undefined &&
       node !== nodeDrag.interimLink.target &&
       distanceSquared(dragSourceNode, node) < DRAG_snapInDistanceSquared
     ) {
-      graph.removeLink(nodeDrag.interimLink);
-      addInterimLink(dragSourceNode, node);
+      newInterimLinkTarget = node;
     }
+  }
+  if (removeCurrentInterimLink) {
+    if (nodeDrag.interimLink!.id !== "INTERIM_TMP") {
+      console.log(
+        `WTF remove link ${nodeDrag.interimLink!.source.description} -> ${
+          nodeDrag.interimLink!.target.description
+        }`,
+      );
+    }
+    graph.removeLink(nodeDrag.interimLink!);
+    setNodeDrag({ ...nodeDrag, interimLink: undefined });
+  }
+  if (!!newInterimLinkTarget) {
+    if (!!nodeDrag.interimLink) {
+      if (nodeDrag.interimLink!.id !== "INTERIM_TMP") {
+        console.log(
+          `WTF remove link ${nodeDrag.interimLink!.source.description} -> ${
+            nodeDrag.interimLink!.target.description
+          }`,
+        );
+      }
+      graph.removeLink(nodeDrag.interimLink);
+    }
+    addInterimLink(dragSourceNode, newInterimLinkTarget);
   }
 };
 export const makeOnNodeDrag = (controller: Controller) => {
@@ -196,12 +225,10 @@ export const onNodeDragEnd = async (
     return;
   }
   graph.updateLink(link, { ...link, id: newLink.data.createEdge.ID });
-
-  // TODO(skep): CONTINUE: insert new link ID from backend into graph
-  // use this solution to reduce chaos while dragging:
+  // TODO(skep): use this solution to reduce chaos while dragging:
   //    https://github.com/vasturiano/react-force-graph/issues/124
 
-  // NOTE(skep): consecutive user edits on the link, e.g. a vote will be
+  // XXX(skep): consecutive user edits on the link, e.g. a vote will be
   // incorrect, this race-condition should be fixed by integrating the
   // GraphDataContextActions into this new editing schema
 };

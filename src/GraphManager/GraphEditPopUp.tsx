@@ -13,7 +13,7 @@ import {
   TextFieldFormikGeneratorAutocomplete,
 } from "./components/LoginManager/Styles";
 import { useFormik } from "formik";
-import { Controller } from "./GraphEdit";
+import { Controller, MAX_LINK_WEIGHT } from "./GraphEdit";
 import { DialogueStyles, LinkWeightSlider } from "./components/VoteDialog";
 import { ForceGraphGraphData, ForceGraphNodeObject } from "./types";
 import * as yup from "yup";
@@ -152,7 +152,7 @@ export const LinkCreatePopUp = ({
     }),
     onSubmit: (form: NewLinkForm) => {
       // @ts-ignore: FIXME
-      const value: number = sliderValue * 10;
+      const value: number = sliderValue * MAX_LINK_WEIGHT;
       ctrl.popUp.state.linkEdit?.onFormSubmit({ ...form, linkWeight: value });
       handleClose();
     },

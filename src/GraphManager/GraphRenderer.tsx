@@ -293,14 +293,18 @@ export const makeGraphState = (
     current: graph,
     setGraph,
     removeLink: (toRemove: ForceGraphLinkObject) => {
-      graph.links.splice(
-        graph.links.findIndex((link) => link.id === toRemove.id),
-        1,
-      );
-      setGraph({ nodes: graph.nodes, links: graph.links });
+      const idx = graph.links.findIndex((link) => link.id === toRemove.id);
+      if (idx === -1) {
+        return;
+      }
+      graph.links.splice(idx, 1);
+      setGraph(graph);
     },
     addLink: (link: ForceGraphLinkObject | ForceGraphLinkObjectInitial) => {
-      // @ts-ignore: FIXME(skep): change graph data type to accept the initial types as well!
+      // @ts-ignore: FIXME(skep): should probably remove
+      // ForceGraphLinkObjectInitial again, it's too much of a nuicance to use
+      // this polymorphic object everywhere, just because on startup it has a
+      // different structure
       setGraph({ nodes: graph.nodes, links: [...graph.links, link] });
     },
     addNode: (node: ForceGraphNodeObject) => {
@@ -320,10 +324,6 @@ export const makeGraphState = (
       setGraph(graph);
     },
   };
-  //state.updateLink = (link: ForceGraphLinkObject, newLink: ForceGraphLinkObject) => {
-  //  state.removeLink(link);
-  //  state.addLink(newLink);
-  //};
   return state;
 };
 
