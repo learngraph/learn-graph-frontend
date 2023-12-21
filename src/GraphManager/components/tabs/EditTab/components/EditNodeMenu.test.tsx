@@ -13,7 +13,7 @@ describe("EditNodeMenu", () => {
         updateText={updateText}
         saveChanges={saveChanges}
         finishEditing={undefined}
-      />
+      />,
     );
     expect(saveChanges.mock.calls.length).toBe(0);
     const button = screen.queryByLabelText("confirm changing name");
@@ -33,7 +33,7 @@ describe("EditNodeMenu", () => {
         updateText={updateText}
         saveChanges={saveChanges}
         finishEditing={undefined}
-      />
+      />,
     );
     expect(saveChanges.mock.calls.length).toBe(0);
     const button = screen.queryByLabelText("cancel changing name");

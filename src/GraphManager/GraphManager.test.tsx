@@ -1,7 +1,5 @@
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { GraphManager } from "./GraphManager";
-import { act } from "react-dom/test-utils";
 
 jest.mock("./GraphRenderer", () => {
   return {
@@ -38,39 +36,4 @@ describe("understanding of jest", () => {
   });
 });
 
-describe("GraphManager", () => {
-  describe("opening/closing of edit menu", () => {
-    it("should initially be closed", () => {
-      render(
-        <GraphManager
-          datasets={[
-            { dataSetName: "mockSet", data: { nodes: [], links: [] } },
-          ]}
-          fetchedGraph={undefined}
-          queryResponse={{}}
-        />
-      );
-      expect(screen.queryByTestId("GMM")).not.toBeInTheDocument();
-    });
-    it("should be opened & closed after button click", () => {
-      render(
-        <GraphManager
-          datasets={[
-            { dataSetName: "mockSet", data: { nodes: [], links: [] } },
-          ]}
-          fetchedGraph={undefined}
-          queryResponse={{}}
-        />
-      );
-      const button = screen.queryByLabelText("toggle menu");
-      act(() => {
-        button?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-      });
-      expect(screen.getByTestId("GMM")).toBeInTheDocument();
-      act(() => {
-        button?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-      });
-      expect(screen.queryByTestId("GMM")).not.toBeInTheDocument();
-    });
-  });
-});
+// TODO(skep): test graph manager (currently rewriting edit code, so purpose of GraphManager is unclear)

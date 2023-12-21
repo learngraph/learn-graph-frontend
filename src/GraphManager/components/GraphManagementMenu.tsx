@@ -22,7 +22,7 @@ export const GraphManagementMenu = ({
 
   const handleTabSwitch = (
     _: React.ChangeEvent<{}>,
-    newValue: number
+    newValue: number,
   ): void => {
     setSelectedTab(newValue);
   };

@@ -6,7 +6,7 @@ describe("editNode", () => {
       createNode({
         graph: { nodes: [], links: [] },
         newNode: { id: "1", description: "1", group: 2 },
-      })
+      }),
     ).toEqual({ nodes: [{ id: "1", description: "1", group: 2 }], links: [] });
   });
   it("should throw an error if the new node already exists", () => {
@@ -14,7 +14,7 @@ describe("editNode", () => {
       createNode({
         graph: { nodes: [{ id: "1", description: "1", group: 2 }], links: [] },
         newNode: { id: "1", description: "1", group: 3 },
-      })
+      }),
     ).toThrow();
   });
   it("should update an existing node", () => {
@@ -27,7 +27,7 @@ describe("editNode", () => {
         graph: graph,
         newNode: { id: "1", description: "BBB", group: 3 },
         selectedNode: graph.nodes[0],
-      })
+      }),
     ).toEqual({
       nodes: [{ id: "1", description: "BBB", group: 3 }],
       links: [],

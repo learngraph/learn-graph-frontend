@@ -73,7 +73,7 @@ export const EditLinkMenu = ({
 
   const handleSelectSourceNode = (
     event: SelectChangeEvent<string>,
-    _: ReactNode
+    _: ReactNode,
   ): void => {
     const nodeName = event.target.value as string;
     setCurrentSourceID(nodeName);
@@ -81,7 +81,7 @@ export const EditLinkMenu = ({
 
   const handleSelectTargetNode = (
     event: SelectChangeEvent<string>,
-    _: ReactNode
+    _: ReactNode,
   ): void => {
     const nodeName = event.target.value as string;
     setCurrentTargetID(nodeName);

@@ -41,7 +41,7 @@ export const ImportExportTab = ({
   };
 
   const handleImportFileChange = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ): void => {
     event.stopPropagation();
     event.preventDefault();

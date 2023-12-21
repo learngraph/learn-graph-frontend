@@ -1,5 +1,5 @@
 import { gql, useQuery } from "@apollo/client";
-import { GraphData } from "../types";
+import { BackendGraphData } from "../types";
 import { ApolloQueryResponse } from "./types";
 
 const GET_GRAPH_DATA = gql`
@@ -20,7 +20,7 @@ const GET_GRAPH_DATA = gql`
 `;
 
 export interface GraphDataResponse {
-  data: { graph: GraphData };
+  data: { graph: BackendGraphData };
   queryResponse: ApolloQueryResponse;
 }
 

@@ -1,49 +1,46 @@
-import ForceGraph2D, {
-  ForceGraphMethods,
-  LinkObject,
-  NodeObject,
-} from "react-force-graph-2d";
-import { LinkType, NodeType } from "./types";
+import ForceGraph2D from "react-force-graph-2d";
 import {
-  ZoomFn,
-  GraphDataMerged,
-  ZoomDirection,
-  zoomStep,
-  HasID,
-  ZoomState,
-} from "./Zoom";
-import { MutableRefObject, useRef, useState, useLayoutEffect } from "react";
+  ForceGraphGraphData,
+  ForceGraphNodeObject,
+  ForceGraphLinkObject,
+  ForceGraphRef,
+  ForceGraphLinkObjectInitial,
+} from "./types";
+import { /*zoomStep,*/ HasID } from "./Zoom";
+import {
+  MutableRefObject,
+  useRef,
+  useState,
+  useLayoutEffect,
+  useEffect,
+  Dispatch,
+  SetStateAction,
+} from "react";
 import { Box } from "@mui/material";
 import { VoteDialogFn } from "./components/VoteDialog";
-
-// TODO(skep): fundamental type issue here, we have 2-3 types in one:
-//  1. `NodeType`: our node type, with added properties, that we use in
-//     callbacks from ForceGraph2D
-//  2. `NodeObject`: ForceGraph2D's node type
-//  3. `HasID`: our Zoom functionality adds properties to the nodes to remember
-//     the zoom state of nodes (e.g. node merges)
-// Similarly we have a defined a LinkType != ForceGraph2D.LinkObject.
-export type Link = LinkType & LinkObject;
-export type Node = NodeType & NodeObject & HasID;
-
-interface LinkBetweenNode {
-  id: string;
-  source: Node;
-  target: Node;
-}
-
-export interface GraphDataForceGraph {
-  nodes: Node[];
-  links: LinkBetweenNode[];
-}
+import { useGraphData } from "./hooks";
+//import { makeOnZoomAndPanListener } from "./ZoomForceGraphIntegration";
+import {
+  GraphState,
+  makeOnBackgroundClick,
+  Controller,
+  NodeDragState,
+  makeOnNodeDrag,
+  makeOnNodeDragEnd,
+} from "./GraphEdit";
+import { GraphEditPopUp, GraphEditPopUpState } from "./GraphEditPopUp";
+import { useCreateNode } from "./hooks/useCreateNode";
+import { useCreateEdge } from "./hooks/useCreateEdge";
+import { CreateButton } from "./GraphEditCreateButton";
 
 interface GraphRendererProps {
-  graphData: GraphDataForceGraph;
+  graphDataRef: MutableRefObject<ForceGraphGraphData | null>;
+  forceGraphRef: ForceGraphRef;
   openVoteDialog: VoteDialogFn;
-  highlightNodes: Set<Node>;
+  highlightNodes: Set<HasID>;
 }
 
-interface Position {
+export interface Position {
   x: number;
   y: number;
 }
@@ -55,16 +52,16 @@ interface TextRender {
 }
 
 // utility functions
-function drawTextWithBackground(
+const drawTextBackgroundBox = (
   text: TextRender,
   ctx: CanvasRenderingContext2D,
-  position: Partial<Position>
-) {
+  position: Partial<Position>,
+) => {
   ctx.font = `${text.fontSize}px ${config.font}`;
   const textWidth = ctx.measureText(text.text).width;
   const padding = 0.2;
   const bckgDimensions = [textWidth, text.fontSize].map(
-    (n) => n + text.fontSize * padding
+    (n) => n + text.fontSize * padding,
   );
   let [x, y] = [position.x ?? 0, position.y ?? 0];
   ctx.fillStyle = text.backgroundColor;
@@ -72,15 +69,33 @@ function drawTextWithBackground(
     x - bckgDimensions[0] / 2,
     y - bckgDimensions[1] / 2,
     bckgDimensions[0],
-    bckgDimensions[1]
+    bckgDimensions[1],
   );
+};
+
+const drawText = (
+  text: TextRender,
+  ctx: CanvasRenderingContext2D,
+  position: Partial<Position>,
+) => {
+  ctx.font = `${text.fontSize}px ${config.font}`;
+  let [x, y] = [position.x ?? 0, position.y ?? 0];
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.fillStyle = "#000";
   ctx.fillText(text.text, x, y);
-}
+};
 
-function linkDescriptionPosition(link: Link) {
+const drawTextWithBackground = (
+  text: TextRender,
+  ctx: CanvasRenderingContext2D,
+  position: Partial<Position>,
+) => {
+  drawTextBackgroundBox(text, ctx, position);
+  drawText(text, ctx, position);
+};
+
+const linkDescriptionPosition = (link: ForceGraphLinkObject) => {
   return Object.assign(
     // @ts-ignore
     ...["x", "y"].map((c) => ({
@@ -90,35 +105,49 @@ function linkDescriptionPosition(link: Link) {
         // @ts-ignore
         (link.target[c] - link.source[c]) *
           (config.linkDirectionalArrowRelPos - 0.1),
-    }))
+    })),
   );
-}
+};
 
 // node render & interaction
 
 // TODO(j): should use react theme for color choice here
 const backgroundColorWhite = "rgba(255, 255, 255, 0.8)";
+const backgroundColorGrey = "rgba(190, 190, 190, 0.8)";
+const backgroundColorOrange = `hsl(30,100%,50%)`;
 
-const makeNodeCanvasObject = (highlightNodes: Set<Node>) => {
+export interface SpecialNodes {
+  hoveredNode?: ForceGraphNodeObject | undefined | null;
+}
+
+const makeNodeCanvasObject = (
+  highlightNodes: Set<HasID>,
+  specialNodes: SpecialNodes,
+) => {
   return (
-    nodeForceGraph: NodeObject,
+    nodeForceGraph: ForceGraphNodeObject,
     ctx: CanvasRenderingContext2D,
-    globalScale: number
+    globalScale: number,
   ) => {
-    return nodeCanvasObject(nodeForceGraph, ctx, globalScale, highlightNodes);
+    return nodeCanvasObject(
+      nodeForceGraph,
+      ctx,
+      globalScale,
+      highlightNodes,
+      specialNodes,
+    );
   };
 };
 
 export const nodeCanvasObject = (
-  nodeForceGraph: NodeObject,
+  node: ForceGraphNodeObject,
   ctx: CanvasRenderingContext2D,
   globalScale: number,
-  highlightNodes: Set<Node>
+  highlightNodes: Set<HasID>,
+  specialNodes: SpecialNodes,
 ) => {
-  // @ts-ignore: see `Node` type
-  const node: Node = nodeForceGraph;
   let label = node.description ?? "";
-  let backgroundColor = backgroundColorWhite;
+  let backgroundColor = backgroundColorGrey;
   const mergedNodes = node.mergeCount ?? 0;
   if (mergedNodes > 1) {
     // TODO(skep): use relative scaling to total number of nodes
@@ -130,32 +159,67 @@ export const nodeCanvasObject = (
   if (highlightNodes.has(node)) {
     backgroundColor = `hsl(1,100%,50%)`;
   }
+  if (specialNodes.hoveredNode?.id === node.id) {
+    backgroundColor = backgroundColorOrange;
+  }
   drawTextWithBackground(
     { text: label, fontSize: config.fontSize / globalScale, backgroundColor },
     ctx,
-    { x: node.x, y: node.y }
+    { x: node.x, y: node.y },
   );
 };
 
-const onNodeClick = (params: NodeObject): void => {
+export const nodePointerAreaPaint = (
+  node: ForceGraphNodeObject,
+  color: string,
+  ctx: CanvasRenderingContext2D,
+  globalScale: number,
+) => {
+  drawTextBackgroundBox(
+    {
+      text: node.description ?? "",
+      fontSize: config.fontSize / globalScale,
+      backgroundColor: color,
+    },
+    ctx,
+    { x: node.x, y: node.y },
+  );
+};
+
+const onNodeClick = (params: ForceGraphNodeObject): void => {
   console.log("clicked", params);
 };
 
+const makeLinkCanvasObject = (drag: NodeDragState) => {
+  return (
+    link: ForceGraphLinkObject,
+    ctx: CanvasRenderingContext2D,
+    globalScale: number,
+  ) => {
+    return linkCanvasObject(drag, link, ctx, globalScale);
+  };
+};
 // link render & interaction
 export const linkCanvasObject = (
-  linkForceGraph: LinkObject,
+  drag: NodeDragState,
+  link: ForceGraphLinkObject,
   ctx: CanvasRenderingContext2D,
-  globalScale: number
+  globalScale: number,
 ) => {
-  // @ts-ignore
-  const link: Link = linkForceGraph;
-
-  // ignore unbound links
-  if (typeof link.source !== "object" || typeof link.target !== "object")
-    return;
-
   const pos = linkDescriptionPosition(link);
-
+  if (link === drag.interimLink) {
+    // XXX(skep): remove again, should be visually appealing instead of text
+    drawTextWithBackground(
+      {
+        text: String("TEMPORARY"),
+        fontSize: config.fontSize / globalScale,
+        backgroundColor: backgroundColorGrey,
+      },
+      ctx,
+      pos,
+    );
+    return;
+  }
   drawTextWithBackground(
     {
       text: String(link.value),
@@ -163,24 +227,23 @@ export const linkCanvasObject = (
       backgroundColor: backgroundColorWhite,
     },
     ctx,
-    pos
+    pos,
   );
 };
 
 export const onLinkClickFn = (openVoteDialog: VoteDialogFn) => {
-  return (params: LinkObject) => {
-    // @ts-ignore: see LinkBetweenObjects and Link type
-    let link: LinkBetweenNode & LinkType = params;
-    openVoteDialog({
-      linkID: link.id,
-      sourceNode: link.source,
-      targetNode: link.target,
-      weight: link.value,
-    });
+  return (link: ForceGraphLinkObject) => {
+    if (typeof link.source !== "object") {
+      return;
+    }
+    if (typeof link.target !== "object") {
+      return;
+    }
+    openVoteDialog({ link });
   };
 };
 
-const onLinkHover = (_: LinkObject | null): void => {
+const onLinkHover = (_: ForceGraphLinkObject | null): void => {
   //console.log("linkHov", params);
 };
 
@@ -209,64 +272,127 @@ const config = {
   font: "Sans-Serif",
 };
 
-interface UserZoomEvent {
-  // zoom level
-  k: number;
-  x: number;
-  y: number;
-}
-
-export type ForceGraph2DRef = MutableRefObject<ForceGraphMethods | undefined>;
-
-// FIXME(skep): BUG: on load zoom is triggered 2 times, so that 1-zoom-in
-// always  happens!
-
-export const MIN_ZOOM_PERCENTAGE_DIFFERENCE = 0.05;
-
-// Note: the returned onZoom function is triggered by user interaction as well
-// as programmatic zooming/panning with zoom() and centerAt().
-// -> will be important for search-node feature using centerAt!
-export const makeOnZoomAndPanListener = (
-  ref: ForceGraph2DRef,
-  zoom: ZoomFn,
-  graphData: GraphDataMerged
-) => {
-  let lastZoom = ref.current?.zoom();
-  let zoomState: ZoomState = { zoomSteps: [], graphData };
-  const onZoomAndPan = (transform: UserZoomEvent) => {
-    const forcegraph = ref.current;
-    if (!forcegraph) {
-      return;
-    }
-    const currentZoom = transform.k;
-    if (!lastZoom || lastZoom === currentZoom) {
-      return;
-    }
-    const diffPercentage = Math.abs(lastZoom - currentZoom) / currentZoom;
-    if (diffPercentage < MIN_ZOOM_PERCENTAGE_DIFFERENCE) {
-      return;
-    }
-    if (lastZoom < currentZoom) {
-      zoom({ direction: ZoomDirection.In, steps: 1 }, zoomState);
-    } else {
-      zoom({ direction: ZoomDirection.Out, steps: 1 }, zoomState);
-    }
-    forcegraph.d3ReheatSimulation();
-    lastZoom = currentZoom;
+const makeInitialGraphData = () => {
+  const n_graph: ForceGraphNodeObject = { id: "1", description: "graph" };
+  const n_is: ForceGraphNodeObject = { id: "2", description: "is" };
+  const n_loading: ForceGraphNodeObject = { id: "3", description: "loading" };
+  return {
+    nodes: [n_graph, n_is, n_loading],
+    links: [
+      { id: "1", source: n_graph, target: n_is, value: 5 },
+      { id: "2", source: n_is, target: n_loading, value: 5 },
+    ],
   };
-  return onZoomAndPan;
+};
+
+export const makeGraphState = (
+  graph: ForceGraphGraphData,
+  setGraph: Dispatch<SetStateAction<ForceGraphGraphData>>,
+) => {
+  const state: GraphState = {
+    current: graph,
+    setGraph,
+    removeLink: (toRemove: ForceGraphLinkObject) => {
+      const idx = graph.links.findIndex((link) => link.id === toRemove.id);
+      if (idx === -1) {
+        return;
+      }
+      graph.links.splice(idx, 1);
+      setGraph(graph);
+    },
+    addLink: (link: ForceGraphLinkObject | ForceGraphLinkObjectInitial) => {
+      // @ts-ignore: FIXME(skep): should probably remove
+      // ForceGraphLinkObjectInitial again, it's too much of a nuicance to use
+      // this polymorphic object everywhere, just because on startup it has a
+      // different structure
+      setGraph({ nodes: graph.nodes, links: [...graph.links, link] });
+    },
+    addNode: (node: ForceGraphNodeObject) => {
+      setGraph({ nodes: [...graph.nodes, node], links: graph.links });
+    },
+    updateLink: (link: ForceGraphLinkObject, newLink: ForceGraphLinkObject) => {
+      const linkInGraph = graph.links.find((l) => l.id === link.id);
+      if (!linkInGraph) {
+        return;
+      }
+      //Object.keys(linkInGraph).forEach((key) => {linkInGraph[key] = newLink[key];})
+      linkInGraph.id = newLink.id;
+      linkInGraph.note = newLink.note;
+      linkInGraph.source = newLink.source;
+      linkInGraph.target = newLink.target;
+      linkInGraph.value = newLink.value;
+      setGraph(graph);
+    },
+  };
+  return state;
 };
 
 export const GraphRenderer = (props: GraphRendererProps) => {
+  const [graph, setGraph] = useState<ForceGraphGraphData>(
+    makeInitialGraphData(),
+  );
+  props.graphDataRef.current = graph;
+  const { data, queryResponse } = useGraphData();
+  useEffect(() => {
+    if (!data || !data.graph) {
+      return;
+    }
+    // @ts-ignore
+    setGraph(JSON.parse(JSON.stringify(data.graph)));
+  }, [queryResponse.loading, data]);
   const onLinkClick = onLinkClickFn(props.openVoteDialog);
-  const forcegraphRef = useRef<ForceGraphMethods>();
-
+  useEffect(() => {
+    const keyDownListener = makeKeydownListener(props.forceGraphRef);
+    document.addEventListener("keydown", keyDownListener);
+    return () => {
+      document.removeEventListener("keydown", keyDownListener);
+    };
+  });
+  useEffect(() => {
+    const rightClickAction = (event: any) => event.preventDefault();
+    document.addEventListener("contextmenu", rightClickAction);
+    return () => {
+      document.removeEventListener("contextmenu", rightClickAction);
+    };
+  });
+  const { createNode } = useCreateNode();
+  const { createEdge } = useCreateEdge();
+  const initPopUp: GraphEditPopUpState = {
+    isOpen: false,
+  };
+  const [editPopUpState, setEditPopUpState] = useState(initPopUp);
+  const [nodeDrag, setNodeDrag] = useState<NodeDragState>({});
+  const controller: Controller = {
+    backend: {
+      createNode,
+      createLink: createEdge,
+    },
+    popUp: {
+      state: editPopUpState,
+      setState: setEditPopUpState,
+    },
+    graph: makeGraphState(graph, setGraph),
+    forceGraphRef: props.forceGraphRef,
+    nodeDrag: {
+      state: nodeDrag,
+      setState: setNodeDrag,
+    },
+  };
+  const onBackgroundClick = makeOnBackgroundClick(controller);
+  const specialNodes: SpecialNodes = {}; // TODO(skep): move this into the Controller
+  const onNodeHover = (
+    node: ForceGraphNodeObject | null,
+    _ /*prevNode*/ : ForceGraphNodeObject | null,
+  ) => {
+    specialNodes.hoveredNode = node;
+  };
+  // FIXME(umb): It looks like it should remove the empty space below the
+  // canvas. Unfortuantely this code does nothing when the window is resized.
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [availableSpace, setAvailableSpace] = useState({
     height: 400,
     width: 600,
   });
-
   useLayoutEffect(() => {
     const containerElement = wrapperRef.current;
     if (containerElement) {
@@ -277,10 +403,6 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       });
     }
   }, []);
-
-  // TODO: make it react-isch? not sure where to put it
-  document.addEventListener("keydown", makeKeydownListener(forcegraphRef));
-
   return (
     <Box
       id="canvasWrapper"
@@ -290,14 +412,17 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       <ForceGraph2D
         height={availableSpace.height}
         width={availableSpace.width}
-        ref={forcegraphRef}
-        // Note: all data must be copied, since force graph changes Link "source"
-        // and "target" fields to directly contain the referred node objects
-        // nodes:
-        graphData={props.graphData}
-        nodeAutoColorBy={"group"}
+        ref={props.forceGraphRef}
+        graphData={graph}
+        nodeCanvasObject={makeNodeCanvasObject(
+          props.highlightNodes,
+          specialNodes,
+        )}
+        nodePointerAreaPaint={nodePointerAreaPaint}
         onNodeClick={onNodeClick}
-        nodeCanvasObject={makeNodeCanvasObject(props.highlightNodes)}
+        onNodeHover={onNodeHover}
+        onNodeDrag={makeOnNodeDrag(controller)}
+        onNodeDragEnd={makeOnNodeDragEnd(controller)}
         // links:
         onLinkHover={onLinkHover}
         onLinkClick={onLinkClick}
@@ -308,13 +433,13 @@ export const GraphRenderer = (props: GraphRendererProps) => {
         // is never called. -> remove after force-graph module update
         // @ts-ignore
         linkCanvasObjectMode={() => config.linkCanvasObjectMode}
-        linkCanvasObject={linkCanvasObject}
-        onZoom={makeOnZoomAndPanListener(
-          forcegraphRef,
-          zoomStep,
-          props.graphData
-        )}
+        linkCanvasObject={makeLinkCanvasObject(controller.nodeDrag.state)}
+        // XXX(skep): disable zoom until it's better balanced
+        //onZoom={makeOnZoomAndPanListener(props.forceGraphRef, zoomStep, graph)}
+        onBackgroundClick={onBackgroundClick}
       />
+      <GraphEditPopUp ctrl={controller} />
+      <CreateButton ctrl={controller} />
     </Box>
   );
 };

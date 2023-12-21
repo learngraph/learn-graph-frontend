@@ -65,7 +65,11 @@ export function useCreateUserWithEmail(): {
     username,
     password,
     email,
-  }) => createUserTMP({ variables: { username, password, email } });
+  }) => {
+    // XXX: remove again
+    console.log({ variables: { username, password, email } });
+    return createUserTMP({ variables: { username, password, email } });
+  };
   return {
     createUserWithEMail,
     response: { data, apollo: { loading, error } },

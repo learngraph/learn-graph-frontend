@@ -8,7 +8,7 @@ import paths from "react-scripts/config/paths";
 let config: Config = createJestConfig(
   (relativePath) => path.resolve(__dirname, "..", relativePath),
   path.resolve(paths.appSrc, ".."),
-  false
+  false,
 );
 // FIXME: this is what we need, but CRA does not allow it?
 config.transformIgnorePatterns = [

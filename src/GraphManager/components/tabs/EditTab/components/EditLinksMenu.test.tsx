@@ -18,7 +18,7 @@ describe("EditLinksMenu", () => {
         onUpdateLink={onUpdateLink}
         nodes={[]}
         onUpdateNode={onUpdateNode}
-      />
+      />,
     );
     expect(screen.getByText("Add new Link")).toBeInTheDocument();
     expect(screen.getByText("Add new Node")).toBeInTheDocument();
@@ -39,7 +39,7 @@ describe("EditLinksMenu", () => {
         onUpdateLink={onUpdateLink}
         nodes={nodes}
         onUpdateNode={onUpdateNode}
-      />
+      />,
     );
     // @ts-ignore
     expect(LinkDisplay.mock.calls.length).toBe(2); // 2 links in total
@@ -61,7 +61,7 @@ describe("EditLinksMenu", () => {
         onUpdateLink={onUpdateLink}
         nodes={[]}
         onUpdateNode={onUpdateNode}
-      />
+      />,
     );
     const b_new_link = screen.getByText("Add new Link");
     act(() => {

@@ -1,12 +1,14 @@
-import { GraphData, NodeType } from "../../../../types";
+import { BackendGraphData, NodeType } from "../../../../types";
 
 export interface updateNodeInGraphProps {
-  graph: GraphData;
+  graph: BackendGraphData;
   newNode: NodeType;
   selectedNode: NodeType;
 }
 
-export const updateNodeInGraph = (args: updateNodeInGraphProps): GraphData => {
+export const updateNodeInGraph = (
+  args: updateNodeInGraphProps,
+): BackendGraphData => {
   // Update existing links to new node ID
   args.graph?.links?.forEach((link) => {
     if (link.target === args.selectedNode?.id) {
@@ -23,9 +25,9 @@ export const updateNodeInGraph = (args: updateNodeInGraphProps): GraphData => {
 };
 
 export const createNode = (args: {
-  graph: GraphData;
+  graph: BackendGraphData;
   newNode: NodeType;
-}): GraphData => {
+}): BackendGraphData => {
   if (args.graph.nodes.find((n) => n.id === args.newNode.id)) {
     throw new Error("Attempting to create a new Node that already exists");
   }

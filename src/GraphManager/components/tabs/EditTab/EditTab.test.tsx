@@ -78,7 +78,7 @@ describe("EditTab", () => {
         createEdge={createEdge}
         updateNode={updateNode}
         createNode={createNode}
-      />
+      />,
     );
     expect(updateDisplayedGraph.mock.calls.length).toBe(0);
   });
@@ -151,8 +151,8 @@ describe("findForwardLinks", () => {
           nodes: [],
           links: [{ id: "1", source: "1", target: "2", value: 8.0 }],
         },
-        "1"
-      )
+        "1",
+      ),
     ).toEqual([]);
   });
   it("should find one link", () => {
@@ -162,8 +162,8 @@ describe("findForwardLinks", () => {
           nodes: [],
           links: [{ id: "1", source: "2", target: "1", value: 8.0 }],
         },
-        "1"
-      )
+        "1",
+      ),
     ).toEqual([{ id: "1", source: "2", target: "1", value: 8.0 }]);
   });
   it("should find multiple link", () => {
@@ -176,8 +176,8 @@ describe("findForwardLinks", () => {
             { id: "1", source: "3", target: "1", value: 2.0 },
           ],
         },
-        "1"
-      )
+        "1",
+      ),
     ).toEqual([
       { id: "1", source: "2", target: "1", value: 8.0 },
       { id: "1", source: "3", target: "1", value: 2.0 },
@@ -193,8 +193,8 @@ describe("findBackwardLinks", () => {
           nodes: [],
           links: [{ id: "1", source: "1", target: "2", value: 8.0 }],
         },
-        "1"
-      )
+        "1",
+      ),
     ).toEqual([{ id: "1", source: "1", target: "2", value: 8.0 }]);
   });
   it("should find no link", () => {
@@ -204,8 +204,8 @@ describe("findBackwardLinks", () => {
           nodes: [],
           links: [{ id: "1", source: "2", target: "1", value: 8.0 }],
         },
-        "1"
-      )
+        "1",
+      ),
     ).toEqual([]);
   });
   it("should return an empty array, even if input is undefined", () => {
@@ -213,8 +213,8 @@ describe("findBackwardLinks", () => {
       findBackwardLinks(
         // @ts-ignore
         { nodes: [], links: undefined },
-        "1"
-      )
+        "1",
+      ),
     ).toEqual([]);
   });
 });

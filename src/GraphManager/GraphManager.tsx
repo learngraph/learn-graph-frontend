@@ -1,19 +1,19 @@
-import { useState, useEffect } from "react";
-import Paper from "@mui/material/Paper";
-import Grid from "@mui/material/Grid";
-import Fab from "@mui/material/Fab";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import { useState, useEffect, useRef, MutableRefObject } from "react";
 import { Box } from "@mui/material";
 
-import { GraphFileList, GraphManagementMenu, VoteDialog } from "./components";
-import { DataSetType, GraphData } from "./types";
-import { GraphRenderer, Node, GraphDataForceGraph } from "./GraphRenderer";
+import { VoteDialog } from "./components";
+import {
+  DataSetType,
+  ForceGraphGraphData,
+  BackendGraphData,
+  ForceGraphRef,
+  LocalForceGraphMethods,
+  ForceGraphNodeObject,
+} from "./types";
+import { GraphRenderer } from "./GraphRenderer";
 import {
   sanitizeGraphData,
-  sanitizeGraphDataset,
   transformDisplayedNodesToPseudoTranslated,
-  transformGraphDataForDisplay,
 } from "./GraphUtil";
 import HeaderBar from "./components/HeaderBar";
 import { TranslatedGraphData, useGraphDataContext } from "src/GraphDataContext";
@@ -24,30 +24,19 @@ import { useUserDataContext } from "src/UserDataContext";
 
 interface GraphManagerProps {
   datasets: DataSetType[];
-  fetchedGraph: GraphData | undefined;
+  fetchedGraph: BackendGraphData | undefined;
   queryResponse: any;
 }
 
 export const GraphManager = (props: GraphManagerProps): JSX.Element => {
-  const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [isVoteDialogOpen, setIsVoteDialogOpen] = useState(false);
   const [voteDialogInput, setVoteDialogInput] = useState<
     Partial<VoteDialogParams>
   >({});
 
-  const { graph, setLinks, setNodes, submitVote } = useGraphDataContext();
-
-  const [graphName, setGraphName] = useState<string>("");
+  const { setLinks, setNodes, submitVote } = useGraphDataContext();
 
   const { language } = useUserDataContext();
-
-  const currentGraphDataset: DataSetType = {
-    dataSetName: graphName,
-    data: transformGraphDataForDisplay({
-      graph,
-      language,
-    }),
-  };
 
   useEffect(() => {
     if (props.fetchedGraph) {
@@ -68,29 +57,23 @@ export const GraphManager = (props: GraphManagerProps): JSX.Element => {
     language,
   ]);
 
-  const handleDatasetChange = (dataset: DataSetType) => {
-    const sanitizedDataset = sanitizeGraphDataset(dataset);
-    setGraphName(dataset.dataSetName);
-    const pseudoTranslatedNodes = transformDisplayedNodesToPseudoTranslated({
-      nodes: sanitizedDataset.data.nodes,
-      language,
-    });
-    setLinks(sanitizedDataset.data.links);
-    setNodes(pseudoTranslatedNodes);
-  };
-
   const openVoteDialog = (params: VoteDialogParams): void => {
     setIsVoteDialogOpen(true);
     setVoteDialogInput(params);
   };
 
-  const graphDataForRender: GraphDataForceGraph = JSON.parse(
-    JSON.stringify(transformToRenderedType(graph, language))
-  );
+  const forceGraphRef: ForceGraphRef = useRef<LocalForceGraphMethods>();
+  const graphDataForRenderRef: MutableRefObject<ForceGraphGraphData | null> =
+    useRef<ForceGraphGraphData | null>(null);
 
-  const highlightNodes = new Set<Node>();
+  const highlightNodes = new Set<ForceGraphNodeObject>();
   const searchCallback = (userInput: string) => {
-    userSearchMatching(highlightNodes, graphDataForRender, userInput);
+    userSearchMatching(
+      highlightNodes,
+      graphDataForRenderRef,
+      forceGraphRef,
+      userInput,
+    );
   };
 
   return (
@@ -103,50 +86,15 @@ export const GraphManager = (props: GraphManagerProps): JSX.Element => {
         flexDirection: "column",
       }}
     >
-      <Box sx={{ display: "grid", gridTemplateColumns: "1fr 2fr" }}>
-        <Fab
-          color="primary"
-          aria-label="toggle menu"
-          onClick={(): void => setIsMenuVisible(!isMenuVisible)}
-        >
-          {isMenuVisible ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-        </Fab>
+      <Box
+        sx={{
+          display:
+            "grid" /* FIXME(skep): if this is removed the force graph will only fill half height */,
+        }}
+      >
         <HeaderBar userInputCallback={searchCallback} />
       </Box>
       <Box sx={{ flex: 1, width: "100%" }}>
-        {isMenuVisible && (
-          <>
-            <Grid
-              container
-              spacing={3}
-              justifyContent="flex-end"
-              sx={{
-                position: "fixed",
-                maxWidth: "350px",
-                overflowY: "auto",
-                height: "100%",
-                zIndex: 2,
-              }}
-            >
-              <Grid item xs>
-                <Paper>
-                  <GraphManagementMenu
-                    updateDisplayedGraph={handleDatasetChange}
-                    currentGraphDataset={currentGraphDataset}
-                  />
-                </Paper>
-              </Grid>
-              <Grid item xs>
-                <Paper>
-                  <GraphFileList
-                    datasets={props.datasets}
-                    onSelectDataSet={handleDatasetChange}
-                  />
-                </Paper>
-              </Grid>
-            </Grid>
-          </>
-        )}
         <VoteDialog
           isDialogOpen={isVoteDialogOpen}
           setDialogOpen={setIsVoteDialogOpen}
@@ -154,7 +102,8 @@ export const GraphManager = (props: GraphManagerProps): JSX.Element => {
           submitVote={submitVote}
         />
         <GraphRenderer
-          graphData={graphDataForRender}
+          graphDataRef={graphDataForRenderRef}
+          forceGraphRef={forceGraphRef}
           openVoteDialog={openVoteDialog}
           highlightNodes={highlightNodes}
         />
@@ -164,10 +113,10 @@ export const GraphManager = (props: GraphManagerProps): JSX.Element => {
 };
 
 // TODO: extract to another file
-const transformToRenderedType = (
+export const transformToRenderedType = (
   graph: TranslatedGraphData,
-  language: string
-): GraphData => {
+  language: string,
+): BackendGraphData => {
   const transformedNodes = graph.nodes.map(({ id, description, group }) => {
     return {
       id,

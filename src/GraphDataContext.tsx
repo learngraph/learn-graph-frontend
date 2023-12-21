@@ -23,12 +23,20 @@ import {
   getCreateNodeAction,
   getCreateLinkAction,
   getUpdateNodeAction,
+  getSubmitVoteAction,
 } from "./GraphDataContextActions";
 import {
   CreateUserWithMailFn,
   useCreateUserWithEmail,
 } from "./GraphManager/hooks/useCreateUser";
 import { LoginFn, useLogin } from "./GraphManager/hooks/useLoginUser";
+
+//// TODO(skep): remove "translated"-types, the backend always receives the
+// language header, thus translation should happen there, to avoid large amount
+// of unnecessary data to be transferred.
+//import { Node, Link } from "./GraphManager/GraphRenderer";
+//export type TranslatedNode = Node;
+//export type TranslatedGraphData = Link;
 
 export interface TranslatedNode {
   id: string;
@@ -169,9 +177,7 @@ const GraphDataContextProvider: React.FC<ProviderProps> = ({ children }) => {
         createNode: getCreateNodeAction(editGraph),
         createLink: getCreateLinkAction(editGraph),
         updateNode: getUpdateNodeAction(editGraph),
-        submitVote: () => {
-          console.log("NOT IMPLEMENTED"); // TODO(skep): implement
-        },
+        submitVote: getSubmitVoteAction(editGraph),
         createUserWithEMail,
         loginUser,
         setLinks,

@@ -40,7 +40,7 @@ describe("UserDataContext", () => {
     render(
       <UserDataContextProvider>
         <Test />
-      </UserDataContextProvider>
+      </UserDataContextProvider>,
     );
     const user = userEvent.setup();
     const setUserIDButton = screen.getByTestId("setUserID");
@@ -76,7 +76,7 @@ describe("UserDataContext", () => {
     render(
       <UserDataContextProvider>
         <Test />
-      </UserDataContextProvider>
+      </UserDataContextProvider>,
     );
     expect(screen.getByTestId("userID")).toHaveTextContent("123");
     expect(screen.getByTestId("userName")).toHaveTextContent("asdf");
@@ -104,7 +104,7 @@ describe("UserDataContext", () => {
     render(
       <UserDataContextProvider>
         <Test />
-      </UserDataContextProvider>
+      </UserDataContextProvider>,
     );
     expect(screen.getByTestId("userID")).toHaveTextContent("");
     expect(screen.getByTestId("userName")).toHaveTextContent("");

@@ -1,32 +1,46 @@
-import { userSearchMatching } from "./Search";
-import { Node } from "GraphManager/GraphRenderer";
+import { userSearchMatchingInternal } from "./Search";
+import { LocalForceGraphMethods } from "../types";
+import { HasID } from "../Zoom";
 
-describe("userSearchMatching", () => {
+describe("userSearchMatchingInternal", () => {
+  const makeFGMethodsMock = () => {
+    // @ts-ignore
+    const m: LocalForceGraphMethods =
+      jest.mock<LocalForceGraphMethods>("../types");
+    // @ts-ignore
+    m.d3ReheatSimulation = jest.fn().mockName("d3ReheatSimulation");
+    return m;
+  };
   it("should do nothing on an empty highlight set", () => {
-    let highlight = new Set<Node>();
+    let fgRef = makeFGMethodsMock();
+    let highlight = new Set<HasID>();
     let graphData = { nodes: [{ id: "1", description: "A" }], links: [] };
     let userInput = "";
-    userSearchMatching(highlight, graphData, userInput);
+    userSearchMatchingInternal(highlight, graphData, fgRef, userInput);
     expect(highlight.size).toBe(0);
   });
   it("should match substring and clear after call without match", () => {
-    let highlight = new Set<Node>();
+    let fgRef = makeFGMethodsMock();
+    let highlight = new Set<HasID>();
     let A = { id: "A", description: "XYabcZ" };
     let graphData = { nodes: [A], links: [] };
     let userInput = "abc";
-    userSearchMatching(highlight, graphData, userInput);
+    userSearchMatchingInternal(highlight, graphData, fgRef, userInput);
     expect(highlight.size).toBe(1);
     expect(highlight.values().next()).toEqual({ done: false, value: A });
-    userSearchMatching(highlight, graphData, "def");
+    userSearchMatchingInternal(highlight, graphData, fgRef, "def");
     expect(highlight.size).toBe(0);
+    expect(fgRef!.d3ReheatSimulation).toHaveBeenCalledTimes(2);
   });
   it("should match case-insensitive", () => {
-    let highlight = new Set<Node>();
+    let fgRef = makeFGMethodsMock();
+    let highlight = new Set<HasID>();
     let A = { id: "A", description: "XYabcZ" };
     let graphData = { nodes: [A], links: [] };
     let userInput = "xyA";
-    userSearchMatching(highlight, graphData, userInput);
+    userSearchMatchingInternal(highlight, graphData, fgRef, userInput);
     expect(highlight.size).toBe(1);
     expect(highlight.values().next()).toEqual({ done: false, value: A });
+    expect(fgRef!.d3ReheatSimulation).toHaveBeenCalledTimes(1);
   });
 });
