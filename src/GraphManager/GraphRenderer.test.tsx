@@ -6,6 +6,7 @@ import {
   SpecialNodes,
   nodePointerAreaPaint,
   makeGraphState,
+  convertBackendGraphToForceGraph,
 } from "./GraphRenderer";
 import "@testing-library/jest-dom";
 
@@ -199,5 +200,26 @@ describe("makeGraphState", () => {
         links: [newLink],
       });
     });
+  });
+});
+
+describe("convertBackendGraphToForceGraph", () => {
+  it("should return null if anything is undefined", () => {
+    // @ts-ignore: it can happen
+    expect(convertBackendGraphToForceGraph(undefined)).toBe(null);
+    // @ts-ignore: it can happen
+    expect(convertBackendGraphToForceGraph({})).toBe(null);
+  });
+  it("should coalece null fields with empty arrays for nodes/links", () => {
+    expect(
+      // @ts-ignore: it can happen
+      convertBackendGraphToForceGraph({ graph: { nodes: null, links: null } }),
+    ).toEqual({ nodes: [], links: [] });
+    expect(
+      convertBackendGraphToForceGraph({
+        // @ts-ignore: it can happen
+        graph: { nodes: undefined, links: undefined },
+      }),
+    ).toEqual({ nodes: [], links: [] });
   });
 });

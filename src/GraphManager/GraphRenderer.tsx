@@ -5,6 +5,7 @@ import {
   ForceGraphLinkObject,
   ForceGraphRef,
   ForceGraphLinkObjectInitial,
+  BackendGraphData,
 } from "./types";
 import { /*zoomStep,*/ HasID } from "./Zoom";
 import {
@@ -328,6 +329,22 @@ export const makeGraphState = (
   return state;
 };
 
+interface GraphConverter {
+  (arg: { graph?: BackendGraphData }): ForceGraphGraphData | null;
+}
+export const convertBackendGraphToForceGraph: GraphConverter = (data) => {
+  if (!data || !data.graph) {
+    return null;
+  }
+  const fgGraph = JSON.parse(JSON.stringify(data.graph));
+  ["links", "nodes"].forEach((prop) => {
+    if (!fgGraph[prop]) {
+      fgGraph[prop] = [];
+    }
+  });
+  return fgGraph;
+};
+
 export const GraphRenderer = (props: GraphRendererProps) => {
   const [graph, setGraph] = useState<ForceGraphGraphData>(
     makeInitialGraphData(),
@@ -336,11 +353,11 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   const { language } = useUserDataContext();
   const { data, queryResponse } = useGraphData();
   useEffect(() => {
-    if (!data || !data.graph) {
+    const graph = convertBackendGraphToForceGraph(data);
+    if (!graph) {
       return;
     }
-    // @ts-ignore
-    setGraph(JSON.parse(JSON.stringify(data.graph)));
+    setGraph(graph);
   }, [queryResponse.loading, data]);
   const onLinkClick = onLinkClickFn(props.openVoteDialog);
   useEffect(() => {
