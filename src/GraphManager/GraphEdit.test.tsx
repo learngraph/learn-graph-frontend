@@ -54,6 +54,7 @@ export const makeMockController = () => {
       current: forceGraphMethods,
     },
     nodeDrag: {},
+    language: "en",
   };
   return ctrl;
 };

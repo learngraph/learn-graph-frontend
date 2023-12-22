@@ -32,6 +32,7 @@ import { GraphEditPopUp, GraphEditPopUpState } from "./GraphEditPopUp";
 import { useCreateNode } from "./hooks/useCreateNode";
 import { useCreateEdge } from "./hooks/useCreateEdge";
 import { CreateButton } from "./GraphEditCreateButton";
+import { useUserDataContext } from "src/UserDataContext";
 
 interface GraphRendererProps {
   graphDataRef: MutableRefObject<ForceGraphGraphData | null>;
@@ -332,6 +333,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     makeInitialGraphData(),
   );
   props.graphDataRef.current = graph;
+  const { language } = useUserDataContext();
   const { data, queryResponse } = useGraphData();
   useEffect(() => {
     if (!data || !data.graph) {
@@ -377,6 +379,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       state: nodeDrag,
       setState: setNodeDrag,
     },
+    language,
   };
   const onBackgroundClick = makeOnBackgroundClick(controller);
   const specialNodes: SpecialNodes = {}; // TODO(skep): move this into the Controller

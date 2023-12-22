@@ -41,13 +41,13 @@ export const openCreateNodePopUpAtMousePosition = (
 
 export const openCreateNodePopUpAtPagePosition = (
   pagePosition: Position,
-  { backend, graph, popUp, forceGraphRef }: Controller,
+  { backend, graph, popUp, forceGraphRef, language }: Controller,
 ) => {
   const onFormSubmit = async (form: NewNodeForm) => {
     backend
       .createNode({
         description: {
-          translations: [{ language: "en", content: form.nodeDescription }],
+          translations: [{ language: language, content: form.nodeDescription }],
         },
       })
       .then((result) => {
@@ -93,6 +93,7 @@ export interface Controller {
   popUp: PopUpControls;
   backend: Backend;
   nodeDrag: NodeDrag;
+  language: string;
 }
 
 export const makeOnBackgroundClick = (controller: Controller) => {
