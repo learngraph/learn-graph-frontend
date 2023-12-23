@@ -1,6 +1,6 @@
 import { Box, styled, TextField } from "@mui/material";
 import { FormikValues, useFormik } from "formik";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Autocomplete from "@mui/material/Autocomplete";
 
 export const StyledBox = styled(Box)(() => ({
@@ -63,6 +63,14 @@ export const TextFieldFormikGeneratorAutocomplete = (
     setSelectedOption(option);
     conf.formik.setFieldValue(conf.fieldName, conf.optionValue(option));
   };
+  useEffect(() => {
+    if (!!conf.defaultValue) {
+      handleInputChange(null, conf.defaultValue);
+    }
+    // NOTE: handleInputChange changes when called, thus adding it as
+    // dependency would create an infinite loop.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [conf.defaultValue]);
   //const handleKeyDown = (event: any) => {
   //  if (event.key === 'Tab') {
   //    select next entry?
@@ -74,7 +82,7 @@ export const TextFieldFormikGeneratorAutocomplete = (
       getOptionLabel={conf.optionLabel}
       value={selectedOption}
       onChange={handleInputChange}
-      defaultValue={conf.defaultValue}
+      defaultValue={""}
       freeSolo
       renderInput={(params) => (
         <TextField

@@ -1,3 +1,4 @@
+import { INTERIM_TMP_LINK_ID } from "./GraphEdit";
 import { isValidNodeForLink, nodeValidation } from "./GraphEditPopUp";
 import { ForceGraphNodeObject } from "./types";
 //import { LinkCreatePopUp, GraphEditPopUp } from "./GraphEditPopUp";
@@ -101,6 +102,24 @@ describe("isValidNodeForLink", () => {
     isValid.createError = (args) => args;
     // @ts-ignore
     expect(() => isValid.test("1")).toThrow("self-linking is not allowed");
+  });
+  it("should ignore a temporary existing link", () => {
+    // @ts-ignore
+    const [n1, n2]: ForceGraphNodeObject[] = [{ id: "1" }, { id: "2" }];
+    const isValid = isValidNodeForLink({
+      nodes: [n1, n2],
+      links: [{ id: INTERIM_TMP_LINK_ID, source: n1, target: n2, value: 5 }],
+    });
+    // @ts-ignore
+    isValid.parent = {
+      sourceNode: "1",
+      targetNode: "2",
+      linkWeight: 5,
+    };
+    // @ts-ignore
+    isValid.createError = (args) => args;
+    // @ts-ignore
+    expect(isValid.test("1")).toBe(true);
   });
 });
 
