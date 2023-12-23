@@ -48,7 +48,7 @@ export const CreateButton = ({ ctrl }: CreateButtonProps) => {
           ctrl,
         );
       case "newLink":
-        return openCreateLinkPopUp(ctrl);
+        return openCreateLinkPopUp(ctrl, undefined);
     }
   };
 

@@ -90,6 +90,7 @@ export const LinkWeightSlider = (props: LinkWeightSliderProps) => {
     _event: any,
     newValue: Number | Array<Number>,
   ) => {
+    console.log(`settings slider to ${newValue}`);
     props.setSliderValue(newValue);
   };
   // TODO(skep): translations

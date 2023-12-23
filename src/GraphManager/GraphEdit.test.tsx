@@ -9,8 +9,10 @@ import {
   onNodeDragEnd,
   Backend,
   openCreateLinkPopUp,
+  MAX_LINK_WEIGHT,
+  INTERIM_TMP_LINK_ID,
 } from "./GraphEdit";
-import { NewLinkForm } from "./GraphEditPopUp";
+import { GraphEditPopUpState, NewLinkForm } from "./GraphEditPopUp";
 import { ForceGraphLinkObject, ForceGraphNodeObject } from "./types";
 
 export const makeMockController = () => {
@@ -37,6 +39,7 @@ export const makeMockController = () => {
       addNode: jest.fn().mockName("graph.addNode"),
       addLink: jest.fn().mockName("graph.addLink"),
       removeLink: jest.fn().mockName("graph.removeLink"),
+      updateLink: jest.fn().mockName("graph.updateLink"),
     },
     popUp: {
       state: {
@@ -44,7 +47,13 @@ export const makeMockController = () => {
         title: "",
         details: "",
         nodeEdit: {
-          onFormSubmit: jest.fn().mockName("popUp.state.onFormSubmit"),
+          onFormSubmit: jest.fn().mockName("popUp.state.nodeEdit.onFormSubmit"),
+        },
+        linkEdit: {
+          onFormSubmit: jest.fn().mockName("popUp.state.linkEdit.onFormSubmit"),
+          onNonSubmitClose: jest
+            .fn()
+            .mockName("popUp.state.nodeEdit.onNonSubmitClose"),
         },
       },
       setState: jest.fn().mockName("popUp.setState"),
@@ -190,10 +199,10 @@ describe("onNodeDrag", () => {
     // @ts-ignore
     onNodeDrag({ graph, nodeDrag }, node_1, { x: 0, y: 0 });
     const interimLink: ForceGraphLinkObject = {
-      id: "INTERIM_TMP",
+      id: INTERIM_TMP_LINK_ID,
       source: node_1,
       target: node_3_close,
-      value: 10,
+      value: MAX_LINK_WEIGHT / 2,
     };
     const expDrag: NodeDragState = {
       dragSourceNode: node_1,
@@ -217,10 +226,10 @@ describe("onNodeDrag", () => {
     // @ts-ignore
     onNodeDrag({ graph, nodeDrag }, node_1, { x: 0, y: 0 });
     const interimLink: ForceGraphLinkObject = {
-      id: "INTERIM_TMP",
+      id: INTERIM_TMP_LINK_ID,
       source: node_1,
       target: node_3_close,
-      value: 10,
+      value: MAX_LINK_WEIGHT / 2,
     };
     const expDrag: NodeDragState = {
       dragSourceNode: node_1,
@@ -233,10 +242,10 @@ describe("onNodeDrag", () => {
     // @ts-ignore
     onNodeDrag({ graph, nodeDrag }, node_1, { x: 0, y: 0 });
     const interimLink2: ForceGraphLinkObject = {
-      id: "INTERIM_TMP",
+      id: INTERIM_TMP_LINK_ID,
       source: node_1,
       target: node_2_far,
-      value: 10,
+      value: MAX_LINK_WEIGHT / 2,
     };
     const expDrag2: NodeDragState = {
       dragSourceNode: node_1,
@@ -254,10 +263,10 @@ describe("onNodeDrag", () => {
     graph.current.nodes = [node_1, node_4_far, node_3_close, node_2_far];
     const link_12 = { id: "1", source: node_1, target: node_2_far, value: 5 };
     const link_42 = {
-      id: "INTERIM_TMP",
+      id: INTERIM_TMP_LINK_ID,
       source: node_4_far,
       target: node_2_far,
-      value: 10,
+      value: MAX_LINK_WEIGHT / 2,
     };
     graph.current.links = [link_12, link_42];
     const nodeDrag = makeNodeDragState({
@@ -291,40 +300,88 @@ describe("onNodeDragEnd", () => {
     );
     expect(backend.createLink).not.toHaveBeenCalled();
   });
-  it("shoud create link in backend, clear NodeDragState and assign new link ID from backend to interimLink", async () => {
-    const graph = makeGraphState();
+  it("shoud do same as openCreateLinkPopUp, with default values for links from interimLink", async () => {
+    const ctrl = makeMockController();
     const { node_1, node_3_close } = makeNodes();
     const interimLink = {
-      id: "INTERIM_TMP",
+      id: INTERIM_TMP_LINK_ID,
       source: node_1,
       target: node_3_close,
-      value: 10,
+      value: MAX_LINK_WEIGHT / 2,
     };
     const state: NodeDragState = { dragSourceNode: node_1, interimLink };
     const nodeDrag = { state, setState: jest.fn() };
-    const backend = makeBackend();
-    backend.createLink = jest
+    ctrl.backend.createLink = jest
       .fn()
-      .mockReturnValue({ data: { createEdge: { ID: "NEWID" } } });
+      .mockResolvedValue({ data: { createEdge: { ID: "newid" } } });
     await onNodeDragEnd(
       // @ts-ignore
-      { backend, graph, nodeDrag },
+      { ...ctrl, nodeDrag },
       node_1,
       { x: 0, y: 0 },
     );
-    expect(backend.createLink).toHaveBeenCalledTimes(1);
-    expect(backend.createLink).toHaveBeenNthCalledWith(1, {
-      from: interimLink.source.id,
-      to: interimLink.target.id,
-      weight: interimLink.value,
-    });
     expect(nodeDrag.setState).toHaveBeenCalledTimes(1);
     expect(nodeDrag.setState).toHaveBeenNthCalledWith(1, {});
-    expect(graph.updateLink).toHaveBeenCalledTimes(1);
-    expect(graph.updateLink).toHaveBeenNthCalledWith(1, interimLink, {
-      ...interimLink,
-      id: "NEWID",
+    expect(ctrl.popUp.setState).toHaveBeenCalledTimes(1);
+    const popUpSetState0 = ctrl.popUp.setState.mock.calls[0][0];
+    expect(popUpSetState0.nodeEdit).toBe(undefined);
+    expect(popUpSetState0.isOpen).toBe(true);
+    expect(popUpSetState0.title).toEqual("Create new learning dependency");
+    expect(popUpSetState0.linkEdit.onFormSubmit).not.toBe(undefined);
+    const content: NewLinkForm = {
+      sourceNode: interimLink.source.id,
+      targetNode: interimLink.target.id,
+      linkWeight: 8.8,
+    };
+    await popUpSetState0.linkEdit.onFormSubmit(content);
+    expect(ctrl.backend.createLink).toHaveBeenCalledTimes(1);
+    expect(ctrl.backend.createLink).toHaveBeenNthCalledWith(1, {
+      from: interimLink.source.id,
+      to: interimLink.target.id,
+      weight: 8.8,
     });
+    expect(ctrl.graph.addLink).toHaveBeenCalledTimes(0);
+    expect(ctrl.graph.updateLink).toHaveBeenCalledTimes(1);
+    expect(ctrl.graph.updateLink).toHaveBeenNthCalledWith(1, interimLink, {
+      ...interimLink,
+      id: "newid",
+      value: 8.8,
+    });
+  });
+  it("shoud do same as openCreateLinkPopUp, but remove the temporary link onCancel", async () => {
+    const ctrl = makeMockController();
+    // @ts-ignore: mock type
+    ctrl.popUp.setState = (state: GraphEditPopUpState) => {
+      // @ts-ignore: mock type
+      ctrl.popUp.state = state;
+    };
+    const { node_1, node_3_close } = makeNodes();
+    const interimLink = {
+      id: INTERIM_TMP_LINK_ID,
+      source: node_1,
+      target: node_3_close,
+      value: MAX_LINK_WEIGHT / 2,
+    };
+    const state: NodeDragState = { dragSourceNode: node_1, interimLink };
+    const nodeDrag = { state, setState: jest.fn() };
+    ctrl.backend.createLink = jest
+      .fn()
+      .mockResolvedValue({ data: { createEdge: { ID: "newid" } } });
+    await onNodeDragEnd(
+      // @ts-ignore
+      { ...ctrl, nodeDrag },
+      node_1,
+      { x: 0, y: 0 },
+    );
+    expect(nodeDrag.setState).toHaveBeenCalledTimes(1);
+    expect(nodeDrag.setState).toHaveBeenNthCalledWith(1, {});
+    const popUpSetState0 = ctrl.popUp.state;
+    expect(popUpSetState0.nodeEdit).toBe(undefined);
+    expect(popUpSetState0.isOpen).toBe(true);
+    expect(popUpSetState0.title).toEqual("Create new learning dependency");
+    expect(popUpSetState0.linkEdit.onFormSubmit).not.toBe(undefined);
+    await ctrl.popUp.state.linkEdit.onNonSubmitClose();
+    expect(ctrl.graph.removeLink).toHaveBeenCalledTimes(1);
   });
 });
 

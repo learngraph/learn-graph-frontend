@@ -13,7 +13,7 @@ import {
   TextFieldFormikGeneratorAutocomplete,
 } from "./components/LoginManager/Styles";
 import { useFormik } from "formik";
-import { Controller, MAX_LINK_WEIGHT } from "./GraphEdit";
+import { Controller, INTERIM_TMP_LINK_ID } from "./GraphEdit";
 import { DialogueStyles, LinkWeightSlider } from "./components/VoteDialog";
 import { ForceGraphGraphData, ForceGraphNodeObject } from "./types";
 import * as yup from "yup";
@@ -40,8 +40,14 @@ export interface GraphEditPopUpState {
 export interface NodeEdit {
   onFormSubmit: (form: NewNodeForm) => void;
 }
+export interface LinkEditDefaultValues {
+  source?: ForceGraphNodeObject;
+  target?: ForceGraphNodeObject;
+}
 export interface LinkEdit {
   onFormSubmit: (form: NewLinkForm) => void;
+  defaults?: LinkEditDefaultValues;
+  onNonSubmitClose?: () => void;
 }
 
 export interface NewNodeForm {
@@ -104,7 +110,7 @@ export const isValidNodeForLink = (graph: ForceGraphGraphData) => {
       const { parent }: { parent: NewLinkForm } = this;
       const sourceID = parent.sourceNode;
       const targetID = parent.targetNode;
-      if (!sourceID && !targetID) {
+      if ((!sourceID && !targetID) || !value) {
         return true;
       }
       if (sourceID === targetID) {
@@ -119,11 +125,10 @@ export const isValidNodeForLink = (graph: ForceGraphGraphData) => {
           message: `node ${value} does not exist`,
         });
       }
-      if (
-        !!graph.links.find(
-          (link) => link.source.id === sourceID && link.target.id === targetID,
-        )
-      ) {
+      const existingLink = graph.links.find(
+        (link) => link.source.id === sourceID && link.target.id === targetID,
+      );
+      if (!!existingLink && existingLink.id !== INTERIM_TMP_LINK_ID) {
         throw this.createError({
           path: this.path,
           message: "link already exists",
@@ -152,11 +157,17 @@ export const LinkCreatePopUp = ({
     }),
     onSubmit: (form: NewLinkForm) => {
       // @ts-ignore: FIXME
-      const value: number = sliderValue * MAX_LINK_WEIGHT;
+      const value: number = sliderValue;
       ctrl.popUp.state.linkEdit?.onFormSubmit({ ...form, linkWeight: value });
       handleClose();
     },
   });
+  const extendedHandleClose = () => {
+    if (!!ctrl.popUp.state.linkEdit?.onNonSubmitClose) {
+      ctrl.popUp.state.linkEdit?.onNonSubmitClose();
+    }
+    handleClose();
+  };
   useEffect(() => {
     return addKeyboardShortcuts(formik);
   }, [formik]);
@@ -178,7 +189,7 @@ export const LinkCreatePopUp = ({
       options={nodes}
       optionLabel={getLabelForNode}
       optionValue={getIDForNode}
-      defaultValue=""
+      defaultValue={ctrl.popUp.state.linkEdit?.defaults?.source ?? ""}
     />,
   );
   fields.push(
@@ -189,7 +200,7 @@ export const LinkCreatePopUp = ({
       options={nodes}
       optionLabel={getLabelForNode}
       optionValue={getIDForNode}
-      defaultValue=""
+      defaultValue={ctrl.popUp.state.linkEdit?.defaults?.target ?? ""}
     />,
   );
   fields.push(
@@ -199,7 +210,7 @@ export const LinkCreatePopUp = ({
     <DraggableForm
       ctrl={ctrl}
       popUp={ctrl.popUp}
-      handleClose={handleClose}
+      handleClose={extendedHandleClose}
       fields={fields}
       formik={formik}
     />

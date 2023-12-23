@@ -1,5 +1,10 @@
 import { Dispatch, SetStateAction } from "react";
-import { NewLinkForm, NewNodeForm, PopUpControls } from "./GraphEditPopUp";
+import {
+  LinkEditDefaultValues,
+  NewLinkForm,
+  NewNodeForm,
+  PopUpControls,
+} from "./GraphEditPopUp";
 import { CreateNodeFn } from "./hooks/useCreateNode";
 import { CreateEdgeFn } from "./hooks/useCreateEdge";
 import {
@@ -119,6 +124,7 @@ const snapInOutDistances = [15, 40];
 export const DRAG_snapInDistanceSquared = Math.pow(snapInOutDistances[0], 2);
 export const DRAG_snapOutDistanceSquared = Math.pow(snapInOutDistances[1], 2);
 
+export const INTERIM_TMP_LINK_ID = "INTERIM_TMP";
 export const onNodeDrag = (
   { graph, nodeDrag: { state: nodeDrag, setState: setNodeDrag } }: Controller,
   dragSourceNode: ForceGraphNodeObject,
@@ -135,10 +141,10 @@ export const onNodeDrag = (
     target: ForceGraphNodeObject,
   ) => {
     const interimLink = {
-      id: "INTERIM_TMP",
+      id: INTERIM_TMP_LINK_ID,
       source,
       target,
-      value: MAX_LINK_WEIGHT,
+      value: MAX_LINK_WEIGHT / 2,
     }; // TODO(skep): using GraphDataContextActions will remove the in-line temporary string
     setNodeDrag({ ...nodeDrag, interimLink });
     graph.addLink(interimLink!);
@@ -187,29 +193,25 @@ export const makeOnNodeDrag = (controller: Controller) => {
 };
 
 export const onNodeDragEnd = async (
-  {
-    graph,
-    backend,
-    nodeDrag: { state: nodeDrag, setState: setNodeDrag },
-  }: Controller,
+  ctrl: Controller,
   _: ForceGraphNodeObject,
   __: Position,
 ) => {
-  if (nodeDrag.interimLink === undefined) {
+  if (ctrl.nodeDrag.state.interimLink === undefined) {
     return;
   }
-  const link = nodeDrag.interimLink;
-  setNodeDrag({});
-  const newLink = await backend.createLink({
-    from: link.source.id,
-    to: link.target.id,
-    weight: link.value,
+  const interimLink = ctrl.nodeDrag.state.interimLink;
+  ctrl.nodeDrag.setState({});
+  openCreateLinkPopUp(ctrl, {
+    linkEditDefaults: {
+      source: interimLink.source,
+      target: interimLink.target,
+    },
+    updateExistingLink: interimLink,
+    onCancel: () => {
+      ctrl.graph.removeLink(interimLink);
+    },
   });
-  if (!newLink || !newLink.data || !newLink.data.createEdge.ID) {
-    console.log("failed to create link in backend");
-    return;
-  }
-  graph.updateLink(link, { ...link, id: newLink.data.createEdge.ID });
   // TODO(skep): use this solution to reduce chaos while dragging:
   //    https://github.com/vasturiano/react-force-graph/issues/124
 
@@ -223,7 +225,16 @@ export const makeOnNodeDragEnd = (controller: Controller) => {
   };
 };
 
-export const openCreateLinkPopUp = (ctrl: Controller) => {
+export interface LinkEditPopUpConfig {
+  linkEditDefaults?: LinkEditDefaultValues;
+  updateExistingLink?: ForceGraphLinkObject;
+  onCancel?: () => void;
+}
+
+export const openCreateLinkPopUp = (
+  ctrl: Controller,
+  conf?: LinkEditPopUpConfig,
+) => {
   const onFormSubmit = async (form: NewLinkForm) => {
     const result = await ctrl.backend.createLink({
       from: form.sourceNode,
@@ -234,18 +245,31 @@ export const openCreateLinkPopUp = (ctrl: Controller) => {
       // TODO(skep): display error to user?!
       return;
     }
-    const link: ForceGraphLinkObjectInitial = {
-      id: result.data!.createEdge.ID,
-      source: form.sourceNode,
-      target: form.targetNode,
-      value: form.linkWeight,
-    };
-    ctrl.graph.addLink(link);
+    const linkID = result.data!.createEdge.ID;
+    if (!!conf?.updateExistingLink) {
+      ctrl.graph.updateLink(conf.updateExistingLink, {
+        ...conf.updateExistingLink,
+        value: form.linkWeight,
+        id: linkID,
+      });
+    } else {
+      const link: ForceGraphLinkObjectInitial = {
+        id: linkID,
+        source: form.sourceNode,
+        target: form.targetNode,
+        value: form.linkWeight,
+      };
+      ctrl.graph.addLink(link);
+    }
   };
   ctrl.popUp.setState({
     nodeEdit: undefined,
     isOpen: true,
     title: "Create new learning dependency",
-    linkEdit: { onFormSubmit },
+    linkEdit: {
+      onFormSubmit,
+      defaults: conf?.linkEditDefaults,
+      onNonSubmitClose: conf?.onCancel,
+    },
   });
 };
