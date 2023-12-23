@@ -487,4 +487,43 @@ describe("openCreateLinkPopUp", () => {
     });
     expect(ctrl.graph.addLink).toHaveBeenCalledTimes(0);
   });
+  it("should remove temporary links, if nodes were changed by the popUp form", async () => {
+    const ctrl = makeMockController();
+    const [n1, n2, n3] = [{ id: "1", description: "ok 1" }, { id: "2", description: "ok 2" }, { id: "3", description: "ok 3" }];
+    ctrl.graph.current.nodes = [n1, n2, n3];
+    const link12 = { id: INTERIM_TMP_LINK_ID, source: n1, target: n2, value: 5 };
+    ctrl.graph.current.links = [link12];
+    ctrl.backend.createLink.mockResolvedValue({
+      data: { createEdge: { ID: "newid" } },
+    });
+    // @ts-ignore
+    openCreateLinkPopUp(ctrl, {updateExistingLink: link12});
+    expect(ctrl.popUp.setState).toHaveBeenCalledTimes(1);
+    const popUpSetState0 = ctrl.popUp.setState.mock.calls[0][0];
+    expect(popUpSetState0.nodeEdit).toBe(undefined);
+    expect(popUpSetState0.isOpen).toBe(true);
+    expect(popUpSetState0.title).toEqual("Create new learning dependency");
+    expect(popUpSetState0.linkEdit.onFormSubmit).not.toBe(undefined);
+    const content: NewLinkForm = {
+      sourceNode: "3", // changed source node by user in form
+      targetNode: "2",
+      linkWeight: 2.2,
+    };
+    await popUpSetState0.linkEdit.onFormSubmit(content);
+    expect(ctrl.backend.createLink).toHaveBeenCalledTimes(1);
+    expect(ctrl.backend.createLink).toHaveBeenNthCalledWith(1, {
+      from: "3",
+      to: "2",
+      weight: 2.2,
+    });
+    expect(ctrl.graph.removeLink).toHaveBeenCalledTimes(1);
+    expect(ctrl.graph.removeLink).toHaveBeenNthCalledWith(1, link12);
+    expect(ctrl.graph.addLink).toHaveBeenCalledTimes(1);
+    expect(ctrl.graph.addLink).toHaveBeenNthCalledWith(1, {
+      id: "newid",
+      source: "3",
+      target: "2",
+      value: 2.2,
+    });
+  });
 });
