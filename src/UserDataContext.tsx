@@ -6,6 +6,7 @@ import {
   ApolloLink,
   HttpLink,
 } from "@apollo/client";
+import { onError } from "@apollo/client/link/error";
 import { setContext, ContextSetter } from "@apollo/client/link/context";
 import fetch from "cross-fetch";
 import { addAuthHeader, addLanguageHeader, addUserIDHeader } from "./rpc/link";
@@ -53,6 +54,21 @@ const storageSave = (key: string, value: any) => {
 const storageLoad = (key: string) => {
   return JSON.parse(localStorage.getItem(key) ?? `""`);
 };
+
+const notifyUserOnNotLoggedInError = onError(
+  ({ graphQLErrors, networkError }) => {
+    if (graphQLErrors) {
+      graphQLErrors.forEach(({ message }) => {
+        if (message.includes("only logged in user may create graph data")) {
+          alert("Please login/signup to contribute!"); // TODO(skep): make it a nice MUI-popup
+        }
+      });
+    }
+    if (networkError) {
+      console.error(`[Network error]: ${networkError}`);
+    }
+  },
+);
 
 export const UserDataContextProvider: React.FC<{
   children: React.ReactNode;
@@ -103,7 +119,9 @@ export const UserDataContextProvider: React.FC<{
   const cache = new InMemoryCache();
   const client = new ApolloClient({
     cache: cache,
-    link: linkUserID.concat(linkLang.concat(linkAuth.concat(linkHttp))),
+    link: notifyUserOnNotLoggedInError.concat(
+      linkUserID.concat(linkLang.concat(linkAuth.concat(linkHttp))),
+    ),
   });
 
   return (
