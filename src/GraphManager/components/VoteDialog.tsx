@@ -8,6 +8,7 @@ import { Mark } from "@mui/base/useSlider";
 import { Typography } from "@mui/material";
 import { SubmitVoteFn } from "../hooks/useSubmitVote";
 import { ForceGraphLinkObject } from "../types";
+import { MAX_LINK_WEIGHT } from "../GraphEdit";
 
 type VoteDialogProps = {
   isDialogOpen: boolean;
@@ -40,7 +41,9 @@ export const VoteDialog = ({
   linkInfo: { link },
   submitVote,
 }: VoteDialogProps): JSX.Element => {
-  const [sliderValue, setSliderValue] = useState<Number | Array<Number>>(0.5);
+  const [sliderValue, setSliderValue] = useState<Number | Array<Number>>(
+    MAX_LINK_WEIGHT / 2,
+  );
   const handleSubmitClick = () => {
     setDialogOpen(false);
     if (!link || !link.id || !sliderValue || typeof sliderValue !== "number") {
@@ -67,7 +70,7 @@ export const VoteDialog = ({
             {link?.target?.description}" is required with a weight of
           </Typography>
           <LinkWeightSlider
-            defaultValue={link?.value ?? 0}
+            defaultValue={MAX_LINK_WEIGHT / 2}
             setSliderValue={setSliderValue}
           />
           <Box sx={DialogueStyles.dialogButtons}>
@@ -90,7 +93,6 @@ export const LinkWeightSlider = (props: LinkWeightSliderProps) => {
     _event: any,
     newValue: Number | Array<Number>,
   ) => {
-    console.log(`settings slider to ${newValue}`);
     props.setSliderValue(newValue);
   };
   // TODO(skep): translations
@@ -113,8 +115,8 @@ export const LinkWeightSlider = (props: LinkWeightSliderProps) => {
       defaultValue={props.defaultValue}
       onChange={onSliderValueChange}
       step={0.01}
-      min={0}
-      max={10}
+      min={0.00001}
+      max={MAX_LINK_WEIGHT}
       marks={marks}
     />
   );

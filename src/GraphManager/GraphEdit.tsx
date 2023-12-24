@@ -246,7 +246,11 @@ export const openCreateLinkPopUp = (
       return;
     }
     const linkID = result.data!.createEdge.ID;
-    if (!!conf?.updateExistingLink && form.sourceNode === conf.updateExistingLink.source.id && form.targetNode === conf.updateExistingLink.target.id) {
+    if (
+      !!conf?.updateExistingLink &&
+      form.sourceNode === conf.updateExistingLink.source.id &&
+      form.targetNode === conf.updateExistingLink.target.id
+    ) {
       ctrl.graph.updateLink(conf.updateExistingLink, {
         ...conf.updateExistingLink,
         value: form.linkWeight,

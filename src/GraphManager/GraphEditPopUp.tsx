@@ -13,7 +13,7 @@ import {
   TextFieldFormikGeneratorAutocomplete,
 } from "./components/LoginManager/Styles";
 import { useFormik } from "formik";
-import { Controller, INTERIM_TMP_LINK_ID } from "./GraphEdit";
+import { Controller, INTERIM_TMP_LINK_ID, MAX_LINK_WEIGHT } from "./GraphEdit";
 import { DialogueStyles, LinkWeightSlider } from "./components/VoteDialog";
 import { ForceGraphGraphData, ForceGraphNodeObject } from "./types";
 import * as yup from "yup";
@@ -204,7 +204,10 @@ export const LinkCreatePopUp = ({
     />,
   );
   fields.push(
-    <LinkWeightSlider defaultValue={5} setSliderValue={setSliderValue} />,
+    <LinkWeightSlider
+      defaultValue={MAX_LINK_WEIGHT / 2}
+      setSliderValue={setSliderValue}
+    />,
   );
   return (
     <DraggableForm

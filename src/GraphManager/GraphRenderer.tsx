@@ -224,7 +224,7 @@ export const linkCanvasObject = (
   }
   drawTextWithBackground(
     {
-      text: String(link.value),
+      text: String(Math.round(link.value * 100) / 100),
       fontSize: config.fontSize / globalScale,
       backgroundColor: backgroundColorWhite,
     },
