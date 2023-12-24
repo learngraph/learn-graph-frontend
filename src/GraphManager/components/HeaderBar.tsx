@@ -7,6 +7,8 @@ import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import LoginManager from "./LoginManager";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
 
 const BarItems = styled("div")(({ theme }) => ({
   display: "flex",
@@ -64,10 +66,12 @@ interface HeaderBarProps {
 }
 
 export default function HeaderBar(props: HeaderBarProps) {
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.only("xs"));
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
-        <Toolbar>
+        <Toolbar sx={{ paddingY: isSmallScreen ? 2 : 0 }}>
           <Typography
             variant="h6"
             noWrap
