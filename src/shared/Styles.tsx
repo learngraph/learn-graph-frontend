@@ -112,3 +112,14 @@ export const TextFieldFormikGeneratorAutocomplete = (
     />
   );
 };
+
+export const DialogueStyles = {
+  dialogRoot: {
+    padding: "20px",
+    minWidth: "400px",
+  },
+  dialogButtons: {
+    display: "flex",
+    justifyContent: "space-evenly",
+  },
+};

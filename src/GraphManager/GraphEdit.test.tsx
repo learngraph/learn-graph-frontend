@@ -11,6 +11,7 @@ import {
   openCreateLinkPopUp,
   DEFAULT_EDIT_LINK_WEIGHT,
   INTERIM_TMP_LINK_ID,
+  onLinkClick,
 } from "./GraphEdit";
 import { GraphEditPopUpState, NewLinkForm } from "./GraphEditPopUp";
 import { ForceGraphLinkObject, ForceGraphNodeObject } from "./types";
@@ -32,6 +33,7 @@ export const makeMockController = () => {
     backend: {
       createNode: jest.fn().mockName("backend.createNode"),
       createLink: jest.fn().mockName("backend.createLink"),
+      submitVote: jest.fn().mockName("backend.submitVote"),
     },
     graph: {
       current: emptyGraph,
@@ -282,10 +284,8 @@ describe("onNodeDrag", () => {
 
 describe("onNodeDragEnd", () => {
   const makeBackend = () => {
-    const b: Backend = {
-      createNode: jest.fn(),
-      createLink: jest.fn(),
-    };
+    const ctrl = makeMockController();
+    const b: Backend = ctrl.backend;
     return b;
   };
   it("shoud do nothing if no interimLink exists", () => {
@@ -534,5 +534,36 @@ describe("openCreateLinkPopUp", () => {
       target: "2",
       value: 2.2,
     });
+  });
+});
+
+describe("onLinkClick", () => {
+  it("should open link popUp", () => {
+    const ctrl = makeMockController();
+    const link = {
+      id: 9,
+      source: { id: 1, description: "A" },
+      target: { id: 2, description: "B" },
+      value: 5,
+    };
+    // @ts-ignore
+    onLinkClick(ctrl, link);
+    expect(ctrl.popUp.setState).toHaveBeenCalledTimes(1);
+    const args = ctrl.popUp.setState.mock.calls[0][0];
+    expect(args.isOpen).toBe(true);
+    expect(args.title).toEqual(
+      `To learn about "A" knowledge of "B" is required with a weight of`,
+    );
+    expect(args.linkVote?.onSubmit).not.toBe(undefined);
+    args.linkVote?.onSubmit(2.2);
+    ctrl.backend.submitVote.mockResolvedValue({}); // nothing means, no error
+    expect(ctrl.backend.submitVote).toHaveBeenCalledTimes(1);
+    expect(ctrl.backend.submitVote).toHaveBeenNthCalledWith(1, {
+      ID: 9,
+      value: 2.2,
+    });
+    // XXX(skep): should we update the display? probably just a popUp:
+    // "successfully voted!", otherwise RPC has to be extended..
+    //expect(ctrl.graph.updateLink)
   });
 });

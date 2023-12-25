@@ -16,7 +16,7 @@ export interface SubmitVoteFnArgs {
   value: number;
 }
 export interface SubmitVoteFn {
-  (argument: SubmitVoteFnArgs): any;
+  (argument: SubmitVoteFnArgs): Promise<SubmitVoteFnResponse>;
 }
 
 export interface SubmitVoteFnResponse {

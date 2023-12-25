@@ -1,4 +1,4 @@
-import { GraphManagerContainer } from "./GraphManager/GraphManagerContainer";
+import { GraphManager } from "./GraphManager/GraphManager";
 import { GraphDataContextProvider } from "./GraphDataContext";
 import { UserDataContextProvider } from "./UserDataContext";
 //import {ThemeProvider} from "@emotion/react";
@@ -17,7 +17,7 @@ export const App = () => {
     <>
       <UserDataContextProvider>
         <GraphDataContextProvider>
-          <GraphManagerContainer />
+          <GraphManager />
         </GraphDataContextProvider>
       </UserDataContextProvider>
     </>

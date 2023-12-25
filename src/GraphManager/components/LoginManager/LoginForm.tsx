@@ -9,7 +9,11 @@ import {
   Typography,
 } from "@mui/material";
 import { LockOutlined } from "@mui/icons-material";
-import { StyledBox, StyledBoxSX, TextFieldFormikGenerator } from "./Styles";
+import {
+  StyledBox,
+  StyledBoxSX,
+  TextFieldFormikGenerator,
+} from "src/shared/Styles";
 import { useFormik } from "formik";
 import { UserLoginInfo } from "src/GraphManager/hooks/useLoginUser";
 import { validateUserLoginRequest } from "./InputValidation";

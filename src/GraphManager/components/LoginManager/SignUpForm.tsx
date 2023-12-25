@@ -3,7 +3,11 @@ import { useFormik } from "formik";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import { UserSignupInfo } from "src/GraphManager/hooks/useCreateUser";
 import { validateUserSignupRequest } from "./InputValidation";
-import { StyledBox, StyledBoxSX, TextFieldFormikGenerator } from "./Styles";
+import {
+  StyledBox,
+  StyledBoxSX,
+  TextFieldFormikGenerator,
+} from "src/shared/Styles";
 
 interface SignUpFormProps {
   onSubmit: (data: UserSignupInfo) => void;

@@ -58,8 +58,14 @@ interface GraphDataContextValues {
   updateNode: UpdateNodeFn;
   createLink: CreateEdgeFn;
   submitVote: SubmitVoteFn;
+
+  // TODO(skep): move these calls to userDataContext? or create a
+  // UserController object passed through the components similar to the
+  // Controller in the GraphEdit component
+  // XXX: afterward the whole GraphDataContext can be removed!
   createUserWithEMail: CreateUserWithMailFn;
   loginUser: LoginFn;
+
   // apply graph data changes to react state
   setNodes: React.Dispatch<React.SetStateAction<TranslatedNode[]>>;
   setLinks: React.Dispatch<React.SetStateAction<LinkType[]>>;

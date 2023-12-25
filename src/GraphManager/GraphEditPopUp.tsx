@@ -8,19 +8,61 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Paper, { PaperProps } from "@mui/material/Paper";
 import Tooltip from "@mui/material/Tooltip";
 import Draggable from "react-draggable";
-import {
-  TextFieldFormikGenerator,
-  TextFieldFormikGeneratorAutocomplete,
-} from "./components/LoginManager/Styles";
+import Slider from "@mui/material/Slider";
+import { Mark } from "@mui/base/useSlider";
 import { useFormik } from "formik";
 import {
   Controller,
   DEFAULT_EDIT_LINK_WEIGHT,
   INTERIM_TMP_LINK_ID,
+  MAX_LINK_WEIGHT,
 } from "./GraphEdit";
-import { DialogueStyles, LinkWeightSlider } from "./components/VoteDialog";
+import {
+  DialogueStyles,
+  TextFieldFormikGenerator,
+  TextFieldFormikGeneratorAutocomplete,
+} from "src/shared/Styles";
 import { ForceGraphGraphData, ForceGraphNodeObject } from "./types";
 import * as yup from "yup";
+
+interface LinkWeightSliderProps {
+  defaultValue: number;
+  setSliderValue: React.Dispatch<React.SetStateAction<Number | Array<Number>>>;
+}
+
+export const LinkWeightSlider = (props: LinkWeightSliderProps) => {
+  const onSliderValueChange = (
+    _event: any,
+    newValue: Number | Array<Number>,
+  ) => {
+    props.setSliderValue(newValue);
+  };
+  // TODO(skep): translations
+  const marks: Mark[] = [
+    {
+      value: 1,
+      label: "Irrelevant",
+    },
+    {
+      value: 5,
+      label: "Useful",
+    },
+    {
+      value: 9,
+      label: "Necessary",
+    },
+  ];
+  return (
+    <Slider
+      defaultValue={props.defaultValue}
+      onChange={onSliderValueChange}
+      step={0.01}
+      min={0.00001}
+      max={MAX_LINK_WEIGHT}
+      marks={marks}
+    />
+  );
+};
 
 const DraggablePaperComponent = (props: PaperProps) => {
   return (
@@ -39,6 +81,7 @@ export interface GraphEditPopUpState {
   details?: string;
   nodeEdit?: NodeEdit;
   linkEdit?: LinkEdit;
+  linkVote?: LinkVote;
 }
 
 export interface NodeEdit {
@@ -52,6 +95,10 @@ export interface LinkEdit {
   onFormSubmit: (form: NewLinkForm) => void;
   defaults?: LinkEditDefaultValues;
   onNonSubmitClose?: () => void;
+}
+
+export interface LinkVote {
+  onSubmit: (value: number) => void;
 }
 
 export interface NewNodeForm {
@@ -85,6 +132,8 @@ export const GraphEditPopUp = ({ ctrl }: GraphEditPopUpProps) => {
     return <NodeEditPopUp handleClose={handleClose} ctrl={ctrl} />;
   } else if (!!popUp.state.linkEdit) {
     return <LinkCreatePopUp handleClose={handleClose} ctrl={ctrl} />;
+  } else if (!!popUp.state.linkVote) {
+    return <LinkVotePopUp handleClose={handleClose} ctrl={ctrl} />;
   } else {
     return <></>;
   }
@@ -220,6 +269,43 @@ export const LinkCreatePopUp = ({
       ctrl={ctrl}
       popUp={ctrl.popUp}
       handleClose={extendedHandleClose}
+      fields={fields}
+      formik={formik}
+    />
+  );
+};
+
+interface VoteLinkForm {
+  linkWeight: number;
+}
+const LinkVotePopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
+  const [sliderValue, setSliderValue] = useState<Number | Array<Number>>(
+    DEFAULT_EDIT_LINK_WEIGHT,
+  );
+  const formik = useFormik<VoteLinkForm>({
+    initialValues: {
+      linkWeight: 5,
+    },
+    validationSchema: null,
+    onSubmit: (_: VoteLinkForm) => {
+      // @ts-ignore: FIXME
+      const value: number = sliderValue;
+      ctrl.popUp.state.linkVote?.onSubmit(value);
+      handleClose();
+    },
+  });
+  const fields = [];
+  fields.push(
+    <LinkWeightSlider
+      defaultValue={DEFAULT_EDIT_LINK_WEIGHT}
+      setSliderValue={setSliderValue}
+    />,
+  );
+  return (
+    <DraggableForm
+      ctrl={ctrl}
+      popUp={ctrl.popUp}
+      handleClose={handleClose}
       fields={fields}
       formik={formik}
     />
