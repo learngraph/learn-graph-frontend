@@ -17,6 +17,7 @@ import {
 import { Position } from "./GraphRenderer";
 
 export const MAX_LINK_WEIGHT = 10;
+export const DEFAULT_EDIT_LINK_WEIGHT = MAX_LINK_WEIGHT / 2;
 
 export interface GraphState {
   current: ForceGraphGraphData;
@@ -144,7 +145,7 @@ export const onNodeDrag = (
       id: INTERIM_TMP_LINK_ID,
       source,
       target,
-      value: MAX_LINK_WEIGHT / 2,
+      value: DEFAULT_EDIT_LINK_WEIGHT,
     }; // TODO(skep): using GraphDataContextActions will remove the in-line temporary string
     setNodeDrag({ ...nodeDrag, interimLink });
     graph.addLink(interimLink!);

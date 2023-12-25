@@ -9,7 +9,7 @@ import {
   onNodeDragEnd,
   Backend,
   openCreateLinkPopUp,
-  MAX_LINK_WEIGHT,
+  DEFAULT_EDIT_LINK_WEIGHT,
   INTERIM_TMP_LINK_ID,
 } from "./GraphEdit";
 import { GraphEditPopUpState, NewLinkForm } from "./GraphEditPopUp";
@@ -202,7 +202,7 @@ describe("onNodeDrag", () => {
       id: INTERIM_TMP_LINK_ID,
       source: node_1,
       target: node_3_close,
-      value: MAX_LINK_WEIGHT / 2,
+      value: DEFAULT_EDIT_LINK_WEIGHT,
     };
     const expDrag: NodeDragState = {
       dragSourceNode: node_1,
@@ -229,7 +229,7 @@ describe("onNodeDrag", () => {
       id: INTERIM_TMP_LINK_ID,
       source: node_1,
       target: node_3_close,
-      value: MAX_LINK_WEIGHT / 2,
+      value: DEFAULT_EDIT_LINK_WEIGHT,
     };
     const expDrag: NodeDragState = {
       dragSourceNode: node_1,
@@ -245,7 +245,7 @@ describe("onNodeDrag", () => {
       id: INTERIM_TMP_LINK_ID,
       source: node_1,
       target: node_2_far,
-      value: MAX_LINK_WEIGHT / 2,
+      value: DEFAULT_EDIT_LINK_WEIGHT,
     };
     const expDrag2: NodeDragState = {
       dragSourceNode: node_1,
@@ -266,7 +266,7 @@ describe("onNodeDrag", () => {
       id: INTERIM_TMP_LINK_ID,
       source: node_4_far,
       target: node_2_far,
-      value: MAX_LINK_WEIGHT / 2,
+      value: DEFAULT_EDIT_LINK_WEIGHT,
     };
     graph.current.links = [link_12, link_42];
     const nodeDrag = makeNodeDragState({
@@ -307,7 +307,7 @@ describe("onNodeDragEnd", () => {
       id: INTERIM_TMP_LINK_ID,
       source: node_1,
       target: node_3_close,
-      value: MAX_LINK_WEIGHT / 2,
+      value: DEFAULT_EDIT_LINK_WEIGHT,
     };
     const state: NodeDragState = { dragSourceNode: node_1, interimLink };
     const nodeDrag = { state, setState: jest.fn() };
@@ -360,7 +360,7 @@ describe("onNodeDragEnd", () => {
       id: INTERIM_TMP_LINK_ID,
       source: node_1,
       target: node_3_close,
-      value: MAX_LINK_WEIGHT / 2,
+      value: DEFAULT_EDIT_LINK_WEIGHT,
     };
     const state: NodeDragState = { dragSourceNode: node_1, interimLink };
     const nodeDrag = { state, setState: jest.fn() };

@@ -13,7 +13,11 @@ import {
   TextFieldFormikGeneratorAutocomplete,
 } from "./components/LoginManager/Styles";
 import { useFormik } from "formik";
-import { Controller, INTERIM_TMP_LINK_ID, MAX_LINK_WEIGHT } from "./GraphEdit";
+import {
+  Controller,
+  DEFAULT_EDIT_LINK_WEIGHT,
+  INTERIM_TMP_LINK_ID,
+} from "./GraphEdit";
 import { DialogueStyles, LinkWeightSlider } from "./components/VoteDialog";
 import { ForceGraphGraphData, ForceGraphNodeObject } from "./types";
 import * as yup from "yup";
@@ -144,7 +148,9 @@ export const LinkCreatePopUp = ({
   handleClose,
   ctrl,
 }: SubGraphEditPopUpProps) => {
-  const [sliderValue, setSliderValue] = useState<Number | Array<Number>>(0.5);
+  const [sliderValue, setSliderValue] = useState<Number | Array<Number>>(
+    DEFAULT_EDIT_LINK_WEIGHT,
+  );
   const formik = useFormik<NewLinkForm>({
     initialValues: {
       sourceNode: "",
@@ -205,7 +211,7 @@ export const LinkCreatePopUp = ({
   );
   fields.push(
     <LinkWeightSlider
-      defaultValue={MAX_LINK_WEIGHT / 2}
+      defaultValue={DEFAULT_EDIT_LINK_WEIGHT}
       setSliderValue={setSliderValue}
     />,
   );
