@@ -28,12 +28,14 @@ import {
   NodeDragState,
   makeOnNodeDrag,
   makeOnNodeDragEnd,
+  makeOnLinkClick,
 } from "./GraphEdit";
 import { GraphEditPopUp, GraphEditPopUpState } from "./GraphEditPopUp";
 import { useCreateNode } from "./hooks/useCreateNode";
 import { useCreateEdge } from "./hooks/useCreateEdge";
 import { CreateButton } from "./GraphEditCreateButton";
 import { useUserDataContext } from "src/UserDataContext";
+import { useSubmitVote } from "./hooks/useSubmitVote";
 
 interface GraphRendererProps {
   graphDataRef: MutableRefObject<ForceGraphGraphData | null>;
@@ -233,18 +235,6 @@ export const linkCanvasObject = (
   );
 };
 
-export const onLinkClickFn = (openVoteDialog: VoteDialogFn) => {
-  return (link: ForceGraphLinkObject) => {
-    if (typeof link.source !== "object") {
-      return;
-    }
-    if (typeof link.target !== "object") {
-      return;
-    }
-    openVoteDialog({ link });
-  };
-};
-
 const onLinkHover = (_: ForceGraphLinkObject | null): void => {
   //console.log("linkHov", params);
 };
@@ -359,7 +349,6 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     }
     setGraph(graph);
   }, [queryResponse.loading, data]);
-  const onLinkClick = onLinkClickFn(props.openVoteDialog);
   useEffect(() => {
     const keyDownListener = makeKeydownListener(props.forceGraphRef);
     document.addEventListener("keydown", keyDownListener);
@@ -376,6 +365,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   });
   const { createNode } = useCreateNode();
   const { createEdge } = useCreateEdge();
+  const { submitVote } = useSubmitVote();
   const initPopUp: GraphEditPopUpState = {
     isOpen: false,
   };
@@ -385,6 +375,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     backend: {
       createNode,
       createLink: createEdge,
+      submitVote,
     },
     popUp: {
       state: editPopUpState,
@@ -445,7 +436,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
         onNodeDragEnd={makeOnNodeDragEnd(controller)}
         // links:
         onLinkHover={onLinkHover}
-        onLinkClick={onLinkClick}
+        onLinkClick={makeOnLinkClick(controller)}
         linkDirectionalArrowLength={config.linkDirectionalArrowLength}
         linkDirectionalArrowRelPos={config.linkDirectionalArrowRelPos}
         // XXX: linkCanvasObjectMode should just be a string, but due to a bug in

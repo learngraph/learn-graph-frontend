@@ -354,7 +354,7 @@ describe("getCreateNodeAction", () => {
           translations: [{ language: "en", content: "new description" }],
         },
       }),
-    ).rejects.toThrowError("Failed to create node");
+    ).rejects.toThrow("Failed to create node");
 
     expect(graph.requestsDispatch).toHaveBeenCalledTimes(2);
     expect(graph.requestsDispatch).toHaveBeenNthCalledWith(1, {
@@ -393,7 +393,8 @@ describe("getSubmitVoteAction", () => {
 
   it("should successfully submit a vote, queue and delete the call and store the updated values in state", async () => {
     let editGraph: EditGraph = makeEditGraphMock();
-    editGraph.submitVoteInBackend = (input) => Promise.resolve({ data: input });
+    editGraph.submitVoteInBackend = (_) =>
+      Promise.resolve({ data: { submitVote: { message: "" } } });
     const linkID = "some-id";
     const value = 5;
     const submitVoteAction = getSubmitVoteAction(editGraph);
@@ -401,8 +402,7 @@ describe("getSubmitVoteAction", () => {
       submitVoteAction({ ID: linkID, value: value }),
     ).resolves.toEqual({
       data: {
-        ID: linkID,
-        value,
+        submitVote: { message: "" },
       },
     });
 

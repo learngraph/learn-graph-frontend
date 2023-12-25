@@ -39,6 +39,7 @@ export interface GraphEditPopUpState {
   details?: string;
   nodeEdit?: NodeEdit;
   linkEdit?: LinkEdit;
+  linkVote?: LinkVote;
 }
 
 export interface NodeEdit {
@@ -52,6 +53,10 @@ export interface LinkEdit {
   onFormSubmit: (form: NewLinkForm) => void;
   defaults?: LinkEditDefaultValues;
   onNonSubmitClose?: () => void;
+}
+
+export interface LinkVote {
+  onSubmit: (value: number) => void;
 }
 
 export interface NewNodeForm {
@@ -85,6 +90,8 @@ export const GraphEditPopUp = ({ ctrl }: GraphEditPopUpProps) => {
     return <NodeEditPopUp handleClose={handleClose} ctrl={ctrl} />;
   } else if (!!popUp.state.linkEdit) {
     return <LinkCreatePopUp handleClose={handleClose} ctrl={ctrl} />;
+  } else if (!!popUp.state.linkVote) {
+    return <LinkVotePopUp handleClose={handleClose} ctrl={ctrl} />;
   } else {
     return <></>;
   }
@@ -220,6 +227,43 @@ export const LinkCreatePopUp = ({
       ctrl={ctrl}
       popUp={ctrl.popUp}
       handleClose={extendedHandleClose}
+      fields={fields}
+      formik={formik}
+    />
+  );
+};
+
+interface VoteLinkForm {
+  linkWeight: number;
+}
+const LinkVotePopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
+  const [sliderValue, setSliderValue] = useState<Number | Array<Number>>(
+    DEFAULT_EDIT_LINK_WEIGHT,
+  );
+  const formik = useFormik<VoteLinkForm>({
+    initialValues: {
+      linkWeight: 5,
+    },
+    validationSchema: null,
+    onSubmit: (_: VoteLinkForm) => {
+      // @ts-ignore: FIXME
+      const value: number = sliderValue;
+      ctrl.popUp.state.linkVote?.onSubmit(value);
+      handleClose();
+    },
+  });
+  const fields = [];
+  fields.push(
+    <LinkWeightSlider
+      defaultValue={DEFAULT_EDIT_LINK_WEIGHT}
+      setSliderValue={setSliderValue}
+    />,
+  );
+  return (
+    <DraggableForm
+      ctrl={ctrl}
+      popUp={ctrl.popUp}
+      handleClose={handleClose}
       fields={fields}
       formik={formik}
     />

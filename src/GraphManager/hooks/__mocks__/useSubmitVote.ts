@@ -13,10 +13,10 @@ let loading: boolean;
 
 const submitVoteFn: SubmitVoteFn = () =>
   Promise.resolve({
-    submitVote: {
-      ID: "123",
-      message: "msg",
-      value: 1,
+    data: {
+      submitVote: {
+        message: "msg",
+      },
     },
   });
 

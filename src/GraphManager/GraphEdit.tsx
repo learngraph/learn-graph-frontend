@@ -15,6 +15,7 @@ import {
   ForceGraphLinkObjectInitial,
 } from "./types";
 import { Position } from "./GraphRenderer";
+import { SubmitVoteFn } from "./hooks/useSubmitVote";
 
 export const MAX_LINK_WEIGHT = 10;
 export const DEFAULT_EDIT_LINK_WEIGHT = MAX_LINK_WEIGHT / 2;
@@ -33,6 +34,7 @@ export interface GraphState {
 export interface Backend {
   createNode: CreateNodeFn;
   createLink: CreateEdgeFn;
+  submitVote: SubmitVoteFn;
 }
 
 export const openCreateNodePopUpAtMousePosition = (
@@ -279,5 +281,22 @@ export const openCreateLinkPopUp = (
       defaults: conf?.linkEditDefaults,
       onNonSubmitClose: conf?.onCancel,
     },
+  });
+};
+
+export const makeOnLinkClick = (ctrl: Controller) => {
+  return (link: ForceGraphLinkObject) => {
+    onLinkClick(ctrl, link);
+  };
+};
+
+export const onLinkClick = (ctrl: Controller, link: ForceGraphLinkObject) => {
+  const onSubmit = (weight: number) => {
+    ctrl.backend.submitVote({ ID: link.id, value: weight });
+  };
+  ctrl.popUp.setState({
+    isOpen: true,
+    title: `To learn about "${link?.source?.description}" knowledge of "${link?.target?.description}" is required with a weight of`,
+    linkVote: { onSubmit },
   });
 };
