@@ -8,19 +8,61 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Paper, { PaperProps } from "@mui/material/Paper";
 import Tooltip from "@mui/material/Tooltip";
 import Draggable from "react-draggable";
-import {
-  TextFieldFormikGenerator,
-  TextFieldFormikGeneratorAutocomplete,
-} from "./components/LoginManager/Styles";
+import Slider from "@mui/material/Slider";
+import { Mark } from "@mui/base/useSlider";
 import { useFormik } from "formik";
 import {
   Controller,
   DEFAULT_EDIT_LINK_WEIGHT,
   INTERIM_TMP_LINK_ID,
+  MAX_LINK_WEIGHT,
 } from "./GraphEdit";
-import { DialogueStyles, LinkWeightSlider } from "./components/VoteDialog";
+import {
+  DialogueStyles,
+  TextFieldFormikGenerator,
+  TextFieldFormikGeneratorAutocomplete,
+} from "src/shared/Styles";
 import { ForceGraphGraphData, ForceGraphNodeObject } from "./types";
 import * as yup from "yup";
+
+interface LinkWeightSliderProps {
+  defaultValue: number;
+  setSliderValue: React.Dispatch<React.SetStateAction<Number | Array<Number>>>;
+}
+
+export const LinkWeightSlider = (props: LinkWeightSliderProps) => {
+  const onSliderValueChange = (
+    _event: any,
+    newValue: Number | Array<Number>,
+  ) => {
+    props.setSliderValue(newValue);
+  };
+  // TODO(skep): translations
+  const marks: Mark[] = [
+    {
+      value: 1,
+      label: "Irrelevant",
+    },
+    {
+      value: 5,
+      label: "Useful",
+    },
+    {
+      value: 9,
+      label: "Necessary",
+    },
+  ];
+  return (
+    <Slider
+      defaultValue={props.defaultValue}
+      onChange={onSliderValueChange}
+      step={0.01}
+      min={0.00001}
+      max={MAX_LINK_WEIGHT}
+      marks={marks}
+    />
+  );
+};
 
 const DraggablePaperComponent = (props: PaperProps) => {
   return (

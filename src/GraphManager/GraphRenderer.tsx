@@ -1,14 +1,5 @@
 import ForceGraph2D from "react-force-graph-2d";
 import {
-  ForceGraphGraphData,
-  ForceGraphNodeObject,
-  ForceGraphLinkObject,
-  ForceGraphRef,
-  ForceGraphLinkObjectInitial,
-  BackendGraphData,
-} from "./types";
-import { /*zoomStep,*/ HasID } from "./Zoom";
-import {
   MutableRefObject,
   useRef,
   useState,
@@ -18,7 +9,16 @@ import {
   SetStateAction,
 } from "react";
 import { Box } from "@mui/material";
-import { VoteDialogFn } from "./components/VoteDialog";
+
+import {
+  ForceGraphGraphData,
+  ForceGraphNodeObject,
+  ForceGraphLinkObject,
+  ForceGraphRef,
+  ForceGraphLinkObjectInitial,
+  BackendGraphData,
+} from "./types";
+import { /*zoomStep,*/ HasID } from "./Zoom";
 import { useGraphData } from "./hooks";
 //import { makeOnZoomAndPanListener } from "./ZoomForceGraphIntegration";
 import {
@@ -40,7 +40,6 @@ import { useSubmitVote } from "./hooks/useSubmitVote";
 interface GraphRendererProps {
   graphDataRef: MutableRefObject<ForceGraphGraphData | null>;
   forceGraphRef: ForceGraphRef;
-  openVoteDialog: VoteDialogFn;
   highlightNodes: Set<HasID>;
 }
 
