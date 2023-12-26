@@ -16,6 +16,7 @@ import {
 } from "./types";
 import { Position } from "./GraphRenderer";
 import { SubmitVoteFn } from "./hooks/useSubmitVote";
+import { UpdateNodeFn } from "./hooks/useUpdateNode";
 
 export const MAX_LINK_WEIGHT = 10;
 export const DEFAULT_EDIT_LINK_WEIGHT = MAX_LINK_WEIGHT / 2;
@@ -30,9 +31,14 @@ export interface GraphState {
   ) => void;
   removeLink: (link: ForceGraphLinkObject) => void;
   addNode: (node: ForceGraphNodeObject) => void;
+  updateNode: (
+    node: ForceGraphNodeObject,
+    newNode: ForceGraphNodeObject,
+  ) => void;
 }
 export interface Backend {
   createNode: CreateNodeFn;
+  updateNode: UpdateNodeFn;
   createLink: CreateEdgeFn;
   submitVote: SubmitVoteFn;
 }
@@ -52,43 +58,39 @@ export const openCreateNodePopUpAtPagePosition = (
   { backend, graph, popUp, forceGraphRef, language }: Controller,
 ) => {
   const onFormSubmit = async (form: NewNodeForm) => {
-    backend
-      .createNode({
-        description: {
-          translations: [{ language: language, content: form.nodeDescription }],
-        },
-      })
-      .then((result) => {
-        if (
-          result.data?.createNode.ID === undefined ||
-          result.data?.createNode.ID === ""
-        ) {
-          console.log("failed to create node in backend");
-          return;
-        }
-        const graphCoordinates = forceGraphRef.current?.screen2GraphCoords(
-          pagePosition.x,
-          pagePosition.y,
-        );
-        if (graphCoordinates === undefined) {
-          console.log(
-            `failed to translate coordinates: page[x,y]=[${pagePosition.x},${pagePosition.y}]`,
-          );
-          return;
-        }
-        const { x, y } = graphCoordinates;
-        const newNode = {
-          id: result.data!.createNode.ID,
-          description: form.nodeDescription,
-          x,
-          y,
-        };
-        graph.addNode(newNode);
-        forceGraphRef.current?.centerAt(x, y, 1000);
-      });
+    const result = await backend.createNode({
+      description: {
+        translations: [{ language: language, content: form.nodeDescription }],
+      },
+    });
+    if (
+      result.data?.createNode.ID === undefined ||
+      result.data?.createNode.ID === ""
+    ) {
+      console.log("failed to create node in backend");
+      return;
+    }
+    const graphCoordinates = forceGraphRef.current?.screen2GraphCoords(
+      pagePosition.x,
+      pagePosition.y,
+    );
+    if (graphCoordinates === undefined) {
+      console.log(
+        `failed to translate coordinates: page[x,y]=[${pagePosition.x},${pagePosition.y}]`,
+      );
+      return;
+    }
+    const { x, y } = graphCoordinates;
+    const newNode = {
+      id: result.data!.createNode.ID,
+      description: form.nodeDescription,
+      x,
+      y,
+    };
+    graph.addNode(newNode);
+    forceGraphRef.current?.centerAt(x, y, 1000);
   };
   popUp.setState({
-    ...popUp.state,
     isOpen: true,
     title: "Create new knowledge node",
     nodeEdit: { onFormSubmit },
@@ -298,5 +300,31 @@ export const onLinkClick = (ctrl: Controller, link: ForceGraphLinkObject) => {
     isOpen: true,
     title: `To learn about "${link?.source?.description}" knowledge of "${link?.target?.description}" is required with a weight of`,
     linkVote: { onSubmit },
+  });
+};
+
+export const makeOnNodeClick = (ctrl: Controller) => {
+  return (node: ForceGraphNodeObject): void => onNodeClick(ctrl, node);
+};
+
+export const onNodeClick = (
+  ctrl: Controller,
+  node: ForceGraphNodeObject,
+): void => {
+  const onFormSubmit = async (form: NewNodeForm) => {
+    await ctrl.backend.updateNode({
+      id: node.id,
+      description: {
+        translations: [
+          { language: ctrl.language, content: form.nodeDescription },
+        ],
+      },
+    });
+    ctrl.graph.updateNode(node, { ...node, description: form.nodeDescription });
+  };
+  ctrl.popUp.setState({
+    isOpen: true,
+    title: `Edit node "${node.description}"`,
+    nodeEdit: { onFormSubmit },
   });
 };

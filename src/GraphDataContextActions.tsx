@@ -12,7 +12,7 @@ import { SubmitVoteFnResponse } from "./GraphManager/hooks/useSubmitVote";
 export function getUpdateNodeAction(graph: EditGraph) {
   return (argument: { description: Text; id: string }) =>
     new Promise<UpdateNodeFnResponse>(async (resolve, reject) => {
-      let responseID: string | undefined;
+      let message: string | undefined;
 
       const requestId = getRequestId();
       graph.requestsDispatch({
@@ -33,7 +33,7 @@ export function getUpdateNodeAction(graph: EditGraph) {
         updatingNode.description = argument.description;
 
         const response = await graph.updateNodeInBackend(argument);
-        responseID = response.data?.updateNode.ID;
+        message = response.data?.editNode.Message;
       } catch (e) {
         updatingNode.description = oldDescription;
         reject(e);
@@ -43,11 +43,11 @@ export function getUpdateNodeAction(graph: EditGraph) {
         type: pendingActionTypes.CLEAR_REQUEST,
         id: requestId,
       });
-      if (responseID === undefined) {
+      if (message === undefined) {
         reject(new Error("Didn't receive updated node ID from the backend!"));
         return;
       }
-      resolve({ data: { updateNode: { ID: responseID } } });
+      resolve({ data: { editNode: { Message: message } } });
     });
 }
 

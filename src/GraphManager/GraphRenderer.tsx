@@ -29,6 +29,7 @@ import {
   makeOnNodeDrag,
   makeOnNodeDragEnd,
   makeOnLinkClick,
+  makeOnNodeClick,
 } from "./GraphEdit";
 import { GraphEditPopUp, GraphEditPopUpState } from "./GraphEditPopUp";
 import { useCreateNode } from "./hooks/useCreateNode";
@@ -36,6 +37,7 @@ import { useCreateEdge } from "./hooks/useCreateEdge";
 import { CreateButton } from "./GraphEditCreateButton";
 import { useUserDataContext } from "src/UserDataContext";
 import { useSubmitVote } from "./hooks/useSubmitVote";
+import { useUpdateNode } from "./hooks/useUpdateNode";
 
 interface GraphRendererProps {
   graphDataRef: MutableRefObject<ForceGraphGraphData | null>;
@@ -189,10 +191,6 @@ export const nodePointerAreaPaint = (
   );
 };
 
-const onNodeClick = (params: ForceGraphNodeObject): void => {
-  console.log("clicked", params);
-};
-
 const makeLinkCanvasObject = (drag: NodeDragState) => {
   return (
     link: ForceGraphLinkObject,
@@ -301,6 +299,10 @@ export const makeGraphState = (
     addNode: (node: ForceGraphNodeObject) => {
       setGraph({ nodes: [...graph.nodes, node], links: graph.links });
     },
+    updateNode: (node: ForceGraphNodeObject, newNode: ForceGraphNodeObject) => {
+      node.description = newNode.description;
+      setGraph(graph);
+    },
     updateLink: (link: ForceGraphLinkObject, newLink: ForceGraphLinkObject) => {
       const linkInGraph = graph.links.find((l) => l.id === link.id);
       if (!linkInGraph) {
@@ -365,6 +367,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   const { createNode } = useCreateNode();
   const { createEdge } = useCreateEdge();
   const { submitVote } = useSubmitVote();
+  const { updateNode } = useUpdateNode();
   const initPopUp: GraphEditPopUpState = {
     isOpen: false,
   };
@@ -373,6 +376,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   const controller: Controller = {
     backend: {
       createNode,
+      updateNode,
       createLink: createEdge,
       submitVote,
     },
@@ -429,7 +433,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
           specialNodes,
         )}
         nodePointerAreaPaint={nodePointerAreaPaint}
-        onNodeClick={onNodeClick}
+        onNodeClick={makeOnNodeClick(controller)}
         onNodeHover={onNodeHover}
         onNodeDrag={makeOnNodeDrag(controller)}
         onNodeDragEnd={makeOnNodeDragEnd(controller)}

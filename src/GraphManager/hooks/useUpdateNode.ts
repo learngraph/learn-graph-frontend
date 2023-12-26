@@ -2,9 +2,9 @@ import { gql, useMutation } from "@apollo/client";
 import { ApolloQueryResponse, CreateEntityResult, Text } from "./types";
 
 const UPDATE_NODE = gql`
-  mutation updateNode($description: Text!, $id: ID!) {
-    updateNode(description: $description) {
-      ID
+  mutation editNode($description: Text!, $id: ID!) {
+    editNode(id: $id, description: $description) {
+      Message
     }
   }
 `;
@@ -15,7 +15,7 @@ export interface UpdateNodeFn {
 }
 
 export interface UpdateNodeFnResponse {
-  data?: { updateNode: { ID: string } };
+  data?: { editNode: { Message: string } };
 }
 
 export interface UpdateNodeResponse {

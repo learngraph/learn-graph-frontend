@@ -222,7 +222,7 @@ describe("getUpdateNodeAction", () => {
         },
       ],
       updateNodeInBackend: jest.fn(() =>
-        Promise.resolve({ data: { updateNode: { ID: "1" } } }),
+        Promise.resolve({ data: { editNode: { Message: "1" } } }),
       ),
     };
 
@@ -236,7 +236,7 @@ describe("getUpdateNodeAction", () => {
     expect(graph.nodes[0].description).toEqual({
       translations: [{ language: "en", content: "new description" }],
     });
-    expect(result).toEqual({ data: { updateNode: { ID: "1" } } });
+    expect(result).toEqual({ data: { editNode: { Message: "1" } } });
   });
 
   it("should reject and undo changes if updateNodeInBackend fails", async () => {

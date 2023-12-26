@@ -1,20 +1,38 @@
 import { ForceGraphMethods } from "react-force-graph-2d";
 import {
-  openCreateNodePopUpAtMousePosition,
-  GraphState,
-  onNodeDrag,
-  NodeDragState,
-  DRAG_snapOutDistanceSquared,
-  DRAG_snapInDistanceSquared,
-  onNodeDragEnd,
   Backend,
-  openCreateLinkPopUp,
   DEFAULT_EDIT_LINK_WEIGHT,
+  DRAG_snapInDistanceSquared,
+  DRAG_snapOutDistanceSquared,
+  GraphState,
   INTERIM_TMP_LINK_ID,
+  NodeDragState,
   onLinkClick,
+  onNodeClick,
+  onNodeDrag,
+  onNodeDragEnd,
+  openCreateLinkPopUp,
+  openCreateNodePopUpAtMousePosition,
 } from "./GraphEdit";
 import { GraphEditPopUpState, NewLinkForm } from "./GraphEditPopUp";
 import { ForceGraphLinkObject, ForceGraphNodeObject } from "./types";
+
+const makeGraphState = () => {
+  const emptyGraph: {
+    nodes: ForceGraphNodeObject[];
+    links: ForceGraphLinkObject[];
+  } = { nodes: [], links: [] };
+  const g: GraphState = {
+    current: emptyGraph,
+    setGraph: jest.fn().mockName("graph.setGraph"),
+    addNode: jest.fn().mockName("graph.addNode"),
+    addLink: jest.fn().mockName("graph.addLink"),
+    removeLink: jest.fn().mockName("graph.removeLink"),
+    updateLink: jest.fn().mockName("graph.updateLink"),
+    updateNode: jest.fn().mockName("graph.updateNode"),
+  };
+  return g;
+};
 
 export const makeMockController = () => {
   // @ts-ignore: typescript does not understand jest.mock
@@ -25,24 +43,14 @@ export const makeMockController = () => {
   forceGraphMethods.screen2GraphCoords = jest
     .fn()
     .mockName("forceGraphRef.screen2GraphCoords");
-  const emptyGraph: {
-    nodes: ForceGraphNodeObject[];
-    links: ForceGraphLinkObject[];
-  } = { nodes: [], links: [] };
   const ctrl = {
     backend: {
       createNode: jest.fn().mockName("backend.createNode"),
+      updateNode: jest.fn().mockName("backend.updateNode"),
       createLink: jest.fn().mockName("backend.createLink"),
       submitVote: jest.fn().mockName("backend.submitVote"),
     },
-    graph: {
-      current: emptyGraph,
-      setGraph: jest.fn().mockName("graph.setGraph"),
-      addNode: jest.fn().mockName("graph.addNode"),
-      addLink: jest.fn().mockName("graph.addLink"),
-      removeLink: jest.fn().mockName("graph.removeLink"),
-      updateLink: jest.fn().mockName("graph.updateLink"),
-    },
+    graph: makeGraphState(),
     popUp: {
       state: {
         isOpen: false,
@@ -70,7 +78,7 @@ export const makeMockController = () => {
   return ctrl;
 };
 
-describe("createNodeFromMouseEvent", () => {
+describe("openCreateNodePopUpAtMousePosition", () => {
   const makeMockMouseEvent = (props: any) => {
     // @ts-ignore: too many unused fields
     const mouse: MouseEvent = { ...props };
@@ -138,18 +146,6 @@ describe("createNodeFromMouseEvent", () => {
     expect(ctrl.graph.addNode).not.toHaveBeenCalled();
   });
 });
-
-const makeGraphState = () => {
-  const g: GraphState = {
-    current: { nodes: [], links: [] },
-    setGraph: jest.fn(),
-    addLink: jest.fn(),
-    removeLink: jest.fn(),
-    updateLink: jest.fn(),
-    addNode: jest.fn(),
-  };
-  return g;
-};
 
 const makeNodes = () => {
   const node_1 = { id: "1", x: 0, y: 0, description: "1" };
@@ -565,5 +561,31 @@ describe("onLinkClick", () => {
     // XXX(skep): should we update the display? probably just a popUp:
     // "successfully voted!", otherwise RPC has to be extended..
     //expect(ctrl.graph.updateLink)
+  });
+});
+
+describe("onNodeClick", () => {
+  it("should open node-edit popup", async () => {
+    const ctrl = makeMockController();
+    const node = { id: "1", description: "1" };
+    // @ts-ignore
+    onNodeClick(ctrl, node);
+    expect(ctrl.popUp.setState).toHaveBeenCalledTimes(1);
+    const popUpState = ctrl.popUp.setState.mock.calls[0][0];
+    expect(popUpState.isOpen).toBe(true);
+    expect(popUpState.title).toEqual(`Edit node "1"`);
+    expect(popUpState.nodeEdit.onFormSubmit).not.toBe(undefined);
+    const form = { nodeDescription: "ok" };
+    await popUpState.nodeEdit.onFormSubmit(form);
+    expect(ctrl.backend.updateNode).toHaveBeenCalledTimes(1);
+    expect(ctrl.backend.updateNode).toHaveBeenNthCalledWith(1, {
+      id: "1",
+      description: { translations: [{ language: "en", content: "ok" }] },
+    });
+    expect(ctrl.graph.updateNode).toHaveBeenCalledTimes(1);
+    expect(ctrl.graph.updateNode).toHaveBeenNthCalledWith(1, node, {
+      id: "1",
+      description: "ok",
+    });
   });
 });
