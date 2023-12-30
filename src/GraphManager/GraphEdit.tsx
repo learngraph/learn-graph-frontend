@@ -14,9 +14,10 @@ import {
   ForceGraphNodeObject,
   ForceGraphLinkObjectInitial,
 } from "./types";
-import { Position } from "./GraphRenderer";
+import { Position, SpecialNodes } from "./GraphRenderer";
 import { SubmitVoteFn } from "./hooks/useSubmitVote";
 import { UpdateNodeFn } from "./hooks/useUpdateNode";
+import { HasID } from "./Zoom";
 
 export const MAX_LINK_WEIGHT = 10;
 export const DEFAULT_EDIT_LINK_WEIGHT = MAX_LINK_WEIGHT / 2;
@@ -104,6 +105,9 @@ export interface Controller {
   backend: Backend;
   nodeDrag: NodeDrag;
   language: string;
+  // TODO(skep): should merge these two types
+  highlightNodes: Set<HasID>;
+  specialNodes: SpecialNodes;
 }
 
 export const makeOnBackgroundClick = (controller: Controller) => {
@@ -125,7 +129,7 @@ export interface NodeDragState {
   interimLink?: ForceGraphLinkObject;
 }
 
-const snapInOutDistances = [15, 40];
+const snapInOutDistances = [40, 65];
 export const DRAG_snapInDistanceSquared = Math.pow(snapInOutDistances[0], 2);
 export const DRAG_snapOutDistanceSquared = Math.pow(snapInOutDistances[1], 2);
 

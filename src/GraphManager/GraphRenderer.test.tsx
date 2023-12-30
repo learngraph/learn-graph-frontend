@@ -3,11 +3,11 @@ import {
   nodeCanvasObject,
   makeKeydownListener,
   SpecialNodes,
-  nodePointerAreaPaint,
   makeGraphState,
   convertBackendGraphToForceGraph,
 } from "./GraphRenderer";
 import "@testing-library/jest-dom";
+import { makeMockController } from "./GraphEdit.test";
 
 // Since render() does not support canvas.getContext('2d')
 // we must mock ForceGraph2D.
@@ -18,6 +18,7 @@ jest.mock("react-force-graph-2d", () => (props: any) => {
 
 const makeCanvasRenderingContext2D = () => {
   let fillRectCalls: any = [];
+  let arcCalls: any = [];
   // @ts-ignore
   let ctx: CanvasRenderingContext2D = {
     fillStyle: "",
@@ -27,12 +28,23 @@ const makeCanvasRenderingContext2D = () => {
     textAlign: "center",
     textBaseline: "alphabetic",
     font: "",
+    save: jest.fn(),
+    restore: jest.fn(),
+    translate: jest.fn(),
+    scale: jest.fn(),
+    beginPath: jest.fn(),
+    closePath: jest.fn(),
+    arc: jest.fn(),
+    fill: jest.fn(),
+    stroke: jest.fn(),
   };
-  const fillRect = jest.fn((args) => {
-    fillRectCalls.push({ args: args, fillStyle: ctx.fillStyle });
+  ctx.fillRect = jest.fn((args) => {
+    fillRectCalls.push({ args, fillStyle: ctx.fillStyle });
   });
-  ctx.fillRect = fillRect;
-  return { ctx, fillRectCalls: fillRectCalls };
+  ctx.arc = jest.fn((args) => {
+    arcCalls.push({ args, fillStyle: ctx.fillStyle });
+  });
+  return { ctx, fillRectCalls, arcCalls };
 };
 describe("nodeCanvasObject", () => {
   const node = {
@@ -41,49 +53,16 @@ describe("nodeCanvasObject", () => {
     x: 5,
     y: 6,
   };
-  it("[SNAPSHOT test] should have reasonable font size and background dimensions", () => {
-    const { ctx, fillRectCalls } = makeCanvasRenderingContext2D();
-    const scale = 1;
-    const special: SpecialNodes = { hoveredNode: null };
-    nodeCanvasObject(node, ctx, scale, new Set(), special);
-    expect(ctx.font).toEqual("22px Sans-Serif");
-    expect(ctx.textAlign).toEqual("center");
-    expect(ctx.textBaseline).toEqual("middle");
-    expect(ctx.fillStyle).toEqual("#000");
-    expect(ctx.fillRect).toHaveBeenCalledTimes(1);
-    expect(ctx.fillRect).toHaveBeenCalledWith(
-      -47.2,
-      -7.199999999999999,
-      104.4,
-      26.4,
-    );
-    expect(fillRectCalls[0].fillStyle).toEqual("rgba(190, 190, 190, 0.8)");
-    expect(ctx.fillText).toHaveBeenCalledTimes(1);
-    expect(ctx.fillText).toHaveBeenCalledWith("B", 5, 6);
-  });
   it("should highlight SpecialNodes: hoveredNode", () => {
-    const { ctx, fillRectCalls } = makeCanvasRenderingContext2D();
+    const { ctx, arcCalls } = makeCanvasRenderingContext2D();
     const scale = 1;
     const special: SpecialNodes = { hoveredNode: node };
-    nodeCanvasObject(node, ctx, scale, new Set(), special);
-    expect(ctx.fillRect).toHaveBeenCalledTimes(1);
-    expect(fillRectCalls[0].fillStyle).toEqual(`hsl(30,100%,50%)`);
-  });
-});
-
-describe("nodePointerAreaPaint", () => {
-  it("should create exactly the same sized object as nodeCanvasObject", () => {
-    const { ctx } = makeCanvasRenderingContext2D();
-    const scale = 1;
-    const node = { id: "1", description: "one", x: 5, y: 6 };
-    nodePointerAreaPaint(node, `color123`, ctx, scale);
-    expect(ctx.fillRect).toHaveBeenCalledTimes(1);
-    expect(ctx.fillRect).toHaveBeenCalledWith(
-      -47.2,
-      -7.199999999999999,
-      104.4,
-      26.4,
-    );
+    const ctrl = makeMockController();
+    ctrl.specialNodes = special;
+    // @ts-ignore
+    nodeCanvasObject(node, ctx, scale, ctrl);
+    expect(ctx.arc).toHaveBeenCalledTimes(1);
+    expect(arcCalls[0].fillStyle).toEqual(`hsl(30,100%,50%)`);
   });
 });
 

@@ -15,6 +15,7 @@ import {
   openCreateNodePopUpAtMousePosition,
 } from "./GraphEdit";
 import { GraphEditPopUpState, NewLinkForm } from "./GraphEditPopUp";
+import { SpecialNodes } from "./GraphRenderer";
 import { ForceGraphLinkObject, ForceGraphNodeObject } from "./types";
 
 const makeGraphState = () => {
@@ -43,6 +44,7 @@ export const makeMockController = () => {
   forceGraphMethods.screen2GraphCoords = jest
     .fn()
     .mockName("forceGraphRef.screen2GraphCoords");
+  const specialNodes: SpecialNodes = {};
   const ctrl = {
     backend: {
       createNode: jest.fn().mockName("backend.createNode"),
@@ -72,8 +74,13 @@ export const makeMockController = () => {
     forceGraphRef: {
       current: forceGraphMethods,
     },
-    nodeDrag: {},
+    nodeDrag: {
+      setState: jest.fn(),
+      state: {},
+    },
     language: "en",
+    highlightNodes: new Set(),
+    specialNodes,
   };
   return ctrl;
 };

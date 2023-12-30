@@ -57,7 +57,7 @@ interface TextRender {
 }
 
 // utility functions
-const drawTextBackgroundBox = (
+const drawTextBackgroundOval = (
   text: TextRender,
   ctx: CanvasRenderingContext2D,
   position: Partial<Position>,
@@ -70,12 +70,26 @@ const drawTextBackgroundBox = (
   );
   let [x, y] = [position.x ?? 0, position.y ?? 0];
   ctx.fillStyle = text.backgroundColor;
-  ctx.fillRect(
-    x - bckgDimensions[0] / 2,
-    y - bckgDimensions[1] / 2,
-    bckgDimensions[0],
-    bckgDimensions[1],
-  );
+  ctx.strokeStyle = "black";
+  ctx.lineWidth = 0.5; // Adjust the width of the ring
+  drawOval(ctx, x, y, bckgDimensions[0] / 1.8, bckgDimensions[1] / 1.2);
+  ctx.fill();
+  ctx.stroke();
+};
+const drawOval = (
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  radiusX: number,
+  radiusY: number,
+) => {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.scale(1, radiusY / radiusX);
+  ctx.beginPath();
+  ctx.arc(0, 0, radiusX, 0, Math.PI * 2, true);
+  ctx.closePath();
+  ctx.restore();
 };
 
 const drawText = (
@@ -96,51 +110,46 @@ const drawTextWithBackground = (
   ctx: CanvasRenderingContext2D,
   position: Partial<Position>,
 ) => {
-  drawTextBackgroundBox(text, ctx, position);
+  drawTextBackgroundOval(text, ctx, position);
   drawText(text, ctx, position);
 };
 
-const linkDescriptionPosition = (link: ForceGraphLinkObject) => {
-  return Object.assign(
-    // @ts-ignore
-    ...["x", "y"].map((c) => ({
-      [c]:
-        // @ts-ignore
-        link.source[c] +
-        // @ts-ignore
-        (link.target[c] - link.source[c]) *
-          (config.linkDirectionalArrowRelPos - 0.1),
-    })),
-  );
-};
+//// could be usefull later?
+//const linkDescriptionPosition = (link: ForceGraphLinkObject) => {
+//  return Object.assign(
+//    // @ts-ignore
+//    ...["x", "y"].map((c) => ({
+//      [c]:
+//        // @ts-ignore
+//        link.source[c] +
+//        // @ts-ignore
+//        (link.target[c] - link.source[c]) *
+//          (config.linkDirectionalArrowRelPos - 0.1),
+//    })),
+//  );
+//};
 
 // node render & interaction
 
 // TODO(j): should use react theme for color choice here
-const backgroundColorWhite = "rgba(255, 255, 255, 0.8)";
-const backgroundColorGrey = "rgba(190, 190, 190, 0.8)";
+//const backgroundColorWhite = "rgba(255, 255, 255, 0.8)";
+//const backgroundColorGrey = "rgba(190, 190, 190, 0.8)";
+const backgroundColorLightBlue = "rgba(0, 173, 255, 255)";
 const backgroundColorOrange = `hsl(30,100%,50%)`;
+const colorInterimLink = "rgb(238,75,43)";
+const colorLink = "rgba(25,118,210,255)";
 
 export interface SpecialNodes {
   hoveredNode?: ForceGraphNodeObject | undefined | null;
 }
 
-const makeNodeCanvasObject = (
-  highlightNodes: Set<HasID>,
-  specialNodes: SpecialNodes,
-) => {
+const makeNodeCanvasObject = (ctrl: Controller) => {
   return (
     nodeForceGraph: ForceGraphNodeObject,
     ctx: CanvasRenderingContext2D,
     globalScale: number,
   ) => {
-    return nodeCanvasObject(
-      nodeForceGraph,
-      ctx,
-      globalScale,
-      highlightNodes,
-      specialNodes,
-    );
+    return nodeCanvasObject(nodeForceGraph, ctx, globalScale, ctrl);
   };
 };
 
@@ -148,11 +157,11 @@ export const nodeCanvasObject = (
   node: ForceGraphNodeObject,
   ctx: CanvasRenderingContext2D,
   globalScale: number,
-  highlightNodes: Set<HasID>,
-  specialNodes: SpecialNodes,
+  ctrl: Controller,
 ) => {
+  const { highlightNodes, specialNodes } = ctrl;
   let label = node.description ?? "";
-  let backgroundColor = backgroundColorGrey;
+  let backgroundColor = backgroundColorLightBlue;
   const mergedNodes = node.mergeCount ?? 0;
   if (mergedNodes > 1) {
     // TODO(skep): use relative scaling to total number of nodes
@@ -167,6 +176,12 @@ export const nodeCanvasObject = (
   if (specialNodes.hoveredNode?.id === node.id) {
     backgroundColor = backgroundColorOrange;
   }
+  if (
+    node.id === ctrl.nodeDrag.state.interimLink?.source.id ||
+    node.id === ctrl.nodeDrag.state.interimLink?.target.id
+  ) {
+    backgroundColor = colorInterimLink;
+  }
   drawTextWithBackground(
     { text: label, fontSize: config.fontSize / globalScale, backgroundColor },
     ctx,
@@ -180,7 +195,7 @@ export const nodePointerAreaPaint = (
   ctx: CanvasRenderingContext2D,
   globalScale: number,
 ) => {
-  drawTextBackgroundBox(
+  drawTextBackgroundOval(
     {
       text: node.description ?? "",
       fontSize: config.fontSize / globalScale,
@@ -191,45 +206,52 @@ export const nodePointerAreaPaint = (
   );
 };
 
-const makeLinkCanvasObject = (drag: NodeDragState) => {
+// link render & interaction
+
+const makeLinkCanvasObject = (ctrl: Controller) => {
   return (
     link: ForceGraphLinkObject,
     ctx: CanvasRenderingContext2D,
     globalScale: number,
   ) => {
-    return linkCanvasObject(drag, link, ctx, globalScale);
+    return linkCanvasObject(ctrl, link, ctx, globalScale);
   };
 };
-// link render & interaction
 export const linkCanvasObject = (
-  drag: NodeDragState,
+  ctrl: Controller,
   link: ForceGraphLinkObject,
   ctx: CanvasRenderingContext2D,
   globalScale: number,
 ) => {
-  const pos = linkDescriptionPosition(link);
-  if (link === drag.interimLink) {
-    // XXX(skep): remove again, should be visually appealing instead of text
-    drawTextWithBackground(
-      {
-        text: String("TEMPORARY"),
-        fontSize: config.fontSize / globalScale,
-        backgroundColor: backgroundColorGrey,
-      },
+  if (link === ctrl.nodeDrag.state.interimLink) {
+    drawLinkLine({
+      ctrl,
+      link,
       ctx,
-      pos,
-    );
+      globalScale,
+      color: colorInterimLink,
+      extraThickness: 3,
+    });
     return;
   }
-  drawTextWithBackground(
-    {
-      text: String(Math.round(link.value * 100) / 100),
-      fontSize: config.fontSize / globalScale,
-      backgroundColor: backgroundColorWhite,
-    },
-    ctx,
-    pos,
-  );
+  drawLinkLine({ ctrl, link, ctx, globalScale, color: colorLink });
+};
+interface DrawLinkConfig {
+  ctrl: Controller;
+  link: ForceGraphLinkObject;
+  ctx: CanvasRenderingContext2D;
+  globalScale: number;
+  color: string;
+  extraThickness?: number;
+}
+export const drawLinkLine = (conf: DrawLinkConfig) => {
+  const { ctx, color, link } = conf;
+  ctx.strokeStyle = color;
+  ctx.lineWidth = (link.value / 2) * (conf.extraThickness ?? 1);
+  ctx.beginPath();
+  ctx.moveTo(link.source.x!, link.source.y!);
+  ctx.lineTo(link.target.x!, link.target.y!);
+  ctx.stroke();
 };
 
 const onLinkHover = (_: ForceGraphLinkObject | null): void => {
@@ -391,14 +413,15 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       setState: setNodeDrag,
     },
     language,
+    highlightNodes: props.highlightNodes,
+    specialNodes: {},
   };
   const onBackgroundClick = makeOnBackgroundClick(controller);
-  const specialNodes: SpecialNodes = {}; // TODO(skep): move this into the Controller
   const onNodeHover = (
     node: ForceGraphNodeObject | null,
     _ /*prevNode*/ : ForceGraphNodeObject | null,
   ) => {
-    specialNodes.hoveredNode = node;
+    controller.specialNodes.hoveredNode = node;
   };
   // FIXME(umb): It looks like it should remove the empty space below the
   // canvas. Unfortuantely this code does nothing when the window is resized.
@@ -428,10 +451,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
         width={availableSpace.width}
         ref={props.forceGraphRef}
         graphData={graph}
-        nodeCanvasObject={makeNodeCanvasObject(
-          props.highlightNodes,
-          specialNodes,
-        )}
+        nodeCanvasObject={makeNodeCanvasObject(controller)}
         nodePointerAreaPaint={nodePointerAreaPaint}
         onNodeClick={makeOnNodeClick(controller)}
         onNodeHover={onNodeHover}
@@ -447,7 +467,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
         // is never called. -> remove after force-graph module update
         // @ts-ignore
         linkCanvasObjectMode={() => config.linkCanvasObjectMode}
-        linkCanvasObject={makeLinkCanvasObject(controller.nodeDrag.state)}
+        linkCanvasObject={makeLinkCanvasObject(controller)}
         // XXX(skep): disable zoom until it's better balanced
         //onZoom={makeOnZoomAndPanListener(props.forceGraphRef, zoomStep, graph)}
         onBackgroundClick={onBackgroundClick}
