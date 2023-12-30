@@ -329,6 +329,6 @@ export const onNodeClick = (
   ctrl.popUp.setState({
     isOpen: true,
     title: `Edit node "${node.description}"`,
-    nodeEdit: { onFormSubmit },
+    nodeEdit: { onFormSubmit, defaultFormContent: node },
   });
 };

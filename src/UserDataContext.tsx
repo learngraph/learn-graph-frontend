@@ -9,7 +9,7 @@ import {
 import { onError } from "@apollo/client/link/error";
 import { setContext, ContextSetter } from "@apollo/client/link/context";
 import fetch from "cross-fetch";
-import { addAuthHeader, addLanguageHeader, addUserIDHeader } from "./rpc/link";
+import { addAuthHeader, addLanguageHeader, addUserIDHeader } from "src/link";
 
 export interface UserDataContextValues {
   language: string;
