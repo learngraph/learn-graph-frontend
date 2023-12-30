@@ -109,12 +109,5 @@ describe("UserDataContext", () => {
     expect(screen.getByTestId("userID")).toHaveTextContent("");
     expect(screen.getByTestId("userName")).toHaveTextContent("");
     expect(screen.getByTestId("userToken")).toHaveTextContent("");
-    // FIXME: doesn't work
-    //const user = userEvent.setup();
-    //const setUserNameButton = screen.getByTestId("setUserName");
-    //await user.click(setUserNameButton);
-    //expect(screen.getByTestId("userID")).toHaveTextContent("123")
-    //expect(screen.getByTestId("userName")).toHaveTextContent("asdf")
-    //expect(screen.getByTestId("userToken")).toHaveTextContent("AAA")
   });
 });

@@ -41,34 +41,58 @@ const UserDataContext =
 
 export const useUserDataContext = () => React.useContext(UserDataContext);
 
-//// maybe?
-//interface UserData {
-//    userID: string;
-//    userName: string;
-//    authenticationToken: string;
-//};
-
 const storageSave = (key: string, value: any) => {
   localStorage.setItem(key, JSON.stringify(value));
+};
+const storageDel = (key: string) => {
+  localStorage.removeItem(key);
 };
 const storageLoad = (key: string) => {
   return JSON.parse(localStorage.getItem(key) ?? `""`);
 };
 
-const notifyUserOnNotLoggedInError = onError(
-  ({ graphQLErrors, networkError }) => {
+enum StorageKeys {
+  userID = "userID",
+  userName = "userName",
+  authenticationToken = "authenticationToken",
+}
+
+const loadUserDataFromLS = () => {
+  return {
+    id: storageLoad(StorageKeys.userID),
+    name: storageLoad(StorageKeys.userName),
+    token: storageLoad(StorageKeys.authenticationToken),
+  };
+};
+
+const deleteUserDataFromLS = () => {
+  storageDel(StorageKeys.userID);
+  storageDel(StorageKeys.userName);
+  storageDel(StorageKeys.authenticationToken);
+};
+
+const makeNotifyUserOnNotLoggedInError = (ctx: UserDataContextValues) => {
+  return onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors) {
       graphQLErrors.forEach(({ message }) => {
         if (message.includes("only logged in user may create graph data")) {
-          alert("Please login/signup to contribute!"); // TODO(skep): make it a nice MUI-popup
+          let msg = "Please login/signup to contribute!";
+          if (ctx.userID !== "" && ctx.authenticationToken !== "") {
+            msg = "Session expired, please login again!";
+            deleteUserDataFromLS();
+            ctx.setUserID("");
+            ctx.setUserName("");
+            ctx.setAuthenticationToken("");
+          }
+          alert(msg); // TODO(skep): make it a nice MUI-popup
         }
       });
     }
     if (networkError) {
       console.error(`[Network error]: ${networkError}`);
     }
-  },
-);
+  });
+};
 
 export const UserDataContextProvider: React.FC<{
   children: React.ReactNode;
@@ -83,14 +107,12 @@ export const UserDataContextProvider: React.FC<{
     if (userID === "" || authenticationToken === "" || userName === "") {
       return;
     }
-    storageSave("userID", userID);
-    storageSave("userName", userName);
-    storageSave("authenticationToken", authenticationToken);
+    storageSave(StorageKeys.userID, userID);
+    storageSave(StorageKeys.userName, userName);
+    storageSave(StorageKeys.authenticationToken, authenticationToken);
   }, [userID, userName, authenticationToken]);
   useEffect(() => {
-    const id = storageLoad("userID");
-    const name = storageLoad("userName");
-    const token = storageLoad("authenticationToken");
+    const { id, name, token } = loadUserDataFromLS();
     if (id === "" || name === "" || token === "") {
       return;
     }
@@ -99,17 +121,28 @@ export const UserDataContextProvider: React.FC<{
     setAuthenticationToken(token);
   }, []);
 
-  // TODO(skep): save/fetch {authToken, userID, language} from local storage
+  const ctx: UserDataContextValues = {
+    language,
+    setLanguage,
+    userID,
+    userName,
+    setUserID,
+    setUserName,
+    authenticationToken,
+    setAuthenticationToken,
+  };
+
+  const notifyUserOnNotLoggedInError = makeNotifyUserOnNotLoggedInError(ctx);
   const addUserIDHeaderFromContext: ContextSetter = (_, { headers }) => {
-    return addUserIDHeader({ headers, userID });
+    return addUserIDHeader({ headers, userID: ctx.userID });
   };
   const linkUserID = setContext(addUserIDHeaderFromContext);
   const addAuthHeaderFromContext: ContextSetter = (_, { headers }) => {
-    return addAuthHeader({ headers, token: authenticationToken });
+    return addAuthHeader({ headers, token: ctx.authenticationToken });
   };
   const linkAuth = setContext(addAuthHeaderFromContext);
   const addLanguageHeaderFromContext: ContextSetter = (_, { headers }) => {
-    return addLanguageHeader({ headers, language });
+    return addLanguageHeader({ headers, language: ctx.language });
   };
   const linkLang = setContext(addLanguageHeaderFromContext);
   const linkHttp: ApolloLink = new HttpLink({
@@ -125,18 +158,7 @@ export const UserDataContextProvider: React.FC<{
   });
 
   return (
-    <UserDataContext.Provider
-      value={{
-        language,
-        setLanguage,
-        userID,
-        userName,
-        setUserID,
-        setUserName,
-        authenticationToken,
-        setAuthenticationToken,
-      }}
-    >
+    <UserDataContext.Provider value={ctx}>
       <ApolloProvider client={client}>{children}</ApolloProvider>
     </UserDataContext.Provider>
   );
