@@ -86,6 +86,7 @@ export interface GraphEditPopUpState {
 
 export interface NodeEdit {
   onFormSubmit: (form: NewNodeForm) => void;
+  defaultFormContent?: ForceGraphNodeObject;
 }
 export interface LinkEditDefaultValues {
   source?: ForceGraphNodeObject;
@@ -126,7 +127,7 @@ type SubGraphEditPopUpProps = GraphEditPopUpProps & {
 export const GraphEditPopUp = ({ ctrl }: GraphEditPopUpProps) => {
   const popUp = ctrl.popUp;
   const handleClose = () => {
-    popUp.setState({ ...popUp.state, isOpen: false });
+    popUp.setState({ isOpen: false });
   };
   if (!!popUp.state.nodeEdit) {
     return <NodeEditPopUp handleClose={handleClose} ctrl={ctrl} />;
@@ -319,7 +320,8 @@ export const nodeValidation = yup.object({
 const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
   const formik = useFormik<NewNodeForm>({
     initialValues: {
-      nodeDescription: "",
+      nodeDescription:
+        ctrl.popUp.state.nodeEdit?.defaultFormContent?.description ?? "",
     },
     validationSchema: nodeValidation,
     onSubmit: (form: NewNodeForm) => {
