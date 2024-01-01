@@ -18,6 +18,7 @@ import { Position, SpecialNodes } from "./GraphRenderer";
 import { SubmitVoteFn } from "./hooks/useSubmitVote";
 import { UpdateNodeFn } from "./hooks/useUpdateNode";
 import { HasID } from "./Zoom";
+import i18n from "src/i18n";
 
 export const MAX_LINK_WEIGHT = 10;
 export const DEFAULT_EDIT_LINK_WEIGHT = MAX_LINK_WEIGHT / 2;
@@ -93,7 +94,7 @@ export const openCreateNodePopUpAtPagePosition = (
   };
   popUp.setState({
     isOpen: true,
-    title: "Create new knowledge node",
+    title: i18n.t("Create new knowledge node"),
     nodeEdit: { onFormSubmit },
   });
 };
@@ -281,7 +282,7 @@ export const openCreateLinkPopUp = (
   ctrl.popUp.setState({
     nodeEdit: undefined,
     isOpen: true,
-    title: "Create new learning dependency",
+    title: i18n.t("Create new learning dependency"),
     linkEdit: {
       onFormSubmit,
       defaults: conf?.linkEditDefaults,
@@ -302,7 +303,10 @@ export const onLinkClick = (ctrl: Controller, link: ForceGraphLinkObject) => {
   };
   ctrl.popUp.setState({
     isOpen: true,
-    title: `To learn about "${link?.source?.description}" knowledge of "${link?.target?.description}" is required with a weight of`,
+    title: i18n.t("To learn about source -> target is required", {
+      source: link?.source?.description,
+      target: link?.target?.description,
+    }),
     linkVote: { onSubmit },
   });
 };
@@ -328,7 +332,9 @@ export const onNodeClick = (
   };
   ctrl.popUp.setState({
     isOpen: true,
-    title: `Edit node "${node.description}"`,
+    title: i18n.t("Edit node with description", {
+      description: node.description,
+    }),
     nodeEdit: { onFormSubmit, defaultFormContent: node },
   });
 };

@@ -12,6 +12,7 @@ import {
 } from "src/GraphManager/hooks/useCreateUser";
 import { UserLoginInfo } from "src/GraphManager/hooks/useLoginUser";
 import { useUserDataContext } from "src/UserDataContext";
+import { useTranslation } from "react-i18next";
 
 enum TabNames {
   "LOGIN",
@@ -86,18 +87,18 @@ export default function LoginSignupMenu() {
     const rsp = await createUserWithEMail(signup);
     loginUserInContext(rsp.data?.createUserWithEMail.login);
   };
-
+  const { t } = useTranslation();
   return (
     <Box>
       <Button variant="contained" color="primary" onClick={handleClickOpen}>
-        Login/Signup
+        {t("Login/Signup")}
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <Box sx={{ width: "100%" }}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <Tabs value={selectedTab} onChange={handleSelectTab} centered>
-              <Tab label="Login" {...a11yProps(0)}></Tab>
-              <Tab label="Signup" {...a11yProps(0)}></Tab>
+              <Tab label={t("Login")} {...a11yProps(0)}></Tab>
+              <Tab label={t("Signup")} {...a11yProps(0)}></Tab>
             </Tabs>
           </Box>
         </Box>

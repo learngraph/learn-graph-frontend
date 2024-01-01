@@ -554,9 +554,7 @@ describe("onLinkClick", () => {
     expect(ctrl.popUp.setState).toHaveBeenCalledTimes(1);
     const args = ctrl.popUp.setState.mock.calls[0][0];
     expect(args.isOpen).toBe(true);
-    expect(args.title).toEqual(
-      `To learn about "A" knowledge of "B" is required with a weight of`,
-    );
+    expect(args.title).toEqual(`To understand "A" knowledge of "B" is`);
     expect(args.linkVote?.onSubmit).not.toBe(undefined);
     args.linkVote?.onSubmit(2.2);
     ctrl.backend.submitVote.mockResolvedValue({}); // nothing means, no error

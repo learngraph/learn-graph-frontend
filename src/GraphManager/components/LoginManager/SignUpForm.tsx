@@ -8,6 +8,7 @@ import {
   StyledBoxSX,
   TextFieldFormikGenerator,
 } from "src/shared/Styles";
+import { useTranslation } from "react-i18next";
 
 interface SignUpFormProps {
   onSubmit: (data: UserSignupInfo) => void;
@@ -23,33 +24,34 @@ export const SignUpForm = (props: SignUpFormProps) => {
     validationSchema: validateUserSignupRequest,
     onSubmit: props.onSubmit,
   });
+  const { t } = useTranslation();
   return (
     <StyledBox sx={StyledBoxSX}>
       <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
         <PersonAddAltIcon />
       </Avatar>
       <Typography component="h1" variant="h5" sx={{ mb: 4 }}>
-        Sign Up
+        {t("Signup")}
       </Typography>
       <Box component="form" onSubmit={formik.handleSubmit}>
         <TextFieldFormikGenerator
           fieldName="username"
-          fieldLabel="User Name"
+          fieldLabel={t("User Name")}
           formik={formik}
           autoFocus
         />
         <TextFieldFormikGenerator
           fieldName="email"
-          fieldLabel="Email Address"
+          fieldLabel={t("Email Address")}
           formik={formik}
         />
         <TextFieldFormikGenerator
           fieldName="password"
-          fieldLabel="Password"
+          fieldLabel={t("Password")}
           formik={formik}
         />
         <Button variant="contained" type="submit" fullWidth sx={{ mt: 3 }}>
-          Submit
+          {t("Submit")}
         </Button>
       </Box>
     </StyledBox>

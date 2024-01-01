@@ -1,3 +1,4 @@
+import i18n from "src/i18n";
 import * as yup from "yup";
 
 // NOTE: this must be kept in sync with the backend's requirements!
@@ -5,22 +6,28 @@ import * as yup from "yup";
 const username = {
   username: yup
     .string()
-    .min(4, "Username should be of minimum 4 characters length")
-    .required("Username is required"),
+    .min(
+      4,
+      i18n.t("Username should be of minimum N characters length", { N: 4 }),
+    )
+    .required(i18n.t("Username is required")),
 };
 
 const email = {
   email: yup
     .string()
-    .email("Enter a valid email")
-    .required("Email is required"),
+    .email(i18n.t("Enter a valid email"))
+    .required(i18n.t("Email is required")),
 };
 
 const password = {
   password: yup
     .string()
-    .min(10, "Password should be of minimum 10 characters length")
-    .required("Password is required"),
+    .min(
+      10,
+      i18n.t("Password should be of minimum N characters length", { N: 10 }),
+    )
+    .required(i18n.t("Password is required")),
 };
 
 export const validateUserSignupRequest = yup.object({
