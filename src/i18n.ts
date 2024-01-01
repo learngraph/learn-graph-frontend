@@ -27,7 +27,7 @@ const resources = {
       "Source Node": "Knowledge Source",
       "Target Node": "Knowledge Target",
       "Node Description": "Knowledge Description",
-      "Edit node with description": `Edit node "{{description}}"`,
+      "Edit node with description": `Edit knowledge node "{{description}}"`,
       "To learn about source -> target is required": `To understand "{{source}}" knowledge of "{{target}}" is`,
       "Create new learning dependency": "Create new learning dependency",
       "Create new knowledge node": "Create new knowledge node",

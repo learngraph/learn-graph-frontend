@@ -1,12 +1,11 @@
 // TODO(skep): should review this code, copied from example!
-import { styled } from "@mui/material/styles";
+import { styled, useTheme } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import LoginManager from "./LoginManager";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { useTheme } from "@mui/material/styles";
 import { SearchCallback, SearchField } from "./Search";
 
 const BarItems = styled("div")(({ theme }) => ({
