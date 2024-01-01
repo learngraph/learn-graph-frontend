@@ -10,6 +10,7 @@ import { onError } from "@apollo/client/link/error";
 import { setContext, ContextSetter } from "@apollo/client/link/context";
 import fetch from "cross-fetch";
 import { addAuthHeader, addLanguageHeader, addUserIDHeader } from "src/link";
+import i18n from "./i18n";
 
 export interface UserDataContextValues {
   language: string;
@@ -76,9 +77,9 @@ const makeNotifyUserOnNotLoggedInError = (ctx: UserDataContextValues) => {
     if (graphQLErrors) {
       graphQLErrors.forEach(({ message }) => {
         if (message.includes("only logged in user may create graph data")) {
-          let msg = "Please login/signup to contribute!";
+          let msg = i18n.t("Please login/signup to contribute!");
           if (ctx.userID !== "" && ctx.authenticationToken !== "") {
-            msg = "Session expired, please login again!";
+            msg = i18n.t("Session expired, please login again!");
             deleteUserDataFromLS();
             ctx.setUserID("");
             ctx.setUserName("");
@@ -120,10 +121,17 @@ export const UserDataContextProvider: React.FC<{
     setUserName(name);
     setAuthenticationToken(token);
   }, []);
+  // XXX(skep): not sure if this works, yet!
+  const setLanguageAndTranslation = (
+    newlanguage: React.SetStateAction<string>,
+  ) => {
+    setLanguage(newlanguage);
+    i18n.changeLanguage(newlanguage.toString());
+  };
 
   const ctx: UserDataContextValues = {
     language,
-    setLanguage,
+    setLanguage: setLanguageAndTranslation,
     userID,
     userName,
     setUserID,

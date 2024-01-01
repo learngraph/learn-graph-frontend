@@ -1,4 +1,5 @@
 import { Box, Button } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 interface UserDisplayProps {
   userID: string;
@@ -6,11 +7,12 @@ interface UserDisplayProps {
 }
 
 export default function UserDisplay(props: UserDisplayProps) {
+  const { t } = useTranslation();
   const onClick = () => {};
   return (
     <Box>
       <Button variant="contained" color="primary" onClick={onClick}>
-        User: {props.userName}
+        {t("user-name-button", { userName: props.userName })}
       </Button>
     </Box>
   );

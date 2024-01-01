@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import HeaderBar from "./HeaderBar";
 
+// FIXME(skep): this single test takes 50% of the whole test-suite of the application - WHY?!
 describe("HeaderBar", () => {
   it("should call userInputCallback on input change", async () => {
     let userInputCallback = jest.fn();

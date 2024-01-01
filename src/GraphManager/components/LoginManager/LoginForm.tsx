@@ -17,6 +17,7 @@ import {
 import { useFormik } from "formik";
 import { UserLoginInfo } from "src/GraphManager/hooks/useLoginUser";
 import { validateUserLoginRequest } from "./InputValidation";
+import { useTranslation } from "react-i18next";
 
 interface LoginFormProps {
   onSubmit: (data: UserLoginInfo) => void;
@@ -36,24 +37,25 @@ export default function LoginForm(props: LoginFormProps) {
     validationSchema: validateUserLoginRequest,
     onSubmit: props.onSubmit,
   });
+  const { t } = useTranslation();
   return (
     <StyledBox sx={StyledBoxSX}>
       <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
         <LockOutlined />
       </Avatar>
       <Typography component="h1" variant="h5">
-        Login
+        {t("Login")}
       </Typography>
       <Box component="form" onSubmit={formik.handleSubmit}>
         <TextFieldFormikGenerator
           fieldName="email"
-          fieldLabel="Email Address"
+          fieldLabel={t("Email Address")}
           formik={formik}
           autoFocus
         />
         <TextFieldFormikGenerator
           fieldName="password"
-          fieldLabel="Password"
+          fieldLabel={t("Password")}
           formik={formik}
         />
         <FormControlLabel
@@ -64,7 +66,7 @@ export default function LoginForm(props: LoginFormProps) {
               checked={formik.values.rememberme}
             />
           }
-          label="Remember me (not implemented)"
+          label={t("Remember me")} // TODO(skep): this is currently on by default, quite missleading :(
           name="rememberme"
           onChange={formik.handleChange}
         />
@@ -74,17 +76,17 @@ export default function LoginForm(props: LoginFormProps) {
           variant="contained"
           sx={{ mt: 3, mb: 2 }}
         >
-          Sign In
+          {t("Sign In")}
         </Button>
         <Grid container>
           <Grid item xs>
             <Link href="#" variant="body2">
-              Forgot password?
+              {t("Forgot password?")}
             </Link>
           </Grid>
           <Grid item>
             <Link href="#" variant="body2">
-              {"Don't have an account? Sign Up"}
+              {t("Don't have an account? Sign Up")}
             </Link>
           </Grid>
         </Grid>

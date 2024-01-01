@@ -24,6 +24,7 @@ import {
 } from "src/shared/Styles";
 import { ForceGraphGraphData, ForceGraphNodeObject } from "./types";
 import * as yup from "yup";
+import { useTranslation } from "react-i18next";
 
 interface LinkWeightSliderProps {
   defaultValue: number;
@@ -37,19 +38,19 @@ export const LinkWeightSlider = (props: LinkWeightSliderProps) => {
   ) => {
     props.setSliderValue(newValue);
   };
-  // TODO(skep): translations
+  const { t } = useTranslation();
   const marks: Mark[] = [
     {
       value: 1,
-      label: "Irrelevant",
+      label: t("Link-weight-Irrelevant"),
     },
     {
       value: 5,
-      label: "Useful",
+      label: t("Link-weight-Useful"),
     },
     {
       value: 9,
-      label: "Necessary",
+      label: t("Link-weight-Necessary"),
     },
   ];
   return (
@@ -236,10 +237,11 @@ export const LinkCreatePopUp = ({
     return `${node?.description} (${node.id})`;
   };
   const getIDForNode = (node: ForceGraphNodeObject) => node?.id ?? "";
+  const { t } = useTranslation();
   fields.push(
     <TextFieldFormikGeneratorAutocomplete
       fieldName="sourceNode"
-      fieldLabel="Source Node"
+      fieldLabel={t("Source Node")}
       formik={formik}
       autoFocus
       options={nodes}
@@ -251,7 +253,7 @@ export const LinkCreatePopUp = ({
   fields.push(
     <TextFieldFormikGeneratorAutocomplete
       fieldName="targetNode"
-      fieldLabel="Target Node"
+      fieldLabel={t("Target Node")}
       formik={formik}
       options={nodes}
       optionLabel={getLabelForNode}
@@ -333,10 +335,11 @@ const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
     return addKeyboardShortcuts(formik);
   }, [formik]);
   const fields = [];
+  const { t } = useTranslation();
   fields.push(
     <TextFieldFormikGenerator
       fieldName="nodeDescription"
-      fieldLabel="Node Description"
+      fieldLabel={t("Node Description")}
       formik={formik}
       autoFocus
     />,
@@ -364,6 +367,7 @@ export const DraggableForm = ({
   fields,
   formik,
 }: DraggableFormPorops) => {
+  const { t } = useTranslation();
   return (
     <>
       <Dialog
@@ -381,11 +385,11 @@ export const DraggableForm = ({
           {fields}
         </DialogContent>
         <DialogActions sx={DialogueStyles.dialogButtons}>
-          <Tooltip title="Esc">
-            <Button onClick={handleClose}> Cancel </Button>
+          <Tooltip title={t("Esc")}>
+            <Button onClick={handleClose}> {t("Cancel")} </Button>
           </Tooltip>
-          <Tooltip title="Ctrl + Enter">
-            <Button onClick={() => formik.submitForm()}> Save </Button>
+          <Tooltip title={t("Ctrl + Return")}>
+            <Button onClick={() => formik.submitForm()}> {t("Save")} </Button>
           </Tooltip>
         </DialogActions>
       </Dialog>

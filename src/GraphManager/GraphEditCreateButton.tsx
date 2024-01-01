@@ -10,6 +10,7 @@ import {
   openCreateLinkPopUp,
   openCreateNodePopUpAtPagePosition,
 } from "./GraphEdit";
+import { useTranslation } from "react-i18next";
 
 // TODO(skep): use theme here for backgroundColor!
 // Styled component for the shaded circle
@@ -51,6 +52,7 @@ export const CreateButton = ({ ctrl }: CreateButtonProps) => {
         return openCreateLinkPopUp(ctrl, undefined);
     }
   };
+  const { t } = useTranslation();
 
   return (
     <div style={{ position: "fixed", bottom: "0px", right: "0px" }}>
@@ -75,10 +77,14 @@ export const CreateButton = ({ ctrl }: CreateButtonProps) => {
         }}
       >
         <Tooltip placement="left-end" title="Ctrl + Click anywhere">
-          <MenuItem onClick={() => handleClose("newNode")}>New Node</MenuItem>
+          <MenuItem onClick={() => handleClose("newNode")}>
+            {t("New Node")}
+          </MenuItem>
         </Tooltip>
         <Tooltip placement="left-end" title="Drag nodes close to each other">
-          <MenuItem onClick={() => handleClose("newLink")}>New Link</MenuItem>
+          <MenuItem onClick={() => handleClose("newLink")}>
+            {t("New Link")}
+          </MenuItem>
         </Tooltip>
       </Menu>
     </div>
