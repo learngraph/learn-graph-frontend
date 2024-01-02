@@ -51,6 +51,8 @@ export const makeMockController = () => {
       updateNode: jest.fn().mockName("backend.updateNode"),
       createLink: jest.fn().mockName("backend.createLink"),
       submitVote: jest.fn().mockName("backend.submitVote"),
+      deleteNode: jest.fn().mockName("backend.deleteNode"),
+      deleteEdge: jest.fn().mockName("backend.deleteEdge"),
     },
     graph: makeGraphState(),
     popUp: {

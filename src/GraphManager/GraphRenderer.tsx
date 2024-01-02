@@ -38,6 +38,8 @@ import { CreateButton } from "./GraphEditCreateButton";
 import { useUserDataContext } from "src/UserDataContext";
 import { useSubmitVote } from "./hooks/useSubmitVote";
 import { useUpdateNode } from "./hooks/useUpdateNode";
+import { useDeleteNode } from "./hooks/useDeleteNode";
+import { useDeleteEdge } from "./hooks/useDeleteEdge";
 
 interface GraphRendererProps {
   graphDataRef: MutableRefObject<ForceGraphGraphData | null>;
@@ -390,6 +392,8 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   const { createEdge } = useCreateEdge();
   const { submitVote } = useSubmitVote();
   const { updateNode } = useUpdateNode();
+  const { deleteNode } = useDeleteNode();
+  const { deleteEdge } = useDeleteEdge();
   const initPopUp: GraphEditPopUpState = {
     isOpen: false,
   };
@@ -401,6 +405,8 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       updateNode,
       createLink: createEdge,
       submitVote,
+      deleteNode,
+      deleteEdge,
     },
     popUp: {
       state: editPopUpState,

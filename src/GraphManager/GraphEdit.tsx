@@ -5,8 +5,6 @@ import {
   NewNodeForm,
   PopUpControls,
 } from "./GraphEditPopUp";
-import { CreateNodeFn } from "./hooks/useCreateNode";
-import { CreateEdgeFn } from "./hooks/useCreateEdge";
 import {
   ForceGraphRef,
   ForceGraphGraphData,
@@ -15,8 +13,12 @@ import {
   ForceGraphLinkObjectInitial,
 } from "./types";
 import { Position, SpecialNodes } from "./GraphRenderer";
+import { CreateNodeFn } from "./hooks/useCreateNode";
+import { CreateEdgeFn } from "./hooks/useCreateEdge";
 import { SubmitVoteFn } from "./hooks/useSubmitVote";
 import { UpdateNodeFn } from "./hooks/useUpdateNode";
+import { DeleteNodeFn } from "./hooks/useDeleteNode";
+import { DeleteEdgeFn } from "./hooks/useDeleteEdge";
 import { HasID } from "./Zoom";
 import i18n from "src/i18n";
 
@@ -43,6 +45,8 @@ export interface Backend {
   updateNode: UpdateNodeFn;
   createLink: CreateEdgeFn;
   submitVote: SubmitVoteFn;
+  deleteNode: DeleteNodeFn;
+  deleteEdge: DeleteEdgeFn;
 }
 
 export const openCreateNodePopUpAtMousePosition = (
