@@ -3,17 +3,16 @@ import IconButton from "@mui/material/IconButton";
 import TranslateIcon from "@mui/icons-material/Translate";
 
 import Menu from "@mui/material/Menu";
-import MenuList from "@mui/material/MenuList";
 import MenuItem from "@mui/material/MenuItem";
-import ListItemText from "@mui/material/ListItemText";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import Typography from "@mui/material/Typography";
+//import ListItemText from "@mui/material/ListItemText";
+//import ListItemIcon from "@mui/material/ListItemIcon";
+//import Typography from "@mui/material/Typography";
 
 import { useUserDataContext } from "src/UserDataContext";
 
 export default function LocaleManager() {
   const { language, setLanguage } = useUserDataContext();
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -25,7 +24,9 @@ export default function LocaleManager() {
     if (!menuItem) {
       return;
     }
-    setLanguage(menuItem);
+    if (menuItem !== language) {
+      setLanguage(menuItem);
+    }
   };
 
   return (
@@ -37,14 +38,14 @@ export default function LocaleManager() {
         id="basic-menu"
         anchorEl={anchorEl}
         open={open}
-        onClose={handleClick}
+        onClose={() => setAnchorEl(null)}
         MenuListProps={{
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={() => handleClose("a")}>Profile</MenuItem>
-        <MenuItem onClick={() => handleClose("s")}>My account</MenuItem>
-        <MenuItem onClick={() => handleClose("d")}>Logout</MenuItem>
+        <MenuItem onClick={() => handleClose("en")}>en</MenuItem>
+        <MenuItem onClick={() => handleClose("de")}>de</MenuItem>
+        <MenuItem onClick={() => handleClose("zh")}>zh</MenuItem>
       </Menu>
     </>
   );
