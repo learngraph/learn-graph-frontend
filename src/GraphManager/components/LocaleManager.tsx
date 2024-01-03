@@ -1,11 +1,12 @@
 import React, { ReactNode, useState } from "react";
-import IconButton from "@mui/material/IconButton";
+import Button from "@mui/material/Button";
 import TranslateIcon from "@mui/icons-material/Translate";
 
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import ListItemText from "@mui/material/ListItemText";
-//import Typography from "@mui/material/Typography";
+
+import i18n from "src/i18n";
 
 import { useUserDataContext } from "src/UserDataContext";
 
@@ -26,7 +27,7 @@ const languageDict: { [language: string]: LanguageDictEntry } = {
     localeString: "deDE",
   },
   zh: {
-    displayText: "中國人",
+    displayText: "中文",
     displayIcon: "🇹🇼",
     localeString: "zhTW",
   },
@@ -53,9 +54,14 @@ export default function LocaleManager() {
 
   return (
     <>
-      <IconButton onClick={handleClick} aria-label="switch language">
-        <TranslateIcon />
-      </IconButton>
+      <Button
+        variant="outlined"
+        startIcon={<TranslateIcon />}
+        onClick={handleClick}
+        aria-label="switch language"
+      >
+        {i18n.t("switch-language-button")}
+      </Button>
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}

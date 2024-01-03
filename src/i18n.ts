@@ -14,6 +14,7 @@ const resources = {
       Delete: "Delete",
       "Ctrl + Return": "Ctrl + Return",
       "user-name-button": "User: {{userName}}",
+      "switch-language-button": "Language",
       // error messages
       "Please login/signup to contribute!":
         "Please login/signup to contribute!",
@@ -64,6 +65,7 @@ const resources = {
       Delete: "Löschen",
       "Ctrl + Return": "Strg + Enter",
       "user-name-button": "Benutzer: {{userName}}",
+      "switch-language-button": "Sprache",
       // error messages
       "Please login/signup to contribute!":
         "Bitte log Dich ein oder erstelle einen Account um beizutragen!",
