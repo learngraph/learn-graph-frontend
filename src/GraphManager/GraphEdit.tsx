@@ -46,7 +46,7 @@ export interface Backend {
   createLink: CreateEdgeFn;
   submitVote: SubmitVoteFn;
   deleteNode: DeleteNodeFn;
-  deleteEdge: DeleteEdgeFn;
+  deleteLink: DeleteEdgeFn;
 }
 
 export const openCreateNodePopUpAtMousePosition = (
@@ -305,13 +305,17 @@ export const onLinkClick = (ctrl: Controller, link: ForceGraphLinkObject) => {
   const onSubmit = (weight: number) => {
     ctrl.backend.submitVote({ ID: link.id, value: weight });
   };
+  const onDelete = async () => {
+    await ctrl.backend.deleteLink({ id: link.id });
+    ctrl.graph.removeLink(link);
+  };
   ctrl.popUp.setState({
     isOpen: true,
     title: i18n.t("To learn about source -> target is required", {
       source: link?.source?.description,
       target: link?.target?.description,
     }),
-    linkVote: { onSubmit },
+    linkVote: { onSubmit, onDelete },
   });
 };
 

@@ -1,10 +1,8 @@
-import { ForceGraphMethods } from "react-force-graph-2d";
 import {
   Backend,
   DEFAULT_EDIT_LINK_WEIGHT,
   DRAG_snapInDistanceSquared,
   DRAG_snapOutDistanceSquared,
-  GraphState,
   INTERIM_TMP_LINK_ID,
   NodeDragState,
   onLinkClick,
@@ -15,77 +13,8 @@ import {
   openCreateNodePopUpAtMousePosition,
 } from "./GraphEdit";
 import { GraphEditPopUpState, NewLinkForm } from "./GraphEditPopUp";
-import { SpecialNodes } from "./GraphRenderer";
-import { ForceGraphLinkObject, ForceGraphNodeObject } from "./types";
-
-const makeGraphState = () => {
-  const emptyGraph: {
-    nodes: ForceGraphNodeObject[];
-    links: ForceGraphLinkObject[];
-  } = { nodes: [], links: [] };
-  const g: GraphState = {
-    current: emptyGraph,
-    setGraph: jest.fn().mockName("graph.setGraph"),
-    addNode: jest.fn().mockName("graph.addNode"),
-    addLink: jest.fn().mockName("graph.addLink"),
-    removeLink: jest.fn().mockName("graph.removeLink"),
-    updateLink: jest.fn().mockName("graph.updateLink"),
-    updateNode: jest.fn().mockName("graph.updateNode"),
-  };
-  return g;
-};
-
-export const makeMockController = () => {
-  // @ts-ignore: typescript does not understand jest.mock
-  const forceGraphMethods: ForceGraphMethods = jest.mock<ForceGraphMethods>(
-    "react-force-graph-2d",
-  );
-  forceGraphMethods.centerAt = jest.fn().mockName("forceGraphRef.centerAt");
-  forceGraphMethods.screen2GraphCoords = jest
-    .fn()
-    .mockName("forceGraphRef.screen2GraphCoords");
-  const specialNodes: SpecialNodes = {};
-  const ctrl = {
-    backend: {
-      createNode: jest.fn().mockName("backend.createNode"),
-      updateNode: jest.fn().mockName("backend.updateNode"),
-      createLink: jest.fn().mockName("backend.createLink"),
-      submitVote: jest.fn().mockName("backend.submitVote"),
-      deleteNode: jest.fn().mockName("backend.deleteNode"),
-      deleteEdge: jest.fn().mockName("backend.deleteEdge"),
-    },
-    graph: makeGraphState(),
-    popUp: {
-      state: {
-        isOpen: false,
-        title: "",
-        details: "",
-        nodeEdit: {
-          onFormSubmit: jest.fn().mockName("popUp.state.nodeEdit.onFormSubmit"),
-        },
-        linkEdit: {
-          onFormSubmit: jest.fn().mockName("popUp.state.linkEdit.onFormSubmit"),
-          onNonSubmitClose: jest
-            .fn()
-            .mockName("popUp.state.nodeEdit.onNonSubmitClose"),
-        },
-      },
-      setState: jest.fn().mockName("popUp.setState"),
-    },
-    // @ts-ignore
-    forceGraphRef: {
-      current: forceGraphMethods,
-    },
-    nodeDrag: {
-      setState: jest.fn(),
-      state: {},
-    },
-    language: "en",
-    highlightNodes: new Set(),
-    specialNodes,
-  };
-  return ctrl;
-};
+import { ForceGraphLinkObject } from "./types";
+import { makeMockController, makeGraphState } from "./GraphEdit.testingutil";
 
 describe("openCreateNodePopUpAtMousePosition", () => {
   const makeMockMouseEvent = (props: any) => {
@@ -568,6 +497,26 @@ describe("onLinkClick", () => {
     // XXX(skep): should we update the display? probably just a popUp:
     // "successfully voted!", otherwise RPC has to be extended..
     //expect(ctrl.graph.updateLink)
+  });
+  it("should have a popup with delete button", async () => {
+    const ctrl = makeMockController();
+    ctrl.backend.deleteLink.mockResolvedValue({}); // nothing means, no error
+    const link = {
+      id: "9",
+      source: { id: 1, description: "A" },
+      target: { id: 2, description: "B" },
+      value: 5,
+    };
+    // @ts-ignore
+    onLinkClick(ctrl, link);
+    expect(ctrl.popUp.setState).toHaveBeenCalledTimes(1);
+    const args = ctrl.popUp.setState.mock.calls[0][0];
+    expect(args.linkVote?.onDelete).not.toBe(undefined);
+    await args.linkVote?.onDelete();
+    expect(ctrl.backend.deleteLink).toHaveBeenCalledTimes(1);
+    expect(ctrl.backend.deleteLink).toHaveBeenNthCalledWith(1, { id: "9" });
+    expect(ctrl.graph.removeLink).toHaveBeenCalledTimes(1);
+    expect(ctrl.graph.removeLink).toHaveBeenNthCalledWith(1, link);
   });
 });
 

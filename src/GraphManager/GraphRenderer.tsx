@@ -406,7 +406,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       createLink: createEdge,
       submitVote,
       deleteNode,
-      deleteEdge,
+      deleteLink: deleteEdge,
     },
     popUp: {
       state: editPopUpState,
