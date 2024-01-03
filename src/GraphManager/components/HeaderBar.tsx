@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import LoginManager from "./LoginManager";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { SearchCallback, SearchField } from "./Search";
+import LocaleManager from "./LocaleManager";
 
 const BarItems = styled("div")(({ theme }) => ({
   display: "flex",
@@ -34,6 +35,7 @@ export default function HeaderBar(props: HeaderBarProps) {
           </Typography>
           <BarItems>
             <SearchField props={props} />
+            <LocaleManager />
             <LoginManager />
           </BarItems>
         </Toolbar>
