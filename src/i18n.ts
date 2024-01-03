@@ -15,6 +15,7 @@ const resources = {
       "Ctrl + Return": "Ctrl + Return",
       "user-name-button": "User: {{userName}}",
       "switch-language-button": "Language",
+      "switch-language-button-short": "Lang.",
       // error messages
       "Please login/signup to contribute!":
         "Please login/signup to contribute!",
@@ -66,6 +67,7 @@ const resources = {
       "Ctrl + Return": "Strg + Enter",
       "user-name-button": "Benutzer: {{userName}}",
       "switch-language-button": "Sprache",
+      "switch-language-button-short": "Spr.",
       // error messages
       "Please login/signup to contribute!":
         "Bitte log Dich ein oder erstelle einen Account um beizutragen!",

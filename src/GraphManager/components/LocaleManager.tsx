@@ -9,6 +9,7 @@ import ListItemText from "@mui/material/ListItemText";
 import i18n from "src/i18n";
 
 import { useUserDataContext } from "src/UserDataContext";
+import { useMediaQuery, useTheme } from "@mui/material";
 
 interface LanguageDictEntry {
   displayText: string;
@@ -52,15 +53,25 @@ export default function LocaleManager() {
     }
   };
 
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <>
       <Button
-        variant="outlined"
+        variant="contained"
         startIcon={<TranslateIcon />}
         onClick={handleClick}
         aria-label="switch language"
+        sx={{
+          maxWidth: isSmallScreen ? "100%" : "auto", // Set maximum width for small screens
+          whiteSpace: "normal", // Allow text to wrap
+          textOverflow: "ellipsis", // Add ellipsis if text overflows
+          overflow: "hidden", // Hide overflowed content
+        }}
       >
-        {i18n.t("switch-language-button")}
+        {isSmallScreen
+          ? i18n.t("switch-language-button-short")
+          : i18n.t("switch-language-button")}
       </Button>
       <Menu
         id="basic-menu"
@@ -74,7 +85,10 @@ export default function LocaleManager() {
         {Object.entries(languageDict).map(
           ([languageString, languageProperties]) => {
             return (
-              <MenuItem onClick={() => handleClose(languageString)}>
+              <MenuItem
+                onClick={() => handleClose(languageString)}
+                key={languageString}
+              >
                 <ListItemText>{`${languageProperties.displayIcon} ${languageProperties.displayText}`}</ListItemText>
               </MenuItem>
             );
