@@ -89,6 +89,7 @@ export interface GraphEditPopUpState {
 export interface NodeEdit {
   onFormSubmit: (form: NewNodeForm) => void;
   defaultFormContent?: ForceGraphNodeObject;
+  onDelete?: () => void;
 }
 export interface LinkEditDefaultValues {
   source?: ForceGraphNodeObject;
@@ -354,6 +355,7 @@ const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
       handleClose={handleClose}
       fields={fields}
       formik={formik}
+      onDelete={ctrl.popUp.state.nodeEdit?.onDelete}
     />
   );
 };

@@ -70,6 +70,7 @@ export const makeGraphState = () => {
     addNode: jest.fn().mockName("graph.addNode"),
     addLink: jest.fn().mockName("graph.addLink"),
     removeLink: jest.fn().mockName("graph.removeLink"),
+    removeNode: jest.fn().mockName("graph.removeNode"),
     updateLink: jest.fn().mockName("graph.updateLink"),
     updateNode: jest.fn().mockName("graph.updateNode"),
   };

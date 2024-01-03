@@ -545,4 +545,18 @@ describe("onNodeClick", () => {
       description: "ok",
     });
   });
+  it("should have a delete button in popup", async () => {
+    const ctrl = makeMockController();
+    const node = { id: "1", description: "1" };
+    // @ts-ignore
+    onNodeClick(ctrl, node);
+    expect(ctrl.popUp.setState).toHaveBeenCalledTimes(1);
+    const args = ctrl.popUp.setState.mock.calls[0][0];
+    expect(args.nodeEdit?.onDelete).not.toBe(undefined);
+    await args.nodeEdit?.onDelete();
+    expect(ctrl.backend.deleteNode).toHaveBeenCalledTimes(1);
+    expect(ctrl.backend.deleteNode).toHaveBeenNthCalledWith(1, { id: "1" });
+    expect(ctrl.graph.removeNode).toHaveBeenCalledTimes(1);
+    expect(ctrl.graph.removeNode).toHaveBeenNthCalledWith(1, node);
+  });
 });

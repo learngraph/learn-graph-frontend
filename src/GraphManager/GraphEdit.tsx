@@ -39,6 +39,7 @@ export interface GraphState {
     node: ForceGraphNodeObject,
     newNode: ForceGraphNodeObject,
   ) => void;
+  removeNode: (node: ForceGraphNodeObject) => void;
 }
 export interface Backend {
   createNode: CreateNodeFn;
@@ -338,11 +339,15 @@ export const onNodeClick = (
     });
     ctrl.graph.updateNode(node, { ...node, description: form.nodeDescription });
   };
+  const onDelete = async () => {
+    await ctrl.backend.deleteNode({ id: node.id });
+    ctrl.graph.removeNode(node);
+  };
   ctrl.popUp.setState({
     isOpen: true,
     title: i18n.t("Edit node with description", {
       description: node.description,
     }),
-    nodeEdit: { onFormSubmit, defaultFormContent: node },
+    nodeEdit: { onFormSubmit, defaultFormContent: node, onDelete },
   });
 };
