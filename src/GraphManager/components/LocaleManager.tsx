@@ -1,14 +1,36 @@
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 import IconButton from "@mui/material/IconButton";
 import TranslateIcon from "@mui/icons-material/Translate";
 
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-//import ListItemText from "@mui/material/ListItemText";
-//import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
 //import Typography from "@mui/material/Typography";
 
 import { useUserDataContext } from "src/UserDataContext";
+
+interface LanguageDictEntry {
+  displayText: string;
+  displayIcon: ReactNode;
+  localeString: string;
+}
+const languageDict: { [language: string]: LanguageDictEntry } = {
+  en: {
+    displayText: "English",
+    displayIcon: "🇬🇧",
+    localeString: "enUS",
+  },
+  de: {
+    displayText: "Deutsch",
+    displayIcon: "🇩🇪",
+    localeString: "deDE",
+  },
+  zh: {
+    displayText: "中國人",
+    displayIcon: "🇹🇼",
+    localeString: "zhTW",
+  },
+};
 
 export default function LocaleManager() {
   const { language, setLanguage } = useUserDataContext();
@@ -40,12 +62,18 @@ export default function LocaleManager() {
         open={open}
         onClose={() => setAnchorEl(null)}
         MenuListProps={{
-          "aria-labelledby": "basic-button",
+          "aria-labelledby": "switch language",
         }}
       >
-        <MenuItem onClick={() => handleClose("en")}>en</MenuItem>
-        <MenuItem onClick={() => handleClose("de")}>de</MenuItem>
-        <MenuItem onClick={() => handleClose("zh")}>zh</MenuItem>
+        {Object.entries(languageDict).map(
+          ([languageString, languageProperties]) => {
+            return (
+              <MenuItem onClick={() => handleClose(languageString)}>
+                <ListItemText>{`${languageProperties.displayIcon} ${languageProperties.displayText}`}</ListItemText>
+              </MenuItem>
+            );
+          },
+        )}
       </Menu>
     </>
   );
