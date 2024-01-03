@@ -38,6 +38,8 @@ import { CreateButton } from "./GraphEditCreateButton";
 import { useUserDataContext } from "src/UserDataContext";
 import { useSubmitVote } from "./hooks/useSubmitVote";
 import { useUpdateNode } from "./hooks/useUpdateNode";
+import { useDeleteNode } from "./hooks/useDeleteNode";
+import { useDeleteEdge } from "./hooks/useDeleteEdge";
 
 interface GraphRendererProps {
   graphDataRef: MutableRefObject<ForceGraphGraphData | null>;
@@ -303,6 +305,13 @@ export const makeGraphState = (
   const state: GraphState = {
     current: graph,
     setGraph,
+    addLink: (link: ForceGraphLinkObject | ForceGraphLinkObjectInitial) => {
+      // @ts-ignore: FIXME(skep): should probably remove
+      // ForceGraphLinkObjectInitial again, it's too much of a nuicance to use
+      // this polymorphic object everywhere, just because on startup it has a
+      // different structure
+      setGraph({ nodes: graph.nodes, links: [...graph.links, link] });
+    },
     removeLink: (toRemove: ForceGraphLinkObject) => {
       const idx = graph.links.findIndex((link) => link.id === toRemove.id);
       if (idx === -1) {
@@ -311,15 +320,16 @@ export const makeGraphState = (
       graph.links.splice(idx, 1);
       setGraph(graph);
     },
-    addLink: (link: ForceGraphLinkObject | ForceGraphLinkObjectInitial) => {
-      // @ts-ignore: FIXME(skep): should probably remove
-      // ForceGraphLinkObjectInitial again, it's too much of a nuicance to use
-      // this polymorphic object everywhere, just because on startup it has a
-      // different structure
-      setGraph({ nodes: graph.nodes, links: [...graph.links, link] });
-    },
     addNode: (node: ForceGraphNodeObject) => {
       setGraph({ nodes: [...graph.nodes, node], links: graph.links });
+    },
+    removeNode: (toRemove: ForceGraphNodeObject) => {
+      const idx = graph.nodes.findIndex((node) => node.id === toRemove.id);
+      if (idx === -1) {
+        return;
+      }
+      graph.nodes.splice(idx, 1);
+      setGraph(graph);
     },
     updateNode: (node: ForceGraphNodeObject, newNode: ForceGraphNodeObject) => {
       node.description = newNode.description;
@@ -390,6 +400,8 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   const { createEdge } = useCreateEdge();
   const { submitVote } = useSubmitVote();
   const { updateNode } = useUpdateNode();
+  const { deleteNode } = useDeleteNode();
+  const { deleteEdge } = useDeleteEdge();
   const initPopUp: GraphEditPopUpState = {
     isOpen: false,
   };
@@ -401,6 +413,8 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       updateNode,
       createLink: createEdge,
       submitVote,
+      deleteNode,
+      deleteLink: deleteEdge,
     },
     popUp: {
       state: editPopUpState,

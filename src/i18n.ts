@@ -11,6 +11,7 @@ const resources = {
       Cancel: "Cancel",
       Save: "Save",
       Esc: "Esc",
+      Delete: "Delete",
       "Ctrl + Return": "Ctrl + Return",
       "user-name-button": "User: {{userName}}",
       // error messages
@@ -60,6 +61,7 @@ const resources = {
       Cancel: "Abbrechen",
       Save: "Speichern",
       Esc: "Esc",
+      Delete: "Löschen",
       "Ctrl + Return": "Strg + Enter",
       "user-name-button": "Benutzer: {{userName}}",
       // error messages

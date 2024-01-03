@@ -25,6 +25,7 @@ import {
 import { ForceGraphGraphData, ForceGraphNodeObject } from "./types";
 import * as yup from "yup";
 import { useTranslation } from "react-i18next";
+import { useTheme } from "@mui/system";
 
 interface LinkWeightSliderProps {
   defaultValue: number;
@@ -88,6 +89,7 @@ export interface GraphEditPopUpState {
 export interface NodeEdit {
   onFormSubmit: (form: NewNodeForm) => void;
   defaultFormContent?: ForceGraphNodeObject;
+  onDelete?: () => void;
 }
 export interface LinkEditDefaultValues {
   source?: ForceGraphNodeObject;
@@ -101,6 +103,7 @@ export interface LinkEdit {
 
 export interface LinkVote {
   onSubmit: (value: number) => void;
+  onDelete?: () => void;
 }
 
 export interface NewNodeForm {
@@ -311,6 +314,7 @@ const LinkVotePopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
       handleClose={handleClose}
       fields={fields}
       formik={formik}
+      onDelete={ctrl.popUp.state.linkVote?.onDelete}
     />
   );
 };
@@ -351,6 +355,7 @@ const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
       handleClose={handleClose}
       fields={fields}
       formik={formik}
+      onDelete={ctrl.popUp.state.nodeEdit?.onDelete}
     />
   );
 };
@@ -359,37 +364,51 @@ type DraggableFormPorops = SubGraphEditPopUpProps & {
   popUp: PopUpControls;
   fields: any;
   formik: { submitForm: () => void };
+  onDelete?: () => void;
 };
 
-export const DraggableForm = ({
-  popUp,
-  handleClose,
-  fields,
-  formik,
-}: DraggableFormPorops) => {
+export const DraggableForm = (props: DraggableFormPorops) => {
   const { t } = useTranslation();
+  const onDelete = () => {
+    props.handleClose();
+    props.onDelete!();
+  };
+  const theme = useTheme();
   return (
     <>
       <Dialog
-        open={popUp.state.isOpen}
-        onClose={handleClose}
+        open={props.popUp.state.isOpen}
+        onClose={props.handleClose}
         PaperComponent={DraggablePaperComponent}
         aria-labelledby="draggable-dialog-title"
         sx={DialogueStyles.dialogRoot}
       >
         <DialogTitle style={{ cursor: "move" }} id="draggable-dialog-title">
-          {popUp.state.title}
+          {props.popUp.state.title}
         </DialogTitle>
         <DialogContent>
-          <DialogContentText>{popUp.state.details}</DialogContentText>
-          {fields}
+          <DialogContentText>{props.popUp.state.details}</DialogContentText>
+          {props.fields}
         </DialogContent>
         <DialogActions sx={DialogueStyles.dialogButtons}>
           <Tooltip title={t("Esc")}>
-            <Button onClick={handleClose}> {t("Cancel")} </Button>
+            <Button onClick={props.handleClose}> {t("Cancel")} </Button>
           </Tooltip>
+          {!!props.onDelete && (
+            <Button
+              onClick={onDelete}
+              style={{
+                backgroundColor: theme.palette.warning.main,
+                color: theme.palette.warning.contrastText,
+              }}
+            >
+              {t("Delete")}
+            </Button>
+          )}
           <Tooltip title={t("Ctrl + Return")}>
-            <Button onClick={() => formik.submitForm()}> {t("Save")} </Button>
+            <Button onClick={() => props.formik.submitForm()}>
+              {t("Save")}
+            </Button>
           </Tooltip>
         </DialogActions>
       </Dialog>

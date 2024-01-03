@@ -7,7 +7,7 @@ import {
   convertBackendGraphToForceGraph,
 } from "./GraphRenderer";
 import "@testing-library/jest-dom";
-import { makeMockController } from "./GraphEdit.test";
+import { makeMockController } from "./GraphEdit.testingutil";
 
 // Since render() does not support canvas.getContext('2d')
 // we must mock ForceGraph2D.

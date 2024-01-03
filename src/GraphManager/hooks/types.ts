@@ -21,3 +21,7 @@ export interface Translation {
 export interface Text {
   translations: Translation[];
 }
+
+export interface Status {
+  Message: string;
+}

@@ -5,8 +5,6 @@ import {
   NewNodeForm,
   PopUpControls,
 } from "./GraphEditPopUp";
-import { CreateNodeFn } from "./hooks/useCreateNode";
-import { CreateEdgeFn } from "./hooks/useCreateEdge";
 import {
   ForceGraphRef,
   ForceGraphGraphData,
@@ -15,8 +13,12 @@ import {
   ForceGraphLinkObjectInitial,
 } from "./types";
 import { Position, SpecialNodes } from "./GraphRenderer";
+import { CreateNodeFn } from "./hooks/useCreateNode";
+import { CreateEdgeFn } from "./hooks/useCreateEdge";
 import { SubmitVoteFn } from "./hooks/useSubmitVote";
 import { UpdateNodeFn } from "./hooks/useUpdateNode";
+import { DeleteNodeFn } from "./hooks/useDeleteNode";
+import { DeleteEdgeFn } from "./hooks/useDeleteEdge";
 import { HasID } from "./Zoom";
 import i18n from "src/i18n";
 
@@ -37,12 +39,15 @@ export interface GraphState {
     node: ForceGraphNodeObject,
     newNode: ForceGraphNodeObject,
   ) => void;
+  removeNode: (node: ForceGraphNodeObject) => void;
 }
 export interface Backend {
   createNode: CreateNodeFn;
   updateNode: UpdateNodeFn;
   createLink: CreateEdgeFn;
   submitVote: SubmitVoteFn;
+  deleteNode: DeleteNodeFn;
+  deleteLink: DeleteEdgeFn;
 }
 
 export const openCreateNodePopUpAtMousePosition = (
@@ -301,13 +306,17 @@ export const onLinkClick = (ctrl: Controller, link: ForceGraphLinkObject) => {
   const onSubmit = (weight: number) => {
     ctrl.backend.submitVote({ ID: link.id, value: weight });
   };
+  const onDelete = async () => {
+    await ctrl.backend.deleteLink({ id: link.id });
+    ctrl.graph.removeLink(link);
+  };
   ctrl.popUp.setState({
     isOpen: true,
     title: i18n.t("To learn about source -> target is required", {
       source: link?.source?.description,
       target: link?.target?.description,
     }),
-    linkVote: { onSubmit },
+    linkVote: { onSubmit, onDelete },
   });
 };
 
@@ -330,11 +339,15 @@ export const onNodeClick = (
     });
     ctrl.graph.updateNode(node, { ...node, description: form.nodeDescription });
   };
+  const onDelete = async () => {
+    await ctrl.backend.deleteNode({ id: node.id });
+    ctrl.graph.removeNode(node);
+  };
   ctrl.popUp.setState({
     isOpen: true,
     title: i18n.t("Edit node with description", {
       description: node.description,
     }),
-    nodeEdit: { onFormSubmit, defaultFormContent: node },
+    nodeEdit: { onFormSubmit, defaultFormContent: node, onDelete },
   });
 };
