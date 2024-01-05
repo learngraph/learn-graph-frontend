@@ -104,6 +104,15 @@ export const openCreateNodePopUpAtPagePosition = (
   });
 };
 
+export interface KeyboardState {
+  shiftHeld: boolean;
+};
+
+export interface ZoomControl {
+  zoomLevel: number,
+  setZoomLevel: Dispatch<SetStateAction<number>>
+};
+
 export interface Controller {
   graph: GraphState;
   forceGraphRef: ForceGraphRef;
@@ -114,6 +123,8 @@ export interface Controller {
   // TODO(skep): should merge these two types
   highlightNodes: Set<HasID>;
   specialNodes: SpecialNodes;
+  keys: KeyboardState;
+  zoom: ZoomControl;
 }
 
 export const makeOnBackgroundClick = (controller: Controller) => {

@@ -18,9 +18,9 @@ import {
   ForceGraphLinkObjectInitial,
   BackendGraphData,
 } from "./types";
-import { /*zoomStep,*/ HasID } from "./Zoom";
+import { zoomStep, HasID } from "./Zoom";
+import { makeOnZoomAndPanListener } from "./ZoomForceGraphIntegration";
 import { useGraphData } from "./hooks";
-//import { makeOnZoomAndPanListener } from "./ZoomForceGraphIntegration";
 import {
   GraphState,
   makeOnBackgroundClick,
@@ -40,6 +40,7 @@ import { useSubmitVote } from "./hooks/useSubmitVote";
 import { useUpdateNode } from "./hooks/useUpdateNode";
 import { useDeleteNode } from "./hooks/useDeleteNode";
 import { useDeleteEdge } from "./hooks/useDeleteEdge";
+import { ZoomControlPanel, makeZoomControl } from "./ZoomControlPanel";
 
 interface GraphRendererProps {
   graphDataRef: MutableRefObject<ForceGraphGraphData | null>;
@@ -396,6 +397,25 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       document.removeEventListener("contextmenu", rightClickAction);
     };
   });
+  const [shiftHeld, setShiftHeld] = useState(false);
+  const downHandler = ({ key }: any) => {
+    if (key === "Shift") {
+      setShiftHeld(true);
+    }
+  };
+  const upHandler = ({ key }: any) => {
+    if (key === "Shift") {
+      setShiftHeld(false);
+    }
+  };
+  useEffect(() => {
+    window.addEventListener("keydown", downHandler);
+    window.addEventListener("keyup", upHandler);
+    return () => {
+      window.removeEventListener("keydown", downHandler);
+      window.removeEventListener("keyup", upHandler);
+    };
+  }, []);
   const { createNode } = useCreateNode();
   const { createEdge } = useCreateEdge();
   const { submitVote } = useSubmitVote();
@@ -407,6 +427,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   };
   const [editPopUpState, setEditPopUpState] = useState(initPopUp);
   const [nodeDrag, setNodeDrag] = useState<NodeDragState>({});
+  const [zoomLevel, setZoomLevel] = useState(1);
   const controller: Controller = {
     backend: {
       createNode,
@@ -429,6 +450,11 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     language,
     highlightNodes: props.highlightNodes,
     specialNodes: {},
+    keys: { shiftHeld },
+    zoom: {
+      zoomLevel,
+      setZoomLevel,
+    },
   };
   const onBackgroundClick = makeOnBackgroundClick(controller);
   const onNodeHover = (
@@ -482,12 +508,14 @@ export const GraphRenderer = (props: GraphRendererProps) => {
         // @ts-ignore
         linkCanvasObjectMode={() => config.linkCanvasObjectMode}
         linkCanvasObject={makeLinkCanvasObject(controller)}
-        // XXX(skep): disable zoom until it's better balanced
         //onZoom={makeOnZoomAndPanListener(props.forceGraphRef, zoomStep, graph)}
         onBackgroundClick={onBackgroundClick}
       />
       <GraphEditPopUp ctrl={controller} />
       <CreateButton ctrl={controller} />
+      <ZoomControlPanel
+        zoomControl={makeZoomControl(controller)}
+      />
     </Box>
   );
 };

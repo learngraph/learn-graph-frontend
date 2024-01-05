@@ -23,6 +23,7 @@ export const makeOnZoomAndPanListener = (
 ) => {
   let lastZoom = ref.current?.zoom();
   let zoomState: ZoomState = { zoomSteps: [], graphData };
+  let zoomN: number[] = [];
   const onZoomAndPan = (transform: UserZoomEvent) => {
     const forcegraph = ref.current;
     if (!forcegraph) {
@@ -37,9 +38,19 @@ export const makeOnZoomAndPanListener = (
       return;
     }
     if (lastZoom < currentZoom) {
-      zoom({ direction: ZoomDirection.In, steps: 1 }, zoomState);
+      const n = zoomN.pop();
+      if (!n) {
+        return;
+      }
+      for (let i = 0; i < n; i++) {
+        zoom({ direction: ZoomDirection.In, steps: 1 }, zoomState);
+      }
     } else {
-      zoom({ direction: ZoomDirection.Out, steps: 1 }, zoomState);
+      const n = zoomState.graphData.nodes.length / 2;
+      zoomN.push(n);
+      for (let i = 0; i < n; i++) {
+        zoom({ direction: ZoomDirection.Out, steps: 1 }, zoomState);
+      }
     }
     forcegraph.d3ReheatSimulation();
     lastZoom = currentZoom;
