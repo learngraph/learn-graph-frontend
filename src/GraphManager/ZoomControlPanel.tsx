@@ -18,14 +18,14 @@ export interface ZoomControlPanelProps {
   zoomControl: ZoomPanelControl;
 }
 
-function debounce(func: () => void, delay: number) {
-  let timer: NodeJS.Timeout | null = null;
-  return function (...args: []) {
-    // @ts-ignore
+interface AnyFunction {
+  (...args: any[]): any;
+}
+function debounce<Func extends AnyFunction>(func: Func, delay: number) {
+  let timer: ReturnType<typeof setTimeout>;
+  return function (this: ThisParameterType<Func>, ...args: []) {
     const context = this;
-    // @ts-ignore
     clearTimeout(timer);
-    // @ts-ignore
     timer = setTimeout(() => {
       func.apply(context, args);
     }, delay);
@@ -127,7 +127,6 @@ export const ZoomControlPanel = ({ zoomControl }: ZoomControlPanelProps) => {
       </IconButton>
       <Slider
         value={zoomControl.zoomLevel}
-        // @ts-ignore: it does work
         onChange={debounce(zoomControl.onZoomChange, 100)}
         min={ZOOM_LEVEL_MIN}
         max={ZOOM_LEVEL_MAX}
