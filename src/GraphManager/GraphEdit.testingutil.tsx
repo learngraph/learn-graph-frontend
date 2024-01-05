@@ -2,6 +2,7 @@ import { ForceGraphMethods } from "react-force-graph-2d";
 import { GraphState } from "./GraphEdit";
 import { SpecialNodes } from "./GraphRenderer";
 import { ForceGraphLinkObject, ForceGraphNodeObject } from "./types";
+import { ZOOM_LEVEL_MIN } from "./ZoomControlPanel";
 
 // Note: these methods are used by GraphRenderer tests as well, they must not
 // be imported from a .test-file, otherwise jest will execute those tests
@@ -16,7 +17,9 @@ export const makeMockController = () => {
   forceGraphMethods.screen2GraphCoords = jest
     .fn()
     .mockName("forceGraphRef.screen2GraphCoords");
-  forceGraphMethods.d3ReheatSimulation = jest.fn().mockName("forceGraphRef.d3ReheatSimulation");
+  forceGraphMethods.d3ReheatSimulation = jest
+    .fn()
+    .mockName("forceGraphRef.d3ReheatSimulation");
   const specialNodes: SpecialNodes = {};
   const graphState = makeGraphState();
   const ctrl = {
@@ -58,9 +61,9 @@ export const makeMockController = () => {
     highlightNodes: new Set(),
     specialNodes,
     zoom: {
-      zoomState: { zoomSteps: 1, graphData:  graphState.current},
+      zoomState: { zoomSteps: 1, graphData: graphState.current },
       setZoomState: jest.fn(),
-      zoomLevel: 1,
+      zoomLevel: ZOOM_LEVEL_MIN + 1, // can zoom in both directions from here
       setZoomLevel: jest.fn(),
       zoomStepStack: [],
       setZoomStepStack: jest.fn(),

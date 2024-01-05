@@ -153,7 +153,13 @@ const makeNodeCanvasObject = (ctrl: Controller) => {
     ctx: CanvasRenderingContext2D,
     globalScale: number,
   ) => {
-    return nodeCanvasObject(nodeForceGraph, ctx, globalScale, ctrl);
+    return nodeCanvasObject(
+      nodeForceGraph,
+      ctx,
+      globalScale,
+      ctrl,
+      ctrl.graph.current.nodes.length,
+    );
   };
 };
 
@@ -162,15 +168,18 @@ export const nodeCanvasObject = (
   ctx: CanvasRenderingContext2D,
   globalScale: number,
   ctrl: Controller,
+  totalNodes: number,
 ) => {
   const { highlightNodes, specialNodes } = ctrl;
   let label = node.description ?? "";
   let backgroundColor = backgroundColorLightBlue;
   const mergedNodes = node.mergeCount ?? 0;
   if (mergedNodes > 1) {
-    // TODO(skep): use relative scaling to total number of nodes
-    // TODO(j): should use react theme for color choice here
-    let hue = ((1 - mergedNodes * 0.1) * 120).toString(10);
+    // TODO(skep): should use react theme for color choice here
+    let hue = (
+      205 +
+      (1 - Math.exp(-mergedNodes / totalNodes)) * 3 * 20
+    ).toString();
     backgroundColor = `hsl(${hue},100%,50%)`;
     label += ` [${mergedNodes}]`;
   }
