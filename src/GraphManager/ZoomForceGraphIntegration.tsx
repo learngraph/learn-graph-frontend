@@ -1,3 +1,4 @@
+// XXX(skep): unused!
 import { ZoomFn, GraphDataMerged, ZoomDirection, ZoomState } from "./Zoom";
 import { ForceGraphRef } from "./types";
 
