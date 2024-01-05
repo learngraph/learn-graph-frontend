@@ -18,8 +18,7 @@ import {
   ForceGraphLinkObjectInitial,
   BackendGraphData,
 } from "./types";
-import { zoomStep, HasID } from "./Zoom";
-import { makeOnZoomAndPanListener } from "./ZoomForceGraphIntegration";
+import { HasID, ZoomState } from "./Zoom";
 import { useGraphData } from "./hooks";
 import {
   GraphState,
@@ -41,6 +40,8 @@ import { useUpdateNode } from "./hooks/useUpdateNode";
 import { useDeleteNode } from "./hooks/useDeleteNode";
 import { useDeleteEdge } from "./hooks/useDeleteEdge";
 import { ZoomControlPanel, makeZoomControl } from "./ZoomControlPanel";
+//import { zoomStep } from "./Zoom";
+//import { makeOnZoomAndPanListener } from "./ZoomForceGraphIntegration";
 
 interface GraphRendererProps {
   graphDataRef: MutableRefObject<ForceGraphGraphData | null>;
@@ -427,7 +428,14 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   };
   const [editPopUpState, setEditPopUpState] = useState(initPopUp);
   const [nodeDrag, setNodeDrag] = useState<NodeDragState>({});
-  const [zoomLevel, setZoomLevel] = useState(1);
+  const [zoomLevel, setZoomLevel] = useState(5);
+  const typeAssertion: number[] = [];
+  const [zoomStepStack, setZoomStepStack] = useState(typeAssertion);
+  const zoomInitState: ZoomState = {
+    zoomSteps: [],
+    graphData: { nodes: [], links: [] },
+  };
+  const [zoomState, setZoomState] = useState(zoomInitState);
   const controller: Controller = {
     backend: {
       createNode,
@@ -454,6 +462,10 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     zoom: {
       zoomLevel,
       setZoomLevel,
+      zoomStepStack,
+      setZoomStepStack,
+      zoomState,
+      setZoomState,
     },
   };
   const onBackgroundClick = makeOnBackgroundClick(controller);
@@ -513,9 +525,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       />
       <GraphEditPopUp ctrl={controller} />
       <CreateButton ctrl={controller} />
-      <ZoomControlPanel
-        zoomControl={makeZoomControl(controller)}
-      />
+      <ZoomControlPanel zoomControl={makeZoomControl(controller)} />
     </Box>
   );
 };

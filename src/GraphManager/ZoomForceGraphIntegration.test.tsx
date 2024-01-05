@@ -45,7 +45,7 @@ describe("makeOnZoomListener", () => {
       },
     };
     const zoom = jest.fn();
-    let graphData = { nodes: [{id: "a"}, {id: "b"}], links: [] };
+    let graphData = { nodes: [{ id: "a" }, { id: "b" }], links: [] };
     const onZoomAndPan = makeOnZoomAndPanListener(forcegraph, zoom, graphData);
     onZoomAndPan({ k: 1, x: 0, y: 0 });
     expect(zoom.mock.calls.length).toEqual(0);
@@ -131,7 +131,7 @@ describe("makeOnZoomListener", () => {
       },
     };
     const zoom = jest.fn();
-    let graphData = { nodes: [{id: "a"}, {id: "b"}], links: [] };
+    let graphData = { nodes: [{ id: "a" }, { id: "b" }], links: [] };
     const onZoomAndPan = makeOnZoomAndPanListener(forcegraph, zoom, graphData);
     const initialZoom = 1;
     onZoomAndPan({ k: initialZoom, x: 0, y: 0 });
