@@ -84,7 +84,7 @@ describe("makeZoomControl", () => {
   describe("onZoomChange", () => {
     it("should zoom to the difference", () => {
       // @ts-ignore: don't care about 'Event'
-      zoomCtrl.onZoomChange({}, ctrl.zoom.zoomLevel + 2, 0);
+      zoomCtrl.onZoomChange(ctrl.zoom.zoomLevel + 2);
       expect(ctrl.zoom.setZoomLevel).toHaveBeenCalledWith(
         ctrl.zoom.zoomLevel + 2,
       );
@@ -92,12 +92,12 @@ describe("makeZoomControl", () => {
     });
     it("should cap zoom at MAX", () => {
       // @ts-ignore
-      zoomCtrl.onZoomChange({}, ZOOM_LEVEL_MAX + 1, 0);
+      zoomCtrl.onZoomChange(ZOOM_LEVEL_MAX + 1);
       expect(ctrl.zoom.setZoomLevel).toHaveBeenCalledWith(ZOOM_LEVEL_MAX);
     });
     it("should cap zoom at MIN", () => {
       // @ts-ignore
-      zoomCtrl.onZoomChange({}, ZOOM_LEVEL_MIN - 1, 0);
+      zoomCtrl.onZoomChange(ZOOM_LEVEL_MIN - 1);
       expect(ctrl.zoom.setZoomLevel).toHaveBeenCalledWith(ZOOM_LEVEL_MIN);
     });
   });
