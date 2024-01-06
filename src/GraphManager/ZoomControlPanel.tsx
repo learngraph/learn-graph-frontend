@@ -5,11 +5,7 @@ import { zoomStep, ZoomDirection } from "./Zoom";
 
 export interface ZoomPanelControl {
   zoomLevel: number;
-  onZoomChange: (
-    event: Event,
-    newValue: number | number[],
-    activeThumb: number,
-  ) => void;
+  onZoomChange: (newValue: number) => void;
   onZoomIn: () => void;
   onZoomOut: () => void;
 }
@@ -23,7 +19,7 @@ interface AnyFunction {
 }
 function debounce<Func extends AnyFunction>(func: Func, delay: number) {
   let timer: ReturnType<typeof setTimeout>;
-  return function (this: ThisParameterType<Func>, ...args: []) {
+  return function (this: ThisParameterType<Func>, ...args: Parameters<Func>) {
     const context = this;
     clearTimeout(timer);
     timer = setTimeout(() => {
@@ -47,6 +43,7 @@ export const makeZoomControl = (ctrl: Controller) => {
       zoomStep({ direction: ZoomDirection.In, steps: 1 }, state);
     }
     ctrl.zoom.setZoomState(state);
+    //ctrl.graph.setGraph(state.graphData);
     ctrl.forceGraphRef.current?.d3ReheatSimulation();
   };
   const onZoomIn = () => {
@@ -64,6 +61,7 @@ export const makeZoomControl = (ctrl: Controller) => {
       zoomStep({ direction: ZoomDirection.Out, steps: 1 }, state);
     }
     ctrl.zoom.setZoomState(state);
+    //ctrl.graph.setGraph(state.graphData);
     ctrl.forceGraphRef.current?.d3ReheatSimulation();
   };
   const onZoomOut = () => {
@@ -73,9 +71,7 @@ export const makeZoomControl = (ctrl: Controller) => {
     ctrl.zoom.setZoomLevel(ctrl.zoom.zoomLevel - ZOOM_LEVEL_STEP);
     performZoomOut();
   };
-  const onZoomChange = (_: Event, tmpNewValue: number | number[]) => {
-    // @ts-ignore: `newValue` is always a number, never number[]
-    const newValue: number = tmpNewValue;
+  const onZoomChange = (newValue: number) => {
     let diff = Math.abs(ctrl.zoom.zoomLevel - newValue);
     if (ctrl.zoom.zoomLevel < newValue) {
       if (ctrl.zoom.zoomLevel + diff > ZOOM_LEVEL_MAX) {
@@ -127,7 +123,11 @@ export const ZoomControlPanel = ({ zoomControl }: ZoomControlPanelProps) => {
       </IconButton>
       <Slider
         value={zoomControl.zoomLevel}
-        onChange={debounce(zoomControl.onZoomChange, 100)}
+        onChange={(_: Event, tmpLevel: number | number[]) => {
+          // @ts-ignore: it's a number - always.
+          let level: number = tmpLevel;
+          return debounce(zoomControl.onZoomChange, 100)(level);
+        }}
         min={ZOOM_LEVEL_MIN}
         max={ZOOM_LEVEL_MAX}
         step={ZOOM_LEVEL_STEP}

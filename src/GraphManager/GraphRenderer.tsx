@@ -469,6 +469,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     specialNodes: {},
     keys: { shiftHeld },
     zoom: {
+      setUserZoomLevel: () => {},
       zoomLevel,
       setZoomLevel,
       zoomStepStack,
@@ -476,6 +477,10 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       zoomState,
       setZoomState,
     },
+  };
+  const zoomControl = makeZoomControl(controller);
+  controller.zoom.setUserZoomLevel = (level: number) => {
+    zoomControl.onZoomChange(level);
   };
   const onBackgroundClick = makeOnBackgroundClick(controller);
   const onNodeHover = (
@@ -534,7 +539,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       />
       <GraphEditPopUp ctrl={controller} />
       <CreateButton ctrl={controller} />
-      <ZoomControlPanel zoomControl={makeZoomControl(controller)} />
+      <ZoomControlPanel zoomControl={zoomControl} />
     </Box>
   );
 };

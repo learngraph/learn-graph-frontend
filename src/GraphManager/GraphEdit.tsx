@@ -109,6 +109,9 @@ export interface KeyboardState {
 }
 
 export interface ZoomControl {
+  // zoom API
+  setUserZoomLevel: (level: number) => void;
+  // zoom internal state:
   zoomLevel: number;
   setZoomLevel: Dispatch<SetStateAction<number>>;
   zoomStepStack: number[];
