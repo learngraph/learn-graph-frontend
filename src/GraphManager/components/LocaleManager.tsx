@@ -74,7 +74,6 @@ export default function LocaleManager() {
           : i18n.t("switch-language-button")}
       </Button>
       <Menu
-        id="basic-menu"
         anchorEl={anchorEl}
         open={open}
         onClose={() => setAnchorEl(null)}
