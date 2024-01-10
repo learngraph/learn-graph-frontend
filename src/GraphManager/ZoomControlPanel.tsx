@@ -43,7 +43,7 @@ export const makeZoomControl = (ctrl: Controller) => {
       zoomStep({ direction: ZoomDirection.In, steps: 1 }, state);
     }
     ctrl.zoom.setZoomState(state);
-    //ctrl.graph.setGraph(state.graphData);
+    uglyHack(ctrl);
     ctrl.forceGraphRef.current?.d3ReheatSimulation();
   };
   const onZoomIn = () => {
@@ -61,7 +61,7 @@ export const makeZoomControl = (ctrl: Controller) => {
       zoomStep({ direction: ZoomDirection.Out, steps: 1 }, state);
     }
     ctrl.zoom.setZoomState(state);
-    //ctrl.graph.setGraph(state.graphData);
+    uglyHack(ctrl);
     ctrl.forceGraphRef.current?.d3ReheatSimulation();
   };
   const onZoomOut = () => {
@@ -145,4 +145,22 @@ export const ZoomControlPanel = ({ zoomControl }: ZoomControlPanelProps) => {
       </IconButton>
     </Box>
   );
+};
+
+// XXX(skep): ugly hack for unknown forcegrpah issue, to reproduce:
+//  1. zoom out
+//  2. change the graph (add node, add link, or even just create a temporary
+//     link by dragging, and then delete it by not submitting it)
+//  3. zoom in
+// The result is a completely messed up graph display.
+// For some unknown reason (?!) adding and removing a link fixes the graph display.
+// Thus call it after every zoom operation.
+const uglyHack = (ctrl: Controller) => {
+  if (ctrl.graph.current.links.length === 0) {
+    return;
+  }
+  const link = ctrl.graph.current.links[0];
+  ctrl.graph.removeLink(link);
+  ctrl.graph.addLink(link);
+  //console.log(`adding link ${link.source.description}->${link.target.description}`);
 };

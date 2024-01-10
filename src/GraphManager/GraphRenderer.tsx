@@ -272,14 +272,26 @@ const onLinkHover = (_: ForceGraphLinkObject | null): void => {
 };
 
 // global input listeners
-export const makeKeydownListener = (fgRef: any) => {
+export const makeKeydownListener = (ctrl: Controller) => {
   return (event: Partial<KeyboardEvent>) => {
     switch (event.key) {
       case "s":
-        if (!fgRef.current) {
-          return;
+        if (!!ctrl.forceGraphRef.current) {
+          console.log(`zoom: ${ctrl.forceGraphRef.current.zoom()}`);
         }
-        console.log(`zoom: ${fgRef.current.zoom()}`);
+        {
+          const link = ctrl.graph.current.links[0];
+          console.log(
+            `removing link ${link.source.description}->${link.target.description}`,
+          );
+          ctrl.graph.removeLink(link);
+          setTimeout(() => {
+            console.log(
+              `adding link ${link.source.description}->${link.target.description}`,
+            );
+            ctrl.graph.addLink(link);
+          }, 1000);
+        }
         return;
       default:
         return;
@@ -394,13 +406,6 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     setGraph(graph);
   }, [queryResponse.loading, data]);
   useEffect(() => {
-    const keyDownListener = makeKeydownListener(props.forceGraphRef);
-    document.addEventListener("keydown", keyDownListener);
-    return () => {
-      document.removeEventListener("keydown", keyDownListener);
-    };
-  });
-  useEffect(() => {
     const rightClickAction = (event: any) => event.preventDefault();
     document.addEventListener("contextmenu", rightClickAction);
     return () => {
@@ -489,6 +494,13 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   ) => {
     controller.specialNodes.hoveredNode = node;
   };
+  useEffect(() => {
+    const keyDownListener = makeKeydownListener(controller);
+    document.addEventListener("keydown", keyDownListener);
+    return () => {
+      document.removeEventListener("keydown", keyDownListener);
+    };
+  });
   // FIXME(umb): It looks like it should remove the empty space below the
   // canvas. Unfortuantely this code does nothing when the window is resized.
   const wrapperRef = useRef<HTMLDivElement>(null);

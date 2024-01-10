@@ -69,7 +69,9 @@ describe("nodeCanvasObject", () => {
 describe("makeKeydownListener", () => {
   it("should call nothing on key 'a'", () => {
     let zoom = jest.fn();
-    let keydown = makeKeydownListener(undefined);
+    const ctrl = makeMockController();
+    // @ts-ignore
+    let keydown = makeKeydownListener(ctrl);
     let event = { key: "a" };
     keydown(event);
     expect(zoom.mock.calls.length).toBe(0);
