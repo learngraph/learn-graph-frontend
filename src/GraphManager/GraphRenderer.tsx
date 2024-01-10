@@ -18,9 +18,8 @@ import {
   ForceGraphLinkObjectInitial,
   BackendGraphData,
 } from "./types";
-import { /*zoomStep,*/ HasID } from "./Zoom";
+import { HasID, ZoomState } from "./Zoom";
 import { useGraphData } from "./hooks";
-//import { makeOnZoomAndPanListener } from "./ZoomForceGraphIntegration";
 import {
   GraphState,
   makeOnBackgroundClick,
@@ -40,6 +39,11 @@ import { useSubmitVote } from "./hooks/useSubmitVote";
 import { useUpdateNode } from "./hooks/useUpdateNode";
 import { useDeleteNode } from "./hooks/useDeleteNode";
 import { useDeleteEdge } from "./hooks/useDeleteEdge";
+import {
+  ZoomControlPanel,
+  makeZoomControl,
+  makeOnZoomAndPanListener,
+} from "./ZoomControlPanel";
 
 interface GraphRendererProps {
   graphDataRef: MutableRefObject<ForceGraphGraphData | null>;
@@ -151,7 +155,13 @@ const makeNodeCanvasObject = (ctrl: Controller) => {
     ctx: CanvasRenderingContext2D,
     globalScale: number,
   ) => {
-    return nodeCanvasObject(nodeForceGraph, ctx, globalScale, ctrl);
+    return nodeCanvasObject(
+      nodeForceGraph,
+      ctx,
+      globalScale,
+      ctrl,
+      ctrl.graph.current.nodes.length,
+    );
   };
 };
 
@@ -160,15 +170,18 @@ export const nodeCanvasObject = (
   ctx: CanvasRenderingContext2D,
   globalScale: number,
   ctrl: Controller,
+  totalNodes: number,
 ) => {
   const { highlightNodes, specialNodes } = ctrl;
   let label = node.description ?? "";
   let backgroundColor = backgroundColorLightBlue;
   const mergedNodes = node.mergeCount ?? 0;
   if (mergedNodes > 1) {
-    // TODO(skep): use relative scaling to total number of nodes
-    // TODO(j): should use react theme for color choice here
-    let hue = ((1 - mergedNodes * 0.1) * 120).toString(10);
+    // TODO(skep): should use react theme for color choice here
+    let hue = (
+      205 +
+      (1 - Math.exp(-mergedNodes / totalNodes)) * 3 * 20
+    ).toString();
     backgroundColor = `hsl(${hue},100%,50%)`;
     label += ` [${mergedNodes}]`;
   }
@@ -261,14 +274,26 @@ const onLinkHover = (_: ForceGraphLinkObject | null): void => {
 };
 
 // global input listeners
-export const makeKeydownListener = (fgRef: any) => {
+export const makeKeydownListener = (ctrl: Controller) => {
   return (event: Partial<KeyboardEvent>) => {
     switch (event.key) {
       case "s":
-        if (!fgRef.current) {
-          return;
+        if (!!ctrl.forceGraphRef.current) {
+          console.log(`zoom: ${ctrl.forceGraphRef.current.zoom()}`);
         }
-        console.log(`zoom: ${fgRef.current.zoom()}`);
+        {
+          const link = ctrl.graph.current.links[0];
+          console.log(
+            `removing link ${link.source.description}->${link.target.description}`,
+          );
+          ctrl.graph.removeLink(link);
+          setTimeout(() => {
+            console.log(
+              `adding link ${link.source.description}->${link.target.description}`,
+            );
+            ctrl.graph.addLink(link);
+          }, 1000);
+        }
         return;
       default:
         return;
@@ -383,19 +408,31 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     setGraph(graph);
   }, [queryResponse.loading, data]);
   useEffect(() => {
-    const keyDownListener = makeKeydownListener(props.forceGraphRef);
-    document.addEventListener("keydown", keyDownListener);
-    return () => {
-      document.removeEventListener("keydown", keyDownListener);
-    };
-  });
-  useEffect(() => {
     const rightClickAction = (event: any) => event.preventDefault();
     document.addEventListener("contextmenu", rightClickAction);
     return () => {
       document.removeEventListener("contextmenu", rightClickAction);
     };
   });
+  const [shiftHeld, setShiftHeld] = useState(false);
+  const downHandler = ({ key }: any) => {
+    if (key === "Shift") {
+      setShiftHeld(true);
+    }
+  };
+  const upHandler = ({ key }: any) => {
+    if (key === "Shift") {
+      setShiftHeld(false);
+    }
+  };
+  useEffect(() => {
+    window.addEventListener("keydown", downHandler);
+    window.addEventListener("keyup", upHandler);
+    return () => {
+      window.removeEventListener("keydown", downHandler);
+      window.removeEventListener("keyup", upHandler);
+    };
+  }, []);
   const { createNode } = useCreateNode();
   const { createEdge } = useCreateEdge();
   const { submitVote } = useSubmitVote();
@@ -407,6 +444,14 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   };
   const [editPopUpState, setEditPopUpState] = useState(initPopUp);
   const [nodeDrag, setNodeDrag] = useState<NodeDragState>({});
+  const [zoomLevel, setZoomLevel] = useState(5);
+  const typeAssertion: number[] = [];
+  const [zoomStepStack, setZoomStepStack] = useState(typeAssertion);
+  const zoomInitState: ZoomState = {
+    zoomSteps: [],
+    graphData: { nodes: [], links: [] },
+  };
+  const [zoomState, setZoomState] = useState(zoomInitState);
   const controller: Controller = {
     backend: {
       createNode,
@@ -429,6 +474,20 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     language,
     highlightNodes: props.highlightNodes,
     specialNodes: {},
+    keys: { shiftHeld },
+    zoom: {
+      setUserZoomLevel: () => {},
+      zoomLevel,
+      setZoomLevel,
+      zoomStepStack,
+      setZoomStepStack,
+      zoomState,
+      setZoomState,
+    },
+  };
+  const zoomControl = makeZoomControl(controller);
+  controller.zoom.setUserZoomLevel = (level: number) => {
+    zoomControl.onZoomChange(level);
   };
   const onBackgroundClick = makeOnBackgroundClick(controller);
   const onNodeHover = (
@@ -437,6 +496,13 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   ) => {
     controller.specialNodes.hoveredNode = node;
   };
+  useEffect(() => {
+    const keyDownListener = makeKeydownListener(controller);
+    document.addEventListener("keydown", keyDownListener);
+    return () => {
+      document.removeEventListener("keydown", keyDownListener);
+    };
+  });
   // FIXME(umb): It looks like it should remove the empty space below the
   // canvas. Unfortuantely this code does nothing when the window is resized.
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -482,12 +548,12 @@ export const GraphRenderer = (props: GraphRendererProps) => {
         // @ts-ignore
         linkCanvasObjectMode={() => config.linkCanvasObjectMode}
         linkCanvasObject={makeLinkCanvasObject(controller)}
-        // XXX(skep): disable zoom until it's better balanced
-        //onZoom={makeOnZoomAndPanListener(props.forceGraphRef, zoomStep, graph)}
+        onZoom={makeOnZoomAndPanListener(controller)}
         onBackgroundClick={onBackgroundClick}
       />
       <GraphEditPopUp ctrl={controller} />
       <CreateButton ctrl={controller} />
+      <ZoomControlPanel zoomControl={zoomControl} />
     </Box>
   );
 };

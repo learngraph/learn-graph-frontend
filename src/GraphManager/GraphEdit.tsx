@@ -19,7 +19,7 @@ import { SubmitVoteFn } from "./hooks/useSubmitVote";
 import { UpdateNodeFn } from "./hooks/useUpdateNode";
 import { DeleteNodeFn } from "./hooks/useDeleteNode";
 import { DeleteEdgeFn } from "./hooks/useDeleteEdge";
-import { HasID } from "./Zoom";
+import { HasID, ZoomState } from "./Zoom";
 import i18n from "src/i18n";
 
 export const MAX_LINK_WEIGHT = 10;
@@ -104,6 +104,22 @@ export const openCreateNodePopUpAtPagePosition = (
   });
 };
 
+export interface KeyboardState {
+  shiftHeld: boolean;
+}
+
+export interface ZoomControl {
+  // zoom API
+  setUserZoomLevel: (level: number) => void;
+  // zoom internal state:
+  zoomLevel: number;
+  setZoomLevel: Dispatch<SetStateAction<number>>;
+  zoomStepStack: number[];
+  setZoomStepStack: Dispatch<SetStateAction<number[]>>;
+  zoomState: ZoomState;
+  setZoomState: Dispatch<SetStateAction<ZoomState>>;
+}
+
 export interface Controller {
   graph: GraphState;
   forceGraphRef: ForceGraphRef;
@@ -114,6 +130,8 @@ export interface Controller {
   // TODO(skep): should merge these two types
   highlightNodes: Set<HasID>;
   specialNodes: SpecialNodes;
+  keys: KeyboardState;
+  zoom: ZoomControl;
 }
 
 export const makeOnBackgroundClick = (controller: Controller) => {
