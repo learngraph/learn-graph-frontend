@@ -67,6 +67,11 @@ export const makeMockController = () => {
       setZoomLevel: jest.fn(),
       zoomStepStack: [],
       setZoomStepStack: jest.fn(),
+      setUserZoomLevel: jest.fn(),
+    },
+    keys: {
+      shiftHeld: false,
+      setShiftHeld: jest.fn(),
     },
   };
   return ctrl;

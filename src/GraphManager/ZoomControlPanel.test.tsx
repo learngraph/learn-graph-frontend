@@ -1,9 +1,12 @@
 import { Controller } from "./GraphEdit";
 import { makeMockController } from "./GraphEdit.testingutil";
 import {
+  makeOnZoomAndPanListenerNoDebounce,
   makeZoomControl,
+  MIN_ZOOM_PERCENTAGE_DIFFERENCE,
   ZOOM_LEVEL_MAX,
   ZOOM_LEVEL_MIN,
+  ZOOM_LEVEL_STEP,
 } from "./ZoomControlPanel";
 jest.mock("./Zoom", () => ({
   zoomStep: jest.fn(),
@@ -100,5 +103,48 @@ describe("makeZoomControl", () => {
       zoomCtrl.onZoomChange(ZOOM_LEVEL_MIN - 1);
       expect(ctrl.zoom.setZoomLevel).toHaveBeenCalledWith(ZOOM_LEVEL_MIN);
     });
+  });
+});
+
+describe("makeOnZoomAndPanListenerNoDebounce", () => {
+  let mockCtrl: ReturnType<typeof makeMockController>;
+  let ctrl: Controller;
+  beforeEach(() => {
+    mockCtrl = makeMockController();
+    // @ts-ignore
+    ctrl = mockCtrl;
+  });
+  it("should call zoom function", () => {
+    mockCtrl.forceGraphRef.current.zoom = jest.fn().mockReturnValue(1);
+    mockCtrl.keys.shiftHeld = true;
+    const zoomLevel = ctrl.zoom.zoomLevel;
+    const zoom = makeOnZoomAndPanListenerNoDebounce(ctrl);
+    zoom({ k: 2, x: 0, y: 0 });
+    expect(ctrl.zoom.setUserZoomLevel).toHaveBeenCalledTimes(1);
+    expect(ctrl.zoom.setUserZoomLevel).toHaveBeenCalledWith(
+      zoomLevel + ZOOM_LEVEL_STEP,
+    );
+  });
+  it("should do nothing when shift-key is not pressed", () => {
+    mockCtrl.forceGraphRef.current.zoom = jest.fn().mockReturnValue(1);
+    const zoom = makeOnZoomAndPanListenerNoDebounce(ctrl);
+    zoom({ k: 2, x: 0, y: 0 });
+    expect(ctrl.zoom.setUserZoomLevel).not.toHaveBeenCalled();
+  });
+  it("should do nothing when last zoom = 0", () => {
+    mockCtrl.forceGraphRef.current.zoom = jest.fn().mockReturnValue(0);
+    mockCtrl.keys.shiftHeld = true;
+    const zoom = makeOnZoomAndPanListenerNoDebounce(ctrl);
+    zoom({ k: 2, x: 0, y: 0 });
+    expect(ctrl.zoom.setUserZoomLevel).not.toHaveBeenCalled();
+  });
+  it("should do nothing when diff percentage < MIN_ZOOM_PERCENTAGE_DIFFERENCE", () => {
+    mockCtrl.forceGraphRef.current.zoom = jest
+      .fn()
+      .mockReturnValue(100 * (1 + MIN_ZOOM_PERCENTAGE_DIFFERENCE * 0.5));
+    mockCtrl.keys.shiftHeld = true;
+    const zoom = makeOnZoomAndPanListenerNoDebounce(ctrl);
+    zoom({ k: 100, x: 0, y: 0 });
+    expect(ctrl.zoom.setUserZoomLevel).not.toHaveBeenCalled();
   });
 });

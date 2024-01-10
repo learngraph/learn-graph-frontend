@@ -165,7 +165,7 @@ const uglyHack = (ctrl: Controller) => {
   //console.log(`adding link ${link.source.description}->${link.target.description}`);
 };
 
-interface UserZoomEvent {
+export interface UserZoomEvent {
   // zoom level
   k: number;
   x: number;
@@ -174,6 +174,10 @@ interface UserZoomEvent {
 export const MIN_ZOOM_PERCENTAGE_DIFFERENCE = 0.05;
 
 export const makeOnZoomAndPanListener = (ctrl: Controller) => {
+  return debounce(makeOnZoomAndPanListenerNoDebounce(ctrl), 100);
+};
+
+export const makeOnZoomAndPanListenerNoDebounce = (ctrl: Controller) => {
   let lastZoom = ctrl.forceGraphRef.current?.zoom();
   const zoomFn = (transform: UserZoomEvent) => {
     if (!ctrl.keys.shiftHeld) {
@@ -193,5 +197,5 @@ export const makeOnZoomAndPanListener = (ctrl: Controller) => {
       ctrl.zoom.setUserZoomLevel(ctrl.zoom.zoomLevel - ZOOM_LEVEL_STEP);
     }
   };
-  return debounce(zoomFn, 100);
+  return zoomFn;
 };
