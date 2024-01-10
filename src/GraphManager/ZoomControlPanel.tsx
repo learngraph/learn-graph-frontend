@@ -164,3 +164,34 @@ const uglyHack = (ctrl: Controller) => {
   ctrl.graph.addLink(link);
   //console.log(`adding link ${link.source.description}->${link.target.description}`);
 };
+
+interface UserZoomEvent {
+  // zoom level
+  k: number;
+  x: number;
+  y: number;
+}
+export const MIN_ZOOM_PERCENTAGE_DIFFERENCE = 0.05;
+
+export const makeOnZoomAndPanListener = (ctrl: Controller) => {
+  let lastZoom = ctrl.forceGraphRef.current?.zoom();
+  const zoomFn = (transform: UserZoomEvent) => {
+    if (!ctrl.keys.shiftHeld) {
+      return;
+    }
+    const currentZoom = transform.k;
+    if (!lastZoom || lastZoom === currentZoom) {
+      return;
+    }
+    const diffPercentage = Math.abs(lastZoom - currentZoom) / currentZoom;
+    if (diffPercentage < MIN_ZOOM_PERCENTAGE_DIFFERENCE) {
+      return;
+    }
+    if (lastZoom < currentZoom) {
+      ctrl.zoom.setUserZoomLevel(ctrl.zoom.zoomLevel + ZOOM_LEVEL_STEP);
+    } else {
+      ctrl.zoom.setUserZoomLevel(ctrl.zoom.zoomLevel - ZOOM_LEVEL_STEP);
+    }
+  };
+  return debounce(zoomFn, 100);
+};

@@ -121,6 +121,15 @@ const undoZoomOperation = (op: ZoomOperation, state: ZoomState) => {
         link.source.id === op.to!.source.id &&
         link.target.id === op.to!.target.id,
     );
+    if (!link) {
+      // FIXME(skep): how does it happen? write a test for this
+      console.error(
+        `link to rewrite does not exist: ${op.to!.source.id} -> ${
+          op.to!.target.id
+        }`,
+      );
+      return;
+    }
     if (
       op.from!.source.id === op.to!.source.id &&
       op.from!.target.id === op.to!.target.id
@@ -137,6 +146,15 @@ const undoZoomOperation = (op: ZoomOperation, state: ZoomState) => {
         link.source.id === op.link!.source.id &&
         link.target.id === op.link!.target.id,
     );
+    if (!link) {
+      // FIXME(skep): how does it happen? write a test for this
+      console.error(
+        `link to set value does not exist: ${op.link!.source.id} -> ${
+          op.link!.target.id
+        }`,
+      );
+      return;
+    }
     link!.value = op.link!.value;
   }
 };

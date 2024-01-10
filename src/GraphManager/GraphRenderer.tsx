@@ -39,9 +39,11 @@ import { useSubmitVote } from "./hooks/useSubmitVote";
 import { useUpdateNode } from "./hooks/useUpdateNode";
 import { useDeleteNode } from "./hooks/useDeleteNode";
 import { useDeleteEdge } from "./hooks/useDeleteEdge";
-import { ZoomControlPanel, makeZoomControl } from "./ZoomControlPanel";
-//import { zoomStep } from "./Zoom";
-//import { makeOnZoomAndPanListener } from "./ZoomForceGraphIntegration";
+import {
+  ZoomControlPanel,
+  makeZoomControl,
+  makeOnZoomAndPanListener,
+} from "./ZoomControlPanel";
 
 interface GraphRendererProps {
   graphDataRef: MutableRefObject<ForceGraphGraphData | null>;
@@ -546,7 +548,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
         // @ts-ignore
         linkCanvasObjectMode={() => config.linkCanvasObjectMode}
         linkCanvasObject={makeLinkCanvasObject(controller)}
-        //onZoom={makeOnZoomAndPanListener(props.forceGraphRef, zoomStep, graph)}
+        onZoom={makeOnZoomAndPanListener(controller)}
         onBackgroundClick={onBackgroundClick}
       />
       <GraphEditPopUp ctrl={controller} />
