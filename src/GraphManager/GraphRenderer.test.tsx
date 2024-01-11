@@ -5,9 +5,12 @@ import {
   SpecialNodes,
   makeGraphState,
   convertBackendGraphToForceGraph,
+  initialZoomForLargeGraph,
+  MAX_NODES_WITHOUT_INITIAL_ZOOM,
 } from "./GraphRenderer";
 import "@testing-library/jest-dom";
 import { makeMockController } from "./GraphEdit.testingutil";
+import {ForceGraphNodeObject} from "./types";
 
 // Since render() does not support canvas.getContext('2d')
 // we must mock ForceGraph2D.
@@ -175,5 +178,28 @@ describe("convertBackendGraphToForceGraph", () => {
         graph: { nodes: undefined, links: undefined },
       }),
     ).toEqual({ nodes: [], links: [] });
+  });
+});
+
+describe("initialZoomForLargeGraph", () => {
+  it("should do nothing for graph with < MAX_NODES_WITHOUT_INITIAL_ZOOM", () => {
+    const ctrl = makeMockController(); // empty graph
+    // @ts-ignore
+    initialZoomForLargeGraph(ctrl);
+    expect(ctrl.zoom.setUserZoomLevel).not.toHaveBeenCalled();
+  });
+  it("should zoom out for big graph", () => {
+    const ctrl = makeMockController();
+    let nodes: ForceGraphNodeObject[] = [];
+    for (let i = 0; i <= MAX_NODES_WITHOUT_INITIAL_ZOOM + 1; i++) {
+      nodes.push({id: i.toString(), description: i.toString()});
+    }
+    ctrl.graph.current = {
+      nodes,
+      links: [],
+    };
+    // @ts-ignore
+    initialZoomForLargeGraph(ctrl);
+    expect(ctrl.zoom.setUserZoomLevel).toHaveBeenCalledTimes(1);
   });
 });

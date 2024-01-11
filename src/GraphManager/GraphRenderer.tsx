@@ -29,20 +29,24 @@ import {
   makeOnNodeDragEnd,
   makeOnLinkClick,
   makeOnNodeClick,
+  Backend,
 } from "./GraphEdit";
 import { GraphEditPopUp, GraphEditPopUpState } from "./GraphEditPopUp";
 import { useCreateNode } from "./hooks/useCreateNode";
 import { useCreateEdge } from "./hooks/useCreateEdge";
-import { CreateButton } from "./GraphEditCreateButton";
-import { useUserDataContext } from "src/UserDataContext";
 import { useSubmitVote } from "./hooks/useSubmitVote";
 import { useUpdateNode } from "./hooks/useUpdateNode";
 import { useDeleteNode } from "./hooks/useDeleteNode";
 import { useDeleteEdge } from "./hooks/useDeleteEdge";
+import { CreateButton } from "./GraphEditCreateButton";
+import { useUserDataContext } from "src/UserDataContext";
 import {
   ZoomControlPanel,
   makeZoomControl,
   makeOnZoomAndPanListener,
+  ZOOM_LEVEL_MAX,
+  ZOOM_LEVEL_STEP,
+  debounce,
 } from "./ZoomControlPanel";
 
 interface GraphRendererProps {
@@ -393,6 +397,25 @@ export const convertBackendGraphToForceGraph: GraphConverter = (data) => {
   return fgGraph;
 };
 
+const convertAndSetGraph = (
+  setGraph: Dispatch<SetStateAction<ForceGraphGraphData>>,
+  data: { graph: BackendGraphData },
+) => {
+  const graph = convertBackendGraphToForceGraph(data);
+  if (!graph) {
+    return;
+  }
+  setGraph(graph);
+};
+
+export const MAX_NODES_WITHOUT_INITIAL_ZOOM = 30;
+export const initialZoomForLargeGraph = (ctrl: Controller) => {
+  if (ctrl.graph.current.nodes.length < MAX_NODES_WITHOUT_INITIAL_ZOOM) {
+    return;
+  }
+  ctrl.zoom.setUserZoomLevel(ZOOM_LEVEL_MAX - ZOOM_LEVEL_STEP);
+};
+
 export const GraphRenderer = (props: GraphRendererProps) => {
   const [graph, setGraph] = useState<ForceGraphGraphData>(
     makeInitialGraphData(),
@@ -401,11 +424,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   const { language } = useUserDataContext();
   const { data, queryResponse } = useGraphData();
   useEffect(() => {
-    const graph = convertBackendGraphToForceGraph(data);
-    if (!graph) {
-      return;
-    }
-    setGraph(graph);
+    convertAndSetGraph(setGraph, data);
   }, [queryResponse.loading, data]);
   useEffect(() => {
     const rightClickAction = (event: any) => event.preventDefault();
@@ -433,12 +452,6 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       window.removeEventListener("keyup", upHandler);
     };
   }, []);
-  const { createNode } = useCreateNode();
-  const { createEdge } = useCreateEdge();
-  const { submitVote } = useSubmitVote();
-  const { updateNode } = useUpdateNode();
-  const { deleteNode } = useDeleteNode();
-  const { deleteEdge } = useDeleteEdge();
   const initPopUp: GraphEditPopUpState = {
     isOpen: false,
   };
@@ -452,15 +465,22 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     graphData: { nodes: [], links: [] },
   };
   const [zoomState, setZoomState] = useState(zoomInitState);
+  const { createNode } = useCreateNode();
+  const { createEdge } = useCreateEdge();
+  const { submitVote } = useSubmitVote();
+  const { updateNode } = useUpdateNode();
+  const { deleteNode } = useDeleteNode();
+  const { deleteEdge } = useDeleteEdge();
+  const backend: Backend = {
+    createNode,
+    updateNode,
+    createLink: createEdge,
+    submitVote,
+    deleteNode,
+    deleteLink: deleteEdge,
+  };
   const controller: Controller = {
-    backend: {
-      createNode,
-      updateNode,
-      createLink: createEdge,
-      submitVote,
-      deleteNode,
-      deleteLink: deleteEdge,
-    },
+    backend,
     popUp: {
       state: editPopUpState,
       setState: setEditPopUpState,
@@ -503,6 +523,13 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       document.removeEventListener("keydown", keyDownListener);
     };
   });
+  useEffect(() => {
+    debounce(initialZoomForLargeGraph, 1000)(controller); // XXX(skep): why is delay needed?
+    // Note: dependencies are exactly as needed, we must not-auto zoom on every
+    // graph data change, but only on initial backend response, i.e. when
+    // loading initial graph data is done.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [queryResponse.loading]);
   // FIXME(umb): It looks like it should remove the empty space below the
   // canvas. Unfortuantely this code does nothing when the window is resized.
   const wrapperRef = useRef<HTMLDivElement>(null);

@@ -17,7 +17,7 @@ export interface ZoomControlPanelProps {
 interface AnyFunction {
   (...args: any[]): any;
 }
-function debounce<Func extends AnyFunction>(func: Func, delay: number) {
+export function debounce<Func extends AnyFunction>(func: Func, delay: number) {
   let timer: ReturnType<typeof setTimeout>;
   return function (this: ThisParameterType<Func>, ...args: Parameters<Func>) {
     const context = this;
