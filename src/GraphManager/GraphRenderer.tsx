@@ -65,12 +65,17 @@ interface TextRender {
   fontSize: number;
   backgroundColor: string;
 }
+interface TextRenderConfig {
+  globalScale: number;
+  mergedNodes: number;
+}
 
 // utility functions
 const drawTextBackgroundOval = (
   text: TextRender,
   ctx: CanvasRenderingContext2D,
   position: Partial<Position>,
+  renderConfig: TextRenderConfig,
 ) => {
   ctx.font = `${text.fontSize}px ${config.font}`;
   const textWidth = ctx.measureText(text.text).width;
@@ -81,7 +86,7 @@ const drawTextBackgroundOval = (
   let [x, y] = [position.x ?? 0, position.y ?? 0];
   ctx.fillStyle = text.backgroundColor;
   ctx.strokeStyle = "black";
-  ctx.lineWidth = 0.5; // Adjust the width of the ring
+  ctx.lineWidth = 1 / renderConfig.globalScale;
   drawOval(ctx, x, y, bckgDimensions[0] / 1.8, bckgDimensions[1] / 1.2);
   ctx.fill();
   ctx.stroke();
@@ -119,8 +124,21 @@ const drawTextWithBackground = (
   text: TextRender,
   ctx: CanvasRenderingContext2D,
   position: Partial<Position>,
+  config: TextRenderConfig,
 ) => {
-  drawTextBackgroundOval(text, ctx, position);
+  if (config.mergedNodes > 0 && !!position.x && !!position.y) {
+    // visually we differentiate beween 1, 2 and "many" (i.e. >= 3)
+    const offset = 4 / config.globalScale;
+    if (config.mergedNodes >= 3) {
+      const newpos = { x: position.x + 2 * offset, y: position.y + 2 * offset };
+      drawTextBackgroundOval(text, ctx, newpos, config);
+    }
+    if (config.mergedNodes >= 2) {
+      const newpos = { x: position.x + offset, y: position.y + offset };
+      drawTextBackgroundOval(text, ctx, newpos, config);
+    }
+  }
+  drawTextBackgroundOval(text, ctx, position, config);
   drawText(text, ctx, position);
 };
 
@@ -145,7 +163,7 @@ const drawTextWithBackground = (
 //const backgroundColorWhite = "rgba(255, 255, 255, 0.8)";
 //const backgroundColorGrey = "rgba(190, 190, 190, 0.8)";
 const backgroundColorLightBlue = "rgba(0, 173, 255, 255)";
-const backgroundColorOrange = `hsl(30,100%,50%)`;
+const backgroundColorOrange = "hsl(30,100%,50%)";
 const colorInterimLink = "rgb(238,75,43)";
 const colorLink = "rgba(25,118,210,255)";
 
@@ -179,7 +197,7 @@ export const nodeCanvasObject = (
   const { highlightNodes, specialNodes } = ctrl;
   let label = node.description ?? "";
   let backgroundColor = backgroundColorLightBlue;
-  const mergedNodes = node.mergeCount ?? 0;
+  const mergedNodes: number = node.mergeCount ?? 0;
   if (mergedNodes > 1) {
     // TODO(skep): should use react theme for color choice here
     let hue = (
@@ -187,7 +205,6 @@ export const nodeCanvasObject = (
       (1 - Math.exp(-mergedNodes / totalNodes)) * 3 * 20
     ).toString();
     backgroundColor = `hsl(${hue},100%,50%)`;
-    label += ` [${mergedNodes}]`;
   }
   if (highlightNodes.has(node)) {
     backgroundColor = `hsl(1,100%,50%)`;
@@ -201,11 +218,13 @@ export const nodeCanvasObject = (
   ) {
     backgroundColor = colorInterimLink;
   }
-  drawTextWithBackground(
-    { text: label, fontSize: config.fontSize / globalScale, backgroundColor },
-    ctx,
-    { x: node.x, y: node.y },
-  );
+  const text = {
+    text: label,
+    fontSize: config.fontSize / globalScale,
+    backgroundColor,
+  };
+  const pos = { x: node.x, y: node.y };
+  drawTextWithBackground(text, ctx, pos, { mergedNodes, globalScale });
 };
 
 export const nodePointerAreaPaint = (
@@ -222,6 +241,7 @@ export const nodePointerAreaPaint = (
     },
     ctx,
     { x: node.x, y: node.y },
+    { mergedNodes: node.mergeCount, globalScale },
   );
 };
 
@@ -266,7 +286,8 @@ interface DrawLinkConfig {
 export const drawLinkLine = (conf: DrawLinkConfig) => {
   const { ctx, color, link } = conf;
   ctx.strokeStyle = color;
-  ctx.lineWidth = (link.value / 2) * (conf.extraThickness ?? 1);
+  ctx.lineWidth =
+    (3 * (link.value / 2) * (conf.extraThickness ?? 1)) / conf.globalScale;
   ctx.beginPath();
   ctx.moveTo(link.source.x!, link.source.y!);
   ctx.lineTo(link.target.x!, link.target.y!);
