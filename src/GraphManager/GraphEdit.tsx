@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, MutableRefObject, SetStateAction } from "react";
 import {
   LinkEditDefaultValues,
   NewLinkForm,
@@ -27,6 +27,7 @@ export const DEFAULT_EDIT_LINK_WEIGHT = MAX_LINK_WEIGHT / 2;
 
 export interface GraphState {
   current: ForceGraphGraphData;
+  performInitialZoom: MutableRefObject<boolean>;
   setGraph: Dispatch<SetStateAction<ForceGraphGraphData>>;
   addLink: (link: ForceGraphLinkObject | ForceGraphLinkObjectInitial) => void;
   updateLink: (

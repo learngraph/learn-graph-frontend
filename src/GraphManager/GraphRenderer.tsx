@@ -29,20 +29,24 @@ import {
   makeOnNodeDragEnd,
   makeOnLinkClick,
   makeOnNodeClick,
+  Backend,
 } from "./GraphEdit";
 import { GraphEditPopUp, GraphEditPopUpState } from "./GraphEditPopUp";
 import { useCreateNode } from "./hooks/useCreateNode";
 import { useCreateEdge } from "./hooks/useCreateEdge";
-import { CreateButton } from "./GraphEditCreateButton";
-import { useUserDataContext } from "src/UserDataContext";
 import { useSubmitVote } from "./hooks/useSubmitVote";
 import { useUpdateNode } from "./hooks/useUpdateNode";
 import { useDeleteNode } from "./hooks/useDeleteNode";
 import { useDeleteEdge } from "./hooks/useDeleteEdge";
+import { CreateButton } from "./GraphEditCreateButton";
+import { useUserDataContext } from "src/UserDataContext";
 import {
   ZoomControlPanel,
   makeZoomControl,
   makeOnZoomAndPanListener,
+  ZOOM_LEVEL_MAX,
+  ZOOM_LEVEL_STEP,
+  debounce,
 } from "./ZoomControlPanel";
 
 interface GraphRendererProps {
@@ -61,12 +65,17 @@ interface TextRender {
   fontSize: number;
   backgroundColor: string;
 }
+interface TextRenderConfig {
+  globalScale: number;
+  mergedNodes: number;
+}
 
 // utility functions
 const drawTextBackgroundOval = (
   text: TextRender,
   ctx: CanvasRenderingContext2D,
   position: Partial<Position>,
+  renderConfig: TextRenderConfig,
 ) => {
   ctx.font = `${text.fontSize}px ${config.font}`;
   const textWidth = ctx.measureText(text.text).width;
@@ -77,7 +86,7 @@ const drawTextBackgroundOval = (
   let [x, y] = [position.x ?? 0, position.y ?? 0];
   ctx.fillStyle = text.backgroundColor;
   ctx.strokeStyle = "black";
-  ctx.lineWidth = 0.5; // Adjust the width of the ring
+  ctx.lineWidth = 1 / renderConfig.globalScale;
   drawOval(ctx, x, y, bckgDimensions[0] / 1.8, bckgDimensions[1] / 1.2);
   ctx.fill();
   ctx.stroke();
@@ -115,8 +124,21 @@ const drawTextWithBackground = (
   text: TextRender,
   ctx: CanvasRenderingContext2D,
   position: Partial<Position>,
+  config: TextRenderConfig,
 ) => {
-  drawTextBackgroundOval(text, ctx, position);
+  if (config.mergedNodes > 0 && !!position.x && !!position.y) {
+    // visually we differentiate beween 1, 2 and "many" (i.e. >= 3)
+    const offset = 4 / config.globalScale;
+    if (config.mergedNodes >= 3) {
+      const newpos = { x: position.x + 2 * offset, y: position.y + 2 * offset };
+      drawTextBackgroundOval(text, ctx, newpos, config);
+    }
+    if (config.mergedNodes >= 2) {
+      const newpos = { x: position.x + offset, y: position.y + offset };
+      drawTextBackgroundOval(text, ctx, newpos, config);
+    }
+  }
+  drawTextBackgroundOval(text, ctx, position, config);
   drawText(text, ctx, position);
 };
 
@@ -141,7 +163,7 @@ const drawTextWithBackground = (
 //const backgroundColorWhite = "rgba(255, 255, 255, 0.8)";
 //const backgroundColorGrey = "rgba(190, 190, 190, 0.8)";
 const backgroundColorLightBlue = "rgba(0, 173, 255, 255)";
-const backgroundColorOrange = `hsl(30,100%,50%)`;
+const backgroundColorOrange = "hsl(30,100%,50%)";
 const colorInterimLink = "rgb(238,75,43)";
 const colorLink = "rgba(25,118,210,255)";
 
@@ -175,7 +197,7 @@ export const nodeCanvasObject = (
   const { highlightNodes, specialNodes } = ctrl;
   let label = node.description ?? "";
   let backgroundColor = backgroundColorLightBlue;
-  const mergedNodes = node.mergeCount ?? 0;
+  const mergedNodes: number = node.mergeCount ?? 0;
   if (mergedNodes > 1) {
     // TODO(skep): should use react theme for color choice here
     let hue = (
@@ -183,7 +205,6 @@ export const nodeCanvasObject = (
       (1 - Math.exp(-mergedNodes / totalNodes)) * 3 * 20
     ).toString();
     backgroundColor = `hsl(${hue},100%,50%)`;
-    label += ` [${mergedNodes}]`;
   }
   if (highlightNodes.has(node)) {
     backgroundColor = `hsl(1,100%,50%)`;
@@ -197,11 +218,13 @@ export const nodeCanvasObject = (
   ) {
     backgroundColor = colorInterimLink;
   }
-  drawTextWithBackground(
-    { text: label, fontSize: config.fontSize / globalScale, backgroundColor },
-    ctx,
-    { x: node.x, y: node.y },
-  );
+  const text = {
+    text: label,
+    fontSize: config.fontSize / globalScale,
+    backgroundColor,
+  };
+  const pos = { x: node.x, y: node.y };
+  drawTextWithBackground(text, ctx, pos, { mergedNodes, globalScale });
 };
 
 export const nodePointerAreaPaint = (
@@ -218,6 +241,7 @@ export const nodePointerAreaPaint = (
     },
     ctx,
     { x: node.x, y: node.y },
+    { mergedNodes: node.mergeCount, globalScale },
   );
 };
 
@@ -262,7 +286,8 @@ interface DrawLinkConfig {
 export const drawLinkLine = (conf: DrawLinkConfig) => {
   const { ctx, color, link } = conf;
   ctx.strokeStyle = color;
-  ctx.lineWidth = (link.value / 2) * (conf.extraThickness ?? 1);
+  ctx.lineWidth =
+    (3 * (link.value / 2) * (conf.extraThickness ?? 1)) / conf.globalScale;
   ctx.beginPath();
   ctx.moveTo(link.source.x!, link.source.y!);
   ctx.lineTo(link.target.x!, link.target.y!);
@@ -310,7 +335,7 @@ const config = {
   font: "Sans-Serif",
 };
 
-const makeInitialGraphData = () => {
+export const makeInitialGraphData = () => {
   const n_graph: ForceGraphNodeObject = { id: "1", description: "graph" };
   const n_is: ForceGraphNodeObject = { id: "2", description: "is" };
   const n_loading: ForceGraphNodeObject = { id: "3", description: "loading" };
@@ -326,9 +351,11 @@ const makeInitialGraphData = () => {
 export const makeGraphState = (
   graph: ForceGraphGraphData,
   setGraph: Dispatch<SetStateAction<ForceGraphGraphData>>,
+  performInitialZoom: MutableRefObject<boolean>,
 ) => {
   const state: GraphState = {
     current: graph,
+    performInitialZoom,
     setGraph,
     addLink: (link: ForceGraphLinkObject | ForceGraphLinkObjectInitial) => {
       // @ts-ignore: FIXME(skep): should probably remove
@@ -393,27 +420,55 @@ export const convertBackendGraphToForceGraph: GraphConverter = (data) => {
   return fgGraph;
 };
 
+const convertAndSetGraph = (
+  setGraph: Dispatch<SetStateAction<ForceGraphGraphData>>,
+  data: { graph: BackendGraphData },
+  performInitialZoom: MutableRefObject<boolean>,
+) => {
+  const graph = convertBackendGraphToForceGraph(data);
+  if (!graph) {
+    return;
+  }
+  setGraph(graph);
+  performInitialZoom.current = true;
+};
+
+const graphHasSameNodeIDs = (
+  g1: ForceGraphGraphData,
+  g2: ForceGraphGraphData,
+) => {
+  const everyNodeExists = g1.nodes
+    .map((n1) => g2.nodes.find((n2) => n1.id === n2.id))
+    .every((node) => !!node);
+  return everyNodeExists;
+};
+export const MAX_NODES_WITHOUT_INITIAL_ZOOM = 30;
+export const initialZoomForLargeGraph = (ctrl: Controller) => {
+  if (
+    graphHasSameNodeIDs(ctrl.graph.current, makeInitialGraphData()) ||
+    !ctrl.graph.performInitialZoom.current
+  ) {
+    return;
+  }
+  ctrl.graph.performInitialZoom.current = false;
+  const nNodes = ctrl.graph.current.nodes.length;
+  if (nNodes < MAX_NODES_WITHOUT_INITIAL_ZOOM) {
+    return;
+  }
+  const steps = Math.floor(
+    Math.log2(nNodes / MAX_NODES_WITHOUT_INITIAL_ZOOM) + 1,
+  );
+  ctrl.zoom.setUserZoomLevel(ZOOM_LEVEL_MAX - steps * ZOOM_LEVEL_STEP);
+};
+
 export const GraphRenderer = (props: GraphRendererProps) => {
   const [graph, setGraph] = useState<ForceGraphGraphData>(
     makeInitialGraphData(),
   );
+  const performInitialZoom = useRef(false);
   props.graphDataRef.current = graph;
   const { language } = useUserDataContext();
   const { data, queryResponse } = useGraphData();
-  useEffect(() => {
-    const graph = convertBackendGraphToForceGraph(data);
-    if (!graph) {
-      return;
-    }
-    setGraph(graph);
-  }, [queryResponse.loading, data]);
-  useEffect(() => {
-    const rightClickAction = (event: any) => event.preventDefault();
-    document.addEventListener("contextmenu", rightClickAction);
-    return () => {
-      document.removeEventListener("contextmenu", rightClickAction);
-    };
-  });
   const [shiftHeld, setShiftHeld] = useState(false);
   const downHandler = ({ key }: any) => {
     if (key === "Shift") {
@@ -425,20 +480,6 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       setShiftHeld(false);
     }
   };
-  useEffect(() => {
-    window.addEventListener("keydown", downHandler);
-    window.addEventListener("keyup", upHandler);
-    return () => {
-      window.removeEventListener("keydown", downHandler);
-      window.removeEventListener("keyup", upHandler);
-    };
-  }, []);
-  const { createNode } = useCreateNode();
-  const { createEdge } = useCreateEdge();
-  const { submitVote } = useSubmitVote();
-  const { updateNode } = useUpdateNode();
-  const { deleteNode } = useDeleteNode();
-  const { deleteEdge } = useDeleteEdge();
   const initPopUp: GraphEditPopUpState = {
     isOpen: false,
   };
@@ -452,20 +493,27 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     graphData: { nodes: [], links: [] },
   };
   const [zoomState, setZoomState] = useState(zoomInitState);
+  const { createNode } = useCreateNode();
+  const { createEdge } = useCreateEdge();
+  const { submitVote } = useSubmitVote();
+  const { updateNode } = useUpdateNode();
+  const { deleteNode } = useDeleteNode();
+  const { deleteEdge } = useDeleteEdge();
+  const backend: Backend = {
+    createNode,
+    updateNode,
+    createLink: createEdge,
+    submitVote,
+    deleteNode,
+    deleteLink: deleteEdge,
+  };
   const controller: Controller = {
-    backend: {
-      createNode,
-      updateNode,
-      createLink: createEdge,
-      submitVote,
-      deleteNode,
-      deleteLink: deleteEdge,
-    },
+    backend,
     popUp: {
       state: editPopUpState,
       setState: setEditPopUpState,
     },
-    graph: makeGraphState(graph, setGraph),
+    graph: makeGraphState(graph, setGraph, performInitialZoom),
     forceGraphRef: props.forceGraphRef,
     nodeDrag: {
       state: nodeDrag,
@@ -497,12 +545,38 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     controller.specialNodes.hoveredNode = node;
   };
   useEffect(() => {
+    convertAndSetGraph(setGraph, data, controller.graph.performInitialZoom);
+    // Note: performInitialZoom must not trigger call of graph data setter
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [queryResponse.loading, data]);
+  useEffect(() => {
+    const rightClickAction = (event: any) => event.preventDefault();
+    document.addEventListener("contextmenu", rightClickAction);
+    return () => {
+      document.removeEventListener("contextmenu", rightClickAction);
+    };
+  });
+  useEffect(() => {
+    window.addEventListener("keydown", downHandler);
+    window.addEventListener("keyup", upHandler);
+    return () => {
+      window.removeEventListener("keydown", downHandler);
+      window.removeEventListener("keyup", upHandler);
+    };
+  }, []);
+  useEffect(() => {
     const keyDownListener = makeKeydownListener(controller);
     document.addEventListener("keydown", keyDownListener);
     return () => {
       document.removeEventListener("keydown", keyDownListener);
     };
   });
+  useEffect(() => {
+    debounce(initialZoomForLargeGraph, 100)(controller); // XXX(skep): why is delay needed?
+    // Note: We must not-auto zoom on every controller change, but only on
+    // initial backend response, i.e. when loading initial graph data is done.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [graph]);
   // FIXME(umb): It looks like it should remove the empty space below the
   // canvas. Unfortuantely this code does nothing when the window is resized.
   const wrapperRef = useRef<HTMLDivElement>(null);
