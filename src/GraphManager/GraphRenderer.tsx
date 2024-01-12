@@ -330,9 +330,11 @@ const makeInitialGraphData = () => {
 export const makeGraphState = (
   graph: ForceGraphGraphData,
   setGraph: Dispatch<SetStateAction<ForceGraphGraphData>>,
+  performInitialZoom: MutableRefObject<boolean>,
 ) => {
   const state: GraphState = {
     current: graph,
+    performInitialZoom,
     setGraph,
     addLink: (link: ForceGraphLinkObject | ForceGraphLinkObjectInitial) => {
       // @ts-ignore: FIXME(skep): should probably remove
@@ -400,16 +402,35 @@ export const convertBackendGraphToForceGraph: GraphConverter = (data) => {
 const convertAndSetGraph = (
   setGraph: Dispatch<SetStateAction<ForceGraphGraphData>>,
   data: { graph: BackendGraphData },
+  performInitialZoom: MutableRefObject<boolean>,
 ) => {
   const graph = convertBackendGraphToForceGraph(data);
   if (!graph) {
     return;
   }
   setGraph(graph);
+  performInitialZoom.current = true;
 };
 
+const graphHasSameNodeIDs = (
+  g1: ForceGraphGraphData,
+  g2: ForceGraphGraphData,
+) => {
+  const nodesExist = g1.nodes
+    .map((n1) => g2.nodes.find((n2) => n1.id === n2.id))
+    .every((node) => !!node);
+  return nodesExist;
+};
 export const MAX_NODES_WITHOUT_INITIAL_ZOOM = 30;
 export const initialZoomForLargeGraph = (ctrl: Controller) => {
+  //console.log(`[+] ${ctrl.graph.current.nodes.length} nodes, performInitialZoom=${ctrl.graph.performInitialZoom.current}`);
+  if (graphHasSameNodeIDs(ctrl.graph.current, makeInitialGraphData())) {
+    return;
+  }
+  if (!ctrl.graph.performInitialZoom.current) {
+    return;
+  }
+  ctrl.graph.performInitialZoom.current = false;
   if (ctrl.graph.current.nodes.length < MAX_NODES_WITHOUT_INITIAL_ZOOM) {
     return;
   }
@@ -420,19 +441,10 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   const [graph, setGraph] = useState<ForceGraphGraphData>(
     makeInitialGraphData(),
   );
+  const performInitialZoom = useRef(false);
   props.graphDataRef.current = graph;
   const { language } = useUserDataContext();
   const { data, queryResponse } = useGraphData();
-  useEffect(() => {
-    convertAndSetGraph(setGraph, data);
-  }, [queryResponse.loading, data]);
-  useEffect(() => {
-    const rightClickAction = (event: any) => event.preventDefault();
-    document.addEventListener("contextmenu", rightClickAction);
-    return () => {
-      document.removeEventListener("contextmenu", rightClickAction);
-    };
-  });
   const [shiftHeld, setShiftHeld] = useState(false);
   const downHandler = ({ key }: any) => {
     if (key === "Shift") {
@@ -444,14 +456,6 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       setShiftHeld(false);
     }
   };
-  useEffect(() => {
-    window.addEventListener("keydown", downHandler);
-    window.addEventListener("keyup", upHandler);
-    return () => {
-      window.removeEventListener("keydown", downHandler);
-      window.removeEventListener("keyup", upHandler);
-    };
-  }, []);
   const initPopUp: GraphEditPopUpState = {
     isOpen: false,
   };
@@ -485,7 +489,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       state: editPopUpState,
       setState: setEditPopUpState,
     },
-    graph: makeGraphState(graph, setGraph),
+    graph: makeGraphState(graph, setGraph, performInitialZoom),
     forceGraphRef: props.forceGraphRef,
     nodeDrag: {
       state: nodeDrag,
@@ -517,6 +521,26 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     controller.specialNodes.hoveredNode = node;
   };
   useEffect(() => {
+    convertAndSetGraph(setGraph, data, controller.graph.performInitialZoom);
+    // Note: performInitialZoom must not trigger call of graph data setter
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [queryResponse.loading, data]);
+  useEffect(() => {
+    const rightClickAction = (event: any) => event.preventDefault();
+    document.addEventListener("contextmenu", rightClickAction);
+    return () => {
+      document.removeEventListener("contextmenu", rightClickAction);
+    };
+  });
+  useEffect(() => {
+    window.addEventListener("keydown", downHandler);
+    window.addEventListener("keyup", upHandler);
+    return () => {
+      window.removeEventListener("keydown", downHandler);
+      window.removeEventListener("keyup", upHandler);
+    };
+  }, []);
+  useEffect(() => {
     const keyDownListener = makeKeydownListener(controller);
     document.addEventListener("keydown", keyDownListener);
     return () => {
@@ -524,12 +548,11 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     };
   });
   useEffect(() => {
-    debounce(initialZoomForLargeGraph, 1000)(controller); // XXX(skep): why is delay needed?
-    // Note: dependencies are exactly as needed, we must not-auto zoom on every
-    // graph data change, but only on initial backend response, i.e. when
-    // loading initial graph data is done.
+    initialZoomForLargeGraph(controller); // XXX(skep): why is delay needed?
+    // Note: We must not-auto zoom on every controller change, but only on
+    // initial backend response, i.e. when loading initial graph data is done.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [queryResponse.loading]);
+  }, [graph]);
   // FIXME(umb): It looks like it should remove the empty space below the
   // canvas. Unfortuantely this code does nothing when the window is resized.
   const wrapperRef = useRef<HTMLDivElement>(null);

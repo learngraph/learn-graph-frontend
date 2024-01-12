@@ -10,7 +10,7 @@ import {
 } from "./GraphRenderer";
 import "@testing-library/jest-dom";
 import { makeMockController } from "./GraphEdit.testingutil";
-import {ForceGraphNodeObject} from "./types";
+import { ForceGraphNodeObject } from "./types";
 
 // Since render() does not support canvas.getContext('2d')
 // we must mock ForceGraph2D.
@@ -92,6 +92,7 @@ describe("makeGraphState", () => {
       const state = makeGraphState(
         { nodes: [node1, node2], links: [link] },
         jest.fn(),
+        { current: false },
       );
       state.removeLink(link);
       expect(state.setGraph).toHaveBeenCalledTimes(1);
@@ -112,6 +113,7 @@ describe("makeGraphState", () => {
       const state = makeGraphState(
         { nodes: [node1, node2, node3], links: [link12, link13, link32] },
         jest.fn(),
+        { current: false },
       );
       state.removeLink(link13);
       expect(state.setGraph).toHaveBeenCalledTimes(1);
@@ -132,6 +134,7 @@ describe("makeGraphState", () => {
       const state = makeGraphState(
         { nodes: [node1, node2, node3], links: [link12, link13, link32] },
         jest.fn(),
+        { current: false },
       );
       state.removeLink({ id: "4", source: node3, target: node1, value: 10 });
       expect(state.setGraph).toHaveBeenCalledTimes(0);
@@ -149,6 +152,7 @@ describe("makeGraphState", () => {
       const state = makeGraphState(
         { nodes: [node1, node2, node3], links: [link] },
         jest.fn(),
+        { current: false },
       );
       state.updateLink(link, newLink);
       expect(state.setGraph).toHaveBeenCalledTimes(1);
@@ -192,7 +196,7 @@ describe("initialZoomForLargeGraph", () => {
     const ctrl = makeMockController();
     let nodes: ForceGraphNodeObject[] = [];
     for (let i = 0; i <= MAX_NODES_WITHOUT_INITIAL_ZOOM + 1; i++) {
-      nodes.push({id: i.toString(), description: i.toString()});
+      nodes.push({ id: i.toString(), description: i.toString() });
     }
     ctrl.graph.current = {
       nodes,

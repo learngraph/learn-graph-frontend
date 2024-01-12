@@ -84,6 +84,7 @@ export const makeGraphState = () => {
   } = { nodes: [], links: [] };
   const g: GraphState = {
     current: emptyGraph,
+    performInitialZoom: { current: true },
     setGraph: jest.fn().mockName("graph.setGraph"),
     addNode: jest.fn().mockName("graph.addNode"),
     addLink: jest.fn().mockName("graph.addLink"),
