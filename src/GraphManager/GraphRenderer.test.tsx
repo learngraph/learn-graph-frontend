@@ -7,10 +7,12 @@ import {
   convertBackendGraphToForceGraph,
   initialZoomForLargeGraph,
   MAX_NODES_WITHOUT_INITIAL_ZOOM,
+  makeInitialGraphData,
 } from "./GraphRenderer";
 import "@testing-library/jest-dom";
 import { makeMockController } from "./GraphEdit.testingutil";
 import { ForceGraphNodeObject } from "./types";
+import { ZOOM_LEVEL_MAX, ZOOM_LEVEL_STEP } from "./ZoomControlPanel";
 
 // Since render() does not support canvas.getContext('2d')
 // we must mock ForceGraph2D.
@@ -186,24 +188,62 @@ describe("convertBackendGraphToForceGraph", () => {
 });
 
 describe("initialZoomForLargeGraph", () => {
+  const makeNodes = (n: number) => {
+    let nodes: ForceGraphNodeObject[] = [];
+    for (let i = 0; i <= n; i++) {
+      nodes.push({ id: i.toString(), description: i.toString() });
+    }
+    return nodes;
+  };
   it("should do nothing for graph with < MAX_NODES_WITHOUT_INITIAL_ZOOM", () => {
     const ctrl = makeMockController(); // empty graph
     // @ts-ignore
     initialZoomForLargeGraph(ctrl);
     expect(ctrl.zoom.setUserZoomLevel).not.toHaveBeenCalled();
   });
-  it("should zoom out for big graph", () => {
+  it("should do nothing when no graph data was received yet", () => {
     const ctrl = makeMockController();
-    let nodes: ForceGraphNodeObject[] = [];
-    for (let i = 0; i <= MAX_NODES_WITHOUT_INITIAL_ZOOM + 1; i++) {
-      nodes.push({ id: i.toString(), description: i.toString() });
-    }
     ctrl.graph.current = {
-      nodes,
+      nodes: makeNodes(MAX_NODES_WITHOUT_INITIAL_ZOOM + 1),
       links: [],
     };
+    ctrl.graph.performInitialZoom.current = false;
     // @ts-ignore
     initialZoomForLargeGraph(ctrl);
-    expect(ctrl.zoom.setUserZoomLevel).toHaveBeenCalledTimes(1);
+    expect(ctrl.zoom.setUserZoomLevel).not.toHaveBeenCalled();
   });
+  it("should do nothing when the graph equals the initial 'is-loading-graph'", () => {
+    const ctrl = makeMockController();
+    ctrl.graph.current = makeInitialGraphData();
+    // @ts-ignore
+    initialZoomForLargeGraph(ctrl);
+    expect(ctrl.zoom.setUserZoomLevel).not.toHaveBeenCalled();
+  });
+  it.each([
+    [
+      ZOOM_LEVEL_MAX - 1 * ZOOM_LEVEL_STEP,
+      1 * MAX_NODES_WITHOUT_INITIAL_ZOOM + 1,
+    ],
+    [
+      ZOOM_LEVEL_MAX - 2 * ZOOM_LEVEL_STEP,
+      2 * MAX_NODES_WITHOUT_INITIAL_ZOOM + 1,
+    ],
+    [
+      ZOOM_LEVEL_MAX - 2 * ZOOM_LEVEL_STEP,
+      3 * MAX_NODES_WITHOUT_INITIAL_ZOOM + 1,
+    ],
+  ])(
+    "should zoom out to level %p when given %p nodes",
+    (zoomLevel: number, n_nodes: number) => {
+      const ctrl = makeMockController();
+      ctrl.graph.current = {
+        nodes: makeNodes(n_nodes),
+        links: [],
+      };
+      // @ts-ignore
+      initialZoomForLargeGraph(ctrl);
+      expect(ctrl.zoom.setUserZoomLevel).toHaveBeenCalledTimes(1);
+      expect(ctrl.zoom.setUserZoomLevel).toHaveBeenNthCalledWith(1, zoomLevel);
+    },
+  );
 });

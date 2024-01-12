@@ -314,7 +314,7 @@ const config = {
   font: "Sans-Serif",
 };
 
-const makeInitialGraphData = () => {
+export const makeInitialGraphData = () => {
   const n_graph: ForceGraphNodeObject = { id: "1", description: "graph" };
   const n_is: ForceGraphNodeObject = { id: "2", description: "is" };
   const n_loading: ForceGraphNodeObject = { id: "3", description: "loading" };
@@ -416,25 +416,28 @@ const graphHasSameNodeIDs = (
   g1: ForceGraphGraphData,
   g2: ForceGraphGraphData,
 ) => {
-  const nodesExist = g1.nodes
+  const everyNodeExists = g1.nodes
     .map((n1) => g2.nodes.find((n2) => n1.id === n2.id))
     .every((node) => !!node);
-  return nodesExist;
+  return everyNodeExists;
 };
 export const MAX_NODES_WITHOUT_INITIAL_ZOOM = 30;
 export const initialZoomForLargeGraph = (ctrl: Controller) => {
-  //console.log(`[+] ${ctrl.graph.current.nodes.length} nodes, performInitialZoom=${ctrl.graph.performInitialZoom.current}`);
-  if (graphHasSameNodeIDs(ctrl.graph.current, makeInitialGraphData())) {
-    return;
-  }
-  if (!ctrl.graph.performInitialZoom.current) {
+  if (
+    graphHasSameNodeIDs(ctrl.graph.current, makeInitialGraphData()) ||
+    !ctrl.graph.performInitialZoom.current
+  ) {
     return;
   }
   ctrl.graph.performInitialZoom.current = false;
-  if (ctrl.graph.current.nodes.length < MAX_NODES_WITHOUT_INITIAL_ZOOM) {
+  const nNodes = ctrl.graph.current.nodes.length;
+  if (nNodes < MAX_NODES_WITHOUT_INITIAL_ZOOM) {
     return;
   }
-  ctrl.zoom.setUserZoomLevel(ZOOM_LEVEL_MAX - ZOOM_LEVEL_STEP);
+  const steps = Math.floor(
+    Math.log2(nNodes / MAX_NODES_WITHOUT_INITIAL_ZOOM) + 1,
+  );
+  ctrl.zoom.setUserZoomLevel(ZOOM_LEVEL_MAX - steps * ZOOM_LEVEL_STEP);
 };
 
 export const GraphRenderer = (props: GraphRendererProps) => {
@@ -548,7 +551,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     };
   });
   useEffect(() => {
-    initialZoomForLargeGraph(controller); // XXX(skep): why is delay needed?
+    debounce(initialZoomForLargeGraph, 100)(controller); // XXX(skep): why is delay needed?
     // Note: We must not-auto zoom on every controller change, but only on
     // initial backend response, i.e. when loading initial graph data is done.
     // eslint-disable-next-line react-hooks/exhaustive-deps
