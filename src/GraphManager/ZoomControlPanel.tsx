@@ -123,10 +123,11 @@ export const ZoomControlPanel = ({ zoomControl }: ZoomControlPanelProps) => {
       </IconButton>
       <Slider
         value={zoomControl.zoomLevel}
-        onChange={(_: Event, tmpLevel: number | number[]) => {
-          // @ts-ignore: it's a number - always.
-          let level: number = tmpLevel;
-          return debounce(zoomControl.onZoomChange, 100)(level);
+        onChange={(_: Event, _tmpLevel: number | number[]) => {
+          // XXX(skep): temporarily disabled, since usage leads to display bug
+          //// @ts-ignore: it's a number - always.
+          //let level: number = tmpLevel;
+          //return zoomControl.onZoomChange(level);
         }}
         min={ZOOM_LEVEL_MIN}
         max={ZOOM_LEVEL_MAX}
