@@ -1,4 +1,3 @@
-// TODO(skep): should review this code, copied from example!
 import { styled, useTheme } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
