@@ -2,7 +2,6 @@ import React from "react";
 import { Box, Button, Menu, MenuItem } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import i18n from "src/i18n";
-import { LogoutResponse } from "src/GraphManager/hooks/useLogoutUser";
 import { useGraphDataContext } from "src/GraphDataContext";
 import { useUserDataContext } from "src/UserDataContext";
 
@@ -24,21 +23,21 @@ export default function UserDisplay(props: UserDisplayProps) {
   const { setUserID, setUserName, setAuthenticationToken } =
     useUserDataContext();
 
-  const logoutUserInContext = (logout: LogoutResponse | undefined) => {
-    if (logout?.success) {
-      setUserID("");
-      setUserName("");
-      setAuthenticationToken("");
-      console.log(`successfully logged out user!`);
-    } else {
-      console.log(`logout failed: ${logout}`);
-    }
+  const logoutUserInContext = () => {
+    setUserID("");
+    setUserName("");
+    setAuthenticationToken("");
+    console.log(`successfully logged out user!`);
   };
 
   const handleLogout = async () => {
     setAnchorEl(null);
-    const rsp = await logoutUser();
-    logoutUserInContext(rsp.data?.logout);
+    try {
+      await logoutUser();
+    } catch (e) {
+      console.log(`logout failed! ${e}`);
+    }
+    logoutUserInContext();
   };
 
   return (
