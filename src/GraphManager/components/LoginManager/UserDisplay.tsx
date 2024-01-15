@@ -20,15 +20,7 @@ export default function UserDisplay(props: UserDisplayProps) {
   };
 
   const { logoutUser } = useGraphDataContext();
-  const { setUserID, setUserName, setAuthenticationToken } =
-    useUserDataContext();
-
-  const logoutUserInContext = () => {
-    setUserID("");
-    setUserName("");
-    setAuthenticationToken("");
-    console.log(`successfully logged out user!`);
-  };
+  const { logout: logoutUserInContext } = useUserDataContext();
 
   const handleLogout = async () => {
     setAnchorEl(null);
@@ -38,6 +30,7 @@ export default function UserDisplay(props: UserDisplayProps) {
       console.log(`logout failed! ${e}`);
     }
     logoutUserInContext();
+    console.log(`successfully deleted local user data!`);
   };
 
   return (
