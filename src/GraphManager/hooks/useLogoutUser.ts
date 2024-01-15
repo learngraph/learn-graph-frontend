@@ -15,13 +15,8 @@ export interface LogoutFn {
 
 export interface LogoutUserFnResponse {
   data?: {
-    logout: LogoutResponse;
+    logout: null;
   };
-}
-
-export interface LogoutResponse {
-  success: boolean;
-  message?: string;
 }
 
 export interface LogoutUserResponse {
