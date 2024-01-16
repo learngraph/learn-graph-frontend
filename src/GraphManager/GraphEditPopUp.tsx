@@ -25,7 +25,6 @@ import {
 import { ForceGraphGraphData, ForceGraphNodeObject } from "./types";
 import * as yup from "yup";
 import { useTranslation } from "react-i18next";
-import { useTheme } from "@mui/system";
 
 interface LinkWeightSliderProps {
   defaultValue: number;
@@ -373,7 +372,6 @@ export const DraggableForm = (props: DraggableFormPorops) => {
     props.handleClose();
     props.onDelete!();
   };
-  const theme = useTheme();
   return (
     <>
       <Dialog
@@ -392,21 +390,22 @@ export const DraggableForm = (props: DraggableFormPorops) => {
         </DialogContent>
         <DialogActions sx={DialogueStyles.dialogButtons}>
           <Tooltip title={t("Esc")}>
-            <Button onClick={props.handleClose}> {t("Cancel")} </Button>
+            <Button variant="outlined" onClick={props.handleClose}>
+              {" "}
+              {t("Cancel")}{" "}
+            </Button>
           </Tooltip>
           {!!props.onDelete && (
-            <Button
-              onClick={onDelete}
-              style={{
-                backgroundColor: theme.palette.warning.main,
-                color: theme.palette.warning.contrastText,
-              }}
-            >
+            <Button variant="contained" color="warning" onClick={onDelete}>
               {t("Delete")}
             </Button>
           )}
           <Tooltip title={t("Ctrl + Return")}>
-            <Button onClick={() => props.formik.submitForm()}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => props.formik.submitForm()}
+            >
               {t("Save")}
             </Button>
           </Tooltip>
