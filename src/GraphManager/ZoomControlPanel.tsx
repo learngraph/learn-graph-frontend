@@ -42,22 +42,6 @@ export function deduplicateCallsWithSameParameters<T extends any[]>(
   };
 }
 
-let lastInvocationTime: number | null = null;
-// Note: cannot be exported, uses global data, must bypass react-state, since
-// react-state is the source of the problem. Must only be used in one location.
-const limitCallsPerSecond = (callback: AnyFunction, callsPerSecond: number) => {
-  return (...args: any[]) => {
-    const currentTime = Date.now();
-    if (
-      !lastInvocationTime ||
-      currentTime - lastInvocationTime >= 1000 / callsPerSecond
-    ) {
-      callback(...args);
-      lastInvocationTime = currentTime;
-    }
-  };
-};
-
 export const makeZoomControl = (ctrl: Controller) => {
   let state = {
     zoomSteps: ctrl.zoom.zoomState.zoomSteps,
@@ -172,10 +156,10 @@ export const ZoomControlPanel = ({ zoomControl }: ZoomControlPanelProps) => {
       </IconButton>
       <Slider
         value={zoomControl.zoomLevel}
-        onChange={(_: Event, tmpLevel: number | number[]) => {
-          // @ts-ignore: it's a number - always.
-          let level: number = tmpLevel;
-          return limitCallsPerSecond(zoomControl.onZoomChange, 5)(level);
+        onChange={(_: Event, _tmpLevel: number | number[]) => {
+          //// @ts-ignore: it's a number - always.
+          //let level: number = tmpLevel;
+          //return limitCallsPerSecond(zoomControl.onZoomChange, 5)(level);
         }}
         min={ZOOM_LEVEL_MIN}
         max={ZOOM_LEVEL_MAX}
