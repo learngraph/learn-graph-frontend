@@ -1,5 +1,5 @@
 import { gql, useMutation } from "@apollo/client";
-import { ApolloQueryResponse } from "./types";
+import { ApolloQueryResponse, Status } from "./types";
 
 const LOGOUT = gql`
   mutation logout {
@@ -15,7 +15,7 @@ export interface LogoutFn {
 
 export interface LogoutUserFnResponse {
   data?: {
-    logout: null;
+    logout: Status;
   };
 }
 

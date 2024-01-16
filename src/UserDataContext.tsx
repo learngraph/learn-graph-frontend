@@ -74,11 +74,17 @@ const deleteUserDataFromLS = () => {
   storageDel(StorageKeys.authenticationToken);
 };
 
-const clearUserData = (ctx: UserDataContextValues) => {
+interface clearUserDataType {
+  setUserID: UserDataContextValues["setUserID"];
+  setUserName: UserDataContextValues["setUserName"];
+  setAuthenticationToken: UserDataContextValues["setAuthenticationToken"];
+}
+
+const clearUserData = (clearUserDataFunctions: clearUserDataType) => {
   deleteUserDataFromLS();
-  ctx.setUserID("");
-  ctx.setUserName("");
-  ctx.setAuthenticationToken("");
+  clearUserDataFunctions.setUserID("");
+  clearUserDataFunctions.setUserName("");
+  clearUserDataFunctions.setAuthenticationToken("");
 };
 
 const makeNotifyUserOnNotLoggedInError = (ctx: UserDataContextValues) => {
@@ -89,7 +95,11 @@ const makeNotifyUserOnNotLoggedInError = (ctx: UserDataContextValues) => {
           let msg = i18n.t("Please login/signup to contribute!");
           if (ctx.userID !== "" && ctx.authenticationToken !== "") {
             msg = i18n.t("Session expired, please login again!");
-            clearUserData(ctx);
+            clearUserData({
+              setUserID: ctx.setUserID,
+              setUserName: ctx.setUserName,
+              setAuthenticationToken: ctx.setAuthenticationToken,
+            });
           }
           alert(msg); // TODO(skep): make it a nice MUI-popup
         }
@@ -135,7 +145,12 @@ export const UserDataContextProvider: React.FC<{
     i18n.changeLanguage(newlanguage.toString());
   };
 
-  const logout = () => clearUserData(ctx);
+  const logout = () =>
+    clearUserData({
+      setUserID,
+      setUserName,
+      setAuthenticationToken,
+    });
 
   const ctx: UserDataContextValues = {
     language,
