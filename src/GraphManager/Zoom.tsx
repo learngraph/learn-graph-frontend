@@ -94,6 +94,9 @@ const zoomStepIn: ZoomFn = (args: ZoomArgs, state: ZoomState): void => {
 
 const defaultMergeCount = 1;
 
+// FIXME(skep): all console.error cases below must not happen, it is unclear
+// how they occur. My best guess is a race-condition when acting on react
+// state, where asynchronous functions are calling zoom twice at the same time.
 const undoZoomOperation = (op: ZoomOperation, state: ZoomState) => {
   if (op.type === ZoomOperationType.Delete) {
     appendArray(state.graphData.nodes, op.removedNodes!);
@@ -108,7 +111,6 @@ const undoZoomOperation = (op: ZoomOperation, state: ZoomState) => {
       }
       link.target.mergeCount -= link.source.mergeCount ?? defaultMergeCount;
       if (link.target.mergeCount < 0) {
-        // FIXME(skep): must not happen
         console.error("negative .mergeCount on", link.target, link, op);
       }
       if (link.target.mergeCount !== undefined && link.target.mergeCount <= 1) {
@@ -122,7 +124,6 @@ const undoZoomOperation = (op: ZoomOperation, state: ZoomState) => {
         link.target.id === op.to!.target.id,
     );
     if (!link) {
-      // FIXME(skep): how does it happen? write a test for this
       console.error(
         `link to rewrite does not exist: ${op.to!.source.id} -> ${
           op.to!.target.id
@@ -134,7 +135,6 @@ const undoZoomOperation = (op: ZoomOperation, state: ZoomState) => {
       op.from!.source.id === op.to!.source.id &&
       op.from!.target.id === op.to!.target.id
     ) {
-      // FIXME(skep): how does it happen? write a test for this
       console.error("links have already been rewritten", op);
       return;
     }
@@ -147,7 +147,6 @@ const undoZoomOperation = (op: ZoomOperation, state: ZoomState) => {
         link.target.id === op.link!.target.id,
     );
     if (!link) {
-      // FIXME(skep): how does it happen? write a test for this
       console.error(
         `link to set value does not exist: ${op.link!.source.id} -> ${
           op.link!.target.id
@@ -333,24 +332,33 @@ const rewrite2ndOrderLinks = (
   });
 };
 
+// Note: Tweaking these values results in vastly different zoom-behavior and
+// can be used to improve UX!
+// (Strictly speaking both these numbers should not be constants, but instead
+//  be depending on the merged nodes' weight, but storing (and accumulating)
+//  that number is not implemented.)
+const mergeCountMultiplierMergeTarget = 2;
+const mergeCountMultiplierDeletion = 5;
+
+// calculateMergeTargetWeight calculates the weight used for selecting a
+// mergeTarget; the highest weighted node is chosen!
 const calculateMergeTargetWeight = (
   node: HasID,
   links: LinkBetweenHasIDs[],
 ) => {
-  const mergeCountMultiplier = 5; // XXX(skep): should be depending on the merged nodes' weight, but they are gone now
   let weight = calculateNodeWeight(node, links);
   if (node.mergeCount) {
-    weight -= node.mergeCount * mergeCountMultiplier;
+    weight -= node.mergeCount * mergeCountMultiplierMergeTarget;
   }
   return weight;
 };
 
 // calculateDeletionWeight calculates the weight used for picking nodes to
-// merge into the mergeTarget
+// merge into the mergeTarget; the lowest weighted node(s) are merged!
 const calculateDeletionWeight = (node: HasID, links: LinkBetweenHasIDs[]) => {
   let weight = calculateNodeWeight(node, links);
   if (node.mergeCount) {
-    weight += node.mergeCount;
+    weight += node.mergeCount * mergeCountMultiplierDeletion;
   }
   return weight;
 };
@@ -358,14 +366,14 @@ const calculateDeletionWeight = (node: HasID, links: LinkBetweenHasIDs[]) => {
 const defaultLinkValue = 1;
 const weightIncrementPerLink = 1;
 
-// calculateNodeWeight calculates node weight by first order link count,
-// weighted by link.value
+// calculateNodeWeight calculates node weight by first order *target*-link
+// count (i.e. node is the target of each link), weighted by link.value
 export const calculateNodeWeight = (
   node: HasID,
   links: LinkBetweenHasIDs[],
 ) => {
-  // XXX(skep): maybe add weight for source links as well, but less than for
-  // target links to node?
+  // MAYBE(skep): add weight for source links as well, but less than for target
+  // links to node?
   return links.reduce((weight, link) => {
     if (link.target.id === node.id) {
       return weight + weightIncrementPerLink * (link.value ?? defaultLinkValue);

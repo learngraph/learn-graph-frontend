@@ -299,26 +299,27 @@ const onLinkHover = (_: ForceGraphLinkObject | null): void => {
 };
 
 // global input listeners
-export const makeKeydownListener = (ctrl: Controller) => {
+export const makeKeydownListener = (_ctrl: Controller) => {
   return (event: Partial<KeyboardEvent>) => {
     switch (event.key) {
       case "s":
-        if (!!ctrl.forceGraphRef.current) {
-          console.log(`zoom: ${ctrl.forceGraphRef.current.zoom()}`);
-        }
-        {
-          const link = ctrl.graph.current.links[0];
-          console.log(
-            `removing link ${link.source.description}->${link.target.description}`,
-          );
-          ctrl.graph.removeLink(link);
-          setTimeout(() => {
-            console.log(
-              `adding link ${link.source.description}->${link.target.description}`,
-            );
-            ctrl.graph.addLink(link);
-          }, 1000);
-        }
+        //// TODO(skep): should add dev-config to enable testing hooks
+        //if (!!ctrl.forceGraphRef.current) {
+        //  console.log(`zoom: ${ctrl.forceGraphRef.current.zoom()}`);
+        //}
+        //{
+        //  const link = ctrl.graph.current.links[0];
+        //  console.log(
+        //    `removing link ${link.source.description}->${link.target.description}`,
+        //  );
+        //  ctrl.graph.removeLink(link);
+        //  setTimeout(() => {
+        //    console.log(
+        //      `adding link ${link.source.description}->${link.target.description}`,
+        //    );
+        //    ctrl.graph.addLink(link);
+        //  }, 1000);
+        //}
         return;
       default:
         return;
