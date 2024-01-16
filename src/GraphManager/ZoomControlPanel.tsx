@@ -27,24 +27,40 @@ export function debounce<Func extends AnyFunction>(func: Func, delay: number) {
     }, delay);
   };
 }
+export function deduplicateCallsWithSameParameters<T extends any[]>(
+  callback: AnyFunction,
+): AnyFunction {
+  let lastArgs: any[] | null = null;
+  return (...args: T) => {
+    if (
+      !lastArgs ||
+      !args.every((value, index) => value === lastArgs![index])
+    ) {
+      callback(...args);
+      lastArgs = [...args];
+    }
+  };
+}
 
 export const makeZoomControl = (ctrl: Controller) => {
   let state = {
     zoomSteps: ctrl.zoom.zoomState.zoomSteps,
     graphData: ctrl.graph.current,
   };
-  const performZoomIn = () => {
-    const n = ctrl.zoom.zoomStepStack.pop();
+  const setZoomState = () => {
     ctrl.zoom.setZoomStepStack(ctrl.zoom.zoomStepStack);
-    if (!n) {
-      return;
-    }
-    for (let i = 0; i < n; i++) {
-      zoomStep({ direction: ZoomDirection.In, steps: 1 }, state);
-    }
     ctrl.zoom.setZoomState(state);
     uglyHack(ctrl);
     ctrl.forceGraphRef.current?.d3ReheatSimulation();
+  };
+  const performZoomIn = () => {
+    const n = ctrl.zoom.zoomStepStack.pop();
+    if (!n) {
+      return;
+    }
+    for (let i = 0; i <= n; i++) {
+      zoomStep({ direction: ZoomDirection.In, steps: 1 }, state);
+    }
   };
   const onZoomIn = () => {
     if (ctrl.zoom.zoomLevel >= ZOOM_LEVEL_MAX) {
@@ -52,17 +68,14 @@ export const makeZoomControl = (ctrl: Controller) => {
     }
     ctrl.zoom.setZoomLevel(ctrl.zoom.zoomLevel + ZOOM_LEVEL_STEP);
     performZoomIn();
+    setZoomState();
   };
   const performZoomOut = () => {
-    const n = ctrl.graph.current.nodes.length / 2;
+    const n = Math.abs(ctrl.graph.current.nodes.length / 2);
     ctrl.zoom.zoomStepStack.push(n);
-    ctrl.zoom.setZoomStepStack(ctrl.zoom.zoomStepStack);
-    for (let i = 0; i < n; i++) {
+    for (let i = 0; i <= n; i++) {
       zoomStep({ direction: ZoomDirection.Out, steps: 1 }, state);
     }
-    ctrl.zoom.setZoomState(state);
-    uglyHack(ctrl);
-    ctrl.forceGraphRef.current?.d3ReheatSimulation();
   };
   const onZoomOut = () => {
     if (ctrl.zoom.zoomLevel <= ZOOM_LEVEL_MIN) {
@@ -70,34 +83,54 @@ export const makeZoomControl = (ctrl: Controller) => {
     }
     ctrl.zoom.setZoomLevel(ctrl.zoom.zoomLevel - ZOOM_LEVEL_STEP);
     performZoomOut();
+    setZoomState();
   };
+  // Note: We must remember the last zoom level outside of react state, since
+  // react state performs asynchronous calls, and the slider changes it's value
+  // very rapidly.
+  let lastZoomLevel: number | null = null;
   const onZoomChange = (newValue: number) => {
-    let diff = Math.abs(ctrl.zoom.zoomLevel - newValue);
-    if (ctrl.zoom.zoomLevel < newValue) {
-      if (ctrl.zoom.zoomLevel + diff > ZOOM_LEVEL_MAX) {
-        diff -= ctrl.zoom.zoomLevel + diff - ZOOM_LEVEL_MAX;
-      }
-      ctrl.zoom.setZoomLevel(ctrl.zoom.zoomLevel + diff);
-      for (let i = 0; i < diff; i++) {
-        performZoomIn();
-      }
-    } else {
-      if (ctrl.zoom.zoomLevel - diff < ZOOM_LEVEL_MIN) {
-        diff -= ctrl.zoom.zoomLevel - diff + ZOOM_LEVEL_MIN;
-      }
-      ctrl.zoom.setZoomLevel(ctrl.zoom.zoomLevel - diff);
-      for (let i = 0; i < diff; i++) {
-        performZoomOut();
-      }
+    if (!lastZoomLevel) {
+      lastZoomLevel = ctrl.zoom.zoomLevel;
     }
+    newValue = capInclusive(newValue, {
+      upper: ZOOM_LEVEL_MAX,
+      lower: ZOOM_LEVEL_MIN,
+    });
+    let performZoom: () => void;
+    if (lastZoomLevel < newValue) {
+      performZoom = performZoomIn;
+    } else {
+      performZoom = performZoomOut;
+    }
+    for (let i = 0; i < Math.abs(lastZoomLevel - newValue); i++) {
+      performZoom();
+    }
+    lastZoomLevel = newValue;
+    ctrl.zoom.setZoomLevel(newValue);
+    setZoomState();
   };
   const zoomCtrl: ZoomPanelControl = {
     zoomLevel: ctrl.zoom.zoomLevel,
-    onZoomChange,
+    onZoomChange: deduplicateCallsWithSameParameters(onZoomChange),
     onZoomIn,
     onZoomOut,
   };
   return zoomCtrl;
+};
+
+interface Bound {
+  upper: number;
+  lower: number;
+}
+// capInclusive caps the number n inside the bounaries bound
+const capInclusive = (n: number, bound: Bound) => {
+  if (n > bound.upper) {
+    n = bound.upper;
+  } else if (n < bound.lower) {
+    n = bound.lower;
+  }
+  return n;
 };
 
 export const ZOOM_LEVEL_MIN = 1;

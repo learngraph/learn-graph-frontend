@@ -91,7 +91,7 @@ describe("makeZoomControl", () => {
       expect(ctrl.zoom.setZoomLevel).toHaveBeenCalledWith(
         ctrl.zoom.zoomLevel + 2,
       );
-      expect(ctrl.zoom.setZoomStepStack).toHaveBeenCalledTimes(2);
+      expect(ctrl.zoom.setZoomStepStack).toHaveBeenCalledTimes(1);
     });
     it("should cap zoom at MAX", () => {
       // @ts-ignore
@@ -102,6 +102,27 @@ describe("makeZoomControl", () => {
       // @ts-ignore
       zoomCtrl.onZoomChange(ZOOM_LEVEL_MIN - 1);
       expect(ctrl.zoom.setZoomLevel).toHaveBeenCalledWith(ZOOM_LEVEL_MIN);
+    });
+    it("should skip calls with invalid diff", () => {
+      ctrl.zoom.zoomLevel = ZOOM_LEVEL_MAX;
+      zoomCtrl.onZoomChange(ZOOM_LEVEL_MAX - 1);
+      expect(ctrl.zoom.setZoomLevel).toHaveBeenCalledTimes(1);
+      expect(ctrl.zoom.setZoomLevel).toHaveBeenNthCalledWith(
+        1,
+        ZOOM_LEVEL_MAX - 1,
+      );
+      expect(ctrl.zoom.zoomStepStack).toEqual([1]);
+      // second call comes so quick, that zoomLevel did not change yet!
+      ctrl.zoom.zoomLevel = ZOOM_LEVEL_MAX;
+      zoomCtrl.onZoomChange(ZOOM_LEVEL_MAX - 2);
+      expect(ctrl.zoom.setZoomLevel).toHaveBeenCalledTimes(2);
+      expect(ctrl.zoom.setZoomLevel).toHaveBeenNthCalledWith(
+        2,
+        ZOOM_LEVEL_MAX - 2,
+      );
+      // should only push one value to the stack, even though diff between
+      // zoomLevel and newZoomLevel = 2
+      expect(ctrl.zoom.zoomStepStack).toEqual([1, 1]);
     });
   });
 });
