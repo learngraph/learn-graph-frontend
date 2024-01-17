@@ -27,6 +27,9 @@ import * as yup from "yup";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "@mui/system";
 
+const MIN_NODE_DESCRIPTION_LENGTH = 2; // note: for chinese words, 2 characters is already precise
+const MAX_NODE_DESCRIPTION_LENGTH = 40;
+
 interface LinkWeightSliderProps {
   defaultValue: number;
   setSliderValue: React.Dispatch<React.SetStateAction<Number | Array<Number>>>;
@@ -320,7 +323,10 @@ const LinkVotePopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
 };
 
 export const nodeValidation = yup.object({
-  nodeDescription: yup.string().min(4).max(40),
+  nodeDescription: yup
+    .string()
+    .min(MIN_NODE_DESCRIPTION_LENGTH)
+    .max(MAX_NODE_DESCRIPTION_LENGTH),
 });
 
 const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
