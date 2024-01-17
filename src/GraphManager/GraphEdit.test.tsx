@@ -89,19 +89,19 @@ const makeNodes = () => {
   const node_1 = { id: "1", x: 0, y: 0, description: "1" };
   const node_2_far = {
     id: "2",
-    x: Math.sqrt(DRAG_snapInDistanceSquared) + 1,
+    x: Math.sqrt(DRAG_snapInDistanceSquared) + 2,
     y: 0,
     description: "2",
   };
   const node_3_close = {
     id: "3",
-    x: Math.sqrt(DRAG_snapInDistanceSquared) - 1,
+    x: Math.sqrt(DRAG_snapInDistanceSquared) - 2,
     y: 0,
     description: "3",
   };
   const node_4_far = {
     id: "4",
-    x: node_2_far.x + Math.sqrt(DRAG_snapInDistanceSquared) + 1,
+    x: node_2_far.x + Math.sqrt(DRAG_snapInDistanceSquared) + 2,
     y: 0,
     description: "4",
   };
@@ -198,6 +198,35 @@ describe("onNodeDrag", () => {
     expect(ctrl.graph.removeLink).toHaveBeenNthCalledWith(1, interimLink);
     expect(ctrl.graph.addLink).toHaveBeenCalledTimes(2);
     expect(ctrl.graph.addLink).toHaveBeenNthCalledWith(2, interimLink2);
+  });
+  it("should not switch interim if current node is closer than the new one", () => {
+    const ctrl = makeMockController();
+    const { node_1, node_2_far, node_3_close } = makeNodes();
+    ctrl.graph.current.nodes = [node_1, node_3_close, node_2_far];
+    // @ts-ignore
+    ctrl.nodeDrag = makeNodeDragState({ dragSourceNode: node_1 });
+    // @ts-ignore
+    onNodeDrag(ctrl, node_1, { x: 0, y: 0 });
+    const interimLink: ForceGraphLinkObject = {
+      id: INTERIM_TMP_LINK_ID,
+      source: node_1,
+      target: node_3_close,
+      value: DEFAULT_EDIT_LINK_WEIGHT,
+    };
+    const expDrag: NodeDragState = {
+      dragSourceNode: node_1,
+      interimLink: interimLink,
+    };
+    expect(ctrl.nodeDrag.state).toEqual(expDrag);
+    expect(ctrl.graph.addLink).toHaveBeenCalledTimes(1);
+    expect(ctrl.graph.addLink).toHaveBeenNthCalledWith(1, interimLink);
+    node_2_far.x = node_3_close.x + 1;
+    // @ts-ignore
+    onNodeDrag(ctrl, node_1, { x: 0, y: 0 });
+    // expect no changes:
+    expect(ctrl.nodeDrag.state).toEqual(expDrag);
+    expect(ctrl.graph.removeLink).toHaveBeenCalledTimes(0);
+    expect(ctrl.graph.addLink).toHaveBeenCalledTimes(1);
   });
   it("should not remove links where the source node, is not the currently dragged one", () => {
     const ctrl = makeMockController();

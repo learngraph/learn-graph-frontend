@@ -22,14 +22,29 @@ import { DeleteEdgeFn } from "./hooks/useDeleteEdge";
 import { HasID, ZoomState } from "./Zoom";
 import i18n from "src/i18n";
 
+// Note: must be kept constant for all times, otherwise database must be
+// migrated to a new maximum weight.
 export const MAX_LINK_WEIGHT = 10;
+
+// Default value for creating new links.
 export const DEFAULT_EDIT_LINK_WEIGHT = MAX_LINK_WEIGHT / 2;
+
+// See https://github.com/vasturiano/force-graph -> cooldownTicks
 export const FG_ENGINE_COOLDOWN_TICKS_DEFAULT = 1000;
 export const FG_ENGINE_COOLDOWN_TICKS_DISABLED = 0;
 
-const NODE_DRAG_SNAP_IN_OUT_DISTANCES = [25, 35];
-export const DRAG_snapInDistanceSquared = Math.pow(NODE_DRAG_SNAP_IN_OUT_DISTANCES[0], 2);
-export const DRAG_snapOutDistanceSquared = Math.pow(NODE_DRAG_SNAP_IN_OUT_DISTANCES[1], 2);
+// onNodeDrag: snap's to the node if distance < this[0], un-snaps if distance > this[1]
+const NODE_DRAG_SNAP_IN_OUT_DISTANCES = [35, 45];
+export const DRAG_snapInDistanceSquared = Math.pow(
+  NODE_DRAG_SNAP_IN_OUT_DISTANCES[0],
+  2,
+);
+export const DRAG_snapOutDistanceSquared = Math.pow(
+  NODE_DRAG_SNAP_IN_OUT_DISTANCES[1],
+  2,
+);
+
+// Temporary link ID for link creation via node-dragging (onNodeDrag).
 export const INTERIM_TMP_LINK_ID = "INTERIM_TMP";
 
 export interface GraphState {
@@ -211,7 +226,9 @@ export const onNodeDrag = (
     if (
       nodeDrag.interimLink !== undefined &&
       node !== nodeDrag.interimLink.target &&
-      distanceSquared(dragSourceNode, node) < DRAG_snapInDistanceSquared
+      distanceSquared(dragSourceNode, node) < DRAG_snapInDistanceSquared &&
+      distanceSquared(dragSourceNode, node) <
+        distanceSquared(dragSourceNode, nodeDrag.interimLink.target)
     ) {
       newInterimLinkTarget = node;
     }
