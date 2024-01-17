@@ -30,6 +30,7 @@ import {
   useCreateUserWithEmail,
 } from "./GraphManager/hooks/useCreateUser";
 import { LoginFn, useLogin } from "./GraphManager/hooks/useLoginUser";
+import { LogoutFn, useLogout } from "./GraphManager/hooks/useLogoutUser";
 
 //// TODO(skep): remove "translated"-types, the backend always receives the
 // language header, thus translation should happen there, to avoid large amount
@@ -65,6 +66,7 @@ interface GraphDataContextValues {
   // XXX: afterward the whole GraphDataContext can be removed!
   createUserWithEMail: CreateUserWithMailFn;
   loginUser: LoginFn;
+  logoutUser: LogoutFn;
 
   // apply graph data changes to react state
   setNodes: React.Dispatch<React.SetStateAction<TranslatedNode[]>>;
@@ -92,6 +94,8 @@ const defaultContextValues = {
   createUserWithEMail: () =>
     Promise.reject({ error: "defaultContextValues must not be used" }),
   loginUser: () =>
+    Promise.reject({ error: "defaultContextValues must not be used" }),
+  logoutUser: () =>
     Promise.reject({ error: "defaultContextValues must not be used" }),
 };
 
@@ -163,6 +167,7 @@ const GraphDataContextProvider: React.FC<ProviderProps> = ({ children }) => {
   const { submitVote: submitVoteInBackend } = useSubmitVote();
   const { createUserWithEMail } = useCreateUserWithEmail();
   const { login: loginUser } = useLogin();
+  const { logout: logoutUser } = useLogout();
   const editGraph: EditGraph = {
     requests,
     requestsDispatch,
@@ -186,6 +191,7 @@ const GraphDataContextProvider: React.FC<ProviderProps> = ({ children }) => {
         submitVote: getSubmitVoteAction(editGraph),
         createUserWithEMail,
         loginUser,
+        logoutUser,
         setLinks,
         setNodes,
       }}

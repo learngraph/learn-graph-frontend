@@ -21,6 +21,7 @@ export interface UserDataContextValues {
   setUserName: React.Dispatch<React.SetStateAction<string>>;
   authenticationToken: string;
   setAuthenticationToken: React.Dispatch<React.SetStateAction<string>>;
+  logout: () => void;
 }
 
 const defaultLanguage = "en";
@@ -35,6 +36,7 @@ const defaultContextValues = {
   setUserID: () => Promise.reject({ error: errMsgNoDefault }),
   setUserName: () => Promise.reject({ error: errMsgNoDefault }),
   setAuthenticationToken: () => Promise.reject({ error: errMsgNoDefault }),
+  logout: () => Promise.reject({ error: errMsgNoDefault }),
 };
 
 const UserDataContext =
@@ -72,6 +74,19 @@ const deleteUserDataFromLS = () => {
   storageDel(StorageKeys.authenticationToken);
 };
 
+interface clearUserDataType {
+  setUserID: UserDataContextValues["setUserID"];
+  setUserName: UserDataContextValues["setUserName"];
+  setAuthenticationToken: UserDataContextValues["setAuthenticationToken"];
+}
+
+const clearUserData = (clearUserDataFunctions: clearUserDataType) => {
+  deleteUserDataFromLS();
+  clearUserDataFunctions.setUserID("");
+  clearUserDataFunctions.setUserName("");
+  clearUserDataFunctions.setAuthenticationToken("");
+};
+
 const makeNotifyUserOnNotLoggedInError = (ctx: UserDataContextValues) => {
   return onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors) {
@@ -80,10 +95,11 @@ const makeNotifyUserOnNotLoggedInError = (ctx: UserDataContextValues) => {
           let msg = i18n.t("Please login/signup to contribute!");
           if (ctx.userID !== "" && ctx.authenticationToken !== "") {
             msg = i18n.t("Session expired, please login again!");
-            deleteUserDataFromLS();
-            ctx.setUserID("");
-            ctx.setUserName("");
-            ctx.setAuthenticationToken("");
+            clearUserData({
+              setUserID: ctx.setUserID,
+              setUserName: ctx.setUserName,
+              setAuthenticationToken: ctx.setAuthenticationToken,
+            });
           }
           alert(msg); // TODO(skep): make it a nice MUI-popup
         }
@@ -129,6 +145,13 @@ export const UserDataContextProvider: React.FC<{
     i18n.changeLanguage(newlanguage.toString());
   };
 
+  const logout = () =>
+    clearUserData({
+      setUserID,
+      setUserName,
+      setAuthenticationToken,
+    });
+
   const ctx: UserDataContextValues = {
     language,
     setLanguage: setLanguageAndTranslation,
@@ -138,6 +161,7 @@ export const UserDataContextProvider: React.FC<{
     setUserName,
     authenticationToken,
     setAuthenticationToken,
+    logout,
   };
 
   const notifyUserOnNotLoggedInError = makeNotifyUserOnNotLoggedInError(ctx);

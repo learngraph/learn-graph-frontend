@@ -14,6 +14,7 @@ jest.mock("./GraphManager/hooks/useUpdateNode");
 jest.mock("./GraphManager/hooks/useSubmitVote");
 jest.mock("./GraphManager/hooks/useCreateUser");
 jest.mock("./GraphManager/hooks/useLoginUser");
+jest.mock("./GraphManager/hooks/useLogoutUser");
 
 /**
  * A custom render to setup providers. Extends regular
