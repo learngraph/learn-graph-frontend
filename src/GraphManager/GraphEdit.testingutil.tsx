@@ -53,6 +53,7 @@ export const makeMockController = () => {
     forceGraphRef: {
       current: forceGraphMethods,
     },
+    setCooldownTicks: jest.fn().mockName("setCooldownTicks"),
     nodeDrag: {
       setState: jest.fn(),
       state: {},

@@ -1,8 +1,8 @@
 import {
-  Backend,
   DEFAULT_EDIT_LINK_WEIGHT,
   DRAG_snapInDistanceSquared,
   DRAG_snapOutDistanceSquared,
+  FG_ENGINE_COOLDOWN_TICKS_DISABLED,
   INTERIM_TMP_LINK_ID,
   NodeDragState,
   onLinkClick,
@@ -14,7 +14,7 @@ import {
 } from "./GraphEdit";
 import { GraphEditPopUpState, NewLinkForm } from "./GraphEditPopUp";
 import { ForceGraphLinkObject } from "./types";
-import { makeMockController, makeGraphState } from "./GraphEdit.testingutil";
+import { makeMockController } from "./GraphEdit.testingutil";
 
 describe("openCreateNodePopUpAtMousePosition", () => {
   const makeMockMouseEvent = (props: any) => {
@@ -89,19 +89,19 @@ const makeNodes = () => {
   const node_1 = { id: "1", x: 0, y: 0, description: "1" };
   const node_2_far = {
     id: "2",
-    x: Math.sqrt(DRAG_snapInDistanceSquared) + 1,
+    x: Math.sqrt(DRAG_snapInDistanceSquared) + 2,
     y: 0,
     description: "2",
   };
   const node_3_close = {
     id: "3",
-    x: Math.sqrt(DRAG_snapInDistanceSquared) - 1,
+    x: Math.sqrt(DRAG_snapInDistanceSquared) - 2,
     y: 0,
     description: "3",
   };
   const node_4_far = {
     id: "4",
-    x: node_2_far.x + Math.sqrt(DRAG_snapInDistanceSquared) + 1,
+    x: node_2_far.x + Math.sqrt(DRAG_snapInDistanceSquared) + 2,
     y: 0,
     description: "4",
   };
@@ -120,20 +120,25 @@ describe("onNodeDrag", () => {
   };
   it("should add currently dragged node to NodeDragState, and do nothing else if no other node in range", () => {
     const { node_1, node_2_far } = makeNodes();
-    const nodeDrag = makeNodeDragState({});
-    const graph = makeGraphState();
-    graph.current.nodes = [node_1, node_2_far];
+    const ctrl = makeMockController();
     // @ts-ignore
-    onNodeDrag({ graph, nodeDrag }, node_1, { x: 0, y: 0 });
-    expect(nodeDrag.state).toEqual({ dragSourceNode: node_1 });
+    ctrl.nodeDrag = makeNodeDragState({});
+    ctrl.graph.current.nodes = [node_1, node_2_far];
+    // @ts-ignore
+    onNodeDrag(ctrl, node_1, { x: 0, y: 0 });
+    expect(ctrl.nodeDrag.state).toEqual({ dragSourceNode: node_1 });
+    expect(ctrl.setCooldownTicks).toHaveBeenCalledWith(
+      FG_ENGINE_COOLDOWN_TICKS_DISABLED,
+    );
   });
   it("should add interimLink for in-range node and remove for out-of-range node", () => {
-    const graph = makeGraphState();
+    const ctrl = makeMockController();
     const { node_1, node_3_close } = makeNodes();
-    graph.current.nodes = [node_1, node_3_close];
-    const nodeDrag = makeNodeDragState({ dragSourceNode: node_1 });
+    ctrl.graph.current.nodes = [node_1, node_3_close];
     // @ts-ignore
-    onNodeDrag({ graph, nodeDrag }, node_1, { x: 0, y: 0 });
+    ctrl.nodeDrag = makeNodeDragState({ dragSourceNode: node_1 });
+    // @ts-ignore
+    onNodeDrag(ctrl, node_1, { x: 0, y: 0 });
     const interimLink: ForceGraphLinkObject = {
       id: INTERIM_TMP_LINK_ID,
       source: node_1,
@@ -144,23 +149,24 @@ describe("onNodeDrag", () => {
       dragSourceNode: node_1,
       interimLink: interimLink,
     };
-    expect(nodeDrag.state).toEqual(expDrag);
-    expect(graph.addLink).toHaveBeenCalledTimes(1);
-    expect(graph.addLink).toHaveBeenNthCalledWith(1, interimLink);
-    graph.current.nodes[1].x = Math.sqrt(DRAG_snapOutDistanceSquared) + 1;
+    expect(ctrl.nodeDrag.state).toEqual(expDrag);
+    expect(ctrl.graph.addLink).toHaveBeenCalledTimes(1);
+    expect(ctrl.graph.addLink).toHaveBeenNthCalledWith(1, interimLink);
+    ctrl.graph.current.nodes[1].x = Math.sqrt(DRAG_snapOutDistanceSquared) + 1;
     // @ts-ignore
-    onNodeDrag({ graph, nodeDrag }, node_1, { x: 0, y: 0 });
-    expect(graph.removeLink).toHaveBeenCalledTimes(1);
-    expect(graph.removeLink).toHaveBeenNthCalledWith(1, interimLink);
-    expect(nodeDrag.state).toEqual({ dragSourceNode: node_1 });
+    onNodeDrag(ctrl, node_1, { x: 0, y: 0 });
+    expect(ctrl.graph.removeLink).toHaveBeenCalledTimes(1);
+    expect(ctrl.graph.removeLink).toHaveBeenNthCalledWith(1, interimLink);
+    expect(ctrl.nodeDrag.state).toEqual({ dragSourceNode: node_1 });
   });
   it("should switch interim link if getting close to another node", () => {
-    const graph = makeGraphState();
+    const ctrl = makeMockController();
     const { node_1, node_2_far, node_3_close } = makeNodes();
-    graph.current.nodes = [node_1, node_3_close, node_2_far];
-    const nodeDrag = makeNodeDragState({ dragSourceNode: node_1 });
+    ctrl.graph.current.nodes = [node_1, node_3_close, node_2_far];
     // @ts-ignore
-    onNodeDrag({ graph, nodeDrag }, node_1, { x: 0, y: 0 });
+    ctrl.nodeDrag = makeNodeDragState({ dragSourceNode: node_1 });
+    // @ts-ignore
+    onNodeDrag(ctrl, node_1, { x: 0, y: 0 });
     const interimLink: ForceGraphLinkObject = {
       id: INTERIM_TMP_LINK_ID,
       source: node_1,
@@ -171,12 +177,12 @@ describe("onNodeDrag", () => {
       dragSourceNode: node_1,
       interimLink: interimLink,
     };
-    expect(nodeDrag.state).toEqual(expDrag);
-    expect(graph.addLink).toHaveBeenCalledTimes(1);
-    expect(graph.addLink).toHaveBeenNthCalledWith(1, interimLink);
+    expect(ctrl.nodeDrag.state).toEqual(expDrag);
+    expect(ctrl.graph.addLink).toHaveBeenCalledTimes(1);
+    expect(ctrl.graph.addLink).toHaveBeenNthCalledWith(1, interimLink);
     node_2_far.x = node_3_close.x - 1;
     // @ts-ignore
-    onNodeDrag({ graph, nodeDrag }, node_1, { x: 0, y: 0 });
+    onNodeDrag(ctrl, node_1, { x: 0, y: 0 });
     const interimLink2: ForceGraphLinkObject = {
       id: INTERIM_TMP_LINK_ID,
       source: node_1,
@@ -187,16 +193,45 @@ describe("onNodeDrag", () => {
       dragSourceNode: node_1,
       interimLink: interimLink2,
     };
-    expect(nodeDrag.state).toEqual(expDrag2);
-    expect(graph.removeLink).toHaveBeenCalledTimes(1);
-    expect(graph.removeLink).toHaveBeenNthCalledWith(1, interimLink);
-    expect(graph.addLink).toHaveBeenCalledTimes(2);
-    expect(graph.addLink).toHaveBeenNthCalledWith(2, interimLink2);
+    expect(ctrl.nodeDrag.state).toEqual(expDrag2);
+    expect(ctrl.graph.removeLink).toHaveBeenCalledTimes(1);
+    expect(ctrl.graph.removeLink).toHaveBeenNthCalledWith(1, interimLink);
+    expect(ctrl.graph.addLink).toHaveBeenCalledTimes(2);
+    expect(ctrl.graph.addLink).toHaveBeenNthCalledWith(2, interimLink2);
+  });
+  it("should not switch interim if current node is closer than the new one", () => {
+    const ctrl = makeMockController();
+    const { node_1, node_2_far, node_3_close } = makeNodes();
+    ctrl.graph.current.nodes = [node_1, node_3_close, node_2_far];
+    // @ts-ignore
+    ctrl.nodeDrag = makeNodeDragState({ dragSourceNode: node_1 });
+    // @ts-ignore
+    onNodeDrag(ctrl, node_1, { x: 0, y: 0 });
+    const interimLink: ForceGraphLinkObject = {
+      id: INTERIM_TMP_LINK_ID,
+      source: node_1,
+      target: node_3_close,
+      value: DEFAULT_EDIT_LINK_WEIGHT,
+    };
+    const expDrag: NodeDragState = {
+      dragSourceNode: node_1,
+      interimLink: interimLink,
+    };
+    expect(ctrl.nodeDrag.state).toEqual(expDrag);
+    expect(ctrl.graph.addLink).toHaveBeenCalledTimes(1);
+    expect(ctrl.graph.addLink).toHaveBeenNthCalledWith(1, interimLink);
+    node_2_far.x = node_3_close.x + 1;
+    // @ts-ignore
+    onNodeDrag(ctrl, node_1, { x: 0, y: 0 });
+    // expect no changes:
+    expect(ctrl.nodeDrag.state).toEqual(expDrag);
+    expect(ctrl.graph.removeLink).toHaveBeenCalledTimes(0);
+    expect(ctrl.graph.addLink).toHaveBeenCalledTimes(1);
   });
   it("should not remove links where the source node, is not the currently dragged one", () => {
-    const graph = makeGraphState();
+    const ctrl = makeMockController();
     const { node_1, node_2_far, node_3_close, node_4_far } = makeNodes();
-    graph.current.nodes = [node_1, node_4_far, node_3_close, node_2_far];
+    ctrl.graph.current.nodes = [node_1, node_4_far, node_3_close, node_2_far];
     const link_12 = { id: "1", source: node_1, target: node_2_far, value: 5 };
     const link_42 = {
       id: INTERIM_TMP_LINK_ID,
@@ -204,35 +239,26 @@ describe("onNodeDrag", () => {
       target: node_2_far,
       value: DEFAULT_EDIT_LINK_WEIGHT,
     };
-    graph.current.links = [link_12, link_42];
-    const nodeDrag = makeNodeDragState({
+    ctrl.graph.current.links = [link_12, link_42];
+    // @ts-ignore
+    ctrl.nodeDrag = makeNodeDragState({
       dragSourceNode: node_4_far,
       interimLink: link_42,
     });
     // @ts-ignore
-    onNodeDrag({ graph, nodeDrag }, node_1, { x: 0, y: 0 });
-    expect(graph.removeLink).toHaveBeenCalledTimes(1);
-    expect(graph.removeLink).toHaveBeenNthCalledWith(1, link_42);
+    onNodeDrag(ctrl, node_1, { x: 0, y: 0 });
+    expect(ctrl.graph.removeLink).toHaveBeenCalledTimes(1);
+    expect(ctrl.graph.removeLink).toHaveBeenNthCalledWith(1, link_42);
   });
 });
 
 describe("onNodeDragEnd", () => {
-  const makeBackend = () => {
-    const ctrl = makeMockController();
-    const b: Backend = ctrl.backend;
-    return b;
-  };
   it("shoud do nothing if no interimLink exists", () => {
-    const graph = makeGraphState();
-    const nodeDrag: NodeDragState = {};
-    const backend = makeBackend();
-    onNodeDragEnd(
-      // @ts-ignore
-      { backend, graph, nodeDrag: { state: nodeDrag, setState: jest.fn() } },
-      { id: "idk", description: "ok" },
-      { x: 0, y: 0 },
-    );
-    expect(backend.createLink).not.toHaveBeenCalled();
+    const ctrl = makeMockController();
+    ctrl.nodeDrag.state = {};
+    // @ts-ignore
+    onNodeDragEnd(ctrl, { id: "idk", description: "ok" }, { x: 0, y: 0 });
+    expect(ctrl.backend.createLink).not.toHaveBeenCalled();
   });
   it("shoud do same as openCreateLinkPopUp, with default values for links from interimLink", async () => {
     const ctrl = makeMockController();
