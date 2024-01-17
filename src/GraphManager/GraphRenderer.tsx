@@ -30,6 +30,7 @@ import {
   makeOnLinkClick,
   makeOnNodeClick,
   Backend,
+  FG_ENGINE_COOLDOWN_TICKS_DEFAULT,
 } from "./GraphEdit";
 import { GraphEditPopUp, GraphEditPopUpState } from "./GraphEditPopUp";
 import { useCreateNode } from "./hooks/useCreateNode";
@@ -508,6 +509,9 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     deleteNode,
     deleteLink: deleteEdge,
   };
+  const [cooldownTicks, setCooldownTicks] = useState(
+    FG_ENGINE_COOLDOWN_TICKS_DEFAULT,
+  );
   const controller: Controller = {
     backend,
     popUp: {
@@ -516,6 +520,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     },
     graph: makeGraphState(graph, setGraph, performInitialZoom),
     forceGraphRef: props.forceGraphRef,
+    setCooldownTicks,
     nodeDrag: {
       state: nodeDrag,
       setState: setNodeDrag,
@@ -606,6 +611,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
         width={availableSpace.width}
         ref={props.forceGraphRef}
         graphData={graph}
+        cooldownTicks={cooldownTicks}
         nodeCanvasObject={makeNodeCanvasObject(controller)}
         nodePointerAreaPaint={nodePointerAreaPaint}
         onNodeClick={makeOnNodeClick(controller)}

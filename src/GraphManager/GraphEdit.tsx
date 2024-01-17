@@ -24,6 +24,13 @@ import i18n from "src/i18n";
 
 export const MAX_LINK_WEIGHT = 10;
 export const DEFAULT_EDIT_LINK_WEIGHT = MAX_LINK_WEIGHT / 2;
+export const FG_ENGINE_COOLDOWN_TICKS_DEFAULT = 1000;
+export const FG_ENGINE_COOLDOWN_TICKS_DISABLED = 0;
+
+const NODE_DRAG_SNAP_IN_OUT_DISTANCES = [25, 35];
+export const DRAG_snapInDistanceSquared = Math.pow(NODE_DRAG_SNAP_IN_OUT_DISTANCES[0], 2);
+export const DRAG_snapOutDistanceSquared = Math.pow(NODE_DRAG_SNAP_IN_OUT_DISTANCES[1], 2);
+export const INTERIM_TMP_LINK_ID = "INTERIM_TMP";
 
 export interface GraphState {
   current: ForceGraphGraphData;
@@ -124,6 +131,7 @@ export interface ZoomControl {
 export interface Controller {
   graph: GraphState;
   forceGraphRef: ForceGraphRef;
+  setCooldownTicks: Dispatch<SetStateAction<number>>; // TODO(skep): should be combined into forceGraph { ref; setCDTicks; }
   popUp: PopUpControls;
   backend: Backend;
   nodeDrag: NodeDrag;
@@ -154,19 +162,18 @@ export interface NodeDragState {
   interimLink?: ForceGraphLinkObject;
 }
 
-const snapInOutDistances = [40, 65];
-export const DRAG_snapInDistanceSquared = Math.pow(snapInOutDistances[0], 2);
-export const DRAG_snapOutDistanceSquared = Math.pow(snapInOutDistances[1], 2);
-
-export const INTERIM_TMP_LINK_ID = "INTERIM_TMP";
 export const onNodeDrag = (
-  { graph, nodeDrag: { state: nodeDrag, setState: setNodeDrag } }: Controller,
+  ctrl: Controller,
   dragSourceNode: ForceGraphNodeObject,
   _: Position,
 ) => {
   const distanceSquared = (a: Partial<Position>, b: Partial<Position>) => {
     return Math.pow(a.x! - b.x!, 2) + Math.pow(a.y! - b.y!, 2);
   };
+  const {
+    nodeDrag: { state: nodeDrag, setState: setNodeDrag },
+  } = ctrl;
+  ctrl.setCooldownTicks(FG_ENGINE_COOLDOWN_TICKS_DISABLED);
   if (nodeDrag.dragSourceNode !== dragSourceNode) {
     setNodeDrag({ ...nodeDrag, dragSourceNode: dragSourceNode });
   }
@@ -179,13 +186,13 @@ export const onNodeDrag = (
       source,
       target,
       value: DEFAULT_EDIT_LINK_WEIGHT,
-    }; // TODO(skep): using GraphDataContextActions will remove the in-line temporary string
+    };
     setNodeDrag({ ...nodeDrag, interimLink });
-    graph.addLink(interimLink!);
+    ctrl.graph.addLink(interimLink!);
   };
   let newInterimLinkTarget: ForceGraphNodeObject | null = null;
   let removeCurrentInterimLink: boolean = false;
-  for (let node of graph.current.nodes) {
+  for (let node of ctrl.graph.current.nodes) {
     if (node === dragSourceNode || !node) {
       continue;
     }
@@ -210,12 +217,12 @@ export const onNodeDrag = (
     }
   }
   if (removeCurrentInterimLink) {
-    graph.removeLink(nodeDrag.interimLink!);
+    ctrl.graph.removeLink(nodeDrag.interimLink!);
     setNodeDrag({ ...nodeDrag, interimLink: undefined });
   }
   if (!!newInterimLinkTarget) {
     if (!!nodeDrag.interimLink) {
-      graph.removeLink(nodeDrag.interimLink);
+      ctrl.graph.removeLink(nodeDrag.interimLink);
     }
     addInterimLink(dragSourceNode, newInterimLinkTarget);
   }
@@ -231,6 +238,7 @@ export const onNodeDragEnd = async (
   _: ForceGraphNodeObject,
   __: Position,
 ) => {
+  ctrl.setCooldownTicks(FG_ENGINE_COOLDOWN_TICKS_DEFAULT);
   if (ctrl.nodeDrag.state.interimLink === undefined) {
     return;
   }
