@@ -34,6 +34,8 @@ const resources = {
       "To learn about source -> target is required": `To understand "{{source}}" knowledge of "{{target}}" is`,
       "Create new learning dependency": "Create new learning dependency",
       "Create new knowledge node": "Create new knowledge node",
+      "Ctrl + Click anywhere": "Ctrl + Click anywhere",
+      "Drag nodes close to each other": "Drag nodes close to each other",
       // user management
       "Enter a valid email": "Enter a valid email",
       "Email is required": "Email is required",
@@ -87,6 +89,8 @@ const resources = {
       "Create new learning dependency":
         "Erstelle eine neue Wissens-Abhängigkeit",
       "Create new knowledge node": "Erstelle einen neuen Wissens-Knoten",
+      "Ctrl + Click anywhere": "Strg + Klick auf den Hintergrund",
+      "Drag nodes close to each other": "Nodes aufeinander ziehen",
       // user management
       "Enter a valid email": "EMail-Addresse ungültig",
       "Email is required": "EMail-Addresse ist Notwendig",
@@ -111,9 +115,54 @@ const resources = {
   },
   zh: {
     translation: {
-      "search...": "找…",
+      // general
+      "search...": "搜尋…",
       Cancel: "取消",
       Save: "確定",
+      Esc: "Esc",
+      Delete: "Delete",
+      "Ctrl + Return": "Ctrl + Enter",
+      "user-name-button": "使用者：{{userName}}",
+      "switch-language-button": "語言",
+      "switch-language-button-short": "語",
+      // error messages
+      "Please login/signup to contribute!": "若要編輯，請先登入。",
+      "Session expired, please login again!": "授權已過期，請再登入一次。",
+      // graph edit
+      "New Node": "新增節點",
+      "New Link": "新增連結",
+      "Link-weight-Irrelevant": "無關",
+      "Link-weight-Useful": "適中",
+      "Link-weight-Necessary": "高",
+      "Source Node": "Knowledge Source",
+      "Target Node": "Knowledge Target",
+      "Node Description": "主題名稱",
+      "Edit node with description": `Edit knowledge node "{{description}}"`,
+      "To learn about source -> target is required": `「{{target}}」的知識在學習「{{source}}」時的重要度`,
+      "Create new learning dependency": "連接節點",
+      "Create new knowledge node": "新增主題",
+      "Ctrl + Click anywhere": "在空白處 Ctrl + 左鍵",
+      "Drag nodes close to each other": "將節點拖動到另一個節點上",
+      // user management
+      "Enter a valid email": "請輸入正確的 Email 地址",
+      "Email is required": "Email 不能爲空",
+      "Username should be of minimum N characters length":
+        "使用者名稱至少要有{{N}}個字",
+      "Username is required": "使用者名稱不能爲空",
+      "Password should be of minimum N characters length":
+        "密碼至少要有{{N}}個字",
+      "Password is required": "密碼不能爲空",
+      "Login/Signup": "登入/注冊",
+      Login: "登入",
+      Signup: "注冊",
+      "Sign In": "登入",
+      "Remember me": "自動登入",
+      "Forgot password?": "忘記密碼",
+      "Don't have an account? Sign Up": "還沒有賬號嗎？請注冊",
+      "Email Address": "信箱",
+      Password: "密碼",
+      "User Name": "使用者名稱",
+      Submit: "確定",
     },
   },
 };
