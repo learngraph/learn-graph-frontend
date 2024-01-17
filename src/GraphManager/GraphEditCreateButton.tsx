@@ -76,12 +76,12 @@ export const CreateButton = ({ ctrl }: CreateButtonProps) => {
           "aria-labelledby": "basic-button",
         }}
       >
-        <Tooltip placement="left-end" title="Ctrl + Click anywhere">
+        <Tooltip placement="left-end" title={t("Ctrl + Click anywhere")}>
           <MenuItem onClick={() => handleClose("newNode")}>
             {t("New Node")}
           </MenuItem>
         </Tooltip>
-        <Tooltip placement="left-end" title="Drag nodes close to each other">
+        <Tooltip placement="left-end" title={t("Drag nodes close to each other")}>
           <MenuItem onClick={() => handleClose("newLink")}>
             {t("New Link")}
           </MenuItem>
