@@ -5,7 +5,12 @@ import { zoomStep, ZoomDirection } from "./Zoom";
 
 export interface ZoomPanelControl {
   zoomLevel: number;
-  onZoomChange: (newValue: number) => void;
+  // onZoomChange zooms to the passed level `newValue`.
+  // Note: onZoomChange remembers the last `newValue` passed, to avoid
+  // duplicate calls with the same zoom level, to always zoom (i.e. when new
+  // graph data is fetched) use lastZoomLevelOverride and set it to
+  // ZOOM_LEVEL_MAX.
+  onZoomChange: (newValue: number, lastZoomLevelOverride?: number) => void;
   onZoomIn: () => void;
   onZoomOut: () => void;
 }
@@ -89,9 +94,15 @@ export const makeZoomControl = (ctrl: Controller) => {
   // react state performs asynchronous calls, and the slider changes it's value
   // very rapidly.
   let lastZoomLevel: number | null = null;
-  const onZoomChange = (newValue: number) => {
+  const onZoomChange = (
+    newValue: number,
+    lastZoomLevelOverride: number | undefined,
+  ) => {
     if (!lastZoomLevel) {
       lastZoomLevel = ctrl.zoom.zoomLevel;
+    }
+    if (lastZoomLevelOverride !== undefined) {
+      lastZoomLevel = lastZoomLevelOverride;
     }
     newValue = capInclusive(newValue, {
       upper: ZOOM_LEVEL_MAX,

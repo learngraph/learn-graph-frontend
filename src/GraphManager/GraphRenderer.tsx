@@ -541,7 +541,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   };
   const zoomControl = makeZoomControl(controller);
   controller.zoom.setUserZoomLevel = (level: number) => {
-    zoomControl.onZoomChange(level);
+    zoomControl.onZoomChange(level, ZOOM_LEVEL_MAX);
   };
   const onBackgroundClick = makeOnBackgroundClick(controller);
   const onNodeHover = (
