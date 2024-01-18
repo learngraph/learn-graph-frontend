@@ -86,7 +86,6 @@ describe("makeZoomControl", () => {
 
   describe("onZoomChange", () => {
     it("should zoom to the difference", () => {
-      // @ts-ignore: don't care about 'Event'
       zoomCtrl.onZoomChange(ctrl.zoom.zoomLevel + 2);
       expect(ctrl.zoom.setZoomLevel).toHaveBeenCalledWith(
         ctrl.zoom.zoomLevel + 2,
@@ -94,12 +93,10 @@ describe("makeZoomControl", () => {
       expect(ctrl.zoom.setZoomStepStack).toHaveBeenCalledTimes(1);
     });
     it("should cap zoom at MAX", () => {
-      // @ts-ignore
       zoomCtrl.onZoomChange(ZOOM_LEVEL_MAX + 1);
       expect(ctrl.zoom.setZoomLevel).toHaveBeenCalledWith(ZOOM_LEVEL_MAX);
     });
     it("should cap zoom at MIN", () => {
-      // @ts-ignore
       zoomCtrl.onZoomChange(ZOOM_LEVEL_MIN - 1);
       expect(ctrl.zoom.setZoomLevel).toHaveBeenCalledWith(ZOOM_LEVEL_MIN);
     });
@@ -123,6 +120,26 @@ describe("makeZoomControl", () => {
       // should only push one value to the stack, even though diff between
       // zoomLevel and newZoomLevel = 2
       expect(ctrl.zoom.zoomStepStack).toEqual([1, 1]);
+    });
+    it("should override the last zoom level when lastZoomLevelOverride is passed", () => {
+      ctrl.zoom.zoomLevel = ZOOM_LEVEL_MAX;
+      zoomCtrl.onZoomChange(ZOOM_LEVEL_MAX - 2);
+      expect(ctrl.zoom.setZoomLevel).toHaveBeenCalledTimes(1);
+      expect(ctrl.zoom.setZoomLevel).toHaveBeenNthCalledWith(
+        1,
+        ZOOM_LEVEL_MAX - 2,
+      );
+      expect(ctrl.zoom.zoomStepStack).toEqual([1, 1]);
+      ctrl.zoom.zoomLevel = ZOOM_LEVEL_MAX - 2; // usually set by the call to setZoomLevel, but it's a mock, so set it manually
+      zoomCtrl.onZoomChange(ZOOM_LEVEL_MAX - 2, ZOOM_LEVEL_MAX);
+      expect(ctrl.zoom.setZoomLevel).toHaveBeenCalledTimes(2);
+      expect(ctrl.zoom.setZoomLevel).toHaveBeenNthCalledWith(
+        2,
+        ZOOM_LEVEL_MAX - 2,
+      );
+      expect(ctrl.zoom.zoomStepStack).toEqual([1, 1, 1, 1]);
+      // XXX(skep): if user switches languages back and forth, the step stack
+      // grows and grows, but only by 2 numbers per language-switch. ¯\_(ツ)_/¯
     });
   });
 });
