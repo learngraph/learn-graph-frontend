@@ -1,5 +1,9 @@
-import { Box, Button } from "@mui/material";
+import React from "react";
+import { Box, Button, Menu, MenuItem } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import i18n from "src/i18n";
+import { useGraphDataContext } from "src/GraphDataContext";
+import { useUserDataContext } from "src/UserDataContext";
 
 interface UserDisplayProps {
   userID: string;
@@ -8,30 +12,49 @@ interface UserDisplayProps {
 
 export default function UserDisplay(props: UserDisplayProps) {
   const { t } = useTranslation();
-  const onClick = () => {};
+
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const { logoutUser } = useGraphDataContext();
+  const { logout: logoutUserInContext } = useUserDataContext();
+
+  const handleLogout = async () => {
+    setAnchorEl(null);
+    try {
+      await logoutUser();
+    } catch (e) {
+      console.log(`logout failed! ${e}`);
+    }
+    logoutUserInContext();
+    console.log(`successfully deleted local user data!`);
+  };
+
   return (
     <Box>
-      <Button variant="contained" color="primary" onClick={onClick}>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleClick}
+        aria-label="user menu"
+      >
         {t("user-name-button", { userName: props.userName })}
       </Button>
+      <Menu
+        anchorEl={anchorEl}
+        open={open}
+        onClose={() => setAnchorEl(null)}
+        MenuListProps={{
+          "aria-labelledby": "user menu",
+        }}
+      >
+        <MenuItem onClick={() => handleLogout()}>
+          {i18n.t("logout-button")}
+        </MenuItem>
+      </Menu>
     </Box>
   );
 }
-
-// TODO(skep): can implement logout/deleteAccount here
-//<Dialog open={open} onClose={handleClose}>
-//<Box sx={{ width: "100%" }}>
-//    <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-//    <Tabs value={selectedTab} onChange={handleSelectTab} centered>
-//        <Tab label="Login" {...a11yProps(0)}></Tab>
-//        <Tab label="Signup" {...a11yProps(0)}></Tab>
-//    </Tabs>
-//    </Box>
-//</Box>
-//<FormTab value={selectedTab} index={0}>
-//    <LoginForm onSubmit={handleLoginSubmit} />
-//</FormTab>
-//<FormTab value={selectedTab} index={1}>
-//    <SignUpForm onSubmit={handleSignUpSubmit} />
-//</FormTab>
-//</Dialog>
