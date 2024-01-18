@@ -30,7 +30,6 @@ export default function UserDisplay(props: UserDisplayProps) {
       console.log(`logout failed! ${e}`);
     }
     logoutUserInContext();
-    console.log(`successfully deleted local user data!`);
   };
 
   return (

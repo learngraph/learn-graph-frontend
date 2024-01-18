@@ -81,7 +81,10 @@ export const CreateButton = ({ ctrl }: CreateButtonProps) => {
             {t("New Node")}
           </MenuItem>
         </Tooltip>
-        <Tooltip placement="left-end" title={t("Drag nodes close to each other")}>
+        <Tooltip
+          placement="left-end"
+          title={t("Drag nodes close to each other")}
+        >
           <MenuItem onClick={() => handleClose("newLink")}>
             {t("New Link")}
           </MenuItem>

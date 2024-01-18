@@ -24,11 +24,13 @@ export interface UserDataContextValues {
   logout: () => void;
 }
 
-const defaultLanguage = "en";
+const SUPPORTED_LANGUAGE_TAGS = ["en", "de", "zh"];
+const DEFAULT_LANGUAGE = "en";
+
 const errMsgNoDefault =
   "'defaultContextValues' must not be used! Use UserDataContextProvider instead.";
 const defaultContextValues = {
-  language: defaultLanguage,
+  language: DEFAULT_LANGUAGE,
   userID: "",
   userName: "",
   authenticationToken: "",
@@ -58,13 +60,17 @@ enum StorageKeys {
   userID = "userID",
   userName = "userName",
   authenticationToken = "authenticationToken",
+  language = "language",
 }
 
 const loadUserDataFromLS = () => {
   return {
-    id: storageLoad(StorageKeys.userID),
-    name: storageLoad(StorageKeys.userName),
-    token: storageLoad(StorageKeys.authenticationToken),
+    user: {
+      id: storageLoad(StorageKeys.userID),
+      name: storageLoad(StorageKeys.userName),
+      token: storageLoad(StorageKeys.authenticationToken),
+    },
+    language: storageLoad(StorageKeys.language),
   };
 };
 
@@ -72,6 +78,7 @@ const deleteUserDataFromLS = () => {
   storageDel(StorageKeys.userID);
   storageDel(StorageKeys.userName);
   storageDel(StorageKeys.authenticationToken);
+  storageDel(StorageKeys.language);
 };
 
 interface clearUserDataType {
@@ -80,6 +87,17 @@ interface clearUserDataType {
   setAuthenticationToken: UserDataContextValues["setAuthenticationToken"];
 }
 
+// clearUserDataCtx is a shorthand for clearUserData
+const clearUserDataCtx = (ctx: UserDataContextValues) => {
+  return clearUserData({
+    setUserID: ctx.setUserID,
+    setUserName: ctx.setUserName,
+    setAuthenticationToken: ctx.setAuthenticationToken,
+  });
+}
+
+// clearUserData removes all user data from the running application and from
+// browser local storage
 const clearUserData = (clearUserDataFunctions: clearUserDataType) => {
   deleteUserDataFromLS();
   clearUserDataFunctions.setUserID("");
@@ -95,11 +113,7 @@ const makeNotifyUserOnNotLoggedInError = (ctx: UserDataContextValues) => {
           let msg = i18n.t("Please login/signup to contribute!");
           if (ctx.userID !== "" && ctx.authenticationToken !== "") {
             msg = i18n.t("Session expired, please login again!");
-            clearUserData({
-              setUserID: ctx.setUserID,
-              setUserName: ctx.setUserName,
-              setAuthenticationToken: ctx.setAuthenticationToken,
-            });
+            clearUserDataCtx(ctx);
           }
           alert(msg); // TODO(skep): make it a nice MUI-popup
         }
@@ -111,10 +125,19 @@ const makeNotifyUserOnNotLoggedInError = (ctx: UserDataContextValues) => {
   });
 };
 
+export const translateLocaleToLanguageTag = (locale: string) => {
+  for (const tag of SUPPORTED_LANGUAGE_TAGS) {
+    if (locale.startsWith(`${tag}_`) || locale.startsWith(tag)) {
+      return tag;
+    }
+  }
+  return "en";
+};
+
 export const UserDataContextProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
-  const [language, setLanguage] = React.useState<string>(defaultLanguage);
+  const [language, setLanguage] = React.useState<string>(DEFAULT_LANGUAGE);
   const [userID, setUserID] = React.useState<string>("");
   const [userName, setUserName] = React.useState<string>("");
   const [authenticationToken, setAuthenticationToken] =
@@ -129,20 +152,28 @@ export const UserDataContextProvider: React.FC<{
     storageSave(StorageKeys.authenticationToken, authenticationToken);
   }, [userID, userName, authenticationToken]);
   useEffect(() => {
-    const { id, name, token } = loadUserDataFromLS();
-    if (id === "" || name === "" || token === "") {
-      return;
+    const { user, language } = loadUserDataFromLS();
+    if (user.id !== "" && user.name !== "" && user.token !== "") {
+      setUserID(user.id);
+      setUserName(user.name);
+      setAuthenticationToken(user.token);
     }
-    setUserID(id);
-    setUserName(name);
-    setAuthenticationToken(token);
+    if (!!language) {
+      setLanguageAndTranslation(language);
+    } else {
+      if (navigator && navigator.language) {
+        setLanguageAndTranslation(
+          translateLocaleToLanguageTag(navigator.language),
+        );
+      }
+    }
   }, []);
-  // XXX(skep): not sure if this works, yet!
   const setLanguageAndTranslation = (
-    newlanguage: React.SetStateAction<string>,
+    newLanguage: React.SetStateAction<string>,
   ) => {
-    setLanguage(newlanguage);
-    i18n.changeLanguage(newlanguage.toString());
+    setLanguage(newLanguage);
+    i18n.changeLanguage(newLanguage.toString());
+    storageSave(StorageKeys.language, newLanguage);
   };
 
   const logout = () =>

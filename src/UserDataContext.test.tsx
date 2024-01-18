@@ -1,6 +1,10 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { UserDataContextProvider, useUserDataContext } from "./UserDataContext";
+import {
+  translateLocaleToLanguageTag,
+  UserDataContextProvider,
+  useUserDataContext,
+} from "./UserDataContext";
 
 describe("UserDataContext", () => {
   let mockStore: Record<string, string> = {};
@@ -45,13 +49,14 @@ describe("UserDataContext", () => {
     const user = userEvent.setup();
     const setUserIDButton = screen.getByTestId("setUserID");
     await user.click(setUserIDButton);
-    expect(mockStore).toEqual({});
+    expect(mockStore).toEqual({ language: '"en"' });
     const setUserNameButton = screen.getByTestId("setUserName");
     await user.click(setUserNameButton);
-    expect(mockStore).toEqual({});
+    expect(mockStore).toEqual({ language: '"en"' });
     const setUserTokenButton = screen.getByTestId("setUserToken");
     await user.click(setUserTokenButton);
     expect(mockStore).toEqual({
+      language: '"en"',
       authenticationToken: '"AAA"',
       userID: '"123"',
       userName: '"asdf"',
@@ -110,4 +115,23 @@ describe("UserDataContext", () => {
     expect(screen.getByTestId("userName")).toHaveTextContent("");
     expect(screen.getByTestId("userToken")).toHaveTextContent("");
   });
+});
+
+describe("translateLocaleToLanguageTag", () => {
+  it.each([
+    ["en_US", "en"],
+    ["en_AU", "en"],
+    ["en_CA", "en"],
+    ["en_JM", "en"],
+    ["de_DE", "de"],
+    ["zh_TW", "zh"],
+    ["de", "de"],
+    ["en", "en"],
+    ["zh", "zh"],
+  ])(
+    "should translate '%p' to '%p'",
+    (locale: string, expectedLanguage: string) => {
+      expect(translateLocaleToLanguageTag(locale)).toEqual(expectedLanguage);
+    },
+  );
 });
