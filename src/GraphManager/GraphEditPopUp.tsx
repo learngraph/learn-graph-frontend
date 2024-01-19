@@ -26,7 +26,10 @@ import { ForceGraphGraphData, ForceGraphNodeObject } from "./types";
 import * as yup from "yup";
 import { useTranslation } from "react-i18next";
 
-const MIN_NODE_DESCRIPTION_LENGTH = 2; // note: for chinese words, 2 characters is already precise
+// TODO(skep): MIN_NODE_DESCRIPTION_LENGTH should be language dependent; for
+// chinese words, 1-2 characters is already precise, but for english a single
+// character doesn't make any sense.
+const MIN_NODE_DESCRIPTION_LENGTH = 1;
 const MAX_NODE_DESCRIPTION_LENGTH = 40;
 
 interface LinkWeightSliderProps {
