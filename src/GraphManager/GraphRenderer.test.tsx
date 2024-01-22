@@ -164,6 +164,20 @@ describe("makeGraphState", () => {
       });
     });
   });
+  describe("updateNode", () => {
+    it("should update the node with all of the newNode's properties", () => {
+      const node1 = { id: "1", description: "1" };
+      const state = makeGraphState({ nodes: [node1], links: [] }, jest.fn(), {
+        current: false,
+      });
+      state.updateNode(node1, { id: "1", description: "AA", resources: "BB" });
+      expect(state.setGraph).toHaveBeenCalledTimes(1);
+      expect(state.setGraph).toHaveBeenNthCalledWith(1, {
+        nodes: [{ id: "1", description: "AA", resources: "BB" }],
+        links: [],
+      });
+    });
+  });
 });
 
 describe("convertBackendGraphToForceGraph", () => {

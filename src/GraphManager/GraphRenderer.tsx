@@ -386,7 +386,9 @@ export const makeGraphState = (
       setGraph(graph);
     },
     updateNode: (node: ForceGraphNodeObject, newNode: ForceGraphNodeObject) => {
-      node.description = newNode.description;
+      for (let key in newNode) {
+        node[key] = newNode[key];
+      }
       setGraph(graph);
     },
     updateLink: (link: ForceGraphLinkObject, newLink: ForceGraphLinkObject) => {
@@ -394,12 +396,9 @@ export const makeGraphState = (
       if (!linkInGraph) {
         return;
       }
-      //Object.keys(linkInGraph).forEach((key) => {linkInGraph[key] = newLink[key];})
-      linkInGraph.id = newLink.id;
-      linkInGraph.note = newLink.note;
-      linkInGraph.source = newLink.source;
-      linkInGraph.target = newLink.target;
-      linkInGraph.value = newLink.value;
+      for (let key in newLink) {
+        link[key] = newLink[key];
+      }
       setGraph(graph);
     },
   };
