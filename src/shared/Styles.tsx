@@ -17,56 +17,42 @@ export interface TextFieldConfig<T extends FormikValues> {
   fieldLabel: string;
   autoFocus?: boolean;
 }
-export const TextFieldFormikGenerator = <T extends FormikValues>(conf: T) => {
-  return (
-    <TextField
-      fullWidth
-      margin="normal"
-      id={conf.fieldName}
-      name={conf.fieldName}
-      label={conf.fieldLabel}
-      type={conf.fieldName === "password" ? "password" : "text"}
-      required
-      value={conf.formik.values[conf.fieldName]}
-      onChange={conf.formik.handleChange}
-      onBlur={conf.formik.handleBlur}
-      error={
-        conf.formik.touched[conf.fieldName] &&
-        Boolean(conf.formik.errors[conf.fieldName])
-      }
-      helperText={
-        conf.formik.touched[conf.fieldName] &&
-        conf.formik.errors[conf.fieldName]
-      }
-      autoFocus={conf.autoFocus ?? false}
-    />
-  );
-};
-export const TextFieldFormikGeneratorNotRequired = <T extends FormikValues>(
-  conf: T,
+
+const TextFieldFormikGeneratorInternal = <T extends FormikValues>(
+  props: T & { required: boolean },
 ) => {
   return (
     <TextField
       fullWidth
       margin="normal"
-      id={conf.fieldName}
-      name={conf.fieldName}
-      label={conf.fieldLabel}
-      type={conf.fieldName === "password" ? "password" : "text"}
-      value={conf.formik.values[conf.fieldName]}
-      onChange={conf.formik.handleChange}
-      onBlur={conf.formik.handleBlur}
+      id={props.fieldName}
+      name={props.fieldName}
+      label={props.fieldLabel}
+      type={props.fieldName === "password" ? "password" : "text"}
+      required={props.required}
+      value={props.formik.values[props.fieldName]}
+      onChange={props.formik.handleChange}
+      onBlur={props.formik.handleBlur}
       error={
-        conf.formik.touched[conf.fieldName] &&
-        Boolean(conf.formik.errors[conf.fieldName])
+        props.formik.touched[props.fieldName] &&
+        Boolean(props.formik.errors[props.fieldName])
       }
       helperText={
-        conf.formik.touched[conf.fieldName] &&
-        conf.formik.errors[conf.fieldName]
+        props.formik.touched[props.fieldName] &&
+        props.formik.errors[props.fieldName]
       }
-      autoFocus={conf.autoFocus ?? false}
+      autoFocus={props.autoFocus ?? false}
     />
   );
+};
+
+export const TextFieldFormikGeneratorRequired = <T extends FormikValues>(
+  conf: T,
+) => {
+  return <TextFieldFormikGeneratorInternal {...conf} required={true} />;
+};
+export const TextFieldFormikGenerator = <T extends FormikValues>(conf: T) => {
+  return <TextFieldFormikGeneratorInternal {...conf} required={false} />;
 };
 
 type AutocompleteFormikProps = FormikValues & {

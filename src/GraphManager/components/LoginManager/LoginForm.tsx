@@ -12,7 +12,7 @@ import { LockOutlined } from "@mui/icons-material";
 import {
   StyledBox,
   StyledBoxSX,
-  TextFieldFormikGenerator,
+  TextFieldFormikGeneratorRequired,
 } from "src/shared/Styles";
 import { useFormik } from "formik";
 import { UserLoginInfo } from "src/GraphManager/hooks/useLoginUser";
@@ -47,13 +47,13 @@ export default function LoginForm(props: LoginFormProps) {
         {t("Login")}
       </Typography>
       <Box component="form" onSubmit={formik.handleSubmit}>
-        <TextFieldFormikGenerator
+        <TextFieldFormikGeneratorRequired
           fieldName="email"
           fieldLabel={t("Email Address")}
           formik={formik}
           autoFocus
         />
-        <TextFieldFormikGenerator
+        <TextFieldFormikGeneratorRequired
           fieldName="password"
           fieldLabel={t("Password")}
           formik={formik}

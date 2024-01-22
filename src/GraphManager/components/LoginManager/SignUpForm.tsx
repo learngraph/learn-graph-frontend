@@ -6,7 +6,7 @@ import { validateUserSignupRequest } from "./InputValidation";
 import {
   StyledBox,
   StyledBoxSX,
-  TextFieldFormikGenerator,
+  TextFieldFormikGeneratorRequired,
 } from "src/shared/Styles";
 import { useTranslation } from "react-i18next";
 
@@ -34,18 +34,18 @@ export const SignUpForm = (props: SignUpFormProps) => {
         {t("Signup")}
       </Typography>
       <Box component="form" onSubmit={formik.handleSubmit}>
-        <TextFieldFormikGenerator
+        <TextFieldFormikGeneratorRequired
           fieldName="username"
           fieldLabel={t("User Name")}
           formik={formik}
           autoFocus
         />
-        <TextFieldFormikGenerator
+        <TextFieldFormikGeneratorRequired
           fieldName="email"
           fieldLabel={t("Email Address")}
           formik={formik}
         />
-        <TextFieldFormikGenerator
+        <TextFieldFormikGeneratorRequired
           fieldName="password"
           fieldLabel={t("Password")}
           formik={formik}

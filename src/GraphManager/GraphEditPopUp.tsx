@@ -19,9 +19,9 @@ import {
 } from "./GraphEdit";
 import {
   DialogueStyles,
-  TextFieldFormikGenerator as TextFieldFormikGeneratorRequired,
+  TextFieldFormikGeneratorRequired,
   TextFieldFormikGeneratorAutocomplete,
-  TextFieldFormikGeneratorNotRequired as TextFieldFormikGenerator,
+  TextFieldFormikGenerator,
 } from "src/shared/Styles";
 import { ForceGraphGraphData, ForceGraphNodeObject } from "./types";
 import * as yup from "yup";
@@ -365,7 +365,6 @@ const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
       fieldName="nodeResources"
       fieldLabel={t("Node Resources")}
       formik={formik}
-      autoFocus
     />,
   );
   return (
