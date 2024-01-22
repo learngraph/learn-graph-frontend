@@ -42,6 +42,32 @@ export const TextFieldFormikGenerator = <T extends FormikValues>(conf: T) => {
     />
   );
 };
+export const TextFieldFormikGeneratorNotRequired = <T extends FormikValues>(
+  conf: T,
+) => {
+  return (
+    <TextField
+      fullWidth
+      margin="normal"
+      id={conf.fieldName}
+      name={conf.fieldName}
+      label={conf.fieldLabel}
+      type={conf.fieldName === "password" ? "password" : "text"}
+      value={conf.formik.values[conf.fieldName]}
+      onChange={conf.formik.handleChange}
+      onBlur={conf.formik.handleBlur}
+      error={
+        conf.formik.touched[conf.fieldName] &&
+        Boolean(conf.formik.errors[conf.fieldName])
+      }
+      helperText={
+        conf.formik.touched[conf.fieldName] &&
+        conf.formik.errors[conf.fieldName]
+      }
+      autoFocus={conf.autoFocus ?? false}
+    />
+  );
+};
 
 type AutocompleteFormikProps = FormikValues & {
   // list of options that can be selected by the user

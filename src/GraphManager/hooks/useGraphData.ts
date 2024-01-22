@@ -8,6 +8,7 @@ const GET_GRAPH_DATA = gql`
       nodes {
         id
         description
+        resources
       }
       links: edges {
         id

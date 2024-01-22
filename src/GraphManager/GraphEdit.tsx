@@ -92,12 +92,17 @@ export const openCreateNodePopUpAtPagePosition = (
       description: {
         translations: [{ language: language, content: form.nodeDescription }],
       },
+      ...(!!form.nodeResources && {
+        resources: {
+          translations: [{ language: language, content: form.nodeResources }],
+        },
+      }),
     });
     if (
       result.data?.createNode.ID === undefined ||
       result.data?.createNode.ID === ""
     ) {
-      console.log("failed to create node in backend");
+      console.log("failed to create node in backend"); // TODO(skep): failure to create should be displayed to the user
       return;
     }
     const graphCoordinates = forceGraphRef.current?.screen2GraphCoords(
@@ -114,6 +119,7 @@ export const openCreateNodePopUpAtPagePosition = (
     const newNode = {
       id: result.data!.createNode.ID,
       description: form.nodeDescription,
+      resources: form.nodeResources,
       x,
       y,
     };
@@ -380,8 +386,19 @@ export const onNodeClick = (
           { language: ctrl.language, content: form.nodeDescription },
         ],
       },
+      ...(!!form.nodeResources && {
+        resources: {
+          translations: [
+            { language: ctrl.language, content: form.nodeResources },
+          ],
+        },
+      }),
     });
-    ctrl.graph.updateNode(node, { ...node, description: form.nodeDescription });
+    ctrl.graph.updateNode(node, {
+      ...node,
+      description: form.nodeDescription,
+      resources: form.nodeResources,
+    });
   };
   const onDelete = async () => {
     await ctrl.backend.deleteNode({ id: node.id });

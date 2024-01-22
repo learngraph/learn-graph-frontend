@@ -94,7 +94,7 @@ const clearUserDataCtx = (ctx: UserDataContextValues) => {
     setUserName: ctx.setUserName,
     setAuthenticationToken: ctx.setAuthenticationToken,
   });
-}
+};
 
 // clearUserData removes all user data from the running application and from
 // browser local storage

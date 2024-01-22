@@ -22,11 +22,7 @@ export interface LinkType {
 }
 
 // TODO(skep): remove this type and remove the old menu using it
-export interface NodeType {
-  id: string;
-  description: string;
-  group?: number;
-}
+type NodeType = NodeTypeAddition;
 
 // LinkTypeAddition is an extension to the force-graph's LinkObject with
 // additional properties.
@@ -51,7 +47,11 @@ interface LinkTypeMandatoryNodes {
 //
 // Note: these properties potentially override force-graph node type
 // definitions, that are already present in the NodeObject type.
-type NodeTypeAddition = NodeType;
+export interface NodeTypeAddition {
+  id: string;
+  description: string;
+  resources?: string;
+}
 
 export interface DataSetType {
   dataSetName: string;
