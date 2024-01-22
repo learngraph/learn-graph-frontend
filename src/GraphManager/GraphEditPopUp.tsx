@@ -19,8 +19,9 @@ import {
 } from "./GraphEdit";
 import {
   DialogueStyles,
-  TextFieldFormikGenerator,
+  TextFieldFormikGenerator as TextFieldFormikGeneratorRequired,
   TextFieldFormikGeneratorAutocomplete,
+  TextFieldFormikGeneratorNotRequired as TextFieldFormikGenerator,
 } from "src/shared/Styles";
 import { ForceGraphGraphData, ForceGraphNodeObject } from "./types";
 import * as yup from "yup";
@@ -113,6 +114,7 @@ export interface LinkVote {
 
 export interface NewNodeForm {
   nodeDescription: string;
+  nodeResources: string;
 }
 export interface NewLinkForm {
   sourceNode: string;
@@ -336,6 +338,8 @@ const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
     initialValues: {
       nodeDescription:
         ctrl.popUp.state.nodeEdit?.defaultFormContent?.description ?? "",
+      nodeResources:
+        ctrl.popUp.state.nodeEdit?.defaultFormContent?.resources ?? "",
     },
     validationSchema: nodeValidation,
     onSubmit: (form: NewNodeForm) => {
@@ -349,9 +353,17 @@ const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
   const fields = [];
   const { t } = useTranslation();
   fields.push(
-    <TextFieldFormikGenerator
+    <TextFieldFormikGeneratorRequired
       fieldName="nodeDescription"
       fieldLabel={t("Node Description")}
+      formik={formik}
+      autoFocus
+    />,
+  );
+  fields.push(
+    <TextFieldFormikGenerator
+      fieldName="nodeResources"
+      fieldLabel={t("Node Resources")}
       formik={formik}
       autoFocus
     />,

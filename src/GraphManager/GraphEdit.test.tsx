@@ -64,6 +64,37 @@ describe("openCreateNodePopUpAtMousePosition", () => {
       1000,
     );
   });
+  it("should add resources if defined", async () => {
+    const mouse = makeMockMouseEvent({ pageX: 321, pageY: 987 });
+    const ctrl = makeMockController();
+    ctrl.backend.createNode.mockReturnValue(
+      Promise.resolve({ data: { createNode: { ID: "123" } } }),
+    );
+    // @ts-ignore
+    ctrl.forceGraphRef.current.screen2GraphCoords.mockReturnValue({
+      x: 333,
+      y: 444,
+    });
+    // @ts-ignore
+    openCreateNodePopUpAtMousePosition(mouse, ctrl);
+    expect(ctrl.popUp.setState).toHaveBeenCalledTimes(1);
+    const popUpState = ctrl.popUp.setState.mock.calls[0][0];
+    const onFormSubmit = popUpState.nodeEdit.onFormSubmit;
+    await onFormSubmit({ nodeDescription: "AAA", nodeResources: "BBB" });
+    expect(ctrl.backend.createNode).toHaveBeenCalledTimes(1);
+    expect(ctrl.backend.createNode).toHaveBeenNthCalledWith(1, {
+      description: { translations: [{ language: "en", content: "AAA" }] },
+      resources: { translations: [{ language: "en", content: "BBB" }] },
+    });
+    expect(ctrl.graph.addNode).toHaveBeenCalledTimes(1);
+    expect(ctrl.graph.addNode).toHaveBeenNthCalledWith(1, {
+      id: "123",
+      description: "AAA",
+      resources: "BBB",
+      x: 333,
+      y: 444,
+    });
+  });
   it("should not change graph state, when backend fails", async () => {
     const mouse = makeMockMouseEvent({ x: 1, y: 2 });
     const ctrl = makeMockController();
@@ -547,7 +578,7 @@ describe("onLinkClick", () => {
 });
 
 describe("onNodeClick", () => {
-  it("should open node-edit popup", async () => {
+  it("should open node-edit popup: with only description", async () => {
     const ctrl = makeMockController();
     const node = { id: "1", description: "1" };
     // @ts-ignore
@@ -569,6 +600,29 @@ describe("onNodeClick", () => {
     expect(ctrl.graph.updateNode).toHaveBeenNthCalledWith(1, node, {
       id: "1",
       description: "ok",
+    });
+  });
+  it("should open node-edit popup: with description & resources", async () => {
+    const ctrl = makeMockController();
+    const node = { id: "1", description: "1" };
+    // @ts-ignore
+    onNodeClick(ctrl, node);
+    expect(ctrl.popUp.setState).toHaveBeenCalledTimes(1);
+    const popUpState = ctrl.popUp.setState.mock.calls[0][0];
+    expect(popUpState.nodeEdit.onFormSubmit).not.toBe(undefined);
+    const form = { nodeDescription: "ok", nodeResources: "abc" };
+    await popUpState.nodeEdit.onFormSubmit(form);
+    expect(ctrl.backend.updateNode).toHaveBeenCalledTimes(1);
+    expect(ctrl.backend.updateNode).toHaveBeenNthCalledWith(1, {
+      id: "1",
+      description: { translations: [{ language: "en", content: "ok" }] },
+      resources: { translations: [{ language: "en", content: "abc" }] },
+    });
+    expect(ctrl.graph.updateNode).toHaveBeenCalledTimes(1);
+    expect(ctrl.graph.updateNode).toHaveBeenNthCalledWith(1, node, {
+      id: "1",
+      description: "ok",
+      resources: "abc",
     });
   });
   it("should have a delete button in popup", async () => {

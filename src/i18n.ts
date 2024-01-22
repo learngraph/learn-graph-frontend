@@ -36,6 +36,7 @@ const resources = {
       "Create new knowledge node": "Create new knowledge node",
       "Ctrl + Click anywhere": "Ctrl + Click anywhere",
       "Drag nodes close to each other": "Drag nodes close to each other",
+      "Node Resources": "Node Resources",
       // user management
       "Enter a valid email": "Enter a valid email",
       "Email is required": "Email is required",
@@ -92,6 +93,7 @@ const resources = {
       "Create new knowledge node": "Erstelle einen neuen Wissens-Knoten",
       "Ctrl + Click anywhere": "Strg + Klick auf den Hintergrund",
       "Drag nodes close to each other": "Nodes aufeinander ziehen",
+      "Node Resources": "Wissens-Quellen",
       // user management
       "Enter a valid email": "EMail-Addresse ungültig",
       "Email is required": "EMail-Addresse ist Notwendig",
@@ -145,6 +147,7 @@ const resources = {
       "Create new knowledge node": "新增主題",
       "Ctrl + Click anywhere": "在空白處 Ctrl + 左鍵",
       "Drag nodes close to each other": "將節點拖動到另一個節點上",
+      "Node Resources": "Node Resources",
       // user management
       "Enter a valid email": "請輸入正確的 Email 地址",
       "Email is required": "Email 不能爲空",
