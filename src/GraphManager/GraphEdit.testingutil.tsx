@@ -20,6 +20,7 @@ export const makeMockController = () => {
   forceGraphMethods.d3ReheatSimulation = jest
     .fn()
     .mockName("forceGraphRef.d3ReheatSimulation");
+  forceGraphMethods.zoomToFit = jest.fn().mockName("forceGraphRef.zoomToFit");
   const specialNodes: SpecialNodes = {};
   const graphState = makeGraphState();
   const ctrl = {

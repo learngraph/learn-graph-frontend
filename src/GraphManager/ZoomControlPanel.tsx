@@ -3,6 +3,9 @@ import { ZoomIn, ZoomOut } from "@mui/icons-material";
 import { Controller } from "./GraphEdit";
 import { zoomStep, ZoomDirection } from "./Zoom";
 
+const ZOOM_TO_FIT_AFTER_MS = 1000;
+const ZOOM_TO_FIT_DURATION_MS = 500;
+
 export interface ZoomPanelControl {
   zoomLevel: number;
   // onZoomChange zooms to the passed level `newValue`.
@@ -57,6 +60,11 @@ export const makeZoomControl = (ctrl: Controller) => {
     ctrl.zoom.setZoomState(state);
     uglyHack(ctrl);
     ctrl.forceGraphRef.current?.d3ReheatSimulation();
+    const doNothing = () => {};
+    debounce(
+      ctrl.forceGraphRef.current?.zoomToFit ?? doNothing,
+      ZOOM_TO_FIT_AFTER_MS,
+    )(ZOOM_TO_FIT_DURATION_MS);
   };
   const performZoomIn = () => {
     const n = ctrl.zoom.zoomStepStack.pop();
