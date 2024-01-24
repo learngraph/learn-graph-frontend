@@ -1,33 +1,28 @@
-import { MutableRefObject } from "react";
-import {
-  ForceGraphGraphData,
-  ForceGraphRef,
-  LocalForceGraphMethods,
-} from "../types";
+import { ForceGraphGraphData, LocalForceGraphMethods } from "../types";
 import { HasID } from "../Zoom";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import { useTranslation } from "react-i18next";
 import { styled, alpha } from "@mui/material/styles";
 import { HeaderBarProps } from "./HeaderBar";
+import { ControllerRef } from "../GraphManager";
 
 export const userSearchMatching = (
   highlightNodes: Set<HasID>,
-  graphDataForRender: MutableRefObject<ForceGraphGraphData | null>,
-  forceGraphRef: ForceGraphRef,
+  controllerRef: ControllerRef,
   userInput: string,
 ) => {
   return userSearchMatchingInternal(
     highlightNodes,
-    graphDataForRender.current,
-    forceGraphRef.current,
+    controllerRef.current?.graph.current,
+    controllerRef.current?.forceGraphRef.current,
     userInput,
   );
 };
 
 export const userSearchMatchingInternal = (
   highlightNodes: Set<HasID>,
-  graphDataForRender: ForceGraphGraphData | null,
+  graphDataForRender: ForceGraphGraphData | undefined,
   forceGraphRef: LocalForceGraphMethods,
   userInput: string,
 ) => {

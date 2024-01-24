@@ -7,6 +7,7 @@ import LoginManager from "./LoginManager";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { SearchCallback, SearchField } from "./Search";
 import LocaleManager from "./LocaleManager";
+import { ControllerRef } from "../GraphManager";
 
 const BarItems = styled("div")(({ theme }) => ({
   display: "flex",
@@ -15,6 +16,7 @@ const BarItems = styled("div")(({ theme }) => ({
 
 export interface HeaderBarProps {
   userInputCallback: SearchCallback;
+  controllerRef: ControllerRef;
 }
 
 export default function HeaderBar(props: HeaderBarProps) {

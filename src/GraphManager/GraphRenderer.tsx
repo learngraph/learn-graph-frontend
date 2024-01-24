@@ -50,10 +50,12 @@ import {
   ZOOM_LEVEL_STEP,
   debounce,
 } from "./ZoomControlPanel";
+import { ControllerRef } from "./GraphManager";
 
 interface GraphRendererProps {
   graphDataRef: MutableRefObject<ForceGraphGraphData | null>;
   forceGraphRef: ForceGraphRef;
+  controllerRef: ControllerRef;
   highlightNodes: Set<HasID>;
 }
 
@@ -560,6 +562,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   controller.zoom.setUserZoomLevel = (level: number) => {
     zoomControl.onZoomChange(level, ZOOM_LEVEL_MAX);
   };
+  props.controllerRef.current = controller;
   const onBackgroundClick = makeOnBackgroundClick(controller);
   const onNodeHover = (
     node: ForceGraphNodeObject | null,
