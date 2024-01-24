@@ -7,6 +7,7 @@ import {
   useEffect,
   Dispatch,
   SetStateAction,
+  RefObject,
 } from "react";
 import { Box } from "@mui/material";
 
@@ -462,6 +463,23 @@ export const initialZoomForLargeGraph = (ctrl: Controller) => {
   ctrl.zoom.setUserZoomLevel(ZOOM_LEVEL_MAX - steps * ZOOM_LEVEL_STEP);
 };
 
+export interface Rectangle {
+  height: number;
+  width: number;
+}
+export interface GraphSizeConfig {
+  wrapperRef: RefObject<HTMLDivElement>;
+  setAvailableSpace: Dispatch<SetStateAction<Rectangle>>;
+}
+export const setGraphSize = (conf: GraphSizeConfig) => {
+  const containerElement = conf.wrapperRef.current;
+  if (!containerElement) {
+    return;
+  }
+  const rect = containerElement.getBoundingClientRect();
+  conf.setAvailableSpace(rect);
+};
+
 export const GraphRenderer = (props: GraphRendererProps) => {
   const [graph, setGraph] = useState<ForceGraphGraphData>(
     makeInitialGraphData(),
@@ -582,22 +600,25 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     // initial backend response, i.e. when loading initial graph data is done.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [graph]);
-  // FIXME(umb): It looks like it should remove the empty space below the
-  // canvas. Unfortuantely this code does nothing when the window is resized.
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const [availableSpace, setAvailableSpace] = useState({
+  const [availableSpace, setAvailableSpace] = useState<Rectangle>({
     height: 400,
     width: 600,
   });
+  const graphSizeConfig = { wrapperRef, setAvailableSpace };
   useLayoutEffect(() => {
-    const containerElement = wrapperRef.current;
-    if (containerElement) {
-      const rect = containerElement.getBoundingClientRect();
-      setAvailableSpace({
-        width: rect.width,
-        height: rect.height,
-      });
-    }
+    setGraphSize(graphSizeConfig);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  useEffect(() => {
+    const handleResize = () => {
+      setGraphSize(graphSizeConfig);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <Box

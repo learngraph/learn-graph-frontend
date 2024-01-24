@@ -8,6 +8,8 @@ import {
   initialZoomForLargeGraph,
   MAX_NODES_WITHOUT_INITIAL_ZOOM,
   makeInitialGraphData,
+  setGraphSize,
+  GraphSizeConfig,
 } from "./GraphRenderer";
 import "@testing-library/jest-dom";
 import { makeMockController } from "./GraphEdit.testingutil";
@@ -260,4 +262,29 @@ describe("initialZoomForLargeGraph", () => {
       expect(ctrl.zoom.setUserZoomLevel).toHaveBeenNthCalledWith(1, zoomLevel);
     },
   );
+});
+
+describe("setGraphSize", () => {
+  let conf: GraphSizeConfig;
+  beforeEach(() => {
+    conf = {
+      // @ts-ignore
+      wrapperRef: { current: { getBoundingClientRect: jest.fn() } },
+      setAvailableSpace: jest.fn(),
+    };
+  });
+  it("should do nothing when wrapperRef is undefined", () => {
+    // @ts-ignore
+    conf.wrapperRef.current = null;
+    setGraphSize(conf);
+    expect(conf.setAvailableSpace).not.toHaveBeenCalled();
+  });
+  it("should set space to getBoundingClientRect", () => {
+    const rectangle = { width: 1, height: 2 };
+    // @ts-ignore
+    conf.wrapperRef.current?.getBoundingClientRect.mockReturnValue(rectangle);
+    setGraphSize(conf);
+    expect(conf.setAvailableSpace).toHaveBeenCalledTimes(1);
+    expect(conf.setAvailableSpace).toHaveBeenNthCalledWith(1, rectangle);
+  });
 });
