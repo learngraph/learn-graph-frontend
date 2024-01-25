@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { styled, alpha } from "@mui/material/styles";
 import { HeaderBarProps } from "./HeaderBar";
 import { ControllerRef } from "../GraphManager";
+import { useState } from "react";
 
 export const userSearchMatching = (
   highlightNodes: Set<HasID>,
@@ -86,6 +87,7 @@ export interface SearchCallback {
 
 export const SearchField = ({ props }: { props: HeaderBarProps }) => {
   const { t } = useTranslation();
+  const [userInput, setUserInput] = useState<string>("");
   return (
     <Search>
       <SearchIconWrapper>
@@ -95,7 +97,13 @@ export const SearchField = ({ props }: { props: HeaderBarProps }) => {
         placeholder={t("search...")}
         inputProps={{ "aria-label": "search bar" }}
         onChange={(event) => {
+          setUserInput(event.target.value);
           props.userInputCallback(event.target.value);
+        }}
+        onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
+          if (event.key == "Enter") {
+            props.userInputCallback(`${userInput}\n`);
+          }
         }}
       />
     </Search>
