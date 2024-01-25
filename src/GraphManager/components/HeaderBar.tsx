@@ -17,6 +17,20 @@ export interface HeaderBarProps {
   userInputCallback: SearchCallback;
 }
 
+export const LearngraphLOGO = (props: any) => {
+  return (
+    <Typography
+      variant="h6"
+      noWrap
+      component="div"
+      sx={{ flexGrow: 1, ...props.sx }}
+      {...props}
+    >
+      Learn Graph
+    </Typography>
+  );
+};
+
 export default function HeaderBar(props: HeaderBarProps) {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.only("xs"));
@@ -24,14 +38,7 @@ export default function HeaderBar(props: HeaderBarProps) {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar sx={{ paddingY: isSmallScreen ? 2 : 0 }}>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
-          >
-            Learn Graph
-          </Typography>
+          <LearngraphLOGO sx={{ display: { xs: "none", sm: "block" } }} />
           <BarItems>
             <SearchField props={props} />
             <LocaleManager />
