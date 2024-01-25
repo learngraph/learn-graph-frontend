@@ -15,9 +15,9 @@ import {
   ForceGraphGraphData,
   ForceGraphNodeObject,
   ForceGraphLinkObject,
-  ForceGraphRef,
   ForceGraphLinkObjectInitial,
   BackendGraphData,
+  LocalForceGraphMethods,
 } from "./types";
 import { HasID, ZoomState } from "./Zoom";
 import { useGraphData } from "./hooks";
@@ -53,8 +53,6 @@ import {
 import { ControllerRef } from "./GraphManager";
 
 interface GraphRendererProps {
-  graphDataRef: MutableRefObject<ForceGraphGraphData | null>;
-  forceGraphRef: ForceGraphRef;
   controllerRef: ControllerRef;
   highlightNodes: Set<HasID>;
 }
@@ -487,7 +485,6 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     makeInitialGraphData(),
   );
   const performInitialZoom = useRef(false);
-  props.graphDataRef.current = graph;
   const { language } = useUserDataContext();
   const { data, queryResponse } = useGraphData();
   const [shiftHeld, setShiftHeld] = useState(false);
@@ -538,7 +535,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       setState: setEditPopUpState,
     },
     graph: makeGraphState(graph, setGraph, performInitialZoom),
-    forceGraphRef: props.forceGraphRef,
+    forceGraphRef: useRef<LocalForceGraphMethods>(),
     setCooldownTicks,
     nodeDrag: {
       state: nodeDrag,
@@ -632,7 +629,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       <ForceGraph2D
         height={availableSpace.height}
         width={availableSpace.width}
-        ref={props.forceGraphRef}
+        ref={controller.forceGraphRef}
         graphData={graph}
         cooldownTicks={cooldownTicks}
         nodeCanvasObject={makeNodeCanvasObject(controller)}
