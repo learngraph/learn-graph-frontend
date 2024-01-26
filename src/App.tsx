@@ -1,21 +1,21 @@
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import { GraphDataContextProvider } from "./GraphDataContext";
 import { UserDataContextProvider } from "./UserDataContext";
 import { ThemeProvider } from "@emotion/react";
 import { theme } from "./Theme";
-import { LearngraphOrg } from "./LearngraphOrg";
+import { LearngraphOrgRoutes } from "./LearngraphOrgRoutes";
 
 export const App = () => {
   return (
-    <Router>
+    <BrowserRouter>
       <UserDataContextProvider>
         <GraphDataContextProvider>
           <ThemeProvider theme={theme}>
-            <LearngraphOrg />
+            <LearngraphOrgRoutes />
           </ThemeProvider>
         </GraphDataContextProvider>
       </UserDataContextProvider>
-    </Router>
+    </BrowserRouter>
   );
 };
 
