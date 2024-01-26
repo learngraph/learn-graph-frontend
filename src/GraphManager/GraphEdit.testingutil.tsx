@@ -60,7 +60,12 @@ export const makeMockController = () => {
       state: {},
     },
     language: "en",
-    highlightNodes: new Set(),
+    search: {
+      isResultShown: false,
+      setIsResultShown: jest.fn(),
+      highlightNodes: new Set<ForceGraphNodeObject>(),
+      setHighlightNodes: jest.fn(),
+    },
     specialNodes,
     zoom: {
       zoomState: { zoomSteps: 1, graphData: graphState.current },

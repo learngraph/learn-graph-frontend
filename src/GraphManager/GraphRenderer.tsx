@@ -51,10 +51,11 @@ import {
   debounce,
 } from "./ZoomControlPanel";
 import { ControllerRef } from "./GraphManager";
+import { SearchResultPopUp } from "./SearchResultPopUp";
+export type HighlightNodeSet = Set<ForceGraphNodeObject>;
 
 interface GraphRendererProps {
   controllerRef: ControllerRef;
-  highlightNodes: Set<HasID>;
 }
 
 export interface Position {
@@ -196,7 +197,10 @@ export const nodeCanvasObject = (
   ctrl: Controller,
   totalNodes: number,
 ) => {
-  const { highlightNodes, specialNodes } = ctrl;
+  const {
+    search: { highlightNodes },
+    specialNodes,
+  } = ctrl;
   let label = node.description ?? "";
   let backgroundColor = backgroundColorLightBlue;
   const mergedNodes: number = node.mergeCount ?? 0;
@@ -528,6 +532,10 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   const [cooldownTicks, setCooldownTicks] = useState(
     FG_ENGINE_COOLDOWN_TICKS_DEFAULT,
   );
+  const [isResultShown, setIsResultShown] = useState<boolean>(false);
+  const [highlightNodes, setHighlightNodes] = useState(
+    new Set<ForceGraphNodeObject>(),
+  );
   const controller: Controller = {
     backend,
     popUp: {
@@ -542,7 +550,12 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       setState: setNodeDrag,
     },
     language,
-    highlightNodes: props.highlightNodes,
+    search: {
+      isResultShown,
+      setIsResultShown,
+      highlightNodes,
+      setHighlightNodes,
+    },
     specialNodes: {},
     keys: { shiftHeld },
     zoom: {
@@ -621,40 +634,51 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <Box
-      id="canvasWrapper"
-      ref={wrapperRef}
-      sx={{ height: "100%", width: "100%" }}
-    >
-      <ForceGraph2D
-        height={availableSpace.height}
-        width={availableSpace.width}
-        ref={controller.forceGraphRef}
-        graphData={graph}
-        cooldownTicks={cooldownTicks}
-        nodeCanvasObject={makeNodeCanvasObject(controller)}
-        nodePointerAreaPaint={nodePointerAreaPaint}
-        onNodeClick={makeOnNodeClick(controller)}
-        onNodeHover={onNodeHover}
-        onNodeDrag={makeOnNodeDrag(controller)}
-        onNodeDragEnd={makeOnNodeDragEnd(controller)}
-        // links:
-        onLinkHover={onLinkHover}
-        onLinkClick={makeOnLinkClick(controller)}
-        linkDirectionalArrowLength={config.linkDirectionalArrowLength}
-        linkDirectionalArrowRelPos={config.linkDirectionalArrowRelPos}
-        // XXX: linkCanvasObjectMode should just be a string, but due to a bug in
-        // force-graph it must be passed as function, otherwise linkCanvasObject
-        // is never called. -> remove after force-graph module update
-        // @ts-ignore
-        linkCanvasObjectMode={() => config.linkCanvasObjectMode}
-        linkCanvasObject={makeLinkCanvasObject(controller)}
-        onZoom={makeOnZoomAndPanListener(controller)}
-        onBackgroundClick={onBackgroundClick}
-      />
+    <>
+      <Box
+        id="canvasWrapper"
+        ref={wrapperRef}
+        sx={{
+          height: "100%",
+          width: "100%",
+          display: "flex",
+          flexDirection: "row",
+        }}
+      >
+        <SearchResultPopUp
+          ctrl={controller}
+          thatstuff={controller.search.highlightNodes}
+        />
+        <ForceGraph2D
+          height={availableSpace.height}
+          width={availableSpace.width}
+          ref={controller.forceGraphRef}
+          graphData={graph}
+          cooldownTicks={cooldownTicks}
+          nodeCanvasObject={makeNodeCanvasObject(controller)}
+          nodePointerAreaPaint={nodePointerAreaPaint}
+          onNodeClick={makeOnNodeClick(controller)}
+          onNodeHover={onNodeHover}
+          onNodeDrag={makeOnNodeDrag(controller)}
+          onNodeDragEnd={makeOnNodeDragEnd(controller)}
+          // links:
+          onLinkHover={onLinkHover}
+          onLinkClick={makeOnLinkClick(controller)}
+          linkDirectionalArrowLength={config.linkDirectionalArrowLength}
+          linkDirectionalArrowRelPos={config.linkDirectionalArrowRelPos}
+          // XXX: linkCanvasObjectMode should just be a string, but due to a bug in
+          // force-graph it must be passed as function, otherwise linkCanvasObject
+          // is never called. -> remove after force-graph module update
+          // @ts-ignore
+          linkCanvasObjectMode={() => config.linkCanvasObjectMode}
+          linkCanvasObject={makeLinkCanvasObject(controller)}
+          onZoom={makeOnZoomAndPanListener(controller)}
+          onBackgroundClick={onBackgroundClick}
+        />
+      </Box>
       <GraphEditPopUp ctrl={controller} />
       <CreateButton ctrl={controller} />
       <ZoomControlPanel zoomControl={zoomControl} />
-    </Box>
+    </>
   );
 };

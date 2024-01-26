@@ -1,5 +1,3 @@
-import { ForceGraphGraphData, LocalForceGraphMethods } from "../types";
-import { HasID } from "../Zoom";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import { useTranslation } from "react-i18next";
@@ -7,36 +5,42 @@ import { styled, alpha } from "@mui/material/styles";
 import { HeaderBarProps } from "./HeaderBar";
 import { ControllerRef } from "../GraphManager";
 import { useState } from "react";
+import { HighlightNodeSet } from "../GraphRenderer";
+import { ForceGraphNodeObject } from "../types";
 
 export const userSearchMatching = (
-  highlightNodes: Set<HasID>,
   controllerRef: ControllerRef,
   userInput: string,
 ) => {
   return userSearchMatchingInternal(
-    highlightNodes,
-    controllerRef.current?.graph.current,
-    controllerRef.current?.forceGraphRef.current,
+    controllerRef.current?.search.highlightNodes ??
+      new Set<ForceGraphNodeObject>(),
+    controllerRef,
     userInput,
   );
 };
 
 export const userSearchMatchingInternal = (
-  highlightNodes: Set<HasID>,
-  graphDataForRender: ForceGraphGraphData | undefined,
-  forceGraphRef: LocalForceGraphMethods,
+  highlightNodes: HighlightNodeSet,
+  controllerRef: ControllerRef,
   userInput: string,
 ) => {
   highlightNodes.clear();
   if (!userInput) {
+    controllerRef.current?.search.setHighlightNodes(highlightNodes);
     return;
   }
-  graphDataForRender?.nodes
+  if (userInput.endsWith("\n")) {
+    controllerRef.current?.search.setIsResultShown(true);
+    userInput = userInput.trim();
+  }
+  controllerRef.current?.graph.current?.nodes
     .filter((node) =>
       node.description.toLowerCase().includes(userInput.toLowerCase()),
     )
     .forEach((node) => highlightNodes.add(node));
-  forceGraphRef?.d3ReheatSimulation();
+  controllerRef.current?.search.setHighlightNodes(highlightNodes);
+  controllerRef.current?.forceGraphRef.current?.d3ReheatSimulation();
 };
 
 const Search = styled("div")(({ theme }) => ({
@@ -104,7 +108,7 @@ export const SearchField = ({
           props.userInputCallback(event.target.value);
         }}
         onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
-          if (event.key == "Enter") {
+          if (event.key === "Enter") {
             props.userInputCallback(`${userInput}\n`);
           }
         }}
