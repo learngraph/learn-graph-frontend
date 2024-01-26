@@ -28,6 +28,7 @@
     "react-draggable": "^4.4.6",
     "react-force-graph-2d": "^1.24.0",
     "react-i18next": "^14.0.0",
+    "react-router-dom": "^6.21.3",
     "react-scripts": "5.0.1",
     "typescript": "^5.0.2",
     "web-vitals": "^3.3.0",

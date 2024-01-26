@@ -85,11 +85,14 @@ export interface SearchCallback {
   (query: string): void;
 }
 
-export const SearchField = ({ props }: { props: HeaderBarProps }) => {
+export const SearchField = ({
+  props,
+  ...rest
+}: { props: HeaderBarProps } & any) => {
   const { t } = useTranslation();
   const [userInput, setUserInput] = useState<string>("");
   return (
-    <Search>
+    <Search {...rest}>
       <SearchIconWrapper>
         <SearchIcon />
       </SearchIconWrapper>
