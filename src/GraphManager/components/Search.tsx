@@ -89,10 +89,13 @@ export interface SearchCallback {
   (query: string): void;
 }
 
-export const SearchField = ({ props }: { props: HeaderBarProps }) => {
+export const SearchField = ({
+  props,
+  ...rest
+}: { props: HeaderBarProps } & any) => {
   const { t } = useTranslation();
   return (
-    <Search>
+    <Search {...rest}>
       <SearchIconWrapper>
         <SearchIcon />
       </SearchIconWrapper>
