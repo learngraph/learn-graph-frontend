@@ -23,7 +23,7 @@ export const LearngraphLOGO = (props: any) => {
       variant="h6"
       noWrap
       component="div"
-      sx={{ flexGrow: 1, ...props.sx }}
+      sx={{ ...props.sx }}
       {...props}
     >
       Learn Graph
@@ -35,12 +35,16 @@ export default function HeaderBar(props: HeaderBarProps) {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.only("xs"));
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box>
       <AppBar position="static">
         <Toolbar sx={{ paddingY: isSmallScreen ? 2 : 0 }}>
           <LearngraphLOGO sx={{ display: { xs: "none", sm: "block" } }} />
-          <BarItems>
+          <BarItems sx={{ alignItems: "left" }}>
             <SearchField props={props} />
+          </BarItems>
+          <Box sx={{ flexGrow: 1 }} />{" "}
+          {/* Note: This Box pushes other bar-items to the right */}
+          <BarItems sx={{ alignItems: "right" }}>
             <LocaleManager />
             <LoginManager />
           </BarItems>
