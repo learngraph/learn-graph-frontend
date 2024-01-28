@@ -1,4 +1,4 @@
-FROM node:18.10.0 AS builder
+FROM node:20.10.0 AS builder
 WORKDIR /src
 ENV NODE_ENV=production
 COPY . package.json yarn.lock ./
