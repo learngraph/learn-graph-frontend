@@ -5,7 +5,6 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import LoginForm from "./LoginForm";
 import { SignUpForm } from "./SignUpForm";
-import { useGraphDataContext } from "src/GraphDataContext";
 import {
   LoginResponse,
   UserSignupInfo,
@@ -13,6 +12,7 @@ import {
 import { UserLoginInfo } from "src/GraphManager/hooks/useLoginUser";
 import { useUserDataContext } from "src/UserDataContext";
 import { useTranslation } from "react-i18next";
+import {useUserDataBackendContext} from "src/UserDataBackendContext";
 
 enum TabNames {
   "LOGIN",
@@ -63,9 +63,8 @@ export default function LoginSignupMenu() {
     setSelectedTab(newValue);
   };
 
-  const { createUserWithEMail, loginUser } = useGraphDataContext();
-  const { setUserID, setUserName, setAuthenticationToken } =
-    useUserDataContext();
+  const { setUserID, setUserName, setAuthenticationToken } = useUserDataContext();
+  const { backend } = useUserDataBackendContext();
   const loginUserInContext = (login: LoginResponse | undefined) => {
     if (login?.success) {
       const username = login.userName ?? "unknown";
@@ -80,11 +79,11 @@ export default function LoginSignupMenu() {
     }
   };
   const handleLoginSubmit = async (userInput: UserLoginInfo) => {
-    const rsp = await loginUser(userInput);
+    const rsp = await backend.loginUser(userInput);
     loginUserInContext(rsp.data?.login);
   };
   const handleSignUpSubmit = async (signup: UserSignupInfo) => {
-    const rsp = await createUserWithEMail(signup);
+    const rsp = await backend.createUserWithEMail(signup);
     loginUserInContext(rsp.data?.createUserWithEMail.login);
   };
   const { t } = useTranslation();

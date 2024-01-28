@@ -2,8 +2,8 @@ import React from "react";
 import { Box, Button, Menu, MenuItem } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import i18n from "src/i18n";
-import { useGraphDataContext } from "src/GraphDataContext";
 import { useUserDataContext } from "src/UserDataContext";
+import {useUserDataBackendContext} from "src/UserDataBackendContext";
 
 interface UserDisplayProps {
   userID: string;
@@ -12,20 +12,18 @@ interface UserDisplayProps {
 
 export default function UserDisplay(props: UserDisplayProps) {
   const { t } = useTranslation();
-
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
-
-  const { logoutUser } = useGraphDataContext();
   const { logout: logoutUserInContext } = useUserDataContext();
+  const { backend } = useUserDataBackendContext();
 
   const handleLogout = async () => {
     setAnchorEl(null);
     try {
-      await logoutUser();
+      await backend.logoutUser();
     } catch (e) {
       console.log(`logout failed! ${e}`);
     }

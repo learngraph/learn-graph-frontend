@@ -1,6 +1,6 @@
 import { BrowserRouter } from "react-router-dom";
-import { GraphDataContextProvider } from "./GraphDataContext";
 import { UserDataContextProvider } from "./UserDataContext";
+import { UserDataBackendContextProvider } from "./UserDataBackendContext";
 import { ThemeProvider } from "@emotion/react";
 import { theme } from "./Theme";
 import { LearngraphOrgRoutes } from "./LearngraphOrgRoutes";
@@ -9,11 +9,11 @@ export const App = () => {
   return (
     <BrowserRouter>
       <UserDataContextProvider>
-        <GraphDataContextProvider>
+        <UserDataBackendContextProvider>
           <ThemeProvider theme={theme}>
             <LearngraphOrgRoutes />
           </ThemeProvider>
-        </GraphDataContextProvider>
+        </UserDataBackendContextProvider>
       </UserDataContextProvider>
     </BrowserRouter>
   );

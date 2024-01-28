@@ -9,8 +9,9 @@ import {
 import { onError } from "@apollo/client/link/error";
 import { setContext, ContextSetter } from "@apollo/client/link/context";
 import fetch from "cross-fetch";
-import { addAuthHeader, addLanguageHeader, addUserIDHeader } from "src/link";
 import i18n from "./i18n";
+
+import { addAuthHeader, addLanguageHeader, addUserIDHeader } from "src/link";
 
 export interface UserDataContextValues {
   language: string;
@@ -27,7 +28,7 @@ export interface UserDataContextValues {
 const SUPPORTED_LANGUAGE_TAGS = ["en", "de", "zh"];
 const DEFAULT_LANGUAGE = "en";
 
-const errMsgNoDefault =
+export const errMsgNoDefault =
   "'defaultContextValues' must not be used! Use UserDataContextProvider instead.";
 const defaultContextValues = {
   language: DEFAULT_LANGUAGE,
@@ -39,6 +40,11 @@ const defaultContextValues = {
   setUserName: () => Promise.reject({ error: errMsgNoDefault }),
   setAuthenticationToken: () => Promise.reject({ error: errMsgNoDefault }),
   logout: () => Promise.reject({ error: errMsgNoDefault }),
+  backend: {
+    createUserWithEMail: () => Promise.reject({error: errMsgNoDefault }),
+    loginUser: () => Promise.reject({error: errMsgNoDefault }),
+    logoutUser: () => Promise.reject({error: errMsgNoDefault }),
+  },
 };
 
 const UserDataContext =
