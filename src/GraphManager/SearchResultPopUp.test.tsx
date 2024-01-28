@@ -3,7 +3,12 @@ import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 
 import { makeMockController } from "./GraphEdit.testingutil";
-import { CENTER_AT_NODE_TIME_MS, SearchResultPopUp } from "./SearchResultPopUp";
+import { SearchResultPopUp } from "./SearchResultPopUp";
+import {
+  CENTER_AT_NODE_TIME_MS,
+  GLOBALSCALE_AFTER_SEARCH,
+} from "./components/Search";
+import { ZOOM_TO_FIT_DURATION_MS } from "./ZoomControlPanel";
 
 describe("SearchResultPopUp", () => {
   it("should render search results", async () => {
@@ -32,6 +37,10 @@ describe("SearchResultPopUp", () => {
       10,
       10,
       CENTER_AT_NODE_TIME_MS,
+    );
+    expect(ctrl.forceGraphRef.current.zoom).toHaveBeenCalledWith(
+      GLOBALSCALE_AFTER_SEARCH,
+      ZOOM_TO_FIT_DURATION_MS,
     );
   });
 });

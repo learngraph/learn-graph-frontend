@@ -52,6 +52,9 @@ import {
 } from "./ZoomControlPanel";
 import { ControllerRef } from "./GraphManager";
 import { SearchResultPopUp } from "./SearchResultPopUp";
+
+const GLOBALSCALE_SIZE_SCALING_BOUNDARY = 2;
+
 export type HighlightNodeSet = Set<ForceGraphNodeObject>;
 
 interface GraphRendererProps {
@@ -190,6 +193,12 @@ const makeNodeCanvasObject = (ctrl: Controller) => {
   };
 };
 
+let globale = {
+  fontSize: 0,
+  globalScale: 0,
+  configFontSize: 0,
+};
+
 export const nodeCanvasObject = (
   node: ForceGraphNodeObject,
   ctx: CanvasRenderingContext2D,
@@ -224,9 +233,20 @@ export const nodeCanvasObject = (
   ) {
     backgroundColor = colorInterimLink;
   }
+  let fontSize = config.fontSize;
+  if (globalScale < GLOBALSCALE_SIZE_SCALING_BOUNDARY) {
+    fontSize /= GLOBALSCALE_SIZE_SCALING_BOUNDARY;
+  } else {
+    fontSize /= globalScale;
+  }
+  globale = {
+    fontSize,
+    globalScale,
+    configFontSize: config.fontSize,
+  };
   const text = {
     text: label,
-    fontSize: config.fontSize / globalScale,
+    fontSize,
     backgroundColor,
   };
   const pos = { x: node.x, y: node.y };
@@ -292,8 +312,11 @@ interface DrawLinkConfig {
 export const drawLinkLine = (conf: DrawLinkConfig) => {
   const { ctx, color, link } = conf;
   ctx.strokeStyle = color;
-  ctx.lineWidth =
-    (3 * (link.value / 2) * (conf.extraThickness ?? 1)) / conf.globalScale;
+  let scale = conf.globalScale;
+  if (scale <= GLOBALSCALE_SIZE_SCALING_BOUNDARY) {
+    scale = GLOBALSCALE_SIZE_SCALING_BOUNDARY;
+  }
+  ctx.lineWidth = (3 * (link.value / 2) * (conf.extraThickness ?? 1)) / scale;
   ctx.beginPath();
   ctx.moveTo(link.source.x!, link.source.y!);
   ctx.lineTo(link.target.x!, link.target.y!);
@@ -309,6 +332,7 @@ export const makeKeydownListener = (_ctrl: Controller) => {
   return (event: Partial<KeyboardEvent>) => {
     switch (event.key) {
       case "s":
+        console.log(globale);
         //// TODO(skep): should add dev-config to enable testing hooks
         //if (!!ctrl.forceGraphRef.current) {
         //  console.log(`zoom: ${ctrl.forceGraphRef.current.zoom()}`);
