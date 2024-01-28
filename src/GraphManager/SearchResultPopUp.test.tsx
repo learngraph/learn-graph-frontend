@@ -3,7 +3,12 @@ import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 
 import { makeMockController } from "./GraphEdit.testingutil";
-import { CENTER_AT_NODE_TIME_MS, SearchResultPopUp } from "./SearchResultPopUp";
+import { SearchResultPopUp } from "./SearchResultPopUp";
+import {
+  CENTER_AT_NODE_TIME_MS,
+  GLOBALSCALE_AFTER_SEARCH,
+} from "./components/Search";
+import { ZOOM_TO_FIT_DURATION_MS } from "./ZoomControlPanel";
 
 describe("SearchResultPopUp", () => {
   it("should render search results", async () => {
@@ -14,7 +19,7 @@ describe("SearchResultPopUp", () => {
       { id: "2", description: "B", x: 10, y: 10 },
     ]);
     // @ts-ignore
-    render(<SearchResultPopUp ctrl={ctrl} />);
+    render(<SearchResultPopUp ctrl={ctrl} availableSpace={{height: 100, width: 100}}/>);
     expect(screen.getByText("Search Results")).toBeInTheDocument();
     expect(screen.getByText("A")).toBeInTheDocument();
     expect(screen.getByText("B")).toBeInTheDocument();
@@ -32,6 +37,10 @@ describe("SearchResultPopUp", () => {
       10,
       10,
       CENTER_AT_NODE_TIME_MS,
+    );
+    expect(ctrl.forceGraphRef.current.zoom).toHaveBeenCalledWith(
+      GLOBALSCALE_AFTER_SEARCH,
+      ZOOM_TO_FIT_DURATION_MS,
     );
   });
 });

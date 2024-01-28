@@ -4,7 +4,7 @@ import { Controller } from "./GraphEdit";
 import { zoomStep, ZoomDirection } from "./Zoom";
 
 const ZOOM_TO_FIT_AFTER_MS = 1000;
-const ZOOM_TO_FIT_DURATION_MS = 500;
+export const ZOOM_TO_FIT_DURATION_MS = 500;
 
 export interface ZoomPanelControl {
   zoomLevel: number;
@@ -44,8 +44,8 @@ export function deduplicateCallsWithSameParameters<T extends any[]>(
       !lastArgs ||
       !args.every((value, index) => value === lastArgs![index])
     ) {
-      callback(...args);
       lastArgs = [...args];
+      callback(...args);
     }
   };
 }

@@ -9,7 +9,9 @@ import {
   SetStateAction,
   RefObject,
 } from "react";
-import { Box } from "@mui/material";
+import Box from "@mui/material/Box";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material";
 
 import {
   ForceGraphGraphData,
@@ -52,6 +54,9 @@ import {
 } from "./ZoomControlPanel";
 import { ControllerRef } from "./GraphManager";
 import { SearchResultPopUp } from "./SearchResultPopUp";
+
+const GLOBALSCALE_SIZE_SCALING_BOUNDARY = 2;
+
 export type HighlightNodeSet = Set<ForceGraphNodeObject>;
 
 interface GraphRendererProps {
@@ -190,6 +195,12 @@ const makeNodeCanvasObject = (ctrl: Controller) => {
   };
 };
 
+let globale = {
+  fontSize: 0,
+  globalScale: 0,
+  configFontSize: 0,
+};
+
 export const nodeCanvasObject = (
   node: ForceGraphNodeObject,
   ctx: CanvasRenderingContext2D,
@@ -224,9 +235,20 @@ export const nodeCanvasObject = (
   ) {
     backgroundColor = colorInterimLink;
   }
+  let fontSize = config.fontSize;
+  if (globalScale < GLOBALSCALE_SIZE_SCALING_BOUNDARY) {
+    fontSize /= GLOBALSCALE_SIZE_SCALING_BOUNDARY;
+  } else {
+    fontSize /= globalScale;
+  }
+  globale = {
+    fontSize,
+    globalScale,
+    configFontSize: config.fontSize,
+  };
   const text = {
     text: label,
-    fontSize: config.fontSize / globalScale,
+    fontSize,
     backgroundColor,
   };
   const pos = { x: node.x, y: node.y };
@@ -292,8 +314,11 @@ interface DrawLinkConfig {
 export const drawLinkLine = (conf: DrawLinkConfig) => {
   const { ctx, color, link } = conf;
   ctx.strokeStyle = color;
-  ctx.lineWidth =
-    (3 * (link.value / 2) * (conf.extraThickness ?? 1)) / conf.globalScale;
+  let scale = conf.globalScale;
+  if (scale <= GLOBALSCALE_SIZE_SCALING_BOUNDARY) {
+    scale = GLOBALSCALE_SIZE_SCALING_BOUNDARY;
+  }
+  ctx.lineWidth = (3 * (link.value / 2) * (conf.extraThickness ?? 1)) / scale;
   ctx.beginPath();
   ctx.moveTo(link.source.x!, link.source.y!);
   ctx.lineTo(link.target.x!, link.target.y!);
@@ -309,6 +334,7 @@ export const makeKeydownListener = (_ctrl: Controller) => {
   return (event: Partial<KeyboardEvent>) => {
     switch (event.key) {
       case "s":
+        console.log(globale);
         //// TODO(skep): should add dev-config to enable testing hooks
         //if (!!ctrl.forceGraphRef.current) {
         //  console.log(`zoom: ${ctrl.forceGraphRef.current.zoom()}`);
@@ -484,6 +510,39 @@ export const setGraphSize = (conf: GraphSizeConfig) => {
   conf.setAvailableSpace(rect);
 };
 
+const SmallAlignBottomLargeAlignLeft = ({
+  bottomLeft,
+  topRight,
+}: {
+  bottomLeft: any;
+  topRight: any;
+}) => {
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  return (
+    <Box
+      sx={{
+        height: "100%",
+        width: "100%",
+        display: "flex",
+        flexDirection: ["column", "row"],
+      }}
+    >
+      {isSmallScreen ? (
+        <>
+          {topRight}
+          {bottomLeft}
+        </>
+      ) : (
+        <>
+          {bottomLeft}
+          {topRight}
+        </>
+      )}
+    </Box>
+  );
+};
+
 export const GraphRenderer = (props: GraphRendererProps) => {
   const [graph, setGraph] = useState<ForceGraphGraphData>(
     makeInitialGraphData(),
@@ -633,44 +692,53 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   }, []);
   return (
     <>
-      <Box
-        id="canvasWrapper"
-        ref={wrapperRef}
-        sx={{
-          height: "100%",
-          width: "100%",
-          display: "flex",
-          flexDirection: "row",
-        }}
-      >
-        <SearchResultPopUp ctrl={controller} />
-        <ForceGraph2D
-          height={availableSpace.height}
-          width={availableSpace.width}
-          ref={controller.forceGraphRef}
-          graphData={graph}
-          cooldownTicks={cooldownTicks}
-          nodeCanvasObject={makeNodeCanvasObject(controller)}
-          nodePointerAreaPaint={nodePointerAreaPaint}
-          onNodeClick={makeOnNodeClick(controller)}
-          onNodeHover={onNodeHover}
-          onNodeDrag={makeOnNodeDrag(controller)}
-          onNodeDragEnd={makeOnNodeDragEnd(controller)}
-          // links:
-          onLinkHover={onLinkHover}
-          onLinkClick={makeOnLinkClick(controller)}
-          linkDirectionalArrowLength={config.linkDirectionalArrowLength}
-          linkDirectionalArrowRelPos={config.linkDirectionalArrowRelPos}
-          // XXX: linkCanvasObjectMode should just be a string, but due to a bug in
-          // force-graph it must be passed as function, otherwise linkCanvasObject
-          // is never called. -> remove after force-graph module update
-          // @ts-ignore
-          linkCanvasObjectMode={() => config.linkCanvasObjectMode}
-          linkCanvasObject={makeLinkCanvasObject(controller)}
-          onZoom={makeOnZoomAndPanListener(controller)}
-          onBackgroundClick={onBackgroundClick}
-        />
-      </Box>
+      <SmallAlignBottomLargeAlignLeft
+        topRight=<Box
+          id="canvasWrapper"
+          ref={wrapperRef}
+          sx={{
+            flex: "3",
+            overflow: "hidden",
+          }}
+        >
+          <ForceGraph2D
+            height={availableSpace.height}
+            width={availableSpace.width}
+            ref={controller.forceGraphRef}
+            graphData={graph}
+            cooldownTicks={cooldownTicks}
+            nodeCanvasObject={makeNodeCanvasObject(controller)}
+            nodePointerAreaPaint={nodePointerAreaPaint}
+            onNodeClick={makeOnNodeClick(controller)}
+            onNodeHover={onNodeHover}
+            onNodeDrag={makeOnNodeDrag(controller)}
+            onNodeDragEnd={makeOnNodeDragEnd(controller)}
+            // links:
+            onLinkHover={onLinkHover}
+            onLinkClick={makeOnLinkClick(controller)}
+            linkDirectionalArrowLength={config.linkDirectionalArrowLength}
+            linkDirectionalArrowRelPos={config.linkDirectionalArrowRelPos}
+            // XXX: linkCanvasObjectMode should just be a string, but due to a bug in
+            // force-graph it must be passed as function, otherwise linkCanvasObject
+            // is never called. -> remove after force-graph module update
+            // @ts-ignore
+            linkCanvasObjectMode={() => config.linkCanvasObjectMode}
+            linkCanvasObject={makeLinkCanvasObject(controller)}
+            onZoom={makeOnZoomAndPanListener(controller)}
+            onBackgroundClick={onBackgroundClick}
+          />
+        </Box>
+        bottomLeft=<Box
+          sx={{
+            flex: "1",
+          }}
+        >
+          <SearchResultPopUp
+            ctrl={controller}
+            availableSpace={availableSpace}
+          />
+        </Box>
+      />
       <GraphEditPopUp ctrl={controller} />
       <CreateButton ctrl={controller} />
       <ZoomControlPanel zoomControl={zoomControl} />

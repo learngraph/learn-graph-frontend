@@ -1,15 +1,14 @@
 import React, { ReactNode, useState } from "react";
 import Button from "@mui/material/Button";
 import TranslateIcon from "@mui/icons-material/Translate";
-
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import ListItemText from "@mui/material/ListItemText";
-
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material";
 import i18n from "src/i18n";
 
 import { useUserDataContext } from "src/UserDataContext";
-import { useMediaQuery, useTheme } from "@mui/material";
 
 interface LanguageDictEntry {
   displayText: string;

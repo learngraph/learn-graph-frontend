@@ -1,6 +1,10 @@
-import { userSearchMatchingInternal } from "./Search";
+import {
+  CENTER_AT_NODE_TIME_MS,
+  GLOBALSCALE_AFTER_SEARCH,
+  userSearchMatchingInternal,
+} from "./Search";
 import { makeMockController } from "../GraphEdit.testingutil";
-import { ZOOM_LEVEL_MAX } from "../ZoomControlPanel";
+import { ZOOM_LEVEL_MAX, ZOOM_TO_FIT_DURATION_MS } from "../ZoomControlPanel";
 
 describe("userSearchMatchingInternal", () => {
   it("should do nothing on an empty highlight set", () => {
@@ -73,8 +77,9 @@ describe("userSearchMatchingInternal", () => {
 
   it("should open pop-up, when newline at the end", () => {
     const controller = makeMockController();
+    const abcNode = { id: "1", description: "abc", x: 99, y: 99 };
     controller.graph.current = {
-      nodes: [{ id: "1", description: "abc" }],
+      nodes: [abcNode],
       links: [],
     };
     userSearchMatchingInternal(
@@ -87,12 +92,23 @@ describe("userSearchMatchingInternal", () => {
     expect(controller.search.setHighlightNodes).toHaveBeenCalledTimes(1);
     expect(controller.search.setHighlightNodes).toHaveBeenNthCalledWith(
       1,
-      new Set([{ id: "1", description: "abc" }]),
+      new Set([abcNode]),
     );
     expect(controller.zoom.setUserZoomLevel).toHaveBeenCalledTimes(1);
     expect(controller.zoom.setUserZoomLevel).toHaveBeenNthCalledWith(
       1,
       ZOOM_LEVEL_MAX,
+    );
+    expect(controller.forceGraphRef.current?.zoom).toHaveBeenCalledTimes(1);
+    expect(controller.forceGraphRef.current?.zoom).toHaveBeenNthCalledWith(
+      1,
+      GLOBALSCALE_AFTER_SEARCH,
+      ZOOM_TO_FIT_DURATION_MS,
+    );
+    expect(controller.forceGraphRef.current.centerAt).toHaveBeenCalledWith(
+      99,
+      99,
+      CENTER_AT_NODE_TIME_MS,
     );
   });
 
@@ -113,5 +129,7 @@ describe("userSearchMatchingInternal", () => {
       1,
       new Set(),
     );
+    // no nodes present, thus no centerAt..
+    expect(controller.forceGraphRef.current.centerAt).not.toHaveBeenCalled();
   });
 });

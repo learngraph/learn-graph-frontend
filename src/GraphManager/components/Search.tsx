@@ -6,7 +6,11 @@ import { HeaderBarProps } from "./HeaderBar";
 import { ControllerRef } from "../GraphManager";
 import { useState } from "react";
 import { ForceGraphNodeObject } from "../types";
-import { ZOOM_LEVEL_MAX } from "../ZoomControlPanel";
+import { ZOOM_LEVEL_MAX, ZOOM_TO_FIT_DURATION_MS } from "../ZoomControlPanel";
+import { Controller } from "../GraphEdit";
+
+export const GLOBALSCALE_AFTER_SEARCH = 2;
+export const CENTER_AT_NODE_TIME_MS = 2000;
 
 export const userSearchMatching = (
   controllerRef: ControllerRef,
@@ -15,11 +19,20 @@ export const userSearchMatching = (
   return userSearchMatchingInternal(controllerRef, userInput);
 };
 
+export const centerOnNode = (ctrl: Controller, node: ForceGraphNodeObject) => {
+  ctrl.forceGraphRef.current?.centerAt(node.x, node.y, CENTER_AT_NODE_TIME_MS);
+  ctrl.forceGraphRef.current?.zoom(
+    GLOBALSCALE_AFTER_SEARCH,
+    ZOOM_TO_FIT_DURATION_MS,
+  );
+};
+
 export const userSearchMatchingInternal = (
   controllerRef: ControllerRef,
   userInput: string,
 ) => {
   let newHighlightNodes = new Set<ForceGraphNodeObject>();
+  let zoomToFirstResult = false;
   if (!userInput || userInput === "\n") {
     controllerRef.current?.search.setIsResultShown(false);
     controllerRef.current?.search.setHighlightNodes(newHighlightNodes);
@@ -27,6 +40,7 @@ export const userSearchMatchingInternal = (
   }
   if (userInput.endsWith("\n")) {
     // user pressed return -> show results
+    zoomToFirstResult = true;
     controllerRef.current?.search.setIsResultShown(true);
     controllerRef.current?.zoom.setUserZoomLevel(ZOOM_LEVEL_MAX);
     userInput = userInput.trim();
@@ -38,6 +52,18 @@ export const userSearchMatchingInternal = (
     .forEach((node) => newHighlightNodes.add(node));
   controllerRef.current?.search.setHighlightNodes(newHighlightNodes);
   controllerRef.current?.forceGraphRef.current?.d3ReheatSimulation();
+  if (zoomToFirstResult) {
+    const results = Array.from(newHighlightNodes);
+    if (
+      controllerRef.current &&
+      results.length >= 0 &&
+      !!results[0] &&
+      !!results[0].x &&
+      !!results[0].y
+    ) {
+      centerOnNode(controllerRef.current, results[0]);
+    }
+  }
 };
 
 const Search = styled("div")(({ theme }) => ({

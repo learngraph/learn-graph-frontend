@@ -1,41 +1,42 @@
 // TODO(skep):  translations
 import List from "@mui/material/List";
-import { Controller } from "./GraphEdit";
 import Paper from "@mui/material/Paper";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListSubheader from "@mui/material/ListSubheader";
-import { ForceGraphNodeObject } from "./types";
-import { useEffect } from "react";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material";
+import { Controller } from "./GraphEdit";
+import { centerOnNode } from "./components/Search";
+import { Rectangle } from "./GraphRenderer";
 
-export const CENTER_AT_NODE_TIME_MS = 2000;
+const FIXME_LAYOUT_UNCLEAR = 50; // FIXME(skep): should not have to subtract anything here..
 
-export const SearchResultPopUp = ({ ctrl }: { ctrl: Controller }) => {
-  const centerOnNode = (node: ForceGraphNodeObject) => {
-    ctrl.forceGraphRef.current?.centerAt(
-      node.x,
-      node.y,
-      CENTER_AT_NODE_TIME_MS,
-    );
+export const SearchResultPopUp = ({
+  ctrl,
+  availableSpace,
+}: {
+  ctrl: Controller;
+  availableSpace: Rectangle;
+}) => {
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  let sx = {
+    ...(!isSmallScreen
+      ? { maxHeight: availableSpace.height - FIXME_LAYOUT_UNCLEAR }
+      : {}),
   };
-  useEffect(() => {
-    const results = Array.from(ctrl.search.highlightNodes);
-    if (
-      results.length >= 0 &&
-      !!results[0] &&
-      !!results[0].x &&
-      !!results[0].y
-    ) {
-      centerOnNode(results[0]);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ctrl.search.highlightNodes]);
   return (
     <>
       {ctrl.search.isResultShown && (
         <Paper
           elevation={24}
           aria-labelledby="search-results"
-          sx={{ padding: 2, minWidth: "200px" }}
+          sx={{
+            padding: 2,
+            minWidth: "200px",
+            overflowY: "auto",
+            ...sx,
+          }}
         >
           <List>
             <ListSubheader>Search Results</ListSubheader>
@@ -43,7 +44,7 @@ export const SearchResultPopUp = ({ ctrl }: { ctrl: Controller }) => {
               return (
                 <ListItemButton
                   key={node.id}
-                  onClick={() => centerOnNode(node)}
+                  onClick={() => centerOnNode(ctrl, node)}
                 >
                   {node.description}
                 </ListItemButton>
