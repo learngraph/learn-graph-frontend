@@ -9,7 +9,9 @@ import {
   SetStateAction,
   RefObject,
 } from "react";
-import { Box } from "@mui/material";
+import Box from "@mui/material/Box";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material";
 
 import {
   ForceGraphGraphData,
@@ -508,6 +510,39 @@ export const setGraphSize = (conf: GraphSizeConfig) => {
   conf.setAvailableSpace(rect);
 };
 
+const SmallAlignBottomLargeAlignLeft = ({
+  bottomLeft,
+  topRight,
+}: {
+  bottomLeft: any;
+  topRight: any;
+}) => {
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  return (
+    <Box
+      sx={{
+        height: "100%",
+        width: "100%",
+        display: "flex",
+        flexDirection: ["column", "row"],
+      }}
+    >
+      {isSmallScreen ? (
+        <>
+          {topRight}
+          {bottomLeft}
+        </>
+      ) : (
+        <>
+          {bottomLeft}
+          {topRight}
+        </>
+      )}
+    </Box>
+  );
+};
+
 export const GraphRenderer = (props: GraphRendererProps) => {
   const [graph, setGraph] = useState<ForceGraphGraphData>(
     makeInitialGraphData(),
@@ -657,20 +692,12 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   }, []);
   return (
     <>
-      <Box
-        sx={{
-          height: "100%",
-          width: "100%",
-          display: "flex",
-          flexDirection: "row",
-        }}
-      >
-        <SearchResultPopUp ctrl={controller} />
-        <Box
+      <SmallAlignBottomLargeAlignLeft
+        topRight=<Box
           id="canvasWrapper"
           ref={wrapperRef}
           sx={{
-            flex: "1",
+            flex: "3",
             overflow: "hidden",
           }}
         >
@@ -701,7 +728,17 @@ export const GraphRenderer = (props: GraphRendererProps) => {
             onBackgroundClick={onBackgroundClick}
           />
         </Box>
-      </Box>
+        bottomLeft=<Box
+          sx={{
+            flex: "1",
+          }}
+        >
+          <SearchResultPopUp
+            ctrl={controller}
+            availableSpace={availableSpace}
+          />
+        </Box>
+      />
       <GraphEditPopUp ctrl={controller} />
       <CreateButton ctrl={controller} />
       <ZoomControlPanel zoomControl={zoomControl} />

@@ -19,7 +19,7 @@ describe("SearchResultPopUp", () => {
       { id: "2", description: "B", x: 10, y: 10 },
     ]);
     // @ts-ignore
-    render(<SearchResultPopUp ctrl={ctrl} />);
+    render(<SearchResultPopUp ctrl={ctrl} availableSpace={{height: 100, width: 100}}/>);
     expect(screen.getByText("Search Results")).toBeInTheDocument();
     expect(screen.getByText("A")).toBeInTheDocument();
     expect(screen.getByText("B")).toBeInTheDocument();

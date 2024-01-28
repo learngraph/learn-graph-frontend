@@ -1,19 +1,42 @@
 // TODO(skep):  translations
 import List from "@mui/material/List";
-import { Controller } from "./GraphEdit";
 import Paper from "@mui/material/Paper";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListSubheader from "@mui/material/ListSubheader";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material";
+import { Controller } from "./GraphEdit";
 import { centerOnNode } from "./components/Search";
+import { Rectangle } from "./GraphRenderer";
 
-export const SearchResultPopUp = ({ ctrl }: { ctrl: Controller }) => {
+const FIXME_LAYOUT_UNCLEAR = 50; // FIXME(skep): should not have to subtract anything here..
+
+export const SearchResultPopUp = ({
+  ctrl,
+  availableSpace,
+}: {
+  ctrl: Controller;
+  availableSpace: Rectangle;
+}) => {
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  let sx = {
+    ...(!isSmallScreen
+      ? { maxHeight: availableSpace.height - FIXME_LAYOUT_UNCLEAR }
+      : {}),
+  };
   return (
     <>
       {ctrl.search.isResultShown && (
         <Paper
           elevation={24}
           aria-labelledby="search-results"
-          sx={{ padding: 2, minWidth: "200px" }}
+          sx={{
+            padding: 2,
+            minWidth: "200px",
+            overflowY: "auto",
+            ...sx,
+          }}
         >
           <List>
             <ListSubheader>Search Results</ListSubheader>
