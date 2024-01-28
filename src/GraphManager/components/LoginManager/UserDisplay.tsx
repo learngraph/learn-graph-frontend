@@ -3,7 +3,7 @@ import { Box, Button, Menu, MenuItem } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import i18n from "src/i18n";
 import { useUserDataContext } from "src/UserDataContext";
-import {useUserDataBackendContext} from "src/UserDataBackendContext";
+import { useUserDataBackendContext } from "src/UserDataBackendContext";
 
 interface UserDisplayProps {
   userID: string;

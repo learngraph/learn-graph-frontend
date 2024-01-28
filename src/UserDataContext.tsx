@@ -41,9 +41,9 @@ const defaultContextValues = {
   setAuthenticationToken: () => Promise.reject({ error: errMsgNoDefault }),
   logout: () => Promise.reject({ error: errMsgNoDefault }),
   backend: {
-    createUserWithEMail: () => Promise.reject({error: errMsgNoDefault }),
-    loginUser: () => Promise.reject({error: errMsgNoDefault }),
-    logoutUser: () => Promise.reject({error: errMsgNoDefault }),
+    createUserWithEMail: () => Promise.reject({ error: errMsgNoDefault }),
+    loginUser: () => Promise.reject({ error: errMsgNoDefault }),
+    logoutUser: () => Promise.reject({ error: errMsgNoDefault }),
   },
 };
 

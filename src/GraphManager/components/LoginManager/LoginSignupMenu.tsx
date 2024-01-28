@@ -12,7 +12,7 @@ import {
 import { UserLoginInfo } from "src/GraphManager/hooks/useLoginUser";
 import { useUserDataContext } from "src/UserDataContext";
 import { useTranslation } from "react-i18next";
-import {useUserDataBackendContext} from "src/UserDataBackendContext";
+import { useUserDataBackendContext } from "src/UserDataBackendContext";
 
 enum TabNames {
   "LOGIN",
@@ -63,7 +63,8 @@ export default function LoginSignupMenu() {
     setSelectedTab(newValue);
   };
 
-  const { setUserID, setUserName, setAuthenticationToken } = useUserDataContext();
+  const { setUserID, setUserName, setAuthenticationToken } =
+    useUserDataContext();
   const { backend } = useUserDataBackendContext();
   const loginUserInContext = (login: LoginResponse | undefined) => {
     if (login?.success) {
