@@ -5,41 +5,38 @@ import { styled, alpha } from "@mui/material/styles";
 import { HeaderBarProps } from "./HeaderBar";
 import { ControllerRef } from "../GraphManager";
 import { useState } from "react";
-import { HighlightNodeSet } from "../GraphRenderer";
 import { ForceGraphNodeObject } from "../types";
+import { ZOOM_LEVEL_MAX } from "../ZoomControlPanel";
 
 export const userSearchMatching = (
   controllerRef: ControllerRef,
   userInput: string,
 ) => {
-  return userSearchMatchingInternal(
-    controllerRef.current?.search.highlightNodes ??
-      new Set<ForceGraphNodeObject>(),
-    controllerRef,
-    userInput,
-  );
+  return userSearchMatchingInternal(controllerRef, userInput);
 };
 
 export const userSearchMatchingInternal = (
-  highlightNodes: HighlightNodeSet,
   controllerRef: ControllerRef,
   userInput: string,
 ) => {
-  highlightNodes.clear();
-  if (!userInput) {
-    controllerRef.current?.search.setHighlightNodes(highlightNodes);
+  let newHighlightNodes = new Set<ForceGraphNodeObject>();
+  if (!userInput || userInput === "\n") {
+    controllerRef.current?.search.setIsResultShown(false);
+    controllerRef.current?.search.setHighlightNodes(newHighlightNodes);
     return;
   }
   if (userInput.endsWith("\n")) {
+    // user pressed return -> show results
     controllerRef.current?.search.setIsResultShown(true);
+    controllerRef.current?.zoom.setUserZoomLevel(ZOOM_LEVEL_MAX);
     userInput = userInput.trim();
   }
   controllerRef.current?.graph.current?.nodes
     .filter((node) =>
       node.description.toLowerCase().includes(userInput.toLowerCase()),
     )
-    .forEach((node) => highlightNodes.add(node));
-  controllerRef.current?.search.setHighlightNodes(highlightNodes);
+    .forEach((node) => newHighlightNodes.add(node));
+  controllerRef.current?.search.setHighlightNodes(newHighlightNodes);
   controllerRef.current?.forceGraphRef.current?.d3ReheatSimulation();
 };
 

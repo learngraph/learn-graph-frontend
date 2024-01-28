@@ -19,7 +19,7 @@ import {
   BackendGraphData,
   LocalForceGraphMethods,
 } from "./types";
-import { HasID, ZoomState } from "./Zoom";
+import { ZoomState } from "./Zoom";
 import { useGraphData } from "./hooks";
 import {
   GraphState,
@@ -569,9 +569,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     },
   };
   const zoomControl = makeZoomControl(controller);
-  controller.zoom.setUserZoomLevel = (level: number) => {
-    zoomControl.onZoomChange(level, ZOOM_LEVEL_MAX);
-  };
+  controller.zoom.setUserZoomLevel = zoomControl.onZoomChange;
   props.controllerRef.current = controller;
   const onBackgroundClick = makeOnBackgroundClick(controller);
   const onNodeHover = (
@@ -645,10 +643,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
           flexDirection: "row",
         }}
       >
-        <SearchResultPopUp
-          ctrl={controller}
-          thatstuff={controller.search.highlightNodes}
-        />
+        <SearchResultPopUp ctrl={controller} />
         <ForceGraph2D
           height={availableSpace.height}
           width={availableSpace.width}

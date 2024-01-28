@@ -19,7 +19,7 @@ import { SubmitVoteFn } from "./hooks/useSubmitVote";
 import { UpdateNodeFn } from "./hooks/useUpdateNode";
 import { DeleteNodeFn } from "./hooks/useDeleteNode";
 import { DeleteEdgeFn } from "./hooks/useDeleteEdge";
-import { HasID, ZoomState } from "./Zoom";
+import { ZoomState } from "./Zoom";
 import i18n from "src/i18n";
 
 // Note: must be kept constant for all times, otherwise database must be
@@ -139,7 +139,7 @@ export interface KeyboardState {
 
 export interface ZoomControl {
   // zoom API
-  setUserZoomLevel: (level: number) => void;
+  setUserZoomLevel: (newValue: number, lastZoomLevelOverride?: number) => void;
   // zoom internal state:
   zoomLevel: number;
   setZoomLevel: Dispatch<SetStateAction<number>>;

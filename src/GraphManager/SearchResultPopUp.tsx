@@ -5,12 +5,11 @@ import Paper from "@mui/material/Paper";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListSubheader from "@mui/material/ListSubheader";
 import { ForceGraphNodeObject } from "./types";
-import { useEffect, useState } from "react";
-import {HighlightNodeSet} from "./GraphRenderer";
+import { useEffect } from "react";
 
-const CENTER_AT_NODE_TIME_MS = 2000;
+export const CENTER_AT_NODE_TIME_MS = 2000;
 
-export const SearchResultPopUp = ({ ctrl, thatstuff }: { ctrl: Controller, thatstuff: HighlightNodeSet }) => {
+export const SearchResultPopUp = ({ ctrl }: { ctrl: Controller }) => {
   const centerOnNode = (node: ForceGraphNodeObject) => {
     ctrl.forceGraphRef.current?.centerAt(
       node.x,
@@ -18,29 +17,38 @@ export const SearchResultPopUp = ({ ctrl, thatstuff }: { ctrl: Controller, thats
       CENTER_AT_NODE_TIME_MS,
     );
   };
-  const [searchResults, setSearchResults] = useState<any[]>([]);
   useEffect(() => {
-    const newSearchResults: any[] = [];
-    thatstuff.forEach((node) => {
-      newSearchResults.push(
-        <ListItemButton onClick={() => centerOnNode(node)}>
-          {node.description}
-        </ListItemButton>,
-      );
-    });
-    setSearchResults(newSearchResults);
-  }, [thatstuff]);
+    const results = Array.from(ctrl.search.highlightNodes);
+    if (
+      results.length >= 0 &&
+      !!results[0] &&
+      !!results[0].x &&
+      !!results[0].y
+    ) {
+      centerOnNode(results[0]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ctrl.search.highlightNodes]);
   return (
     <>
       {ctrl.search.isResultShown && (
         <Paper
           elevation={24}
           aria-labelledby="search-results"
-          sx={{ padding: 2 }}
+          sx={{ padding: 2, minWidth: "200px" }}
         >
           <List>
             <ListSubheader>Search Results</ListSubheader>
-            {searchResults}
+            {Array.from(ctrl.search.highlightNodes).map((node) => {
+              return (
+                <ListItemButton
+                  key={node.id}
+                  onClick={() => centerOnNode(node)}
+                >
+                  {node.description}
+                </ListItemButton>
+              );
+            })}
           </List>
         </Paper>
       )}
