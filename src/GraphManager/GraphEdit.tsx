@@ -12,14 +12,14 @@ import {
   ForceGraphNodeObject,
   ForceGraphLinkObjectInitial,
 } from "./types";
-import { Position, SpecialNodes } from "./GraphRenderer";
+import { HighlightNodeSet, Position, SpecialNodes } from "./GraphRenderer";
 import { CreateNodeFn } from "./hooks/useCreateNode";
 import { CreateEdgeFn } from "./hooks/useCreateEdge";
 import { SubmitVoteFn } from "./hooks/useSubmitVote";
 import { UpdateNodeFn } from "./hooks/useUpdateNode";
 import { DeleteNodeFn } from "./hooks/useDeleteNode";
 import { DeleteEdgeFn } from "./hooks/useDeleteEdge";
-import { HasID, ZoomState } from "./Zoom";
+import { ZoomState } from "./Zoom";
 import i18n from "src/i18n";
 
 // Note: must be kept constant for all times, otherwise database must be
@@ -139,7 +139,7 @@ export interface KeyboardState {
 
 export interface ZoomControl {
   // zoom API
-  setUserZoomLevel: (level: number) => void;
+  setUserZoomLevel: (newValue: number, lastZoomLevelOverride?: number) => void;
   // zoom internal state:
   zoomLevel: number;
   setZoomLevel: Dispatch<SetStateAction<number>>;
@@ -149,7 +149,15 @@ export interface ZoomControl {
   setZoomState: Dispatch<SetStateAction<ZoomState>>;
 }
 
+export interface SearchState {
+  isResultShown: boolean;
+  setIsResultShown: Dispatch<SetStateAction<boolean>>;
+  highlightNodes: HighlightNodeSet;
+  setHighlightNodes: Dispatch<SetStateAction<HighlightNodeSet>>;
+}
+
 export interface Controller {
+  search: SearchState;
   graph: GraphState;
   forceGraphRef: ForceGraphRef;
   setCooldownTicks: Dispatch<SetStateAction<number>>; // TODO(skep): should be combined into forceGraph { ref; setCDTicks; }
@@ -157,8 +165,6 @@ export interface Controller {
   backend: Backend;
   nodeDrag: NodeDrag;
   language: string;
-  // TODO(skep): should merge these two types
-  highlightNodes: Set<HasID>;
   specialNodes: SpecialNodes;
   keys: KeyboardState;
   zoom: ZoomControl;

@@ -55,16 +55,18 @@ export const makeZoomControl = (ctrl: Controller) => {
     zoomSteps: ctrl.zoom.zoomState.zoomSteps,
     graphData: ctrl.graph.current,
   };
-  const setZoomState = () => {
+  const setZoomState = (conf?: { zoomToFit?: boolean }) => {
     ctrl.zoom.setZoomStepStack(ctrl.zoom.zoomStepStack);
     ctrl.zoom.setZoomState(state);
     uglyHack(ctrl);
     ctrl.forceGraphRef.current?.d3ReheatSimulation();
     const doNothing = () => {};
-    debounce(
-      ctrl.forceGraphRef.current?.zoomToFit ?? doNothing,
-      ZOOM_TO_FIT_AFTER_MS,
-    )(ZOOM_TO_FIT_DURATION_MS);
+    if (!!conf?.zoomToFit) {
+      debounce(
+        ctrl.forceGraphRef.current?.zoomToFit ?? doNothing,
+        ZOOM_TO_FIT_AFTER_MS,
+      )(ZOOM_TO_FIT_DURATION_MS);
+    }
   };
   const performZoomIn = () => {
     const n = ctrl.zoom.zoomStepStack.pop();
@@ -81,7 +83,7 @@ export const makeZoomControl = (ctrl: Controller) => {
     }
     ctrl.zoom.setZoomLevel(ctrl.zoom.zoomLevel + ZOOM_LEVEL_STEP);
     performZoomIn();
-    setZoomState();
+    setZoomState({ zoomToFit: true });
   };
   const performZoomOut = () => {
     const n = Math.abs(ctrl.graph.current.nodes.length / 2);
@@ -96,7 +98,7 @@ export const makeZoomControl = (ctrl: Controller) => {
     }
     ctrl.zoom.setZoomLevel(ctrl.zoom.zoomLevel - ZOOM_LEVEL_STEP);
     performZoomOut();
-    setZoomState();
+    setZoomState({ zoomToFit: true });
   };
   // Note: We must remember the last zoom level outside of react state, since
   // react state performs asynchronous calls, and the slider changes it's value

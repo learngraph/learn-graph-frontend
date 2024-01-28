@@ -205,6 +205,14 @@ export const isValidNodeForLink = (graph: ForceGraphGraphData) => {
   return conf;
 };
 
+export const getLabelForNode = (node: ForceGraphNodeObject) => {
+  if (!node) {
+    return "";
+  }
+  return `${node?.description} (${node.id})`;
+};
+export const getIDForNode = (node: ForceGraphNodeObject) => node?.id ?? "";
+
 export const LinkCreatePopUp = ({
   handleClose,
   ctrl,
@@ -240,13 +248,6 @@ export const LinkCreatePopUp = ({
   }, [formik]);
   const fields = [];
   const nodes = ctrl.graph.current.nodes;
-  const getLabelForNode = (node: ForceGraphNodeObject) => {
-    if (!node) {
-      return "";
-    }
-    return `${node?.description} (${node.id})`;
-  };
-  const getIDForNode = (node: ForceGraphNodeObject) => node?.id ?? "";
   const { t } = useTranslation();
   fields.push(
     <TextFieldFormikGeneratorAutocomplete

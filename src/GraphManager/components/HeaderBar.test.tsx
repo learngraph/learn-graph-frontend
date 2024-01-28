@@ -1,12 +1,20 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { makeMockController } from "../GraphEdit.testingutil";
 import HeaderBar from "./HeaderBar";
 
 // FIXME(skep): this single test takes 50% of the whole test-suite of the application - WHY?!
 describe("HeaderBar", () => {
   it("should call userInputCallback on input change", async () => {
     let userInputCallback = jest.fn();
-    render(<HeaderBar userInputCallback={userInputCallback} />);
+    let ctrl = makeMockController();
+    render(
+      <HeaderBar
+        // @ts-ignore
+        controllerRef={{ current: ctrl }}
+        userInputCallback={userInputCallback}
+      />,
+    );
     expect(userInputCallback.mock.calls.length).toBe(0);
     let input = screen.getByLabelText("search bar");
     const user = userEvent.setup();

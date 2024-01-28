@@ -15,11 +15,11 @@ import {
   ForceGraphGraphData,
   ForceGraphNodeObject,
   ForceGraphLinkObject,
-  ForceGraphRef,
   ForceGraphLinkObjectInitial,
   BackendGraphData,
+  LocalForceGraphMethods,
 } from "./types";
-import { HasID, ZoomState } from "./Zoom";
+import { ZoomState } from "./Zoom";
 import { useGraphData } from "./hooks";
 import {
   GraphState,
@@ -50,11 +50,12 @@ import {
   ZOOM_LEVEL_STEP,
   debounce,
 } from "./ZoomControlPanel";
+import { ControllerRef } from "./GraphManager";
+import { SearchResultPopUp } from "./SearchResultPopUp";
+export type HighlightNodeSet = Set<ForceGraphNodeObject>;
 
 interface GraphRendererProps {
-  graphDataRef: MutableRefObject<ForceGraphGraphData | null>;
-  forceGraphRef: ForceGraphRef;
-  highlightNodes: Set<HasID>;
+  controllerRef: ControllerRef;
 }
 
 export interface Position {
@@ -196,7 +197,10 @@ export const nodeCanvasObject = (
   ctrl: Controller,
   totalNodes: number,
 ) => {
-  const { highlightNodes, specialNodes } = ctrl;
+  const {
+    search: { highlightNodes },
+    specialNodes,
+  } = ctrl;
   let label = node.description ?? "";
   let backgroundColor = backgroundColorLightBlue;
   const mergedNodes: number = node.mergeCount ?? 0;
@@ -485,7 +489,6 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     makeInitialGraphData(),
   );
   const performInitialZoom = useRef(false);
-  props.graphDataRef.current = graph;
   const { language } = useUserDataContext();
   const { data, queryResponse } = useGraphData();
   const [shiftHeld, setShiftHeld] = useState(false);
@@ -529,6 +532,10 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   const [cooldownTicks, setCooldownTicks] = useState(
     FG_ENGINE_COOLDOWN_TICKS_DEFAULT,
   );
+  const [isResultShown, setIsResultShown] = useState<boolean>(false);
+  const [highlightNodes, setHighlightNodes] = useState(
+    new Set<ForceGraphNodeObject>(),
+  );
   const controller: Controller = {
     backend,
     popUp: {
@@ -536,14 +543,19 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       setState: setEditPopUpState,
     },
     graph: makeGraphState(graph, setGraph, performInitialZoom),
-    forceGraphRef: props.forceGraphRef,
+    forceGraphRef: useRef<LocalForceGraphMethods>(),
     setCooldownTicks,
     nodeDrag: {
       state: nodeDrag,
       setState: setNodeDrag,
     },
     language,
-    highlightNodes: props.highlightNodes,
+    search: {
+      isResultShown,
+      setIsResultShown,
+      highlightNodes,
+      setHighlightNodes,
+    },
     specialNodes: {},
     keys: { shiftHeld },
     zoom: {
@@ -557,9 +569,8 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     },
   };
   const zoomControl = makeZoomControl(controller);
-  controller.zoom.setUserZoomLevel = (level: number) => {
-    zoomControl.onZoomChange(level, ZOOM_LEVEL_MAX);
-  };
+  controller.zoom.setUserZoomLevel = zoomControl.onZoomChange;
+  props.controllerRef.current = controller;
   const onBackgroundClick = makeOnBackgroundClick(controller);
   const onNodeHover = (
     node: ForceGraphNodeObject | null,
@@ -621,40 +632,48 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <Box
-      id="canvasWrapper"
-      ref={wrapperRef}
-      sx={{ height: "100%", width: "100%" }}
-    >
-      <ForceGraph2D
-        height={availableSpace.height}
-        width={availableSpace.width}
-        ref={props.forceGraphRef}
-        graphData={graph}
-        cooldownTicks={cooldownTicks}
-        nodeCanvasObject={makeNodeCanvasObject(controller)}
-        nodePointerAreaPaint={nodePointerAreaPaint}
-        onNodeClick={makeOnNodeClick(controller)}
-        onNodeHover={onNodeHover}
-        onNodeDrag={makeOnNodeDrag(controller)}
-        onNodeDragEnd={makeOnNodeDragEnd(controller)}
-        // links:
-        onLinkHover={onLinkHover}
-        onLinkClick={makeOnLinkClick(controller)}
-        linkDirectionalArrowLength={config.linkDirectionalArrowLength}
-        linkDirectionalArrowRelPos={config.linkDirectionalArrowRelPos}
-        // XXX: linkCanvasObjectMode should just be a string, but due to a bug in
-        // force-graph it must be passed as function, otherwise linkCanvasObject
-        // is never called. -> remove after force-graph module update
-        // @ts-ignore
-        linkCanvasObjectMode={() => config.linkCanvasObjectMode}
-        linkCanvasObject={makeLinkCanvasObject(controller)}
-        onZoom={makeOnZoomAndPanListener(controller)}
-        onBackgroundClick={onBackgroundClick}
-      />
+    <>
+      <Box
+        id="canvasWrapper"
+        ref={wrapperRef}
+        sx={{
+          height: "100%",
+          width: "100%",
+          display: "flex",
+          flexDirection: "row",
+        }}
+      >
+        <SearchResultPopUp ctrl={controller} />
+        <ForceGraph2D
+          height={availableSpace.height}
+          width={availableSpace.width}
+          ref={controller.forceGraphRef}
+          graphData={graph}
+          cooldownTicks={cooldownTicks}
+          nodeCanvasObject={makeNodeCanvasObject(controller)}
+          nodePointerAreaPaint={nodePointerAreaPaint}
+          onNodeClick={makeOnNodeClick(controller)}
+          onNodeHover={onNodeHover}
+          onNodeDrag={makeOnNodeDrag(controller)}
+          onNodeDragEnd={makeOnNodeDragEnd(controller)}
+          // links:
+          onLinkHover={onLinkHover}
+          onLinkClick={makeOnLinkClick(controller)}
+          linkDirectionalArrowLength={config.linkDirectionalArrowLength}
+          linkDirectionalArrowRelPos={config.linkDirectionalArrowRelPos}
+          // XXX: linkCanvasObjectMode should just be a string, but due to a bug in
+          // force-graph it must be passed as function, otherwise linkCanvasObject
+          // is never called. -> remove after force-graph module update
+          // @ts-ignore
+          linkCanvasObjectMode={() => config.linkCanvasObjectMode}
+          linkCanvasObject={makeLinkCanvasObject(controller)}
+          onZoom={makeOnZoomAndPanListener(controller)}
+          onBackgroundClick={onBackgroundClick}
+        />
+      </Box>
       <GraphEditPopUp ctrl={controller} />
       <CreateButton ctrl={controller} />
       <ZoomControlPanel zoomControl={zoomControl} />
-    </Box>
+    </>
   );
 };

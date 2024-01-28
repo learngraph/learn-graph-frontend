@@ -7,6 +7,7 @@ import LoginManager from "./LoginManager";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { SearchCallback, SearchField } from "./Search";
 import LocaleManager from "./LocaleManager";
+import { ControllerRef } from "../GraphManager";
 
 const BarItems = styled("div")(({ theme }) => ({
   display: "flex",
@@ -14,7 +15,11 @@ const BarItems = styled("div")(({ theme }) => ({
 }));
 
 export interface HeaderBarProps {
+  // userInputCallback is called with each key-stroke of the user, and always
+  // given the full user-input. When "Enter" key is pressesd, the user-input
+  // get's called with the user-input and an appended "\n"!
   userInputCallback: SearchCallback;
+  controllerRef: ControllerRef;
 }
 
 export const LearngraphLOGO = (props: any) => {
