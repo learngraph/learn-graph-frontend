@@ -677,9 +677,10 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   });
   const graphSizeConfig = { wrapperRef, setAvailableSpace };
   useLayoutEffect(() => {
+    console.log("A:", availableSpace);
     setGraphSize(graphSizeConfig);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [controller.search.highlightNodes]);
   useEffect(() => {
     const handleResize = () => {
       setGraphSize(graphSizeConfig);
@@ -728,16 +729,10 @@ export const GraphRenderer = (props: GraphRendererProps) => {
             onBackgroundClick={onBackgroundClick}
           />
         </Box>
-        bottomLeft=<Box
-          sx={{
-            flex: "1",
-          }}
-        >
-          <SearchResultPopUp
-            ctrl={controller}
-            availableSpace={availableSpace}
-          />
-        </Box>
+        bottomLeft=<SearchResultPopUp
+          ctrl={controller}
+          availableSpace={availableSpace}
+        />
       />
       <GraphEditPopUp ctrl={controller} />
       <CreateButton ctrl={controller} />
