@@ -26,20 +26,11 @@ export const GraphManager = (_: GraphManagerProps): JSX.Element => {
         flexDirection: "column",
       }}
     >
-      <Box
-        sx={{
-          display:
-            "grid" /* FIXME(skep): if this is removed the force graph will only fill half height */,
-        }}
-      >
-        <HeaderBar
-          userInputCallback={searchCallback}
-          controllerRef={controllerRef}
-        />
-      </Box>
-      <Box sx={{ flex: 1, width: "100%" }}>
-        <GraphRenderer controllerRef={controllerRef} />
-      </Box>
+      <HeaderBar
+        userInputCallback={searchCallback}
+        controllerRef={controllerRef}
+      />
+      <GraphRenderer controllerRef={controllerRef} />
     </Box>
   );
 };

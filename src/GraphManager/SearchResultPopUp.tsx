@@ -1,4 +1,5 @@
 // TODO(skep):  translations
+import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import Paper from "@mui/material/Paper";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -28,30 +29,37 @@ export const SearchResultPopUp = ({
   return (
     <>
       {ctrl.search.isResultShown && (
-        <Paper
-          elevation={24}
-          aria-labelledby="search-results"
+        <Box
+          id="searchResultsFlex"
           sx={{
-            padding: 2,
-            minWidth: "200px",
-            overflowY: "auto",
-            ...sx,
+            flex: "1",
           }}
         >
-          <List>
-            <ListSubheader>Search Results</ListSubheader>
-            {Array.from(ctrl.search.highlightNodes).map((node) => {
-              return (
-                <ListItemButton
-                  key={node.id}
-                  onClick={() => centerOnNode(ctrl, node)}
-                >
-                  {node.description}
-                </ListItemButton>
-              );
-            })}
-          </List>
-        </Paper>
+          <Paper
+            elevation={24}
+            aria-labelledby="search-results"
+            sx={{
+              padding: 2,
+              minWidth: "200px",
+              overflowY: "auto",
+              ...sx,
+            }}
+          >
+            <List>
+              <ListSubheader>Search Results</ListSubheader>
+              {Array.from(ctrl.search.highlightNodes).map((node) => {
+                return (
+                  <ListItemButton
+                    key={node.id}
+                    onClick={() => centerOnNode(ctrl, node)}
+                  >
+                    {node.description}
+                  </ListItemButton>
+                );
+              })}
+            </List>
+          </Paper>
+        </Box>
       )}
     </>
   );
