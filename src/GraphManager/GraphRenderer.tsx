@@ -521,6 +521,7 @@ const SmallAlignBottomLargeAlignLeft = ({
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <Box
+      id="SmallAlignBottomLargeAlignLeft"
       sx={{
         height: "100%",
         width: "100%",
@@ -531,7 +532,10 @@ const SmallAlignBottomLargeAlignLeft = ({
       {isSmallScreen ? (
         <>
           {topRight}
-          {bottomLeft}
+          {/*bottom element should at most cover 50% of the screen*/}
+          <Box id="bottomLeftWrapper" sx={{ maxHeight: "50%" }}>
+            {bottomLeft}
+          </Box>
         </>
       ) : (
         <>

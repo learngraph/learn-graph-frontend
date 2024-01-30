@@ -30,6 +30,7 @@ export const SearchResultPopUp = ({
     <>
       {ctrl.search.isResultShown && (
         <Box
+          id="searchResultsFlex"
           sx={{
             flex: "1",
           }}
