@@ -13,6 +13,7 @@ import { UserLoginInfo } from "src/GraphManager/hooks/useLoginUser";
 import { useUserDataContext } from "src/UserDataContext";
 import { useTranslation } from "react-i18next";
 import { useUserDataBackendContext } from "src/UserDataBackendContext";
+import i18n from "src/i18n";
 
 enum TabNames {
   "LOGIN",
@@ -76,7 +77,14 @@ export default function LoginSignupMenu() {
         `setting login info in context: username=${username} id=${login.userID}, token=${login.token}`,
       );
     } else {
-      console.log(`login failed: ${login}`);
+      if (login?.message?.includes("EMail already exists:"))
+        alert(i18n.t("sign up error: email already exists"));
+      else if (login?.message?.includes("Username already exists"))
+        alert(i18n.t("sign up error: username already exists"));
+      else {
+        alert(i18n.t("sign up error"));
+        console.log(login?.message);
+      }
     }
   };
   const handleLoginSubmit = async (userInput: UserLoginInfo) => {

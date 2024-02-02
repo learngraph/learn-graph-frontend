@@ -47,6 +47,11 @@ const resources = {
         "Password should be of minimum {{N}} characters length",
       "Password is required": "Password is required",
       "Login/Signup": "Login/Signup",
+      "sign up error: email already exists":
+        "Sign up error: Email already exists!",
+      "sign up error: username already exists":
+        "Sign up error: Username already exists!",
+      "sign up error": "Sign up error",
       Login: "Login",
       "logout-button": "Log out",
       Signup: "Signup",
@@ -104,6 +109,11 @@ const resources = {
         "Passwort solltes mindestesns {{N}} Zeichen lang sein",
       "Password is required": "Passwort ist Notwendig",
       "Login/Signup": "Login/Anmeldung",
+      "sign up error: email already exists":
+        "Anmeldefehler: Email schon vergeben!",
+      "sign up error: username already exists":
+        "Anmeldefehler: User-Name schon vergeben!",
+      "sign up error": "Anmeldefehler!",
       Login: "Login",
       "logout-button": "Ausloggen",
       Signup: "Anmeldung",
@@ -158,6 +168,9 @@ const resources = {
         "密碼至少要有{{N}}個字",
       "Password is required": "密碼不能爲空",
       "Login/Signup": "登入/注冊",
+      "sign up error: email already exists": "信箱不能重複！",
+      "sign up error: username already exists": "使用者名稱不能重複！",
+      "sign up error": "註冊失敗。",
       Login: "登入",
       Signup: "注冊",
       "Sign In": "登入",
