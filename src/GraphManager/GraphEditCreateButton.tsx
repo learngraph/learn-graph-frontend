@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
 
 // TODO(skep): use theme here for backgroundColor!
 // Styled component for the shaded circle
-const CircleContainer = styled("div")({
+export const CircleContainer = styled("div")({
   backgroundColor: "rgba(0, 0, 0, 0.2)",
   borderRadius: "50%",
   padding: "8px", // Adjust padding as needed
@@ -55,7 +55,7 @@ export const CreateButton = ({ ctrl }: CreateButtonProps) => {
   const { t } = useTranslation();
 
   return (
-    <div style={{ position: "fixed", bottom: "0px", right: "0px" }}>
+    <>
       <Button
         id="basic-button"
         aria-controls={open ? "basic-menu" : undefined}
@@ -90,6 +90,6 @@ export const CreateButton = ({ ctrl }: CreateButtonProps) => {
           </MenuItem>
         </Tooltip>
       </Menu>
-    </div>
+    </>
   );
 };
