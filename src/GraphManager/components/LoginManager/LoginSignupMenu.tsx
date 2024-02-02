@@ -77,6 +77,7 @@ export default function LoginSignupMenu() {
       );
     } else {
       console.log(`login failed: ${login}`);
+      alert(`hello`);
     }
   };
   const handleLoginSubmit = async (userInput: UserLoginInfo) => {
