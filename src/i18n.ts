@@ -22,21 +22,21 @@ const resources = {
       "Session expired, please login again!":
         "Session expired, please login again!",
       // graph edit
-      "New Node": "New Node",
-      "New Link": "New Link",
+      "New Node": "New subject",
+      "New Link": "New dependency",
       "Link-weight-Irrelevant": "Irrelevant",
       "Link-weight-Useful": "Useful",
       "Link-weight-Necessary": "Necessary",
       "Source Node": "Knowledge starting point",
       "Target Node": "Knowledge end point",
       "Node Description": "Knowledge Description",
-      "Edit node with description": `Edit knowledge node "{{description}}"`,
+      "Edit node with description": `Edit subject "{{description}}"`,
       "To learn about source -> target is required": `To understand "{{source}}" knowledge of "{{target}}" is`,
       "Create new learning dependency": "Create new learning dependency",
-      "Create new knowledge node": "Create new knowledge node",
+      "Create new knowledge node": "Create new subject",
       "Ctrl + Click anywhere": "Ctrl + Click anywhere",
-      "Drag nodes close to each other": "Drag nodes close to each other",
-      "Node Resources": "Knowledge Sources (links, books, etc.)",
+      "Drag nodes close to each other": "Drag subjects close to each other",
+      "Node Resources": "Resources (links, books, etc.)",
       // user management
       "Enter a valid email": "Enter a valid email",
       "Email is required": "Email is required",
@@ -63,6 +63,7 @@ const resources = {
       Password: "Password",
       "User Name": "User Name",
       Submit: "Submit",
+      "To edit the graph please login.": "To edit the graph please login.",
     },
   },
   de: {
@@ -83,7 +84,7 @@ const resources = {
       "Session expired, please login again!":
         "Session ausgelaufen, bitte log dich erneut ein!",
       // graph edit
-      "New Node": "Neuer Knoten",
+      "New Node": "Neues Thema",
       "New Link": "Neue Verknüpfung",
       "Link-weight-Irrelevant": "Irrelevant",
       "Link-weight-Useful": "Nützlich",
@@ -91,13 +92,13 @@ const resources = {
       "Source Node": "Wissens-Ausgangspunkt",
       "Target Node": "Wissens-Endspunkt",
       "Node Description": "Wissensbeschreibung",
-      "Edit node with description": `Editiere Knoten "{{description}}"`,
+      "Edit node with description": `Editiere Thema "{{description}}"`,
       "To learn about source -> target is required": `Um "{{source}}" zu verstehen, ist das Wissen von "{{target}}"`,
       "Create new learning dependency":
         "Erstelle eine neue Wissens-Abhängigkeit",
-      "Create new knowledge node": "Erstelle einen neuen Wissens-Knoten",
+      "Create new knowledge node": "Erstelle ein neues Thema",
       "Ctrl + Click anywhere": "Strg + Klick auf den Hintergrund",
-      "Drag nodes close to each other": "Nodes aufeinander ziehen",
+      "Drag nodes close to each other": "Themen aufeinander ziehen",
       "Node Resources": "Wissens-Quellen (Links, Bücher, etc.)",
       // user management
       "Enter a valid email": "EMail-Addresse ungültig",
@@ -125,6 +126,8 @@ const resources = {
       Password: "Passwort",
       "User Name": "Benutzername",
       Submit: "Abschicken",
+      "To edit the graph please login.":
+        "Um den Graph zu editieren logge dich ein.",
     },
   },
   zh: {
@@ -151,13 +154,13 @@ const resources = {
       "Source Node": "Knowledge starting point",
       "Target Node": "Knowledge end point",
       "Node Description": "主題名稱",
-      "Edit node with description": `Edit knowledge node "{{description}}"`,
+      "Edit node with description": `Edit subject "{{description}}"`,
       "To learn about source -> target is required": `「{{target}}」的知識在學習「{{source}}」時的重要度`,
       "Create new learning dependency": "連接節點",
       "Create new knowledge node": "新增主題",
       "Ctrl + Click anywhere": "在空白處 Ctrl + 左鍵",
       "Drag nodes close to each other": "將節點拖動到另一個節點上",
-      "Node Resources": "Knowledge Sources (links, books, etc.)",
+      "Node Resources": "Learning resources (links, books, etc.)",
       // user management
       "Enter a valid email": "請輸入正確的 Email 地址",
       "Email is required": "Email 不能爲空",
@@ -181,6 +184,7 @@ const resources = {
       Password: "密碼",
       "User Name": "使用者名稱",
       Submit: "確定",
+      "To edit the graph please login.": "To edit the graph please login.",
     },
   },
 };

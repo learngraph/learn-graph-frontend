@@ -11,10 +11,12 @@ import {
   openCreateNodePopUpAtPagePosition,
 } from "./GraphEdit";
 import { useTranslation } from "react-i18next";
+import { useUserDataContext } from "src/UserDataContext";
+import i18n from "src/i18n";
 
 // TODO(skep): use theme here for backgroundColor!
 // Styled component for the shaded circle
-const CircleContainer = styled("div")({
+export const CircleContainer = styled("div")({
   backgroundColor: "rgba(0, 0, 0, 0.2)",
   borderRadius: "50%",
   padding: "8px", // Adjust padding as needed
@@ -34,7 +36,12 @@ interface CreateButtonProps {
 export const CreateButton = ({ ctrl }: CreateButtonProps) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const { userID } = useUserDataContext();
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    if (!userID) {
+      alert(i18n.t("To edit the graph please login."));
+      return;
+    }
     setAnchorEl(event.currentTarget);
   };
   const handleClose = (menuItem: string) => {
@@ -55,7 +62,7 @@ export const CreateButton = ({ ctrl }: CreateButtonProps) => {
   const { t } = useTranslation();
 
   return (
-    <div style={{ position: "fixed", bottom: "0px", right: "0px" }}>
+    <>
       <Button
         id="basic-button"
         aria-controls={open ? "basic-menu" : undefined}
@@ -90,6 +97,6 @@ export const CreateButton = ({ ctrl }: CreateButtonProps) => {
           </MenuItem>
         </Tooltip>
       </Menu>
-    </div>
+    </>
   );
 };

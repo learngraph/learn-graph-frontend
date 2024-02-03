@@ -156,6 +156,11 @@ export interface SearchState {
   setHighlightNodes: Dispatch<SetStateAction<HighlightNodeSet>>;
 }
 
+export interface ModeState {
+  isEditMode: boolean;
+  setIsEditMode: Dispatch<SetStateAction<boolean>>;
+}
+
 export interface Controller {
   search: SearchState;
   graph: GraphState;
@@ -168,6 +173,7 @@ export interface Controller {
   specialNodes: SpecialNodes;
   keys: KeyboardState;
   zoom: ZoomControl;
+  mode: ModeState;
 }
 
 export const makeOnBackgroundClick = (controller: Controller) => {

@@ -54,6 +54,7 @@ import {
 } from "./ZoomControlPanel";
 import { ControllerRef } from "./GraphManager";
 import { SearchResultPopUp } from "./SearchResultPopUp";
+import { EditModeButton } from "./GraphEditModeButton";
 
 const GLOBALSCALE_SIZE_SCALING_BOUNDARY = 2;
 
@@ -260,7 +261,11 @@ export const nodePointerAreaPaint = (
   color: string,
   ctx: CanvasRenderingContext2D,
   globalScale: number,
+  isEditMode: boolean,
 ) => {
+  if (!isEditMode) {
+    return;
+  }
   drawTextBackgroundOval(
     {
       text: node.description ?? "",
@@ -271,6 +276,17 @@ export const nodePointerAreaPaint = (
     { x: node.x, y: node.y },
     { mergedNodes: node.mergeCount, globalScale },
   );
+};
+
+const makeNodePointerAreaPaint = (ctrl: Controller) => {
+  return (
+    node: ForceGraphNodeObject,
+    color: string,
+    ctx: CanvasRenderingContext2D,
+    globalScale: number,
+  ) => {
+    nodePointerAreaPaint(node, color, ctx, globalScale, ctrl.mode.isEditMode);
+  };
 };
 
 // link render & interaction
@@ -599,6 +615,8 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   const [highlightNodes, setHighlightNodes] = useState(
     new Set<ForceGraphNodeObject>(),
   );
+
+  const [isEditMode, setIsEditMode] = useState(false);
   const controller: Controller = {
     backend,
     popUp: {
@@ -630,6 +648,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       zoomState,
       setZoomState,
     },
+    mode: { isEditMode, setIsEditMode },
   };
   const zoomControl = makeZoomControl(controller);
   controller.zoom.setUserZoomLevel = zoomControl.onZoomChange;
@@ -713,7 +732,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
             graphData={graph}
             cooldownTicks={cooldownTicks}
             nodeCanvasObject={makeNodeCanvasObject(controller)}
-            nodePointerAreaPaint={nodePointerAreaPaint}
+            nodePointerAreaPaint={makeNodePointerAreaPaint(controller)}
             onNodeClick={makeOnNodeClick(controller)}
             onNodeHover={onNodeHover}
             onNodeDrag={makeOnNodeDrag(controller)}
@@ -739,7 +758,18 @@ export const GraphRenderer = (props: GraphRendererProps) => {
         />
       />
       <GraphEditPopUp ctrl={controller} />
-      <CreateButton ctrl={controller} />
+      <Box
+        style={{
+          position: "fixed",
+          bottom: "0px",
+          right: "0px",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <EditModeButton ctrl={controller} />
+        <CreateButton ctrl={controller} />
+      </Box>
       <ZoomControlPanel zoomControl={zoomControl} />
     </>
   );

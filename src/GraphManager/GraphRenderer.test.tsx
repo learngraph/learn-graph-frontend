@@ -10,6 +10,7 @@ import {
   makeInitialGraphData,
   setGraphSize,
   GraphSizeConfig,
+  nodePointerAreaPaint,
 } from "./GraphRenderer";
 import "@testing-library/jest-dom";
 import { makeMockController } from "./GraphEdit.testingutil";
@@ -286,5 +287,34 @@ describe("setGraphSize", () => {
     setGraphSize(conf);
     expect(conf.setAvailableSpace).toHaveBeenCalledTimes(1);
     expect(conf.setAvailableSpace).toHaveBeenNthCalledWith(1, rectangle);
+  });
+});
+
+describe("nodePointerAreaPaint", () => {
+  it("should draw colour in edit mode", () => {
+    const { ctx } = makeCanvasRenderingContext2D();
+    nodePointerAreaPaint(
+      { id: "1", description: "1", x: 1, y: 1 },
+      "",
+      // @ts-ignore
+      ctx,
+      1,
+      true,
+    );
+    expect(ctx.fill).toHaveBeenCalledTimes(1);
+    expect(ctx.stroke).toHaveBeenCalledTimes(1);
+  });
+  it("should not draw colour in view mode", () => {
+    const { ctx } = makeCanvasRenderingContext2D();
+    nodePointerAreaPaint(
+      { id: "1", description: "1", x: 1, y: 1 },
+      "",
+      // @ts-ignore
+      ctx,
+      1,
+      false,
+    );
+    expect(ctx.fill).not.toHaveBeenCalled();
+    expect(ctx.stroke).not.toHaveBeenCalled();
   });
 });

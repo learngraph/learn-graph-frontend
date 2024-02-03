@@ -586,7 +586,7 @@ describe("onNodeClick", () => {
     expect(ctrl.popUp.setState).toHaveBeenCalledTimes(1);
     const popUpState = ctrl.popUp.setState.mock.calls[0][0];
     expect(popUpState.isOpen).toBe(true);
-    expect(popUpState.title).toEqual(`Edit knowledge node "1"`);
+    expect(popUpState.title).toEqual(`Edit subject "1"`);
     expect(popUpState.nodeEdit.defaultFormContent).toEqual(node);
     expect(popUpState.nodeEdit.onFormSubmit).not.toBe(undefined);
     const form = { nodeDescription: "ok" };
