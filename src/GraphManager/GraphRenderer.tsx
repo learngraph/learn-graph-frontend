@@ -758,10 +758,18 @@ export const GraphRenderer = (props: GraphRendererProps) => {
         />
       />
       <GraphEditPopUp ctrl={controller} />
-      <div style={{ position: "fixed", bottom: "0px", right: "0px" }}>
+      <Box
+        style={{
+          position: "fixed",
+          bottom: "0px",
+          right: "0px",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
         <EditModeButton ctrl={controller} />
         <CreateButton ctrl={controller} />
-      </div>
+      </Box>
       <ZoomControlPanel zoomControl={zoomControl} />
     </>
   );

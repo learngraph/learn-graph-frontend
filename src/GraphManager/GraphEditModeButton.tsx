@@ -5,13 +5,14 @@ import Button from "@mui/material/Button";
 import { Controller } from "./GraphEdit";
 import { CircleContainer } from "./GraphEditCreateButton";
 import { useUserDataContext } from "src/UserDataContext";
+import i18n from "src/i18n";
 
 export const EditModeButton = ({ ctrl }: { ctrl: Controller }) => {
   const { userID } = useUserDataContext();
   const iconProp = { fontSize: 40 };
   const onClick = () => {
     if (!userID) {
-      alert(`Please login.`); //TODO: translation
+      alert(i18n.t("To edit the graph please login."));
       return;
     }
     ctrl.mode.setIsEditMode(!ctrl.mode.isEditMode);
