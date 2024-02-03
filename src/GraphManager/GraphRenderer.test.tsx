@@ -11,6 +11,7 @@ import {
   setGraphSize,
   GraphSizeConfig,
   nodePointerAreaPaint,
+  linkPointerAreaPaint,
 } from "./GraphRenderer";
 import "@testing-library/jest-dom";
 import { makeMockController } from "./GraphEdit.testingutil";
@@ -45,6 +46,8 @@ const makeCanvasRenderingContext2D = () => {
     arc: jest.fn(),
     fill: jest.fn(),
     stroke: jest.fn(),
+    moveTo: jest.fn(),
+    lineTo: jest.fn(),
   };
   ctx.fillRect = jest.fn((args) => {
     fillRectCalls.push({ args, fillStyle: ctx.fillStyle });
@@ -315,6 +318,37 @@ describe("nodePointerAreaPaint", () => {
       false,
     );
     expect(ctx.fill).not.toHaveBeenCalled();
+    expect(ctx.stroke).not.toHaveBeenCalled();
+  });
+});
+
+describe("linkPointerAreaPaint", () => {
+  it("should draw in edit mode", () => {
+    const { ctx } = makeCanvasRenderingContext2D();
+    const ctrl = makeMockController();
+    ctrl.mode.isEditMode = true;
+    linkPointerAreaPaint(
+      // @ts-ignore
+      ctrl,
+      { id: "1", source: { x: 1, y: 1 }, target: { x: 2, y: 2 } },
+      "",
+      ctx,
+      1,
+    );
+    expect(ctx.stroke).toHaveBeenCalledTimes(1);
+  });
+  it("should not draw when not in edit mode", () => {
+    const { ctx } = makeCanvasRenderingContext2D();
+    const ctrl = makeMockController();
+    ctrl.mode.isEditMode = false;
+    linkPointerAreaPaint(
+      // @ts-ignore
+      ctrl,
+      { id: "1", source: { x: 1, y: 1 }, target: { x: 2, y: 2 } },
+      "",
+      ctx,
+      1,
+    );
     expect(ctx.stroke).not.toHaveBeenCalled();
   });
 });

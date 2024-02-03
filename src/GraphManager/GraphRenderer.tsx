@@ -319,6 +319,27 @@ export const linkCanvasObject = (
   }
   drawLinkLine({ ctrl, link, ctx, globalScale, color: colorLink });
 };
+const makeLinkPointerAreaPaint = (ctrl: Controller) => {
+  return (
+    link: ForceGraphLinkObject,
+    invisibleTouchPaint: string,
+    ctx: CanvasRenderingContext2D,
+    globalScale: number,
+  ) => linkPointerAreaPaint(ctrl, link, invisibleTouchPaint, ctx, globalScale);
+};
+export const linkPointerAreaPaint = (
+  ctrl: Controller,
+  link: ForceGraphLinkObject,
+  invisibleTouchPaint: string,
+  ctx: CanvasRenderingContext2D,
+  globalScale: number,
+) => {
+  if (!ctrl.mode.isEditMode) {
+    return;
+  }
+  drawLinkLine({ ctrl, link, ctx, globalScale, color: invisibleTouchPaint });
+};
+
 interface DrawLinkConfig {
   ctrl: Controller;
   link: ForceGraphLinkObject;
@@ -554,8 +575,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   );
   const performInitialZoom = useRef(false);
   const { language } = useUserDataContext();
-  const { data: graphDataFromBackend, queryResponse: graphQueryResponse } =
-    useGraphData();
+  const { data: graphDataFromBackend } = useGraphData();
   const [shiftHeld, setShiftHeld] = useState(false);
   const downHandler = ({ key }: any) => {
     if (key === "Shift") {
@@ -726,7 +746,6 @@ export const GraphRenderer = (props: GraphRendererProps) => {
             onNodeHover={onNodeHover}
             onNodeDrag={makeOnNodeDrag(controller)}
             onNodeDragEnd={makeOnNodeDragEnd(controller)}
-            // links:
             onLinkHover={onLinkHover}
             onLinkClick={makeOnLinkClick(controller)}
             linkDirectionalArrowLength={config.linkDirectionalArrowLength}
@@ -737,6 +756,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
             // @ts-ignore
             linkCanvasObjectMode={() => config.linkCanvasObjectMode}
             linkCanvasObject={makeLinkCanvasObject(controller)}
+            linkPointerAreaPaint={makeLinkPointerAreaPaint(controller)}
             onZoom={makeOnZoomAndPanListener(controller)}
             onBackgroundClick={onBackgroundClick}
           />
