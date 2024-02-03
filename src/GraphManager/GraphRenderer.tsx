@@ -34,15 +34,16 @@ import {
   makeOnNodeClick,
   Backend,
   FG_ENGINE_COOLDOWN_TICKS_DEFAULT,
-} from "./GraphEdit";
-import { GraphEditPopUp, GraphEditPopUpState } from "./GraphEditPopUp";
+} from "./GraphEdit/GraphEdit";
+import { GraphEditPopUp, GraphEditPopUpState } from "./GraphEdit/PopUp";
+import { CreateButton } from "./GraphEdit/CreateButton";
+import { EditModeButton } from "./GraphEdit/ModeButton";
 import { useCreateNode } from "./hooks/useCreateNode";
 import { useCreateEdge } from "./hooks/useCreateEdge";
 import { useSubmitVote } from "./hooks/useSubmitVote";
 import { useUpdateNode } from "./hooks/useUpdateNode";
 import { useDeleteNode } from "./hooks/useDeleteNode";
 import { useDeleteEdge } from "./hooks/useDeleteEdge";
-import { CreateButton } from "./GraphEditCreateButton";
 import { useUserDataContext } from "src/UserDataContext";
 import {
   ZoomControlPanel,
@@ -54,7 +55,6 @@ import {
 } from "./ZoomControlPanel";
 import { ControllerRef } from "./GraphManager";
 import { SearchResultPopUp } from "./SearchResultPopUp";
-import { EditModeButton } from "./GraphEditModeButton";
 
 const GLOBALSCALE_SIZE_SCALING_BOUNDARY = 2;
 

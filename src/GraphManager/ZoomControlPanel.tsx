@@ -1,6 +1,6 @@
 import { Box, Slider, IconButton } from "@mui/material";
 import { ZoomIn, ZoomOut } from "@mui/icons-material";
-import { Controller } from "./GraphEdit";
+import { Controller } from "./GraphEdit/GraphEdit";
 import { zoomStep, ZoomDirection } from "./Zoom";
 
 const ZOOM_TO_FIT_AFTER_MS = 1000;

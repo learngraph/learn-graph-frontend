@@ -14,7 +14,7 @@ import {
   linkPointerAreaPaint,
 } from "./GraphRenderer";
 import "@testing-library/jest-dom";
-import { makeMockController } from "./GraphEdit.testingutil";
+import { makeMockController } from "./GraphEdit/GraphEdit.testingutil";
 import { ForceGraphNodeObject } from "./types";
 import { ZOOM_LEVEL_MAX, ZOOM_LEVEL_STEP } from "./ZoomControlPanel";
 

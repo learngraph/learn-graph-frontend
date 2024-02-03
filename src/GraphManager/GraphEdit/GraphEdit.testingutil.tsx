@@ -1,8 +1,11 @@
 import { ForceGraphMethods } from "react-force-graph-2d";
 import { GraphState } from "./GraphEdit";
-import { SpecialNodes } from "./GraphRenderer";
-import { ForceGraphLinkObject, ForceGraphNodeObject } from "./types";
-import { ZOOM_LEVEL_MIN } from "./ZoomControlPanel";
+import { SpecialNodes } from "src/GraphManager/GraphRenderer";
+import {
+  ForceGraphLinkObject,
+  ForceGraphNodeObject,
+} from "src/GraphManager/types";
+import { ZOOM_LEVEL_MIN } from "src/GraphManager/ZoomControlPanel";
 
 // Note: these methods are used by GraphRenderer tests as well, they must not
 // be imported from a .test-file, otherwise jest will execute those tests

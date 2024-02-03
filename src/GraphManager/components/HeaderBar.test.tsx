@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { makeMockController } from "../GraphEdit.testingutil";
+import { makeMockController } from "src/GraphManager/GraphEdit/GraphEdit.testingutil";
 import HeaderBar from "./HeaderBar";
 
 // FIXME(skep): this single test takes 50% of the whole test-suite of the application - WHY?!

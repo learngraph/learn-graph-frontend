@@ -12,8 +12,8 @@ import {
   openCreateLinkPopUp,
   openCreateNodePopUpAtMousePosition,
 } from "./GraphEdit";
-import { GraphEditPopUpState, NewLinkForm } from "./GraphEditPopUp";
-import { ForceGraphLinkObject } from "./types";
+import { GraphEditPopUpState, NewLinkForm } from "./PopUp";
+import { ForceGraphLinkObject } from "src/GraphManager/types";
 import { makeMockController } from "./GraphEdit.testingutil";
 
 describe("openCreateNodePopUpAtMousePosition", () => {

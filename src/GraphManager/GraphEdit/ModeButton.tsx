@@ -1,10 +1,11 @@
 import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import Button from "@mui/material/Button";
-import { Controller } from "./GraphEdit";
-import { CircleContainer } from "./GraphEditCreateButton";
+
 import { useUserDataContext } from "src/UserDataContext";
 import i18n from "src/i18n";
+import { Controller } from "./GraphEdit";
+import { CircleContainer } from "./CreateButton";
 
 export const EditModeButton = ({ ctrl }: { ctrl: Controller }) => {
   const { userID } = useUserDataContext();

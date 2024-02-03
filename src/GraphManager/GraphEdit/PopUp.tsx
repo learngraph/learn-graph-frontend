@@ -25,8 +25,11 @@ import {
   TextFieldFormikGeneratorRequired,
   TextFieldFormikGeneratorAutocomplete,
 } from "src/shared/Styles";
-import { ForceGraphGraphData, ForceGraphNodeObject } from "./types";
-import { MilkdownEditorWrapper } from "./GraphEditMarkdownField";
+import {
+  ForceGraphGraphData,
+  ForceGraphNodeObject,
+} from "src/GraphManager/types";
+import { MilkdownEditorWrapper } from "./MarkdownField";
 
 // TODO(skep): MIN_NODE_DESCRIPTION_LENGTH should be language dependent; for
 // chinese words, 1-2 characters is already precise, but for english a single

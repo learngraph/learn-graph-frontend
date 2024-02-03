@@ -3,10 +3,11 @@ import { nord } from "@milkdown/theme-nord";
 import { Milkdown, MilkdownProvider, useEditor } from "@milkdown/react";
 import { commonmark } from "@milkdown/preset-commonmark";
 import { listener, listenerCtx } from "@milkdown/plugin-listener";
-import { useFormik } from "formik";
-import { NewNodeForm } from "./GraphEditPopUp";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
+
+import { useFormik } from "formik";
+import { NewNodeForm } from "./PopUp";
 
 export interface MilkdownConfig {
   fieldName: string;
