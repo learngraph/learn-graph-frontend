@@ -11,6 +11,9 @@ import Draggable from "react-draggable";
 import Slider from "@mui/material/Slider";
 import { Mark } from "@mui/base/useSlider";
 import { useFormik } from "formik";
+import * as yup from "yup";
+import { useTranslation } from "react-i18next";
+
 import {
   Controller,
   DEFAULT_EDIT_LINK_WEIGHT,
@@ -21,16 +24,9 @@ import {
   DialogueStyles,
   TextFieldFormikGeneratorRequired,
   TextFieldFormikGeneratorAutocomplete,
-  TextFieldFormikGenerator,
 } from "src/shared/Styles";
 import { ForceGraphGraphData, ForceGraphNodeObject } from "./types";
-import * as yup from "yup";
-import { useTranslation } from "react-i18next";
-import { Editor, rootCtx } from '@milkdown/core';
-import { nord } from '@milkdown/theme-nord';
-import { Milkdown, MilkdownProvider, useEditor } from '@milkdown/react';
-import { commonmark } from '@milkdown/preset-commonmark';
-
+import { MilkdownEditorWrapper } from "./GraphEditMarkdownField";
 
 // TODO(skep): MIN_NODE_DESCRIPTION_LENGTH should be language dependent; for
 // chinese words, 1-2 characters is already precise, but for english a single
@@ -338,33 +334,6 @@ export const nodeValidation = yup.object({
     .min(MIN_NODE_DESCRIPTION_LENGTH)
     .max(MAX_NODE_DESCRIPTION_LENGTH),
 });
-
-interface MilkdownConfig {
-  fieldName: string;
-  fieldLabel: string;
-  formik: any;
-};
-const MilkdownEditor = (
-  props: MilkdownConfig,
-) => {
-    const { get } = useEditor((root) =>
-      Editor.make()
-        .config(nord)
-        .config((ctx: any) => {
-          ctx.set(rootCtx, root);
-        })
-        .use(commonmark),
-  );
-
-  return <Milkdown />;
-};
-const MilkdownEditorWrapper = (props: MilkdownConfig) => {
-  return (
-    <MilkdownProvider>
-      <MilkdownEditor {...props} />
-    </MilkdownProvider>
-  );
-};
 
 const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
   const formik = useFormik<NewNodeForm>({
