@@ -350,24 +350,8 @@ export const makeKeydownListener = (_ctrl: Controller) => {
   return (event: Partial<KeyboardEvent>) => {
     switch (event.key) {
       case "s":
+        // TODO(skep): should add dev-config to enable testing hooks
         console.log(globale);
-        //// TODO(skep): should add dev-config to enable testing hooks
-        //if (!!ctrl.forceGraphRef.current) {
-        //  console.log(`zoom: ${ctrl.forceGraphRef.current.zoom()}`);
-        //}
-        //{
-        //  const link = ctrl.graph.current.links[0];
-        //  console.log(
-        //    `removing link ${link.source.description}->${link.target.description}`,
-        //  );
-        //  ctrl.graph.removeLink(link);
-        //  setTimeout(() => {
-        //    console.log(
-        //      `adding link ${link.source.description}->${link.target.description}`,
-        //    );
-        //    ctrl.graph.addLink(link);
-        //  }, 1000);
-        //}
         return;
       default:
         return;
@@ -477,8 +461,8 @@ const convertAndSetGraph = (
   if (!graph) {
     return;
   }
-  setGraph(graph);
   performInitialZoom.current = true;
+  setGraph(graph);
 };
 
 const graphHasSameNodeIDs = (
@@ -506,6 +490,7 @@ export const initialZoomForLargeGraph = (ctrl: Controller) => {
   const steps = Math.floor(
     Math.log2(nNodes / MAX_NODES_WITHOUT_INITIAL_ZOOM) + 1,
   );
+  ctrl.zoom.zoomLevel = ZOOM_LEVEL_MAX;
   ctrl.zoom.setUserZoomLevel(ZOOM_LEVEL_MAX - steps * ZOOM_LEVEL_STEP);
 };
 
@@ -569,7 +554,8 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   );
   const performInitialZoom = useRef(false);
   const { language } = useUserDataContext();
-  const { data, queryResponse } = useGraphData();
+  const { data: graphDataFromBackend, queryResponse: graphQueryResponse } =
+    useGraphData();
   const [shiftHeld, setShiftHeld] = useState(false);
   const downHandler = ({ key }: any) => {
     if (key === "Shift") {
@@ -661,10 +647,14 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     controller.specialNodes.hoveredNode = node;
   };
   useEffect(() => {
-    convertAndSetGraph(setGraph, data, controller.graph.performInitialZoom);
+    convertAndSetGraph(
+      setGraph,
+      graphDataFromBackend,
+      controller.graph.performInitialZoom,
+    );
     // Note: performInitialZoom must not trigger call of graph data setter
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [queryResponse.loading, data]);
+  }, [graphDataFromBackend]);
   useEffect(() => {
     const rightClickAction = (event: any) => event.preventDefault();
     document.addEventListener("contextmenu", rightClickAction);
@@ -700,7 +690,6 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   });
   const graphSizeConfig = { wrapperRef, setAvailableSpace };
   useLayoutEffect(() => {
-    console.log("A:", availableSpace);
     setGraphSize(graphSizeConfig);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [controller.search.highlightNodes]);
