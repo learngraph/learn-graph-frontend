@@ -26,6 +26,11 @@ import {
 import { ForceGraphGraphData, ForceGraphNodeObject } from "./types";
 import * as yup from "yup";
 import { useTranslation } from "react-i18next";
+import { Editor, rootCtx } from '@milkdown/core';
+import { nord } from '@milkdown/theme-nord';
+import { Milkdown, MilkdownProvider, useEditor } from '@milkdown/react';
+import { commonmark } from '@milkdown/preset-commonmark';
+
 
 // TODO(skep): MIN_NODE_DESCRIPTION_LENGTH should be language dependent; for
 // chinese words, 1-2 characters is already precise, but for english a single
@@ -334,6 +339,33 @@ export const nodeValidation = yup.object({
     .max(MAX_NODE_DESCRIPTION_LENGTH),
 });
 
+interface MilkdownConfig {
+  fieldName: string;
+  fieldLabel: string;
+  formik: any;
+};
+const MilkdownEditor = (
+  props: MilkdownConfig,
+) => {
+    const { get } = useEditor((root) =>
+      Editor.make()
+        .config(nord)
+        .config((ctx: any) => {
+          ctx.set(rootCtx, root);
+        })
+        .use(commonmark),
+  );
+
+  return <Milkdown />;
+};
+const MilkdownEditorWrapper = (props: MilkdownConfig) => {
+  return (
+    <MilkdownProvider>
+      <MilkdownEditor {...props} />
+    </MilkdownProvider>
+  );
+};
+
 const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
   const formik = useFormik<NewNodeForm>({
     initialValues: {
@@ -362,7 +394,7 @@ const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
     />,
   );
   fields.push(
-    <TextFieldFormikGenerator
+    <MilkdownEditorWrapper
       fieldName="nodeResources"
       fieldLabel={t("Node Resources")}
       formik={formik}
