@@ -6,6 +6,9 @@ import { commonmark } from "@milkdown/preset-commonmark";
 import { listener, listenerCtx } from "@milkdown/plugin-listener";
 import { useFormik } from "formik";
 import { NewNodeForm } from "./GraphEditPopUp";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import { FormHelperText, Input } from "@mui/material";
 
 export interface MilkdownConfig {
   fieldName: string;
@@ -43,10 +46,16 @@ const MilkdownEditor = (props: MilkdownConfig) => {
 };
 export const MilkdownEditorWrapper = (props: MilkdownConfig) => {
   return (
-    <Box sx={{ padding: 1 }}>
+    <FormControl sx={{ padding: 1, paddingTop: 2 }}>
+      <InputLabel
+        htmlFor={props.fieldName} /*TODO(skep): needs focused=, etc.*/
+      >
+        {props.fieldLabel}
+      </InputLabel>
+      {/* <FormHelperText id={props.fieldName}>{props.fieldLabel}</FormHelperText> */}
       <MilkdownProvider>
         <MilkdownEditor {...props} />
       </MilkdownProvider>
-    </Box>
+    </FormControl>
   );
 };
