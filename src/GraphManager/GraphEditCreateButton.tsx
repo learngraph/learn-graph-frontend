@@ -11,6 +11,8 @@ import {
   openCreateNodePopUpAtPagePosition,
 } from "./GraphEdit";
 import { useTranslation } from "react-i18next";
+import { useUserDataContext } from "src/UserDataContext";
+import i18n from "src/i18n";
 
 // TODO(skep): use theme here for backgroundColor!
 // Styled component for the shaded circle
@@ -34,7 +36,12 @@ interface CreateButtonProps {
 export const CreateButton = ({ ctrl }: CreateButtonProps) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const { userID } = useUserDataContext();
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    if (!userID) {
+      alert(i18n.t("To edit the graph please login."));
+      return;
+    }
     setAnchorEl(event.currentTarget);
   };
   const handleClose = (menuItem: string) => {
