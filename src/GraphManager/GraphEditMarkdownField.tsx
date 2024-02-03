@@ -1,4 +1,3 @@
-import Box from "@mui/material/Box";
 import { Editor, EditorStatus, rootCtx, defaultValueCtx } from "@milkdown/core";
 import { nord } from "@milkdown/theme-nord";
 import { Milkdown, MilkdownProvider, useEditor } from "@milkdown/react";
@@ -8,7 +7,6 @@ import { useFormik } from "formik";
 import { NewNodeForm } from "./GraphEditPopUp";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
-import { FormHelperText, Input } from "@mui/material";
 
 export interface MilkdownConfig {
   fieldName: string;
