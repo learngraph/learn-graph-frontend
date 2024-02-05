@@ -5,6 +5,10 @@ import { commonmark } from "@milkdown/preset-commonmark";
 import { listener, listenerCtx } from "@milkdown/plugin-listener";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
+import { gfm } from '@milkdown/preset-gfm';
+import { clipboard } from '@milkdown/plugin-clipboard';
+import { math, katexOptionsCtx } from '@milkdown/plugin-math';
+import 'katex/dist/katex.min.css'; // for plugin-math
 
 import { useFormik } from "formik";
 import { NewNodeForm } from "./PopUp";
@@ -35,7 +39,14 @@ const MilkdownEditor = (props: MilkdownConfig) => {
             },
           );
       })
-      .use(commonmark.concat(listener)),
+      .config((ctx) => { // TODO(skep): plugin-math and use(math) below not working!
+        ctx.set(katexOptionsCtx.key, { /* some options */ });
+      })
+      .use(commonmark)
+      .use(listener)
+      .use(gfm)
+      .use(clipboard)
+      .use(math),
   );
   const onChange = (status: EditorStatus) => {
     console.log(`onChange: ${status}`);
