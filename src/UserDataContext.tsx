@@ -40,11 +40,6 @@ const defaultContextValues = {
   setUserName: () => Promise.reject({ error: errMsgNoDefault }),
   setAuthenticationToken: () => Promise.reject({ error: errMsgNoDefault }),
   logout: () => Promise.reject({ error: errMsgNoDefault }),
-  backend: {
-    createUserWithEMail: () => Promise.reject({ error: errMsgNoDefault }),
-    loginUser: () => Promise.reject({ error: errMsgNoDefault }),
-    logoutUser: () => Promise.reject({ error: errMsgNoDefault }),
-  },
 };
 
 const UserDataContext =
@@ -70,7 +65,10 @@ enum StorageKeys {
 }
 
 const loadUserDataFromLS = () => {
-  return {
+  const r: {
+    user: { id: string; name: string; token: string };
+    language: string;
+  } = {
     user: {
       id: storageLoad(StorageKeys.userID),
       name: storageLoad(StorageKeys.userName),
@@ -78,6 +76,7 @@ const loadUserDataFromLS = () => {
     },
     language: storageLoad(StorageKeys.language),
   };
+  return r;
 };
 
 const deleteUserDataFromLS = () => {

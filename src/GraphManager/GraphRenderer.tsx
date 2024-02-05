@@ -86,7 +86,7 @@ const drawTextBackgroundOval = (
   position: Partial<Position>,
   renderConfig: TextRenderConfig,
 ) => {
-  ctx.font = `${text.fontSize}px ${config.font}`;
+  ctx.font = `${text.fontSize}px ${G_CONFIG.font}`;
   const textWidth = ctx.measureText(text.text).width;
   const padding = 0.2;
   const bckgDimensions = [textWidth, text.fontSize].map(
@@ -121,7 +121,7 @@ const drawText = (
   ctx: CanvasRenderingContext2D,
   position: Partial<Position>,
 ) => {
-  ctx.font = `${text.fontSize}px ${config.font}`;
+  ctx.font = `${text.fontSize}px ${G_CONFIG.font}`;
   let [x, y] = [position.x ?? 0, position.y ?? 0];
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
@@ -236,7 +236,7 @@ export const nodeCanvasObject = (
   ) {
     backgroundColor = colorInterimLink;
   }
-  let fontSize = config.fontSize;
+  let fontSize = G_CONFIG.fontSize;
   if (globalScale < GLOBALSCALE_SIZE_SCALING_BOUNDARY) {
     fontSize /= GLOBALSCALE_SIZE_SCALING_BOUNDARY;
   } else {
@@ -245,7 +245,7 @@ export const nodeCanvasObject = (
   globale = {
     fontSize,
     globalScale,
-    configFontSize: config.fontSize,
+    configFontSize: G_CONFIG.fontSize,
   };
   const text = {
     text: label,
@@ -269,7 +269,7 @@ export const nodePointerAreaPaint = (
   drawTextBackgroundOval(
     {
       text: node.description ?? "",
-      fontSize: config.fontSize / globalScale,
+      fontSize: G_CONFIG.fontSize / globalScale,
       backgroundColor: color,
     },
     ctx,
@@ -381,7 +381,7 @@ export const makeKeydownListener = (_ctrl: Controller) => {
 };
 
 // global configuration
-const config = {
+const G_CONFIG = {
   linkDirectionalArrowLength: 7,
   linkDirectionalArrowRelPos: 0.75,
   linkCanvasObjectMode: "after",
@@ -750,13 +750,13 @@ export const GraphRenderer = (props: GraphRendererProps) => {
             onNodeDragEnd={makeOnNodeDragEnd(controller)}
             onLinkHover={onLinkHover}
             onLinkClick={makeOnLinkClick(controller)}
-            linkDirectionalArrowLength={config.linkDirectionalArrowLength}
-            linkDirectionalArrowRelPos={config.linkDirectionalArrowRelPos}
+            linkDirectionalArrowLength={G_CONFIG.linkDirectionalArrowLength}
+            linkDirectionalArrowRelPos={G_CONFIG.linkDirectionalArrowRelPos}
             // XXX: linkCanvasObjectMode should just be a string, but due to a bug in
             // force-graph it must be passed as function, otherwise linkCanvasObject
             // is never called. -> remove after force-graph module update
             // @ts-ignore
-            linkCanvasObjectMode={() => config.linkCanvasObjectMode}
+            linkCanvasObjectMode={() => G_CONFIG.linkCanvasObjectMode}
             linkCanvasObject={makeLinkCanvasObject(controller)}
             linkPointerAreaPaint={makeLinkPointerAreaPaint(controller)}
             onZoom={makeOnZoomAndPanListener(controller)}
