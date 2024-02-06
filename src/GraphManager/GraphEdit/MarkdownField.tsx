@@ -5,13 +5,15 @@ import { commonmark } from "@milkdown/preset-commonmark";
 import { listener, listenerCtx } from "@milkdown/plugin-listener";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
-import { gfm } from '@milkdown/preset-gfm';
-import { clipboard } from '@milkdown/plugin-clipboard';
-import { math, katexOptionsCtx } from '@milkdown/plugin-math';
-import 'katex/dist/katex.min.css'; // for plugin-math
+import { gfm } from "@milkdown/preset-gfm";
+import { clipboard } from "@milkdown/plugin-clipboard";
+import { math, katexOptionsCtx } from "@milkdown/plugin-math";
+import "katex/dist/katex.min.css"; // for plugin-math
 
 import { useFormik } from "formik";
 import { NewNodeForm } from "./PopUp";
+import { FormHelperText, OutlinedInput } from "@mui/material";
+import {useRef} from "react";
 
 export interface MilkdownConfig {
   fieldName: string;
@@ -39,8 +41,11 @@ const MilkdownEditor = (props: MilkdownConfig) => {
             },
           );
       })
-      .config((ctx) => { // TODO(skep): plugin-math and use(math) below not working!
-        ctx.set(katexOptionsCtx.key, { /* some options */ });
+      .config((ctx) => {
+        // TODO(skep): plugin-math and use(math) below not working!
+        ctx.set(katexOptionsCtx.key, {
+          /* some options */
+        });
       })
       .use(commonmark)
       .use(listener)
@@ -55,16 +60,26 @@ const MilkdownEditor = (props: MilkdownConfig) => {
   return <Milkdown />;
 };
 export const MilkdownEditorWrapper = (props: MilkdownConfig) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const handleClick = () => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  };
   return (
-    <FormControl sx={{ padding: 1, paddingTop: 2 }}>
-      <InputLabel
-        htmlFor={props.fieldName} /*TODO(skep): needs focused=, etc.*/
-      >
-        {props.fieldLabel}
-      </InputLabel>
-      {/* <FormHelperText id={props.fieldName}>{props.fieldLabel}</FormHelperText> */}
+    <FormControl sx={{ padding: 1, paddingTop: 2 }} onClick={handleClick}>
       <MilkdownProvider>
-        <MilkdownEditor {...props} />
+        <InputLabel
+          htmlFor={props.fieldName} /*TODO(skep): needs focused=, etc.*/
+        >
+          {props.fieldLabel}
+        </InputLabel>
+        {/* FIXME: understand this https://github.com/mui/material-ui/blob/master/packages/mui-material-next/src/OutlinedInput/OutlinedInput.js#L181 ? */}
+        <OutlinedInput 
+          inputRef={inputRef}
+          inputComponent={() => <MilkdownEditor {...props} />}
+        />
+        <FormHelperText id={props.fieldName}>{props.fieldLabel}</FormHelperText>
       </MilkdownProvider>
     </FormControl>
   );
