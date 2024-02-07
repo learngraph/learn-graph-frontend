@@ -12,8 +12,9 @@ import "katex/dist/katex.min.css"; // for plugin-math
 
 import { useFormik } from "formik";
 import { NewNodeForm } from "./PopUp";
-import { FormHelperText, OutlinedInput } from "@mui/material";
-import {useRef} from "react";
+import { Box, IconButton, InputAdornment, OutlinedInput } from "@mui/material";
+import {useRef, useState} from "react";
+import { Edit as EditIcon } from '@mui/icons-material';
 
 export interface MilkdownConfig {
   fieldName: string;
@@ -21,6 +22,11 @@ export interface MilkdownConfig {
   formik: ReturnType<typeof useFormik<NewNodeForm>>;
 }
 const MilkdownEditor = (props: MilkdownConfig) => {
+  const [editing, setEditing] = useState(false);
+  const [htmlValue, setHtmlValue] = useState(props.formik.initialValues.nodeResources);
+  const handleEditClick = () => {
+    setEditing(true);
+  };
   const { get } = useEditor((root) =>
     Editor.make()
       .config(nord)
@@ -33,6 +39,11 @@ const MilkdownEditor = (props: MilkdownConfig) => {
       .config((ctx: any) => {
         ctx
           .get(listenerCtx)
+          .updated(
+            (_ctx: any, doc: any, _prevDoc: any) => {
+              setHtmlValue(doc);
+            }
+          )
           .markdownUpdated(
             (_ctx: any, markdown: string, _prevMarkdown: string) => {
               console.log(markdown);
@@ -42,7 +53,6 @@ const MilkdownEditor = (props: MilkdownConfig) => {
           );
       })
       .config((ctx) => {
-        // TODO(skep): plugin-math and use(math) below not working!
         ctx.set(katexOptionsCtx.key, {
           /* some options */
         });
@@ -57,7 +67,25 @@ const MilkdownEditor = (props: MilkdownConfig) => {
     console.log(`onChange: ${status}`);
   };
   get()?.onStatusChange(onChange);
-  return <Milkdown />;
+  return (<Box>
+    {editing ? <Milkdown />: 
+      <OutlinedInput
+          multiline
+          rows={5}
+          readOnly
+          value={htmlValue}
+          fullWidth
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton>
+                <EditIcon onClick={handleEditClick} />
+              </IconButton>
+            </InputAdornment>
+          }
+        />
+    }
+    
+  </Box>);
 };
 export const MilkdownEditorWrapper = (props: MilkdownConfig) => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -74,12 +102,8 @@ export const MilkdownEditorWrapper = (props: MilkdownConfig) => {
         >
           {props.fieldLabel}
         </InputLabel>
-        {/* FIXME: understand this https://github.com/mui/material-ui/blob/master/packages/mui-material-next/src/OutlinedInput/OutlinedInput.js#L181 ? */}
-        <OutlinedInput 
-          inputRef={inputRef}
-          inputComponent={() => <MilkdownEditor {...props} />}
-        />
-        <FormHelperText id={props.fieldName}>{props.fieldLabel}</FormHelperText>
+        {/*<FormHelperText id={props.fieldName}>{props.fieldLabel}</FormHelperText>*/}
+        <MilkdownEditor {...props} />
       </MilkdownProvider>
     </FormControl>
   );

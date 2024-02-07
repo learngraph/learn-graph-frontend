@@ -355,23 +355,20 @@ const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
   useEffect(() => {
     return addKeyboardShortcuts(formik);
   }, [formik]);
-  const fields = [];
   const { t } = useTranslation();
-  fields.push(
+  const fields = [
     <TextFieldFormikGeneratorRequired
       fieldName="nodeDescription"
       fieldLabel={t("Node Description")}
       formik={formik}
       autoFocus
     />,
-  );
-  fields.push(
     <MilkdownEditorWrapper
       fieldName="nodeResources"
       fieldLabel={t("Node Resources")}
       formik={formik}
     />,
-  );
+  ];
   return (
     <DraggableForm
       ctrl={ctrl}
