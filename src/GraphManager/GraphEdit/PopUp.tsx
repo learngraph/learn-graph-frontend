@@ -29,7 +29,7 @@ import {
   ForceGraphGraphData,
   ForceGraphNodeObject,
 } from "src/GraphManager/types";
-import { MilkdownEditorWrapper } from "./MarkdownField";
+import { MarkdownEditorWrapper } from "./MarkdownField";
 
 // TODO(skep): MIN_NODE_DESCRIPTION_LENGTH should be language dependent; for
 // chinese words, 1-2 characters is already precise, but for english a single
@@ -363,7 +363,7 @@ const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
       formik={formik}
       autoFocus
     />,
-    <MilkdownEditorWrapper
+    <MarkdownEditorWrapper
       fieldName="nodeResources"
       fieldLabel={t("Node Resources")}
       formik={formik}

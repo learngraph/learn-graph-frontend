@@ -1,93 +1,99 @@
-import { Editor, EditorStatus, rootCtx, defaultValueCtx } from "@milkdown/core";
-import { nord } from "@milkdown/theme-nord";
-import { Milkdown, MilkdownProvider, useEditor } from "@milkdown/react";
-import { commonmark } from "@milkdown/preset-commonmark";
-import { listener, listenerCtx } from "@milkdown/plugin-listener";
+import '@bangle.dev/core/style.css';
+import {
+  BangleEditor,
+  BangleEditorState,
+  SpecRegistry,
+} from '@bangle.dev/core';
+import { markdownParser, markdownSerializer } from '@bangle.dev/markdown';
+import {
+  blockquote,
+  bold,
+  bulletList,
+  code,
+  codeBlock,
+  hardBreak,
+  heading,
+  horizontalRule,
+  image,
+  italic,
+  link,
+  listItem,
+  orderedList,
+  paragraph,
+  strike,
+  underline,
+} from '@bangle.dev/base-components';
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
-import { gfm } from "@milkdown/preset-gfm";
-import { clipboard } from "@milkdown/plugin-clipboard";
-import { math, katexOptionsCtx } from "@milkdown/plugin-math";
-import "katex/dist/katex.min.css"; // for plugin-math
-
 import { useFormik } from "formik";
-import { NewNodeForm } from "./PopUp";
-import { Box, IconButton, InputAdornment, OutlinedInput } from "@mui/material";
-import {useRef, useState} from "react";
-import { Edit as EditIcon } from '@mui/icons-material';
+import { Box } from "@mui/material";
+import { useRef } from "react";
 
-export interface MilkdownConfig {
+import { NewNodeForm } from "./PopUp";
+
+const specRegistry = new SpecRegistry([
+  blockquote.spec(),
+  bold.spec(),
+  bulletList.spec(),
+  code.spec(),
+  codeBlock.spec(),
+  hardBreak.spec(),
+  heading.spec(),
+  horizontalRule.spec(),
+  image.spec(),
+  italic.spec(),
+  link.spec(),
+  listItem.spec(),
+  orderedList.spec(),
+  paragraph.spec(),
+  strike.spec(),
+  underline.spec(),
+]);
+const parser = markdownParser(specRegistry);
+const serializer = markdownSerializer(specRegistry);
+const bangleEditorComponent = (domNode: any, config: MarkdownConfig) => {
+  const state = new BangleEditorState({
+    specRegistry,
+    plugins: () => [
+      blockquote.plugins(),
+      bold.plugins(),
+      bulletList.plugins(),
+      code.plugins(),
+      codeBlock.plugins(),
+      hardBreak.plugins(),
+      heading.plugins(),
+      horizontalRule.plugins(),
+      image.plugins(),
+      italic.plugins(),
+      link.plugins(),
+      listItem.plugins(),
+      orderedList.plugins(),
+      paragraph.plugins(),
+      strike.plugins(),
+      underline.plugins(),
+    ],
+    initialValue: parser.parse(config.formik.initialValues.nodeResources ?? ""),
+  });
+  const editor = new BangleEditor(domNode, { state });
+  return editor;
+}
+const serializeMarkdown = (editor: any) => {
+  return serializer.serialize(editor.view.state.doc);
+}
+
+export interface MarkdownConfig {
   fieldName: string;
   fieldLabel: string;
   formik: ReturnType<typeof useFormik<NewNodeForm>>;
 }
-const MilkdownEditor = (props: MilkdownConfig) => {
-  const [editing, setEditing] = useState(false);
-  const [htmlValue, setHtmlValue] = useState(props.formik.initialValues.nodeResources);
-  const handleEditClick = () => {
-    setEditing(true);
-  };
-  const { get } = useEditor((root) =>
-    Editor.make()
-      .config(nord)
-      .config((ctx: any) => {
-        ctx.set(rootCtx, root);
-      })
-      .config((ctx: any) => {
-        ctx.set(defaultValueCtx, props.formik.initialValues.nodeResources);
-      })
-      .config((ctx: any) => {
-        ctx
-          .get(listenerCtx)
-          .updated(
-            (_ctx: any, doc: any, _prevDoc: any) => {
-              setHtmlValue(doc);
-            }
-          )
-          .markdownUpdated(
-            (_ctx: any, markdown: string, _prevMarkdown: string) => {
-              console.log(markdown);
-              const helpers = props.formik.getFieldHelpers(props.fieldName);
-              helpers.setValue(markdown);
-            },
-          );
-      })
-      .config((ctx) => {
-        ctx.set(katexOptionsCtx.key, {
-          /* some options */
-        });
-      })
-      .use(commonmark)
-      .use(listener)
-      .use(gfm)
-      .use(clipboard)
-      .use(math),
-  );
-  const onChange = (status: EditorStatus) => {
-    console.log(`onChange: ${status}`);
-  };
-  get()?.onStatusChange(onChange);
+const MarkdownEditor = (props: MarkdownConfig) => {
+  const bangleRef = useRef();
+  bangleEditorComponent()
   return (<Box>
-    {editing ? <Milkdown />: 
-      <OutlinedInput
-          multiline
-          rows={5}
-          readOnly
-          value={htmlValue}
-          fullWidth
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton>
-                <EditIcon onClick={handleEditClick} />
-              </IconButton>
-            </InputAdornment>
-          }
-        />
-    }
-    
+    <div id="bandle-editor-root" ref={bangleRef} ></div>
   </Box>);
 };
-export const MilkdownEditorWrapper = (props: MilkdownConfig) => {
+export const MarkdownEditorWrapper = (props: MarkdownConfig) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const handleClick = () => {
     if (inputRef.current) {
@@ -96,15 +102,13 @@ export const MilkdownEditorWrapper = (props: MilkdownConfig) => {
   };
   return (
     <FormControl sx={{ padding: 1, paddingTop: 2 }} onClick={handleClick}>
-      <MilkdownProvider>
         <InputLabel
           htmlFor={props.fieldName} /*TODO(skep): needs focused=, etc.*/
         >
           {props.fieldLabel}
         </InputLabel>
         {/*<FormHelperText id={props.fieldName}>{props.fieldLabel}</FormHelperText>*/}
-        <MilkdownEditor {...props} />
-      </MilkdownProvider>
+        <MarkdownEditor {...props} />
     </FormControl>
   );
 };
