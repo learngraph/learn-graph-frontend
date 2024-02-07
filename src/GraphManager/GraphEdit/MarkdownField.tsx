@@ -27,7 +27,7 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import { useFormik } from "formik";
 import { Box } from "@mui/material";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 import { NewNodeForm } from "./PopUp";
 
@@ -54,7 +54,7 @@ const serializer = markdownSerializer(specRegistry);
 const bangleEditorComponent = (domNode: any, config: MarkdownConfig) => {
   const state = new BangleEditorState({
     specRegistry,
-    plugins: () => [
+    plugins: [
       blockquote.plugins(),
       bold.plugins(),
       bulletList.plugins(),
@@ -72,7 +72,7 @@ const bangleEditorComponent = (domNode: any, config: MarkdownConfig) => {
       strike.plugins(),
       underline.plugins(),
     ],
-    initialValue: parser.parse(config.formik.initialValues.nodeResources ?? ""),
+    initialValue: parser.parse(config.formik.initialValues.nodeResources ?? "") ?? undefined,
   });
   const editor = new BangleEditor(domNode, { state });
   return editor;
@@ -88,9 +88,11 @@ export interface MarkdownConfig {
 }
 const MarkdownEditor = (props: MarkdownConfig) => {
   const bangleRef = useRef();
-  bangleEditorComponent()
+  useEffect(() => {
+    bangleEditorComponent(bangleRef.current, props)
+  }, [bangleRef]);
   return (<Box>
-    <div id="bandle-editor-root" ref={bangleRef} ></div>
+    <Box id="bandle-editor-root" ref={bangleRef} ></Box>
   </Box>);
 };
 export const MarkdownEditorWrapper = (props: MarkdownConfig) => {
