@@ -1,21 +1,43 @@
-import { $getRoot, $getSelection, EditorState, LexicalEditor } from "lexical";
-import { useEffect } from "react";
+import { EditorState, LexicalEditor } from "lexical";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
-import { PlainTextPlugin } from "@lexical/react/LexicalPlainTextPlugin";
+import { AutoLinkNode, LinkNode } from '@lexical/link'; 
+import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
+import { AutoLinkPlugin } from "@lexical/react/LexicalAutoLinkPlugin";
+import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
-import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
 
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import { useFormik } from "formik";
-import { Box } from "@mui/material";
+import Box from "@mui/material/Box";
 import { useRef } from "react";
 
 import { NewNodeForm } from "./PopUp";
-import { useTheme } from "@mui/styles";
+
+const URL_MATCHER =
+  /((https?:\/\/(www\.)?)|(www\.))[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)?/;
+
+const MATCHERS = [
+  (text: string) => {
+    console.log(`YYY: ${text}`)
+    const match = URL_MATCHER.exec(text);
+    if (!match || match.length === 0) {
+      return null;
+    }
+    const fullMatch = match[0];
+    console.log(`XXX: ${fullMatch}`)
+    return {
+      index: match.index,
+      length: fullMatch.length,
+      text: fullMatch,
+      url: fullMatch.startsWith('http') ? fullMatch : `https://${fullMatch}`,
+      // attributes: { rel: 'noreferrer', target: '_blank' }, // Optional link attributes
+    };
+  },
+];
 
 export interface MarkdownConfig {
   fieldName: string;
@@ -23,32 +45,48 @@ export interface MarkdownConfig {
   formik: ReturnType<typeof useFormik<NewNodeForm>>;
 }
 const MarkdownEditor = (props: MarkdownConfig) => {
-  const theme = useTheme();
+  const theme = {}; // see https://lexical.dev/docs/getting-started/theming
   const initialConfig = {
-    namespace: "MyEditor",
+    namespace: "NodeResourcesEditor",
     theme,
     onError: (...err: any[]) => {
       console.log(...err);
     },
+    history: true,
+    linkPasting: true,
+    listEditing: true,
+    textFormatting: true,
+    imageEditing: true,
+    hashtagEditing: true,
+    tableEditing: true,
+    blockquoteEditing: true,
+    codeEditing: true,
+    keyboardShortcuts: true,
+    mentions: true,
+    markdownShortcuts: true,
+    markdownPaste: true,
+    nodes: [AutoLinkNode, LinkNode],
   };
   const onChange = (
     editorState: EditorState,
-    editor: LexicalEditor,
-    tags: Set<string>,
+    _editor: LexicalEditor,
+    _tags: Set<string>,
   ) => {
-    console.log(editorState.toJSON(), editor, tags);
+    //console.log(editorState.toJSON(), editor, tags);
     const helpers = props.formik.getFieldHelpers(props.fieldName);
-    helpers.setValue(editorState.toJSON());
+    helpers.setValue(editorState.toJSON().toString());
   };
   return (
     <Box>
       <LexicalComposer initialConfig={initialConfig}>
-        <PlainTextPlugin
+        <RichTextPlugin
           contentEditable={<ContentEditable />}
-          placeholder={<div>Enter some text...</div>}
+          placeholder={<Box id={`placeholder-${props.fieldName}`}>Add the resources you used for learning!</Box>/*TODO: translate*/}
           ErrorBoundary={LexicalErrorBoundary}
         />
         <OnChangePlugin onChange={onChange} />
+        <LinkPlugin />
+        <AutoLinkPlugin matchers={MATCHERS} />
         <HistoryPlugin />
       </LexicalComposer>
     </Box>
