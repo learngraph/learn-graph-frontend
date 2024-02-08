@@ -1,10 +1,7 @@
-import '@bangle.dev/core/style.css';
-import {
-  BangleEditor,
-  BangleEditorState,
-  SpecRegistry,
-} from '@bangle.dev/core';
-import { markdownParser, markdownSerializer } from '@bangle.dev/markdown';
+import "@bangle.dev/core/style.css";
+import { useEditorState, BangleEditor } from "@bangle.dev/react";
+import { SpecRegistry } from "@bangle.dev/core";
+import { markdownParser, markdownSerializer } from "@bangle.dev/markdown";
 import {
   blockquote,
   bold,
@@ -22,12 +19,12 @@ import {
   paragraph,
   strike,
   underline,
-} from '@bangle.dev/base-components';
+} from "@bangle.dev/base-components";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import { useFormik } from "formik";
 import { Box } from "@mui/material";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 
 import { NewNodeForm } from "./PopUp";
 
@@ -51,35 +48,39 @@ const specRegistry = new SpecRegistry([
 ]);
 const parser = markdownParser(specRegistry);
 const serializer = markdownSerializer(specRegistry);
-const bangleEditorComponent = (domNode: any, config: MarkdownConfig) => {
-  const state = new BangleEditorState({
-    specRegistry,
-    plugins: [
-      blockquote.plugins(),
-      bold.plugins(),
-      bulletList.plugins(),
-      code.plugins(),
-      codeBlock.plugins(),
-      hardBreak.plugins(),
-      heading.plugins(),
-      horizontalRule.plugins(),
-      image.plugins(),
-      italic.plugins(),
-      link.plugins(),
-      listItem.plugins(),
-      orderedList.plugins(),
-      paragraph.plugins(),
-      strike.plugins(),
-      underline.plugins(),
-    ],
-    initialValue: parser.parse(config.formik.initialValues.nodeResources ?? "") ?? undefined,
+const BangleEditorComponent = ({ config }: { config: MarkdownConfig }) => {
+  const editorState = useEditorState({
+    initialValue: "Hello world!",
   });
-  const editor = new BangleEditor(domNode, { state });
-  return editor;
-}
+  return <BangleEditor state={editorState} />;
+  //const state = new BangleEditorState({
+  //  specRegistry,
+  //  plugins: [
+  //    blockquote.plugins(),
+  //    bold.plugins(),
+  //    bulletList.plugins(),
+  //    code.plugins(),
+  //    codeBlock.plugins(),
+  //    hardBreak.plugins(),
+  //    heading.plugins(),
+  //    horizontalRule.plugins(),
+  //    image.plugins(),
+  //    italic.plugins(),
+  //    link.plugins(),
+  //    listItem.plugins(),
+  //    orderedList.plugins(),
+  //    paragraph.plugins(),
+  //    strike.plugins(),
+  //    underline.plugins(),
+  //  ],
+  //  initialValue: parser.parse(config.formik.initialValues.nodeResources ?? "") ?? undefined,
+  //});
+  //const editor = new BangleEditor(domNode, { state });
+  //return editor;
+};
 const serializeMarkdown = (editor: any) => {
   return serializer.serialize(editor.view.state.doc);
-}
+};
 
 export interface MarkdownConfig {
   fieldName: string;
@@ -87,13 +88,16 @@ export interface MarkdownConfig {
   formik: ReturnType<typeof useFormik<NewNodeForm>>;
 }
 const MarkdownEditor = (props: MarkdownConfig) => {
-  const bangleRef = useRef();
-  useEffect(() => {
-    bangleEditorComponent(bangleRef.current, props)
-  }, [bangleRef]);
-  return (<Box>
-    <Box id="bandle-editor-root" ref={bangleRef} ></Box>
-  </Box>);
+  //const bangleRef = useRef();
+  //useEffect(() => {
+  //  bangleEditorComponent(bangleRef.current, props)
+  //}, [bangleRef]);
+  return (
+    <Box>
+      {/*<Box id="bandle-editor-root" ref={bangleRef} ></Box>*/}
+      <BangleEditorComponent config={props} />
+    </Box>
+  );
 };
 export const MarkdownEditorWrapper = (props: MarkdownConfig) => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -104,13 +108,13 @@ export const MarkdownEditorWrapper = (props: MarkdownConfig) => {
   };
   return (
     <FormControl sx={{ padding: 1, paddingTop: 2 }} onClick={handleClick}>
-        <InputLabel
-          htmlFor={props.fieldName} /*TODO(skep): needs focused=, etc.*/
-        >
-          {props.fieldLabel}
-        </InputLabel>
-        {/*<FormHelperText id={props.fieldName}>{props.fieldLabel}</FormHelperText>*/}
-        <MarkdownEditor {...props} />
+      <InputLabel
+        htmlFor={props.fieldName} /*TODO(skep): needs focused=, etc.*/
+      >
+        {props.fieldLabel}
+      </InputLabel>
+      {/*<FormHelperText id={props.fieldName}>{props.fieldLabel}</FormHelperText>*/}
+      <MarkdownEditor {...props} />
     </FormControl>
   );
 };
