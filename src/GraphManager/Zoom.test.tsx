@@ -807,8 +807,9 @@ describe("zoom", () => {
         // reset mutable data on node set (cannot use `beforeEach` due to
         // `it.each` usage)
         state.graphData.nodes.forEach((node) => {
-          node.mergeCount = rawData.find((rawNode) => node.id === rawNode.id)
-            ?.mergeCount;
+          node.mergeCount = rawData.find(
+            (rawNode) => node.id === rawNode.id,
+          )?.mergeCount;
         });
         const argsSaved = {
           ...args,
@@ -951,8 +952,9 @@ describe("zoom", () => {
       ) => {
         // reset mutable data on node set
         state.graphData.nodes.forEach((node) => {
-          node.mergeCount = rawData.find((rawNode) => node.id === rawNode.id)
-            ?.mergeCount;
+          node.mergeCount = rawData.find(
+            (rawNode) => node.id === rawNode.id,
+          )?.mergeCount;
         });
         zoomStep(args, state);
         expect(state.graphData).toEqual(expected);
