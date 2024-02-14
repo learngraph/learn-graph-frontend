@@ -19,8 +19,7 @@ import {
   $convertFromMarkdownString,
   $convertToMarkdownString,
   TRANSFORMERS as TRANSFORMERS_MARKDOWN,
-} from '@lexical/markdown';
-
+} from "@lexical/markdown";
 
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
@@ -57,7 +56,11 @@ const MarkdownEditor = (props: MarkdownConfig) => {
     onError: (...err: any[]) => {
       console.log(...err);
     },
-    editorState: () => $convertFromMarkdownString(props.formik.initialValues.nodeResources, TRANSFORMERS_MARKDOWN),
+    editorState: () =>
+      $convertFromMarkdownString(
+        props.formik.initialValues.nodeResources,
+        TRANSFORMERS_MARKDOWN,
+      ),
     nodes: [
       AutoLinkNode,
       LinkNode,
@@ -70,13 +73,15 @@ const MarkdownEditor = (props: MarkdownConfig) => {
     ],
   };
   const onChange = (
-    _editorState: EditorState,
+    editorState: EditorState,
     _editor: LexicalEditor,
     _tags: Set<string>,
   ) => {
     //console.log(editorState.toJSON(), editor, tags);
     const helpers = props.formik.getFieldHelpers(props.fieldName);
-    helpers.setValue($convertToMarkdownString(TRANSFORMERS_MARKDOWN));
+    editorState.read(() => {
+      helpers.setValue($convertToMarkdownString(TRANSFORMERS_MARKDOWN));
+    });
   };
   return (
     <Box>
