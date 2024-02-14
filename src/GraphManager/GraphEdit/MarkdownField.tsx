@@ -1,13 +1,21 @@
 import { EditorState, LexicalEditor } from "lexical";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
-import { AutoLinkNode, LinkNode } from '@lexical/link'; 
+import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPlugin";
+import { TRANSFORMERS } from "@lexical/markdown";
+import { AutoLinkNode, LinkNode } from "@lexical/link";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
-import { AutoLinkPlugin } from "@lexical/react/LexicalAutoLinkPlugin";
+import {
+  AutoLinkPlugin,
+  createLinkMatcherWithRegExp,
+} from "@lexical/react/LexicalAutoLinkPlugin";
 import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
+import { HeadingNode, QuoteNode } from "@lexical/rich-text";
+import { CodeNode } from "@lexical/code";
+import { ListItemNode, ListNode } from "@lexical/list";
 
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
@@ -17,27 +25,19 @@ import { useRef } from "react";
 
 import { NewNodeForm } from "./PopUp";
 
-const URL_MATCHER =
+export const URL_MATCHER =
   /((https?:\/\/(www\.)?)|(www\.))[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)?/;
 
-const MATCHERS = [
-  (text: string) => {
-    console.log(`YYY: ${text}`)
-    const match = URL_MATCHER.exec(text);
-    if (!match || match.length === 0) {
-      return null;
-    }
-    const fullMatch = match[0];
-    console.log(`XXX: ${fullMatch}`)
-    return {
-      index: match.index,
-      length: fullMatch.length,
-      text: fullMatch,
-      url: fullMatch.startsWith('http') ? fullMatch : `https://${fullMatch}`,
-      // attributes: { rel: 'noreferrer', target: '_blank' }, // Optional link attributes
-    };
-  },
+export const MATCHERS = [
+  createLinkMatcherWithRegExp(URL_MATCHER, (text: string) => text),
 ];
+
+const urlRegExp = new RegExp(
+  /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[\w]*))?)/,
+);
+const validateUrl = (url: string): boolean => {
+  return url === "https://" || urlRegExp.test(url);
+};
 
 export interface MarkdownConfig {
   fieldName: string;
@@ -52,20 +52,16 @@ const MarkdownEditor = (props: MarkdownConfig) => {
     onError: (...err: any[]) => {
       console.log(...err);
     },
-    history: true,
-    linkPasting: true,
-    listEditing: true,
-    textFormatting: true,
-    imageEditing: true,
-    hashtagEditing: true,
-    tableEditing: true,
-    blockquoteEditing: true,
-    codeEditing: true,
-    keyboardShortcuts: true,
-    mentions: true,
-    markdownShortcuts: true,
-    markdownPaste: true,
-    nodes: [AutoLinkNode, LinkNode],
+    nodes: [
+      AutoLinkNode,
+      LinkNode,
+      HeadingNode,
+      QuoteNode,
+      CodeNode,
+      ListNode,
+      ListItemNode,
+      LinkNode,
+    ],
   };
   const onChange = (
     editorState: EditorState,
@@ -81,11 +77,16 @@ const MarkdownEditor = (props: MarkdownConfig) => {
       <LexicalComposer initialConfig={initialConfig}>
         <RichTextPlugin
           contentEditable={<ContentEditable />}
-          placeholder={<Box id={`placeholder-${props.fieldName}`}>Add the resources you used for learning!</Box>/*TODO: translate*/}
+          placeholder={
+            <Box id={`placeholder-${props.fieldName}`}>
+              Add the resources you used for learning!
+            </Box> /*TODO: translate*/
+          }
           ErrorBoundary={LexicalErrorBoundary}
         />
+        <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
         <OnChangePlugin onChange={onChange} />
-        <LinkPlugin />
+        <LinkPlugin validateUrl={validateUrl} />
         <AutoLinkPlugin matchers={MATCHERS} />
         <HistoryPlugin />
       </LexicalComposer>
