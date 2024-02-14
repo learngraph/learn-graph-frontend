@@ -1,7 +1,6 @@
 import { EditorState, LexicalEditor } from "lexical";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPlugin";
-import { TRANSFORMERS } from "@lexical/markdown";
 import { AutoLinkNode, LinkNode } from "@lexical/link";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import {
@@ -16,6 +15,12 @@ import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
 import { HeadingNode, QuoteNode } from "@lexical/rich-text";
 import { CodeNode } from "@lexical/code";
 import { ListItemNode, ListNode } from "@lexical/list";
+import {
+  $convertFromMarkdownString,
+  $convertToMarkdownString,
+  TRANSFORMERS as TRANSFORMERS_MARKDOWN,
+} from '@lexical/markdown';
+
 
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
@@ -52,6 +57,7 @@ const MarkdownEditor = (props: MarkdownConfig) => {
     onError: (...err: any[]) => {
       console.log(...err);
     },
+    editorState: () => $convertFromMarkdownString(props.formik.initialValues.nodeResources, TRANSFORMERS_MARKDOWN),
     nodes: [
       AutoLinkNode,
       LinkNode,
@@ -64,13 +70,13 @@ const MarkdownEditor = (props: MarkdownConfig) => {
     ],
   };
   const onChange = (
-    editorState: EditorState,
+    _editorState: EditorState,
     _editor: LexicalEditor,
     _tags: Set<string>,
   ) => {
     //console.log(editorState.toJSON(), editor, tags);
     const helpers = props.formik.getFieldHelpers(props.fieldName);
-    helpers.setValue(editorState.toJSON().toString());
+    helpers.setValue($convertToMarkdownString(TRANSFORMERS_MARKDOWN));
   };
   return (
     <Box>
@@ -84,7 +90,7 @@ const MarkdownEditor = (props: MarkdownConfig) => {
           }
           ErrorBoundary={LexicalErrorBoundary}
         />
-        <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
+        <MarkdownShortcutPlugin transformers={TRANSFORMERS_MARKDOWN} />
         <OnChangePlugin onChange={onChange} />
         <LinkPlugin validateUrl={validateUrl} />
         <AutoLinkPlugin matchers={MATCHERS} />
