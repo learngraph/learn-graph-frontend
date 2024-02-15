@@ -11,6 +11,9 @@ import Draggable from "react-draggable";
 import Slider from "@mui/material/Slider";
 import { Mark } from "@mui/base/useSlider";
 import { useFormik } from "formik";
+import * as yup from "yup";
+import { useTranslation } from "react-i18next";
+
 import {
   Controller,
   DEFAULT_EDIT_LINK_WEIGHT,
@@ -21,11 +24,12 @@ import {
   DialogueStyles,
   TextFieldFormikGeneratorRequired,
   TextFieldFormikGeneratorAutocomplete,
-  TextFieldFormikGenerator,
 } from "src/shared/Styles";
-import { ForceGraphGraphData, ForceGraphNodeObject } from "./types";
-import * as yup from "yup";
-import { useTranslation } from "react-i18next";
+import {
+  ForceGraphGraphData,
+  ForceGraphNodeObject,
+} from "src/GraphManager/types";
+import { MarkdownEditorWrapper } from "./MarkdownField";
 
 // TODO(skep): MIN_NODE_DESCRIPTION_LENGTH should be language dependent; for
 // chinese words, 1-2 characters is already precise, but for english a single
@@ -351,24 +355,21 @@ const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
   useEffect(() => {
     return addKeyboardShortcuts(formik);
   }, [formik]);
-  const fields = [];
   const { t } = useTranslation();
-  fields.push(
+  const fields = [
     <TextFieldFormikGeneratorRequired
       fieldName="nodeDescription"
       fieldLabel={t("Node Description")}
       formik={formik}
       autoFocus
     />,
-  );
-  fields.push(
-    <TextFieldFormikGenerator
+    <MarkdownEditorWrapper
       fieldName="nodeResources"
       fieldLabel={t("Node Resources")}
       formik={formik}
       multiline={true}
     />,
-  );
+  ];
   return (
     <DraggableForm
       ctrl={ctrl}

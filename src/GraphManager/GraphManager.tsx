@@ -4,7 +4,7 @@ import { Box } from "@mui/material";
 import { GraphRenderer } from "./GraphRenderer";
 import HeaderBar from "./components/HeaderBar";
 import { userSearchMatching } from "./components/Search";
-import { Controller } from "./GraphEdit";
+import { Controller } from "./GraphEdit/GraphEdit";
 
 interface GraphManagerProps {}
 

@@ -4,22 +4,23 @@ import {
   NewLinkForm,
   NewNodeForm,
   PopUpControls,
-} from "./GraphEditPopUp";
+} from "./PopUp";
 import {
   ForceGraphRef,
   ForceGraphGraphData,
   ForceGraphLinkObject,
   ForceGraphNodeObject,
   ForceGraphLinkObjectInitial,
-} from "./types";
-import { HighlightNodeSet, Position, SpecialNodes } from "./GraphRenderer";
-import { CreateNodeFn } from "./hooks/useCreateNode";
-import { CreateEdgeFn } from "./hooks/useCreateEdge";
-import { SubmitVoteFn } from "./hooks/useSubmitVote";
-import { UpdateNodeFn } from "./hooks/useUpdateNode";
-import { DeleteNodeFn } from "./hooks/useDeleteNode";
-import { DeleteEdgeFn } from "./hooks/useDeleteEdge";
-import { ZoomState } from "./Zoom";
+} from "src/GraphManager/types";
+import { HighlightNodeSet, SpecialNodes } from "src/GraphManager/utils";
+import { Position } from "src/GraphManager/utils";
+import { CreateNodeFn } from "src/GraphManager/hooks/useCreateNode";
+import { CreateEdgeFn } from "src/GraphManager/hooks/useCreateEdge";
+import { SubmitVoteFn } from "src/GraphManager/hooks/useSubmitVote";
+import { UpdateNodeFn } from "src/GraphManager/hooks/useUpdateNode";
+import { DeleteNodeFn } from "src/GraphManager/hooks/useDeleteNode";
+import { DeleteEdgeFn } from "src/GraphManager/hooks/useDeleteEdge";
+import { ZoomState } from "src/GraphManager/Zoom";
 import i18n from "src/i18n";
 
 // Note: must be kept constant for all times, otherwise database must be

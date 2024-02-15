@@ -1,24 +1,11 @@
 import { INTERIM_TMP_LINK_ID } from "./GraphEdit";
-import { isValidNodeForLink, nodeValidation } from "./GraphEditPopUp";
-import { ForceGraphNodeObject } from "./types";
-//import { LinkCreatePopUp, GraphEditPopUp } from "./GraphEditPopUp";
-//import { render } from "@testing-library/react";
-//import {makeMockController} from "./GraphEdit.test";
+import { isValidNodeForLink, nodeValidation } from "./PopUp";
+import { ForceGraphNodeObject } from "src/GraphManager/types";
 
-//// TODO(skep): testing this is hard..
-//describe("GraphEditPopUp", () => {
-//  it("should display the form from it's state", () => {
-//  });
-//});
-//
-//describe("LinkEditPopUp", () => {
-//  it("should pass the selected (not only typed) entry to onFormSubmit", () => {
-//    const handleClose = jest.fn();
-//    const ctrl = makeMockController();
-//    // @ts-ignore
-//    render(<LinkCreatePopUp handleClose={handleClose} ctrl={ctrl} />);
-//  });
-//});
+// must mock this, since it's incompatible with create-react-app's jest config
+jest.mock("@mui/material/OutlinedInput/NotchedOutline", () => (props: any) => {
+  return <div>props: {JSON.stringify(props)}</div>;
+});
 
 describe("isValidNodeForLink", () => {
   it("should be valid for empty input", () => {

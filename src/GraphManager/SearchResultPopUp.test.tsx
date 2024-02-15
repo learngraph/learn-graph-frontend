@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 
-import { makeMockController } from "./GraphEdit.testingutil";
+import { makeMockController } from "./GraphEdit/GraphEdit.testingutil";
 import { SearchResultPopUp } from "./SearchResultPopUp";
 import {
   CENTER_AT_NODE_TIME_MS,

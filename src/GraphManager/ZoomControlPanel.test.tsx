@@ -1,5 +1,5 @@
-import { Controller } from "./GraphEdit";
-import { makeMockController } from "./GraphEdit.testingutil";
+import { Controller } from "./GraphEdit/GraphEdit";
+import { makeMockController } from "./GraphEdit/GraphEdit.testingutil";
 import {
   makeOnZoomAndPanListenerNoDebounce,
   makeZoomControl,

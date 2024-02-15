@@ -3,8 +3,11 @@ import {
   GLOBALSCALE_AFTER_SEARCH,
   userSearchMatchingInternal,
 } from "./Search";
-import { makeMockController } from "../GraphEdit.testingutil";
-import { ZOOM_LEVEL_MAX, ZOOM_TO_FIT_DURATION_MS } from "../ZoomControlPanel";
+import { makeMockController } from "src/GraphManager/GraphEdit/GraphEdit.testingutil";
+import {
+  ZOOM_LEVEL_MAX,
+  ZOOM_TO_FIT_DURATION_MS,
+} from "src/GraphManager/ZoomControlPanel";
 
 describe("userSearchMatchingInternal", () => {
   it("should do nothing on an empty highlight set", () => {
