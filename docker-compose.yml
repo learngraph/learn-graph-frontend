@@ -1,6 +1,6 @@
 services:
   frontend:
-    image: node:18.10.0
+    image: node:20.10.0
     ports:
       - "3000:3000" # map <host-port>:<container-port>
     networks:

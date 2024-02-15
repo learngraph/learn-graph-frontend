@@ -367,6 +367,7 @@ const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
       fieldName="nodeResources"
       fieldLabel={t("Node Resources")}
       formik={formik}
+      multiline={true}
     />,
   ];
   return (
