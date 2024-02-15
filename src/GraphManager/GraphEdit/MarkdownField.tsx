@@ -49,6 +49,8 @@ export interface MarkdownConfig {
   fieldName: string;
   fieldLabel: string;
   formik: ReturnType<typeof useFormik<NewNodeForm>>;
+  // unused for the current markdown editor, it is always multiline
+  multiline?: boolean;
 }
 interface MarkdownEditorConfig extends MarkdownConfig {
   isEmpty: boolean;
