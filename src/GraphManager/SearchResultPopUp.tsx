@@ -8,7 +8,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material";
 import { Controller } from "./GraphEdit/GraphEdit";
 import { centerOnNode } from "./components/Search";
-import { Rectangle } from "./GraphRenderer";
+import { Rectangle } from "./utils";
 
 const FIXME_LAYOUT_UNCLEAR = 50; // FIXME(skep): should not have to subtract anything here..
 

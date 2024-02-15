@@ -1,4 +1,4 @@
-import { URL_MATCHER, MATCHERS } from "./MarkdownField";
+import { URL_MATCHER, MATCHERS } from "./matchers";
 
 describe("URL_MATCHER", () => {
   it("should match", () => {

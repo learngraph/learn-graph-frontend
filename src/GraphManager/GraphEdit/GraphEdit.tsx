@@ -12,11 +12,8 @@ import {
   ForceGraphNodeObject,
   ForceGraphLinkObjectInitial,
 } from "src/GraphManager/types";
-import {
-  HighlightNodeSet,
-  Position,
-  SpecialNodes,
-} from "src/GraphManager/GraphRenderer";
+import { HighlightNodeSet, SpecialNodes } from "src/GraphManager/utils";
+import { Position } from "src/GraphManager/utils";
 import { CreateNodeFn } from "src/GraphManager/hooks/useCreateNode";
 import { CreateEdgeFn } from "src/GraphManager/hooks/useCreateEdge";
 import { SubmitVoteFn } from "src/GraphManager/hooks/useSubmitVote";

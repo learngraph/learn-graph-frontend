@@ -1,29 +1,21 @@
 // @jest-environment jsdom
 import {
-  nodeCanvasObject,
-  makeKeydownListener,
   SpecialNodes,
+  GraphSizeConfig,
+  nodeCanvasObject,
   makeGraphState,
   convertBackendGraphToForceGraph,
   initialZoomForLargeGraph,
   MAX_NODES_WITHOUT_INITIAL_ZOOM,
   makeInitialGraphData,
   setGraphSize,
-  GraphSizeConfig,
   nodePointerAreaPaint,
   linkPointerAreaPaint,
-} from "./GraphRenderer";
+} from "./utils";
 import "@testing-library/jest-dom";
 import { makeMockController } from "./GraphEdit/GraphEdit.testingutil";
 import { ForceGraphNodeObject } from "./types";
 import { ZOOM_LEVEL_MAX, ZOOM_LEVEL_STEP } from "./ZoomControlPanel";
-
-// Since render() does not support canvas.getContext('2d')
-// we must mock ForceGraph2D.
-// (https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/getContext),
-jest.mock("react-force-graph-2d", () => (props: any) => {
-  return <div>test-graph: {JSON.stringify(props.graphData)}</div>;
-});
 
 const makeCanvasRenderingContext2D = () => {
   let fillRectCalls: any = [];
@@ -74,18 +66,6 @@ describe("nodeCanvasObject", () => {
     nodeCanvasObject(node, ctx, scale, ctrl);
     expect(ctx.arc).toHaveBeenCalledTimes(1);
     expect(arcCalls[0].fillStyle).toEqual(`hsl(30,100%,50%)`);
-  });
-});
-
-describe("makeKeydownListener", () => {
-  it("should call nothing on key 'a'", () => {
-    let zoom = jest.fn();
-    const ctrl = makeMockController();
-    // @ts-ignore
-    let keydown = makeKeydownListener(ctrl);
-    let event = { key: "a" };
-    keydown(event);
-    expect(zoom.mock.calls.length).toBe(0);
   });
 });
 

@@ -2,6 +2,11 @@ import { INTERIM_TMP_LINK_ID } from "./GraphEdit";
 import { isValidNodeForLink, nodeValidation } from "./PopUp";
 import { ForceGraphNodeObject } from "src/GraphManager/types";
 
+// must mock this, since it's incompatible with create-react-app's jest config
+jest.mock("@mui/material/OutlinedInput/NotchedOutline", () => (props: any) => {
+  return <div>props: {JSON.stringify(props)}</div>;
+});
+
 describe("isValidNodeForLink", () => {
   it("should be valid for empty input", () => {
     const isValid = isValidNodeForLink({

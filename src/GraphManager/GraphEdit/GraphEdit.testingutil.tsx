@@ -1,6 +1,6 @@
 import { ForceGraphMethods } from "react-force-graph-2d";
 import { GraphState } from "./GraphEdit";
-import { SpecialNodes } from "src/GraphManager/GraphRenderer";
+import { SpecialNodes } from "src/GraphManager/utils";
 import {
   ForceGraphLinkObject,
   ForceGraphNodeObject,
