@@ -18,3 +18,19 @@ export const LearngraphOrgRoutes = () => {
     </Routes>
   );
 };
+
+// try:
+// <Route
+//   exact
+//   path="/"
+//   render={props => (
+//     <Page {...props} component={Index} title="Index Page" />
+//   )}
+// />
+// 
+// <Route
+//   path="/about"
+//   render={props => (
+//     <Page {...props} component={About} title="About Page" />
+//   )}
+// />
