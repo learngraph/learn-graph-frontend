@@ -2561,6 +2561,13 @@
   resolved "https://registry.yarnpkg.com/@types/mime/-/mime-1.3.5.tgz#1ef302e01cf7d2b5a0fa526790c9123bf1d06690"
   integrity sha512-/pyBZWSLD2n0dcHE3hq8s8ZvcETHtEuF+3E7XVt0Ig2nvsVQXdghHVcEkIWjy9A0wKfTn97a/PSDYohKIlnP/w==
 
+"@types/mui-image@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@types/mui-image/-/mui-image-1.0.5.tgz#a46bc9293be4f8622c5fb7a15887db1053e61c8c"
+  integrity sha512-xbOpuowqvMyRiiM3U39AApyVj2xIoNH6egvMCWQ+d9AzILs0cT688x33AfPnQrnMqmJBclo4hRyUzpxGQwTqkQ==
+  dependencies:
+    "@types/react" "*"
+
 "@types/node-forge@^1.3.0":
   version "1.3.11"
   resolved "https://registry.yarnpkg.com/@types/node-forge/-/node-forge-1.3.11.tgz#0972ea538ddb0f4d9c2fa0ec5db5724773a604da"
@@ -7550,6 +7557,11 @@ ms@2.1.3, ms@^2.1.1:
   version "2.1.3"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.3.tgz#574c8138ce1d2b5861f0b44579dbadd60c6615b2"
   integrity sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==
+
+mui-image@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/mui-image/-/mui-image-1.0.7.tgz#f665432d2cbf6140a34903b9a5143560ebd4df27"
+  integrity sha512-U79TWMKMfMC1ZiGnv/M+SaVJeUpubEjXOdy7w53RsvidUAMZ+4nW+QmDG9yg5fgWeYy6YJgLHyI9BHSDw76iIg==
 
 multicast-dns@^7.2.5:
   version "7.2.5"
