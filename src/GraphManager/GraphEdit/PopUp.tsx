@@ -366,7 +366,11 @@ const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
     <MarkdownEditorWrapper
       fieldName="nodeResources"
       fieldLabel={t("Node Resources")}
-      formik={formik}
+      initialMarkdownContent={formik.initialValues.nodeResources}
+      setValueOnChange={(markdown: string) => {
+        const helpers = formik.getFieldHelpers("nodeResources");
+        helpers.setValue(markdown);
+      }}
       multiline={true}
     />,
   ];

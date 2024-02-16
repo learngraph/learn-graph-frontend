@@ -25,7 +25,6 @@ import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext
 import NotchedOutline from "@mui/material/OutlinedInput/NotchedOutline";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
-import { useFormik } from "formik";
 import Box from "@mui/material/Box";
 import {
   Dispatch,
@@ -35,7 +34,6 @@ import {
   useState,
 } from "react";
 
-import { NewNodeForm } from "./PopUp";
 import { MATCHERS } from "./matchers";
 
 const urlRegExp = new RegExp(
@@ -48,7 +46,8 @@ const validateUrl = (url: string): boolean => {
 export interface MarkdownConfig {
   fieldName: string;
   fieldLabel: string;
-  formik: ReturnType<typeof useFormik<NewNodeForm>>;
+  initialMarkdownContent: string;
+  setValueOnChange: (markdown: string) => void;
   // unused for the current markdown editor, it is always multiline
   multiline?: boolean;
 }
@@ -85,9 +84,9 @@ const FocusWhenStateChangePlugin = ({
 const MarkdownEditor = (props: MarkdownEditorConfig) => {
   const theme = {}; // see https://lexical.dev/docs/getting-started/theming
   const loadInitialEditorState = () => {
-    props.setIsEmpty(!props.formik.initialValues.nodeResources);
+    props.setIsEmpty(!props.initialMarkdownContent);
     $convertFromMarkdownString(
-      props.formik.initialValues.nodeResources,
+      props.initialMarkdownContent,
       TRANSFORMERS_MARKDOWN,
     );
   };
@@ -115,12 +114,11 @@ const MarkdownEditor = (props: MarkdownEditorConfig) => {
     _editor: LexicalEditor,
     _tags: Set<string>,
   ) => {
-    const helpers = props.formik.getFieldHelpers(props.fieldName);
     let markdown = "";
     editorState.read(() => {
       markdown = $convertToMarkdownString(TRANSFORMERS_MARKDOWN);
     });
-    helpers.setValue(markdown);
+    props.setValueOnChange(markdown);
     props.setIsEmpty(markdown === "");
   };
   return (
