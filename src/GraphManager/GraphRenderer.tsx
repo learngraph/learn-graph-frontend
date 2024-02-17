@@ -279,15 +279,18 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     // Note: performInitialZoom must not trigger call of graph data setter
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [graphDataFromBackend]);
-  // XXX(skep): should we disable right click? it's kind of annoying for the
-  // canvas, but outside we might want to allow it..
-  //useEffect(() => {
-  //  const rightClickAction = (event: any) => event.preventDefault();
-  //  document.addEventListener("contextmenu", rightClickAction);
-  //  return () => {
-  //    document.removeEventListener("contextmenu", rightClickAction);
-  //  };
-  //});
+  useEffect(() => {
+    const rightClickAction = (ev: MouseEvent) => {
+      // @ts-ignore
+      if (ev.target?.nodeName === "CANVAS") {
+        ev.preventDefault();
+      }
+    }
+    document.addEventListener("contextmenu", rightClickAction);
+    return () => {
+      document.removeEventListener("contextmenu", rightClickAction);
+    };
+  });
   useEffect(() => {
     window.addEventListener("keydown", downHandler);
     window.addEventListener("keyup", upHandler);
