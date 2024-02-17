@@ -2,7 +2,7 @@ services:
   frontend:
     image: node:20.10.0
     ports:
-      - "3000:3000" # map <host-port>:<container-port>
+      - "3000:5173" # host:container
     networks:
       - learngraphnet
     environment:
@@ -14,7 +14,7 @@ services:
         source: ./
         target: /src
     working_dir: /src
-    command: yarn start
+    command: npm run devPublic
 networks:
   learngraphnet:
     name: learngraphnet

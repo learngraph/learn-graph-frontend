@@ -1,4 +1,4 @@
-import i18n from "src/i18n";
+import i18n from "@src/i18n";
 import * as yup from "yup";
 
 // NOTE: this must be kept in sync with the backend's requirements!

@@ -8,12 +8,12 @@ import { SignUpForm } from "./SignUpForm";
 import {
   LoginResponse,
   UserSignupInfo,
-} from "src/GraphManager/hooks/useCreateUser";
-import { UserLoginInfo } from "src/GraphManager/hooks/useLoginUser";
-import { useUserDataContext } from "src/UserDataContext";
+} from "@src/GraphManager/hooks/useCreateUser";
+import { UserLoginInfo } from "@src/GraphManager/hooks/useLoginUser";
+import { useUserDataContext } from "@src/UserDataContext";
 import { useTranslation } from "react-i18next";
-import { useUserDataBackendContext } from "src/UserDataBackendContext";
-import i18n from "src/i18n";
+import { useUserDataBackendContext } from "@src/UserDataBackendContext";
+import i18n from "@src/i18n";
 
 enum TabNames {
   "LOGIN",

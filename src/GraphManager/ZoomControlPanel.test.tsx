@@ -12,6 +12,7 @@ jest.mock("./Zoom", () => ({
   zoomStep: jest.fn(),
   ZoomDirection: { In: "In", Out: "Out" },
 }));
+import { zoomStep } from "./Zoom";
 
 describe("makeZoomControl", () => {
   let ctrl: Controller;
@@ -28,19 +29,26 @@ describe("makeZoomControl", () => {
   it("should handle onZoomIn correctly", () => {
     ctrl.zoom.zoomStepStack.push(2);
     zoomCtrl.onZoomIn();
-    expect(ctrl.zoom.setZoomStepStack).toHaveBeenCalledWith(
+    expect(ctrl.zoom.setZoomStepStack).toHaveBeenCalledTimes(1);
+    expect(ctrl.zoom.setZoomStepStack).toHaveBeenNthCalledWith(
+      1,
       ctrl.zoom.zoomStepStack,
     );
     const zoomState = {
       zoomSteps: ctrl.zoom.zoomState.zoomSteps,
       graphData: ctrl.graph.current,
     };
-    expect(ctrl.zoom.setZoomState).toHaveBeenCalledWith(zoomState);
-    expect(ctrl.zoom.setZoomLevel).toHaveBeenCalledWith(
+    expect(ctrl.zoom.setZoomState).toHaveBeenCalledTimes(1);
+    expect(ctrl.zoom.setZoomState).toHaveBeenNthCalledWith(1, zoomState);
+    expect(ctrl.zoom.setZoomLevel).toHaveBeenCalledTimes(1);
+    expect(ctrl.zoom.setZoomLevel).toHaveBeenNthCalledWith(
+      1,
       ctrl.zoom.zoomLevel + 1,
     );
-    expect(ctrl.forceGraphRef.current?.d3ReheatSimulation).toHaveBeenCalled();
-    expect(require("./Zoom").zoomStep).toHaveBeenCalledWith(
+    expect(
+      ctrl.forceGraphRef.current?.d3ReheatSimulation,
+    ).toHaveBeenCalledTimes(1);
+    expect(zoomStep).toHaveBeenLastCalledWith(
       { direction: "In", steps: 1 },
       zoomState,
     );
@@ -48,19 +56,24 @@ describe("makeZoomControl", () => {
 
   it("should handle onZoomOut correctly", () => {
     zoomCtrl.onZoomOut();
-    expect(ctrl.zoom.setZoomStepStack).toHaveBeenCalledWith(
+    expect(ctrl.zoom.setZoomStepStack).toHaveBeenCalledTimes(1);
+    expect(ctrl.zoom.setZoomStepStack).toHaveBeenNthCalledWith(
+      1,
       ctrl.zoom.zoomStepStack,
     );
     const zoomState = {
       zoomSteps: ctrl.zoom.zoomState.zoomSteps,
       graphData: ctrl.graph.current,
     };
-    expect(ctrl.zoom.setZoomState).toHaveBeenCalledWith(zoomState);
-    expect(ctrl.zoom.setZoomLevel).toHaveBeenCalledWith(
+    expect(ctrl.zoom.setZoomState).toHaveBeenCalledTimes(1);
+    expect(ctrl.zoom.setZoomState).toHaveBeenNthCalledWith(1, zoomState);
+    expect(ctrl.zoom.setZoomLevel).toHaveBeenCalledTimes(1);
+    expect(ctrl.zoom.setZoomLevel).toHaveBeenNthCalledWith(
+      1,
       ctrl.zoom.zoomLevel - 1,
     );
     expect(ctrl.forceGraphRef.current?.d3ReheatSimulation).toHaveBeenCalled();
-    expect(require("./Zoom").zoomStep).toHaveBeenCalledWith(
+    expect(zoomStep).toHaveBeenLastCalledWith(
       { direction: "Out", steps: 1 },
       zoomState,
     );
@@ -68,37 +81,47 @@ describe("makeZoomControl", () => {
 
   it("should do nothing if zooming out while on min zoom level", () => {
     ctrl.zoom.zoomLevel = ZOOM_LEVEL_MIN;
+    const zoomStepMock = zoomStep;
+    // @ts-ignore
+    const zoomStepMockPreviousCalls = zoomStepMock.mock.calls.length;
     zoomCtrl.onZoomOut();
     expect(ctrl.zoom.setZoomStepStack).not.toHaveBeenCalled();
     expect(ctrl.zoom.setZoomLevel).not.toHaveBeenCalled();
     expect(ctrl.zoom.setZoomState).not.toHaveBeenCalled();
-    expect(require("./Zoom").zoomStep).not.toHaveBeenCalled();
+    expect(zoomStepMock).toHaveBeenCalledTimes(zoomStepMockPreviousCalls); // i.e. no new calls
   });
 
   it("should do nothing if zooming in while on max zoom level", () => {
     ctrl.zoom.zoomLevel = ZOOM_LEVEL_MAX;
+    const zoomStepMock = zoomStep;
+    // @ts-ignore
+    const zoomStepMockPreviousCalls = zoomStepMock.mock.calls.length;
     zoomCtrl.onZoomIn();
     expect(ctrl.zoom.setZoomStepStack).not.toHaveBeenCalled();
     expect(ctrl.zoom.setZoomLevel).not.toHaveBeenCalled();
     expect(ctrl.zoom.setZoomState).not.toHaveBeenCalled();
-    expect(require("./Zoom").zoomStep).not.toHaveBeenCalled();
+    expect(zoomStepMock).toHaveBeenCalledTimes(zoomStepMockPreviousCalls); // i.e. no new calls
   });
 
   describe("onZoomChange", () => {
     it("should zoom to the difference", () => {
       zoomCtrl.onZoomChange(ctrl.zoom.zoomLevel + 2);
-      expect(ctrl.zoom.setZoomLevel).toHaveBeenCalledWith(
+      expect(ctrl.zoom.setZoomLevel).toHaveBeenCalledTimes(1);
+      expect(ctrl.zoom.setZoomLevel).toHaveBeenNthCalledWith(
+        1,
         ctrl.zoom.zoomLevel + 2,
       );
       expect(ctrl.zoom.setZoomStepStack).toHaveBeenCalledTimes(1);
     });
     it("should cap zoom at MAX", () => {
       zoomCtrl.onZoomChange(ZOOM_LEVEL_MAX + 1);
-      expect(ctrl.zoom.setZoomLevel).toHaveBeenCalledWith(ZOOM_LEVEL_MAX);
+      expect(ctrl.zoom.setZoomLevel).toHaveBeenCalledTimes(1);
+      expect(ctrl.zoom.setZoomLevel).toHaveBeenNthCalledWith(1, ZOOM_LEVEL_MAX);
     });
     it("should cap zoom at MIN", () => {
       zoomCtrl.onZoomChange(ZOOM_LEVEL_MIN - 1);
-      expect(ctrl.zoom.setZoomLevel).toHaveBeenCalledWith(ZOOM_LEVEL_MIN);
+      expect(ctrl.zoom.setZoomLevel).toHaveBeenCalledTimes(1);
+      expect(ctrl.zoom.setZoomLevel).toHaveBeenNthCalledWith(1, ZOOM_LEVEL_MIN);
     });
     it("should skip calls with invalid diff", () => {
       ctrl.zoom.zoomLevel = ZOOM_LEVEL_MAX;
@@ -159,7 +182,8 @@ describe("makeOnZoomAndPanListenerNoDebounce", () => {
     const zoom = makeOnZoomAndPanListenerNoDebounce(ctrl);
     zoom({ k: 2, x: 0, y: 0 });
     expect(ctrl.zoom.setUserZoomLevel).toHaveBeenCalledTimes(1);
-    expect(ctrl.zoom.setUserZoomLevel).toHaveBeenCalledWith(
+    expect(ctrl.zoom.setUserZoomLevel).toHaveBeenNthCalledWith(
+      1,
       zoomLevel + ZOOM_LEVEL_STEP,
     );
   });

@@ -41,7 +41,7 @@ import { useSubmitVote } from "./hooks/useSubmitVote";
 import { useUpdateNode } from "./hooks/useUpdateNode";
 import { useDeleteNode } from "./hooks/useDeleteNode";
 import { useDeleteEdge } from "./hooks/useDeleteEdge";
-import { useUserDataContext } from "src/UserDataContext";
+import { useUserDataContext } from "@src/UserDataContext";
 import {
   ZoomControlPanel,
   makeZoomControl,
@@ -277,7 +277,6 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       controller.graph.performInitialZoom,
     );
     // Note: performInitialZoom must not trigger call of graph data setter
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [graphDataFromBackend]);
   // XXX(skep): should we disable right click? it's kind of annoying for the
   // canvas, but outside we might want to allow it..
@@ -305,9 +304,6 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   });
   useEffect(() => {
     debounce(initialZoomForLargeGraph, 100)(controller); // XXX(skep): why is delay needed?
-    // Note: We must not-auto zoom on every controller change, but only on
-    // initial backend response, i.e. when loading initial graph data is done.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [graph]);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [availableSpace, setAvailableSpace] = useState<Rectangle>({
@@ -317,7 +313,6 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   const graphSizeConfig = { wrapperRef, setAvailableSpace };
   useLayoutEffect(() => {
     setGraphSize(graphSizeConfig);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [controller.search.highlightNodes]);
   useEffect(() => {
     const handleResize = () => {
@@ -327,7 +322,6 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <>
