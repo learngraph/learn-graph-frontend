@@ -7,7 +7,7 @@ import { ControllerRef } from "../GraphManager";
 import { useState } from "react";
 import { ForceGraphNodeObject } from "../types";
 import { ZOOM_LEVEL_MAX, ZOOM_TO_FIT_DURATION_MS } from "../ZoomControlPanel";
-import { Controller } from "src/GraphManager/GraphEdit/GraphEdit";
+import { Controller } from "@src/GraphManager/GraphEdit/GraphEdit";
 
 export const GLOBALSCALE_AFTER_SEARCH = 2;
 export const CENTER_AT_NODE_TIME_MS = 2000;

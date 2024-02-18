@@ -13,9 +13,9 @@ import {
   StyledBox,
   StyledBoxSX,
   TextFieldFormikGeneratorRequired,
-} from "src/shared/Styles";
+} from "@src/shared/Styles";
 import { useFormik } from "formik";
-import { UserLoginInfo } from "src/GraphManager/hooks/useLoginUser";
+import { UserLoginInfo } from "@src/GraphManager/hooks/useLoginUser";
 import { validateUserLoginRequest } from "./InputValidation";
 import { useTranslation } from "react-i18next";
 
