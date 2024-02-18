@@ -76,7 +76,6 @@ const FocusWhenStateChangePlugin = ({
     // XXX(skep): if this timeout hack is not used the user would have to click
     // 2 times, which is confusing, but why is it needed?!
     setTimeout(() => editor.focus(), 10);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onClickStateChange]);
   return null;
 };

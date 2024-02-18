@@ -11,7 +11,7 @@ import { setContext, ContextSetter } from "@apollo/client/link/context";
 import fetch from "cross-fetch";
 import i18n from "./i18n";
 
-import { addAuthHeader, addLanguageHeader, addUserIDHeader } from "src/link";
+import { addAuthHeader, addLanguageHeader, addUserIDHeader } from "@src/link";
 
 export interface UserDataContextValues {
   language: string;
@@ -214,7 +214,7 @@ export const UserDataContextProvider: React.FC<{
   };
   const linkLang = setContext(addLanguageHeaderFromContext);
   const linkHttp: ApolloLink = new HttpLink({
-    uri: process.env.REACT_APP_BACKEND_DN, // FIXME(skep): not working, option seems to be ignored, since learngraph.org is working and we currently set this to https://learn-tree.info/query, which should not work at all
+    //uri: import.meta.env.REACT_APP_BACKEND_DN, // FIXME(skep): not working, option seems to be ignored, since learngraph.org is working and we currently set this to https://learn-tree.info/query, which should not work at all
     fetch,
   });
   const cache = new InMemoryCache();

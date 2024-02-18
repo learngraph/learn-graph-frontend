@@ -28,10 +28,9 @@ interface AnyFunction {
 export function debounce<Func extends AnyFunction>(func: Func, delay: number) {
   let timer: ReturnType<typeof setTimeout>;
   return function (this: ThisParameterType<Func>, ...args: Parameters<Func>) {
-    const context = this;
     clearTimeout(timer);
     timer = setTimeout(() => {
-      func.apply(context, args);
+      func.apply(this, args);
     }, delay);
   };
 }

@@ -24,11 +24,11 @@ import {
   DialogueStyles,
   TextFieldFormikGeneratorRequired,
   TextFieldFormikGeneratorAutocomplete,
-} from "src/shared/Styles";
+} from "@src/shared/Styles";
 import {
   ForceGraphGraphData,
   ForceGraphNodeObject,
-} from "src/GraphManager/types";
+} from "@src/GraphManager/types";
 import { MarkdownEditorWrapper } from "./MarkdownField";
 
 // TODO(skep): MIN_NODE_DESCRIPTION_LENGTH should be language dependent; for
@@ -39,13 +39,13 @@ const MAX_NODE_DESCRIPTION_LENGTH = 40;
 
 interface LinkWeightSliderProps {
   defaultValue: number;
-  setSliderValue: React.Dispatch<React.SetStateAction<Number | Array<Number>>>;
+  setSliderValue: React.Dispatch<React.SetStateAction<number | Array<number>>>;
 }
 
 export const LinkWeightSlider = (props: LinkWeightSliderProps) => {
   const onSliderValueChange = (
     _event: any,
-    newValue: Number | Array<Number>,
+    newValue: number | Array<number>,
   ) => {
     props.setSliderValue(newValue);
   };
@@ -221,7 +221,7 @@ export const LinkCreatePopUp = ({
   handleClose,
   ctrl,
 }: SubGraphEditPopUpProps) => {
-  const [sliderValue, setSliderValue] = useState<Number | Array<Number>>(
+  const [sliderValue, setSliderValue] = useState<number | Array<number>>(
     DEFAULT_EDIT_LINK_WEIGHT,
   );
   const formik = useFormik<NewLinkForm>({
@@ -297,7 +297,7 @@ interface VoteLinkForm {
   linkWeight: number;
 }
 const LinkVotePopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
-  const [sliderValue, setSliderValue] = useState<Number | Array<Number>>(
+  const [sliderValue, setSliderValue] = useState<number | Array<number>>(
     DEFAULT_EDIT_LINK_WEIGHT,
   );
   const formik = useFormik<VoteLinkForm>({
