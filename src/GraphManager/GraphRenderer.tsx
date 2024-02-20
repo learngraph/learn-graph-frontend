@@ -336,7 +336,6 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     };
   }, []);
   useEffect(() => {
-    console.log(userID);
     if (userID) {
       controller.mode.setIsEditingEnabled(true);
     } else {
