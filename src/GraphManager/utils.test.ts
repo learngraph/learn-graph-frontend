@@ -38,6 +38,8 @@ const makeCanvasRenderingContext2D = () => {
     arc: jest.fn(),
     fill: jest.fn(),
     stroke: jest.fn(),
+    bezierCurveTo: jest.fn(),
+    rotate: jest.fn(),
     moveTo: jest.fn(),
     lineTo: jest.fn(),
   };
@@ -316,6 +318,8 @@ describe("linkPointerAreaPaint", () => {
       1,
     );
     expect(ctx.stroke).toHaveBeenCalledTimes(1);
+    expect(ctx.bezierCurveTo).toHaveBeenCalledTimes(1);
+    expect(ctx.fill).toHaveBeenCalledTimes(1);
   });
   it("should not draw when not in edit mode", () => {
     const { ctx } = makeCanvasRenderingContext2D();

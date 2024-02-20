@@ -367,8 +367,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
             onNodeDragEnd={makeOnNodeDragEnd(controller)}
             onLinkHover={onLinkHover}
             onLinkClick={makeOnLinkClick(controller)}
-            linkDirectionalArrowLength={G_CONFIG.linkDirectionalArrowLength}
-            linkDirectionalArrowRelPos={G_CONFIG.linkDirectionalArrowRelPos}
+            linkDirectionalArrowLength={0}
             // XXX: linkCanvasObjectMode should just be a string, but due to a bug in
             // force-graph it must be passed as function, otherwise linkCanvasObject
             // is never called. -> remove after force-graph module update
