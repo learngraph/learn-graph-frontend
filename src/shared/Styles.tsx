@@ -17,6 +17,7 @@ export interface TextFieldConfig<T extends FormikValues> {
   fieldLabel: string;
   autoFocus?: boolean;
   multiline?: boolean;
+  disabled?: boolean;
 }
 
 const TextFieldFormikGeneratorInternal = <T extends FormikValues>(
@@ -44,6 +45,7 @@ const TextFieldFormikGeneratorInternal = <T extends FormikValues>(
       }
       autoFocus={props.autoFocus ?? false}
       multiline={props.multiline ?? false}
+      disabled={props.disabled ?? false}
     />
   );
 };
