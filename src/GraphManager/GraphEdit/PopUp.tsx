@@ -289,6 +289,7 @@ export const LinkCreatePopUp = ({
       handleClose={extendedHandleClose}
       fields={fields}
       formik={formik}
+      isEditingEnabled={ctrl.mode.isEditingEnabled}
     />
   );
 };
@@ -327,6 +328,7 @@ const LinkVotePopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
       fields={fields}
       formik={formik}
       onDelete={ctrl.popUp.state.linkVote?.onDelete}
+      isEditingEnabled={ctrl.mode.isEditingEnabled}
     />
   );
 };
@@ -361,6 +363,7 @@ const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
       fieldName="nodeDescription"
       fieldLabel={t("Node Description")}
       formik={formik}
+      disabled={!ctrl.mode.isEditingEnabled}
       autoFocus
     />,
     <MarkdownEditorWrapper
@@ -371,7 +374,7 @@ const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
         const helpers = formik.getFieldHelpers("nodeResources");
         helpers.setValue(markdown);
       }}
-      multiline={true}
+      isEditingEnabled={ctrl.mode.isEditingEnabled}
     />,
   ];
   return (
@@ -382,6 +385,7 @@ const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
       fields={fields}
       formik={formik}
       onDelete={ctrl.popUp.state.nodeEdit?.onDelete}
+      isEditingEnabled={ctrl.mode.isEditingEnabled}
     />
   );
 };
@@ -391,6 +395,7 @@ type DraggableFormPorops = SubGraphEditPopUpProps & {
   fields: any;
   formik: { submitForm: () => void };
   onDelete?: () => void;
+  isEditingEnabled: boolean;
 };
 
 export const DraggableForm = (props: DraggableFormPorops) => {
@@ -423,7 +428,12 @@ export const DraggableForm = (props: DraggableFormPorops) => {
             </Button>
           </Tooltip>
           {!!props.onDelete && (
-            <Button variant="contained" color="warning" onClick={onDelete}>
+            <Button
+              variant="contained"
+              color="warning"
+              onClick={onDelete}
+              disabled={!props.isEditingEnabled}
+            >
               {t("Delete")}
             </Button>
           )}
@@ -432,6 +442,7 @@ export const DraggableForm = (props: DraggableFormPorops) => {
               variant="contained"
               color="primary"
               onClick={() => props.formik.submitForm()}
+              disabled={!props.isEditingEnabled}
             >
               {t("Save")}
             </Button>

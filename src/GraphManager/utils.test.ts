@@ -306,7 +306,7 @@ describe("linkPointerAreaPaint", () => {
   it("should draw in edit mode", () => {
     const { ctx } = makeCanvasRenderingContext2D();
     const ctrl = makeMockController();
-    ctrl.mode.isEditMode = true;
+    ctrl.mode.allowGraphInteractions = true;
     linkPointerAreaPaint(
       // @ts-ignore
       ctrl,
@@ -320,7 +320,7 @@ describe("linkPointerAreaPaint", () => {
   it("should not draw when not in edit mode", () => {
     const { ctx } = makeCanvasRenderingContext2D();
     const ctrl = makeMockController();
-    ctrl.mode.isEditMode = false;
+    ctrl.mode.isEditingEnabled = false;
     linkPointerAreaPaint(
       // @ts-ignore
       ctrl,

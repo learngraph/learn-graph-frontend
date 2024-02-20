@@ -94,7 +94,13 @@ const makeNodePointerAreaPaint = (ctrl: Controller) => {
     ctx: CanvasRenderingContext2D,
     globalScale: number,
   ) => {
-    nodePointerAreaPaint(node, color, ctx, globalScale, ctrl.mode.isEditMode);
+    nodePointerAreaPaint(
+      node,
+      color,
+      ctx,
+      globalScale,
+      ctrl.mode.allowGraphInteractions,
+    );
   };
 };
 
@@ -178,7 +184,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     makeInitialGraphData(),
   );
   const performInitialZoom = useRef(false);
-  const { language } = useUserDataContext();
+  const { language, userID } = useUserDataContext();
   const { data: graphDataFromBackend } = useGraphData();
   const [shiftHeld, setShiftHeld] = useState(false);
   const downHandler = ({ key }: any) => {
@@ -226,7 +232,8 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     new Set<ForceGraphNodeObject>(),
   );
 
-  const [isEditMode, setIsEditMode] = useState(false);
+  const [isEditingEnabled, setIsEditingEnabled] = useState(false);
+  const [allowGraphInteractions, setAllowGraphInteractions] = useState(false);
   const controller: Controller = {
     backend,
     popUp: {
@@ -258,7 +265,12 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       zoomState,
       setZoomState,
     },
-    mode: { isEditMode, setIsEditMode },
+    mode: {
+      isEditingEnabled,
+      setIsEditingEnabled,
+      allowGraphInteractions,
+      setAllowGraphInteractions,
+    },
   };
   const zoomControl = makeZoomControl(controller);
   controller.zoom.setUserZoomLevel = zoomControl.onZoomChange;
@@ -323,6 +335,13 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+  useEffect(() => {
+    if (userID) {
+      controller.mode.setIsEditingEnabled(true);
+    } else {
+      controller.mode.setIsEditingEnabled(false);
+    }
+  }, [userID]);
   return (
     <>
       <SmallAlignBottomLargeAlignLeft

@@ -315,7 +315,7 @@ export const linkPointerAreaPaint = (
   ctx: CanvasRenderingContext2D,
   globalScale: number,
 ) => {
-  if (!ctrl.mode.isEditMode) {
+  if (!ctrl.mode.allowGraphInteractions) {
     return;
   }
   drawLinkLine({ ctrl, link, ctx, globalScale, color: invisibleTouchPaint });
