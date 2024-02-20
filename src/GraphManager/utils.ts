@@ -359,7 +359,7 @@ export const drawLinkLine = (conf: DrawLinkConfig) => {
     t ** 3 * link.target.y!;
 
   // Now, draw the arrowhead at this point
-  const arrowSize = 2; // adjust as needed
+  const arrowSize = (4 / scale) * link.value; // adjust as needed
   ctx.save();
   ctx.beginPath();
   ctx.translate(ax, ay);
