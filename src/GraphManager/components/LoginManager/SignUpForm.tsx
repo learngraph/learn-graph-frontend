@@ -1,13 +1,13 @@
 import { Avatar, Box, Button, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
-import { UserSignupInfo } from "src/GraphManager/hooks/useCreateUser";
+import { UserSignupInfo } from "@src/GraphManager/hooks/useCreateUser";
 import { validateUserSignupRequest } from "./InputValidation";
 import {
   StyledBox,
   StyledBoxSX,
   TextFieldFormikGeneratorRequired,
-} from "src/shared/Styles";
+} from "@src/shared/Styles";
 import { useTranslation } from "react-i18next";
 
 interface SignUpFormProps {

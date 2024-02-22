@@ -11,17 +11,17 @@ import {
   ForceGraphLinkObject,
   ForceGraphNodeObject,
   ForceGraphLinkObjectInitial,
-} from "src/GraphManager/types";
-import { HighlightNodeSet, SpecialNodes } from "src/GraphManager/utils";
-import { Position } from "src/GraphManager/utils";
-import { CreateNodeFn } from "src/GraphManager/hooks/useCreateNode";
-import { CreateEdgeFn } from "src/GraphManager/hooks/useCreateEdge";
-import { SubmitVoteFn } from "src/GraphManager/hooks/useSubmitVote";
-import { UpdateNodeFn } from "src/GraphManager/hooks/useUpdateNode";
-import { DeleteNodeFn } from "src/GraphManager/hooks/useDeleteNode";
-import { DeleteEdgeFn } from "src/GraphManager/hooks/useDeleteEdge";
-import { ZoomState } from "src/GraphManager/Zoom";
-import i18n from "src/i18n";
+} from "@src/GraphManager/types";
+import { HighlightNodeSet, SpecialNodes } from "@src/GraphManager/utils";
+import { Position } from "@src/GraphManager/utils";
+import { CreateNodeFn } from "@src/GraphManager/hooks/useCreateNode";
+import { CreateEdgeFn } from "@src/GraphManager/hooks/useCreateEdge";
+import { SubmitVoteFn } from "@src/GraphManager/hooks/useSubmitVote";
+import { UpdateNodeFn } from "@src/GraphManager/hooks/useUpdateNode";
+import { DeleteNodeFn } from "@src/GraphManager/hooks/useDeleteNode";
+import { DeleteEdgeFn } from "@src/GraphManager/hooks/useDeleteEdge";
+import { ZoomState } from "@src/GraphManager/Zoom";
+import i18n from "@src/i18n";
 
 // Note: must be kept constant for all times, otherwise database must be
 // migrated to a new maximum weight.
@@ -158,8 +158,10 @@ export interface SearchState {
 }
 
 export interface ModeState {
-  isEditMode: boolean;
-  setIsEditMode: Dispatch<SetStateAction<boolean>>;
+  isEditingEnabled: boolean;
+  setIsEditingEnabled: Dispatch<SetStateAction<boolean>>;
+  allowGraphInteractions: boolean;
+  setAllowGraphInteractions: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface Controller {

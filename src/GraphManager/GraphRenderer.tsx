@@ -41,7 +41,7 @@ import { useSubmitVote } from "./hooks/useSubmitVote";
 import { useUpdateNode } from "./hooks/useUpdateNode";
 import { useDeleteNode } from "./hooks/useDeleteNode";
 import { useDeleteEdge } from "./hooks/useDeleteEdge";
-import { useUserDataContext } from "src/UserDataContext";
+import { useUserDataContext } from "@src/UserDataContext";
 import {
   ZoomControlPanel,
   makeZoomControl,
@@ -94,7 +94,13 @@ const makeNodePointerAreaPaint = (ctrl: Controller) => {
     ctx: CanvasRenderingContext2D,
     globalScale: number,
   ) => {
-    nodePointerAreaPaint(node, color, ctx, globalScale, ctrl.mode.isEditMode);
+    nodePointerAreaPaint(
+      node,
+      color,
+      ctx,
+      globalScale,
+      ctrl.mode.allowGraphInteractions,
+    );
   };
 };
 
@@ -178,7 +184,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     makeInitialGraphData(),
   );
   const performInitialZoom = useRef(false);
-  const { language } = useUserDataContext();
+  const { language, userID } = useUserDataContext();
   const { data: graphDataFromBackend } = useGraphData();
   const [shiftHeld, setShiftHeld] = useState(false);
   const downHandler = ({ key }: any) => {
@@ -226,7 +232,8 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     new Set<ForceGraphNodeObject>(),
   );
 
-  const [isEditMode, setIsEditMode] = useState(false);
+  const [isEditingEnabled, setIsEditingEnabled] = useState(false);
+  const [allowGraphInteractions, setAllowGraphInteractions] = useState(false);
   const controller: Controller = {
     backend,
     popUp: {
@@ -258,7 +265,12 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       zoomState,
       setZoomState,
     },
-    mode: { isEditMode, setIsEditMode },
+    mode: {
+      isEditingEnabled,
+      setIsEditingEnabled,
+      allowGraphInteractions,
+      setAllowGraphInteractions,
+    },
   };
   const zoomControl = makeZoomControl(controller);
   controller.zoom.setUserZoomLevel = zoomControl.onZoomChange;
@@ -277,7 +289,6 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       controller.graph.performInitialZoom,
     );
     // Note: performInitialZoom must not trigger call of graph data setter
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [graphDataFromBackend]);
   // XXX(skep): should we disable right click? it's kind of annoying for the
   // canvas, but outside we might want to allow it..
@@ -305,9 +316,6 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   });
   useEffect(() => {
     debounce(initialZoomForLargeGraph, 100)(controller); // XXX(skep): why is delay needed?
-    // Note: We must not-auto zoom on every controller change, but only on
-    // initial backend response, i.e. when loading initial graph data is done.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [graph]);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [availableSpace, setAvailableSpace] = useState<Rectangle>({
@@ -317,7 +325,6 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   const graphSizeConfig = { wrapperRef, setAvailableSpace };
   useLayoutEffect(() => {
     setGraphSize(graphSizeConfig);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [controller.search.highlightNodes]);
   useEffect(() => {
     const handleResize = () => {
@@ -327,8 +334,14 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  useEffect(() => {
+    if (userID) {
+      controller.mode.setIsEditingEnabled(true);
+    } else {
+      controller.mode.setIsEditingEnabled(false);
+    }
+  }, [userID]);
   return (
     <>
       <SmallAlignBottomLargeAlignLeft
@@ -354,8 +367,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
             onNodeDragEnd={makeOnNodeDragEnd(controller)}
             onLinkHover={onLinkHover}
             onLinkClick={makeOnLinkClick(controller)}
-            linkDirectionalArrowLength={G_CONFIG.linkDirectionalArrowLength}
-            linkDirectionalArrowRelPos={G_CONFIG.linkDirectionalArrowRelPos}
+            linkDirectionalArrowLength={0}
             // XXX: linkCanvasObjectMode should just be a string, but due to a bug in
             // force-graph it must be passed as function, otherwise linkCanvasObject
             // is never called. -> remove after force-graph module update

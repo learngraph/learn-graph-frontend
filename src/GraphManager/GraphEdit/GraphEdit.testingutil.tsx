@@ -1,11 +1,11 @@
 import { ForceGraphMethods } from "react-force-graph-2d";
 import { GraphState } from "./GraphEdit";
-import { SpecialNodes } from "src/GraphManager/utils";
+import { SpecialNodes } from "@src/GraphManager/utils";
 import {
   ForceGraphLinkObject,
   ForceGraphNodeObject,
-} from "src/GraphManager/types";
-import { ZOOM_LEVEL_MIN } from "src/GraphManager/ZoomControlPanel";
+} from "@src/GraphManager/types";
+import { ZOOM_LEVEL_MIN } from "@src/GraphManager/ZoomControlPanel";
 
 // Note: these methods are used by GraphRenderer tests as well, they must not
 // be imported from a .test-file, otherwise jest will execute those tests
@@ -85,8 +85,10 @@ export const makeMockController = () => {
       setShiftHeld: jest.fn(),
     },
     mode: {
-      isEditMode: false,
-      setIsEditMode: jest.fn(),
+      isEditingEnabled: false,
+      setIsEditingEnabled: jest.fn(),
+      allowGraphInteractions: false,
+      setAllowGraphInteractions: jest.fn(),
     },
   };
   return ctrl;

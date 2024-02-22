@@ -1,4 +1,4 @@
-import { useUserDataContext } from "src/UserDataContext";
+import { useUserDataContext } from "@src/UserDataContext";
 import LoginSignupMenu from "./LoginSignupMenu";
 import UserDisplay from "./UserDisplay";
 

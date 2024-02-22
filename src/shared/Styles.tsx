@@ -17,6 +17,7 @@ export interface TextFieldConfig<T extends FormikValues> {
   fieldLabel: string;
   autoFocus?: boolean;
   multiline?: boolean;
+  disabled?: boolean;
 }
 
 const TextFieldFormikGeneratorInternal = <T extends FormikValues>(
@@ -44,6 +45,7 @@ const TextFieldFormikGeneratorInternal = <T extends FormikValues>(
       }
       autoFocus={props.autoFocus ?? false}
       multiline={props.multiline ?? false}
+      disabled={props.disabled ?? false}
     />
   );
 };
@@ -81,9 +83,6 @@ export const TextFieldFormikGeneratorAutocomplete = (
     if (!!conf.defaultValue) {
       handleInputChange(null, conf.defaultValue);
     }
-    // NOTE: handleInputChange changes when called, thus adding it as
-    // dependency would create an infinite loop.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [conf.defaultValue]);
   //const handleKeyDown = (event: any) => {
   //  if (event.key === 'Tab') {

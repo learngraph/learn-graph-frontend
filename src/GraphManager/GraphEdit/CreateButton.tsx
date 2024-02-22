@@ -11,8 +11,8 @@ import {
   openCreateNodePopUpAtPagePosition,
 } from "./GraphEdit";
 import { useTranslation } from "react-i18next";
-import { useUserDataContext } from "src/UserDataContext";
-import i18n from "src/i18n";
+import { useUserDataContext } from "@src/UserDataContext";
+import i18n from "@src/i18n";
 
 // TODO(skep): use theme here for backgroundColor!
 // Styled component for the shaded circle

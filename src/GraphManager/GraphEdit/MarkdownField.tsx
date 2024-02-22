@@ -48,8 +48,7 @@ export interface MarkdownConfig {
   fieldLabel: string;
   initialMarkdownContent: string;
   setValueOnChange: (markdown: string) => void;
-  // unused for the current markdown editor, it is always multiline
-  multiline?: boolean;
+  isEditingEnabled: boolean;
 }
 interface MarkdownEditorConfig extends MarkdownConfig {
   isEmpty: boolean;
@@ -61,23 +60,24 @@ interface MarkdownEditorConfig extends MarkdownConfig {
   onClickStateChange: number;
 }
 
-const FocusWhenStateChangePlugin = ({
-  onClickStateChange,
-}: {
+const FocusWhenStateChangePlugin = (props: {
   onClickStateChange: number;
+  isEditingEnabled: boolean;
 }) => {
   const [editor] = useLexicalComposerContext();
   useEffect(() => {
-    if (onClickStateChange === 0) {
+    if (props.onClickStateChange === 0) {
       editor.setEditable(false);
+      return;
+    }
+    if (!props.isEditingEnabled) {
       return;
     }
     editor.setEditable(true);
     // XXX(skep): if this timeout hack is not used the user would have to click
     // 2 times, which is confusing, but why is it needed?!
     setTimeout(() => editor.focus(), 10);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [onClickStateChange]);
+  }, [props.onClickStateChange]);
   return null;
 };
 
@@ -136,6 +136,7 @@ const MarkdownEditor = (props: MarkdownEditorConfig) => {
         <HistoryPlugin />
         <FocusWhenStateChangePlugin
           onClickStateChange={props.onClickStateChange}
+          isEditingEnabled={props.isEditingEnabled}
         />
       </LexicalComposer>
       <NotchedOutline
@@ -152,6 +153,9 @@ export const MarkdownEditorWrapper = (props: MarkdownConfig) => {
   const [onClickStateChange, setOnClickStateChange] = useState(0);
   const handleClick: MouseEventHandler<HTMLDivElement> = (_) => {
     setOnClickStateChange(1);
+    if (!props.isEditingEnabled) {
+      return;
+    }
     setIsFocused(true);
   };
   const handleUnfocus = () => {

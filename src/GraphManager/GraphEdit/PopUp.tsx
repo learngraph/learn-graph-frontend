@@ -24,11 +24,11 @@ import {
   DialogueStyles,
   TextFieldFormikGeneratorRequired,
   TextFieldFormikGeneratorAutocomplete,
-} from "src/shared/Styles";
+} from "@src/shared/Styles";
 import {
   ForceGraphGraphData,
   ForceGraphNodeObject,
-} from "src/GraphManager/types";
+} from "@src/GraphManager/types";
 import { MarkdownEditorWrapper } from "./MarkdownField";
 
 // TODO(skep): MIN_NODE_DESCRIPTION_LENGTH should be language dependent; for
@@ -39,13 +39,13 @@ const MAX_NODE_DESCRIPTION_LENGTH = 40;
 
 interface LinkWeightSliderProps {
   defaultValue: number;
-  setSliderValue: React.Dispatch<React.SetStateAction<Number | Array<Number>>>;
+  setSliderValue: React.Dispatch<React.SetStateAction<number | Array<number>>>;
 }
 
 export const LinkWeightSlider = (props: LinkWeightSliderProps) => {
   const onSliderValueChange = (
     _event: any,
-    newValue: Number | Array<Number>,
+    newValue: number | Array<number>,
   ) => {
     props.setSliderValue(newValue);
   };
@@ -221,7 +221,7 @@ export const LinkCreatePopUp = ({
   handleClose,
   ctrl,
 }: SubGraphEditPopUpProps) => {
-  const [sliderValue, setSliderValue] = useState<Number | Array<Number>>(
+  const [sliderValue, setSliderValue] = useState<number | Array<number>>(
     DEFAULT_EDIT_LINK_WEIGHT,
   );
   const formik = useFormik<NewLinkForm>({
@@ -289,6 +289,7 @@ export const LinkCreatePopUp = ({
       handleClose={extendedHandleClose}
       fields={fields}
       formik={formik}
+      isEditingEnabled={ctrl.mode.isEditingEnabled}
     />
   );
 };
@@ -297,7 +298,7 @@ interface VoteLinkForm {
   linkWeight: number;
 }
 const LinkVotePopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
-  const [sliderValue, setSliderValue] = useState<Number | Array<Number>>(
+  const [sliderValue, setSliderValue] = useState<number | Array<number>>(
     DEFAULT_EDIT_LINK_WEIGHT,
   );
   const formik = useFormik<VoteLinkForm>({
@@ -327,6 +328,7 @@ const LinkVotePopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
       fields={fields}
       formik={formik}
       onDelete={ctrl.popUp.state.linkVote?.onDelete}
+      isEditingEnabled={ctrl.mode.isEditingEnabled}
     />
   );
 };
@@ -361,6 +363,7 @@ const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
       fieldName="nodeDescription"
       fieldLabel={t("Node Description")}
       formik={formik}
+      disabled={!ctrl.mode.isEditingEnabled}
       autoFocus
     />,
     <MarkdownEditorWrapper
@@ -371,7 +374,7 @@ const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
         const helpers = formik.getFieldHelpers("nodeResources");
         helpers.setValue(markdown);
       }}
-      multiline={true}
+      isEditingEnabled={ctrl.mode.isEditingEnabled}
     />,
   ];
   return (
@@ -382,6 +385,7 @@ const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
       fields={fields}
       formik={formik}
       onDelete={ctrl.popUp.state.nodeEdit?.onDelete}
+      isEditingEnabled={ctrl.mode.isEditingEnabled}
     />
   );
 };
@@ -391,6 +395,7 @@ type DraggableFormPorops = SubGraphEditPopUpProps & {
   fields: any;
   formik: { submitForm: () => void };
   onDelete?: () => void;
+  isEditingEnabled: boolean;
 };
 
 export const DraggableForm = (props: DraggableFormPorops) => {
@@ -423,7 +428,12 @@ export const DraggableForm = (props: DraggableFormPorops) => {
             </Button>
           </Tooltip>
           {!!props.onDelete && (
-            <Button variant="contained" color="warning" onClick={onDelete}>
+            <Button
+              variant="contained"
+              color="warning"
+              onClick={onDelete}
+              disabled={!props.isEditingEnabled}
+            >
               {t("Delete")}
             </Button>
           )}
@@ -432,6 +442,7 @@ export const DraggableForm = (props: DraggableFormPorops) => {
               variant="contained"
               color="primary"
               onClick={() => props.formik.submitForm()}
+              disabled={!props.isEditingEnabled}
             >
               {t("Save")}
             </Button>
