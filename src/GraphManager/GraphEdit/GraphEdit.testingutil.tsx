@@ -89,6 +89,8 @@ export const makeMockController = () => {
       setIsEditingEnabled: jest.fn(),
       allowGraphInteractions: false,
       setAllowGraphInteractions: jest.fn(),
+      use3D: false,
+      setUse3D: jest.fn(),
     },
   };
   return ctrl;

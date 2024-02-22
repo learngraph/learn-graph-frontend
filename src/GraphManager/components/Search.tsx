@@ -20,11 +20,25 @@ export const userSearchMatching = (
 };
 
 export const centerOnNode = (ctrl: Controller, node: ForceGraphNodeObject) => {
-  ctrl.forceGraphRef.current?.centerAt(node.x, node.y, CENTER_AT_NODE_TIME_MS);
-  ctrl.forceGraphRef.current?.zoom(
-    GLOBALSCALE_AFTER_SEARCH,
-    ZOOM_TO_FIT_DURATION_MS,
-  );
+  if (ctrl.mode.use3D) {
+    const distance = 100;
+    const distRatio = 1 + distance / Math.hypot(node.x, node.y, node.z);
+    ctrl.forceGraphRef.current?.cameraPosition(
+      { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio }, // new position
+      node, // lookAt ({ x, y, z })
+      3000, // ms transition duration
+    );
+  } else {
+    ctrl.forceGraphRef.current?.centerAt(
+      node.x,
+      node.y,
+      CENTER_AT_NODE_TIME_MS,
+    );
+    ctrl.forceGraphRef.current?.zoom(
+      GLOBALSCALE_AFTER_SEARCH,
+      ZOOM_TO_FIT_DURATION_MS,
+    );
+  }
 };
 
 export const userSearchMatchingInternal = (

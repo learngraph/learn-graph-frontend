@@ -1,4 +1,5 @@
 import { Dispatch, MutableRefObject, RefObject, SetStateAction } from "react";
+import SpriteText from "three-spritetext";
 import { Controller, GraphState } from "./GraphEdit/GraphEdit";
 import {
   BackendGraphData,
@@ -142,6 +143,26 @@ export const nodeCanvasObject = (
   };
   const pos = { x: node.x, y: node.y };
   drawTextWithBackground(text, ctx, pos, { mergedNodes, globalScale });
+};
+
+interface NodeVisualizer {
+  (node: ForceGraphNodeObject): SpriteText;
+}
+export const nodeCanvas3dObject: NodeVisualizer = (
+  node: ForceGraphNodeObject,
+) => {
+  let label = node.description ?? "";
+  let backgroundColor = backgroundColorLightBlue;
+  const mergedNodes = node.mergeCount ?? 0;
+  if (mergedNodes > 1) {
+    let hue = ((1 - mergedNodes * 0.1) * 120).toString(10);
+    backgroundColor = `hsl(${hue},100%,50%)`;
+    label += ` [${mergedNodes}]`;
+  }
+  const sprite = new SpriteText(label);
+  sprite.color = backgroundColor;
+  sprite.textHeight = 8;
+  return sprite;
 };
 
 const drawTextWithBackground = (

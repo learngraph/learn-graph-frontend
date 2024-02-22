@@ -1,4 +1,5 @@
 import ForceGraph2D from "react-force-graph-2d";
+import ForceGraph3D from "react-force-graph-3d";
 import {
   MutableRefObject,
   useRef,
@@ -60,6 +61,7 @@ import {
   makeGraphState,
   makeInitialGraphData,
   makeKeydownListener,
+  nodeCanvas3dObject,
   nodeCanvasObject,
   nodePointerAreaPaint,
   setGraphSize,
@@ -84,6 +86,12 @@ const makeNodeCanvasObject = (ctrl: Controller) => {
       ctrl,
       ctrl.graph.current.nodes.length,
     );
+  };
+};
+
+const makeNodeThreeObject = (_: Controller) => {
+  return (nodeForceGraph: ForceGraphNodeObject) => {
+    return nodeCanvas3dObject(nodeForceGraph);
   };
 };
 
@@ -234,6 +242,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
 
   const [isEditingEnabled, setIsEditingEnabled] = useState(false);
   const [allowGraphInteractions, setAllowGraphInteractions] = useState(false);
+  const [use3D, setUse3D] = useState<boolean>(true);
   const controller: Controller = {
     backend,
     popUp: {
@@ -270,6 +279,8 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       setIsEditingEnabled,
       allowGraphInteractions,
       setAllowGraphInteractions,
+      use3D,
+      setUse3D,
     },
   };
   const zoomControl = makeZoomControl(controller);
@@ -353,31 +364,60 @@ export const GraphRenderer = (props: GraphRendererProps) => {
             overflow: "hidden",
           }}
         >
-          <ForceGraph2D
-            height={availableSpace.height}
-            width={availableSpace.width}
-            ref={controller.forceGraphRef}
-            graphData={graph}
-            cooldownTicks={cooldownTicks}
-            nodeCanvasObject={makeNodeCanvasObject(controller)}
-            nodePointerAreaPaint={makeNodePointerAreaPaint(controller)}
-            onNodeClick={makeOnNodeClick(controller)}
-            onNodeHover={onNodeHover}
-            onNodeDrag={makeOnNodeDrag(controller)}
-            onNodeDragEnd={makeOnNodeDragEnd(controller)}
-            onLinkHover={onLinkHover}
-            onLinkClick={makeOnLinkClick(controller)}
-            linkDirectionalArrowLength={0}
-            // XXX: linkCanvasObjectMode should just be a string, but due to a bug in
-            // force-graph it must be passed as function, otherwise linkCanvasObject
-            // is never called. -> remove after force-graph module update
-            // @ts-ignore
-            linkCanvasObjectMode={() => G_CONFIG.linkCanvasObjectMode}
-            linkCanvasObject={makeLinkCanvasObject(controller)}
-            linkPointerAreaPaint={makeLinkPointerAreaPaint(controller)}
-            onZoom={makeOnZoomAndPanListener(controller)}
-            onBackgroundClick={onBackgroundClick}
-          />
+          {controller.mode.use3D ? (
+            <ForceGraph3D
+              height={availableSpace.height}
+              width={availableSpace.width}
+              ref={controller.forceGraphRef} // should be ok |-(
+              graphData={graph}
+              //controlType="fly" // XXX: doesn't work well with catching mouse-events...
+              cooldownTicks={cooldownTicks}
+              nodeThreeObject={makeNodeThreeObject(controller)}
+              nodePointerAreaPaint={makeNodePointerAreaPaint(controller)}
+              onNodeClick={makeOnNodeClick(controller)}
+              onNodeHover={onNodeHover}
+              onNodeDrag={makeOnNodeDrag(controller)}
+              onNodeDragEnd={makeOnNodeDragEnd(controller)}
+              onLinkHover={onLinkHover}
+              onLinkClick={makeOnLinkClick(controller)}
+              linkDirectionalArrowLength={0}
+              // XXX: linkCanvasObjectMode should just be a string, but due to a bug in
+              // force-graph it must be passed as function, otherwise linkCanvasObject
+              // is never called. -> remove after force-graph module update
+              // @ts-ignore
+              linkCanvasObjectMode={() => G_CONFIG.linkCanvasObjectMode}
+              linkCanvasObject={makeLinkCanvasObject(controller)}
+              linkPointerAreaPaint={makeLinkPointerAreaPaint(controller)}
+              //onZoom={makeOnZoomAndPanListener(controller)}
+              onBackgroundClick={onBackgroundClick}
+            />
+          ) : (
+            <ForceGraph2D
+              height={availableSpace.height}
+              width={availableSpace.width}
+              ref={controller.forceGraphRef}
+              graphData={graph}
+              cooldownTicks={cooldownTicks}
+              nodeCanvasObject={makeNodeCanvasObject(controller)}
+              nodePointerAreaPaint={makeNodePointerAreaPaint(controller)}
+              onNodeClick={makeOnNodeClick(controller)}
+              onNodeHover={onNodeHover}
+              onNodeDrag={makeOnNodeDrag(controller)}
+              onNodeDragEnd={makeOnNodeDragEnd(controller)}
+              onLinkHover={onLinkHover}
+              onLinkClick={makeOnLinkClick(controller)}
+              linkDirectionalArrowLength={0}
+              // XXX: linkCanvasObjectMode should just be a string, but due to a bug in
+              // force-graph it must be passed as function, otherwise linkCanvasObject
+              // is never called. -> remove after force-graph module update
+              // @ts-ignore
+              linkCanvasObjectMode={() => G_CONFIG.linkCanvasObjectMode}
+              linkCanvasObject={makeLinkCanvasObject(controller)}
+              linkPointerAreaPaint={makeLinkPointerAreaPaint(controller)}
+              onZoom={makeOnZoomAndPanListener(controller)}
+              onBackgroundClick={onBackgroundClick}
+            />
+          )}
         </Box>
         bottomLeft=<SearchResultPopUp
           ctrl={controller}

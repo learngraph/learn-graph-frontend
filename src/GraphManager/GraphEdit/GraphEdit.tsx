@@ -162,6 +162,8 @@ export interface ModeState {
   setIsEditingEnabled: Dispatch<SetStateAction<boolean>>;
   allowGraphInteractions: boolean;
   setAllowGraphInteractions: Dispatch<SetStateAction<boolean>>;
+  use3D: boolean;
+  setUse3D: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface Controller {
