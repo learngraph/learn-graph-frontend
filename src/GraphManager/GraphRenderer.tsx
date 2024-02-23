@@ -36,6 +36,7 @@ import {
 import { GraphEditPopUp, GraphEditPopUpState } from "./GraphEdit/PopUp";
 import { CreateButton } from "./GraphEdit/CreateButton";
 import { EditModeButton } from "./GraphEdit/ModeButton";
+import { UserSettings } from "./GraphEdit/UserSettings";
 import { useCreateNode } from "./hooks/useCreateNode";
 import { useCreateEdge } from "./hooks/useCreateEdge";
 import { useSubmitVote } from "./hooks/useSubmitVote";
@@ -236,13 +237,13 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     FG_ENGINE_COOLDOWN_TICKS_DEFAULT,
   );
   const [isResultShown, setIsResultShown] = useState<boolean>(false);
-  const [highlightNodes, setHighlightNodes] = useState(
-    new Set<ForceGraphNodeObject>(),
-  );
+  const [highlightNodes, setHighlightNodes] = useState<
+    Set<ForceGraphNodeObject>
+  >(new Set());
 
   const [isEditingEnabled, setIsEditingEnabled] = useState(false);
   const [allowGraphInteractions, setAllowGraphInteractions] = useState(false);
-  const [use3D, setUse3D] = useState<boolean>(true);
+  const [use3D, setUse3D] = useState<boolean>(false);
   const controller: Controller = {
     backend,
     popUp: {
@@ -434,6 +435,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
           flexDirection: "column",
         }}
       >
+        <UserSettings ctrl={controller} />
         <EditModeButton ctrl={controller} />
         <CreateButton ctrl={controller} />
       </Box>
