@@ -64,25 +64,25 @@ Image is build and pushed to hub.docker.com via [github action](.github/workflow
 
 ### Simple setup guide for beginner devs
 
-Install git, docker, docker-compose, npm
+Install git, docker, docker-compose and npm.
 
 To install all dependencies run
 ```sh
 npm install
 ```
 
-for the setup of docker run
+For the setup of docker run
 
 ```sh
 sudo gpasswd -a $USER docker  
 newgrp docker
 ```
-to add your user to the docker group and
+To add your user to the docker group and
 
 ```sh
 docker create network learngraph
 ```
-to let frontend and backend talk to each other in docker.
+To let frontend and backend talk to each other in docker.
 
 Finally run `docker-compose up` parallel in both frontend and backend.
 
