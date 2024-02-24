@@ -1,10 +1,11 @@
 // TODO(skep): translate this file
 import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
 import SettingsIcon from "@mui/icons-material/Settings";
 import Drawer from "@mui/material/Drawer";
 import Typography from "@mui/material/Typography";
 import Checkbox from "@mui/material/Checkbox";
-//import AppBar from "@mui/material/AppBar";
+import Divider from '@mui/material/Divider';
 import { useState } from "react";
 
 import { CircleContainer, buttonIconStyle } from "./CreateButton";
@@ -20,17 +21,31 @@ export const UserSettings = ({ ctrl }: { ctrl: Controller }) => {
     <>
       <UserSettingsButton ctrl={ctrl} onClick={toggleDrawer} />
       <Drawer open={isOpen} onClose={toggleDrawer} anchor="right">
-        {/*<AppBar> hello </AppBar>*/}
-        <Typography>User Settings</Typography>
-        <FormGroup>
-          <FormControlLabel
-            label="Use 3D Display?!"
-            control={<Checkbox checked={ctrl.mode.use3D} />}
-            onClick={() => {
-              ctrl.mode.setUse3D((current: boolean) => !current);
-            }}
-          />
-        </FormGroup>
+        <Box sx={{padding: 2}}>
+          <Typography variant="h5">User Settings</Typography>
+          <FormGroup>
+            {/*<Divider>Visuals</Divider>*/}
+            <Divider />
+            <Typography variant="overline">Visuals:</Typography>
+            <FormControlLabel
+              label="Dark Theme"
+              control={<Checkbox checked={false} disabled={true} />}
+              onClick={() => {}}
+            />
+          </FormGroup>
+          <FormGroup>
+            {/*<Divider>Experimental Settings</Divider>*/}
+            <Divider />
+            <Typography variant="overline">Experimental Settings:</Typography>
+            <FormControlLabel
+              label="Use 3D Display?!"
+              control={<Checkbox checked={ctrl.mode.use3D} />}
+              onClick={() => {
+                ctrl.mode.setUse3D((current: boolean) => !current);
+              }}
+            />
+          </FormGroup>
+        </Box>
       </Drawer>
     </>
   );
