@@ -24,12 +24,13 @@ export const UserSettings = ({ ctrl }: { ctrl: Controller }) => {
         <Box sx={{padding: 2}}>
           <Typography variant="h5">User Settings</Typography>
           <FormGroup>
+            {/* XXX(skep): maybe use diver like this? */}
             {/*<Divider>Visuals</Divider>*/}
             <Divider />
             <Typography variant="overline">Visuals:</Typography>
             <FormControlLabel
               label="Dark Theme"
-              control={<Checkbox checked={false} disabled={true} />}
+              control={<Checkbox checked={false} disabled={true} /*TODO(skep): implement!*/ />}
               onClick={() => {}}
             />
           </FormGroup>
@@ -38,7 +39,7 @@ export const UserSettings = ({ ctrl }: { ctrl: Controller }) => {
             <Divider />
             <Typography variant="overline">Experimental Settings:</Typography>
             <FormControlLabel
-              label="Use 3D Display?!"
+              label="3D Display"
               control={<Checkbox checked={ctrl.mode.use3D} />}
               onClick={() => {
                 ctrl.mode.setUse3D((current: boolean) => !current);
