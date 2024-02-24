@@ -80,7 +80,7 @@ newgrp docker
 To add your user to the docker group and
 
 ```sh
-		docker network create learngraphnet
+docker network create learngraphnet
 ```
 To let frontend and backend talk to each other in docker.
 
