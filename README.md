@@ -61,3 +61,30 @@ should be rendered in a test.
 
 Compilation via 2 stage [Dockerfile](./Dockerfile).
 Image is build and pushed to hub.docker.com via [github action](.github/workflows/release.yml).
+
+### Simple setup guide for beginner devs
+
+Install git, docker, docker-compose and npm.
+
+To install all dependencies run
+```sh
+npm install
+```
+
+For the setup of docker run
+
+```sh
+sudo gpasswd -a $USER docker  
+newgrp docker
+```
+To add your user to the docker group and
+
+```sh
+docker network create learngraphnet
+```
+To let frontend and backend talk to each other in docker.
+
+Finally run `docker-compose up` parallel in both frontend and backend.
+
+You can look at the current instance of the app in your Browser under
+`localhost:3000`
