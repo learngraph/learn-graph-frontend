@@ -1,11 +1,17 @@
-# React Force Graph
+# Learngraph Frontend
 
 See
 
 - [learngraph.org](https://learngraph.org/),
 - [about us](https://learngraph.org/about).
 
-## Development
+## Contributing
+
+### How to Contribute?
+
+- Commit messages should follow the [conventional commits guideline](https://www.conventionalcommits.org/en/v1.0.0/),
+- Create a PR & wait for review,
+- PRs should be "squashed & merged"
 
 ### Development Envorinment
 
