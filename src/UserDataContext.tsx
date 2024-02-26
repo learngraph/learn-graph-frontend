@@ -120,7 +120,17 @@ const makeNotifyUserOnNotLoggedInError = (ctx: UserDataContextValues) => {
             msg = i18n.t("Session expired, please login again!");
             clearUserDataCtx(ctx);
           }
-          alert(msg); // TODO(skep): make it a nice MUI-popup
+          alert(msg);
+        } else if (
+          message.includes('violates unique constraint "users_username_key"')
+        ) {
+          let msg = "Failed to create Account: Username already in use."; // TODO(skep): translate
+          alert(msg);
+        } else if (
+          message.includes('violates unique constraint "users_e_mail_key"')
+        ) {
+          let msg = "Failed to create Account: EMail already in use."; // TODO(skep): translate
+          alert(msg);
         }
       });
     }
