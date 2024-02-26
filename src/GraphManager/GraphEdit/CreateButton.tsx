@@ -14,6 +14,8 @@ import { useTranslation } from "react-i18next";
 import { useUserDataContext } from "@src/UserDataContext";
 import i18n from "@src/i18n";
 
+export const buttonIconStyle = { fontSize: 40 };
+
 // TODO(skep): use theme here for backgroundColor!
 // Styled component for the shaded circle
 export const CircleContainer = styled("div")({
@@ -71,7 +73,7 @@ export const CreateButton = ({ ctrl }: CreateButtonProps) => {
         onClick={handleClick}
       >
         <CircleContainer>
-          <AddIcon style={{ fontSize: 40 }} />
+          <AddIcon style={buttonIconStyle} />
         </CircleContainer>
       </Button>
       <Menu
