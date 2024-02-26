@@ -7,6 +7,7 @@ import {
   HttpLink,
 } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
+import { GraphQLErrors } from "@apollo/client/errors";
 import { setContext, ContextSetter } from "@apollo/client/link/context";
 import fetch from "cross-fetch";
 import i18n from "./i18n";
@@ -110,29 +111,40 @@ const clearUserData = (clearUserDataFunctions: clearUserDataType) => {
   clearUserDataFunctions.setAuthenticationToken("");
 };
 
-const makeNotifyUserOnNotLoggedInError = (ctx: UserDataContextValues) => {
+export const handleGraphQLErrors = (
+  ctx: UserDataContextValues,
+  popUpWith: (msg: string) => void,
+  graphQLErrors: GraphQLErrors,
+) => {
+  graphQLErrors.forEach(({ message }) => {
+    let msg = "";
+    if (message.includes("only logged in user may create graph data")) {
+      msg = i18n.t("Please login/signup to contribute!");
+      if (ctx.userID !== "" && ctx.authenticationToken !== "") {
+        msg = i18n.t("Session expired, please login again!");
+        clearUserDataCtx(ctx);
+      }
+    } else if (
+      message.includes('violates unique constraint "users_username_key"')
+    ) {
+      msg = "Failed to create Account: Username already in use."; // TODO(skep): translate
+    } else if (
+      message.includes('violates unique constraint "users_e_mail_key"')
+    ) {
+      msg = "Failed to create Account: EMail already in use."; // TODO(skep): translate
+    }
+    if (msg !== "") {
+      popUpWith(msg);
+    }
+  });
+};
+const makeNotifyUserOnNotLoggedInError = (
+  ctx: UserDataContextValues,
+  popUpWith: (msg: string) => void,
+) => {
   return onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors) {
-      graphQLErrors.forEach(({ message }) => {
-        if (message.includes("only logged in user may create graph data")) {
-          let msg = i18n.t("Please login/signup to contribute!");
-          if (ctx.userID !== "" && ctx.authenticationToken !== "") {
-            msg = i18n.t("Session expired, please login again!");
-            clearUserDataCtx(ctx);
-          }
-          alert(msg);
-        } else if (
-          message.includes('violates unique constraint "users_username_key"')
-        ) {
-          let msg = "Failed to create Account: Username already in use."; // TODO(skep): translate
-          alert(msg);
-        } else if (
-          message.includes('violates unique constraint "users_e_mail_key"')
-        ) {
-          let msg = "Failed to create Account: EMail already in use."; // TODO(skep): translate
-          alert(msg);
-        }
-      });
+      handleGraphQLErrors(ctx, popUpWith, graphQLErrors);
     }
     if (networkError) {
       console.error(`[Network error]: ${networkError}`);
@@ -210,7 +222,10 @@ export const UserDataContextProvider: React.FC<{
     logout,
   };
 
-  const notifyUserOnNotLoggedInError = makeNotifyUserOnNotLoggedInError(ctx);
+  const notifyUserOnNotLoggedInError = makeNotifyUserOnNotLoggedInError(
+    ctx,
+    alert,
+  );
   const addUserIDHeaderFromContext: ContextSetter = (_, { headers }) => {
     return addUserIDHeader({ headers, userID: ctx.userID });
   };
