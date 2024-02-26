@@ -91,6 +91,15 @@ export const makeKeydownListener = (_ctrl: Controller) => {
   };
 };
 
+const calculateBackgroundColor = (mergedNodes: number, totalNodes: number) => {
+  // TODO(skep): should use react theme for color choice here
+  let hue = (
+    205 +
+    (1 - Math.exp(-mergedNodes / totalNodes)) * 3 * 20
+  ).toString();
+  return `hsl(${hue},100%,50%)`;
+};
+
 export const nodeCanvasObject = (
   node: ForceGraphNodeObject,
   ctx: CanvasRenderingContext2D,
@@ -106,12 +115,7 @@ export const nodeCanvasObject = (
   let backgroundColor = backgroundColorLightBlue;
   const mergedNodes: number = node.mergeCount ?? 0;
   if (mergedNodes > 1) {
-    // TODO(skep): should use react theme for color choice here
-    let hue = (
-      205 +
-      (1 - Math.exp(-mergedNodes / totalNodes)) * 3 * 20
-    ).toString();
-    backgroundColor = `hsl(${hue},100%,50%)`;
+    backgroundColor = calculateBackgroundColor(mergedNodes, totalNodes);
   }
   if (highlightNodes.has(node)) {
     backgroundColor = `hsl(1,100%,50%)`;
@@ -146,18 +150,17 @@ export const nodeCanvasObject = (
 };
 
 interface NodeVisualizer {
-  (node: ForceGraphNodeObject): SpriteText;
+  (node: ForceGraphNodeObject, totalNodes: number): SpriteText;
 }
 export const nodeCanvas3dObject: NodeVisualizer = (
   node: ForceGraphNodeObject,
+  totalNodes: number,
 ) => {
   let label = node.description ?? "";
   let backgroundColor = backgroundColorLightBlue;
   const mergedNodes = node.mergeCount ?? 0;
   if (mergedNodes > 1) {
-    let hue = ((1 - mergedNodes * 0.1) * 120).toString(10);
-    backgroundColor = `hsl(${hue},100%,50%)`;
-    label += ` [${mergedNodes}]`;
+    backgroundColor = calculateBackgroundColor(mergedNodes, totalNodes);
   }
   const sprite = new SpriteText(label);
   sprite.color = backgroundColor;

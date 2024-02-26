@@ -5,7 +5,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import Drawer from "@mui/material/Drawer";
 import Typography from "@mui/material/Typography";
 import Checkbox from "@mui/material/Checkbox";
-import Divider from '@mui/material/Divider';
+import Divider from "@mui/material/Divider";
 import { useState } from "react";
 
 import { CircleContainer, buttonIconStyle } from "./CreateButton";
@@ -21,7 +21,7 @@ export const UserSettings = ({ ctrl }: { ctrl: Controller }) => {
     <>
       <UserSettingsButton ctrl={ctrl} onClick={toggleDrawer} />
       <Drawer open={isOpen} onClose={toggleDrawer} anchor="right">
-        <Box sx={{padding: 2}}>
+        <Box sx={{ padding: 2 }}>
           <Typography variant="h5">User Settings</Typography>
           <FormGroup>
             {/* XXX(skep): maybe use diver like this? */}
@@ -30,7 +30,12 @@ export const UserSettings = ({ ctrl }: { ctrl: Controller }) => {
             <Typography variant="overline">Visuals:</Typography>
             <FormControlLabel
               label="Dark Theme"
-              control={<Checkbox checked={false} disabled={true} /*TODO(skep): implement!*/ />}
+              control={
+                <Checkbox
+                  checked={false}
+                  disabled={true} /*TODO(skep): implement!*/
+                />
+              }
               onClick={() => {}}
             />
           </FormGroup>

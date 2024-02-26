@@ -20,13 +20,20 @@ export const userSearchMatching = (
 };
 
 export const centerOnNode = (ctrl: Controller, node: ForceGraphNodeObject) => {
-  // @ts-ignore: XXX(skep): how to test for type on runtime here?
-  if (ctrl.mode.use3D && ctrl.forceGraphRef.current?.cameraPosition !== undefined) {
+  if (
+    ctrl.mode.use3D &&
+    // @ts-ignore: 'cameraPosition' doesn't exist on 2d forcegraph
+    ctrl.forceGraphRef.current?.cameraPosition !== undefined
+  ) {
     const distance = 100;
     const distRatio = 1 + distance / Math.hypot(node.x!, node.y!, node.z!);
-    // @ts-ignore: XXX(skep): how to test for type on runtime here?
+    // @ts-ignore: 'cameraPosition' doesn't exist on 2d forcegraph
     ctrl.forceGraphRef.current?.cameraPosition(
-      { x: node.x! * distRatio, y: node.y! * distRatio, z: node.z! * distRatio }, // new position
+      {
+        x: node.x! * distRatio,
+        y: node.y! * distRatio,
+        z: node.z! * distRatio,
+      }, // new position
       node, // lookAt ({ x, y, z })
       3000, // ms transition duration
     );

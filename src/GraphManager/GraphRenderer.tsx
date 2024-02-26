@@ -76,12 +76,12 @@ interface GraphRendererProps {
 
 const makeNodeCanvasObject = (ctrl: Controller) => {
   return (
-    nodeForceGraph: ForceGraphNodeObject,
+    node: ForceGraphNodeObject,
     ctx: CanvasRenderingContext2D,
     globalScale: number,
   ) => {
     return nodeCanvasObject(
-      nodeForceGraph,
+      node,
       ctx,
       globalScale,
       ctrl,
@@ -90,9 +90,9 @@ const makeNodeCanvasObject = (ctrl: Controller) => {
   };
 };
 
-const makeNodeThreeObject = (_: Controller) => {
-  return (nodeForceGraph: ForceGraphNodeObject) => {
-    return nodeCanvas3dObject(nodeForceGraph);
+const makeNodeThreeObject = (ctrl: Controller) => {
+  return (node: ForceGraphNodeObject) => {
+    return nodeCanvas3dObject(node, ctrl.graph.current.nodes.length);
   };
 };
 
@@ -369,7 +369,8 @@ export const GraphRenderer = (props: GraphRendererProps) => {
             <ForceGraph3D
               height={availableSpace.height}
               width={availableSpace.width}
-              ref={controller.forceGraphRef} // should be ok |-(
+              // @ts-ignore: either 2d or 3d forcegraph - should be ok
+              ref={controller.forceGraphRef}
               graphData={graph}
               //controlType="fly" // XXX: doesn't work well with catching mouse-events...
               cooldownTicks={cooldownTicks}
