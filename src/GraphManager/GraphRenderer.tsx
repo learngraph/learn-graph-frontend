@@ -308,7 +308,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       if (ev.target?.nodeName === "CANVAS") {
         ev.preventDefault();
       }
-    }
+    };
     document.addEventListener("contextmenu", rightClickAction);
     return () => {
       document.removeEventListener("contextmenu", rightClickAction);
