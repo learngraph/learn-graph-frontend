@@ -1,4 +1,5 @@
 import { Dispatch, MutableRefObject, RefObject, SetStateAction } from "react";
+import SpriteText from "three-spritetext";
 import { Controller, GraphState } from "./GraphEdit/GraphEdit";
 import {
   BackendGraphData,
@@ -11,9 +12,8 @@ import { ZOOM_LEVEL_MAX, ZOOM_LEVEL_STEP } from "./ZoomControlPanel";
 
 // global configuration
 export const G_CONFIG = {
-  linkDirectionalArrowLength: 7,
-  linkDirectionalArrowRelPos: 0.75,
-  linkCanvasObjectMode: "after",
+  linkCanvasObjectMode: "replace",
+  linkCurvature: 5,
   fontSize: 22,
   font: "Sans-Serif",
 };
@@ -91,6 +91,15 @@ export const makeKeydownListener = (_ctrl: Controller) => {
   };
 };
 
+const calculateBackgroundColor = (mergedNodes: number, totalNodes: number) => {
+  // TODO(skep): should use react theme for color choice here
+  let hue = (
+    205 +
+    (1 - Math.exp(-mergedNodes / totalNodes)) * 3 * 20
+  ).toString();
+  return `hsl(${hue},100%,50%)`;
+};
+
 export const nodeCanvasObject = (
   node: ForceGraphNodeObject,
   ctx: CanvasRenderingContext2D,
@@ -106,12 +115,7 @@ export const nodeCanvasObject = (
   let backgroundColor = backgroundColorLightBlue;
   const mergedNodes: number = node.mergeCount ?? 0;
   if (mergedNodes > 1) {
-    // TODO(skep): should use react theme for color choice here
-    let hue = (
-      205 +
-      (1 - Math.exp(-mergedNodes / totalNodes)) * 3 * 20
-    ).toString();
-    backgroundColor = `hsl(${hue},100%,50%)`;
+    backgroundColor = calculateBackgroundColor(mergedNodes, totalNodes);
   }
   if (highlightNodes.has(node)) {
     backgroundColor = `hsl(1,100%,50%)`;
@@ -143,6 +147,25 @@ export const nodeCanvasObject = (
   };
   const pos = { x: node.x, y: node.y };
   drawTextWithBackground(text, ctx, pos, { mergedNodes, globalScale });
+};
+
+interface NodeVisualizer {
+  (node: ForceGraphNodeObject, totalNodes: number): SpriteText;
+}
+export const nodeCanvas3dObject: NodeVisualizer = (
+  node: ForceGraphNodeObject,
+  totalNodes: number,
+) => {
+  let label = node.description ?? "";
+  let backgroundColor = backgroundColorLightBlue;
+  const mergedNodes = node.mergeCount ?? 0;
+  if (mergedNodes > 1) {
+    backgroundColor = calculateBackgroundColor(mergedNodes, totalNodes);
+  }
+  const sprite = new SpriteText(label);
+  sprite.color = backgroundColor;
+  sprite.textHeight = 8;
+  return sprite;
 };
 
 const drawTextWithBackground = (
@@ -315,7 +338,7 @@ export const linkPointerAreaPaint = (
   ctx: CanvasRenderingContext2D,
   globalScale: number,
 ) => {
-  if (!ctrl.mode.isEditMode) {
+  if (!ctrl.mode.allowGraphInteractions) {
     return;
   }
   drawLinkLine({ ctrl, link, ctx, globalScale, color: invisibleTouchPaint });
@@ -324,6 +347,7 @@ export const linkPointerAreaPaint = (
 export const drawLinkLine = (conf: DrawLinkConfig) => {
   const { ctx, color, link } = conf;
   ctx.strokeStyle = color;
+  ctx.fillStyle = color;
   let scale = conf.globalScale;
   if (scale <= GLOBALSCALE_SIZE_SCALING_BOUNDARY) {
     scale = GLOBALSCALE_SIZE_SCALING_BOUNDARY;
@@ -331,8 +355,45 @@ export const drawLinkLine = (conf: DrawLinkConfig) => {
   ctx.lineWidth = (3 * (link.value / 2) * (conf.extraThickness ?? 1)) / scale;
   ctx.beginPath();
   ctx.moveTo(link.source.x!, link.source.y!);
-  ctx.lineTo(link.target.x!, link.target.y!);
+  const [dx, dy] = [
+    link.target.x! - link.source.x!,
+    link.target.y! - link.source.y!,
+  ];
+  const perp = [-dy, dx];
+  const length = Math.sqrt(perp[0] ** 2 + perp[1] ** 2);
+  const norm = [perp[0] / length, perp[1] / length];
+  const mid = [link.source.x! + dx / 2, link.source.y! + dy / 2];
+  const bp = [
+    mid[0] + norm[0] * G_CONFIG.linkCurvature,
+    mid[1] + norm[1] * G_CONFIG.linkCurvature,
+  ];
+  ctx.bezierCurveTo(bp[0], bp[1], bp[0], bp[1], link.target.x!, link.target.y!);
   ctx.stroke();
+
+  const t = 0.75; // 75% along the curve
+  const ax =
+    (1 - t) ** 3 * link.source.x! +
+    3 * (1 - t) ** 2 * t * bp[0] +
+    3 * (1 - t) * t ** 2 * bp[0] +
+    t ** 3 * link.target.x!;
+  const ay =
+    (1 - t) ** 3 * link.source.y! +
+    3 * (1 - t) ** 2 * t * bp[1] +
+    3 * (1 - t) * t ** 2 * bp[1] +
+    t ** 3 * link.target.y!;
+
+  // Now, draw the arrowhead at this point
+  const arrowSize = (4 / scale) * link.value; // adjust as needed
+  ctx.save();
+  ctx.beginPath();
+  ctx.translate(ax, ay);
+  ctx.rotate(Math.atan2(ay - bp[1], ax - bp[0]));
+  ctx.moveTo(-arrowSize, arrowSize / 2);
+  ctx.lineTo(0, 0);
+  ctx.lineTo(-arrowSize, -arrowSize / 2);
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
 };
 
 export const linkCanvasObject = (

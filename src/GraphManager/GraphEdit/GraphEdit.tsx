@@ -158,8 +158,12 @@ export interface SearchState {
 }
 
 export interface ModeState {
-  isEditMode: boolean;
-  setIsEditMode: Dispatch<SetStateAction<boolean>>;
+  isEditingEnabled: boolean;
+  setIsEditingEnabled: Dispatch<SetStateAction<boolean>>;
+  allowGraphInteractions: boolean;
+  setAllowGraphInteractions: Dispatch<SetStateAction<boolean>>;
+  use3D: boolean;
+  setUse3D: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface Controller {

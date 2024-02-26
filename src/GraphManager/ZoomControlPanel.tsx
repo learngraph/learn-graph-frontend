@@ -232,6 +232,9 @@ export const makeOnZoomAndPanListener = (ctrl: Controller) => {
 };
 
 export const makeOnZoomAndPanListenerNoDebounce = (ctrl: Controller) => {
+  if (!ctrl.forceGraphRef.current?.zoom) {
+    return () => {};
+  }
   let lastZoom = ctrl.forceGraphRef.current?.zoom();
   const zoomFn = (transform: UserZoomEvent) => {
     if (!ctrl.keys.shiftHeld) {
