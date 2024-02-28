@@ -25,3 +25,15 @@ export interface Text {
 export interface Status {
   Message: string;
 }
+
+export enum NodeEditType {
+  create = "create",
+  edit = "edit",
+}
+export interface NodeEdit {
+  username: string;
+  type: NodeEditType;
+  //newDescription: string
+  //newResources?: string
+  updatedAt: Date;
+}

@@ -1,6 +1,9 @@
 import { useEffect, Dispatch, SetStateAction, useState } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
+import Box from "@mui/material/Box";
+import Avatar from "@mui/material/Avatar";
+import Typography from "@mui/material/Typography";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
@@ -30,6 +33,9 @@ import {
   ForceGraphNodeObject,
 } from "@src/GraphManager/types";
 import { MarkdownEditorWrapper } from "./MarkdownField";
+import { useNodeEdits } from "@src/GraphManager/hooks/useNodeEdits";
+import { NodeEdit as BackendNodeEdit, NodeEditType } from "../hooks/types";
+import { AvatarGroup } from "@mui/material";
 
 // TODO(skep): MIN_NODE_DESCRIPTION_LENGTH should be language dependent; for
 // chinese words, 1-2 characters is already precise, but for english a single
@@ -341,6 +347,24 @@ export const nodeValidation = yup.object({
 });
 
 const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
+  let nodeEditsAvailable, nodeEditsData, nodeEditsLoading;
+  if (ctrl.popUp.state.nodeEdit?.defaultFormContent?.id) {
+    const {
+      data,
+      queryResponse: { loading },
+    } = useNodeEdits(ctrl.popUp.state.nodeEdit?.defaultFormContent?.id);
+    [nodeEditsData, nodeEditsLoading, nodeEditsAvailable] = [
+      data,
+      loading,
+      true,
+    ];
+  } else {
+    [nodeEditsData, nodeEditsLoading, nodeEditsAvailable] = [
+      undefined,
+      false,
+      false,
+    ];
+  }
   const formik = useFormik<NewNodeForm>({
     initialValues: {
       nodeDescription:
@@ -377,6 +401,36 @@ const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
       isEditingEnabled={ctrl.mode.isEditingEnabled}
     />,
   ];
+  const { nodeCreator, nodeEditors } = analyzeEdits(nodeEditsData?.nodeEdits);
+  // if no edits are available (i.e. node is being created right now), don't show anything
+  const topRight = !nodeEditsAvailable ? (
+    <></>
+  ) : nodeEditsLoading ? (
+    <>...</>
+  ) : (
+    // TODO(skep): translate
+    <Tooltip
+      title={
+        <>
+          <Typography>Node created by: {nodeCreator.username}</Typography>
+          {nodeEditors && nodeEditors.length >= 1 && (
+            <Typography>
+              Node edited by:{" "}
+              {nodeEditors.map((editor) => `${editor.username}`).join(", ")}
+            </Typography>
+          )}
+        </>
+      }
+    >
+      <AvatarGroup max={4}>
+        <Avatar {...stringAvatar(nodeCreator.username)} />
+        {nodeEditors &&
+          nodeEditors.map((editor) => (
+            <Avatar {...stringAvatar(editor.username)} />
+          ))}
+      </AvatarGroup>
+    </Tooltip>
+  );
   return (
     <DraggableForm
       ctrl={ctrl}
@@ -386,8 +440,55 @@ const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
       formik={formik}
       onDelete={ctrl.popUp.state.nodeEdit?.onDelete}
       isEditingEnabled={ctrl.mode.isEditingEnabled}
+      topRight={topRight}
     />
   );
+};
+
+export const analyzeEdits = (
+  nodeEdits: BackendNodeEdit[] | undefined,
+): { nodeCreator: BackendNodeEdit; nodeEditors?: BackendNodeEdit[] } => {
+  const creator = nodeEdits?.find(
+    (edit: BackendNodeEdit) => edit.type === NodeEditType.create,
+  );
+  const editors = [
+    ...new Map(
+      nodeEdits
+        ?.filter((edit: BackendNodeEdit) => edit.type === NodeEditType.edit)
+        .map((editor) => [editor.username, editor]),
+    ).values(),
+  ];
+  return {
+    // @ts-ignore
+    nodeCreator: creator ?? {
+      username: "unknown",
+      type: NodeEditType.create,
+      updatedAt: "",
+    },
+    nodeEditors: editors,
+  };
+};
+
+const stringToColor = (string: string) => {
+  let hash = 0;
+  let i;
+  for (i = 0; i < string.length; i += 1) {
+    hash = string.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  let color = "#";
+  for (i = 0; i < 3; i += 1) {
+    const value = (hash >> (i * 8)) & 0xff;
+    color += `00${value.toString(16)}`.slice(-2);
+  }
+  return color;
+};
+const stringAvatar = (name: string) => {
+  return {
+    sx: {
+      bgcolor: stringToColor(name),
+    },
+    children: `${name[0]}${name[1]}`,
+  };
 };
 
 type DraggableFormPorops = SubGraphEditPopUpProps & {
@@ -396,6 +497,7 @@ type DraggableFormPorops = SubGraphEditPopUpProps & {
   formik: { submitForm: () => void };
   onDelete?: () => void;
   isEditingEnabled: boolean;
+  topRight?: any;
 };
 
 export const DraggableForm = (props: DraggableFormPorops) => {
@@ -413,9 +515,18 @@ export const DraggableForm = (props: DraggableFormPorops) => {
         aria-labelledby="draggable-dialog-title"
         sx={DialogueStyles.dialogRoot}
       >
-        <DialogTitle style={{ cursor: "move" }} id="draggable-dialog-title">
-          {props.popUp.state.title}
-        </DialogTitle>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
+          <DialogTitle style={{ cursor: "move" }} id="draggable-dialog-title">
+            {props.popUp.state.title}
+          </DialogTitle>
+          {props.topRight ?? <></>}
+        </Box>
         <DialogContent>
           <DialogContentText>{props.popUp.state.details}</DialogContentText>
           {props.fields}
