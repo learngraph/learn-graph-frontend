@@ -14,6 +14,7 @@ import { useUserDataContext } from "@src/Context/UserDataContext";
 import { useTranslation } from "react-i18next";
 import { useUserDataBackendContext } from "@src/Context/UserDataBackendContext";
 import i18n from "@src/shared/i18n";
+import { AlertFnRef, AlertPopupBar } from "@src/shared/Alert";
 
 enum TabNames {
   "LOGIN",
@@ -67,22 +68,25 @@ export default function LoginSignupMenu() {
   const { setUserID, setUserName, setAuthenticationToken } =
     useUserDataContext();
   const { backend } = useUserDataBackendContext();
+  const displayAlertRef: AlertFnRef = {};
   const loginUserInContext = (login: LoginResponse | undefined) => {
+    const displayAlert = displayAlertRef.current ?? alert;
     if (login?.success) {
       const username = login.userName ?? "unknown";
       setUserID(login.userID);
       setUserName(username);
       setAuthenticationToken(login.token);
-      console.log(
-        `setting login info in context: username=${username} id=${login.userID}, token=${login.token}`,
-      );
     } else {
       if (login?.message?.includes("EMail already exists:"))
-        alert(i18n.t("sign up error: email already exists"));
+        displayAlert(i18n.t("sign up error: email already exists"));
       else if (login?.message?.includes("Username already exists"))
-        alert(i18n.t("sign up error: username already exists"));
+        displayAlert(i18n.t("sign up error: username already exists"));
+      else if (login?.message?.includes("failed to get user: record not found"))
+        displayAlert(i18n.t("login error: user with that EMail was not found")); // TODO(skep): translation
+      else if (login?.message?.includes("Password missmatch"))
+        displayAlert(i18n.t("login error: incorrect password")); // TODO(skep): translation
       else {
-        alert(i18n.t("sign up error"));
+        displayAlert(i18n.t("sign up error"));
         console.log(login?.message);
       }
     }
@@ -98,6 +102,7 @@ export default function LoginSignupMenu() {
   const { t } = useTranslation();
   return (
     <Box>
+      <AlertPopupBar displayAlertRef={displayAlertRef} />
       <Button variant="contained" color="primary" onClick={handleClickOpen}>
         {t("Login/Signup")}
       </Button>
