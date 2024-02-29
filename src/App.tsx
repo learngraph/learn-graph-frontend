@@ -1,6 +1,6 @@
 import { BrowserRouter } from "react-router-dom";
-import { UserDataContextProvider } from "./UserDataContext";
-import { UserDataBackendContextProvider } from "./UserDataBackendContext";
+import { UserDataContextProvider } from "./Context/UserDataContext";
+import { UserDataBackendContextProvider } from "./Context/UserDataBackendContext";
 import { ThemeProvider } from "@emotion/react";
 import { theme } from "./Theme";
 import { LearngraphOrgRoutes } from "./LearngraphOrgRoutes";

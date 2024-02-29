@@ -11,7 +11,7 @@ import {
   openCreateNodePopUpAtPagePosition,
 } from "./GraphEdit";
 import { useTranslation } from "react-i18next";
-import { useUserDataContext } from "@src/UserDataContext";
+import { useUserDataContext } from "@src/Context/UserDataContext";
 import i18n from "@src/i18n";
 
 export const buttonIconStyle = { fontSize: 40 };

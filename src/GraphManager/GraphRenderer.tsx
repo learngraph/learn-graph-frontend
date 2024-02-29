@@ -43,7 +43,7 @@ import { useSubmitVote } from "./RPCHooks/useSubmitVote";
 import { useUpdateNode } from "./RPCHooks/useUpdateNode";
 import { useDeleteNode } from "./RPCHooks/useDeleteNode";
 import { useDeleteEdge } from "./RPCHooks/useDeleteEdge";
-import { useUserDataContext } from "@src/UserDataContext";
+import { useUserDataContext } from "@src/Context/UserDataContext";
 import {
   ZoomControlPanel,
   makeZoomControl,

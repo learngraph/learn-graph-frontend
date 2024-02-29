@@ -10,9 +10,9 @@ import {
   UserSignupInfo,
 } from "@src/GraphManager/RPCHooks/useCreateUser";
 import { UserLoginInfo } from "@src/GraphManager/RPCHooks/useLoginUser";
-import { useUserDataContext } from "@src/UserDataContext";
+import { useUserDataContext } from "@src/Context/UserDataContext";
 import { useTranslation } from "react-i18next";
-import { useUserDataBackendContext } from "@src/UserDataBackendContext";
+import { useUserDataBackendContext } from "@src/Context/UserDataBackendContext";
 import i18n from "@src/i18n";
 
 enum TabNames {
