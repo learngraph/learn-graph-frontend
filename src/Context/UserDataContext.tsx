@@ -13,6 +13,7 @@ import fetch from "cross-fetch";
 import i18n from "@src/shared/i18n";
 
 import { addAuthHeader, addLanguageHeader, addUserIDHeader } from "./link";
+import { AlertFnRef, AlertPopupBar } from "@src/shared/Alert";
 
 export interface UserDataContextValues {
   language: string;
@@ -222,9 +223,13 @@ export const UserDataContextProvider: React.FC<{
     logout,
   };
 
+  const displayAlertRef: AlertFnRef = {};
   const notifyUserOnNotLoggedInError = makeNotifyUserOnNotLoggedInError(
     ctx,
-    alert,
+    (message: string) => {
+      const displayAlert = displayAlertRef.current ?? alert;
+      displayAlert(message);
+    },
   );
   const addUserIDHeaderFromContext: ContextSetter = (_, { headers }) => {
     return addUserIDHeader({ headers, userID: ctx.userID });
@@ -252,6 +257,7 @@ export const UserDataContextProvider: React.FC<{
 
   return (
     <UserDataContext.Provider value={ctx}>
+      <AlertPopupBar displayAlertRef={displayAlertRef} />
       <ApolloProvider client={client}>{children}</ApolloProvider>
     </UserDataContext.Provider>
   );
