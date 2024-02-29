@@ -14,14 +14,14 @@ import {
 } from "@src/GraphManager/types";
 import { HighlightNodeSet, SpecialNodes } from "@src/GraphManager/utils";
 import { Position } from "@src/GraphManager/utils";
-import { CreateNodeFn } from "@src/GraphManager/hooks/useCreateNode";
-import { CreateEdgeFn } from "@src/GraphManager/hooks/useCreateEdge";
-import { SubmitVoteFn } from "@src/GraphManager/hooks/useSubmitVote";
-import { UpdateNodeFn } from "@src/GraphManager/hooks/useUpdateNode";
-import { DeleteNodeFn } from "@src/GraphManager/hooks/useDeleteNode";
-import { DeleteEdgeFn } from "@src/GraphManager/hooks/useDeleteEdge";
+import { CreateNodeFn } from "@src/GraphManager/RPCHooks/useCreateNode";
+import { CreateEdgeFn } from "@src/GraphManager/RPCHooks/useCreateEdge";
+import { SubmitVoteFn } from "@src/GraphManager/RPCHooks/useSubmitVote";
+import { UpdateNodeFn } from "@src/GraphManager/RPCHooks/useUpdateNode";
+import { DeleteNodeFn } from "@src/GraphManager/RPCHooks/useDeleteNode";
+import { DeleteEdgeFn } from "@src/GraphManager/RPCHooks/useDeleteEdge";
 import { ZoomState } from "@src/GraphManager/Zoom";
-import i18n from "@src/i18n";
+import i18n from "@src/shared/i18n";
 
 // Note: must be kept constant for all times, otherwise database must be
 // migrated to a new maximum weight.

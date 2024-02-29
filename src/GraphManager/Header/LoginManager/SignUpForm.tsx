@@ -1,7 +1,7 @@
 import { Avatar, Box, Button, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
-import { UserSignupInfo } from "@src/GraphManager/hooks/useCreateUser";
+import { UserSignupInfo } from "@src/GraphManager/RPCHooks/useCreateUser";
 import { validateUserSignupRequest } from "./InputValidation";
 import {
   StyledBox,

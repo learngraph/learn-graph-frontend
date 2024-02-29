@@ -10,9 +10,9 @@ import { onError } from "@apollo/client/link/error";
 import { GraphQLErrors } from "@apollo/client/errors";
 import { setContext, ContextSetter } from "@apollo/client/link/context";
 import fetch from "cross-fetch";
-import i18n from "./i18n";
+import i18n from "@src/shared/i18n";
 
-import { addAuthHeader, addLanguageHeader, addUserIDHeader } from "@src/link";
+import { addAuthHeader, addLanguageHeader, addUserIDHeader } from "./link";
 
 export interface UserDataContextValues {
   language: string;
