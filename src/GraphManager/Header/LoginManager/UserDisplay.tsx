@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Button, Menu, MenuItem } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import i18n from "@src/i18n";
+import i18n from "@src/shared/i18n";
 import { useUserDataContext } from "@src/Context/UserDataContext";
 import { useUserDataBackendContext } from "@src/Context/UserDataBackendContext";
 

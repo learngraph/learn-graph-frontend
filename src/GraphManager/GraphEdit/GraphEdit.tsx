@@ -21,7 +21,7 @@ import { UpdateNodeFn } from "@src/GraphManager/RPCHooks/useUpdateNode";
 import { DeleteNodeFn } from "@src/GraphManager/RPCHooks/useDeleteNode";
 import { DeleteEdgeFn } from "@src/GraphManager/RPCHooks/useDeleteEdge";
 import { ZoomState } from "@src/GraphManager/Zoom";
-import i18n from "@src/i18n";
+import i18n from "@src/shared/i18n";
 
 // Note: must be kept constant for all times, otherwise database must be
 // migrated to a new maximum weight.

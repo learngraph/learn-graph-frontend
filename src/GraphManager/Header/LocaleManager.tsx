@@ -6,7 +6,7 @@ import MenuItem from "@mui/material/MenuItem";
 import ListItemText from "@mui/material/ListItemText";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material";
-import i18n from "@src/i18n";
+import i18n from "@src/shared/i18n";
 
 import { useUserDataContext } from "@src/Context/UserDataContext";
 

@@ -10,7 +10,7 @@ import { onError } from "@apollo/client/link/error";
 import { GraphQLErrors } from "@apollo/client/errors";
 import { setContext, ContextSetter } from "@apollo/client/link/context";
 import fetch from "cross-fetch";
-import i18n from "@src/i18n";
+import i18n from "@src/shared/i18n";
 
 import { addAuthHeader, addLanguageHeader, addUserIDHeader } from "./link";
 
