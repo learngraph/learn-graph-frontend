@@ -2,9 +2,9 @@ import { createContext, useContext } from "react";
 import {
   CreateUserWithMailFn,
   useCreateUserWithEmail,
-} from "./GraphManager/hooks/useCreateUser";
-import { LoginFn, useLogin } from "./GraphManager/hooks/useLoginUser";
-import { LogoutFn, useLogout } from "./GraphManager/hooks/useLogoutUser";
+} from "./GraphManager/RPCHooks/useCreateUser";
+import { LoginFn, useLogin } from "./GraphManager/RPCHooks/useLoginUser";
+import { LogoutFn, useLogout } from "./GraphManager/RPCHooks/useLogoutUser";
 import { errMsgNoDefault } from "./UserDataContext";
 
 export interface UserBackend {

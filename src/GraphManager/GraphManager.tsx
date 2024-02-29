@@ -2,8 +2,8 @@ import { useRef, MutableRefObject } from "react";
 import { Box } from "@mui/material";
 
 import { GraphRenderer } from "./GraphRenderer";
-import HeaderBar from "./components/HeaderBar";
-import { userSearchMatching } from "./components/Search";
+import HeaderBar from "./Header/HeaderBar";
+import { userSearchMatching } from "./Header/Search";
 import { Controller } from "./GraphEdit/GraphEdit";
 
 interface GraphManagerProps {}

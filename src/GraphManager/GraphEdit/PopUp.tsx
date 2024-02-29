@@ -33,8 +33,8 @@ import {
   ForceGraphNodeObject,
 } from "@src/GraphManager/types";
 import { MarkdownEditorWrapper } from "./MarkdownField";
-import { useNodeEdits } from "@src/GraphManager/hooks/useNodeEdits";
-import { NodeEdit as BackendNodeEdit, NodeEditType } from "../hooks/types";
+import { useNodeEdits } from "@src/GraphManager/RPCHooks/useNodeEdits";
+import { NodeEdit as BackendNodeEdit, NodeEditType } from "../RPCHooks/types";
 import { AvatarGroup } from "@mui/material";
 
 // TODO(skep): MIN_NODE_DESCRIPTION_LENGTH should be language dependent; for

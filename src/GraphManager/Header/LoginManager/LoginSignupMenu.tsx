@@ -8,8 +8,8 @@ import { SignUpForm } from "./SignUpForm";
 import {
   LoginResponse,
   UserSignupInfo,
-} from "@src/GraphManager/hooks/useCreateUser";
-import { UserLoginInfo } from "@src/GraphManager/hooks/useLoginUser";
+} from "@src/GraphManager/RPCHooks/useCreateUser";
+import { UserLoginInfo } from "@src/GraphManager/RPCHooks/useLoginUser";
 import { useUserDataContext } from "@src/UserDataContext";
 import { useTranslation } from "react-i18next";
 import { useUserDataBackendContext } from "@src/UserDataBackendContext";

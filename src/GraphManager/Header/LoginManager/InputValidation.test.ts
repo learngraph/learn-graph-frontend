@@ -1,4 +1,4 @@
-import { UserSignupInfo } from "@src/GraphManager/hooks/useCreateUser";
+import { UserSignupInfo } from "@src/GraphManager/RPCHooks/useCreateUser";
 import { validateUserSignupRequest } from "./InputValidation";
 
 describe("validateUserSignupRequest", () => {

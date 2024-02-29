@@ -21,7 +21,7 @@ import {
   LocalForceGraphMethods,
 } from "./types";
 import { ZoomState } from "./Zoom";
-import { useGraphData } from "./hooks";
+import { useGraphData } from "./RPCHooks";
 import {
   makeOnBackgroundClick,
   Controller,
@@ -37,12 +37,12 @@ import { GraphEditPopUp, GraphEditPopUpState } from "./GraphEdit/PopUp";
 import { CreateButton } from "./GraphEdit/CreateButton";
 import { EditModeButton } from "./GraphEdit/ModeButton";
 import { UserSettings } from "./GraphEdit/UserSettings";
-import { useCreateNode } from "./hooks/useCreateNode";
-import { useCreateEdge } from "./hooks/useCreateEdge";
-import { useSubmitVote } from "./hooks/useSubmitVote";
-import { useUpdateNode } from "./hooks/useUpdateNode";
-import { useDeleteNode } from "./hooks/useDeleteNode";
-import { useDeleteEdge } from "./hooks/useDeleteEdge";
+import { useCreateNode } from "./RPCHooks/useCreateNode";
+import { useCreateEdge } from "./RPCHooks/useCreateEdge";
+import { useSubmitVote } from "./RPCHooks/useSubmitVote";
+import { useUpdateNode } from "./RPCHooks/useUpdateNode";
+import { useDeleteNode } from "./RPCHooks/useDeleteNode";
+import { useDeleteEdge } from "./RPCHooks/useDeleteEdge";
 import { useUserDataContext } from "@src/UserDataContext";
 import {
   ZoomControlPanel,
