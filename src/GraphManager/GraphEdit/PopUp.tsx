@@ -454,7 +454,11 @@ export const analyzeEdits = (
   const editors = [
     ...new Map(
       nodeEdits
-        ?.filter((edit: BackendNodeEdit) => edit.type === NodeEditType.edit)
+        ?.filter(
+          (edit: BackendNodeEdit) =>
+            edit.type === NodeEditType.edit &&
+            edit.username !== creator?.username,
+        )
         .map((editor) => [editor.username, editor]),
     ).values(),
   ];
