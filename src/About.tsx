@@ -12,7 +12,7 @@ import {
   AppBar,
   useTheme,
 } from "@mui/material";
-import { LearngraphLOGO } from "./GraphManager/components/HeaderBar";
+import { LearngraphLOGO } from "./GraphManager/Header/HeaderBar";
 
 const TypographyMaxWidth = (props: any) => {
   return <Typography sx={{ maxWidth: "80ch", ...props.sx }} {...props} />;

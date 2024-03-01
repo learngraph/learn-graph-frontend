@@ -7,7 +7,7 @@ import { SearchResultPopUp } from "./SearchResultPopUp";
 import {
   CENTER_AT_NODE_TIME_MS,
   GLOBALSCALE_AFTER_SEARCH,
-} from "./components/Search";
+} from "./Header/Search";
 import { ZOOM_TO_FIT_DURATION_MS } from "./ZoomControlPanel";
 
 describe("SearchResultPopUp", () => {
