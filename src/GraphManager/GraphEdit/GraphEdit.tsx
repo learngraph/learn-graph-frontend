@@ -1,4 +1,4 @@
-import { Dispatch, MutableRefObject, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 import {
   LinkEditDefaultValues,
   NewLinkForm,
@@ -50,7 +50,6 @@ export const INTERIM_TMP_LINK_ID = "INTERIM_TMP";
 
 export interface GraphState {
   current: ForceGraphGraphData;
-  performInitialZoom: MutableRefObject<boolean>;
   setGraph: Dispatch<SetStateAction<ForceGraphGraphData>>;
   addLink: (link: ForceGraphLinkObject | ForceGraphLinkObjectInitial) => void;
   updateLink: (

@@ -1,4 +1,4 @@
-import { Dispatch, MutableRefObject, RefObject, SetStateAction } from "react";
+import { Dispatch, RefObject, SetStateAction } from "react";
 import SpriteText from "three-spritetext";
 import { Controller, GraphState } from "./GraphEdit/GraphEdit";
 import {
@@ -8,7 +8,6 @@ import {
   ForceGraphLinkObjectInitial,
   ForceGraphNodeObject,
 } from "./types";
-import { ZOOM_LEVEL_MAX, ZOOM_LEVEL_STEP } from "./ZoomControlPanel";
 
 // global configuration
 export const G_CONFIG = {
@@ -19,7 +18,6 @@ export const G_CONFIG = {
 };
 
 export const GLOBALSCALE_SIZE_SCALING_BOUNDARY = 2;
-export const MAX_NODES_WITHOUT_INITIAL_ZOOM = 30;
 
 // TODO(j): should use react theme for color choice here
 //const backgroundColorWhite = "rgba(255, 255, 255, 0.8)";
@@ -193,11 +191,9 @@ const drawTextWithBackground = (
 export const makeGraphState = (
   graph: ForceGraphGraphData,
   setGraph: Dispatch<SetStateAction<ForceGraphGraphData>>,
-  performInitialZoom: MutableRefObject<boolean>,
 ) => {
   const state: GraphState = {
     current: graph,
-    performInitialZoom,
     setGraph,
     addLink: (link: ForceGraphLinkObject | ForceGraphLinkObjectInitial) => {
       // @ts-ignore: FIXME(skep): should probably remove
@@ -258,34 +254,16 @@ export const convertBackendGraphToForceGraph: GraphConverter = (data) => {
   return fgGraph;
 };
 
-const graphHasSameNodeIDs = (
-  g1: ForceGraphGraphData,
-  g2: ForceGraphGraphData,
-) => {
-  const everyNodeExists = g1.nodes
-    .map((n1) => g2.nodes.find((n2) => n1.id === n2.id))
-    .every((node) => !!node);
-  return everyNodeExists;
-};
-
-export const initialZoomForLargeGraph = (ctrl: Controller) => {
-  if (
-    graphHasSameNodeIDs(ctrl.graph.current, makeInitialGraphData()) ||
-    !ctrl.graph.performInitialZoom.current
-  ) {
-    return;
-  }
-  ctrl.graph.performInitialZoom.current = false;
-  const nNodes = ctrl.graph.current.nodes.length;
-  if (nNodes < MAX_NODES_WITHOUT_INITIAL_ZOOM) {
-    return;
-  }
-  const steps = Math.floor(
-    Math.log2(nNodes / MAX_NODES_WITHOUT_INITIAL_ZOOM) + 1,
-  );
-  ctrl.zoom.zoomLevel = ZOOM_LEVEL_MAX;
-  ctrl.zoom.setUserZoomLevel(ZOOM_LEVEL_MAX - steps * ZOOM_LEVEL_STEP);
-};
+// unused
+//const graphHasSameNodeIDs = (
+//  g1: ForceGraphGraphData,
+//  g2: ForceGraphGraphData,
+//) => {
+//  const everyNodeExists = g1.nodes
+//    .map((n1) => g2.nodes.find((n2) => n1.id === n2.id))
+//    .every((node) => !!node);
+//  return everyNodeExists;
+//};
 
 export const makeInitialGraphData = () => {
   const n_graph: ForceGraphNodeObject = { id: "1", description: "graph" };
