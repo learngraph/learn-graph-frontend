@@ -1,7 +1,6 @@
 import ForceGraph2D from "react-force-graph-2d";
 import ForceGraph3D from "react-force-graph-3d";
 import {
-  MutableRefObject,
   useRef,
   useState,
   useLayoutEffect,
@@ -48,7 +47,6 @@ import {
   ZoomControlPanel,
   makeZoomControl,
   makeOnZoomAndPanListener,
-  debounce,
 } from "./ZoomControlPanel";
 import { ControllerRef } from "./GraphManager";
 import { SearchResultPopUp } from "./SearchResultPopUp";
@@ -56,7 +54,6 @@ import {
   G_CONFIG,
   Rectangle,
   convertBackendGraphToForceGraph,
-  initialZoomForLargeGraph,
   linkCanvasObject,
   linkPointerAreaPaint,
   makeGraphState,
@@ -141,13 +138,11 @@ const onLinkHover = (_: ForceGraphLinkObject | null): void => {
 const convertAndSetGraph = (
   setGraph: Dispatch<SetStateAction<ForceGraphGraphData>>,
   data: { graph: BackendGraphData },
-  performInitialZoom: MutableRefObject<boolean>,
 ) => {
   const graph = convertBackendGraphToForceGraph(data);
   if (!graph) {
     return;
   }
-  performInitialZoom.current = true;
   setGraph(graph);
 };
 
@@ -250,7 +245,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       state: editPopUpState,
       setState: setEditPopUpState,
     },
-    graph: makeGraphState(graph, setGraph, performInitialZoom),
+    graph: makeGraphState(graph, setGraph),
     forceGraphRef: useRef<LocalForceGraphMethods>(),
     setCooldownTicks,
     nodeDrag: {
@@ -295,12 +290,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     controller.specialNodes.hoveredNode = node;
   };
   useEffect(() => {
-    convertAndSetGraph(
-      setGraph,
-      graphDataFromBackend,
-      controller.graph.performInitialZoom,
-    );
-    // Note: performInitialZoom must not trigger call of graph data setter
+    convertAndSetGraph(setGraph, graphDataFromBackend);
   }, [graphDataFromBackend]);
   // XXX(skep): should we disable right click? it's kind of annoying for the
   // canvas, but outside we might want to allow it..
@@ -326,9 +316,6 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       document.removeEventListener("keydown", keyDownListener);
     };
   });
-  useEffect(() => {
-    debounce(initialZoomForLargeGraph, 100)(controller); // XXX(skep): why is delay needed?
-  }, [graph]);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [availableSpace, setAvailableSpace] = useState<Rectangle>({
     height: 400,
