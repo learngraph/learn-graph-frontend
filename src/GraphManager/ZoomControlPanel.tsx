@@ -50,7 +50,7 @@ export function deduplicateCallsWithSameParameters<T extends any[]>(
 }
 
 export const makeZoomControl = (ctrl: Controller) => {
-  let state = {
+  const state = {
     zoomSteps: ctrl.zoom.zoomState.zoomSteps,
     graphData: ctrl.graph.current,
   };
@@ -60,7 +60,7 @@ export const makeZoomControl = (ctrl: Controller) => {
     uglyHack(ctrl);
     ctrl.forceGraphRef.current?.d3ReheatSimulation();
     const doNothing = () => {};
-    if (!!conf?.zoomToFit) {
+    if (conf?.zoomToFit) {
       debounce(
         ctrl.forceGraphRef.current?.zoomToFit ?? doNothing,
         ZOOM_TO_FIT_AFTER_MS,
@@ -235,7 +235,7 @@ export const makeOnZoomAndPanListenerNoDebounce = (ctrl: Controller) => {
   if (!ctrl.forceGraphRef.current?.zoom) {
     return () => {};
   }
-  let lastZoom = ctrl.forceGraphRef.current?.zoom();
+  const lastZoom = ctrl.forceGraphRef.current?.zoom();
   const zoomFn = (transform: UserZoomEvent) => {
     if (!ctrl.keys.shiftHeld) {
       return;

@@ -14,8 +14,5 @@ module.exports = {
         caughtErrorsIgnorePattern: "^_",
       },
     ],
-    // TODO(skep): should fix these, instead of disabling errors
-    "prefer-const": "off",
-    "no-extra-boolean-cast": "off",
   },
 };

@@ -80,7 +80,7 @@ export const TextFieldFormikGeneratorAutocomplete = (
     conf.formik.setFieldValue(conf.fieldName, conf.optionValue(option));
   };
   useEffect(() => {
-    if (!!conf.defaultValue) {
+    if (conf.defaultValue) {
       handleInputChange(null, conf.defaultValue);
     }
   }, [conf.defaultValue]);

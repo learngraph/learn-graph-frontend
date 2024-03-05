@@ -13,10 +13,10 @@ import "@testing-library/jest-dom";
 import { makeMockController } from "./GraphEdit/GraphEdit.testingutil";
 
 const makeCanvasRenderingContext2D = () => {
-  let fillRectCalls: any = [];
-  let arcCalls: any = [];
+  const fillRectCalls: any = [];
+  const arcCalls: any = [];
   // @ts-ignore
-  let ctx: CanvasRenderingContext2D = {
+  const ctx: CanvasRenderingContext2D = {
     fillStyle: "",
     fillRect: jest.fn(),
     fillText: jest.fn(),

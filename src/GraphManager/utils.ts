@@ -91,7 +91,7 @@ export const makeKeydownListener = (_ctrl: Controller) => {
 
 const calculateBackgroundColor = (mergedNodes: number, totalNodes: number) => {
   // TODO(skep): should use react theme for color choice here
-  let hue = (
+  const hue = (
     205 +
     (1 - Math.exp(-mergedNodes / totalNodes)) * 3 * 20
   ).toString();
@@ -109,7 +109,7 @@ export const nodeCanvasObject = (
     search: { highlightNodes },
     specialNodes,
   } = ctrl;
-  let label = node.description ?? "";
+  const label = node.description ?? "";
   let backgroundColor = backgroundColorLightBlue;
   const mergedNodes: number = node.mergeCount ?? 0;
   if (mergedNodes > 1) {
@@ -154,7 +154,7 @@ export const nodeCanvas3dObject: NodeVisualizer = (
   node: ForceGraphNodeObject,
   totalNodes: number,
 ) => {
-  let label = node.description ?? "";
+  const label = node.description ?? "";
   let backgroundColor = backgroundColorLightBlue;
   const mergedNodes = node.mergeCount ?? 0;
   if (mergedNodes > 1) {
@@ -222,7 +222,7 @@ export const makeGraphState = (
       setGraph(graph);
     },
     updateNode: (node: ForceGraphNodeObject, newNode: ForceGraphNodeObject) => {
-      for (let key in newNode) {
+      for (const key in newNode) {
         node[key] = newNode[key];
       }
       setGraph(graph);
@@ -232,7 +232,7 @@ export const makeGraphState = (
       if (!linkInGraph) {
         return;
       }
-      for (let key in newLink) {
+      for (const key in newLink) {
         link[key] = newLink[key];
       }
       setGraph(graph);
@@ -408,7 +408,7 @@ const drawTextBackgroundOval = (
   const bckgDimensions = [textWidth, text.fontSize].map(
     (n) => n + text.fontSize * padding,
   );
-  let [x, y] = [position.x ?? 0, position.y ?? 0];
+  const [x, y] = [position.x ?? 0, position.y ?? 0];
   ctx.fillStyle = text.backgroundColor;
   ctx.strokeStyle = "black";
   ctx.lineWidth = 1 / renderConfig.globalScale;
@@ -438,7 +438,7 @@ const drawText = (
   position: Partial<Position>,
 ) => {
   ctx.font = `${text.fontSize}px ${G_CONFIG.font}`;
-  let [x, y] = [position.x ?? 0, position.y ?? 0];
+  const [x, y] = [position.x ?? 0, position.y ?? 0];
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.fillStyle = "#000";

@@ -162,7 +162,7 @@ const zoomStepOut: ZoomFn = (args: ZoomArgs, state: ZoomState): void => {
   if (args.steps >= state.graphData.nodes.length) {
     return;
   }
-  let selection = selectNodePairForMerging(args, state);
+  const selection = selectNodePairForMerging(args, state);
   if (selection.toRemove.length === 0) {
     return; // nothing left to merge
   }
@@ -201,9 +201,9 @@ const selectNodePairForMerging: Selector = (
   if (nodesByTargetWeight.length === 0) {
     return { mergeTarget: { id: NO_MERGE_TARGET_FOUND_ID }, toRemove: [] };
   }
-  let mergeTargetNode = nodesByTargetWeight[0].node;
+  const mergeTargetNode = nodesByTargetWeight[0].node;
   // find first order nodes, as long as the first order links still exist
-  let firstOrderNodesByWeight = state.graphData.links
+  const firstOrderNodesByWeight = state.graphData.links
     .filter((link) => link.target.id === mergeTargetNode.id)
     .map((link) => link.source)
     .map((node) => ({
@@ -212,7 +212,7 @@ const selectNodePairForMerging: Selector = (
     }))
     .sort((a, b) => a.weight - b.weight)
     .map((o) => o.node);
-  let nodesToRemove = firstOrderNodesByWeight.slice(0, args.steps);
+  const nodesToRemove = firstOrderNodesByWeight.slice(0, args.steps);
   return { mergeTarget: mergeTargetNode, toRemove: nodesToRemove };
 };
 
@@ -228,7 +228,7 @@ const mergeSelection = (selection: MergeSelection, state: ZoomState) => {
     0,
   );
   // find links, that will stay unchanged to override current link list later
-  let { linksToKeep, linksToRemove } = state.graphData.links.reduce(
+  const { linksToKeep, linksToRemove } = state.graphData.links.reduce(
     (current, link) => {
       const isLinkFromRemovedToMergeTarget = selection.toRemove.find(
         (removedNode) =>
@@ -395,7 +395,7 @@ const averageLinkValue = (
   target: LinkBetweenHasIDs,
   source: LinkBetweenHasIDs,
 ) => {
-  let value =
+  const value =
     ((target.value ?? defaultLinkValue) + (source.value ?? defaultLinkValue)) /
     2;
   if (value !== defaultLinkValue) {
@@ -405,7 +405,7 @@ const averageLinkValue = (
 
 // deleteFromArray removes nodesToRemove from array nodes in-place
 const deleteFromArray = (nodes: HasID[], nodesToRemove: HasID[]) => {
-  let leftOverNodes = nodes.filter(
+  const leftOverNodes = nodes.filter(
     (node) => !nodesToRemove.find((findNode) => node.id === findNode.id),
   );
   replaceArray(nodes, leftOverNodes);
