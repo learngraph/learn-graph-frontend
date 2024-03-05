@@ -187,7 +187,6 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   const [graph, setGraph] = useState<ForceGraphGraphData>(
     makeInitialGraphData(),
   );
-  const performInitialZoom = useRef(false);
   const { language, userID } = useUserDataContext();
   const { data: graphDataFromBackend } = useGraphData();
   const [shiftHeld, setShiftHeld] = useState(false);
