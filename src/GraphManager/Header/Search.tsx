@@ -54,7 +54,7 @@ export const userSearchMatchingInternal = (
   controllerRef: ControllerRef,
   userInput: string,
 ) => {
-  let newHighlightNodes = new Set<ForceGraphNodeObject>();
+  const newHighlightNodes = new Set<ForceGraphNodeObject>();
   let zoomToFirstResult = false;
   if (!userInput || userInput === "\n") {
     controllerRef.current?.search.setIsResultShown(false);

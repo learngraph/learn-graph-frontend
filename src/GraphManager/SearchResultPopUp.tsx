@@ -21,7 +21,7 @@ export const SearchResultPopUp = ({
 }) => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  let sx = {
+  const sx = {
     ...(!isSmallScreen
       ? { maxHeight: availableSpace.height - FIXME_LAYOUT_UNCLEAR }
       : {}),

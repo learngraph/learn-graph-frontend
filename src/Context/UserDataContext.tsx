@@ -186,7 +186,7 @@ export const UserDataContextProvider: React.FC<{
       setUserName(user.name);
       setAuthenticationToken(user.token);
     }
-    if (!!language) {
+    if (language) {
       setLanguageAndTranslation(language);
     } else {
       if (navigator && navigator.language) {

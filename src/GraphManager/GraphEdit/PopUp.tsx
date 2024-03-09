@@ -151,11 +151,11 @@ export const GraphEditPopUp = ({ ctrl }: GraphEditPopUpProps) => {
   const handleClose = () => {
     popUp.setState({ isOpen: false });
   };
-  if (!!popUp.state.nodeEdit) {
+  if (popUp.state.nodeEdit) {
     return <NodeEditPopUp handleClose={handleClose} ctrl={ctrl} />;
-  } else if (!!popUp.state.linkEdit) {
+  } else if (popUp.state.linkEdit) {
     return <LinkCreatePopUp handleClose={handleClose} ctrl={ctrl} />;
-  } else if (!!popUp.state.linkVote) {
+  } else if (popUp.state.linkVote) {
     return <LinkVotePopUp handleClose={handleClose} ctrl={ctrl} />;
   } else {
     return <></>;
@@ -249,7 +249,7 @@ export const LinkCreatePopUp = ({
     },
   });
   const extendedHandleClose = () => {
-    if (!!ctrl.popUp.state.linkEdit?.onNonSubmitClose) {
+    if (ctrl.popUp.state.linkEdit?.onNonSubmitClose) {
       ctrl.popUp.state.linkEdit?.onNonSubmitClose();
     }
     handleClose();

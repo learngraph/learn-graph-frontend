@@ -28,8 +28,8 @@ describe("SearchResultPopUp", () => {
     expect(screen.getByText("Search Results")).toBeInTheDocument();
     expect(screen.getByText("A")).toBeInTheDocument();
     expect(screen.getByText("B")).toBeInTheDocument();
-    let itemA = screen.getByText("A");
-    let itemB = screen.getByText("B");
+    const itemA = screen.getByText("A");
+    const itemB = screen.getByText("B");
     const user = userEvent.setup();
     await user.click(itemA);
     expect(ctrl.forceGraphRef.current.centerAt).toHaveBeenCalledWith(

@@ -6,8 +6,8 @@ import HeaderBar from "./HeaderBar";
 // FIXME(skep): this single test takes 50% of the whole test-suite of the application - WHY?!
 describe("HeaderBar", () => {
   it("should call userInputCallback on input change", async () => {
-    let userInputCallback = jest.fn();
-    let ctrl = makeMockController();
+    const userInputCallback = jest.fn();
+    const ctrl = makeMockController();
     render(
       <HeaderBar
         // @ts-ignore
@@ -16,7 +16,7 @@ describe("HeaderBar", () => {
       />,
     );
     expect(userInputCallback.mock.calls.length).toBe(0);
-    let input = screen.getByLabelText("search bar");
+    const input = screen.getByLabelText("search bar");
     const user = userEvent.setup();
     await user.click(input);
     await user.keyboard("123");

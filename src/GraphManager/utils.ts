@@ -1,4 +1,4 @@
-import { Dispatch, MutableRefObject, RefObject, SetStateAction } from "react";
+import { Dispatch, RefObject, SetStateAction } from "react";
 import SpriteText from "three-spritetext";
 import { Controller, GraphState } from "./GraphEdit/GraphEdit";
 import {
@@ -8,7 +8,6 @@ import {
   ForceGraphLinkObjectInitial,
   ForceGraphNodeObject,
 } from "./types";
-import { ZOOM_LEVEL_MAX, ZOOM_LEVEL_STEP } from "./ZoomControlPanel";
 
 // global configuration
 export const G_CONFIG = {
@@ -19,7 +18,6 @@ export const G_CONFIG = {
 };
 
 export const GLOBALSCALE_SIZE_SCALING_BOUNDARY = 2;
-export const MAX_NODES_WITHOUT_INITIAL_ZOOM = 30;
 
 // TODO(j): should use react theme for color choice here
 //const backgroundColorWhite = "rgba(255, 255, 255, 0.8)";
@@ -93,7 +91,7 @@ export const makeKeydownListener = (_ctrl: Controller) => {
 
 const calculateBackgroundColor = (mergedNodes: number, totalNodes: number) => {
   // TODO(skep): should use react theme for color choice here
-  let hue = (
+  const hue = (
     205 +
     (1 - Math.exp(-mergedNodes / totalNodes)) * 3 * 20
   ).toString();
@@ -111,7 +109,7 @@ export const nodeCanvasObject = (
     search: { highlightNodes },
     specialNodes,
   } = ctrl;
-  let label = node.description ?? "";
+  const label = node.description ?? "";
   let backgroundColor = backgroundColorLightBlue;
   const mergedNodes: number = node.mergeCount ?? 0;
   if (mergedNodes > 1) {
@@ -156,7 +154,7 @@ export const nodeCanvas3dObject: NodeVisualizer = (
   node: ForceGraphNodeObject,
   totalNodes: number,
 ) => {
-  let label = node.description ?? "";
+  const label = node.description ?? "";
   let backgroundColor = backgroundColorLightBlue;
   const mergedNodes = node.mergeCount ?? 0;
   if (mergedNodes > 1) {
@@ -193,11 +191,9 @@ const drawTextWithBackground = (
 export const makeGraphState = (
   graph: ForceGraphGraphData,
   setGraph: Dispatch<SetStateAction<ForceGraphGraphData>>,
-  performInitialZoom: MutableRefObject<boolean>,
 ) => {
   const state: GraphState = {
     current: graph,
-    performInitialZoom,
     setGraph,
     addLink: (link: ForceGraphLinkObject | ForceGraphLinkObjectInitial) => {
       // @ts-ignore: FIXME(skep): should probably remove
@@ -226,7 +222,7 @@ export const makeGraphState = (
       setGraph(graph);
     },
     updateNode: (node: ForceGraphNodeObject, newNode: ForceGraphNodeObject) => {
-      for (let key in newNode) {
+      for (const key in newNode) {
         node[key] = newNode[key];
       }
       setGraph(graph);
@@ -236,7 +232,7 @@ export const makeGraphState = (
       if (!linkInGraph) {
         return;
       }
-      for (let key in newLink) {
+      for (const key in newLink) {
         link[key] = newLink[key];
       }
       setGraph(graph);
@@ -258,34 +254,16 @@ export const convertBackendGraphToForceGraph: GraphConverter = (data) => {
   return fgGraph;
 };
 
-const graphHasSameNodeIDs = (
-  g1: ForceGraphGraphData,
-  g2: ForceGraphGraphData,
-) => {
-  const everyNodeExists = g1.nodes
-    .map((n1) => g2.nodes.find((n2) => n1.id === n2.id))
-    .every((node) => !!node);
-  return everyNodeExists;
-};
-
-export const initialZoomForLargeGraph = (ctrl: Controller) => {
-  if (
-    graphHasSameNodeIDs(ctrl.graph.current, makeInitialGraphData()) ||
-    !ctrl.graph.performInitialZoom.current
-  ) {
-    return;
-  }
-  ctrl.graph.performInitialZoom.current = false;
-  const nNodes = ctrl.graph.current.nodes.length;
-  if (nNodes < MAX_NODES_WITHOUT_INITIAL_ZOOM) {
-    return;
-  }
-  const steps = Math.floor(
-    Math.log2(nNodes / MAX_NODES_WITHOUT_INITIAL_ZOOM) + 1,
-  );
-  ctrl.zoom.zoomLevel = ZOOM_LEVEL_MAX;
-  ctrl.zoom.setUserZoomLevel(ZOOM_LEVEL_MAX - steps * ZOOM_LEVEL_STEP);
-};
+// unused
+//const graphHasSameNodeIDs = (
+//  g1: ForceGraphGraphData,
+//  g2: ForceGraphGraphData,
+//) => {
+//  const everyNodeExists = g1.nodes
+//    .map((n1) => g2.nodes.find((n2) => n1.id === n2.id))
+//    .every((node) => !!node);
+//  return everyNodeExists;
+//};
 
 export const makeInitialGraphData = () => {
   const n_graph: ForceGraphNodeObject = { id: "1", description: "graph" };
@@ -430,7 +408,7 @@ const drawTextBackgroundOval = (
   const bckgDimensions = [textWidth, text.fontSize].map(
     (n) => n + text.fontSize * padding,
   );
-  let [x, y] = [position.x ?? 0, position.y ?? 0];
+  const [x, y] = [position.x ?? 0, position.y ?? 0];
   ctx.fillStyle = text.backgroundColor;
   ctx.strokeStyle = "black";
   ctx.lineWidth = 1 / renderConfig.globalScale;
@@ -460,7 +438,7 @@ const drawText = (
   position: Partial<Position>,
 ) => {
   ctx.font = `${text.fontSize}px ${G_CONFIG.font}`;
-  let [x, y] = [position.x ?? 0, position.y ?? 0];
+  const [x, y] = [position.x ?? 0, position.y ?? 0];
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.fillStyle = "#000";

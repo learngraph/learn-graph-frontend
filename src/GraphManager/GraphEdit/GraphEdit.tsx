@@ -1,4 +1,4 @@
-import { Dispatch, MutableRefObject, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 import {
   LinkEditDefaultValues,
   NewLinkForm,
@@ -50,7 +50,6 @@ export const INTERIM_TMP_LINK_ID = "INTERIM_TMP";
 
 export interface GraphState {
   current: ForceGraphGraphData;
-  performInitialZoom: MutableRefObject<boolean>;
   setGraph: Dispatch<SetStateAction<ForceGraphGraphData>>;
   addLink: (link: ForceGraphLinkObject | ForceGraphLinkObjectInitial) => void;
   updateLink: (
@@ -230,7 +229,7 @@ export const onNodeDrag = (
   };
   let newInterimLinkTarget: ForceGraphNodeObject | null = null;
   let removeCurrentInterimLink: boolean = false;
-  for (let node of ctrl.graph.current.nodes) {
+  for (const node of ctrl.graph.current.nodes) {
     if (node === dragSourceNode || !node) {
       continue;
     }
@@ -260,8 +259,8 @@ export const onNodeDrag = (
     ctrl.graph.removeLink(nodeDrag.interimLink!);
     setNodeDrag({ ...nodeDrag, interimLink: undefined });
   }
-  if (!!newInterimLinkTarget) {
-    if (!!nodeDrag.interimLink) {
+  if (newInterimLinkTarget) {
+    if (nodeDrag.interimLink) {
       ctrl.graph.removeLink(nodeDrag.interimLink);
     }
     addInterimLink(dragSourceNode, newInterimLinkTarget);
@@ -339,7 +338,7 @@ export const openCreateLinkPopUp = (
         id: linkID,
       });
     } else {
-      if (!!conf?.updateExistingLink) {
+      if (conf?.updateExistingLink) {
         ctrl.graph.removeLink(conf.updateExistingLink);
       }
       const link: ForceGraphLinkObjectInitial = {
