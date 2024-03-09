@@ -106,7 +106,7 @@ export interface NodeEdit {
   onFormSubmit: (form: NewNodeForm) => void;
   defaultFormContent?: ForceGraphNodeObject;
   onDelete?: () => void;
-  bottomContent?: React.ReactNode
+  bottomContent?: React.ReactNode;
 }
 export interface LinkEditDefaultValues {
   source?: ForceGraphNodeObject;
@@ -378,21 +378,38 @@ const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
   }
   const { t } = useTranslation();
 
-  const currentlySelectedNodeId = ctrl.popUp.state.nodeEdit?.defaultFormContent?.id
-  const connectedLinks: NodeIdAccumulator = ctrl.graph.current.links.reduce<NodeIdAccumulator>(
-    (acc, currentLink) => {
-      if (currentLink.target.id === currentlySelectedNodeId) { acc.inboundSourceIds.push({ nodeName: currentLink.source.description, weight: currentLink.value, linkId: currentLink.id }) }
-      else if (currentLink.source.id === currentlySelectedNodeId) { acc.outboundTargetIds.push({ nodeName: currentLink.target.description, weight: currentLink.value, linkId: currentLink.id }) }
-      return acc
-    },
-    {
-      inboundSourceIds: [],
-      outboundTargetIds: [],
-    }
-  )
+  const currentlySelectedNodeId =
+    ctrl.popUp.state.nodeEdit?.defaultFormContent?.id;
+  const connectedLinks: NodeIdAccumulator =
+    ctrl.graph.current.links.reduce<NodeIdAccumulator>(
+      (acc, currentLink) => {
+        if (currentLink.target.id === currentlySelectedNodeId) {
+          acc.inboundSourceIds.push({
+            nodeName: currentLink.source.description,
+            weight: currentLink.value,
+            linkId: currentLink.id,
+          });
+        } else if (currentLink.source.id === currentlySelectedNodeId) {
+          acc.outboundTargetIds.push({
+            nodeName: currentLink.target.description,
+            weight: currentLink.value,
+            linkId: currentLink.id,
+          });
+        }
+        return acc;
+      },
+      {
+        inboundSourceIds: [],
+        outboundTargetIds: [],
+      },
+    );
 
-  connectedLinks.inboundSourceIds = connectedLinks.inboundSourceIds.sort((linkA, linkB) => linkB.weight - linkA.weight)
-  connectedLinks.outboundTargetIds = connectedLinks.outboundTargetIds.sort((linkA, linkB) => linkB.weight - linkA.weight)
+  connectedLinks.inboundSourceIds = connectedLinks.inboundSourceIds.sort(
+    (linkA, linkB) => linkB.weight - linkA.weight,
+  );
+  connectedLinks.outboundTargetIds = connectedLinks.outboundTargetIds.sort(
+    (linkA, linkB) => linkB.weight - linkA.weight,
+  );
 
   const formik = useFormik<NewNodeForm>({
     initialValues: {
@@ -410,73 +427,84 @@ const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
   useEffect(() => {
     return addKeyboardShortcuts(formik);
   }, [formik]);
-  
+
   interface LinkDisplayProps {
     linkDisplay: LinkDisplayData;
-    backdropFillColor: string
+    backdropFillColor: string;
   }
 
-  const LinkDisplay = ({linkDisplay, backdropFillColor}: LinkDisplayProps) => {
-    const endPosition = 100* linkDisplay.weight / MAX_LINK_WEIGHT;
-    const theme = useTheme()
-    const lowerContrast =theme.palette.text.secondary
+  const LinkDisplay = ({
+    linkDisplay,
+    backdropFillColor,
+  }: LinkDisplayProps) => {
+    const endPosition = (100 * linkDisplay.weight) / MAX_LINK_WEIGHT;
+    const theme = useTheme();
+    const lowerContrast = theme.palette.text.secondary;
 
     return (
-    <ListItem 
-      key={linkDisplay.linkId} 
-      sx={{
-        border: "1px solid #eee", 
-        borderRadius: "5px", 
-        background: `linear-gradient(to right, ${backdropFillColor} ${endPosition}%, transparent ${endPosition}%, transparent 100%)`,
-        "& .link-weight-display": {
-          visibility: "hidden"
-        },
-        "&:hover": {
-          border: "none",
-          boxShadow: `inset 0 0 1px 2px ${backdropFillColor}`,
+      <ListItem
+        key={linkDisplay.linkId}
+        sx={{
+          border: "1px solid #eee",
+          borderRadius: "5px",
+          background: `linear-gradient(to right, ${backdropFillColor} ${endPosition}%, transparent ${endPosition}%, transparent 100%)`,
           "& .link-weight-display": {
-            visibility: "visible",
-            color: lowerContrast,
-          }
-        }
-      }}
-    >
-      <Typography>
-        {linkDisplay.nodeName}<span className="link-weight-display">{` — ${linkDisplay.weight}`}</span>
-      </Typography>
-    </ListItem>)
+            visibility: "hidden",
+          },
+          "&:hover": {
+            border: "none",
+            boxShadow: `inset 0 0 1px 2px ${backdropFillColor}`,
+            "& .link-weight-display": {
+              visibility: "visible",
+              color: lowerContrast,
+            },
+          },
+        }}
+      >
+        <Typography>
+          {linkDisplay.nodeName}
+          <span className="link-weight-display">{` — ${linkDisplay.weight}`}</span>
+        </Typography>
+      </ListItem>
+    );
   };
   const incomingItemCount = connectedLinks.inboundSourceIds.length;
   const outgoingItemCount = connectedLinks.outboundTargetIds.length;
-  const theme = useTheme()
-  const primaryLight = theme.palette.primary.light
-  const secondaryLight = theme.palette.secondary.light
+  const theme = useTheme();
+  const primaryLight = theme.palette.primary.light;
+  const secondaryLight = theme.palette.secondary.light;
 
-  const bottomContent = (!incomingItemCount && !outgoingItemCount)? null : (
-    <Box sx={{display: "flex", gap: "2em", flexDirection: "column"}}>
-      {!!incomingItemCount && <Box>
-        <Typography variant="h6">{t("inboundDependency")}</Typography>
-        <List>
-          {
-            connectedLinks.inboundSourceIds.map(
-              (linkDisplay)=><LinkDisplay linkDisplay={linkDisplay} backdropFillColor={primaryLight}  />
-            )
-          }
-        </List>
-      </Box>}
-      {!!outgoingItemCount && <Box>
-        <Typography variant="h6">{t("outboundDependency")}</Typography>
-        <List>
-          {
-            connectedLinks.outboundTargetIds.map(
-              (linkDisplay)=><LinkDisplay linkDisplay={linkDisplay} backdropFillColor={secondaryLight}  />
-            )
-          }
-        </List>
-      </Box>}
-    </Box>
-
-  )
+  const bottomContent =
+    !incomingItemCount && !outgoingItemCount ? null : (
+      <Box sx={{ display: "flex", gap: "2em", flexDirection: "column" }}>
+        {!!incomingItemCount && (
+          <Box>
+            <Typography variant="h6">{t("inboundDependency")}</Typography>
+            <List>
+              {connectedLinks.inboundSourceIds.map((linkDisplay) => (
+                <LinkDisplay
+                  linkDisplay={linkDisplay}
+                  backdropFillColor={primaryLight}
+                />
+              ))}
+            </List>
+          </Box>
+        )}
+        {!!outgoingItemCount && (
+          <Box>
+            <Typography variant="h6">{t("outboundDependency")}</Typography>
+            <List>
+              {connectedLinks.outboundTargetIds.map((linkDisplay) => (
+                <LinkDisplay
+                  linkDisplay={linkDisplay}
+                  backdropFillColor={secondaryLight}
+                />
+              ))}
+            </List>
+          </Box>
+        )}
+      </Box>
+    );
   const fields = [
     <TextFieldFormikGeneratorRequired
       fieldName="nodeDescription"
@@ -598,7 +626,7 @@ type DraggableFormProps = SubGraphEditPopUpProps & {
   onDelete?: () => void;
   isEditingEnabled: boolean;
   topRight?: any;
-  bottomContent?: React.ReactNode
+  bottomContent?: React.ReactNode;
 };
 
 export const DraggableForm = (props: DraggableFormProps) => {
@@ -628,7 +656,7 @@ export const DraggableForm = (props: DraggableFormProps) => {
           </DialogTitle>
           {props.topRight ?? <></>}
         </Box>
-        <DialogContent style={{overflow: "visible"}}>
+        <DialogContent style={{ overflow: "visible" }}>
           <DialogContentText>{props.popUp.state.details}</DialogContentText>
           {props.fields}
         </DialogContent>
@@ -660,9 +688,7 @@ export const DraggableForm = (props: DraggableFormProps) => {
             </Button>
           </Tooltip>
         </DialogActions>
-        <DialogContent>
-          {props.bottomContent}
-        </DialogContent>
+        <DialogContent>{props.bottomContent}</DialogContent>
       </Dialog>
     </>
   );
