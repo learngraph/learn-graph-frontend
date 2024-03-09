@@ -9,7 +9,7 @@ import LoginManager from "./LoginManager";
 import { SearchCallback, SearchField } from "./Search";
 import LocaleManager from "./LocaleManager";
 
-const BarItems = styled("div")(({ theme }) => ({
+export const BarItems = styled("div")(({ theme }) => ({
   display: "flex",
   gap: theme.spacing(2),
 }));

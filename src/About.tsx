@@ -18,12 +18,15 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import Button from "@mui/material/Button";
 import {
+  BarItems,
   LEARNGRAPH_HEADER_TEXT,
   LearngraphLOGO,
+  SearchBarProps,
 } from "./GraphManager/Header/HeaderBar";
 import { ReactNode, useState } from "react";
 import LocaleManager from "./GraphManager/Header/LocaleManager";
 import LoginManager from "./GraphManager/Header/LoginManager";
+import {SearchField} from "./GraphManager/Header/Search";
 
 const TypographyMaxWidth = (props: any) => {
   return <Typography sx={{ maxWidth: "80ch", ...props.sx }} {...props} />;
@@ -55,7 +58,7 @@ const DisplayOnlyOnLargeScreen = ({
   sx,
 }: {
   children: ReactNode;
-  sx: SxProps<Theme>;
+  sx?: SxProps<Theme>;
 }) => {
   return (
     <Box
@@ -72,6 +75,42 @@ const DisplayOnlyOnLargeScreen = ({
 };
 
 export const About = () => {
+  return (
+    <NavigationWithContent
+      withSideNavigation={true}
+      content={
+        <Box component="main" sx={{ flexGrow: 1, padding: 3 }}>
+          <TypographyMaxWidth variant="h4" gutterBottom id="about">
+            About Us
+          </TypographyMaxWidth>
+          <TypographyMaxWidth paragraph>
+            Our mission: Free education for everyone.
+          </TypographyMaxWidth>
+          <TypographyMaxWidth paragraph>
+            Education goes beyond learning resources &mdash; learning requires
+            to find a path through the map of knowledge of humankind. This map
+            is the learngraph.
+          </TypographyMaxWidth>
+
+          <Divider sx={{ margin: "20px 0" }} />
+          <TypographyMaxWidth variant="h5" gutterBottom id="gettinginvolved">
+            Getting Involved!
+          </TypographyMaxWidth>
+          <TypographyMaxWidth paragraph>
+            Join our{" "}
+            <Href href="https://discord.gg/DatEV4kNp6">discord server</Href>!
+          </TypographyMaxWidth>
+        </Box>
+      }
+    />
+  );
+};
+
+export const NavigationWithContent = (props: {
+  content?: ReactNode;
+  withSideNavigation?: boolean;
+  search?: SearchBarProps;
+}) => {
   const navigate = useNavigate();
   const theme = useTheme();
   const menuPalette = theme.palette.info;
@@ -165,7 +204,6 @@ export const About = () => {
     <>
       <AppBar position="static">
         <Toolbar>
-          <Box sx={{ display: "flex", flexDirection: "row" }}>
             <DisplayOnlyOnSmallScreen>
               <Button
                 sx={menuColors}
@@ -189,35 +227,28 @@ export const About = () => {
                 },
               }}
             />
-          </Box>
+            {props.search ? (
+              <BarItems sx={{ alignItems: "left" }}>
+                <SearchField props={props.search!} />
+              </BarItems>
+            ) : null}
+            <Box sx={{ flexGrow: 1 }} />{" "}
+            {/* Note: This Box pushes other bar-items to the right */}
+            <BarItems sx={{ alignItems: "right" }}>
+            <DisplayOnlyOnLargeScreen sx={{ height: "auto" }}>
+                <LocaleManager />
+                <LoginManager />
+            </DisplayOnlyOnLargeScreen>
+              </BarItems>
         </Toolbar>
       </AppBar>
       <Box sx={{ display: "flex" }}>
-        <DisplayOnlyOnLargeScreen sx={{ ...menuColors }}>
-          {navigationList}
-        </DisplayOnlyOnLargeScreen>
-        <Box component="main" sx={{ flexGrow: 1, padding: 3 }}>
-          <TypographyMaxWidth variant="h4" gutterBottom id="about">
-            About Us
-          </TypographyMaxWidth>
-          <TypographyMaxWidth paragraph>
-            Our mission: Free education for everyone.
-          </TypographyMaxWidth>
-          <TypographyMaxWidth paragraph>
-            Education goes beyond learning resources &mdash; learning requires
-            to find a path through the map of knowledge of humankind. This map
-            is the learngraph.
-          </TypographyMaxWidth>
-
-          <Divider sx={{ margin: "20px 0" }} />
-          <TypographyMaxWidth variant="h5" gutterBottom id="gettinginvolved">
-            Getting Involved!
-          </TypographyMaxWidth>
-          <TypographyMaxWidth paragraph>
-            Join our{" "}
-            <Href href="https://discord.gg/DatEV4kNp6">discord server</Href>!
-          </TypographyMaxWidth>
-        </Box>
+        {props.withSideNavigation ? (
+          <DisplayOnlyOnLargeScreen sx={{ ...menuColors }}>
+            {navigationList}
+          </DisplayOnlyOnLargeScreen>
+        ) : null}
+        {props.content ?? null}
       </Box>
     </>
   );
