@@ -35,7 +35,7 @@ import {
 import { MarkdownEditorWrapper } from "./MarkdownField";
 import { useNodeEdits } from "@src/GraphManager/RPCHooks/useNodeEdits";
 import { NodeEdit as BackendNodeEdit, NodeEditType } from "../RPCHooks/types";
-import { AvatarGroup, Divider, List, ListItem, useTheme } from "@mui/material";
+import { AvatarGroup, List, ListItem, useTheme } from "@mui/material";
 
 // TODO(skep): MIN_NODE_DESCRIPTION_LENGTH should be language dependent; for
 // chinese words, 1-2 characters is already precise, but for english a single
