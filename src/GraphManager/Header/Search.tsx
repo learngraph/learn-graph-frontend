@@ -2,7 +2,6 @@ import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import { useTranslation } from "react-i18next";
 import { styled, alpha } from "@mui/material/styles";
-import { SearchBarProps } from "./HeaderBar";
 import { ControllerRef } from "../GraphManager";
 import { useState } from "react";
 import { ForceGraphNodeObject } from "../types";
@@ -11,6 +10,14 @@ import { Controller } from "@src/GraphManager/GraphEdit/GraphEdit";
 
 export const GLOBALSCALE_AFTER_SEARCH = 2;
 export const CENTER_AT_NODE_TIME_MS = 2000;
+
+export interface SearchBarProps {
+  // userInputCallback is called with each key-stroke of the user, and always
+  // given the full user-input. When "Enter" key is pressesd, the user-input
+  // get's called with the user-input and an appended "\n"!
+  userInputCallback: SearchCallback;
+  controllerRef: ControllerRef;
+}
 
 export const userSearchMatching = (
   controllerRef: ControllerRef,
