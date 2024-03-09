@@ -3,11 +3,11 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import LoginManager from "./LoginManager";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { ControllerRef } from "@src/GraphManager/GraphManager";
+import LoginManager from "./LoginManager";
 import { SearchCallback, SearchField } from "./Search";
 import LocaleManager from "./LocaleManager";
-import { ControllerRef } from "../GraphManager";
 
 const BarItems = styled("div")(({ theme }) => ({
   display: "flex",
@@ -22,6 +22,8 @@ export interface HeaderBarProps {
   controllerRef: ControllerRef;
 }
 
+export const LEARNGRAPH_HEADER_TEXT = "Learn Graph";
+
 export const LearngraphLOGO = (props: any) => {
   return (
     <Typography
@@ -31,7 +33,7 @@ export const LearngraphLOGO = (props: any) => {
       sx={{ ...props.sx }}
       {...props}
     >
-      Learn Graph
+      {LEARNGRAPH_HEADER_TEXT}
     </Typography>
   );
 };
