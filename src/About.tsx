@@ -4,13 +4,16 @@ import {
   Box,
   Typography,
   List,
-  ListItem,
+  ListItemButton,
   ListItemText,
   Divider,
   Link as MuiLink,
   Toolbar,
   AppBar,
+  Drawer,
   useTheme,
+  SxProps,
+  Theme,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import Button from "@mui/material/Button";
@@ -18,6 +21,9 @@ import {
   LEARNGRAPH_HEADER_TEXT,
   LearngraphLOGO,
 } from "./GraphManager/Header/HeaderBar";
+import { ReactNode, useState } from "react";
+import LocaleManager from "./GraphManager/Header/LocaleManager";
+import LoginManager from "./GraphManager/Header/LoginManager";
 
 const TypographyMaxWidth = (props: any) => {
   return <Typography sx={{ maxWidth: "80ch", ...props.sx }} {...props} />;
@@ -30,6 +36,40 @@ interface ListItemConfig {
   sectionID: string;
   buttonText: string;
 }
+
+const DisplayOnlyOnSmallScreen = ({ children }: { children: ReactNode }) => {
+  return (
+    <Box
+      sx={{
+        flexShrink: 0,
+        display: { xs: "block", sm: "none" },
+      }}
+    >
+      {children}
+    </Box>
+  );
+};
+
+const DisplayOnlyOnLargeScreen = ({
+  children,
+  sx,
+}: {
+  children: ReactNode;
+  sx: SxProps<Theme>;
+}) => {
+  return (
+    <Box
+      sx={{
+        flexShrink: 0,
+        display: { xs: "none", sm: "block" },
+        height: "100vh",
+        ...sx,
+      }}
+    >
+      {children}
+    </Box>
+  );
+};
 
 export const About = () => {
   const navigate = useNavigate();
@@ -44,32 +84,32 @@ export const About = () => {
     }
   };
   const goToAboutSection = (sectionId: string) => {
+    setIsDrawerOpen(false);
     navigate(`/about#${sectionId}`);
     scrollToSectionID(sectionId);
   };
   const ListItemSectionLink = (conf: ListItemConfig) => {
     return (
-      <ListItem
+      <ListItemButton
         component={Link}
         to={`/about#${conf.sectionID}`}
-        button
         sx={{ paddingLeft: 2 }}
         onClick={() => goToAboutSection(conf.sectionID)}
       >
         <ListItemText primary={`${conf.buttonText}`} />
-      </ListItem>
+      </ListItemButton>
     );
   };
   const ListItemSubSectionLink = (conf: ListItemConfig) => {
     return (
-      <ListItem
+      <ListItemButton
         sx={{
           fontSize: "smaller",
           borderLeft: `1px solid ${menuPalette.contrastText}`,
         }}
       >
         <ListItemSectionLink {...conf} />
-      </ListItem>
+      </ListItemButton>
     );
   };
   const ListItemGlobalLink = (conf: {
@@ -77,37 +117,67 @@ export const About = () => {
     buttonText: string;
   }) => {
     return (
-      <ListItem
+      <ListItemButton
         component={Link}
         to={`/${conf.globalPath}`}
-        button
         sx={{ paddingLeft: 2 }}
       >
         <ListItemText primary={`${conf.buttonText}`} />
-      </ListItem>
+      </ListItemButton>
     );
   };
   const menuColors = {
     background: menuPalette.main,
     color: menuPalette.contrastText,
   };
+  const navigationList = (
+    <List>
+      <ListItemGlobalLink globalPath="" buttonText={LEARNGRAPH_HEADER_TEXT} />
+      <Divider sx={{ margin: "20px 0" }} />
+      <Typography variant="overline">Navigation</Typography>
+      <ListItemSectionLink sectionID={"about"} buttonText={"About"} />
+      <List sx={{ paddingLeft: 2 }}>
+        <ListItemSubSectionLink
+          sectionID={"gettinginvolved"}
+          buttonText={"Getting Involved!"}
+        />
+      </List>
+      <Divider sx={{ margin: "20px 0" }} />
+      <Typography variant="overline">Settings</Typography>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+        }}
+      >
+        <ListItemButton component={LocaleManager} />
+        <ListItemButton component={LoginManager} />{" "}
+        {/* FIXME(skep): alignment only works for LocaleManager, but not for LoginManager ¯\_(ツ)_/¯ */}
+      </Box>
+    </List>
+  );
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   return (
     <>
       <AppBar position="static">
         <Toolbar>
           <Box sx={{ display: "flex", flexDirection: "row" }}>
-            <Box
-              sx={{
-                flexShrink: 0,
-                display: { xs: "block", sm: "none" },
-              }}
-            >
+            <DisplayOnlyOnSmallScreen>
               <Button
                 sx={menuColors}
                 variant="contained"
                 startIcon={<MenuIcon />}
+                onClick={() => setIsDrawerOpen(true)}
               />
-            </Box>
+              <Drawer
+                anchor="left"
+                open={isDrawerOpen}
+                onClose={() => setIsDrawerOpen(false)}
+              >
+                {navigationList}
+              </Drawer>
+            </DisplayOnlyOnSmallScreen>
             <LearngraphLOGO
               onClick={() => navigate("/")}
               sx={{
@@ -120,28 +190,9 @@ export const About = () => {
         </Toolbar>
       </AppBar>
       <Box sx={{ display: "flex" }}>
-        <Box
-          sx={{
-            flexShrink: 0,
-            display: { xs: "none", sm: "block" },
-            height: "100vh",
-            ...menuColors,
-          }}
-        >
-          <List>
-            <ListItemGlobalLink
-              globalPath=""
-              buttonText={LEARNGRAPH_HEADER_TEXT}
-            />
-            <ListItemSectionLink sectionID={"about"} buttonText={"About"} />
-            <List sx={{ paddingLeft: 2 }}>
-              <ListItemSubSectionLink
-                sectionID={"gettinginvolved"}
-                buttonText={"Getting Involved!"}
-              />
-            </List>
-          </List>
-        </Box>
+        <DisplayOnlyOnLargeScreen sx={{ ...menuColors }}>
+          {navigationList}
+        </DisplayOnlyOnLargeScreen>
         <Box component="main" sx={{ flexGrow: 1, padding: 3 }}>
           <TypographyMaxWidth variant="h4" gutterBottom id="about">
             About Us

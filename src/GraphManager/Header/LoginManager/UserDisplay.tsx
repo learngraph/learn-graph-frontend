@@ -1,5 +1,6 @@
 import React from "react";
 import { Box, Button, Menu, MenuItem } from "@mui/material";
+import PersonIcon from "@mui/icons-material/Person";
 import { useTranslation } from "react-i18next";
 import i18n from "@src/shared/i18n";
 import { useUserDataContext } from "@src/Context/UserDataContext";
@@ -31,14 +32,21 @@ export default function UserDisplay(props: UserDisplayProps) {
   };
 
   return (
-    <Box>
+    <>
       <Button
         variant="contained"
+        startIcon={<PersonIcon />}
         color="primary"
         onClick={handleClick}
         aria-label="user menu"
+        sx={{
+          maxWidth: "100%", // Set maximum width for small screens
+          whiteSpace: "normal", // Allow text to wrap
+          textOverflow: "ellipsis", // Add ellipsis if text overflows
+          overflow: "hidden", // Hide overflowed content
+        }}
       >
-        {t("user-name-button", { userName: props.userName })}
+        {props.userName}
       </Button>
       <Menu
         anchorEl={anchorEl}
@@ -52,6 +60,6 @@ export default function UserDisplay(props: UserDisplayProps) {
           {i18n.t("logout-button")}
         </MenuItem>
       </Menu>
-    </Box>
+    </>
   );
 }
