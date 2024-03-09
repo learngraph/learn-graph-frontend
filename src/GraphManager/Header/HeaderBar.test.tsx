@@ -10,9 +10,11 @@ describe("HeaderBar", () => {
     const ctrl = makeMockController();
     render(
       <HeaderBar
-        // @ts-ignore
-        controllerRef={{ current: ctrl }}
-        userInputCallback={userInputCallback}
+        search={{
+          // @ts-ignore
+          controllerRef: { current: ctrl },
+          userInputCallback: userInputCallback,
+        }}
       />,
     );
     expect(userInputCallback.mock.calls.length).toBe(0);

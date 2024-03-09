@@ -15,6 +15,10 @@ const BarItems = styled("div")(({ theme }) => ({
 }));
 
 export interface HeaderBarProps {
+  search?: SearchBarProps;
+}
+
+export interface SearchBarProps {
   // userInputCallback is called with each key-stroke of the user, and always
   // given the full user-input. When "Enter" key is pressesd, the user-input
   // get's called with the user-input and an appended "\n"!
@@ -46,9 +50,11 @@ export default function HeaderBar(props: HeaderBarProps) {
       <AppBar position="static">
         <Toolbar sx={{ paddingY: isSmallScreen ? 2 : 0 }}>
           <LearngraphLOGO sx={{ display: { xs: "none", sm: "block" } }} />
-          <BarItems sx={{ alignItems: "left" }}>
-            <SearchField props={props} />
-          </BarItems>
+          {props.search ? (
+            <BarItems sx={{ alignItems: "left" }}>
+              <SearchField props={props.search!} />
+            </BarItems>
+          ) : null}
           <Box sx={{ flexGrow: 1 }} />{" "}
           {/* Note: This Box pushes other bar-items to the right */}
           <BarItems sx={{ alignItems: "right" }}>

@@ -134,7 +134,6 @@ export const About = () => {
     <List>
       <ListItemGlobalLink globalPath="" buttonText={LEARNGRAPH_HEADER_TEXT} />
       <Divider sx={{ margin: "20px 0" }} />
-      <Typography variant="overline">Navigation</Typography>
       <ListItemSectionLink sectionID={"about"} buttonText={"About"} />
       <List sx={{ paddingLeft: 2 }}>
         <ListItemSubSectionLink
@@ -143,18 +142,22 @@ export const About = () => {
         />
       </List>
       <Divider sx={{ margin: "20px 0" }} />
-      <Typography variant="overline">Settings</Typography>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-        }}
-      >
-        <ListItemButton component={LocaleManager} />
-        <ListItemButton component={LoginManager} />{" "}
-        {/* FIXME(skep): alignment only works for LocaleManager, but not for LoginManager ¯\_(ツ)_/¯ */}
-      </Box>
+      <DisplayOnlyOnSmallScreen>
+        <Typography variant="overline">Settings</Typography>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            padding: 1,
+            gap: 1,
+          }}
+        >
+          <ListItemButton component={LocaleManager} />
+          <ListItemButton component={LoginManager} />{" "}
+          {/* FIXME(skep): alignment only works for LocaleManager, but not for LoginManager ¯\_(ツ)_/¯ */}
+        </Box>
+      </DisplayOnlyOnSmallScreen>
     </List>
   );
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);

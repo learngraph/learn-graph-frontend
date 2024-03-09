@@ -2,7 +2,7 @@ import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import { useTranslation } from "react-i18next";
 import { styled, alpha } from "@mui/material/styles";
-import { HeaderBarProps } from "./HeaderBar";
+import { SearchBarProps } from "./HeaderBar";
 import { ControllerRef } from "../GraphManager";
 import { useState } from "react";
 import { ForceGraphNodeObject } from "../types";
@@ -138,7 +138,7 @@ export interface SearchCallback {
 export const SearchField = ({
   props,
   ...rest
-}: { props: HeaderBarProps } & any) => {
+}: { props: SearchBarProps } & any) => {
   const { t } = useTranslation();
   const [userInput, setUserInput] = useState<string>("");
   return (

@@ -27,8 +27,10 @@ export const GraphManager = (_: GraphManagerProps): JSX.Element => {
       }}
     >
       <HeaderBar
-        userInputCallback={searchCallback}
-        controllerRef={controllerRef}
+        search={{
+          userInputCallback: searchCallback,
+          controllerRef: controllerRef,
+        }}
       />
       <GraphRenderer controllerRef={controllerRef} />
     </Box>
