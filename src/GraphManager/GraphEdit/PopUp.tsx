@@ -35,7 +35,7 @@ import {
 import { MarkdownEditorWrapper } from "./MarkdownField";
 import { useNodeEdits } from "@src/GraphManager/RPCHooks/useNodeEdits";
 import { NodeEdit as BackendNodeEdit, NodeEditType } from "../RPCHooks/types";
-import { AvatarGroup, Divider, List, ListItem } from "@mui/material";
+import { AvatarGroup, Divider, List, ListItem, useTheme } from "@mui/material";
 
 // TODO(skep): MIN_NODE_DESCRIPTION_LENGTH should be language dependent; for
 // chinese words, 1-2 characters is already precise, but for english a single
@@ -411,22 +411,46 @@ const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
     return addKeyboardShortcuts(formik);
   }, [formik]);
   
+  interface LinkDisplayProps {
+    linkDisplay: LinkDisplayData;
+    backdropFillColor: string
+  }
 
-  const LinkDisplay = (linkDisplay: LinkDisplayData) => {
-    const endPosition = 100* linkDisplay.weight / MAX_LINK_WEIGHT
-    return <ListItem 
+  const LinkDisplay = ({linkDisplay, backdropFillColor}: LinkDisplayProps) => {
+    const endPosition = 100* linkDisplay.weight / MAX_LINK_WEIGHT;
+    const theme = useTheme()
+    const lowerContrast =theme.palette.text.secondary
+
+    return (
+    <ListItem 
       key={linkDisplay.linkId} 
-      style={{
+      sx={{
         border: "1px solid #eee", 
         borderRadius: "5px", 
-        background: `linear-gradient(to right, coral 0%, coral ${endPosition}%, transparent ${endPosition}%, transparent 100%)`,
+        background: `linear-gradient(to right, ${backdropFillColor} ${endPosition}%, transparent ${endPosition}%, transparent 100%)`,
+        "& .link-weight-display": {
+          visibility: "hidden"
+        },
+        "&:hover": {
+          border: "none",
+          boxShadow: `inset 0 0 1px 2px ${backdropFillColor}`,
+          "& .link-weight-display": {
+            visibility: "visible",
+            color: lowerContrast,
+          }
+        }
       }}
     >
-      {linkDisplay.nodeName}
-    </ListItem>;
+      <Typography>
+        {linkDisplay.nodeName}<span className="link-weight-display">{` — ${linkDisplay.weight}`}</span>
+      </Typography>
+    </ListItem>)
   };
   const incomingItemCount = connectedLinks.inboundSourceIds.length;
   const outgoingItemCount = connectedLinks.outboundTargetIds.length;
+  const theme = useTheme()
+  const primaryLight = theme.palette.primary.light
+  const secondaryLight = theme.palette.secondary.light
 
   const bottomContent = (!incomingItemCount && !outgoingItemCount)? null : (
     <Box sx={{display: "flex", gap: "2em", flexDirection: "column"}}>
@@ -435,7 +459,7 @@ const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
         <List>
           {
             connectedLinks.inboundSourceIds.map(
-              LinkDisplay
+              (linkDisplay)=><LinkDisplay linkDisplay={linkDisplay} backdropFillColor={primaryLight}  />
             )
           }
         </List>
@@ -445,7 +469,7 @@ const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
         <List>
           {
             connectedLinks.outboundTargetIds.map(
-              LinkDisplay
+              (linkDisplay)=><LinkDisplay linkDisplay={linkDisplay} backdropFillColor={secondaryLight}  />
             )
           }
         </List>
