@@ -35,7 +35,7 @@ import {
 import { MarkdownEditorWrapper } from "./MarkdownField";
 import { useNodeEdits } from "@src/GraphManager/RPCHooks/useNodeEdits";
 import { NodeEdit as BackendNodeEdit, NodeEditType } from "../RPCHooks/types";
-import { AvatarGroup } from "@mui/material";
+import { AvatarGroup, List, ListItem, useTheme } from "@mui/material";
 
 // TODO(skep): MIN_NODE_DESCRIPTION_LENGTH should be language dependent; for
 // chinese words, 1-2 characters is already precise, but for english a single
@@ -106,6 +106,7 @@ export interface NodeEdit {
   onFormSubmit: (form: NewNodeForm) => void;
   defaultFormContent?: ForceGraphNodeObject;
   onDelete?: () => void;
+  bottomContent?: React.ReactNode;
 }
 export interface LinkEditDefaultValues {
   source?: ForceGraphNodeObject;
@@ -346,6 +347,16 @@ export const nodeValidation = yup.object({
     .max(MAX_NODE_DESCRIPTION_LENGTH),
 });
 
+interface LinkDisplayData {
+  nodeName: string;
+  weight: number;
+  linkId: string;
+}
+interface NodeIdAccumulator {
+  inboundSourceIds: LinkDisplayData[];
+  outboundTargetIds: LinkDisplayData[];
+}
+
 const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
   let nodeEditsAvailable, nodeEditsData, nodeEditsLoading;
   if (ctrl.popUp.state.nodeEdit?.defaultFormContent?.id) {
@@ -365,6 +376,41 @@ const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
       false,
     ];
   }
+  const { t } = useTranslation();
+
+  const currentlySelectedNodeId =
+    ctrl.popUp.state.nodeEdit?.defaultFormContent?.id;
+  const connectedLinks: NodeIdAccumulator =
+    ctrl.graph.current.links.reduce<NodeIdAccumulator>(
+      (acc, currentLink) => {
+        if (currentLink.target.id === currentlySelectedNodeId) {
+          acc.inboundSourceIds.push({
+            nodeName: currentLink.source.description,
+            weight: currentLink.value,
+            linkId: currentLink.id,
+          });
+        } else if (currentLink.source.id === currentlySelectedNodeId) {
+          acc.outboundTargetIds.push({
+            nodeName: currentLink.target.description,
+            weight: currentLink.value,
+            linkId: currentLink.id,
+          });
+        }
+        return acc;
+      },
+      {
+        inboundSourceIds: [],
+        outboundTargetIds: [],
+      },
+    );
+
+  connectedLinks.inboundSourceIds = connectedLinks.inboundSourceIds.sort(
+    (linkA, linkB) => linkB.weight - linkA.weight,
+  );
+  connectedLinks.outboundTargetIds = connectedLinks.outboundTargetIds.sort(
+    (linkA, linkB) => linkB.weight - linkA.weight,
+  );
+
   const formik = useFormik<NewNodeForm>({
     initialValues: {
       nodeDescription:
@@ -381,7 +427,84 @@ const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
   useEffect(() => {
     return addKeyboardShortcuts(formik);
   }, [formik]);
-  const { t } = useTranslation();
+
+  interface LinkDisplayProps {
+    linkDisplay: LinkDisplayData;
+    backdropFillColor: string;
+  }
+
+  const LinkDisplay = ({
+    linkDisplay,
+    backdropFillColor,
+  }: LinkDisplayProps) => {
+    const endPosition = (100 * linkDisplay.weight) / MAX_LINK_WEIGHT;
+    const theme = useTheme();
+    const lowerContrast = theme.palette.text.secondary;
+
+    return (
+      <ListItem
+        key={linkDisplay.linkId}
+        sx={{
+          border: "1px solid #eee",
+          borderRadius: "5px",
+          background: `linear-gradient(to right, ${backdropFillColor} ${endPosition}%, transparent ${endPosition}%, transparent 100%)`,
+          "& .link-weight-display": {
+            visibility: "hidden",
+          },
+          "&:hover": {
+            border: "none",
+            boxShadow: `inset 0 0 1px 2px ${backdropFillColor}`,
+            "& .link-weight-display": {
+              visibility: "visible",
+              color: lowerContrast,
+            },
+          },
+        }}
+      >
+        <Typography>
+          {linkDisplay.nodeName}
+          <span className="link-weight-display">{` — ${linkDisplay.weight}`}</span>
+        </Typography>
+      </ListItem>
+    );
+  };
+  const incomingItemCount = connectedLinks.inboundSourceIds.length;
+  const outgoingItemCount = connectedLinks.outboundTargetIds.length;
+  const theme = useTheme();
+  const primaryLight = theme.palette.primary.light;
+  const secondaryLight = theme.palette.secondary.light;
+
+  const bottomContent =
+    !incomingItemCount && !outgoingItemCount ? null : (
+      <Box sx={{ display: "flex", gap: "2em", flexDirection: "column" }}>
+        {!!incomingItemCount && (
+          <Box>
+            <Typography variant="h6">{t("inboundDependency")}</Typography>
+            <List>
+              {connectedLinks.inboundSourceIds.map((linkDisplay) => (
+                <LinkDisplay
+                  linkDisplay={linkDisplay}
+                  backdropFillColor={primaryLight}
+                />
+              ))}
+            </List>
+          </Box>
+        )}
+        {!!outgoingItemCount && (
+          <Box>
+            <Typography variant="h6">{t("outboundDependency")}</Typography>
+            <List>
+              {connectedLinks.outboundTargetIds.map((linkDisplay) => (
+                <LinkDisplay
+                  linkDisplay={linkDisplay}
+                  backdropFillColor={secondaryLight}
+                />
+              ))}
+            </List>
+          </Box>
+        )}
+      </Box>
+    );
   const fields = [
     <TextFieldFormikGeneratorRequired
       fieldName="nodeDescription"
@@ -441,6 +564,7 @@ const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
       onDelete={ctrl.popUp.state.nodeEdit?.onDelete}
       isEditingEnabled={ctrl.mode.isEditingEnabled}
       topRight={topRight}
+      bottomContent={bottomContent}
     />
   );
 };
@@ -495,16 +619,17 @@ const stringAvatar = (name: string) => {
   };
 };
 
-type DraggableFormPorops = SubGraphEditPopUpProps & {
+type DraggableFormProps = SubGraphEditPopUpProps & {
   popUp: PopUpControls;
   fields: any;
   formik: { submitForm: () => void };
   onDelete?: () => void;
   isEditingEnabled: boolean;
   topRight?: any;
+  bottomContent?: React.ReactNode;
 };
 
-export const DraggableForm = (props: DraggableFormPorops) => {
+export const DraggableForm = (props: DraggableFormProps) => {
   const { t } = useTranslation();
   const onDelete = () => {
     props.handleClose();
@@ -531,7 +656,7 @@ export const DraggableForm = (props: DraggableFormPorops) => {
           </DialogTitle>
           {props.topRight ?? <></>}
         </Box>
-        <DialogContent>
+        <DialogContent style={{ overflow: "visible" }}>
           <DialogContentText>{props.popUp.state.details}</DialogContentText>
           {props.fields}
         </DialogContent>
@@ -563,6 +688,7 @@ export const DraggableForm = (props: DraggableFormPorops) => {
             </Button>
           </Tooltip>
         </DialogActions>
+        <DialogContent sx={{minHeight: "120px"}}>{props.bottomContent}</DialogContent>
       </Dialog>
     </>
   );
