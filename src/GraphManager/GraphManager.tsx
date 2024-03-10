@@ -2,9 +2,9 @@ import { useRef, MutableRefObject } from "react";
 import { Box } from "@mui/material";
 
 import { GraphRenderer } from "./GraphRenderer";
-import HeaderBar from "./Header/HeaderBar";
 import { userSearchMatching } from "./Header/Search";
 import { Controller } from "./GraphEdit/GraphEdit";
+import { NavigationWithContent } from "@src/Navigation";
 
 interface GraphManagerProps {}
 
@@ -26,9 +26,12 @@ export const GraphManager = (_: GraphManagerProps): JSX.Element => {
         flexDirection: "column",
       }}
     >
-      <HeaderBar
-        userInputCallback={searchCallback}
-        controllerRef={controllerRef}
+      <NavigationWithContent
+        search={{
+          userInputCallback: searchCallback,
+          controllerRef: controllerRef,
+        }}
+        alwaysDisplayNavDrawer={true}
       />
       <GraphRenderer controllerRef={controllerRef} />
     </Box>
