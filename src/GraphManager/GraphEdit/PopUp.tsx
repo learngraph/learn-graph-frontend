@@ -74,7 +74,7 @@ export const LinkWeightSlider = (props: LinkWeightSliderProps) => {
     <Slider
       defaultValue={props.defaultValue}
       onChange={onSliderValueChange}
-      step={0.01}
+      step={0.1}
       min={0.00001}
       max={MAX_LINK_WEIGHT}
       marks={marks}
@@ -452,7 +452,7 @@ const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
             visibility: "hidden",
           },
           "&:hover": {
-            border: "none",
+            border: `1px solid ${backdropFillColor}`,
             boxShadow: `inset 0 0 1px 2px ${backdropFillColor}`,
             "& .link-weight-display": {
               visibility: "visible",
@@ -688,7 +688,7 @@ export const DraggableForm = (props: DraggableFormProps) => {
             </Button>
           </Tooltip>
         </DialogActions>
-        <DialogContent sx={{minHeight: "120px"}}>{props.bottomContent}</DialogContent>
+        {!!props.bottomContent && <DialogContent sx={{minHeight: "120px"}}>{props.bottomContent}</DialogContent>}
       </Dialog>
     </>
   );
