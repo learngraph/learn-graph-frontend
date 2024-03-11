@@ -25,14 +25,17 @@ export interface UserDataContextValues {
   authenticationToken: string;
   setAuthenticationToken: React.Dispatch<React.SetStateAction<string>>;
   logout: () => void;
+  theme: Themes;
+  setTheme: React.Dispatch<React.SetStateAction<Themes>>;
 }
+type Themes = "light" | "dark";
 
 const SUPPORTED_LANGUAGE_TAGS = ["en", "de", "zh"];
 const DEFAULT_LANGUAGE = "en";
 
 export const errMsgNoDefault =
   "'defaultContextValues' must not be used! Use UserDataContextProvider instead.";
-const defaultContextValues = {
+const defaultContextValues: UserDataContextValues = {
   language: DEFAULT_LANGUAGE,
   userID: "",
   userName: "",
@@ -42,6 +45,8 @@ const defaultContextValues = {
   setUserName: () => Promise.reject({ error: errMsgNoDefault }),
   setAuthenticationToken: () => Promise.reject({ error: errMsgNoDefault }),
   logout: () => Promise.reject({ error: errMsgNoDefault }),
+  theme: "light",
+  setTheme: () => Promise.reject({ error: errMsgNoDefault }),
 };
 
 const UserDataContext =
@@ -64,12 +69,14 @@ enum StorageKeys {
   userName = "userName",
   authenticationToken = "authenticationToken",
   language = "language",
+  theme = "theme",
 }
 
 const loadUserDataFromLS = () => {
   const r: {
     user: { id: string; name: string; token: string };
     language: string;
+    theme: Themes;
   } = {
     user: {
       id: storageLoad(StorageKeys.userID),
@@ -77,6 +84,7 @@ const loadUserDataFromLS = () => {
       token: storageLoad(StorageKeys.authenticationToken),
     },
     language: storageLoad(StorageKeys.language),
+    theme: storageLoad(StorageKeys.theme),
   };
   return r;
 };
@@ -170,6 +178,7 @@ export const UserDataContextProvider: React.FC<{
   const [userName, setUserName] = React.useState<string>("");
   const [authenticationToken, setAuthenticationToken] =
     React.useState<string>("");
+  const [theme, setTheme] = React.useState<Themes>("light");
 
   useEffect(() => {
     if (userID === "" || authenticationToken === "" || userName === "") {
@@ -180,11 +189,15 @@ export const UserDataContextProvider: React.FC<{
     storageSave(StorageKeys.authenticationToken, authenticationToken);
   }, [userID, userName, authenticationToken]);
   useEffect(() => {
-    const { user, language } = loadUserDataFromLS();
+    const { user, language, theme: savedTheme } = loadUserDataFromLS();
+    console.log(`loaded theme=${savedTheme}`);
     if (user.id !== "" && user.name !== "" && user.token !== "") {
       setUserID(user.id);
       setUserName(user.name);
       setAuthenticationToken(user.token);
+    }
+    if (savedTheme && savedTheme !== theme) {
+      setTheme(savedTheme);
     }
     if (language) {
       setLanguageAndTranslation(language);
@@ -196,6 +209,10 @@ export const UserDataContextProvider: React.FC<{
       }
     }
   }, []);
+  useEffect(() => {
+    console.log(`saving theme=${theme}`);
+    storageSave(StorageKeys.theme, theme);
+  }, [theme]);
   const setLanguageAndTranslation = (
     newLanguage: React.SetStateAction<string>,
   ) => {
@@ -221,6 +238,8 @@ export const UserDataContextProvider: React.FC<{
     authenticationToken,
     setAuthenticationToken,
     logout,
+    theme,
+    setTheme,
   };
 
   const displayAlertRef: AlertFnRef = {};

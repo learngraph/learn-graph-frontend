@@ -688,7 +688,9 @@ export const DraggableForm = (props: DraggableFormProps) => {
             </Button>
           </Tooltip>
         </DialogActions>
-        <DialogContent sx={{minHeight: "120px"}}>{props.bottomContent}</DialogContent>
+        <DialogContent sx={{ minHeight: "120px" }}>
+          {props.bottomContent}
+        </DialogContent>
       </Dialog>
     </>
   );

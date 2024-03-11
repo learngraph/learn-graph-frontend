@@ -86,12 +86,25 @@ const DisplayOnlyOnLargeScreen = ({
   );
 };
 
-export const NavigationWithContent = (props: {
+// Note: content must be used when withSideNavigation is true, if
+// withSideNavigation is false, then other components can just be created after
+// this one, i.e.
+// ```js
+// <NavigationWithContent withSideNavigation={true} content={<Other />} />
+// // or
+// <>
+//  <NavigationWithContent />
+//  <Other />
+// </>
+// ```
+interface NavigationWithContentConfig {
   content?: ReactNode;
   alwaysDisplayNavDrawer?: boolean;
   withSideNavigation?: boolean;
   search?: SearchBarProps;
-}) => {
+}
+
+export const NavigationWithContent = (props: NavigationWithContentConfig) => {
   const navigate = useNavigate();
   const theme = useTheme();
   const menuPalette = theme.palette.info;
