@@ -37,8 +37,8 @@ const resources = {
       "Ctrl + Click anywhere": "Ctrl + Click anywhere",
       "Drag nodes close to each other": "Drag subjects close to each other",
       "Node Resources": "Resources (links, books, etc.)",
-      inboundDependency: "Required knowledge for this subject",
-      outboundDependency: "Subjects depending on this knowledge",
+      inboundDependency: "To understand this subject, you need to understand these subjects",
+      outboundDependency: "Subjects that need an understanding of this one",
       // user management
       "Enter a valid email": "Enter a valid email",
       "Email is required": "Email is required",
