@@ -51,14 +51,15 @@ describe("UserDataContext", () => {
     const user = userEvent.setup();
     const setUserIDButton = screen.getByTestId("setUserID");
     await user.click(setUserIDButton);
-    expect(mockStore).toEqual({ language: '"en"' });
+    expect(mockStore).toEqual({ language: '"en"', theme: '"light"' });
     const setUserNameButton = screen.getByTestId("setUserName");
     await user.click(setUserNameButton);
-    expect(mockStore).toEqual({ language: '"en"' });
+    expect(mockStore).toEqual({ language: '"en"', theme: '"light"' });
     const setUserTokenButton = screen.getByTestId("setUserToken");
     await user.click(setUserTokenButton);
     expect(mockStore).toEqual({
       language: '"en"',
+      theme: '"light"',
       authenticationToken: '"AAA"',
       userID: '"123"',
       userName: '"asdf"',

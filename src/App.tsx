@@ -1,8 +1,7 @@
 import { BrowserRouter } from "react-router-dom";
 import { UserDataContextProvider } from "./Context/UserDataContext";
 import { UserDataBackendContextProvider } from "./Context/UserDataBackendContext";
-import { ThemeProvider } from "@emotion/react";
-import { theme } from "./Theme";
+import { ConfigurableTheme } from "./Theme";
 import { LearngraphOrgRoutes } from "./LearngraphOrgRoutes";
 
 export const App = () => {
@@ -10,9 +9,9 @@ export const App = () => {
     <BrowserRouter>
       <UserDataContextProvider>
         <UserDataBackendContextProvider>
-          <ThemeProvider theme={theme}>
+          <ConfigurableTheme>
             <LearngraphOrgRoutes />
-          </ThemeProvider>
+          </ConfigurableTheme>
         </UserDataBackendContextProvider>
       </UserDataContextProvider>
     </BrowserRouter>

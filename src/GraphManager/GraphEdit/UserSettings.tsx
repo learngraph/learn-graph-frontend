@@ -11,11 +11,22 @@ import { useState } from "react";
 import { CircleContainer, buttonIconStyle } from "./CreateButton";
 import { Controller } from "./GraphEdit";
 import { FormControlLabel, FormGroup } from "@mui/material";
+import { useUserDataContext } from "@src/Context/UserDataContext";
 
 export const UserSettings = ({ ctrl }: { ctrl: Controller }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const toggleDrawer = () => {
     setIsOpen((current: boolean) => !current);
+  };
+  const { theme, setTheme } = useUserDataContext();
+  const toggleDarkTheme = () => {
+    setTheme((cur) => {
+      if (cur === "light") {
+        return "dark";
+      } else {
+        return "light";
+      }
+    });
   };
   return (
     <>
@@ -30,13 +41,8 @@ export const UserSettings = ({ ctrl }: { ctrl: Controller }) => {
             <Typography variant="overline">Visuals:</Typography>
             <FormControlLabel
               label="Dark Theme"
-              control={
-                <Checkbox
-                  checked={false}
-                  disabled={true} /*TODO(skep): implement!*/
-                />
-              }
-              onClick={() => {}}
+              control={<Checkbox checked={theme === "dark"} />}
+              onClick={toggleDarkTheme}
             />
           </FormGroup>
           <FormGroup>
