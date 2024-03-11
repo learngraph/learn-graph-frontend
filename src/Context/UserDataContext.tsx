@@ -190,7 +190,6 @@ export const UserDataContextProvider: React.FC<{
   }, [userID, userName, authenticationToken]);
   useEffect(() => {
     const { user, language, theme: savedTheme } = loadUserDataFromLS();
-    console.log(`loaded theme=${savedTheme}`);
     if (user.id !== "" && user.name !== "" && user.token !== "") {
       setUserID(user.id);
       setUserName(user.name);
@@ -210,7 +209,6 @@ export const UserDataContextProvider: React.FC<{
     }
   }, []);
   useEffect(() => {
-    console.log(`saving theme=${theme}`);
     storageSave(StorageKeys.theme, theme);
   }, [theme]);
   const setLanguageAndTranslation = (

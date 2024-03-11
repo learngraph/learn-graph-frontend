@@ -187,7 +187,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   const [graph, setGraph] = useState<ForceGraphGraphData>(
     makeInitialGraphData(),
   );
-  const { language, userID } = useUserDataContext();
+  const { language, userID, theme } = useUserDataContext();
   const { data: graphDataFromBackend } = useGraphData();
   const [shiftHeld, setShiftHeld] = useState(false);
   const downHandler = ({ key }: any) => {
@@ -353,6 +353,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
         >
           {controller.mode.use3D ? (
             <ForceGraph3D
+              backgroundColor={theme === "dark" ? "black" : "white"}
               height={availableSpace.height}
               width={availableSpace.width}
               // @ts-ignore: either 2d or 3d forcegraph - should be ok
@@ -381,6 +382,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
             />
           ) : (
             <ForceGraph2D
+              backgroundColor={theme === "dark" ? "black" : "white"}
               height={availableSpace.height}
               width={availableSpace.width}
               ref={controller.forceGraphRef}
