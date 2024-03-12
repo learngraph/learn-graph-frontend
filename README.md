@@ -82,7 +82,7 @@ For the setup of docker run
 
 ```sh
 sudo gpasswd -a $USER docker
-newgrp docker
+sudo usermod --append --groups docker $USER
 ```
 
 To add your user to the docker group and
