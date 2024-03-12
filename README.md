@@ -70,7 +70,9 @@ Image is build and pushed to hub.docker.com via [github action](.github/workflow
 
 ### Simple setup guide for beginner devs
 
-Install git, docker, docker-compose and npm.
+Install git, docker, docker-compose and npm (You should use
+[nvm](https://github.com/nvm-sh/nvm?tab=readme-ov-file#install--update-script)
+to avoid node version conflicts).
 
 To install all dependencies run
 
