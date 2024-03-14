@@ -80,14 +80,13 @@ To install all dependencies run
 npm install
 ```
 
-For the setup of docker run
+For the setup of docker you should add your user to the docker group by running
 
 ```sh
 sudo gpasswd -a $USER docker
+# or
 sudo usermod --append --groups docker $USER
 ```
-
-To add your user to the docker group and
 
 ```sh
 docker network create learngraphnet
