@@ -95,7 +95,7 @@ docker network create learngraphnet
 
 To let frontend and backend talk to each other in docker.
 
-Finally run `docker-compose up` parallel in both frontend and backend.
+Finally run `docker-compose up` in both frontend and backend at the same time.
 
 You can look at the current instance of the app in your Browser under
 `localhost:3000`
