@@ -67,6 +67,13 @@ const resources = {
       "User Name": "User Name",
       Submit: "Submit",
       "To edit the graph please login.": "To edit the graph please login.",
+      landing: {
+        header: "You can learn",
+        headerHighlight: "anything",
+        intro: "You decide what you want to learn.\nWe show you how to get there.",
+        hintClickImage: "Click the image above or",
+        buttonGoToGraph: "Jump right in!"
+      }
     },
   },
   de: {
