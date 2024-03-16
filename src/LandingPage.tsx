@@ -3,7 +3,6 @@ import { Box } from "@mui/material";
 import { NavigationWithContent } from "./Navigation";
 import Hero from "./LandingPage/Hero";
 
-
 export const LandingPage = () => {
   return (
     <NavigationWithContent
