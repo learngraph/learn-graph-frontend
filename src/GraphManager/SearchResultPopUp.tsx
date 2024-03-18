@@ -6,8 +6,10 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListSubheader from "@mui/material/ListSubheader";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 import { Controller } from "./GraphEdit/GraphEdit";
-import { centerOnNode } from "./components/Search";
+import { centerOnNode } from "./Header/Search";
 import { Rectangle } from "./utils";
 
 const FIXME_LAYOUT_UNCLEAR = 50; // FIXME(skep): should not have to subtract anything here..
@@ -21,10 +23,14 @@ export const SearchResultPopUp = ({
 }) => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  let sx = {
+  const sx = {
     ...(!isSmallScreen
       ? { maxHeight: availableSpace.height - FIXME_LAYOUT_UNCLEAR }
       : {}),
+  };
+  const closeSearchResults = () => {
+    ctrl.search.setHighlightNodes(new Set());
+    ctrl.search.setIsResultShown(false);
   };
   return (
     <>
@@ -46,7 +52,19 @@ export const SearchResultPopUp = ({
             }}
           >
             <List>
-              <ListSubheader>Search Results</ListSubheader>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <ListSubheader>Search Results</ListSubheader>
+                <IconButton onClick={() => closeSearchResults()}>
+                  {" "}
+                  <CloseIcon />{" "}
+                </IconButton>
+              </Box>
               {Array.from(ctrl.search.highlightNodes).map((node) => {
                 return (
                   <ListItemButton

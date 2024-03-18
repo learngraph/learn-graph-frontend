@@ -15,7 +15,7 @@ import {
   TextFieldFormikGeneratorRequired,
 } from "@src/shared/Styles";
 import { useFormik } from "formik";
-import { UserLoginInfo } from "@src/GraphManager/hooks/useLoginUser";
+import { UserLoginInfo } from "@src/GraphManager/RPCHooks/useLoginUser";
 import { validateUserLoginRequest } from "./InputValidation";
 import { useTranslation } from "react-i18next";
 

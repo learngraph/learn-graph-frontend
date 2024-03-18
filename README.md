@@ -1,11 +1,17 @@
-# React Force Graph
+# Learngraph Frontend
 
 See
 
 - [learngraph.org](https://learngraph.org/),
 - [about us](https://learngraph.org/about).
 
-## Development
+## Contributing
+
+### How to Contribute?
+
+- Commit messages should follow the [conventional commits guideline](https://www.conventionalcommits.org/en/v1.0.0/),
+- Create a PR & wait for review,
+- PRs should be "squashed & merged"
 
 ### Development Envorinment
 
@@ -64,27 +70,31 @@ Image is build and pushed to hub.docker.com via [github action](.github/workflow
 
 ### Simple setup guide for beginner devs
 
-Install git, docker, docker-compose and npm.
+Install git, docker, docker-compose and npm (You should use
+[nvm](https://github.com/nvm-sh/nvm?tab=readme-ov-file#install--update-script)
+to avoid node version conflicts).
 
 To install all dependencies run
+
 ```sh
 npm install
 ```
 
-For the setup of docker run
+For the setup of docker you should add your user to the docker group by running
 
 ```sh
-sudo gpasswd -a $USER docker  
-newgrp docker
+sudo gpasswd -a $USER docker
+# or
+sudo usermod --append --groups docker $USER
 ```
-To add your user to the docker group and
 
 ```sh
-		docker network create learngraphnet
+docker network create learngraphnet
 ```
+
 To let frontend and backend talk to each other in docker.
 
-Finally run `docker-compose up` parallel in both frontend and backend.
+Finally run `docker-compose up` in both frontend and backend at the same time.
 
 You can look at the current instance of the app in your Browser under
 `localhost:3000`

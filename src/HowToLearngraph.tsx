@@ -1,6 +1,6 @@
 import { AppBar, Toolbar } from '@mui/material'
 import Image from 'mui-image'
-import { LearngraphLOGO } from './GraphManager/components/HeaderBar'
+//import { LearngraphLOGO } from './GraphManager/components/HeaderBar'
 import { useNavigate } from 'react-router-dom'
 
 export const HowToLearngraph = () => {
@@ -9,14 +9,14 @@ export const HowToLearngraph = () => {
         <>
                 <AppBar position='static'>
                     <Toolbar>
-                        <LearngraphLOGO
+                        {/* <LearngraphLOGO
                             onClick={() => navigate('/')}
                             sx={{
                                 ':hover': {
                                 cursor: "pointer",
                                 },
                             }} 
-                        />
+                        /> */}
                     </Toolbar>
             
                 </AppBar>

@@ -7,11 +7,13 @@ import {
   HttpLink,
 } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
+import { GraphQLErrors } from "@apollo/client/errors";
 import { setContext, ContextSetter } from "@apollo/client/link/context";
 import fetch from "cross-fetch";
-import i18n from "./i18n";
+import i18n from "@src/shared/i18n";
 
-import { addAuthHeader, addLanguageHeader, addUserIDHeader } from "@src/link";
+import { addAuthHeader, addLanguageHeader, addUserIDHeader } from "./link";
+import { AlertFnRef, AlertPopupBar } from "@src/shared/Alert";
 
 export interface UserDataContextValues {
   language: string;
@@ -23,14 +25,17 @@ export interface UserDataContextValues {
   authenticationToken: string;
   setAuthenticationToken: React.Dispatch<React.SetStateAction<string>>;
   logout: () => void;
+  theme: Themes;
+  setTheme: React.Dispatch<React.SetStateAction<Themes>>;
 }
+type Themes = "light" | "dark";
 
 const SUPPORTED_LANGUAGE_TAGS = ["en", "de", "zh"];
 const DEFAULT_LANGUAGE = "en";
 
 export const errMsgNoDefault =
   "'defaultContextValues' must not be used! Use UserDataContextProvider instead.";
-const defaultContextValues = {
+const defaultContextValues: UserDataContextValues = {
   language: DEFAULT_LANGUAGE,
   userID: "",
   userName: "",
@@ -40,6 +45,8 @@ const defaultContextValues = {
   setUserName: () => Promise.reject({ error: errMsgNoDefault }),
   setAuthenticationToken: () => Promise.reject({ error: errMsgNoDefault }),
   logout: () => Promise.reject({ error: errMsgNoDefault }),
+  theme: "light",
+  setTheme: () => Promise.reject({ error: errMsgNoDefault }),
 };
 
 const UserDataContext =
@@ -62,12 +69,14 @@ enum StorageKeys {
   userName = "userName",
   authenticationToken = "authenticationToken",
   language = "language",
+  theme = "theme",
 }
 
 const loadUserDataFromLS = () => {
   const r: {
     user: { id: string; name: string; token: string };
     language: string;
+    theme: Themes;
   } = {
     user: {
       id: storageLoad(StorageKeys.userID),
@@ -75,6 +84,7 @@ const loadUserDataFromLS = () => {
       token: storageLoad(StorageKeys.authenticationToken),
     },
     language: storageLoad(StorageKeys.language),
+    theme: storageLoad(StorageKeys.theme),
   };
   return r;
 };
@@ -110,19 +120,40 @@ const clearUserData = (clearUserDataFunctions: clearUserDataType) => {
   clearUserDataFunctions.setAuthenticationToken("");
 };
 
-const makeNotifyUserOnNotLoggedInError = (ctx: UserDataContextValues) => {
+export const handleGraphQLErrors = (
+  ctx: UserDataContextValues,
+  popUpWith: (msg: string) => void,
+  graphQLErrors: GraphQLErrors,
+) => {
+  graphQLErrors.forEach(({ message }) => {
+    let msg = "";
+    if (message.includes("only logged in user may create graph data")) {
+      msg = i18n.t("Please login/signup to contribute!");
+      if (ctx.userID !== "" && ctx.authenticationToken !== "") {
+        msg = i18n.t("Session expired, please login again!");
+        clearUserDataCtx(ctx);
+      }
+    } else if (
+      message.includes('violates unique constraint "users_username_key"')
+    ) {
+      msg = "Failed to create Account: Username already in use."; // TODO(skep): translate
+    } else if (
+      message.includes('violates unique constraint "users_e_mail_key"')
+    ) {
+      msg = "Failed to create Account: EMail already in use."; // TODO(skep): translate
+    }
+    if (msg !== "") {
+      popUpWith(msg);
+    }
+  });
+};
+const makeNotifyUserOnNotLoggedInError = (
+  ctx: UserDataContextValues,
+  popUpWith: (msg: string) => void,
+) => {
   return onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors) {
-      graphQLErrors.forEach(({ message }) => {
-        if (message.includes("only logged in user may create graph data")) {
-          let msg = i18n.t("Please login/signup to contribute!");
-          if (ctx.userID !== "" && ctx.authenticationToken !== "") {
-            msg = i18n.t("Session expired, please login again!");
-            clearUserDataCtx(ctx);
-          }
-          alert(msg); // TODO(skep): make it a nice MUI-popup
-        }
-      });
+      handleGraphQLErrors(ctx, popUpWith, graphQLErrors);
     }
     if (networkError) {
       console.error(`[Network error]: ${networkError}`);
@@ -147,6 +178,7 @@ export const UserDataContextProvider: React.FC<{
   const [userName, setUserName] = React.useState<string>("");
   const [authenticationToken, setAuthenticationToken] =
     React.useState<string>("");
+  const [theme, setTheme] = React.useState<Themes>("light");
 
   useEffect(() => {
     if (userID === "" || authenticationToken === "" || userName === "") {
@@ -157,13 +189,16 @@ export const UserDataContextProvider: React.FC<{
     storageSave(StorageKeys.authenticationToken, authenticationToken);
   }, [userID, userName, authenticationToken]);
   useEffect(() => {
-    const { user, language } = loadUserDataFromLS();
+    const { user, language, theme: savedTheme } = loadUserDataFromLS();
     if (user.id !== "" && user.name !== "" && user.token !== "") {
       setUserID(user.id);
       setUserName(user.name);
       setAuthenticationToken(user.token);
     }
-    if (!!language) {
+    if (savedTheme && savedTheme !== theme) {
+      setTheme(savedTheme);
+    }
+    if (language) {
       setLanguageAndTranslation(language);
     } else {
       if (navigator && navigator.language) {
@@ -173,6 +208,9 @@ export const UserDataContextProvider: React.FC<{
       }
     }
   }, []);
+  useEffect(() => {
+    storageSave(StorageKeys.theme, theme);
+  }, [theme]);
   const setLanguageAndTranslation = (
     newLanguage: React.SetStateAction<string>,
   ) => {
@@ -198,9 +236,18 @@ export const UserDataContextProvider: React.FC<{
     authenticationToken,
     setAuthenticationToken,
     logout,
+    theme,
+    setTheme,
   };
 
-  const notifyUserOnNotLoggedInError = makeNotifyUserOnNotLoggedInError(ctx);
+  const displayAlertRef: AlertFnRef = {};
+  const notifyUserOnNotLoggedInError = makeNotifyUserOnNotLoggedInError(
+    ctx,
+    (message: string) => {
+      const displayAlert = displayAlertRef.current ?? alert;
+      displayAlert(message);
+    },
+  );
   const addUserIDHeaderFromContext: ContextSetter = (_, { headers }) => {
     return addUserIDHeader({ headers, userID: ctx.userID });
   };
@@ -227,6 +274,7 @@ export const UserDataContextProvider: React.FC<{
 
   return (
     <UserDataContext.Provider value={ctx}>
+      <AlertPopupBar displayAlertRef={displayAlertRef} />
       <ApolloProvider client={client}>{children}</ApolloProvider>
     </UserDataContext.Provider>
   );

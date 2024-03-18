@@ -2,7 +2,6 @@ import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import { useTranslation } from "react-i18next";
 import { styled, alpha } from "@mui/material/styles";
-import { HeaderBarProps } from "./HeaderBar";
 import { ControllerRef } from "../GraphManager";
 import { useState } from "react";
 import { ForceGraphNodeObject } from "../types";
@@ -12,6 +11,14 @@ import { Controller } from "@src/GraphManager/GraphEdit/GraphEdit";
 export const GLOBALSCALE_AFTER_SEARCH = 2;
 export const CENTER_AT_NODE_TIME_MS = 2000;
 
+export interface SearchBarProps {
+  // userInputCallback is called with each key-stroke of the user, and always
+  // given the full user-input. When "Enter" key is pressesd, the user-input
+  // get's called with the user-input and an appended "\n"!
+  userInputCallback: SearchCallback;
+  controllerRef: ControllerRef;
+}
+
 export const userSearchMatching = (
   controllerRef: ControllerRef,
   userInput: string,
@@ -20,18 +27,41 @@ export const userSearchMatching = (
 };
 
 export const centerOnNode = (ctrl: Controller, node: ForceGraphNodeObject) => {
-  ctrl.forceGraphRef.current?.centerAt(node.x, node.y, CENTER_AT_NODE_TIME_MS);
-  ctrl.forceGraphRef.current?.zoom(
-    GLOBALSCALE_AFTER_SEARCH,
-    ZOOM_TO_FIT_DURATION_MS,
-  );
+  if (
+    ctrl.mode.use3D &&
+    // @ts-ignore: 'cameraPosition' doesn't exist on 2d forcegraph
+    ctrl.forceGraphRef.current?.cameraPosition !== undefined
+  ) {
+    const distance = 100;
+    const distRatio = 1 + distance / Math.hypot(node.x!, node.y!, node.z!);
+    // @ts-ignore: 'cameraPosition' doesn't exist on 2d forcegraph
+    ctrl.forceGraphRef.current?.cameraPosition(
+      {
+        x: node.x! * distRatio,
+        y: node.y! * distRatio,
+        z: node.z! * distRatio,
+      }, // new position
+      node, // lookAt ({ x, y, z })
+      3000, // ms transition duration
+    );
+  } else if (!ctrl.mode.use3D && ctrl.forceGraphRef.current?.zoom) {
+    ctrl.forceGraphRef.current?.centerAt(
+      node.x,
+      node.y,
+      CENTER_AT_NODE_TIME_MS,
+    );
+    ctrl.forceGraphRef.current?.zoom(
+      GLOBALSCALE_AFTER_SEARCH,
+      ZOOM_TO_FIT_DURATION_MS,
+    );
+  }
 };
 
 export const userSearchMatchingInternal = (
   controllerRef: ControllerRef,
   userInput: string,
 ) => {
-  let newHighlightNodes = new Set<ForceGraphNodeObject>();
+  const newHighlightNodes = new Set<ForceGraphNodeObject>();
   let zoomToFirstResult = false;
   if (!userInput || userInput === "\n") {
     controllerRef.current?.search.setIsResultShown(false);
@@ -115,7 +145,7 @@ export interface SearchCallback {
 export const SearchField = ({
   props,
   ...rest
-}: { props: HeaderBarProps } & any) => {
+}: { props: SearchBarProps } & any) => {
   const { t } = useTranslation();
   const [userInput, setUserInput] = useState<string>("");
   return (

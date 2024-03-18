@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {
+  handleGraphQLErrors,
   translateLocaleToLanguageTag,
   UserDataContextProvider,
   useUserDataContext,
@@ -50,14 +51,15 @@ describe("UserDataContext", () => {
     const user = userEvent.setup();
     const setUserIDButton = screen.getByTestId("setUserID");
     await user.click(setUserIDButton);
-    expect(mockStore).toEqual({ language: '"en"' });
+    expect(mockStore).toEqual({ language: '"en"', theme: '"light"' });
     const setUserNameButton = screen.getByTestId("setUserName");
     await user.click(setUserNameButton);
-    expect(mockStore).toEqual({ language: '"en"' });
+    expect(mockStore).toEqual({ language: '"en"', theme: '"light"' });
     const setUserTokenButton = screen.getByTestId("setUserToken");
     await user.click(setUserTokenButton);
     expect(mockStore).toEqual({
       language: '"en"',
+      theme: '"light"',
       authenticationToken: '"AAA"',
       userID: '"123"',
       userName: '"asdf"',
@@ -135,4 +137,37 @@ describe("translateLocaleToLanguageTag", () => {
       expect(translateLocaleToLanguageTag(locale)).toEqual(expectedLanguage);
     },
   );
+});
+
+describe("handleGraphQLErrors", () => {
+  it("should do nothing if no error message is present", () => {
+    const msg = jest.fn();
+    const ctx = {};
+    // @ts-ignore
+    handleGraphQLErrors(ctx, msg, []);
+    expect(msg).not.toHaveBeenCalled();
+  });
+  it("should do nothing if no error message matches", () => {
+    const msg = jest.fn();
+    const ctx = {};
+    // @ts-ignore
+    handleGraphQLErrors(ctx, msg, [{ message: "unknown" }]);
+    expect(msg).not.toHaveBeenCalled();
+  });
+  it("should warn the user about not being logged in", () => {
+    const msg = jest.fn();
+    const ctx = {
+      setUserID: jest.fn(),
+      setUserName: jest.fn(),
+      setAuthenticationToken: jest.fn(),
+    };
+    // @ts-ignore
+    handleGraphQLErrors(ctx, msg, [
+      { message: "only logged in user may create graph data" },
+    ]);
+    expect(msg).toHaveBeenCalledTimes(1);
+    expect(msg).toHaveBeenCalledWith("Session expired, please login again!");
+    expect(ctx.setUserID).toHaveBeenCalledTimes(1);
+    expect(ctx.setUserID).toHaveBeenCalledWith("");
+  });
 });
