@@ -1,4 +1,4 @@
-import { Dispatch, MutableRefObject, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 import {
   LinkEditDefaultValues,
   NewLinkForm,
@@ -14,14 +14,14 @@ import {
 } from "@src/GraphManager/types";
 import { HighlightNodeSet, SpecialNodes } from "@src/GraphManager/utils";
 import { Position } from "@src/GraphManager/utils";
-import { CreateNodeFn } from "@src/GraphManager/hooks/useCreateNode";
-import { CreateEdgeFn } from "@src/GraphManager/hooks/useCreateEdge";
-import { SubmitVoteFn } from "@src/GraphManager/hooks/useSubmitVote";
-import { UpdateNodeFn } from "@src/GraphManager/hooks/useUpdateNode";
-import { DeleteNodeFn } from "@src/GraphManager/hooks/useDeleteNode";
-import { DeleteEdgeFn } from "@src/GraphManager/hooks/useDeleteEdge";
+import { CreateNodeFn } from "@src/GraphManager/RPCHooks/useCreateNode";
+import { CreateEdgeFn } from "@src/GraphManager/RPCHooks/useCreateEdge";
+import { SubmitVoteFn } from "@src/GraphManager/RPCHooks/useSubmitVote";
+import { UpdateNodeFn } from "@src/GraphManager/RPCHooks/useUpdateNode";
+import { DeleteNodeFn } from "@src/GraphManager/RPCHooks/useDeleteNode";
+import { DeleteEdgeFn } from "@src/GraphManager/RPCHooks/useDeleteEdge";
 import { ZoomState } from "@src/GraphManager/Zoom";
-import i18n from "@src/i18n";
+import i18n from "@src/shared/i18n";
 
 // Note: must be kept constant for all times, otherwise database must be
 // migrated to a new maximum weight.
@@ -50,7 +50,6 @@ export const INTERIM_TMP_LINK_ID = "INTERIM_TMP";
 
 export interface GraphState {
   current: ForceGraphGraphData;
-  performInitialZoom: MutableRefObject<boolean>;
   setGraph: Dispatch<SetStateAction<ForceGraphGraphData>>;
   addLink: (link: ForceGraphLinkObject | ForceGraphLinkObjectInitial) => void;
   updateLink: (
@@ -162,6 +161,8 @@ export interface ModeState {
   setIsEditingEnabled: Dispatch<SetStateAction<boolean>>;
   allowGraphInteractions: boolean;
   setAllowGraphInteractions: Dispatch<SetStateAction<boolean>>;
+  use3D: boolean;
+  setUse3D: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface Controller {
@@ -228,7 +229,7 @@ export const onNodeDrag = (
   };
   let newInterimLinkTarget: ForceGraphNodeObject | null = null;
   let removeCurrentInterimLink: boolean = false;
-  for (let node of ctrl.graph.current.nodes) {
+  for (const node of ctrl.graph.current.nodes) {
     if (node === dragSourceNode || !node) {
       continue;
     }
@@ -258,8 +259,8 @@ export const onNodeDrag = (
     ctrl.graph.removeLink(nodeDrag.interimLink!);
     setNodeDrag({ ...nodeDrag, interimLink: undefined });
   }
-  if (!!newInterimLinkTarget) {
-    if (!!nodeDrag.interimLink) {
+  if (newInterimLinkTarget) {
+    if (nodeDrag.interimLink) {
       ctrl.graph.removeLink(nodeDrag.interimLink);
     }
     addInterimLink(dragSourceNode, newInterimLinkTarget);
@@ -337,7 +338,7 @@ export const openCreateLinkPopUp = (
         id: linkID,
       });
     } else {
-      if (!!conf?.updateExistingLink) {
+      if (conf?.updateExistingLink) {
         ctrl.graph.removeLink(conf.updateExistingLink);
       }
       const link: ForceGraphLinkObjectInitial = {

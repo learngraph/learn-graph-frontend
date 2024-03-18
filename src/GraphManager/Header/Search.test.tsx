@@ -29,10 +29,10 @@ describe("userSearchMatchingInternal", () => {
   });
 
   it("should match substring and clear after call without match", () => {
-    let A = { id: "A", description: "XYabcZ" };
+    const A = { id: "A", description: "XYabcZ" };
     const setOfA = new Set();
     setOfA.add(A);
-    let controller = makeMockController();
+    const controller = makeMockController();
     controller.graph.current = { nodes: [A], links: [] };
     userSearchMatchingInternal(
       // @ts-ignore mock func
@@ -60,8 +60,8 @@ describe("userSearchMatchingInternal", () => {
   });
 
   it("should match case-insensitive", () => {
-    let A = { id: "A", description: "XYabcZ" };
-    let controller = makeMockController();
+    const A = { id: "A", description: "XYabcZ" };
+    const controller = makeMockController();
     controller.graph.current = { nodes: [A], links: [] };
     userSearchMatchingInternal(
       // @ts-ignore mock fn

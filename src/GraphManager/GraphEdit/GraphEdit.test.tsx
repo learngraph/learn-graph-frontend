@@ -140,7 +140,7 @@ const makeNodes = () => {
 };
 describe("onNodeDrag", () => {
   const makeNodeDragState = (initialState: NodeDragState) => {
-    let state: NodeDragState = initialState;
+    const state: NodeDragState = initialState;
     return {
       state,
       setState: (newDrag: NodeDragState) => {

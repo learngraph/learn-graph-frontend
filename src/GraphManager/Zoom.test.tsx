@@ -19,11 +19,11 @@ describe("zoom", () => {
     it("should push a Merge operation when merging nodes", () => {
       const [A, B] = [{ id: "A" }, { id: "B" }];
       const link = { id: "BA", source: B, target: A };
-      let args: ZoomArgs = {
+      const args: ZoomArgs = {
         steps: 1,
         direction: ZoomDirection.Out,
       };
-      let state: ZoomState = {
+      const state: ZoomState = {
         zoomSteps: [],
         graphData: { nodes: [A, B], links: [link] },
       };
@@ -42,11 +42,11 @@ describe("zoom", () => {
     });
     it("should push a LinkRewrite operation when rewriting links", () => {
       const [A, B, C] = [{ id: "A" }, { id: "B" }, { id: "C" }];
-      let args: ZoomArgs = {
+      const args: ZoomArgs = {
         steps: 1,
         direction: ZoomDirection.Out,
       };
-      let state: ZoomState = {
+      const state: ZoomState = {
         zoomSteps: [],
         graphData: {
           nodes: [A, B, C],
@@ -80,11 +80,11 @@ describe("zoom", () => {
     });
     it("should not push self-referencing links", () => {
       const [A, B, C, D] = [{ id: "A" }, { id: "B" }, { id: "C" }, { id: "D" }];
-      let args: ZoomArgs = {
+      const args: ZoomArgs = {
         steps: 1,
         direction: ZoomDirection.Out,
       };
-      let state: ZoomState = {
+      const state: ZoomState = {
         zoomSteps: [],
         graphData: {
           nodes: [A, B, C, D],
@@ -129,11 +129,11 @@ describe("zoom", () => {
         { id: "D" },
         { id: "E" },
       ];
-      let args: ZoomArgs = {
+      const args: ZoomArgs = {
         steps: 1,
         direction: ZoomDirection.Out,
       };
-      let state: ZoomState = {
+      const state: ZoomState = {
         zoomSteps: [],
         graphData: {
           nodes: [A, B, C, D, E],
@@ -189,11 +189,11 @@ describe("zoom", () => {
       { id: "F" },
       { id: "G" },
     ];
-    let nodeList = rawData.map((node) => ({
+    const nodeList = rawData.map((node) => ({
       id: node.id,
       mergeCount: node.mergeCount,
     }));
-    let node = Object.assign(
+    const node = Object.assign(
       // @ts-ignore
       ...nodeList.map((node) => ({ [node.id]: node })),
     );
@@ -857,11 +857,11 @@ describe("zoom", () => {
       { id: "F" },
       { id: "G" },
     ];
-    let nodeList = rawData.map((node) => ({
+    const nodeList = rawData.map((node) => ({
       id: node.id,
       mergeCount: node.mergeCount,
     }));
-    let node = Object.assign(
+    const node = Object.assign(
       // @ts-ignore
       ...nodeList.map((node) => ({ [node.id]: node })),
     );
@@ -966,7 +966,7 @@ describe("zoom", () => {
 describe("calculateNodeWeight", () => {
   const nodeList = [{ id: "A" }, { id: "B" }, { id: "C" }];
   // @ts-ignore: oh come on
-  let node = Object.assign(...nodeList.map((node) => ({ [node.id]: node })));
+  const node = Object.assign(...nodeList.map((node) => ({ [node.id]: node })));
   it.each([
     [
       "count links to node",

@@ -3,7 +3,7 @@ import { addAuthHeader, addLanguageHeader } from "./link";
 describe("link", () => {
   describe("addAuthHeader", () => {
     it("should add authorization header (unauthorized for empty input)", () => {
-      let obj = addAuthHeader({ headers: { a: "B" }, token: "" });
+      const obj = addAuthHeader({ headers: { a: "B" }, token: "" });
       expect(obj).toHaveProperty("headers");
       const headers = obj.headers;
       expect(headers).toEqual({
@@ -12,7 +12,7 @@ describe("link", () => {
       });
     });
     it("should add authorization header with token)", () => {
-      let obj = addAuthHeader({ headers: { a: "B" }, token: "123" });
+      const obj = addAuthHeader({ headers: { a: "B" }, token: "123" });
       expect(obj).toHaveProperty("headers");
       const headers = obj.headers;
       expect(headers).toEqual({

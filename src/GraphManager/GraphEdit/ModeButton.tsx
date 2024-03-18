@@ -3,10 +3,9 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import Button from "@mui/material/Button";
 
 import { Controller } from "./GraphEdit";
-import { CircleContainer } from "./CreateButton";
+import { CircleContainer, buttonIconStyle } from "./CreateButton";
 
 export const EditModeButton = ({ ctrl }: { ctrl: Controller }) => {
-  const iconProp = { fontSize: 40 };
   const onClick = () => {
     ctrl.mode.setAllowGraphInteractions(!ctrl.mode.allowGraphInteractions);
   };
@@ -14,9 +13,9 @@ export const EditModeButton = ({ ctrl }: { ctrl: Controller }) => {
     <Button id="basic-button" onClick={onClick}>
       <CircleContainer>
         {ctrl.mode.allowGraphInteractions ? (
-          <EditIcon style={iconProp} />
+          <EditIcon style={buttonIconStyle} />
         ) : (
-          <VisibilityIcon style={iconProp} />
+          <VisibilityIcon style={buttonIconStyle} />
         )}
       </CircleContainer>
     </Button>

@@ -5,6 +5,7 @@ import {
   LinkObject as FGLinkObject,
   ForceGraphMethods,
 } from "react-force-graph-2d";
+import { ForceGraphMethods as ForceGraphMethods3D } from "react-force-graph-2d";
 
 // BackendGraphData describes a complete graph sent by the backend.
 export interface BackendGraphData {
@@ -77,7 +78,6 @@ export type ForceGraphGraphData = FGGraphData<
 
 export type LocalForceGraphMethods =
   | ForceGraphMethods<ForceGraphNodeObject, ForceGraphLinkObject>
+  | ForceGraphMethods3D<ForceGraphNodeObject, ForceGraphLinkObject>
   | undefined;
-export type ForceGraphRef = MutableRefObject<
-  LocalForceGraphMethods | undefined
->;
+export type ForceGraphRef = MutableRefObject<LocalForceGraphMethods>;

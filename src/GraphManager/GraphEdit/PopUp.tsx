@@ -1,6 +1,9 @@
 import { useEffect, Dispatch, SetStateAction, useState } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
+import Box from "@mui/material/Box";
+import Avatar from "@mui/material/Avatar";
+import Typography from "@mui/material/Typography";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
@@ -30,6 +33,9 @@ import {
   ForceGraphNodeObject,
 } from "@src/GraphManager/types";
 import { MarkdownEditorWrapper } from "./MarkdownField";
+import { useNodeEdits } from "@src/GraphManager/RPCHooks/useNodeEdits";
+import { NodeEdit as BackendNodeEdit, NodeEditType } from "../RPCHooks/types";
+import { AvatarGroup, List, ListItem, useTheme } from "@mui/material";
 
 // TODO(skep): MIN_NODE_DESCRIPTION_LENGTH should be language dependent; for
 // chinese words, 1-2 characters is already precise, but for english a single
@@ -68,7 +74,7 @@ export const LinkWeightSlider = (props: LinkWeightSliderProps) => {
     <Slider
       defaultValue={props.defaultValue}
       onChange={onSliderValueChange}
-      step={0.01}
+      step={0.1}
       min={0.00001}
       max={MAX_LINK_WEIGHT}
       marks={marks}
@@ -100,6 +106,7 @@ export interface NodeEdit {
   onFormSubmit: (form: NewNodeForm) => void;
   defaultFormContent?: ForceGraphNodeObject;
   onDelete?: () => void;
+  bottomContent?: React.ReactNode;
 }
 export interface LinkEditDefaultValues {
   source?: ForceGraphNodeObject;
@@ -144,11 +151,11 @@ export const GraphEditPopUp = ({ ctrl }: GraphEditPopUpProps) => {
   const handleClose = () => {
     popUp.setState({ isOpen: false });
   };
-  if (!!popUp.state.nodeEdit) {
+  if (popUp.state.nodeEdit) {
     return <NodeEditPopUp handleClose={handleClose} ctrl={ctrl} />;
-  } else if (!!popUp.state.linkEdit) {
+  } else if (popUp.state.linkEdit) {
     return <LinkCreatePopUp handleClose={handleClose} ctrl={ctrl} />;
-  } else if (!!popUp.state.linkVote) {
+  } else if (popUp.state.linkVote) {
     return <LinkVotePopUp handleClose={handleClose} ctrl={ctrl} />;
   } else {
     return <></>;
@@ -242,7 +249,7 @@ export const LinkCreatePopUp = ({
     },
   });
   const extendedHandleClose = () => {
-    if (!!ctrl.popUp.state.linkEdit?.onNonSubmitClose) {
+    if (ctrl.popUp.state.linkEdit?.onNonSubmitClose) {
       ctrl.popUp.state.linkEdit?.onNonSubmitClose();
     }
     handleClose();
@@ -340,7 +347,70 @@ export const nodeValidation = yup.object({
     .max(MAX_NODE_DESCRIPTION_LENGTH),
 });
 
+interface LinkDisplayData {
+  nodeName: string;
+  weight: number;
+  linkId: string;
+}
+interface NodeIdAccumulator {
+  inboundSourceIds: LinkDisplayData[];
+  outboundTargetIds: LinkDisplayData[];
+}
+
 const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
+  let nodeEditsAvailable, nodeEditsData, nodeEditsLoading;
+  if (ctrl.popUp.state.nodeEdit?.defaultFormContent?.id) {
+    const {
+      data,
+      queryResponse: { loading },
+    } = useNodeEdits(ctrl.popUp.state.nodeEdit?.defaultFormContent?.id);
+    [nodeEditsData, nodeEditsLoading, nodeEditsAvailable] = [
+      data,
+      loading,
+      true,
+    ];
+  } else {
+    [nodeEditsData, nodeEditsLoading, nodeEditsAvailable] = [
+      undefined,
+      false,
+      false,
+    ];
+  }
+  const { t } = useTranslation();
+
+  const currentlySelectedNodeId =
+    ctrl.popUp.state.nodeEdit?.defaultFormContent?.id;
+  const connectedLinks: NodeIdAccumulator =
+    ctrl.graph.current.links.reduce<NodeIdAccumulator>(
+      (acc, currentLink) => {
+        if (currentLink.target.id === currentlySelectedNodeId) {
+          acc.inboundSourceIds.push({
+            nodeName: currentLink.source.description,
+            weight: currentLink.value,
+            linkId: currentLink.id,
+          });
+        } else if (currentLink.source.id === currentlySelectedNodeId) {
+          acc.outboundTargetIds.push({
+            nodeName: currentLink.target.description,
+            weight: currentLink.value,
+            linkId: currentLink.id,
+          });
+        }
+        return acc;
+      },
+      {
+        inboundSourceIds: [],
+        outboundTargetIds: [],
+      },
+    );
+
+  connectedLinks.inboundSourceIds = connectedLinks.inboundSourceIds.sort(
+    (linkA, linkB) => linkB.weight - linkA.weight,
+  );
+  connectedLinks.outboundTargetIds = connectedLinks.outboundTargetIds.sort(
+    (linkA, linkB) => linkB.weight - linkA.weight,
+  );
+
   const formik = useFormik<NewNodeForm>({
     initialValues: {
       nodeDescription:
@@ -357,7 +427,84 @@ const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
   useEffect(() => {
     return addKeyboardShortcuts(formik);
   }, [formik]);
-  const { t } = useTranslation();
+
+  interface LinkDisplayProps {
+    linkDisplay: LinkDisplayData;
+    backdropFillColor: string;
+  }
+
+  const LinkDisplay = ({
+    linkDisplay,
+    backdropFillColor,
+  }: LinkDisplayProps) => {
+    const endPosition = (100 * linkDisplay.weight) / MAX_LINK_WEIGHT;
+    const theme = useTheme();
+    const lowerContrast = theme.palette.text.secondary;
+
+    return (
+      <ListItem
+        key={linkDisplay.linkId}
+        sx={{
+          border: "1px solid #eee",
+          borderRadius: "5px",
+          background: `linear-gradient(to right, ${backdropFillColor} ${endPosition}%, transparent ${endPosition}%, transparent 100%)`,
+          "& .link-weight-display": {
+            visibility: "hidden",
+          },
+          "&:hover": {
+            border: `1px solid ${backdropFillColor}`,
+            boxShadow: `inset 0 0 1px 2px ${backdropFillColor}`,
+            "& .link-weight-display": {
+              visibility: "visible",
+              color: lowerContrast,
+            },
+          },
+        }}
+      >
+        <Typography>
+          {linkDisplay.nodeName}
+          <span className="link-weight-display">{` — ${linkDisplay.weight}`}</span>
+        </Typography>
+      </ListItem>
+    );
+  };
+  const incomingItemCount = connectedLinks.inboundSourceIds.length;
+  const outgoingItemCount = connectedLinks.outboundTargetIds.length;
+  const theme = useTheme();
+  const primaryLight = theme.palette.primary.light;
+  const secondaryLight = theme.palette.secondary.light;
+
+  const bottomContent =
+    !incomingItemCount && !outgoingItemCount ? null : (
+      <Box sx={{ display: "flex", gap: "2em", flexDirection: "column" }}>
+        {!!incomingItemCount && (
+          <Box>
+            <Typography variant="h6">{t("inboundDependency")}</Typography>
+            <List>
+              {connectedLinks.inboundSourceIds.map((linkDisplay) => (
+                <LinkDisplay
+                  linkDisplay={linkDisplay}
+                  backdropFillColor={primaryLight}
+                />
+              ))}
+            </List>
+          </Box>
+        )}
+        {!!outgoingItemCount && (
+          <Box>
+            <Typography variant="h6">{t("outboundDependency")}</Typography>
+            <List>
+              {connectedLinks.outboundTargetIds.map((linkDisplay) => (
+                <LinkDisplay
+                  linkDisplay={linkDisplay}
+                  backdropFillColor={secondaryLight}
+                />
+              ))}
+            </List>
+          </Box>
+        )}
+      </Box>
+    );
   const fields = [
     <TextFieldFormikGeneratorRequired
       fieldName="nodeDescription"
@@ -377,6 +524,36 @@ const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
       isEditingEnabled={ctrl.mode.isEditingEnabled}
     />,
   ];
+  const { nodeCreator, nodeEditors } = analyzeEdits(nodeEditsData?.nodeEdits);
+  // if no edits are available (i.e. node is being created right now), don't show anything
+  const topRight = !nodeEditsAvailable ? (
+    <></>
+  ) : nodeEditsLoading ? (
+    <>...</>
+  ) : (
+    // TODO(skep): translate
+    <Tooltip
+      title={
+        <>
+          <Typography>Node created by: {nodeCreator.username}</Typography>
+          {nodeEditors && nodeEditors.length >= 1 && (
+            <Typography>
+              Node edited by:{" "}
+              {nodeEditors.map((editor) => `${editor.username}`).join(", ")}
+            </Typography>
+          )}
+        </>
+      }
+    >
+      <AvatarGroup max={4}>
+        <Avatar {...stringAvatar(nodeCreator.username)} />
+        {nodeEditors &&
+          nodeEditors.map((editor) => (
+            <Avatar {...stringAvatar(editor.username)} />
+          ))}
+      </AvatarGroup>
+    </Tooltip>
+  );
   return (
     <DraggableForm
       ctrl={ctrl}
@@ -386,19 +563,73 @@ const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
       formik={formik}
       onDelete={ctrl.popUp.state.nodeEdit?.onDelete}
       isEditingEnabled={ctrl.mode.isEditingEnabled}
+      topRight={topRight}
+      bottomContent={bottomContent}
     />
   );
 };
 
-type DraggableFormPorops = SubGraphEditPopUpProps & {
+export const analyzeEdits = (
+  nodeEdits: BackendNodeEdit[] | undefined,
+): { nodeCreator: BackendNodeEdit; nodeEditors?: BackendNodeEdit[] } => {
+  const creator = nodeEdits?.find(
+    (edit: BackendNodeEdit) => edit.type === NodeEditType.create,
+  );
+  const editors = [
+    ...new Map(
+      nodeEdits
+        ?.filter(
+          (edit: BackendNodeEdit) =>
+            edit.type === NodeEditType.edit &&
+            edit.username !== creator?.username,
+        )
+        .map((editor) => [editor.username, editor]),
+    ).values(),
+  ];
+  return {
+    // @ts-ignore
+    nodeCreator: creator ?? {
+      username: "unknown",
+      type: NodeEditType.create,
+      updatedAt: "",
+    },
+    nodeEditors: editors,
+  };
+};
+
+const stringToColor = (string: string) => {
+  let hash = 0;
+  let i;
+  for (i = 0; i < string.length; i += 1) {
+    hash = string.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  let color = "#";
+  for (i = 0; i < 3; i += 1) {
+    const value = (hash >> (i * 8)) & 0xff;
+    color += `00${value.toString(16)}`.slice(-2);
+  }
+  return color;
+};
+const stringAvatar = (name: string) => {
+  return {
+    sx: {
+      bgcolor: stringToColor(name),
+    },
+    children: `${name[0]}${name[1]}`,
+  };
+};
+
+type DraggableFormProps = SubGraphEditPopUpProps & {
   popUp: PopUpControls;
   fields: any;
   formik: { submitForm: () => void };
   onDelete?: () => void;
   isEditingEnabled: boolean;
+  topRight?: any;
+  bottomContent?: React.ReactNode;
 };
 
-export const DraggableForm = (props: DraggableFormPorops) => {
+export const DraggableForm = (props: DraggableFormProps) => {
   const { t } = useTranslation();
   const onDelete = () => {
     props.handleClose();
@@ -413,10 +644,19 @@ export const DraggableForm = (props: DraggableFormPorops) => {
         aria-labelledby="draggable-dialog-title"
         sx={DialogueStyles.dialogRoot}
       >
-        <DialogTitle style={{ cursor: "move" }} id="draggable-dialog-title">
-          {props.popUp.state.title}
-        </DialogTitle>
-        <DialogContent>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
+          <DialogTitle style={{ cursor: "move" }} id="draggable-dialog-title">
+            {props.popUp.state.title}
+          </DialogTitle>
+          {props.topRight ?? <></>}
+        </Box>
+        <DialogContent style={{ overflow: "visible" }}>
           <DialogContentText>{props.popUp.state.details}</DialogContentText>
           {props.fields}
         </DialogContent>
@@ -448,6 +688,11 @@ export const DraggableForm = (props: DraggableFormPorops) => {
             </Button>
           </Tooltip>
         </DialogActions>
+        {!!props.bottomContent && (
+          <DialogContent sx={{ minHeight: "120px" }}>
+            {props.bottomContent}
+          </DialogContent>
+        )}
       </Dialog>
     </>
   );

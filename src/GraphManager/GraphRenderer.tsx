@@ -1,6 +1,6 @@
 import ForceGraph2D from "react-force-graph-2d";
+import ForceGraph3D from "react-force-graph-3d";
 import {
-  MutableRefObject,
   useRef,
   useState,
   useLayoutEffect,
@@ -20,7 +20,7 @@ import {
   LocalForceGraphMethods,
 } from "./types";
 import { ZoomState } from "./Zoom";
-import { useGraphData } from "./hooks";
+import { useGraphData } from "./RPCHooks";
 import {
   makeOnBackgroundClick,
   Controller,
@@ -35,18 +35,18 @@ import {
 import { GraphEditPopUp, GraphEditPopUpState } from "./GraphEdit/PopUp";
 import { CreateButton } from "./GraphEdit/CreateButton";
 import { EditModeButton } from "./GraphEdit/ModeButton";
-import { useCreateNode } from "./hooks/useCreateNode";
-import { useCreateEdge } from "./hooks/useCreateEdge";
-import { useSubmitVote } from "./hooks/useSubmitVote";
-import { useUpdateNode } from "./hooks/useUpdateNode";
-import { useDeleteNode } from "./hooks/useDeleteNode";
-import { useDeleteEdge } from "./hooks/useDeleteEdge";
-import { useUserDataContext } from "@src/UserDataContext";
+import { UserSettings } from "./GraphEdit/UserSettings";
+import { useCreateNode } from "./RPCHooks/useCreateNode";
+import { useCreateEdge } from "./RPCHooks/useCreateEdge";
+import { useSubmitVote } from "./RPCHooks/useSubmitVote";
+import { useUpdateNode } from "./RPCHooks/useUpdateNode";
+import { useDeleteNode } from "./RPCHooks/useDeleteNode";
+import { useDeleteEdge } from "./RPCHooks/useDeleteEdge";
+import { useUserDataContext } from "@src/Context/UserDataContext";
 import {
   ZoomControlPanel,
   makeZoomControl,
   makeOnZoomAndPanListener,
-  debounce,
 } from "./ZoomControlPanel";
 import { ControllerRef } from "./GraphManager";
 import { SearchResultPopUp } from "./SearchResultPopUp";
@@ -54,12 +54,12 @@ import {
   G_CONFIG,
   Rectangle,
   convertBackendGraphToForceGraph,
-  initialZoomForLargeGraph,
   linkCanvasObject,
   linkPointerAreaPaint,
   makeGraphState,
   makeInitialGraphData,
   makeKeydownListener,
+  nodeCanvas3dObject,
   nodeCanvasObject,
   nodePointerAreaPaint,
   setGraphSize,
@@ -73,17 +73,23 @@ interface GraphRendererProps {
 
 const makeNodeCanvasObject = (ctrl: Controller) => {
   return (
-    nodeForceGraph: ForceGraphNodeObject,
+    node: ForceGraphNodeObject,
     ctx: CanvasRenderingContext2D,
     globalScale: number,
   ) => {
     return nodeCanvasObject(
-      nodeForceGraph,
+      node,
       ctx,
       globalScale,
       ctrl,
       ctrl.graph.current.nodes.length,
     );
+  };
+};
+
+const makeNodeThreeObject = (ctrl: Controller) => {
+  return (node: ForceGraphNodeObject) => {
+    return nodeCanvas3dObject(node, ctrl.graph.current.nodes.length);
   };
 };
 
@@ -132,13 +138,11 @@ const onLinkHover = (_: ForceGraphLinkObject | null): void => {
 const convertAndSetGraph = (
   setGraph: Dispatch<SetStateAction<ForceGraphGraphData>>,
   data: { graph: BackendGraphData },
-  performInitialZoom: MutableRefObject<boolean>,
 ) => {
   const graph = convertBackendGraphToForceGraph(data);
   if (!graph) {
     return;
   }
-  performInitialZoom.current = true;
   setGraph(graph);
 };
 
@@ -183,8 +187,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   const [graph, setGraph] = useState<ForceGraphGraphData>(
     makeInitialGraphData(),
   );
-  const performInitialZoom = useRef(false);
-  const { language, userID } = useUserDataContext();
+  const { language, userID, theme } = useUserDataContext();
   const { data: graphDataFromBackend } = useGraphData();
   const [shiftHeld, setShiftHeld] = useState(false);
   const downHandler = ({ key }: any) => {
@@ -228,19 +231,20 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     FG_ENGINE_COOLDOWN_TICKS_DEFAULT,
   );
   const [isResultShown, setIsResultShown] = useState<boolean>(false);
-  const [highlightNodes, setHighlightNodes] = useState(
-    new Set<ForceGraphNodeObject>(),
-  );
+  const [highlightNodes, setHighlightNodes] = useState<
+    Set<ForceGraphNodeObject>
+  >(new Set());
 
   const [isEditingEnabled, setIsEditingEnabled] = useState(false);
   const [allowGraphInteractions, setAllowGraphInteractions] = useState(false);
+  const [use3D, setUse3D] = useState<boolean>(false);
   const controller: Controller = {
     backend,
     popUp: {
       state: editPopUpState,
       setState: setEditPopUpState,
     },
-    graph: makeGraphState(graph, setGraph, performInitialZoom),
+    graph: makeGraphState(graph, setGraph),
     forceGraphRef: useRef<LocalForceGraphMethods>(),
     setCooldownTicks,
     nodeDrag: {
@@ -270,6 +274,8 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       setIsEditingEnabled,
       allowGraphInteractions,
       setAllowGraphInteractions,
+      use3D,
+      setUse3D,
     },
   };
   const zoomControl = makeZoomControl(controller);
@@ -283,12 +289,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     controller.specialNodes.hoveredNode = node;
   };
   useEffect(() => {
-    convertAndSetGraph(
-      setGraph,
-      graphDataFromBackend,
-      controller.graph.performInitialZoom,
-    );
-    // Note: performInitialZoom must not trigger call of graph data setter
+    convertAndSetGraph(setGraph, graphDataFromBackend);
   }, [graphDataFromBackend]);
   // XXX(skep): should we disable right click? it's kind of annoying for the
   // canvas, but outside we might want to allow it..
@@ -314,9 +315,6 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       document.removeEventListener("keydown", keyDownListener);
     };
   });
-  useEffect(() => {
-    debounce(initialZoomForLargeGraph, 100)(controller); // XXX(skep): why is delay needed?
-  }, [graph]);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [availableSpace, setAvailableSpace] = useState<Rectangle>({
     height: 400,
@@ -353,31 +351,63 @@ export const GraphRenderer = (props: GraphRendererProps) => {
             overflow: "hidden",
           }}
         >
-          <ForceGraph2D
-            height={availableSpace.height}
-            width={availableSpace.width}
-            ref={controller.forceGraphRef}
-            graphData={graph}
-            cooldownTicks={cooldownTicks}
-            nodeCanvasObject={makeNodeCanvasObject(controller)}
-            nodePointerAreaPaint={makeNodePointerAreaPaint(controller)}
-            onNodeClick={makeOnNodeClick(controller)}
-            onNodeHover={onNodeHover}
-            onNodeDrag={makeOnNodeDrag(controller)}
-            onNodeDragEnd={makeOnNodeDragEnd(controller)}
-            onLinkHover={onLinkHover}
-            onLinkClick={makeOnLinkClick(controller)}
-            linkDirectionalArrowLength={0}
-            // XXX: linkCanvasObjectMode should just be a string, but due to a bug in
-            // force-graph it must be passed as function, otherwise linkCanvasObject
-            // is never called. -> remove after force-graph module update
-            // @ts-ignore
-            linkCanvasObjectMode={() => G_CONFIG.linkCanvasObjectMode}
-            linkCanvasObject={makeLinkCanvasObject(controller)}
-            linkPointerAreaPaint={makeLinkPointerAreaPaint(controller)}
-            onZoom={makeOnZoomAndPanListener(controller)}
-            onBackgroundClick={onBackgroundClick}
-          />
+          {controller.mode.use3D ? (
+            <ForceGraph3D
+              backgroundColor={theme === "dark" ? "black" : "white"}
+              height={availableSpace.height}
+              width={availableSpace.width}
+              // @ts-ignore: either 2d or 3d forcegraph - should be ok
+              ref={controller.forceGraphRef}
+              graphData={graph}
+              //controlType="fly" // XXX: doesn't work well with catching mouse-events...
+              cooldownTicks={cooldownTicks}
+              nodeThreeObject={makeNodeThreeObject(controller)}
+              nodePointerAreaPaint={makeNodePointerAreaPaint(controller)}
+              onNodeClick={makeOnNodeClick(controller)}
+              onNodeHover={onNodeHover}
+              onNodeDrag={makeOnNodeDrag(controller)}
+              onNodeDragEnd={makeOnNodeDragEnd(controller)}
+              onLinkHover={onLinkHover}
+              onLinkClick={makeOnLinkClick(controller)}
+              linkDirectionalArrowLength={0}
+              // XXX: linkCanvasObjectMode should just be a string, but due to a bug in
+              // force-graph it must be passed as function, otherwise linkCanvasObject
+              // is never called. -> remove after force-graph module update
+              // @ts-ignore
+              linkCanvasObjectMode={() => G_CONFIG.linkCanvasObjectMode}
+              linkCanvasObject={makeLinkCanvasObject(controller)}
+              linkPointerAreaPaint={makeLinkPointerAreaPaint(controller)}
+              //onZoom={makeOnZoomAndPanListener(controller)}
+              onBackgroundClick={onBackgroundClick}
+            />
+          ) : (
+            <ForceGraph2D
+              backgroundColor={theme === "dark" ? "black" : "white"}
+              height={availableSpace.height}
+              width={availableSpace.width}
+              ref={controller.forceGraphRef}
+              graphData={graph}
+              cooldownTicks={cooldownTicks}
+              nodeCanvasObject={makeNodeCanvasObject(controller)}
+              nodePointerAreaPaint={makeNodePointerAreaPaint(controller)}
+              onNodeClick={makeOnNodeClick(controller)}
+              onNodeHover={onNodeHover}
+              onNodeDrag={makeOnNodeDrag(controller)}
+              onNodeDragEnd={makeOnNodeDragEnd(controller)}
+              onLinkHover={onLinkHover}
+              onLinkClick={makeOnLinkClick(controller)}
+              linkDirectionalArrowLength={0}
+              // XXX: linkCanvasObjectMode should just be a string, but due to a bug in
+              // force-graph it must be passed as function, otherwise linkCanvasObject
+              // is never called. -> remove after force-graph module update
+              // @ts-ignore
+              linkCanvasObjectMode={() => G_CONFIG.linkCanvasObjectMode}
+              linkCanvasObject={makeLinkCanvasObject(controller)}
+              linkPointerAreaPaint={makeLinkPointerAreaPaint(controller)}
+              onZoom={makeOnZoomAndPanListener(controller)}
+              onBackgroundClick={onBackgroundClick}
+            />
+          )}
         </Box>
         bottomLeft=<SearchResultPopUp
           ctrl={controller}
@@ -394,6 +424,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
           flexDirection: "column",
         }}
       >
+        <UserSettings ctrl={controller} />
         <EditModeButton ctrl={controller} />
         <CreateButton ctrl={controller} />
       </Box>
