@@ -1,4 +1,4 @@
-import { alpha } from "@mui/material";
+import { alpha, useTheme } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 export default function Hero() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const theme = useTheme();
   return (
     <Box
       id="hero"
@@ -18,8 +19,8 @@ export default function Hero() {
         width: "100%",
         backgroundImage:
           theme.palette.mode === "light"
-            ? "linear-gradient(180deg, #CEE5FD, #FFF)"
-            : `linear-gradient(#02294F, ${alpha("#090E10", 0.0)})`,
+            ? `linear-gradient(180deg, ${theme.palette.primary.light}, #FFF)`
+            : `linear-gradient(${theme.palette.primary.dark}, ${theme.palette.common.black})`,
         backgroundSize: "100% 20%",
         backgroundRepeat: "no-repeat",
       })}
@@ -43,6 +44,7 @@ export default function Hero() {
               flexDirection: { xs: "column" },
               alignSelf: "center",
               textAlign: "center",
+              color: theme.palette.primary.contrastText,
             }}
           >
             {t("landing.header")}&nbsp;
@@ -63,7 +65,13 @@ export default function Hero() {
             variant="body1"
             textAlign="center"
             color="text.secondary"
-            sx={{ whiteSpace: "pre-line" }}
+            sx={{
+              whiteSpace: "pre-line",
+              color: (theme) =>
+                theme.palette.mode === "light"
+                  ? "text.secondary"
+                  : "text.secondary",
+            }}
           >
             {t("landing.intro")}
           </Typography>
