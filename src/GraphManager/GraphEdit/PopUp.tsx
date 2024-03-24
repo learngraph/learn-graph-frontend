@@ -471,8 +471,14 @@ const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
   const incomingItemCount = connectedLinks.inboundSourceIds.length;
   const outgoingItemCount = connectedLinks.outboundTargetIds.length;
   const theme = useTheme();
-  const primaryLight = theme.palette.primary.light;
-  const secondaryLight = theme.palette.secondary.light;
+  const primaryLight =
+    theme.palette.mode === "dark"
+      ? theme.palette.primary.dark
+      : theme.palette.primary.light;
+  const secondaryLight =
+    theme.palette.mode === "dark"
+      ? theme.palette.secondary.dark
+      : theme.palette.secondary.light;
 
   const bottomContent =
     !incomingItemCount && !outgoingItemCount ? null : (
