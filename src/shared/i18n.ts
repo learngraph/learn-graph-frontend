@@ -7,7 +7,7 @@ const resources = {
   en: {
     translation: {
       // general
-      "search...": "Search…",
+      "search...": "Search learngraph.org…",
       Cancel: "Cancel",
       Save: "Save",
       Esc: "Esc",
@@ -72,7 +72,7 @@ const resources = {
   de: {
     translation: {
       // general
-      "search...": "Suche…",
+      "search...": "Suche learngraph.org…",
       Cancel: "Abbrechen",
       Save: "Speichern",
       Esc: "Esc",
@@ -136,7 +136,7 @@ const resources = {
   zh: {
     translation: {
       // general
-      "search...": "搜尋…",
+      "search...": "搜尋 learngraph.org…",
       Cancel: "取消",
       Save: "確定",
       Esc: "Esc",
