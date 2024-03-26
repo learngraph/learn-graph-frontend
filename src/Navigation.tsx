@@ -13,6 +13,7 @@ import {
   useTheme,
   SxProps,
   Theme,
+  IconButton,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -165,7 +166,11 @@ export const NavigationWithContent = (props: NavigationWithContentConfig) => {
   };
   const navigationList = (
     <List>
-      <ListItemGlobalLink globalPath="" buttonText={LEARNGRAPH_HEADER_TEXT} />
+      <ListItemGlobalLink globalPath="" buttonText="Welcome" />
+      <ListItemGlobalLink
+        globalPath="graph"
+        buttonText={LEARNGRAPH_HEADER_TEXT}
+      />
       <Divider sx={{ margin: "20px 0" }} />
       <ListItemSectionLink sectionID={"about"} buttonText={"About"} />
       <List sx={{ paddingLeft: 2 }}>
@@ -196,12 +201,12 @@ export const NavigationWithContent = (props: NavigationWithContentConfig) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const buttonAndNavDrawer = (
     <>
-      <Button
+      <IconButton
         sx={menuColors}
-        variant="contained"
-        startIcon={<MenuIcon />}
         onClick={() => setIsDrawerOpen(true)}
-      />
+      >
+        <MenuIcon />
+      </IconButton>
       <Drawer
         anchor="left"
         open={isDrawerOpen}

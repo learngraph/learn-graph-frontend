@@ -10,7 +10,7 @@ import FAQ from "./LandingPage/FAQ";
 export const LandingPage = () => {
   return (
     <NavigationWithContent
-      withSideNavigation={false}
+      alwaysDisplayNavDrawer={true}
       content={
         <Box
           component="main"
