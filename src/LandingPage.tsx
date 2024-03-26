@@ -1,10 +1,11 @@
 // TODO(skep): translate this file!
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { NavigationWithContent } from "./Navigation";
 import Hero from "./LandingPage/Hero";
 import Highlights from "./LandingPage/Highlights";
 import MissionStatement from "./LandingPage/MissionStatement";
 import Crowdsourcing from "./LandingPage/Crowdsourcing";
+import FAQ from "./LandingPage/FAQ";
 
 export const LandingPage = () => {
   return (
@@ -24,8 +25,7 @@ export const LandingPage = () => {
             <MissionStatement />
             <Crowdsourcing />
             <Highlights />
-            <Typography variant="h2">FAQ</Typography>
-            <Typography variant="h2">Contact / Story</Typography>
+            <FAQ />
           </Box>
         </Box>
       }
