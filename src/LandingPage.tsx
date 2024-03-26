@@ -3,6 +3,8 @@ import { Box, Typography } from "@mui/material";
 import { NavigationWithContent } from "./Navigation";
 import Hero from "./LandingPage/Hero";
 import Highlights from "./LandingPage/Highlights";
+import MissionStatement from "./LandingPage/MissionStatement";
+import Crowdsourcing from "./LandingPage/Crowdsourcing";
 
 export const LandingPage = () => {
   return (
@@ -14,14 +16,13 @@ export const LandingPage = () => {
           sx={(theme) => ({
             flexGrow: 1,
             padding: 3,
-            backgroundColor: theme.palette.common.black,
+            backgroundColor: theme.palette.background.default,
           })}
         >
           <Hero />
-          <Box id="mainPageContent">
-            <Typography variant="h2">Mission Statement</Typography>
-            <Typography variant="h2">How it works / Call to Action</Typography>
-            {/*<Typography variant="h2">Benefits / USP</Typography>*/}
+          <Box id="main-page-content">
+            <MissionStatement />
+            <Crowdsourcing />
             <Highlights />
             <Typography variant="h2">FAQ</Typography>
             <Typography variant="h2">Contact / Story</Typography>

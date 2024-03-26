@@ -9,6 +9,7 @@ import ConstructionRoundedIcon from "@mui/icons-material/ConstructionRounded";
 import ThumbUpAltRoundedIcon from "@mui/icons-material/ThumbUpAltRounded";
 import FlagRoundedIcon from "@mui/icons-material/FlagRounded";
 
+// TODO(umb): translate this file
 const items = [
   {
     icon: <FlagRoundedIcon />,
@@ -19,19 +20,20 @@ const items = [
     icon: <ConstructionRoundedIcon />,
     title: "Control",
     description:
-      "You're in control of your learning path, and you can choose every step.",
+      "You're in control of your learning path, and you can choose every step of your learning path.",
   },
   {
     icon: <ThumbUpAltRoundedIcon />,
     title: "Availability",
     // TODO(skep): add branding to "Learngraph.org" string
-    description: `Learngraph.org is available — you have an extremely low entry barrier!`,
+    description: `Learngraph.org is available — it has an extremely low entry barrier!`,
   },
   {
-    description: "No need for attendance, exams, fees!",
+    description: "No need for attendance, exams, or fees!",
   },
   {
-    description: "You control how much you learn, when, how fast.",
+    description:
+      "You control how much you learn, when you learn, and how fast you learn.",
   },
   {
     // TODO(skep): "get started" should link to /howto page or some tutorial/introduction page
@@ -68,8 +70,11 @@ export default function Highlights() {
           <Typography component="h2" variant="h4">
             Highlights
           </Typography>
-          <Typography variant="body1" sx={{ color: "grey.400" }}>
-            Learngraph.org is not just another learning platform.
+          <Typography
+            variant="body1"
+            sx={{ color: "grey.400", whiteSpace: "pre-line" }}
+          >
+            {"Learngraph.org is not just another learning platform.\n"}
           </Typography>
         </Box>
         <Grid container spacing={2.5}>
@@ -95,7 +100,10 @@ export default function Highlights() {
                   <Typography fontWeight="medium" gutterBottom>
                     {item.title}
                   </Typography>
-                  <Typography variant="body2" sx={{ color: "grey.400" }}>
+                  <Typography
+                    variant="body2"
+                    sx={{ color: "grey.400", whiteSpace: "pre-line" }}
+                  >
                     {item.description}
                   </Typography>
                 </div>
