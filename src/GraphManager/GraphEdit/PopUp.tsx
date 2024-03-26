@@ -657,7 +657,11 @@ export const DraggableForm = (props: DraggableFormProps) => {
             justifyContent: "space-between",
           }}
         >
-          <DialogTitle style={{ cursor: "move" }} id="draggable-dialog-title">
+          <DialogTitle
+            sx={{ flex: 1 }}
+            style={{ cursor: "move" }}
+            id="draggable-dialog-title"
+          >
             {props.popUp.state.title}
           </DialogTitle>
           {props.topRight ?? <></>}
