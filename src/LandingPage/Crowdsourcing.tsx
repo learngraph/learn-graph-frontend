@@ -1,8 +1,9 @@
-import { Box, Container, Typography } from "@mui/material";
+import { Box, Container, Typography, useTheme } from "@mui/material";
 import { Trans, useTranslation } from "react-i18next";
 
 export default function Crowdsourcing() {
   const { t } = useTranslation();
+  const theme = useTheme();
   return (
     <Container
       id="crowdsourcing"
@@ -14,6 +15,7 @@ export default function Crowdsourcing() {
         flexDirection: "column",
         alignItems: "center",
         gap: { xs: 3, sm: 6 },
+        color: theme.palette.text.primary,
       }}
     >
       <Box

@@ -23,6 +23,7 @@ export default function Hero() {
             : `linear-gradient(${theme.palette.primary.dark}, ${theme.palette.background.default})`,
         backgroundSize: "100% 20%",
         backgroundRepeat: "no-repeat",
+        color: theme.palette.text.secondary,
       })}
     >
       <Container
@@ -47,7 +48,7 @@ export default function Hero() {
               color:
                 theme.palette.mode === "light"
                   ? theme.palette.text.primary
-                  : theme.palette.primary.contrastText,
+                  : theme.palette.text.primary,
             }}
           >
             {t("landing.header")}&nbsp;
@@ -58,7 +59,7 @@ export default function Hero() {
                 color:
                   theme.palette.mode === "light"
                     ? "primary.main"
-                    : "primary.light",
+                    : "primary.dark",
               }}
             >
               {t("landing.headerHighlight")}.

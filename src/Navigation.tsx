@@ -17,7 +17,6 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
-import Button from "@mui/material/Button";
 import { ReactNode, forwardRef, useState } from "react";
 import LocaleManager from "./GraphManager/Header/LocaleManager";
 import LoginManager from "./GraphManager/Header/LoginManager";
@@ -201,10 +200,7 @@ export const NavigationWithContent = (props: NavigationWithContentConfig) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const buttonAndNavDrawer = (
     <>
-      <IconButton
-        sx={menuColors}
-        onClick={() => setIsDrawerOpen(true)}
-      >
+      <IconButton sx={menuColors} onClick={() => setIsDrawerOpen(true)}>
         <MenuIcon />
       </IconButton>
       <Drawer
@@ -219,7 +215,7 @@ export const NavigationWithContent = (props: NavigationWithContentConfig) => {
   return (
     <>
       <AppBar position="static">
-        <Toolbar>
+        <Toolbar sx={{ display: "flex", alignItems: "center", gap: 2 }}>
           {props.alwaysDisplayNavDrawer ? (
             buttonAndNavDrawer
           ) : (
