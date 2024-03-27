@@ -1,3 +1,4 @@
+// TODO(skep): translate this file
 import * as React from "react";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -14,26 +15,26 @@ interface qnaEntry {
 }
 const qnaEntries: qnaEntry[] = [
   {
+    question:
+      "I've found which topics I want to learn about, where do I find good learning content?",
+    answer:
+      "Look into the resources field of each subject. We plan to add another feature which enables crowdsourcing learning resources as well. Come back soon to see it!",
+  },
+  {
     question: "Is the Learn Graph free?",
     answer:
-      "Yes, it's free! The project and how it is financed are still in development. We might add premium features in the future, but the core functionality will always be free.",
+      "Yes, it's free and open-source! The project and how it is financed are still in development. We might add premium features in the future, but the core functionality will always be free.",
   },
   {
     question:
-      "How is the Learn Graph different from conventional learning platfoms?",
+      "How is the Learn Graph different from conventional learning platforms?",
     answer:
-      "We do not host content ourselves, instead we focus on the connections between knowledge. We aim to be a platform that points you in the right directions and enables you to find the knowledge you're looking for on other websites.",
+      "We do not host content ourselves, instead we focus on the connections between knowledge. We aim to be a platform that points you in the right directions and enables you to find the knowledge you're looking for on other websites / books.",
   },
   {
-    question:
-      "I've found which topics i want to learn about, where do i find good learning content?",
+    question: "What's your vision with this project?",
     answer:
-      "We plan to add a feature which enables crowdsourcing learning resources as well. Come back soon to see it!",
-  },
-  {
-    question: "Whats your vision with this project?",
-    answer:
-      "We plan to build a full learning ecosystem based on the internet. We believe that education and cooperation are the keys to a better world.",
+      "We plan to build a learning ecosystem. We believe that education and cooperation are the keys to a better world.",
   },
 ];
 
