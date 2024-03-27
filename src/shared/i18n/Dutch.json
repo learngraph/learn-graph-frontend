@@ -1,261 +1,64 @@
 {
-  "search...": {
-    "en": "Search learngraph.org…",
-    "de": "Suche learngraph.org…",
-    "zh": "搜尋 learngraph.org…"
-  },
-  "Cancel": {
-    "en": "Cancel",
-    "de": "Abbrechen",
-    "zh": "取消"
-  },
-  "Save": {
-    "en": "Save",
-    "de": "Speichern",
-    "zh": "確定"
-  },
-  "Esc": {
-    "en": "Esc",
-    "de": "Esc",
-    "zh": "Esc"
-  },
-  "Delete": {
-    "en": "Delete",
-    "de": "Löschen",
-    "zh": "Delete"
-  },
-  "Ctrl + Return": {
-    "en": "Ctrl + Return",
-    "de": "Strg + Enter",
-    "zh": "Ctrl + Enter"
-  },
-  "user-name-button": {
-    "en": "User: {{userName}}",
-    "de": "Benutzer: {{userName}}",
-    "zh": "使用者：{{userName}}"
-  },
-  "switch-language-button": {
-    "en": "Language",
-    "de": "Sprache",
-    "zh": "語言"
-  },
-  "switch-language-button-short": {
-    "en": "Lang.",
-    "de": "Spr.",
-    "zh": "語"
-  },
-  "Please login/signup to contribute!": {
-    "en": "Please login/signup to contribute!",
-    "de": "Bitte log Dich ein oder erstelle einen Account um beizutragen!",
-    "zh": "若要編輯，請先登入。"
-  },
-  "Session expired, please login again!": {
-    "en": "Session expired, please login again!",
-    "de": "Session ausgelaufen, bitte log dich erneut ein!",
-    "zh": "授權已過期，請再登入一次。"
-  },
-  "New Node": {
-    "en": "New subject",
-    "de": "Neues Thema",
-    "zh": "新增節點"
-  },
-  "New Link": {
-    "en": "New dependency",
-    "de": "Neue Verknüpfung",
-    "zh": "新增連結"
-  },
-  "Link-weight-Irrelevant": {
-    "en": "Irrelevant",
-    "de": "Irrelevant",
-    "zh": "無關"
-  },
-  "Link-weight-Useful": {
-    "en": "Useful",
-    "de": "Nützlich",
-    "zh": "適中"
-  },
-  "Link-weight-Necessary": {
-    "en": "Necessary",
-    "de": "Notwendig",
-    "zh": "高"
-  },
-  "Source Node": {
-    "en": "Knowledge starting point",
-    "de": "Wissens-Ausgangspunkt",
-    "zh": "Knowledge starting point"
-  },
-  "Target Node": {
-    "en": "Knowledge end point",
-    "de": "Wissens-Endspunkt",
-    "zh": "Knowledge end point"
-  },
-  "Node Description": {
-    "en": "Knowledge Description",
-    "de": "Wissensbeschreibung",
-    "zh": "主題名稱"
-  },
-  "Edit node with description": {
-    "en": "Edit subject \"{{description}}\"",
-    "de": "Editiere Thema \"{{description}}\"",
-    "zh": "Edit subject \"{{description}}\""
-  },
-  "To learn about source -> target is required": {
-    "en": "To understand \"{{source}}\" knowledge of \"{{target}}\" is",
-    "de": "Um \"{{source}}\" zu verstehen, ist das Wissen von \"{{target}}\"",
-    "zh": "「{{target}}」的知識在學習「{{source}}」時的重要度"
-  },
-  "Create new learning dependency": {
-    "en": "Create new learning dependency",
-    "de": "Erstelle eine neue Wissens-Abhängigkeit",
-    "zh": "連接節點"
-  },
-  "Create new knowledge node": {
-    "en": "Create new subject",
-    "de": "Erstelle ein neues Thema",
-    "zh": "新增主題"
-  },
-  "Ctrl + Click anywhere": {
-    "en": "Ctrl + Click anywhere",
-    "de": "Strg + Klick auf den Hintergrund",
-    "zh": "在空白處 Ctrl + 左鍵"
-  },
-  "Drag nodes close to each other": {
-    "en": "Drag subjects close to each other",
-    "de": "Themen aufeinander ziehen",
-    "zh": "將節點拖動到另一個節點上"
-  },
-  "Node Resources": {
-    "en": "Resources (links, books, etc.)",
-    "de": "Wissens-Quellen (Links, Bücher, etc.)",
-    "zh": "Learning resources (links, books, etc.)"
-  },
-  "inboundDependency": {
-    "en": "To understand this subject, you need to understand these subjects"
-  },
-  "outboundDependency": {
-    "en": "Subjects that need an understanding of this one"
-  },
-  "Enter a valid email": {
-    "en": "Enter a valid email",
-    "de": "EMail-Addresse ungültig",
-    "zh": "請輸入正確的 Email 地址"
-  },
-  "Email is required": {
-    "en": "Email is required",
-    "de": "EMail-Addresse ist Notwendig",
-    "zh": "Email 不能爲空"
-  },
-  "Username should be of minimum N characters length": {
-    "en": "Username should be of minimum {{N}} characters length",
-    "de": "Benutzername sollte mindestens {{N}} Zeichen lang sein",
-    "zh": "使用者名稱至少要有{{N}}個字"
-  },
-  "Username is required": {
-    "en": "Username is required",
-    "de": "Benutzername ist Notwendig",
-    "zh": "使用者名稱不能爲空"
-  },
-  "Password should be of minimum N characters length": {
-    "en": "Password should be of minimum {{N}} characters length",
-    "de": "Passwort solltes mindestesns {{N}} Zeichen lang sein",
-    "zh": "密碼至少要有{{N}}個字"
-  },
-  "Password is required": {
-    "en": "Password is required",
-    "de": "Passwort ist Notwendig",
-    "zh": "密碼不能爲空"
-  },
-  "Login/Signup": {
-    "en": "Login/Signup",
-    "de": "Login/Anmeldung",
-    "zh": "登入/注冊"
-  },
-  "sign up error: email already exists": {
-    "en": "Sign up error: Email already exists!",
-    "de": "Anmeldefehler: Email schon vergeben!",
-    "zh": "信箱不能重複！"
-  },
-  "sign up error: username already exists": {
-    "en": "Sign up error: Username already exists!",
-    "de": "Anmeldefehler: User-Name schon vergeben!",
-    "zh": "使用者名稱不能重複！"
-  },
-  "sign up error": {
-    "en": "Sign up error",
-    "de": "Anmeldefehler!",
-    "zh": "註冊失敗。"
-  },
-  "Login": {
-    "en": "Login",
-    "de": "Login",
-    "zh": "登入"
-  },
-  "logout-button": {
-    "en": "Log out",
-    "de": "Ausloggen"
-  },
-  "Signup": {
-    "en": "Signup",
-    "de": "Anmeldung",
-    "zh": "注冊"
-  },
-  "Sign In": {
-    "en": "Sign In",
-    "de": "Einloggen",
-    "zh": "登入"
-  },
-  "Remember me": {
-    "en": "Remember me",
-    "de": "Angemeldet bleiben",
-    "zh": "自動登入"
-  },
-  "Forgot password?": {
-    "en": "Forgot password?",
-    "de": "Passwort vergessen?",
-    "zh": "忘記密碼"
-  },
-  "Don't have an account? Sign Up": {
-    "en": "Don't have an account? Sign Up",
-    "de": "Noch keinen Account? Hier Anmelden!",
-    "zh": "還沒有賬號嗎？請注冊"
-  },
-  "Email Address": {
-    "en": "EMail Address",
-    "de": "EMail Addresse",
-    "zh": "信箱"
-  },
-  "Password": {
-    "en": "Password",
-    "de": "Passwort",
-    "zh": "密碼"
-  },
-  "User Name": {
-    "en": "User Name",
-    "de": "Benutzername",
-    "zh": "使用者名稱"
-  },
-  "Submit": {
-    "en": "Submit",
-    "de": "Abschicken",
-    "zh": "確定"
-  },
-  "To edit the graph please login.": {
-    "en": "To edit the graph please login.",
-    "de": "Um den Graph zu editieren logge dich ein.",
-    "zh": "To edit the graph please login."
-  },
+  "search...": "Search learngraph.org…",
+  "Cancel": "Cancel",
+  "Save": "Save",
+  "Esc": "Esc",
+  "Delete": "Delete",
+  "Ctrl + Return": "Ctrl + Return",
+  "user-name-button": "User: {{userName}}",
+  "switch-language-button": "Language",
+  "switch-language-button-short": "Lang.",
+  "Please login/signup to contribute!": "Please login/signup to contribute!",
+  "Session expired, please login again!": "Session expired, please login again!",
+  "New Node": "New subject",
+  "New Link": "New dependency",
+  "Link-weight-Irrelevant": "Irrelevant",
+  "Link-weight-Useful": "Useful",
+  "Link-weight-Necessary": "Necessary",
+  "Source Node": "Knowledge starting point",
+  "Target Node": "Knowledge end point",
+  "Node Description": "Knowledge Description",
+  "Edit node with description": "Edit subject \"{{description}}\"",
+  "To learn about source -> target is required": "To understand \"{{source}}\" knowledge of \"{{target}}\" is",
+  "Create new learning dependency": "Create new learning dependency",
+  "Create new knowledge node": "Create new subject",
+  "Ctrl + Click anywhere": "Ctrl + Click anywhere",
+  "Drag nodes close to each other": "Drag subjects close to each other",
+  "Node Resources": "Resources (links, books, etc.)",
+  "inboundDependency": "To understand this subject, you need to understand these subjects",
+  "outboundDependency": "Subjects that need an understanding of this one",
+  "Enter a valid email": "Enter a valid email",
+  "Email is required": "Email is required",
+  "Username should be of minimum N characters length": "Username should be of minimum {{N}} characters length",
+  "Username is required": "Username is required",
+  "Password should be of minimum N characters length": "Password should be of minimum {{N}} characters length",
+  "Password is required": "Password is required",
+  "Login/Signup": "Login/Signup",
+  "sign up error: email already exists": "Sign up error: Email already exists!",
+  "sign up error: username already exists": "Sign up error: Username already exists!",
+  "sign up error": "Sign up error",
+  "Login": "Login",
+  "logout-button": "Log out",
+  "Signup": "Signup",
+  "Sign In": "Sign In",
+  "Remember me": "Remember me",
+  "Forgot password?": "Forgot password?",
+  "Don't have an account? Sign Up": "Don't have an account? Sign Up",
+  "Email Address": "EMail Address",
+  "Password": "Password",
+  "User Name": "User Name",
+  "Submit": "Submit",
+  "To edit the graph please login.": "To edit the graph please login.",
   "landing": {
-    "en": {
-      "header": "You can learn",
-      "headerHighlight": "anything",
-      "intro": "You decide what you want to learn.\nWe show you how to get there.",
-      "hintClickImage": "Click the image above or",
-      "buttonGoToGraph": "Jump right in!",
-      "missionStatementHeader": "Our Mission",
-      "missionStatementText": "We enable people to learn, <strong>independent of their situation in life</strong> and the resources at their disposal.\nKnowledge gives us the power to choose.\nWe give you the power to <strong>choose your own path</strong>.",
-      "crowdsourcingHeader": "Powered by Crowdsourcing",
-      "crowdsourcingExplanation": "The Learn Graph collects votes about the dependency of knowledge on other knowledge. This creates a network of dependencies, a weighted, directed graph, which anyone can navigate to learn about these dependencies.\nWe choose an open knowledge approach: Everyone gets full non-commercial access, for free. We’re here to support you in your journey.",
-      "crowdsourcingCallToAction": "That means users like you build this knowledge base, and everyone benefits from it. Contribute your knowledge today, by voting on existing connections or creating new entries!"
-    }
+    "header": "You can learn",
+    "headerHighlight": "anything",
+    "intro": "You decide what you want to learn.\nWe show you how to get there.",
+    "hintClickImage": "Click the image above or",
+    "buttonGoToGraph": "Jump right in!",
+    "missionStatementHeader": "Our Mission",
+    "missionStatementText": "We enable people to learn, <strong>independent of their situation in life</strong> and the resources at their disposal.\nKnowledge gives us the power to choose.\nWe give you the power to <strong>choose your own path</strong>.",
+    "crowdsourcingHeader": "Powered by Crowdsourcing",
+    "crowdsourcingExplanation": "The Learn Graph collects votes about the dependency of knowledge on other knowledge. This creates a network of dependencies, a weighted, directed graph, which anyone can navigate to learn about these dependencies.\nWe choose an open knowledge approach: Everyone gets full non-commercial access, for free. We’re here to support you in your journey.",
+    "crowdsourcingCallToAction": "That means users like you build this knowledge base, and everyone benefits from it. Contribute your knowledge today, by voting on existing connections or creating new entries!"
   }
 }
