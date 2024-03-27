@@ -200,7 +200,11 @@ export const NavigationWithContent = (props: NavigationWithContentConfig) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const buttonAndNavDrawer = (
     <>
-      <IconButton sx={menuColors} onClick={() => setIsDrawerOpen(true)}>
+      <IconButton
+        sx={menuColors}
+        onClick={() => setIsDrawerOpen(true)}
+        size="medium"
+      >
         <MenuIcon />
       </IconButton>
       <Drawer
@@ -215,7 +219,7 @@ export const NavigationWithContent = (props: NavigationWithContentConfig) => {
   return (
     <>
       <AppBar position="static">
-        <Toolbar sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+        <Toolbar sx={{ gap: theme.spacing(2) }}>
           {props.alwaysDisplayNavDrawer ? (
             buttonAndNavDrawer
           ) : (
