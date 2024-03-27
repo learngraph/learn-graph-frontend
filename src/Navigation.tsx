@@ -165,7 +165,11 @@ export const NavigationWithContent = (props: NavigationWithContentConfig) => {
   };
   const navigationList = (
     <List>
-      <ListItemGlobalLink globalPath="" buttonText={LEARNGRAPH_HEADER_TEXT} />
+      <ListItemGlobalLink globalPath="" buttonText="Welcome" />
+      <ListItemGlobalLink
+        globalPath="graph"
+        buttonText={LEARNGRAPH_HEADER_TEXT}
+      />
       <Divider sx={{ margin: "20px 0" }} />
       <ListItemSectionLink sectionID={"about"} buttonText={"About"} />
       <List sx={{ paddingLeft: 2 }}>

@@ -67,6 +67,22 @@ const resources = {
       "User Name": "User Name",
       Submit: "Submit",
       "To edit the graph please login.": "To edit the graph please login.",
+      landing: {
+        header: "You can learn",
+        headerHighlight: "anything",
+        intro:
+          "You decide what you want to learn.\nWe show you how to get there.",
+        hintClickImage: "Click the image above or",
+        buttonGoToGraph: "Jump right in!",
+        missionStatementHeader: "Our Mission",
+        missionStatementText:
+          "We enable people to learn, <strong>independent of their situation in life</strong> and the resources at their disposal.\nKnowledge gives us the power to choose.\nWe give you the power to <strong>choose your own path</strong>.",
+        crowdsourcingHeader: "Powered by Crowdsourcing",
+        crowdsourcingExplanation:
+          "The Learn Graph collects votes about the dependency of knowledge on other knowledge. This creates a network of dependencies, a weighted, directed graph, which anyone can navigate to learn about these dependencies.\nWe choose an open knowledge approach: Everyone gets full non-commercial access, for free. We’re here to support you in your journey.",
+        crowdsourcingCallToAction:
+          "That means users like you build this knowledge base, and everyone benefits from it. Contribute your knowledge today, by voting on existing connections or creating new entries!",
+      },
     },
   },
   de: {
