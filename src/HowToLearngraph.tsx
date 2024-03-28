@@ -38,7 +38,14 @@ export const HowToLearngraph = () => {
       <NavigationWithContent
         withSideNavigation={true}
         content={
-          <Box sx={{ padding: theme.spacing(4) }} ref={wrapperRef}>
+          <Box
+            sx={{
+              backgroundColor: theme.palette.background.default,
+              color: theme.palette.text.primary,
+              padding: theme.spacing(4),
+            }}
+            ref={wrapperRef}
+          >
             <Typography sx={{ paddingBottom: theme.spacing(4) }} variant="h3">
               How to use the Learngraph {/*TODO(skep): lg-logo*/}
             </Typography>

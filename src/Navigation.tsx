@@ -6,7 +6,6 @@ import {
   List,
   ListItemButton,
   ListItemText,
-  Divider,
   Toolbar,
   AppBar,
   Drawer,
@@ -170,7 +169,7 @@ export const NavigationWithContent = (props: NavigationWithContentConfig) => {
         globalPath="graph"
         buttonText={LEARNGRAPH_HEADER_TEXT}
       />
-      <Divider sx={{ margin: "20px 0" }} />
+      <ListItemGlobalLink globalPath="howto" buttonText="How To" />
       <ListItemSectionLink sectionID={"about"} buttonText={"About"} />
       <List sx={{ paddingLeft: 2 }}>
         <ListItemSubSectionLink
@@ -178,7 +177,6 @@ export const NavigationWithContent = (props: NavigationWithContentConfig) => {
           buttonText={"Getting Involved!"}
         />
       </List>
-      <Divider sx={{ margin: "20px 0" }} />
       <DisplayOnlyOnSmallScreen>
         <Typography variant="overline">Settings</Typography>
         <Box
