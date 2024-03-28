@@ -1,0 +1,3 @@
+files:
+  - source: /src/shared/i18n.json
+    translation: /src/shared/i18n/%language%.json

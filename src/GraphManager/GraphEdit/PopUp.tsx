@@ -471,8 +471,14 @@ const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
   const incomingItemCount = connectedLinks.inboundSourceIds.length;
   const outgoingItemCount = connectedLinks.outboundTargetIds.length;
   const theme = useTheme();
-  const primaryLight = theme.palette.primary.light;
-  const secondaryLight = theme.palette.secondary.light;
+  const primaryLight =
+    theme.palette.mode === "dark"
+      ? theme.palette.primary.dark
+      : theme.palette.primary.light;
+  const secondaryLight =
+    theme.palette.mode === "dark"
+      ? theme.palette.secondary.dark
+      : theme.palette.secondary.light;
 
   const bottomContent =
     !incomingItemCount && !outgoingItemCount ? null : (
@@ -651,7 +657,11 @@ export const DraggableForm = (props: DraggableFormProps) => {
             justifyContent: "space-between",
           }}
         >
-          <DialogTitle style={{ cursor: "move" }} id="draggable-dialog-title">
+          <DialogTitle
+            sx={{ flex: 1 }}
+            style={{ cursor: "move" }}
+            id="draggable-dialog-title"
+          >
             {props.popUp.state.title}
           </DialogTitle>
           {props.topRight ?? <></>}

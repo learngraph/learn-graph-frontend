@@ -2,13 +2,15 @@ import { GraphManager } from "./GraphManager/GraphManager";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { About } from "./About";
 import { HowToLearngraph } from "./HowToLearngraph";
+import { LandingPage } from "./LandingPage";
 
 export const LearngraphOrgRoutes = () => {
   return (
     <Routes>
+      <Route path="/" Component={LandingPage} />
       <Route path="/about" Component={About} />
-      <Route path="/" Component={GraphManager} />
       <Route path="/howto" Component={HowToLearngraph} />
+      <Route path="/graph" Component={GraphManager} />
       <Route
         path="*"
         element={

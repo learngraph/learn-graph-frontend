@@ -13,10 +13,10 @@ import {
   useTheme,
   SxProps,
   Theme,
+  IconButton,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
-import Button from "@mui/material/Button";
 import { ReactNode, forwardRef, useState } from "react";
 import LocaleManager from "./GraphManager/Header/LocaleManager";
 import LoginManager from "./GraphManager/Header/LoginManager";
@@ -165,7 +165,11 @@ export const NavigationWithContent = (props: NavigationWithContentConfig) => {
   };
   const navigationList = (
     <List>
-      <ListItemGlobalLink globalPath="" buttonText={LEARNGRAPH_HEADER_TEXT} />
+      <ListItemGlobalLink globalPath="" buttonText="Welcome" />
+      <ListItemGlobalLink
+        globalPath="graph"
+        buttonText={LEARNGRAPH_HEADER_TEXT}
+      />
       <Divider sx={{ margin: "20px 0" }} />
       <ListItemSectionLink sectionID={"about"} buttonText={"About"} />
       <List sx={{ paddingLeft: 2 }}>
@@ -196,12 +200,13 @@ export const NavigationWithContent = (props: NavigationWithContentConfig) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const buttonAndNavDrawer = (
     <>
-      <Button
+      <IconButton
         sx={menuColors}
-        variant="contained"
-        startIcon={<MenuIcon />}
         onClick={() => setIsDrawerOpen(true)}
-      />
+        size="medium"
+      >
+        <MenuIcon />
+      </IconButton>
       <Drawer
         anchor="left"
         open={isDrawerOpen}
@@ -214,7 +219,7 @@ export const NavigationWithContent = (props: NavigationWithContentConfig) => {
   return (
     <>
       <AppBar position="static">
-        <Toolbar>
+        <Toolbar sx={{ gap: theme.spacing(2) }}>
           {props.alwaysDisplayNavDrawer ? (
             buttonAndNavDrawer
           ) : (
