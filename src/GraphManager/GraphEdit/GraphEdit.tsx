@@ -353,7 +353,12 @@ export const openCreateLinkPopUp = (
   ctrl.popUp.setState({
     nodeEdit: undefined,
     isOpen: true,
-    title: i18n.t("Create new learning dependency"),
+    title: i18n.t("To learn about source -> target is required", {
+      source:
+        conf?.linkEditDefaults?.source?.description ?? i18n.t("Source Node"),
+      target:
+        conf?.linkEditDefaults?.target?.description ?? i18n.t("Target Node"),
+    }),
     linkEdit: {
       onFormSubmit,
       defaults: conf?.linkEditDefaults,

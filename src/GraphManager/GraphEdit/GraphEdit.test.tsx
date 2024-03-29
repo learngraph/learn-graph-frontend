@@ -317,7 +317,9 @@ describe("onNodeDragEnd", () => {
     const popUpSetState0 = ctrl.popUp.setState.mock.calls[0][0];
     expect(popUpSetState0.nodeEdit).toBe(undefined);
     expect(popUpSetState0.isOpen).toBe(true);
-    expect(popUpSetState0.title).toEqual("Create new learning dependency");
+    expect(popUpSetState0.title).toEqual(
+      'To understand "1" knowledge of "3" is',
+    );
     expect(popUpSetState0.linkEdit.onFormSubmit).not.toBe(undefined);
     const content: NewLinkForm = {
       sourceNode: interimLink.source.id,
@@ -369,7 +371,9 @@ describe("onNodeDragEnd", () => {
     const popUpSetState0 = ctrl.popUp.state;
     expect(popUpSetState0.nodeEdit).toBe(undefined);
     expect(popUpSetState0.isOpen).toBe(true);
-    expect(popUpSetState0.title).toEqual("Create new learning dependency");
+    expect(popUpSetState0.title).toEqual(
+      'To understand "1" knowledge of "3" is',
+    );
     expect(popUpSetState0.linkEdit.onFormSubmit).not.toBe(undefined);
     await ctrl.popUp.state.linkEdit.onNonSubmitClose();
     expect(ctrl.graph.removeLink).toHaveBeenCalledTimes(1);
@@ -402,7 +406,9 @@ describe("openCreateLinkPopUp", () => {
     const popUpSetState0 = ctrl.popUp.setState.mock.calls[0][0];
     expect(popUpSetState0.nodeEdit).toBe(undefined);
     expect(popUpSetState0.isOpen).toBe(true);
-    expect(popUpSetState0.title).toEqual("Create new learning dependency");
+    expect(popUpSetState0.title).toEqual(
+      'To understand "Knowledge starting point" knowledge of "Knowledge end point" is',
+    );
     expect(popUpSetState0.linkEdit.onFormSubmit).not.toBe(undefined);
     const content: NewLinkForm = {
       sourceNode: "123",
@@ -434,7 +440,9 @@ describe("openCreateLinkPopUp", () => {
     const popUpSetState0 = ctrl.popUp.setState.mock.calls[0][0];
     expect(popUpSetState0.nodeEdit).toBe(undefined);
     expect(popUpSetState0.isOpen).toBe(true);
-    expect(popUpSetState0.title).toEqual("Create new learning dependency");
+    expect(popUpSetState0.title).toEqual(
+      'To understand "Knowledge starting point" knowledge of "Knowledge end point" is',
+    );
     expect(popUpSetState0.linkEdit.onFormSubmit).not.toBe(undefined);
     const content: NewLinkForm = {
       sourceNode: "123",
@@ -462,7 +470,9 @@ describe("openCreateLinkPopUp", () => {
     const popUpSetState0 = ctrl.popUp.setState.mock.calls[0][0];
     expect(popUpSetState0.nodeEdit).toBe(undefined);
     expect(popUpSetState0.isOpen).toBe(true);
-    expect(popUpSetState0.title).toEqual("Create new learning dependency");
+    expect(popUpSetState0.title).toEqual(
+      'To understand "Knowledge starting point" knowledge of "Knowledge end point" is',
+    );
     expect(popUpSetState0.linkEdit.onFormSubmit).not.toBe(undefined);
     const content: NewLinkForm = {
       sourceNode: "123",
@@ -502,7 +512,9 @@ describe("openCreateLinkPopUp", () => {
     const popUpSetState0 = ctrl.popUp.setState.mock.calls[0][0];
     expect(popUpSetState0.nodeEdit).toBe(undefined);
     expect(popUpSetState0.isOpen).toBe(true);
-    expect(popUpSetState0.title).toEqual("Create new learning dependency");
+    expect(popUpSetState0.title).toEqual(
+      'To understand "Knowledge starting point" knowledge of "Knowledge end point" is',
+    );
     expect(popUpSetState0.linkEdit.onFormSubmit).not.toBe(undefined);
     const content: NewLinkForm = {
       sourceNode: "3", // changed source node by user in form

@@ -36,6 +36,7 @@ import { MarkdownEditorWrapper } from "./MarkdownField";
 import { useNodeEdits } from "@src/GraphManager/RPCHooks/useNodeEdits";
 import { NodeEdit as BackendNodeEdit, NodeEditType } from "../RPCHooks/types";
 import { AvatarGroup, List, ListItem, useTheme } from "@mui/material";
+import i18n from "@src/shared/i18n";
 
 // TODO(skep): MIN_NODE_DESCRIPTION_LENGTH should be language dependent; for
 // chinese words, 1-2 characters is already precise, but for english a single
@@ -266,6 +267,26 @@ export const LinkCreatePopUp = ({
   const fields = [];
   const nodes = ctrl.graph.current.nodes;
   const { t } = useTranslation();
+  const [sourceNode, setSourceNode] = useState<ForceGraphNodeObject | null>(
+    null,
+  );
+  const [targetNode, setTargetNode] = useState<ForceGraphNodeObject | null>(
+    null,
+  );
+  useEffect(() => {
+    // update title, when selected source/target node is changed
+    ctrl.popUp.setState({
+      ...ctrl.popUp.state,
+      title: i18n.t("To learn about source -> target is required", {
+        source:
+          sourceNode?.description ??
+          ctrl.popUp.state.linkEdit?.defaults?.source?.description,
+        target:
+          targetNode?.description ??
+          ctrl.popUp.state.linkEdit?.defaults?.target?.description,
+      }),
+    });
+  }, [sourceNode, targetNode]);
   fields.push(
     <TextFieldFormikGeneratorAutocomplete
       fieldName="sourceNode"
@@ -277,6 +298,9 @@ export const LinkCreatePopUp = ({
       optionKey={getKeyForNode}
       optionValue={getIDForNode}
       defaultValue={ctrl.popUp.state.linkEdit?.defaults?.source ?? ""}
+      hookInputChange={(newSourceNode: ForceGraphNodeObject) => {
+        setSourceNode(newSourceNode);
+      }}
     />,
   );
   fields.push(
@@ -289,6 +313,9 @@ export const LinkCreatePopUp = ({
       optionKey={getKeyForNode}
       optionValue={getIDForNode}
       defaultValue={ctrl.popUp.state.linkEdit?.defaults?.target ?? ""}
+      hookInputChange={(newTargetNode: ForceGraphNodeObject) => {
+        setTargetNode(newTargetNode);
+      }}
     />,
   );
   fields.push(
