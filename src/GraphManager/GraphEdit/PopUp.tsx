@@ -220,7 +220,13 @@ export const getLabelForNode = (node: ForceGraphNodeObject) => {
   if (!node) {
     return "";
   }
-  return `${node?.description} (${node.id})`;
+  return `${node?.description}`;
+};
+export const getKeyForNode = (node: ForceGraphNodeObject) => {
+  if (!node) {
+    return "";
+  }
+  return `${node?.id}`;
 };
 export const getIDForNode = (node: ForceGraphNodeObject) => node?.id ?? "";
 
@@ -268,6 +274,7 @@ export const LinkCreatePopUp = ({
       autoFocus
       options={nodes}
       optionLabel={getLabelForNode}
+      optionKey={getKeyForNode}
       optionValue={getIDForNode}
       defaultValue={ctrl.popUp.state.linkEdit?.defaults?.source ?? ""}
     />,
@@ -279,6 +286,7 @@ export const LinkCreatePopUp = ({
       formik={formik}
       options={nodes}
       optionLabel={getLabelForNode}
+      optionKey={getKeyForNode}
       optionValue={getIDForNode}
       defaultValue={ctrl.popUp.state.linkEdit?.defaults?.target ?? ""}
     />,

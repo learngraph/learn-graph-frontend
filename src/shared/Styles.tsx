@@ -64,6 +64,8 @@ type AutocompleteFormikProps = FormikValues & {
   options: any[];
   // display an option as a string to the user
   optionLabel: (op: any) => string;
+  // must return a unique (!) string identifying each option (react internal usage)
+  optionKey: (op: any) => string;
   // assign a result that is passed to onFormSubmit
   optionValue: (op: any) => string;
   defaultValue?: any;
@@ -93,6 +95,7 @@ export const TextFieldFormikGeneratorAutocomplete = (
     <Autocomplete
       options={conf.options}
       getOptionLabel={conf.optionLabel}
+      getOptionKey={conf.optionKey}
       value={selectedOption}
       onChange={handleInputChange}
       defaultValue={""}
