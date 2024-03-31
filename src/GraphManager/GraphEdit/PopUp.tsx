@@ -572,15 +572,21 @@ const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
   ) : nodeEditsLoading ? (
     <>...</>
   ) : (
-    // TODO(skep): translate
     <Tooltip
       title={
         <>
-          <Typography>Node created by: {nodeCreator.username}</Typography>
+          <Typography>
+            {t("node-display.Node created by", {
+              nodeCreator: nodeCreator.username,
+            })}
+          </Typography>
           {nodeEditors && nodeEditors.length >= 1 && (
             <Typography>
-              Node edited by:{" "}
-              {nodeEditors.map((editor) => `${editor.username}`).join(", ")}
+              {t("node-display.Node edited by", {
+                nodeEditors: nodeEditors
+                  .map((editor) => `${editor.username}`)
+                  .join(", "),
+              })}
             </Typography>
           )}
         </>

@@ -1,4 +1,3 @@
-// TODO(skep): translate this file
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -11,9 +10,11 @@ import { useState } from "react";
 import { CircleContainer, buttonIconStyle } from "./CreateButton";
 import { Controller } from "./GraphEdit";
 import { FormControlLabel, FormGroup } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import { useUserDataContext } from "@src/Context/UserDataContext";
 
 export const UserSettings = ({ ctrl }: { ctrl: Controller }) => {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const toggleDrawer = () => {
     setIsOpen((current: boolean) => !current);
@@ -33,14 +34,18 @@ export const UserSettings = ({ ctrl }: { ctrl: Controller }) => {
       <UserSettingsButton ctrl={ctrl} onClick={toggleDrawer} />
       <Drawer open={isOpen} onClose={toggleDrawer} anchor="right">
         <Box sx={{ padding: 2 }}>
-          <Typography variant="h5">User Settings</Typography>
+          <Typography variant="h5">
+            {t("settings.headline-User-Settings")}
+          </Typography>
           <FormGroup>
             {/* XXX(skep): maybe use diver like this? */}
             {/*<Divider>Visuals</Divider>*/}
             <Divider />
-            <Typography variant="overline">Visuals:</Typography>
+            <Typography variant="overline">
+              {t("settings.headline-Visuals")}
+            </Typography>
             <FormControlLabel
-              label="Dark Theme"
+              label={t("settings.Dark Theme")}
               control={<Checkbox checked={theme === "dark"} />}
               onClick={toggleDarkTheme}
             />
@@ -48,9 +53,11 @@ export const UserSettings = ({ ctrl }: { ctrl: Controller }) => {
           <FormGroup>
             {/*<Divider>Experimental Settings</Divider>*/}
             <Divider />
-            <Typography variant="overline">Experimental Settings:</Typography>
+            <Typography variant="overline">
+              {t("settings.headline-Experimental Settings")}
+            </Typography>
             <FormControlLabel
-              label="3D Display"
+              label={t("settings.3D Display")}
               control={<Checkbox checked={ctrl.mode.use3D} />}
               onClick={() => {
                 ctrl.mode.setUse3D((current: boolean) => !current);

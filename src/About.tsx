@@ -1,5 +1,5 @@
-// TODO(skep): translate this file!
 import { Box, Typography, Divider, Link as MuiLink } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import { NavigationWithContent } from "./Navigation";
 
 const TypographyMaxWidth = (props: any) => {
@@ -10,30 +10,29 @@ const Href = (props: any) => {
 };
 
 export const About = () => {
+  const { t } = useTranslation();
   return (
     <NavigationWithContent
       withSideNavigation={true}
       content={
         <Box component="main" sx={{ flexGrow: 1, padding: 3 }}>
           <TypographyMaxWidth variant="h4" gutterBottom id="about">
-            About Us
+            {t("about.headline: About Us")}
           </TypographyMaxWidth>
           <TypographyMaxWidth paragraph>
-            Our mission: Free education for everyone.
+            {t("about.mission-statement")}
           </TypographyMaxWidth>
           <TypographyMaxWidth paragraph>
-            Education goes beyond learning resources &mdash; learning requires
-            to find a path through the map of knowledge of humankind. This map
-            is the learngraph.
+            {t("about.what-is-learngraph")}
           </TypographyMaxWidth>
 
           <Divider sx={{ margin: "20px 0" }} />
           <TypographyMaxWidth variant="h5" gutterBottom id="gettinginvolved">
-            Getting Involved!
+            {t("about.headline:getting-involved")}
           </TypographyMaxWidth>
           <TypographyMaxWidth paragraph>
-            Join our{" "}
-            <Href href="https://discord.gg/DatEV4kNp6">discord server</Href>!
+            {t("about.Join our-followed-by-link") + " "}
+            <Href href="https://discord.gg/DatEV4kNp6">Discord Server</Href>!
           </TypographyMaxWidth>
         </Box>
       }
