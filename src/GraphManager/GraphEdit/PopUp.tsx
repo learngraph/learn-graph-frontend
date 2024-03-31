@@ -522,7 +522,7 @@ const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
           <Box>
             <Typography variant="h6">{t("inboundDependency")}</Typography>
             <List>
-              {connectedLinks.inboundSourceIds.map((linkDisplay) => (
+              {connectedLinks.outboundTargetIds.map((linkDisplay) => (
                 <LinkDisplay
                   linkDisplay={linkDisplay}
                   backdropFillColor={primaryLight}
@@ -535,7 +535,7 @@ const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
           <Box>
             <Typography variant="h6">{t("outboundDependency")}</Typography>
             <List>
-              {connectedLinks.outboundTargetIds.map((linkDisplay) => (
+              {connectedLinks.inboundSourceIds.map((linkDisplay) => (
                 <LinkDisplay
                   linkDisplay={linkDisplay}
                   backdropFillColor={secondaryLight}
