@@ -20,7 +20,6 @@
   "Node Description": "Wissensbeschreibung",
   "Edit node with description": "Editiere Thema \"{{description}}\"",
   "To learn about source -> target is required": "Um \"{{source}}\" zu verstehen, ist das Wissen von \"{{target}}\"",
-  "Create new learning dependency": "Erstelle eine neue Wissens-Abhängigkeit",
   "Create new knowledge node": "Erstelle ein neues Thema",
   "Ctrl + Click anywhere": "Strg + Klick auf den Hintergrund",
   "Drag nodes close to each other": "Themen aufeinander ziehen",
@@ -37,6 +36,8 @@
   "sign up error: email already exists": "Anmeldefehler: Email schon vergeben!",
   "sign up error: username already exists": "Anmeldefehler: User-Name schon vergeben!",
   "sign up error": "Anmeldefehler!",
+  "login error: incorrect password": "login error: incorrect password",
+  "login error: user with that EMail was not found": "login error: user with that EMail was not found",
   "Login": "Login",
   "logout-button": "Ausloggen",
   "Signup": "Anmeldung",
@@ -49,6 +50,10 @@
   "User Name": "Benutzername",
   "Submit": "Abschicken",
   "To edit the graph please login.": "Um den Graph zu editieren logge dich ein.",
+  "node-display": {
+    "Node created by": "Node created by: {{nodeCreator}}",
+    "Node edited by": "Node edited by: {{nodeEditors}}"
+  },
   "landing": {
     "header": "You can learn",
     "headerHighlight": "anything",
@@ -60,5 +65,25 @@
     "crowdsourcingHeader": "Powered by Crowdsourcing",
     "crowdsourcingExplanation": "The Learn Graph collects votes about the dependency of knowledge on other knowledge. This creates a network of dependencies, a weighted, directed graph, which anyone can navigate to learn about these dependencies.\nWe choose an open knowledge approach: Everyone gets full non-commercial access, for free. We’re here to support you in your journey.",
     "crowdsourcingCallToAction": "That means users like you build this knowledge base, and everyone benefits from it. Contribute your knowledge today, by voting on existing connections or creating new entries!"
+  },
+  "navigation": {
+    "link-to-landing-page": "Welcome",
+    "link-to-about-page": "About",
+    "link-to-Getting Involved!": "Getting Involved!",
+    "settings-buttons-like-login-etc": "Settings"
+  },
+  "about": {
+    "headline: About Us": "About Us",
+    "mission-statement": "Our mission: Free education for everyone.",
+    "what-is-learngraph": "Education goes beyond learning resources &mdash; learning requires to find a path through the map of knowledge of humankind. This map is the learngraph.",
+    "headline:getting-involved": "Getting Involved!",
+    "Join our-followed-by-link": "Join our"
+  },
+  "settings": {
+    "headline-User-Settings": "User Settings",
+    "headline-Visuals": "Visuals:",
+    "Dark Theme": "Dark Theme",
+    "headline-Experimental Settings": "Experimental Settings:",
+    "3D Display": "3D Display"
   }
 }
