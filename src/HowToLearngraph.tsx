@@ -46,7 +46,7 @@ export const HowToLearngraph = () => {
             }}
             ref={wrapperRef}
           >
-            <Typography sx={{ paddingBottom: theme.spacing(4) }} variant="h3">
+            <Typography sx={{ paddingBottom: theme.spacing(4) }} variant="h1">
               How to use the Learngraph {/*TODO(skep): lg-logo*/}
             </Typography>
             <HowToTypography>
@@ -57,7 +57,20 @@ export const HowToLearngraph = () => {
             <HowToImage src="HowTo-link.png" availableSpace={availableSpace} />
             <HowToTypography>
               There is no way around learning addition first so the connection
-              between them is strong.
+              between them is strong. The connection is always pointed so that you
+              find your learning prerequisites for any topic by following the arrow.
+              Clicking on a topic reveals learning resources and infos about the most
+              important learning dependencies.
+            </HowToTypography>
+            <Typography sx={{ paddingBottom: theme.spacing(2), paddingTop: theme.spacing(2) }} variant="h2">
+              Add your knowledge
+            </Typography>
+            <HowToTypography>
+              The [pen symbol] lets you switch between edit and read-only mode.
+              Move the abstract concept toward its prerequisite knowledge to create a new link.
+              Alternatively use the [plus symbol] &gt; "New depency" dialouge  
+              Select an existing link to vote on the strength of the connection.
+              To add a new Topic use the [plus symbol] &gt; "New subject" dialouge.
             </HowToTypography>
           </Box>
         }
