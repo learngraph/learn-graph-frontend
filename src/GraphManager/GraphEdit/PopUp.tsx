@@ -515,12 +515,19 @@ const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
       ? theme.palette.secondary.dark
       : theme.palette.secondary.light;
 
+  const thisSubjectDescription = {
+    thisSubject:
+      ctrl.popUp.state.nodeEdit?.defaultFormContent?.description ??
+      "[this-subject]",
+  };
   const bottomContent =
     !incomingItemCount && !outgoingItemCount ? null : (
       <Box sx={{ display: "flex", gap: "2em", flexDirection: "column" }}>
         {!!incomingItemCount && (
           <Box>
-            <Typography variant="h6">{t("inboundDependency")}</Typography>
+            <Typography variant="h6">
+              {t("inboundDependency", thisSubjectDescription)}
+            </Typography>
             <List>
               {connectedLinks.outboundTargetIds.map((linkDisplay) => (
                 <LinkDisplay
@@ -533,7 +540,9 @@ const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
         )}
         {!!outgoingItemCount && (
           <Box>
-            <Typography variant="h6">{t("outboundDependency")}</Typography>
+            <Typography variant="h6">
+              {t("outboundDependency", thisSubjectDescription)}
+            </Typography>
             <List>
               {connectedLinks.inboundSourceIds.map((linkDisplay) => (
                 <LinkDisplay
