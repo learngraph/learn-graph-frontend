@@ -1,8 +1,10 @@
+//TODO: Translation
 import { ReactNode, useLayoutEffect, useRef, useState } from "react";
 import { Box, Typography, useTheme } from "@mui/material";
 import Image from "mui-image";
 import { NavigationWithContent } from "./Navigation";
 import { Rectangle } from "./GraphManager/utils";
+import { Add, Edit } from "@mui/icons-material";
 
 const HowToImage = (props: { availableSpace: Rectangle; src: string }) => {
   return (
@@ -10,8 +12,8 @@ const HowToImage = (props: { availableSpace: Rectangle; src: string }) => {
       <Image
         src={props.src}
         fit="contain"
-        width={props.availableSpace.width / 3}
-        height={props.availableSpace.height / 3}
+        width={props.availableSpace.width / 2}
+        height={props.availableSpace.height / 2}
       />
     </Box>
   );
@@ -39,17 +41,19 @@ export const HowToLearngraph = () => {
         withSideNavigation={true}
         content={
           <Box
-            /* sx={{
+            sx={{
               backgroundColor: theme.palette.background.default,
               color: theme.palette.text.primary,
               padding: theme.spacing(4),
-            }} */
+              maxWidth: '100ch',
+              width: '100%',
+            }} 
             component="main"
-            sx={(theme) => ({
+            /* sx={(theme) => ({
               flexGrow: 1,
               padding: 3,
               backgroundColor: theme.palette.background.default,
-            })}
+            })}*/
             ref={wrapperRef}
           >
             <Typography sx={{ paddingBottom: theme.spacing(4) }} variant="h1">
@@ -72,12 +76,13 @@ export const HowToLearngraph = () => {
               Add your knowledge
             </Typography>
             <HowToTypography>
-              The [pen symbol] lets you switch between edit and read-only mode.
+              The <Edit fontSize="small" /> icon lets you switch between edit and read-only mode.
               Move the abstract concept toward its prerequisite knowledge to create a new link.
-              Alternatively use the [plus symbol] &gt; "New depency" dialouge
+              Alternatively use the <Add fontSize="small" /> icon &gt; "New depency" dialouge
               Select an existing link to vote on the strength of the connection.
-              To add a new Topic use the [plus symbol] &gt; "New subject" dialouge.
+              To add a new Topic use the <Add fontSize="small" /> icon &gt; "New subject" dialouge.
             </HowToTypography>
+            <HowToImage src="HowTo-Toolbar.png" availableSpace={availableSpace} />
           </Box>
         }
       />
