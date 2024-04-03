@@ -1,4 +1,3 @@
-// TODO(skep): translate this file!
 import { Link, useNavigate } from "react-router-dom";
 import {
   Box,
@@ -20,6 +19,7 @@ import { ReactNode, forwardRef, useState } from "react";
 import LocaleManager from "./GraphManager/Header/LocaleManager";
 import LoginManager from "./GraphManager/Header/LoginManager";
 import { SearchBarProps, SearchField } from "./GraphManager/Header/Search";
+import { useTranslation } from "react-i18next";
 
 const BarItems = styled("div")(({ theme }) => ({
   display: "flex",
@@ -106,6 +106,7 @@ interface NavigationWithContentConfig {
 export const NavigationWithContent = (props: NavigationWithContentConfig) => {
   const navigate = useNavigate();
   const theme = useTheme();
+  const { t } = useTranslation();
   const menuPalette = theme.palette.info;
   const scrollToSectionID = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -164,21 +165,32 @@ export const NavigationWithContent = (props: NavigationWithContentConfig) => {
   };
   const navigationList = (
     <List>
-      <ListItemGlobalLink globalPath="" buttonText="Welcome" />
+      <ListItemGlobalLink
+        globalPath=""
+        buttonText={t("navigation.link-to-landing-page")}
+      />
       <ListItemGlobalLink
         globalPath="graph"
         buttonText={LEARNGRAPH_HEADER_TEXT}
       />
-      <ListItemGlobalLink globalPath="howto" buttonText="How To" />
-      <ListItemSectionLink sectionID={"about"} buttonText={"About"} />
+      <ListItemGlobalLink
+        globalPath="howto"
+        buttonText={t("navigation.link-to-HowTo-Page")}
+      />
+      <ListItemSectionLink
+        sectionID={"about"}
+        buttonText={t("navigation.link-to-about-page")}
+      />
       <List sx={{ paddingLeft: 2 }}>
         <ListItemSubSectionLink
           sectionID={"gettinginvolved"}
-          buttonText={"Getting Involved!"}
+          buttonText={t("navigation.link-to-Getting Involved!")}
         />
       </List>
       <DisplayOnlyOnSmallScreen>
-        <Typography variant="overline">Settings</Typography>
+        <Typography variant="overline">
+          {t("navigation.settings-buttons-like-login-etc")}
+        </Typography>
         <Box
           sx={{
             display: "flex",

@@ -77,14 +77,18 @@ export default function LoginSignupMenu() {
       setUserName(username);
       setAuthenticationToken(login.token);
     } else {
+      // TODO(skep): remove these if-conditions - verify that they are not needed!
+      // Note: account creation errors are returned as graphql errors, since
+      // the uniqueness in handled on DB-level (not backend code).
+      // See UserDataContext -> 'sign up error'.
       if (login?.message?.includes("EMail already exists:"))
         displayAlert(i18n.t("sign up error: email already exists"));
       else if (login?.message?.includes("Username already exists"))
         displayAlert(i18n.t("sign up error: username already exists"));
       else if (login?.message?.includes("failed to get user: record not found"))
-        displayAlert(i18n.t("login error: user with that EMail was not found")); // TODO(skep): translation
+        displayAlert(i18n.t("login error: user with that EMail was not found"));
       else if (login?.message?.includes("Password missmatch"))
-        displayAlert(i18n.t("login error: incorrect password")); // TODO(skep): translation
+        displayAlert(i18n.t("login error: incorrect password"));
       else {
         displayAlert(i18n.t("sign up error"));
         console.log(login?.message);

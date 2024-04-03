@@ -136,11 +136,11 @@ export const handleGraphQLErrors = (
     } else if (
       message.includes('violates unique constraint "users_username_key"')
     ) {
-      msg = "Failed to create Account: Username already in use."; // TODO(skep): translate
+      msg = i18n.t("sign up error: username already exists");
     } else if (
       message.includes('violates unique constraint "users_e_mail_key"')
     ) {
-      msg = "Failed to create Account: EMail already in use."; // TODO(skep): translate
+      msg = i18n.t("sign up error: email already exists");
     }
     if (msg !== "") {
       popUpWith(msg);

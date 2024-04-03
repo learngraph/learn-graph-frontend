@@ -36,6 +36,7 @@ import { MarkdownEditorWrapper } from "./MarkdownField";
 import { useNodeEdits } from "@src/GraphManager/RPCHooks/useNodeEdits";
 import { NodeEdit as BackendNodeEdit, NodeEditType } from "../RPCHooks/types";
 import { AvatarGroup, List, ListItem, useTheme } from "@mui/material";
+import i18n from "@src/shared/i18n";
 
 // TODO(skep): MIN_NODE_DESCRIPTION_LENGTH should be language dependent; for
 // chinese words, 1-2 characters is already precise, but for english a single
@@ -220,7 +221,13 @@ export const getLabelForNode = (node: ForceGraphNodeObject) => {
   if (!node) {
     return "";
   }
-  return `${node?.description} (${node.id})`;
+  return `${node?.description}`;
+};
+export const getKeyForNode = (node: ForceGraphNodeObject) => {
+  if (!node) {
+    return "";
+  }
+  return `${node?.id}`;
 };
 export const getIDForNode = (node: ForceGraphNodeObject) => node?.id ?? "";
 
@@ -260,6 +267,26 @@ export const LinkCreatePopUp = ({
   const fields = [];
   const nodes = ctrl.graph.current.nodes;
   const { t } = useTranslation();
+  const [sourceNode, setSourceNode] = useState<ForceGraphNodeObject | null>(
+    null,
+  );
+  const [targetNode, setTargetNode] = useState<ForceGraphNodeObject | null>(
+    null,
+  );
+  useEffect(() => {
+    // update title, when selected source/target node is changed
+    ctrl.popUp.setState({
+      ...ctrl.popUp.state,
+      title: i18n.t("To learn about source -> target is required", {
+        source:
+          sourceNode?.description ??
+          ctrl.popUp.state.linkEdit?.defaults?.source?.description,
+        target:
+          targetNode?.description ??
+          ctrl.popUp.state.linkEdit?.defaults?.target?.description,
+      }),
+    });
+  }, [sourceNode, targetNode]);
   fields.push(
     <TextFieldFormikGeneratorAutocomplete
       fieldName="sourceNode"
@@ -268,8 +295,12 @@ export const LinkCreatePopUp = ({
       autoFocus
       options={nodes}
       optionLabel={getLabelForNode}
+      optionKey={getKeyForNode}
       optionValue={getIDForNode}
       defaultValue={ctrl.popUp.state.linkEdit?.defaults?.source ?? ""}
+      hookInputChange={(newSourceNode: ForceGraphNodeObject) => {
+        setSourceNode(newSourceNode);
+      }}
     />,
   );
   fields.push(
@@ -279,8 +310,12 @@ export const LinkCreatePopUp = ({
       formik={formik}
       options={nodes}
       optionLabel={getLabelForNode}
+      optionKey={getKeyForNode}
       optionValue={getIDForNode}
       defaultValue={ctrl.popUp.state.linkEdit?.defaults?.target ?? ""}
+      hookInputChange={(newTargetNode: ForceGraphNodeObject) => {
+        setTargetNode(newTargetNode);
+      }}
     />,
   );
   fields.push(
@@ -480,14 +515,21 @@ const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
       ? theme.palette.secondary.dark
       : theme.palette.secondary.light;
 
+  const thisSubjectDescription = {
+    thisSubject:
+      ctrl.popUp.state.nodeEdit?.defaultFormContent?.description ??
+      "[this-subject]",
+  };
   const bottomContent =
     !incomingItemCount && !outgoingItemCount ? null : (
       <Box sx={{ display: "flex", gap: "2em", flexDirection: "column" }}>
         {!!incomingItemCount && (
           <Box>
-            <Typography variant="h6">{t("inboundDependency")}</Typography>
+            <Typography variant="h6">
+              {t("inboundDependency", thisSubjectDescription)}
+            </Typography>
             <List>
-              {connectedLinks.inboundSourceIds.map((linkDisplay) => (
+              {connectedLinks.outboundTargetIds.map((linkDisplay) => (
                 <LinkDisplay
                   linkDisplay={linkDisplay}
                   backdropFillColor={primaryLight}
@@ -498,9 +540,11 @@ const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
         )}
         {!!outgoingItemCount && (
           <Box>
-            <Typography variant="h6">{t("outboundDependency")}</Typography>
+            <Typography variant="h6">
+              {t("outboundDependency", thisSubjectDescription)}
+            </Typography>
             <List>
-              {connectedLinks.outboundTargetIds.map((linkDisplay) => (
+              {connectedLinks.inboundSourceIds.map((linkDisplay) => (
                 <LinkDisplay
                   linkDisplay={linkDisplay}
                   backdropFillColor={secondaryLight}
@@ -537,15 +581,21 @@ const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
   ) : nodeEditsLoading ? (
     <>...</>
   ) : (
-    // TODO(skep): translate
     <Tooltip
       title={
         <>
-          <Typography>Node created by: {nodeCreator.username}</Typography>
+          <Typography>
+            {t("node-display.Node created by", {
+              nodeCreator: nodeCreator.username,
+            })}
+          </Typography>
           {nodeEditors && nodeEditors.length >= 1 && (
             <Typography>
-              Node edited by:{" "}
-              {nodeEditors.map((editor) => `${editor.username}`).join(", ")}
+              {t("node-display.Node edited by", {
+                nodeEditors: nodeEditors
+                  .map((editor) => `${editor.username}`)
+                  .join(", "),
+              })}
             </Typography>
           )}
         </>

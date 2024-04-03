@@ -45,9 +45,9 @@ export const HowToLearngraph = () => {
               backgroundColor: theme.palette.background.default,
               color: theme.palette.text.primary,
               padding: theme.spacing(4),
-              maxWidth: '100ch',
-              width: '100%',
-            }} 
+              maxWidth: "100ch",
+              width: "100%",
+            }}
             component="main"
             /* sx={(theme) => ({
               flexGrow: 1,
@@ -67,22 +67,33 @@ export const HowToLearngraph = () => {
             <HowToImage src="HowTo-link.png" availableSpace={availableSpace} />
             <HowToTypography>
               There is no way around learning addition first so the connection
-              between them is strong. The connection is always pointed so that you
-              find your learning prerequisites for any topic by following the arrow.
-              Clicking on a topic reveals learning resources and infos about the most
-              important learning dependencies.
+              between them is strong. The connection is always pointed so that
+              you find your learning prerequisites for any topic by following
+              the arrow. Clicking on a topic reveals learning resources and
+              infos about the most important learning dependencies.
             </HowToTypography>
-            <Typography sx={{ paddingBottom: theme.spacing(2), paddingTop: theme.spacing(2) }} variant="h2">
+            <Typography
+              sx={{
+                paddingBottom: theme.spacing(2),
+                paddingTop: theme.spacing(2),
+              }}
+              variant="h2"
+            >
               Add your knowledge
             </Typography>
             <HowToTypography>
-              The <Edit fontSize="small" /> icon lets you switch between edit and read-only mode.
-              Move the abstract concept toward its prerequisite knowledge to create a new link.
-              Alternatively use the <Add fontSize="small" /> icon &gt; "New depency" dialouge
-              Select an existing link to vote on the strength of the connection.
-              To add a new Topic use the <Add fontSize="small" /> icon &gt; "New subject" dialouge.
+              The <Edit fontSize="small" /> icon lets you switch between edit
+              and read-only mode. Move the abstract concept toward its
+              prerequisite knowledge to create a new link. Alternatively use the{" "}
+              <Add fontSize="small" /> icon &gt; "New depency" dialouge Select
+              an existing link to vote on the strength of the connection. To add
+              a new Topic use the <Add fontSize="small" /> icon &gt; "New
+              subject" dialouge.
             </HowToTypography>
-            <HowToImage src="HowTo-Toolbar.png" availableSpace={availableSpace} />
+            <HowToImage
+              src="HowTo-Toolbar.png"
+              availableSpace={availableSpace}
+            />
           </Box>
         }
       />

@@ -1,1 +1,3 @@
 build/**
+src/shared/i18n.json
+src/shared/i18n/*.json

@@ -20,13 +20,12 @@
   "Node Description": "Wissensbeschreibung",
   "Edit node with description": "Editiere Thema \"{{description}}\"",
   "To learn about source -> target is required": "Um \"{{source}}\" zu verstehen, ist das Wissen von \"{{target}}\"",
-  "Create new learning dependency": "Erstelle eine neue Wissens-Abhängigkeit",
   "Create new knowledge node": "Erstelle ein neues Thema",
   "Ctrl + Click anywhere": "Strg + Klick auf den Hintergrund",
   "Drag nodes close to each other": "Themen aufeinander ziehen",
   "Node Resources": "Wissens-Quellen (Links, Bücher, etc.)",
-  "inboundDependency": "To understand this subject, you need to understand these subjects",
-  "outboundDependency": "Subjects that need an understanding of this one",
+  "inboundDependency": "Um dieses Thema zu verstehen, findest du hier Themen die dir helfen",
+  "outboundDependency": "Themen die ein Verständnis von diesem benötigen",
   "Enter a valid email": "EMail-Addresse ungültig",
   "Email is required": "EMail-Addresse ist Notwendig",
   "Username should be of minimum N characters length": "Benutzername sollte mindestens {{N}} Zeichen lang sein",
@@ -37,6 +36,8 @@
   "sign up error: email already exists": "Anmeldefehler: Email schon vergeben!",
   "sign up error: username already exists": "Anmeldefehler: User-Name schon vergeben!",
   "sign up error": "Anmeldefehler!",
+  "login error: incorrect password": "Login fehlgeschlagen: falsches Passwort",
+  "login error: user with that EMail was not found": "Login fehlgeschlagen: User mit dieser EMail existiert bereits!",
   "Login": "Login",
   "logout-button": "Ausloggen",
   "Signup": "Anmeldung",
@@ -49,16 +50,40 @@
   "User Name": "Benutzername",
   "Submit": "Abschicken",
   "To edit the graph please login.": "Um den Graph zu editieren logge dich ein.",
+  "node-display": {
+    "Node created by": "Thema erstellt von: {{nodeCreator}}",
+    "Node edited by": "Thema bearbeitet von: {{nodeEditors}}"
+  },
   "landing": {
-    "header": "You can learn",
-    "headerHighlight": "anything",
-    "intro": "You decide what you want to learn.\nWe show you how to get there.",
-    "hintClickImage": "Click the image above or",
-    "buttonGoToGraph": "Jump right in!",
-    "missionStatementHeader": "Our Mission",
-    "missionStatementText": "We enable people to learn, <strong>independent of their situation in life</strong> and the resources at their disposal.\nKnowledge gives us the power to choose.\nWe give you the power to <strong>choose your own path</strong>.",
+    "header": "Du kannst lernen —",
+    "headerHighlight": "alles",
+    "intro": "Du entscheidest was du lernen willst.\nWir zeigen dir, wie du dorthin kommst.",
+    "hintClickImage": "Klick auf das Bild oben oder",
+    "buttonGoToGraph": "Lernen!",
+    "missionStatementHeader": "Unsere Mission",
+    "missionStatementText": "Wir ermöglichen Menschen zu lernen, <strong>unabhängig von ihrer Lebenssituation</strong> und den ihr zur Verfügung stehenden Ressourcen.\nWissen ermöglicht es gute Entscheidungen zu treffen.\nWir geben dir die Möglichkeit, <strong>deinen eigenen Weg</strong> zu finden.",
     "crowdsourcingHeader": "Powered by Crowdsourcing",
-    "crowdsourcingExplanation": "The Learn Graph collects votes about the dependency of knowledge on other knowledge. This creates a network of dependencies, a weighted, directed graph, which anyone can navigate to learn about these dependencies.\nWe choose an open knowledge approach: Everyone gets full non-commercial access, for free. We’re here to support you in your journey.",
-    "crowdsourcingCallToAction": "That means users like you build this knowledge base, and everyone benefits from it. Contribute your knowledge today, by voting on existing connections or creating new entries!"
+    "crowdsourcingExplanation": "Der Learn Graph sammelt Informationen darüber wie Wissen von anderem Wissen abhängt. Dies erzeugt eine Landkarte von Wissen, durch die jeder navigieren kann, um komplete Themen einordnen zu können.\nJeder erhält vollen nicht-kommerziellen Zugang, kostenlos. Wir sind hier, um Dich auf Deiner Reise zu unterstützen.",
+    "crowdsourcingCallToAction": "Das bedeutet, dass Menschen wie du diese Wissensbasis bauen und alle davon profitieren. Trage dein Wissen heute bei, indem du über bestehende Verbindungen abstimmst oder neue Einträge erstellst!"
+  },
+  "navigation": {
+    "link-to-landing-page": "Willkommen",
+    "link-to-about-page": "Über Uns",
+    "link-to-Getting Involved!": "Mitmachen!",
+    "settings-buttons-like-login-etc": "Einstellungen"
+  },
+  "about": {
+    "headline: About Us": "Über uns",
+    "mission-statement": "Unsere Mission: Freie Bildung für alle.",
+    "what-is-learngraph": "Bildung geht über Lernressourcen hinaus &mdash; Lernen erfordert, einen Pfad durch die Landkarte des Wissens der Menschheit zu finden. Diese Karte ist der Learn Graph.",
+    "headline:getting-involved": "Mitmachen!",
+    "Join our-followed-by-link": "Schau vorbei im"
+  },
+  "settings": {
+    "headline-User-Settings": "Benutzereinstellungen",
+    "headline-Visuals": "Anzeige:",
+    "Dark Theme": "Dunkles Design",
+    "headline-Experimental Settings": "Experimentelle Einstellungen:",
+    "3D Display": "3D Anzeige"
   }
 }

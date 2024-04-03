@@ -64,9 +64,12 @@ type AutocompleteFormikProps = FormikValues & {
   options: any[];
   // display an option as a string to the user
   optionLabel: (op: any) => string;
+  // must return a unique (!) string identifying each option (react internal usage)
+  optionKey: (op: any) => string;
   // assign a result that is passed to onFormSubmit
   optionValue: (op: any) => string;
   defaultValue?: any;
+  hookInputChange?: (op: any) => void;
 };
 
 // TextFieldFormikGeneratorAutocomplete enables the user to freely type while
@@ -77,6 +80,9 @@ export const TextFieldFormikGeneratorAutocomplete = (
   const [selectedOption, setSelectedOption] = useState("");
   const handleInputChange = (_: any, option: any) => {
     setSelectedOption(option);
+    if (conf.hookInputChange) {
+      conf.hookInputChange(option);
+    }
     conf.formik.setFieldValue(conf.fieldName, conf.optionValue(option));
   };
   useEffect(() => {
@@ -93,6 +99,7 @@ export const TextFieldFormikGeneratorAutocomplete = (
     <Autocomplete
       options={conf.options}
       getOptionLabel={conf.optionLabel}
+      getOptionKey={conf.optionKey}
       value={selectedOption}
       onChange={handleInputChange}
       defaultValue={""}
