@@ -85,7 +85,7 @@ export const HowToLearngraph = () => {
               The <Edit fontSize="small" /> icon lets you switch between edit
               and read-only mode. Move the abstract concept toward its
               prerequisite knowledge to create a new link. Alternatively use the{" "}
-              <Add fontSize="small" /> icon &gt; "New depency" dialouge Select
+              <Add fontSize="small" /> icon &gt; "New dependency" dialouge Select
               an existing link to vote on the strength of the connection. To add
               a new Topic use the <Add fontSize="small" /> icon &gt; "New
               subject" dialouge.
