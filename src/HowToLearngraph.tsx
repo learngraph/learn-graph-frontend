@@ -39,11 +39,17 @@ export const HowToLearngraph = () => {
         withSideNavigation={true}
         content={
           <Box
-            sx={{
+            /* sx={{
               backgroundColor: theme.palette.background.default,
               color: theme.palette.text.primary,
               padding: theme.spacing(4),
-            }}
+            }} */
+            component="main"
+            sx={(theme) => ({
+              flexGrow: 1,
+              padding: 3,
+              backgroundColor: theme.palette.background.default,
+            })}
             ref={wrapperRef}
           >
             <Typography sx={{ paddingBottom: theme.spacing(4) }} variant="h1">
@@ -68,7 +74,7 @@ export const HowToLearngraph = () => {
             <HowToTypography>
               The [pen symbol] lets you switch between edit and read-only mode.
               Move the abstract concept toward its prerequisite knowledge to create a new link.
-              Alternatively use the [plus symbol] &gt; "New depency" dialouge  
+              Alternatively use the [plus symbol] &gt; "New depency" dialouge
               Select an existing link to vote on the strength of the connection.
               To add a new Topic use the [plus symbol] &gt; "New subject" dialouge.
             </HowToTypography>
