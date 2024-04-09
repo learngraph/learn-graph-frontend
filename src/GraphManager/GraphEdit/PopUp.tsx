@@ -523,31 +523,31 @@ const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
   const bottomContent =
     !incomingItemCount && !outgoingItemCount ? null : (
       <Box sx={{ display: "flex", gap: "2em", flexDirection: "column" }}>
-        {!!incomingItemCount && (
-          <Box>
-            <Typography variant="h6">
-              {t("inboundDependency", thisSubjectDescription)}
-            </Typography>
-            <List>
-              {connectedLinks.outboundTargetIds.map((linkDisplay) => (
-                <LinkDisplay
-                  linkDisplay={linkDisplay}
-                  backdropFillColor={primaryLight}
-                />
-              ))}
-            </List>
-          </Box>
-        )}
         {!!outgoingItemCount && (
           <Box>
             <Typography variant="h6">
               {t("outboundDependency", thisSubjectDescription)}
             </Typography>
             <List>
-              {connectedLinks.inboundSourceIds.map((linkDisplay) => (
+              {connectedLinks.outboundTargetIds.map((linkDisplay) => (
                 <LinkDisplay
                   linkDisplay={linkDisplay}
                   backdropFillColor={secondaryLight}
+                />
+              ))}
+            </List>
+          </Box>
+        )}
+        {!!incomingItemCount && (
+          <Box>
+            <Typography variant="h6">
+              {t("inboundDependency", thisSubjectDescription)}
+            </Typography>
+            <List>
+              {connectedLinks.inboundSourceIds.map((linkDisplay) => (
+                <LinkDisplay
+                  linkDisplay={linkDisplay}
+                  backdropFillColor={primaryLight}
                 />
               ))}
             </List>
