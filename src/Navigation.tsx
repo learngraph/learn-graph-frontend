@@ -254,8 +254,10 @@ export const NavigationWithContent = (props: NavigationWithContentConfig) => {
           {/* Note: This Box pushes other bar-items to the right */}
           <BarItems sx={{ alignItems: "right" }}>
             <DisplayOnlyOnLargeScreen sx={{ height: "auto" }}>
-              <LocaleManager />
-              <LoginManager />
+              <Box sx={{ display: "flex", gap: 1 }}>
+                <LocaleManager />
+                <LoginManager />
+              </Box>
             </DisplayOnlyOnLargeScreen>
           </BarItems>
         </Toolbar>

@@ -105,7 +105,7 @@ export default function LoginSignupMenu() {
   };
   const { t } = useTranslation();
   return (
-    <Box>
+    <>
       <AlertPopupBar displayAlertRef={displayAlertRef} />
       <Button variant="contained" color="primary" onClick={handleClickOpen}>
         {t("Login/Signup")}
@@ -126,6 +126,6 @@ export default function LoginSignupMenu() {
           <SignUpForm onSubmit={handleSignUpSubmit} />
         </FormTab>
       </Dialog>
-    </Box>
+    </>
   );
 }
