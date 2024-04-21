@@ -387,7 +387,7 @@ export const onLinkClick = (ctrl: Controller, link: ForceGraphLinkObject) => {
       source: link?.source?.description,
       target: link?.target?.description,
     }),
-    linkVote: { onSubmit, onDelete },
+    linkVote: { onSubmit, onDelete, linkID: link.id },
   });
 };
 

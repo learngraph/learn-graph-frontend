@@ -34,9 +34,11 @@ import {
 } from "@src/GraphManager/types";
 import { MarkdownEditorWrapper } from "./MarkdownField";
 import { useNodeEdits } from "@src/GraphManager/RPCHooks/useNodeEdits";
+import { useLinkEdits } from "@src/GraphManager/RPCHooks/useLinkEdits";
 import { NodeEdit as BackendNodeEdit, NodeEditType } from "../RPCHooks/types";
 import { AvatarGroup, List, ListItem, useTheme } from "@mui/material";
 import i18n from "@src/shared/i18n";
+import { useUserDataContext } from "@src/Context/UserDataContext";
 
 // TODO(skep): MIN_NODE_DESCRIPTION_LENGTH should be language dependent; for
 // chinese words, 1-2 characters is already precise, but for english a single
@@ -54,8 +56,18 @@ export const LinkWeightSlider = (props: LinkWeightSliderProps) => {
     _event: any,
     newValue: number | Array<number>,
   ) => {
+    // update internal-state to commit to the backend
     props.setSliderValue(newValue);
+    // update user-interface to display slider value change
+    // @ts-ignore
+    setValue(newValue);
   };
+  // XXX(skep): hack to update the default value, if the user already voted and
+  // the last-vote result arrives delayed from the backend
+  useEffect(() => {
+    setValue(props.defaultValue);
+  }, [props.defaultValue]);
+  const [value, setValue] = useState(props.defaultValue);
   const { t } = useTranslation();
   const marks: Mark[] = [
     {
@@ -73,7 +85,7 @@ export const LinkWeightSlider = (props: LinkWeightSliderProps) => {
   ];
   return (
     <Slider
-      defaultValue={props.defaultValue}
+      value={value}
       onChange={onSliderValueChange}
       step={0.1}
       min={0.00001}
@@ -122,6 +134,7 @@ export interface LinkEdit {
 export interface LinkVote {
   onSubmit: (value: number) => void;
   onDelete?: () => void;
+  linkID?: string;
 }
 
 export interface NewNodeForm {
@@ -340,9 +353,25 @@ interface VoteLinkForm {
   linkWeight: number;
 }
 const LinkVotePopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
+  const { userName } = useUserDataContext();
   const [sliderValue, setSliderValue] = useState<number | Array<number>>(
     DEFAULT_EDIT_LINK_WEIGHT,
   );
+  const {
+    data,
+    queryResponse: { loading },
+  } = useLinkEdits(ctrl.popUp.state.linkVote?.linkID!);
+  const [sliderDefault, setSliderDefault] = useState(DEFAULT_EDIT_LINK_WEIGHT);
+  useEffect(() => {
+    console.log(`loading=${loading}, ${data?.edgeEdits}`);
+    const yourEdits = data?.edgeEdits.filter((e) => e.username == userName);
+    if (yourEdits && yourEdits.length > 0) {
+      const yourLinkVote = yourEdits[yourEdits.length - 1].weight;
+      console.log(`yourLinkVote=${yourLinkVote}`);
+      setSliderDefault(yourLinkVote); // FIXME(skep): doesn't work, MUI says we should use "controlled" slider?!
+      setSliderValue(yourLinkVote); // XXX(skep): doesn't work either
+    }
+  }, [loading, data]);
   const formik = useFormik<VoteLinkForm>({
     initialValues: {
       linkWeight: 5,
@@ -358,7 +387,9 @@ const LinkVotePopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
   const fields = [];
   fields.push(
     <LinkWeightSlider
-      defaultValue={DEFAULT_EDIT_LINK_WEIGHT}
+      // TODO(skep): display to the user that the current value is the last
+      // voted one!
+      defaultValue={sliderDefault}
       setSliderValue={setSliderValue}
     />,
   );

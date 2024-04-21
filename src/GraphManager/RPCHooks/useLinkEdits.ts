@@ -17,9 +17,9 @@ export interface EdgeEditsResponse {
   queryResponse: ApolloQueryResponse;
 }
 
-export function useEdgeEdits(edgeID: string): EdgeEditsResponse {
+export function useLinkEdits(linkID: string): EdgeEditsResponse {
   const { loading, data, error, networkStatus } = useQuery(GET_EDGE_EDITS, {
-    variables: { edgeID: edgeID },
+    variables: { edgeID: linkID },
   });
 
   return { data, queryResponse: { loading, error, networkStatus } };
