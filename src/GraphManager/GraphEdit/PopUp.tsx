@@ -360,7 +360,7 @@ const LinkVotePopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
   const {
     data,
     queryResponse: { loading },
-  } = useLinkEdits(ctrl.popUp.state.linkVote?.linkID!);
+  } = useLinkEdits(ctrl.popUp.state.linkVote!.linkID!);
   const [sliderDefault, setSliderDefault] = useState(DEFAULT_EDIT_LINK_WEIGHT);
   useEffect(() => {
     console.log(`loading=${loading}, ${data?.edgeEdits}`);
