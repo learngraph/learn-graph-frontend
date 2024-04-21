@@ -37,3 +37,9 @@ export interface NodeEdit {
   //newResources?: string
   updatedAt: Date;
 }
+export interface EdgeEdit {
+  username: string;
+  type: NodeEditType;
+  weight: number;
+  updatedAt: Date;
+}
