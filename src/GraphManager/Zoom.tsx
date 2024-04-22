@@ -1,3 +1,6 @@
+// The current Zoom implements a version of what is known as HAC --
+// Hierarchical Agglomerative Clustering.
+
 // object with an `id` property
 export interface HasID {
   id: string;
