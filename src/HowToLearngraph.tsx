@@ -5,10 +5,10 @@ import Image from "mui-image";
 import { NavigationWithContent } from "./Navigation";
 import { Add, Edit } from "@mui/icons-material";
 
-const HowToImage = (props: { src: string }) => {
+const HowToImage = (props: { src: string; alt: string }) => {
   return (
     <Box sx={{ display: "flex", justifyContent: "center", py: 3 }}>
-      <Image src={props.src} fit="contain" width="50%" />
+      <Image src={props.src} alt={props.alt} fit="contain" width="50%" />
     </Box>
   );
 };
@@ -52,23 +52,26 @@ export const HowToLearngraph = () => {
               component="main"
             >
               <Typography sx={{ paddingBottom: theme.spacing(4) }} variant="h1">
-                How to use the Learngraph {/*TODO(skep): lg-logo*/}
+                How to use the learngraph {/*TODO(skep): lg-logo*/}
               </Typography>
               <HowToTypography>
-                The Learngraph is a map of Learning dependencies. In this image
+                The learngraph is a map of learning dependencies. In this image
                 you can see that in order to understand multiplication you need
                 to learn about addition.
               </HowToTypography>
-              <HowToImage src="HowTo-link.png" />
+              <HowToImage
+                src="HowTo-link.png"
+                alt="Two blobs one labeled Multiplication the other labeled Addition are visible. An arrow pointing towards Addition connects those two."
+              />
               <HowToTypography>
                 There is no way around learning addition first so the connection
-                between them is strong. The connection is always pointed so that
-                you find your learning prerequisites for any topic by following
-                the arrow. Clicking on a topic reveals learning resources and
-                infos about the most important learning dependencies.
+                between them is strong. The Arrow always points you towards the
+                things you have to learn to understand a given topic. Clicking
+                on a topic reveals learning resources and infos about the most
+                important learning dependencies.
               </HowToTypography>
               <HowToTopic> Translations </HowToTopic>
-              <HowToImage src="HowTo-translation-de-en.png" />
+              <HowToImage src="HowTo-translation-de-en.png" alt="" />
               <HowToTypography>
                 You may find some subjects in a different language than your
                 selected one. They are marked by the corresponding country flag.
@@ -83,12 +86,20 @@ export const HowToLearngraph = () => {
                 The <Edit fontSize="small" /> icon lets you switch between edit
                 and read-only mode. Move the subject toward its prerequisite
                 knowledge to create a new link. Alternatively use the{" "}
-                <Add fontSize="small" /> icon &gt; "New depency" dialogue Select
-                an existing link to vote on the strength of the connection. To
-                add a new Topic use the <Add fontSize="small" /> icon &gt; "New
-                subject" dialogue.
+                <Add fontSize="small" /> icon &gt; "New dependency" dialogue
+                Select an existing link to vote on the strength of the
+                connection. To add a new Topic use the <Add fontSize="small" />{" "}
+                icon &gt; "New subject" dialogue.
               </HowToTypography>
-              <HowToImage src="HowTo-Toolbar.png" />
+              <HowToImage src="HowTo-Toolbar.png" alt="" />
+              <HowToTopic>The Merge Zoom</HowToTopic>
+              <HowToTypography>
+                Some topics are more connected than other ones. Those might be
+                more important than other things to learn about. The zoom slider
+                on the right hand side groups areas of knowledge under the
+                banner of the topic that is required the most ie. has the
+                highest amount of arrows pointing toward it.
+              </HowToTypography>
             </Container>
           </Box>
         }
