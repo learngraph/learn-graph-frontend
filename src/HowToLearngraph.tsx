@@ -73,13 +73,20 @@ export const HowToLearngraph = () => {
 
               <HowToTopic>Interact with the learngraph</HowToTopic>
               <HowToTypography>
-              <ul>
-                <li>Click the <Edit fontSize="small" /> icon to switch between Edit and view only mode </li>
-                <li>Search for subjects using the search bar</li>
-              </ul>
+                <ul>
+                  <li>
+                    Click the <Edit fontSize="small" /> icon to switch between
+                    Edit and view-only mode
+                  </li>
+                  <li>Search for subjects using the search bar</li>
+                  <li>
+                    Click on any topic (in edit mode) to reveal learning
+                    resources
+                  </li>
+                </ul>
                 The <Edit fontSize="small" /> icon lets you switch between edit
                 and read-only mode. Move the subject toward its prerequisite
-                knowledge to create a new link. Alternatively use the 
+                knowledge to create a new link. Alternatively use the
                 <Add fontSize="small" /> icon &gt; "New dependency" dialogue
                 Select an existing link to vote on the strength of the
                 connection. To add a new Topic use the <Add fontSize="small" />{" "}
