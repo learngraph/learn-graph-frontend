@@ -9,6 +9,11 @@ const GET_GRAPH_DATA = gql`
         id
         description
         resources
+        position {
+          x
+          y
+          z
+        }
       }
       links: edges {
         id

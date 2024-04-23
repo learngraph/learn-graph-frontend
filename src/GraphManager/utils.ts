@@ -251,6 +251,12 @@ export const convertBackendGraphToForceGraph: GraphConverter = (data) => {
       fgGraph[prop] = [];
     }
   });
+  fgGraph.nodes.forEach((node: ForceGraphNodeObject) => {
+    node.x = node.position?.x;
+    node.y = node.position?.y;
+    node.z = node.position?.z;
+    delete node.position;
+  });
   return fgGraph;
 };
 

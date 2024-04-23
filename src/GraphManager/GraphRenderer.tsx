@@ -188,7 +188,8 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     makeInitialGraphData(),
   );
   const { language, userID, theme } = useUserDataContext();
-  const { data: graphDataFromBackend } = useGraphData();
+  const { data: graphDataFromBackend, queryResponse: graphDataInfo } =
+    useGraphData();
   const [shiftHeld, setShiftHeld] = useState(false);
   const downHandler = ({ key }: any) => {
     if (key === "Shift") {
@@ -288,6 +289,11 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   ) => {
     controller.specialNodes.hoveredNode = node;
   };
+  useEffect(() => {
+    if (graphDataInfo.error) {
+      console.error(`graphDataInfo.error: ${graphDataInfo.error}`);
+    }
+  }, [graphDataInfo]);
   useEffect(() => {
     convertAndSetGraph(setGraph, graphDataFromBackend);
   }, [graphDataFromBackend]);

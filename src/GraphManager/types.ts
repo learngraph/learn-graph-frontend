@@ -43,6 +43,12 @@ interface LinkTypeMandatoryNodes {
   target: ForceGraphNodeObject;
 }
 
+export interface Vector {
+  x: number;
+  y: number;
+  z: number;
+}
+
 // NodeTypeAddition is an extension to force-graph's NodeObject with additional
 // properties.
 //
@@ -52,6 +58,7 @@ export interface NodeTypeAddition {
   id: string;
   description: string;
   resources?: string;
+  position?: Vector;
 }
 
 export interface DataSetType {
