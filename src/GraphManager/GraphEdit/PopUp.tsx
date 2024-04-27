@@ -563,7 +563,7 @@ const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
               {connectedLinks.outboundTargetIds.map((linkDisplay) => (
                 <LinkDisplay
                   linkDisplay={linkDisplay}
-                  backdropFillColor={secondaryLight}
+                  backdropFillColor={primaryLight}
                 />
               ))}
             </List>
@@ -578,7 +578,7 @@ const NodeEditPopUp = ({ handleClose, ctrl }: SubGraphEditPopUpProps) => {
               {connectedLinks.inboundSourceIds.map((linkDisplay) => (
                 <LinkDisplay
                   linkDisplay={linkDisplay}
-                  backdropFillColor={primaryLight}
+                  backdropFillColor={secondaryLight}
                 />
               ))}
             </List>
