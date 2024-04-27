@@ -55,7 +55,7 @@
     "Node edited by": "Thema bearbeitet von: {{nodeEditors}}"
   },
   "landing": {
-    "header": "You can learn <strong>anything</strong>",
+    "header": "Du kannst <strong>alles</strong> lernen.",
     "intro": "Du entscheidest was du lernen willst.\nWir zeigen dir, wie du dorthin kommst.",
     "hintClickImage": "Klick auf das Bild oben oder",
     "buttonGoToGraph": "Lernen!",
@@ -65,25 +65,25 @@
     "crowdsourcingExplanation": "Der Learn Graph sammelt Informationen darüber wie Wissen von anderem Wissen abhängt. Dies erzeugt eine Landkarte von Wissen, durch die jeder navigieren kann, um komplete Themen einordnen zu können.\nJeder erhält vollen nicht-kommerziellen Zugang, kostenlos. Wir sind hier, um Dich auf Deiner Reise zu unterstützen.",
     "crowdsourcingCallToAction": "Das bedeutet, dass Menschen wie du diese Wissensbasis bauen und alle davon profitieren. Trage dein Wissen heute bei, indem du über bestehende Verbindungen abstimmst oder neue Einträge erstellst!",
     "highlights": {
-      "independence": "Independence",
-      "independentFromEducationalInstitutions": "You are independent of educational institutions!",
-      "control": "Control",
-      "controlOfYourLearningPath": "You're in control of your learning path, and you can choose every step of your learning path.",
-      "availability": "Availability",
-      "accessibleLowEntryBarrier": "Learngraph.org is available — it has an extremely low entry barrier!",
-      "noAttendanceExamsFees": "No need for attendance, exams, or fees!",
-      "youControlHowMuchWhenAndHow": "You control how much you learn, when you learn, and how fast you learn.",
-      "openAndEasyStart": "Anyone can sign up, and its easy to get started."
+      "independence": "Unabhängigkeit",
+      "independentFromEducationalInstitutions": "Du bist unabhängig von Bildungsinstituten!",
+      "control": "Kontrolle",
+      "controlOfYourLearningPath": "Du kontrollierst deinen Lernweg, und kannst jeden schritt selbst entscheiden.",
+      "availability": "Verfügbarkeit",
+      "accessibleLowEntryBarrier": "Learngraph.org ist da — mit einer extrem niedrigen Einstiegsschwelle!",
+      "noAttendanceExamsFees": "Keine Anwesenheit, Prüfungen oder Gebühren!",
+      "youControlHowMuchWhenAndHow": "Du kontrollierst wie viel du lernst, wann du lernst, und wie schnell du lernst.",
+      "openAndEasyStart": "Jeder kann mitmachen, und es ist einfach anzufangen."
     },
     "qnas": {
-      "qWhereIsGoodLearningContent": "I've found which topics I want to learn about, where do I find good learning content?",
-      "aLookIntoResourcesAndCrowdsourcingFeature": "Look into the resources field of each subject. We plan to add another feature which enables crowdsourcing learning resources as well. Come back soon to see it!",
-      "qLearnGraphFree": "Is the Learn Graph free?",
-      "aFreeAndOSMoneyTbd": "Yes, it's free and open-source! The project and how it is financed are still in development. We might add premium features in the future, but the core functionality will always be free.",
-      "qDiffToConventionalLearningPlatforms": "How is the Learn Graph different from conventional learning platforms?",
-      "aNoContentHosting": "We do not host content ourselves, instead we focus on the connections between knowledge. We aim to be a platform that points you in the right directions and enables you to find the knowledge you're looking for on other websites / books.",
-      "qProjectVision": "What's your vision with this project?",
-      "aLearningEcosystem": "We plan to build a learning ecosystem. We believe that education and cooperation are the keys to a better world."
+      "qWhereIsGoodLearningContent": "Ich habe Themen gefunden, über die ich lernen möchte, wo finde ich gute Lerninhalte?",
+      "aLookIntoResourcesAndCrowdsourcingFeature": "Schau die den Ressourcenbereich eines Themas an. Wir planen, eine weitere Funktion hinzuzufügen, die das Crowdsourcing von Lernressourcen ermöglicht. Schau bald wieder vorbei, um sie zu sehen!",
+      "qLearnGraphFree": "Ist der Learn Graph kostenlos?",
+      "aFreeAndOSMoneyTbd": "Ja, es ist kostenlos und Open-Source! Das Projekt und wie es finanziert wird, ist noch in Entwicklung. Wir werden in Zukunft Premium-Funktionen hinzufügen, aber die Kernfunktionalität wird immer kostenlos sein.",
+      "qDiffToConventionalLearningPlatforms": "Wie unterscheidet sich der Learn Graph von herkömmlichen Lernplattformen?",
+      "aNoContentHosting": "Wir hosten keine Inhalte selbst, sondern konzentrieren uns auf die Zusammenhänge zwischen Wissen. Unser Ziel ist es, eine Plattform zu sein, die Sie in die richtige Richtung weist und dir ermöglicht, das Wissen, das du suchst, in anderen Quellen zu finden.",
+      "qProjectVision": "Was ist eure Vision mit diesem Projekt?",
+      "aLearningEcosystem": "Wir planen ein Lernökosystem aufzubauen. Wir glauben, dass Bildung und Zusammenarbeit der Schlüssel zu einer besseren Welt sind."
     }
   },
   "navigation": {
