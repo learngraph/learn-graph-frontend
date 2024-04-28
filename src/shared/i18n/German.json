@@ -24,8 +24,8 @@
   "Ctrl + Click anywhere": "Strg + Klick auf den Hintergrund",
   "Drag nodes close to each other": "Themen aufeinander ziehen",
   "Node Resources": "Wissens-Quellen (Links, Bücher, etc.)",
-  "inboundDependency": "Um '{{thisSubject}}' zu verstehen, findest du hier Themen die dir helfen",
-  "outboundDependency": "Themen die ein Verständnis von '{{thisSubject}}' benötigen",
+  "outboundDependency": "Um '{{thisSubject}}' zu verstehen, musst du diese Themen verstehen",
+  "inboundDependency": "Themen, die ein Verständnis von '{{thisSubject}}' benötigen",
   "Enter a valid email": "EMail-Addresse ungültig",
   "Email is required": "EMail-Addresse ist Notwendig",
   "Username should be of minimum N characters length": "Benutzername sollte mindestens {{N}} Zeichen lang sein",
@@ -55,8 +55,7 @@
     "Node edited by": "Thema bearbeitet von: {{nodeEditors}}"
   },
   "landing": {
-    "header": "Du kannst lernen —",
-    "headerHighlight": "alles",
+    "header": "Du kannst <strong>alles</strong> lernen.",
     "intro": "Du entscheidest was du lernen willst.\nWir zeigen dir, wie du dorthin kommst.",
     "hintClickImage": "Klick auf das Bild oben oder",
     "buttonGoToGraph": "Lernen!",
@@ -64,7 +63,28 @@
     "missionStatementText": "Wir ermöglichen Menschen zu lernen, <strong>unabhängig von ihrer Lebenssituation</strong> und den ihr zur Verfügung stehenden Ressourcen.\nWissen ermöglicht es gute Entscheidungen zu treffen.\nWir geben dir die Möglichkeit, <strong>deinen eigenen Weg</strong> zu finden.",
     "crowdsourcingHeader": "Powered by Crowdsourcing",
     "crowdsourcingExplanation": "Der Learn Graph sammelt Informationen darüber wie Wissen von anderem Wissen abhängt. Dies erzeugt eine Landkarte von Wissen, durch die jeder navigieren kann, um komplete Themen einordnen zu können.\nJeder erhält vollen nicht-kommerziellen Zugang, kostenlos. Wir sind hier, um Dich auf Deiner Reise zu unterstützen.",
-    "crowdsourcingCallToAction": "Das bedeutet, dass Menschen wie du diese Wissensbasis bauen und alle davon profitieren. Trage dein Wissen heute bei, indem du über bestehende Verbindungen abstimmst oder neue Einträge erstellst!"
+    "crowdsourcingCallToAction": "Das bedeutet, dass Menschen wie du diese Wissensbasis bauen und alle davon profitieren. Trage dein Wissen heute bei, indem du über bestehende Verbindungen abstimmst oder neue Einträge erstellst!",
+    "highlights": {
+      "independence": "Unabhängigkeit",
+      "independentFromEducationalInstitutions": "Du bist unabhängig von Bildungsinstituten!",
+      "control": "Kontrolle",
+      "controlOfYourLearningPath": "Du kontrollierst deinen Lernweg, und kannst jeden schritt selbst entscheiden.",
+      "availability": "Verfügbarkeit",
+      "accessibleLowEntryBarrier": "Learngraph.org ist da — mit einer extrem niedrigen Einstiegsschwelle!",
+      "noAttendanceExamsFees": "Keine Anwesenheit, Prüfungen oder Gebühren!",
+      "youControlHowMuchWhenAndHow": "Du kontrollierst wie viel du lernst, wann du lernst, und wie schnell du lernst.",
+      "openAndEasyStart": "Jeder kann mitmachen, und es ist einfach anzufangen."
+    },
+    "qnas": {
+      "qWhereIsGoodLearningContent": "Ich habe Themen gefunden, über die ich lernen möchte, wo finde ich gute Lerninhalte?",
+      "aLookIntoResourcesAndCrowdsourcingFeature": "Schau die den Ressourcenbereich eines Themas an. Wir planen, eine weitere Funktion hinzuzufügen, die das Crowdsourcing von Lernressourcen ermöglicht. Schau bald wieder vorbei, um sie zu sehen!",
+      "qLearnGraphFree": "Ist der Learn Graph kostenlos?",
+      "aFreeAndOSMoneyTbd": "Ja, es ist kostenlos und Open-Source! Das Projekt und wie es finanziert wird, ist noch in Entwicklung. Wir werden in Zukunft Premium-Funktionen hinzufügen, aber die Kernfunktionalität wird immer kostenlos sein.",
+      "qDiffToConventionalLearningPlatforms": "Wie unterscheidet sich der Learn Graph von herkömmlichen Lernplattformen?",
+      "aNoContentHosting": "Wir hosten keine Inhalte selbst, sondern konzentrieren uns auf die Zusammenhänge zwischen Wissen. Unser Ziel ist es, eine Plattform zu sein, die Sie in die richtige Richtung weist und dir ermöglicht, das Wissen, das du suchst, in anderen Quellen zu finden.",
+      "qProjectVision": "Was ist eure Vision mit diesem Projekt?",
+      "aLearningEcosystem": "Wir planen ein Lernökosystem aufzubauen. Wir glauben, dass Bildung und Zusammenarbeit der Schlüssel zu einer besseren Welt sind."
+    }
   },
   "navigation": {
     "link-to-landing-page": "Willkommen",
