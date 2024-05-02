@@ -346,6 +346,12 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       controller.mode.setIsEditingEnabled(false);
     }
   }, [userID]);
+  useEffect(() => {
+    const none = () => {};
+    controller.forceGraphRef.current?.d3Force('link', none);
+    controller.forceGraphRef.current?.d3Force('charge', none);
+    controller.forceGraphRef.current?.d3Force('center', none);
+  }, [controller.forceGraphRef]);
   return (
     <>
       <SmallAlignBottomLargeAlignLeft
