@@ -252,7 +252,7 @@ export const convertBackendGraphToForceGraph: GraphConverter = (data) => {
     }
   });
   fgGraph.nodes.forEach((node: ForceGraphNodeObject) => {
-    // inser initial positions from the backend
+    // insert initial positions from the backend
     node.x = node.position?.x;
     node.y = node.position?.y;
     node.z = node.position?.z;
