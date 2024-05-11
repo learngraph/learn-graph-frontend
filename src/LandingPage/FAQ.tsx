@@ -8,38 +8,38 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { useTranslation } from "react-i18next";
+import { TFunction } from "i18next";
 
 interface qnaEntry {
   question: string;
   answer: string;
 }
-const qnaEntries: qnaEntry[] = [
+
+const getQnaEntries = (t: TFunction<"translation", undefined>): qnaEntry[] => [
   {
-    question:
-      "I've found which topics I want to learn about, where do I find good learning content?",
-    answer:
-      "Look into the resources field of each subject. We plan to add another feature which enables crowdsourcing learning resources as well. Come back soon to see it!",
+    question: t("landing.qnas.qWhereIsGoodLearningContent"),
+    answer: t("landing.qnas.aLookIntoResourcesAndCrowdsourcingFeature"),
   },
   {
-    question: "Is the Learn Graph free?",
-    answer:
-      "Yes, it's free and open-source! The project and how it is financed are still in development. We might add premium features in the future, but the core functionality will always be free.",
+    question: t("landing.qnas.qLearnGraphFree"),
+    answer: t("landing.qnas.aFreeAndOSMoneyTbd"),
   },
   {
-    question:
-      "How is the Learn Graph different from conventional learning platforms?",
-    answer:
-      "We do not host content ourselves, instead we focus on the connections between knowledge. We aim to be a platform that points you in the right directions and enables you to find the knowledge you're looking for on other websites / books.",
+    question: t("landing.qnas.qDiffToConventionalLearningPlatforms"),
+    answer: t("landing.qnas.aNoContentHosting"),
   },
   {
-    question: "What's your vision with this project?",
-    answer:
-      "We plan to build a learning ecosystem. We believe that education and cooperation are the keys to a better world.",
+    question: t("landing.qnas.qProjectVision"),
+    answer: t("landing.qnas.aLearningEcosystem"),
   },
 ];
 
 export default function FAQ() {
   const [expanded, setExpanded] = React.useState<string | false>(false);
+
+  const { t } = useTranslation();
+  const qnaEntries = getQnaEntries(t);
 
   const handleChange =
     (panel: string) => (_event: React.SyntheticEvent, isExpanded: boolean) => {

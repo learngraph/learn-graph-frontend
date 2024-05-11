@@ -5,13 +5,37 @@ import Container from "@mui/material/Container";
 import { Link } from "react-router-dom";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 export default function Hero() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const theme = useTheme();
+
+  const headerText = (
+    <Typography
+      component="h1"
+      variant="h1"
+      sx={{
+        display: "flex",
+        flexDirection: { xs: "column" },
+        alignSelf: "center",
+        textAlign: "center",
+        color:
+          theme.palette.mode === "light"
+            ? theme.palette.text.primary
+            : theme.palette.text.primary,
+        "& strong": {
+          color:
+            theme.palette.mode === "light" ? "primary.main" : "primary.dark",
+        },
+      }}
+    >
+      <Trans i18nKey="landing.header" />
+    </Typography>
+  );
+
   return (
     <Box
       id="hero"
@@ -51,19 +75,7 @@ export default function Hero() {
                   : theme.palette.text.primary,
             }}
           >
-            {t("landing.header")}&nbsp;
-            <Typography
-              component="span"
-              variant="h1"
-              sx={{
-                color:
-                  theme.palette.mode === "light"
-                    ? "primary.main"
-                    : "primary.dark",
-              }}
-            >
-              {t("landing.headerHighlight")}.
-            </Typography>
+            {headerText}
           </Typography>
           <Typography
             variant="body1"
