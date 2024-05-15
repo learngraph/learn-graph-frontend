@@ -251,6 +251,14 @@ export const convertBackendGraphToForceGraph: GraphConverter = (data) => {
       fgGraph[prop] = [];
     }
   });
+  fgGraph.nodes.forEach((node: ForceGraphNodeObject) => {
+    // insert initial positions from the backend
+    node.x = node.position?.x;
+    node.y = node.position?.y;
+    node.z = node.position?.z;
+    // forcegraph-js creates a position object, and ours would interfere
+    delete node.position;
+  });
   return fgGraph;
 };
 

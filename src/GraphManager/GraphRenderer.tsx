@@ -188,7 +188,8 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     makeInitialGraphData(),
   );
   const { language, userID, theme } = useUserDataContext();
-  const { data: graphDataFromBackend } = useGraphData();
+  const { data: graphDataFromBackend, queryResponse: graphDataInfo } =
+    useGraphData();
   const [shiftHeld, setShiftHeld] = useState(false);
   const downHandler = ({ key }: any) => {
     if (key === "Shift") {
@@ -289,6 +290,11 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     controller.specialNodes.hoveredNode = node;
   };
   useEffect(() => {
+    if (graphDataInfo.error) {
+      console.error(`graphDataInfo.error: ${graphDataInfo.error}`);
+    }
+  }, [graphDataInfo]);
+  useEffect(() => {
     convertAndSetGraph(setGraph, graphDataFromBackend);
   }, [graphDataFromBackend]);
   // XXX(skep): should we disable right click? it's kind of annoying for the
@@ -340,6 +346,12 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       controller.mode.setIsEditingEnabled(false);
     }
   }, [userID]);
+  useEffect(() => {
+    const none = () => {};
+    controller.forceGraphRef.current?.d3Force("link", none);
+    controller.forceGraphRef.current?.d3Force("charge", none);
+    controller.forceGraphRef.current?.d3Force("center", none);
+  }, [controller.forceGraphRef]);
   return (
     <>
       <SmallAlignBottomLargeAlignLeft
