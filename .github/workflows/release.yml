@@ -17,7 +17,7 @@ jobs:
           - platform: linux/amd64
             nginx_image: "nginx:1.12-alpine"
           - platform: linux/arm64
-            nginx_image: "arm64v8/nginx"
+            nginx_image: "arm64v8/nginx:stable-alpine"
     steps:
       - name: Checkout
         uses: actions/checkout@v3
