@@ -6,7 +6,8 @@ RUN npm install
 COPY . ./
 RUN npm run build
 
-FROM nginx:1.12-alpine
+ARG NGINX_IMAGE
+FROM ${NGINX_IMAGE}
 ENV NODE_ENV=production
 COPY --from=builder /src/dist /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
