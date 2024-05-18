@@ -63,6 +63,7 @@ import {
   nodeCanvasObject,
   nodePointerAreaPaint,
   setGraphSize,
+  makeOnNodeHover,
 } from "./utils";
 
 interface GraphRendererProps {
@@ -283,12 +284,6 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   controller.zoom.setUserZoomLevel = zoomControl.onZoomChange;
   props.controllerRef.current = controller;
   const onBackgroundClick = makeOnBackgroundClick(controller);
-  const onNodeHover = (
-    node: ForceGraphNodeObject | null,
-    _ /*prevNode*/ : ForceGraphNodeObject | null,
-  ) => {
-    controller.specialNodes.hoveredNode = node;
-  };
   useEffect(() => {
     if (graphDataInfo.error) {
       console.error(`graphDataInfo.error: ${graphDataInfo.error}`);
@@ -376,7 +371,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
               nodeThreeObject={makeNodeThreeObject(controller)}
               nodePointerAreaPaint={makeNodePointerAreaPaint(controller)}
               onNodeClick={makeOnNodeClick(controller)}
-              onNodeHover={onNodeHover}
+              onNodeHover={makeOnNodeHover(controller)}
               onNodeDrag={makeOnNodeDrag(controller)}
               onNodeDragEnd={makeOnNodeDragEnd(controller)}
               onLinkHover={onLinkHover}
@@ -403,7 +398,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
               nodeCanvasObject={makeNodeCanvasObject(controller)}
               nodePointerAreaPaint={makeNodePointerAreaPaint(controller)}
               onNodeClick={makeOnNodeClick(controller)}
-              onNodeHover={onNodeHover}
+              onNodeHover={makeOnNodeHover(controller)}
               onNodeDrag={makeOnNodeDrag(controller)}
               onNodeDragEnd={makeOnNodeDragEnd(controller)}
               onLinkHover={onLinkHover}

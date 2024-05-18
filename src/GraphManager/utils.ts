@@ -24,6 +24,7 @@ export const GLOBALSCALE_SIZE_SCALING_BOUNDARY = 2;
 //const backgroundColorGrey = "rgba(190, 190, 190, 0.8)";
 const backgroundColorLightBlue = "rgba(0, 173, 255, 255)";
 const backgroundColorOrange = "hsl(30,100%,50%)";
+const backgroundColorYellow = "hsl(40,100%,30%)";
 const colorInterimLink = "rgb(238,75,43)";
 const colorLink = "rgba(25,118,210,255)";
 
@@ -31,6 +32,7 @@ export type HighlightNodeSet = Set<ForceGraphNodeObject>;
 
 export interface SpecialNodes {
   hoveredNode?: ForceGraphNodeObject | undefined | null;
+  oneLinkAwayFromHoveredNode?: ForceGraphNodeObject[] | undefined | null;
 }
 
 interface GraphConverter {
@@ -120,6 +122,11 @@ export const nodeCanvasObject = (
   }
   if (specialNodes.hoveredNode?.id === node.id) {
     backgroundColor = backgroundColorOrange;
+  }
+  if (
+    specialNodes.oneLinkAwayFromHoveredNode?.find((hov) => hov.id === node.id)
+  ) {
+    backgroundColor = backgroundColorYellow;
   }
   if (
     node.id === ctrl.nodeDrag.state.interimLink?.source.id ||
@@ -382,6 +389,18 @@ export const drawLinkLine = (conf: DrawLinkConfig) => {
   ctx.restore();
 };
 
+export const linkSourceOrTargetIDEquals = (
+  link: ForceGraphLinkObject,
+  id?: string,
+) => {
+  if (!id) {
+    return false;
+  }
+  if (link.target.id == id || link.source.id == id) {
+    return true;
+  }
+  return false;
+};
 export const linkCanvasObject = (
   ctrl: Controller,
   link: ForceGraphLinkObject,
@@ -399,7 +418,11 @@ export const linkCanvasObject = (
     });
     return;
   }
-  drawLinkLine({ ctrl, link, ctx, globalScale, color: colorLink });
+  let color = colorLink;
+  if (linkSourceOrTargetIDEquals(link, ctrl.specialNodes.hoveredNode?.id)) {
+    color = backgroundColorOrange;
+  }
+  drawLinkLine({ ctrl, link, ctx, globalScale, color });
 };
 
 // utility functions
@@ -453,6 +476,31 @@ const drawText = (
   ctx.fillText(text.text, x, y);
 };
 
+export const makeOnNodeHover = (ctrl: Controller) => {
+  const onNodeHover = (
+    node: ForceGraphNodeObject | null,
+    _ /*prevNode*/ : ForceGraphNodeObject | null,
+  ) => {
+    console.log(`hover node=${node?.id},${node?.description}`);
+    ctrl.specialNodes.hoveredNode = node;
+    if (!node) {
+      ctrl.specialNodes.oneLinkAwayFromHoveredNode = [];
+      return;
+    }
+    const secondary: ForceGraphNodeObject[] = [];
+    ctrl.graph.current.links.forEach((link) => {
+      if (link.source.id === node.id) {
+        secondary.push(link.target);
+      }
+      if (link.target.id === node.id) {
+        secondary.push(link.source);
+      }
+    });
+    ctrl.specialNodes.oneLinkAwayFromHoveredNode = secondary;
+  };
+  return onNodeHover;
+};
+
 //// could be usefull later?
 //const linkDescriptionPosition = (link: ForceGraphLinkObject) => {
 //  return Object.assign(
@@ -467,3 +515,4 @@ const drawText = (
 //    })),
 //  );
 //};
+//

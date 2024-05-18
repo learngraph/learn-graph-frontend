@@ -8,6 +8,7 @@ import {
   setGraphSize,
   nodePointerAreaPaint,
   linkPointerAreaPaint,
+  makeOnNodeHover,
 } from "./utils";
 import "@testing-library/jest-dom";
 import { makeMockController } from "./GraphEdit/GraphEdit.testingutil";
@@ -63,6 +64,17 @@ describe("nodeCanvasObject", () => {
     nodeCanvasObject(node, ctx, scale, ctrl);
     expect(ctx.arc).toHaveBeenCalledTimes(1);
     expect(arcCalls[0].fillStyle).toEqual(`hsl(30,100%,50%)`);
+  });
+  it("should highlight SpecialNodes: 1-link away from hoveredNode", () => {
+    const { ctx, arcCalls } = makeCanvasRenderingContext2D();
+    const scale = 1;
+    const special: SpecialNodes = { oneLinkAwayFromHoveredNode: [node] };
+    const ctrl = makeMockController();
+    ctrl.specialNodes = special;
+    // @ts-ignore
+    nodeCanvasObject(node, ctx, scale, ctrl);
+    expect(ctx.arc).toHaveBeenCalledTimes(1);
+    expect(arcCalls[0].fillStyle).toEqual(`hsl(40,100%,30%)`);
   });
 });
 
@@ -262,5 +274,40 @@ describe("linkPointerAreaPaint", () => {
       1,
     );
     expect(ctx.stroke).not.toHaveBeenCalled();
+  });
+});
+
+describe("makeOnNodeHover", () => {
+  it("should add hovered node", () => {
+    const ctrl = makeMockController();
+    const node = { id: "1" };
+    // @ts-ignore
+    const onNodeHover = makeOnNodeHover(ctrl);
+    // @ts-ignore
+    onNodeHover(node, null);
+    expect(ctrl.specialNodes.hoveredNode).toEqual(node);
+  });
+  it("should add secondary nodes to the hovered nodes to ctrl.specialNodes", () => {
+    const ctrl = makeMockController();
+    const nodes = [{ id: "1" }, { id: "2" }, { id: "3" }];
+    const links = [
+      { source: nodes[0], target: nodes[1] },
+      { source: nodes[2], target: nodes[0] },
+    ];
+    // @ts-ignore
+    ctrl.graph.current.nodes = nodes;
+    // @ts-ignore
+    ctrl.graph.current.links = links;
+    // @ts-ignore
+    const onNodeHover = makeOnNodeHover(ctrl);
+    // @ts-ignore
+    onNodeHover(nodes[0], null);
+    expect(ctrl.specialNodes.oneLinkAwayFromHoveredNode).toEqual([
+      nodes[1],
+      nodes[2],
+    ]);
+    // should clear all nodes when hovering ends
+    onNodeHover(null, null);
+    expect(ctrl.specialNodes.oneLinkAwayFromHoveredNode).toEqual([]);
   });
 });
