@@ -19,7 +19,7 @@ export const G_CONFIG = {
 
 export const GLOBALSCALE_SIZE_SCALING_BOUNDARY = 2;
 
-// TODO(j): should use react theme for color choice here
+// TODO(skep): should use react theme for color choice here
 //const backgroundColorWhite = "rgba(255, 255, 255, 0.8)";
 //const backgroundColorGrey = "rgba(190, 190, 190, 0.8)";
 const backgroundColorLightBlue = "rgba(0, 173, 255, 255)";
