@@ -296,6 +296,8 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   }, [graphDataInfo]);
   useEffect(() => {
     convertAndSetGraph(setGraph, graphDataFromBackend);
+    // when receive a new graph, user search must be invalidated
+    userSearchMatching(props.controllerRef, "");
   }, [graphDataFromBackend]);
   // XXX(skep): should we disable right click? it's kind of annoying for the
   // canvas, but outside we might want to allow it..
