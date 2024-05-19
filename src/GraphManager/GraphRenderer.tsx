@@ -360,7 +360,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
         >
           {controller.mode.use3D ? (
             <ForceGraph3D
-              autoPauseRedraw={false}
+              autoPauseRedraw={true}
               backgroundColor={theme === "dark" ? "black" : "white"}
               height={availableSpace.height}
               width={availableSpace.width}
@@ -390,7 +390,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
             />
           ) : (
             <ForceGraph2D
-              autoPauseRedraw={false}
+              autoPauseRedraw={true}
               backgroundColor={theme === "dark" ? "black" : "white"}
               height={availableSpace.height}
               width={availableSpace.width}

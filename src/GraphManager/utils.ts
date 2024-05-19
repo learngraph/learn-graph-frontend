@@ -482,8 +482,12 @@ export const makeOnNodeHover = (ctrl: Controller) => {
     _ /*prevNode*/ : ForceGraphNodeObject | null,
   ) => {
     console.log(`hover node=${node?.id},${node?.description}`);
+    // XXX(skep): not working as expected!
+    ctrl.forceGraphRef.current?.resumeAnimation();
+    //ctrl.forceGraphRef.current?.d3ReheatSimulation();
     ctrl.specialNodes.hoveredNode = node;
     if (!node) {
+      ctrl.forceGraphRef.current?.pauseAnimation();
       ctrl.specialNodes.oneLinkAwayFromHoveredNode = [];
       return;
     }
