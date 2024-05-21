@@ -1,5 +1,11 @@
 name: Release
 on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to run workflow on'
+        required: true
+        default: 'main'
   workflow_run:
     workflows: ["Unittests"]
     branches: [main]
