@@ -1,5 +1,11 @@
 name: Release
 on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to run workflow on'
+        required: true
+        default: 'main'
   workflow_run:
     workflows: ["Unittests"]
     branches: [main]
@@ -7,7 +13,7 @@ on:
       - completed
 
 jobs:
-  build-and-push-image:
+  build-and-push-images:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     strategy:
@@ -16,8 +22,10 @@ jobs:
         include:
           - platform: linux/amd64
             nginx_image: "nginx:1.12-alpine"
+            image_tag: "amd64"
           - platform: linux/arm64
             nginx_image: "arm64v8/nginx:stable-alpine"
+            image_tag: "arm64"
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -36,4 +44,28 @@ jobs:
           platforms: ${{ matrix.platform }}
           build-args: NGINX_IMAGE=${{ matrix.nginx_image }}
           push: true
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/learn-graph-frontend-${{ matrix.image_tag }}:latest
+  upload-docker-image-manifest:
+    needs:
+      - build-and-push-images
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/metadata-action@v5
+        id: metadata
+        with:
+          images: ${{ secrets.DOCKER_HUB_USERNAME }}/learn-graph-frontend:latest
+      - uses: int128/docker-manifest-create-action@v2
+        id: build
+        with:
+          push: true
+          index-annotations: ${{ steps.metadata.outputs.labels }}
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/learn-graph-frontend:latest
+          sources: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/learn-graph-frontend-amd64:latest
+            ${{ secrets.DOCKER_HUB_USERNAME }}/learn-graph-frontend-arm64:latest
