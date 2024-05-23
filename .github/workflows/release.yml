@@ -36,6 +36,9 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ secrets.DOCKER_HUB_USERNAME }}/learn-graph-frontend-${{ matrix.image_tag }}
+          # always push :latest tag
+          flavor: |
+            latest=true
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
       - name: Build and push
@@ -63,6 +66,9 @@ jobs:
         id: meta
         with:
           images: ${{ secrets.DOCKER_HUB_USERNAME }}/learn-graph-frontend
+          # always push :latest tag
+          flavor: |
+            latest=true
       - uses: int128/docker-manifest-create-action@v2
         id: build
         with:
