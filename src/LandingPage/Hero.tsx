@@ -7,6 +7,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { Trans, useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { TranslatedText } from "@src/shared/TranslatedText";
 
 export default function Hero() {
   const { t } = useTranslation();
@@ -50,6 +51,7 @@ export default function Hero() {
         color: theme.palette.text.secondary,
       })}
     >
+      <TranslatedText />
       <Container
         sx={{
           display: "flex",
