@@ -319,6 +319,28 @@ export const setGraphSize = (conf: GraphSizeConfig) => {
   conf.setAvailableSpace(rect);
 };
 
+const convertAndSetGraph = (
+  setGraph: Dispatch<SetStateAction<ForceGraphGraphData>>,
+  data: { graph: BackendGraphData },
+) => {
+  const graph = convertBackendGraphToForceGraph(data);
+  if (!graph) {
+    return;
+  }
+  setGraph(graph);
+}; 
+
+export const onGraphUpdate = (
+  ctrl: Controller,
+  data: { graph: BackendGraphData },
+  setGraph: Dispatch<SetStateAction<ForceGraphGraphData>>,
+) => {
+  convertAndSetGraph(setGraph, data);
+
+  // when receive a new graph, user search must be invalidated
+  userSearchMatching({ current: ctrl }, "");
+};
+
 export const nodePointerAreaPaint = (
   node: ForceGraphNodeObject,
   color: string,
