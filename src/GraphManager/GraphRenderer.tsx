@@ -342,10 +342,18 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     }
   }, [userID]);
   useEffect(() => {
-    const none = () => {};
-    controller.forceGraphRef.current?.d3Force("link", none);
-    controller.forceGraphRef.current?.d3Force("charge", none);
-    controller.forceGraphRef.current?.d3Force("center", none);
+    controller.forceGraphRef.current?.d3Force(
+      "link",
+      Object.assign(() => {}, { id: () => {} }),
+    );
+    controller.forceGraphRef.current?.d3Force(
+      "charge",
+      Object.assign(() => {}, { id: () => {} }),
+    );
+    controller.forceGraphRef.current?.d3Force(
+      "center",
+      Object.assign(() => {}, { id: () => {} }),
+    );
   }, [controller.forceGraphRef]);
   return (
     <>
@@ -360,7 +368,6 @@ export const GraphRenderer = (props: GraphRendererProps) => {
         >
           {controller.mode.use3D ? (
             <ForceGraph3D
-              autoPauseRedraw={true}
               backgroundColor={theme === "dark" ? "black" : "white"}
               height={availableSpace.height}
               width={availableSpace.width}
@@ -390,7 +397,6 @@ export const GraphRenderer = (props: GraphRendererProps) => {
             />
           ) : (
             <ForceGraph2D
-              autoPauseRedraw={true}
               backgroundColor={theme === "dark" ? "black" : "white"}
               height={availableSpace.height}
               width={availableSpace.width}

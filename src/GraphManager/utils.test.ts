@@ -65,16 +65,31 @@ describe("nodeCanvasObject", () => {
     expect(ctx.arc).toHaveBeenCalledTimes(1);
     expect(arcCalls[0].fillStyle).toEqual(`hsl(30,100%,50%)`);
   });
-  it("should highlight SpecialNodes: 1-link away from hoveredNode", () => {
+  it("should highlight SpecialNodes: 1-link away from hoveredNode: source", () => {
     const { ctx, arcCalls } = makeCanvasRenderingContext2D();
     const scale = 1;
-    const special: SpecialNodes = { oneLinkAwayFromHoveredNode: [node] };
+    const special: SpecialNodes = {
+      oneLinkAwayFromHoveredNode: { source: [node], target: [] },
+    };
     const ctrl = makeMockController();
     ctrl.specialNodes = special;
     // @ts-ignore
     nodeCanvasObject(node, ctx, scale, ctrl);
     expect(ctx.arc).toHaveBeenCalledTimes(1);
     expect(arcCalls[0].fillStyle).toEqual(`hsl(40,100%,30%)`);
+  });
+  it("should highlight SpecialNodes: 1-link away from hoveredNode: target", () => {
+    const { ctx, arcCalls } = makeCanvasRenderingContext2D();
+    const scale = 1;
+    const special: SpecialNodes = {
+      oneLinkAwayFromHoveredNode: { source: [], target: [node] },
+    };
+    const ctrl = makeMockController();
+    ctrl.specialNodes = special;
+    // @ts-ignore
+    nodeCanvasObject(node, ctx, scale, ctrl);
+    expect(ctx.arc).toHaveBeenCalledTimes(1);
+    expect(arcCalls[0].fillStyle).toEqual(`hsl(100,100%,10%)`);
   });
 });
 
@@ -302,12 +317,15 @@ describe("makeOnNodeHover", () => {
     const onNodeHover = makeOnNodeHover(ctrl);
     // @ts-ignore
     onNodeHover(nodes[0], null);
-    expect(ctrl.specialNodes.oneLinkAwayFromHoveredNode).toEqual([
-      nodes[1],
-      nodes[2],
-    ]);
+    expect(ctrl.specialNodes.oneLinkAwayFromHoveredNode).toEqual({
+      source: [nodes[1]],
+      target: [nodes[2]],
+    });
     // should clear all nodes when hovering ends
     onNodeHover(null, null);
-    expect(ctrl.specialNodes.oneLinkAwayFromHoveredNode).toEqual([]);
+    expect(ctrl.specialNodes.oneLinkAwayFromHoveredNode).toEqual({
+      source: [],
+      target: [],
+    });
   });
 });

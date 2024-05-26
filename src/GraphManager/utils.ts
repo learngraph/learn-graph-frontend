@@ -23,8 +23,10 @@ export const GLOBALSCALE_SIZE_SCALING_BOUNDARY = 2;
 //const backgroundColorWhite = "rgba(255, 255, 255, 0.8)";
 //const backgroundColorGrey = "rgba(190, 190, 190, 0.8)";
 const backgroundColorLightBlue = "rgba(0, 173, 255, 255)";
-const backgroundColorOrange = "hsl(30,100%,50%)";
-const backgroundColorYellow = "hsl(40,100%,30%)";
+const backgroundColorSourceLink = "hsl(30,100%,50%)";
+const backgroundColorSourceNode = "hsl(40,100%,30%)";
+const backgroundColorTargetLink = "hsl(100,100%,20%)";
+const backgroundColorTargetNode = "hsl(100,100%,10%)";
 const colorInterimLink = "rgb(238,75,43)";
 const colorLink = "rgba(25,118,210,255)";
 
@@ -32,7 +34,13 @@ export type HighlightNodeSet = Set<ForceGraphNodeObject>;
 
 export interface SpecialNodes {
   hoveredNode?: ForceGraphNodeObject | undefined | null;
-  oneLinkAwayFromHoveredNode?: ForceGraphNodeObject[] | undefined | null;
+  oneLinkAwayFromHoveredNode?: {
+    // all nodes that have the hovered node as source
+    source: ForceGraphNodeObject[] | undefined | null;
+    // all nodes that have the hovered node as target
+    target: ForceGraphNodeObject[] | undefined | null;
+  };
+  //oneLinkAwayFromHoveredNode?: ForceGraphNodeObject[] | undefined | null;
 }
 
 interface GraphConverter {
@@ -121,12 +129,21 @@ export const nodeCanvasObject = (
     backgroundColor = `hsl(1,100%,50%)`;
   }
   if (specialNodes.hoveredNode?.id === node.id) {
-    backgroundColor = backgroundColorOrange;
+    backgroundColor = backgroundColorSourceLink;
   }
   if (
-    specialNodes.oneLinkAwayFromHoveredNode?.find((hov) => hov.id === node.id)
+    specialNodes.oneLinkAwayFromHoveredNode?.source?.find(
+      (hov) => hov.id === node.id,
+    )
   ) {
-    backgroundColor = backgroundColorYellow;
+    backgroundColor = backgroundColorSourceNode;
+  }
+  if (
+    specialNodes.oneLinkAwayFromHoveredNode?.target?.find(
+      (hov) => hov.id === node.id,
+    )
+  ) {
+    backgroundColor = backgroundColorTargetNode;
   }
   if (
     node.id === ctrl.nodeDrag.state.interimLink?.source.id ||
@@ -389,18 +406,6 @@ export const drawLinkLine = (conf: DrawLinkConfig) => {
   ctx.restore();
 };
 
-export const linkSourceOrTargetIDEquals = (
-  link: ForceGraphLinkObject,
-  id?: string,
-) => {
-  if (!id) {
-    return false;
-  }
-  if (link.target.id == id || link.source.id == id) {
-    return true;
-  }
-  return false;
-};
 export const linkCanvasObject = (
   ctrl: Controller,
   link: ForceGraphLinkObject,
@@ -419,8 +424,11 @@ export const linkCanvasObject = (
     return;
   }
   let color = colorLink;
-  if (linkSourceOrTargetIDEquals(link, ctrl.specialNodes.hoveredNode?.id)) {
-    color = backgroundColorOrange;
+  if (link.source.id === ctrl.specialNodes.hoveredNode?.id) {
+    color = backgroundColorSourceLink;
+  }
+  if (link.target.id === ctrl.specialNodes.hoveredNode?.id) {
+    color = backgroundColorTargetLink;
   }
   drawLinkLine({ ctrl, link, ctx, globalScale, color });
 };
@@ -481,22 +489,22 @@ export const makeOnNodeHover = (ctrl: Controller) => {
     node: ForceGraphNodeObject | null,
     _ /*prevNode*/ : ForceGraphNodeObject | null,
   ) => {
-    // XXX(skep): not working as expected!
     ctrl.forceGraphRef.current?.d3ReheatSimulation();
     ctrl.specialNodes.hoveredNode = node;
     if (!node) {
-      //ctrl.forceGraphRef.current?.pauseAnimation();
-      ctrl.specialNodes.oneLinkAwayFromHoveredNode = [];
+      ctrl.specialNodes.oneLinkAwayFromHoveredNode = { source: [], target: [] };
       return;
     }
-    //ctrl.forceGraphRef.current?.resumeAnimation();
-    const secondary: ForceGraphNodeObject[] = [];
+    const secondary: {
+      source: ForceGraphNodeObject[];
+      target: ForceGraphNodeObject[];
+    } = { source: [], target: [] };
     ctrl.graph.current.links.forEach((link) => {
       if (link.source.id === node.id) {
-        secondary.push(link.target);
+        secondary.source.push(link.target);
       }
       if (link.target.id === node.id) {
-        secondary.push(link.source);
+        secondary.target.push(link.source);
       }
     });
     ctrl.specialNodes.oneLinkAwayFromHoveredNode = secondary;
