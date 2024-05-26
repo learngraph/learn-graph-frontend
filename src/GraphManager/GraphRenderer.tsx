@@ -136,17 +136,6 @@ const onLinkHover = (_: ForceGraphLinkObject | null): void => {
   //console.log("linkHov", params);
 };
 
-const convertAndSetGraph = (
-  setGraph: Dispatch<SetStateAction<ForceGraphGraphData>>,
-  data: { graph: BackendGraphData },
-) => {
-  const graph = convertBackendGraphToForceGraph(data);
-  if (!graph) {
-    return;
-  }
-  setGraph(graph);
-};
-
 const SmallAlignBottomLargeAlignLeft = ({
   bottomLeft,
   topRight,
