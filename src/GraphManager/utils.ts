@@ -9,6 +9,8 @@ import {
   ForceGraphNodeObject,
 } from "./types";
 
+import { userSearchMatching } from "./Header/Search";
+
 // global configuration
 export const G_CONFIG = {
   linkCanvasObjectMode: "replace",
