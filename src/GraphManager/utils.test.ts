@@ -5,6 +5,7 @@ import {
   nodeCanvasObject,
   makeGraphState,
   convertBackendGraphToForceGraph,
+  onGraphUpdate,
   setGraphSize,
   nodePointerAreaPaint,
   linkPointerAreaPaint,
@@ -327,5 +328,18 @@ describe("makeOnNodeHover", () => {
       source: [],
       target: [],
     });
+  });
+});
+
+
+describe("onGraphUpdate", () => {
+  it("should update the graph data", () => {
+    const ctrl = makeMockController();
+    const graphData = { nodes: [], links: [] };
+    const setGraph = jest.fn();
+    // @ts-ignore
+    onGraphUpdate( ctrl, { graph: graphData }, setGraph);
+    expect(ctrl.graph.current).toEqual(graphData);
+    expect(setGraph).toHaveBeenCalledWith(makeGraphState(graphData, jest.fn()));
   });
 });
