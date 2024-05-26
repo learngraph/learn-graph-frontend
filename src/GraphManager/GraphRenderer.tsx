@@ -54,7 +54,7 @@ import {
   G_CONFIG,
   Rectangle,
   convertBackendGraphToForceGraph,
-  onGraphUpdate
+  onGraphUpdate,
   linkCanvasObject,
   linkPointerAreaPaint,
   makeGraphState,
