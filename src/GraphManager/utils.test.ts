@@ -170,6 +170,28 @@ describe("makeGraphState", () => {
       });
     });
   });
+  describe("removeNode", () => {
+    it("should remove all links to the target node as well", () => {
+      const [node1, node2, node3] = [
+        { id: "1", description: "1" },
+        { id: "2", description: "2" },
+        { id: "3", description: "3" },
+      ];
+      const link12 = { id: "1", source: node1, target: node2, value: 10 };
+      const link13 = { id: "2", source: node1, target: node3, value: 10 };
+      const link32 = { id: "3", source: node3, target: node2, value: 10 };
+      const state = makeGraphState(
+        { nodes: [node1, node2, node3], links: [link12, link13, link32] },
+        jest.fn(),
+      );
+      state.removeNode(node1);
+      expect(state.setGraph).toHaveBeenCalledTimes(1);
+      expect(state.setGraph).toHaveBeenNthCalledWith(1, {
+        nodes: [node2, node3],
+        links: [link32],
+      });
+    });
+  });
   describe("updateNode", () => {
     it("should update the node with all of the newNode's properties", () => {
       const node1 = { id: "1", description: "1" };
