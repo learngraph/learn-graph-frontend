@@ -243,6 +243,12 @@ export const makeGraphState = (
         return;
       }
       graph.nodes.splice(idx, 1);
+      graph.links = graph.links.filter((link) => {
+        if (link.source.id === toRemove.id || link.target.id === toRemove.id) {
+          return false;
+        }
+        return true;
+      });
       setGraph(graph);
     },
     updateNode: (node: ForceGraphNodeObject, newNode: ForceGraphNodeObject) => {
