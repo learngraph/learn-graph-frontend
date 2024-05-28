@@ -44,7 +44,7 @@ import { useDeleteNode } from "./RPCHooks/useDeleteNode";
 import { useDeleteEdge } from "./RPCHooks/useDeleteEdge";
 import { useUserDataContext } from "@src/Context/UserDataContext";
 import {
-  ZoomControlPanel,
+  //ZoomControlPanel,
   makeZoomControl,
   makeOnZoomAndPanListener,
 } from "./ZoomControlPanel";
@@ -443,7 +443,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
         <EditModeButton ctrl={controller} />
         <CreateButton ctrl={controller} />
       </Box>
-      <ZoomControlPanel zoomControl={zoomControl} />
+      {/*<ZoomControlPanel zoomControl={zoomControl} /> XXX(skep): disabled due to performance issue*/}
     </>
   );
 };
