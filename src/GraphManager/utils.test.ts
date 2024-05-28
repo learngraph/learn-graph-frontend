@@ -8,6 +8,7 @@ import {
   setGraphSize,
   nodePointerAreaPaint,
   linkPointerAreaPaint,
+  makeOnNodeHover,
 } from "./utils";
 import "@testing-library/jest-dom";
 import { makeMockController } from "./GraphEdit/GraphEdit.testingutil";
@@ -63,6 +64,32 @@ describe("nodeCanvasObject", () => {
     nodeCanvasObject(node, ctx, scale, ctrl);
     expect(ctx.arc).toHaveBeenCalledTimes(1);
     expect(arcCalls[0].fillStyle).toEqual(`hsl(30,100%,50%)`);
+  });
+  it("should highlight SpecialNodes: 1-link away from hoveredNode: source", () => {
+    const { ctx, arcCalls } = makeCanvasRenderingContext2D();
+    const scale = 1;
+    const special: SpecialNodes = {
+      oneLinkAwayFromHoveredNode: { source: [node], target: [] },
+    };
+    const ctrl = makeMockController();
+    ctrl.specialNodes = special;
+    // @ts-ignore
+    nodeCanvasObject(node, ctx, scale, ctrl);
+    expect(ctx.arc).toHaveBeenCalledTimes(1);
+    expect(arcCalls[0].fillStyle).toEqual(`hsl(40,100%,30%)`);
+  });
+  it("should highlight SpecialNodes: 1-link away from hoveredNode: target", () => {
+    const { ctx, arcCalls } = makeCanvasRenderingContext2D();
+    const scale = 1;
+    const special: SpecialNodes = {
+      oneLinkAwayFromHoveredNode: { source: [], target: [node] },
+    };
+    const ctrl = makeMockController();
+    ctrl.specialNodes = special;
+    // @ts-ignore
+    nodeCanvasObject(node, ctx, scale, ctrl);
+    expect(ctx.arc).toHaveBeenCalledTimes(1);
+    expect(arcCalls[0].fillStyle).toEqual(`hsl(100,100%,10%)`);
   });
 });
 
@@ -140,6 +167,28 @@ describe("makeGraphState", () => {
       expect(state.setGraph).toHaveBeenNthCalledWith(1, {
         nodes: [node1, node2, node3],
         links: [newLink],
+      });
+    });
+  });
+  describe("removeNode", () => {
+    it("should remove all links to the target node as well", () => {
+      const [node1, node2, node3] = [
+        { id: "1", description: "1" },
+        { id: "2", description: "2" },
+        { id: "3", description: "3" },
+      ];
+      const link12 = { id: "1", source: node1, target: node2, value: 10 };
+      const link13 = { id: "2", source: node1, target: node3, value: 10 };
+      const link32 = { id: "3", source: node3, target: node2, value: 10 };
+      const state = makeGraphState(
+        { nodes: [node1, node2, node3], links: [link12, link13, link32] },
+        jest.fn(),
+      );
+      state.removeNode(node1);
+      expect(state.setGraph).toHaveBeenCalledTimes(1);
+      expect(state.setGraph).toHaveBeenNthCalledWith(1, {
+        nodes: [node2, node3],
+        links: [link32],
       });
     });
   });
@@ -262,5 +311,43 @@ describe("linkPointerAreaPaint", () => {
       1,
     );
     expect(ctx.stroke).not.toHaveBeenCalled();
+  });
+});
+
+describe("makeOnNodeHover", () => {
+  it("should add hovered node", () => {
+    const ctrl = makeMockController();
+    const node = { id: "1" };
+    // @ts-ignore
+    const onNodeHover = makeOnNodeHover(ctrl);
+    // @ts-ignore
+    onNodeHover(node, null);
+    expect(ctrl.specialNodes.hoveredNode).toEqual(node);
+  });
+  it("should add secondary nodes to the hovered nodes to ctrl.specialNodes", () => {
+    const ctrl = makeMockController();
+    const nodes = [{ id: "1" }, { id: "2" }, { id: "3" }];
+    const links = [
+      { source: nodes[0], target: nodes[1] },
+      { source: nodes[2], target: nodes[0] },
+    ];
+    // @ts-ignore
+    ctrl.graph.current.nodes = nodes;
+    // @ts-ignore
+    ctrl.graph.current.links = links;
+    // @ts-ignore
+    const onNodeHover = makeOnNodeHover(ctrl);
+    // @ts-ignore
+    onNodeHover(nodes[0], null);
+    expect(ctrl.specialNodes.oneLinkAwayFromHoveredNode).toEqual({
+      source: [nodes[1]],
+      target: [nodes[2]],
+    });
+    // should clear all nodes when hovering ends
+    onNodeHover(null, null);
+    expect(ctrl.specialNodes.oneLinkAwayFromHoveredNode).toEqual({
+      source: [],
+      target: [],
+    });
   });
 });

@@ -24,8 +24,8 @@
   "Ctrl + Click anywhere": "在空白處 Ctrl + 左鍵",
   "Drag nodes close to each other": "將節點拖動到另一個節點上",
   "Node Resources": "Learning resources (links, books, etc.)",
-  "inboundDependency": "To understand '{{thisSubject}}', you need to understand these subjects",
-  "outboundDependency": "Subjects that need an understanding of '{{thisSubject}}'",
+  "outboundDependency": "To understand '{{thisSubject}}', you need to understand these subjects",
+  "inboundDependency": "Subjects that need an understanding of '{{thisSubject}}'",
   "Enter a valid email": "請輸入正確的 Email 地址",
   "Email is required": "Email 不能爲空",
   "Username should be of minimum N characters length": "使用者名稱至少要有{{N}}個字",
@@ -55,8 +55,7 @@
     "Node edited by": "Node edited by: {{nodeEditors}}"
   },
   "landing": {
-    "header": "You can learn",
-    "headerHighlight": "anything",
+    "header": "You can learn <strong>anything</strong>",
     "intro": "You decide what you want to learn.\nWe show you how to get there.",
     "hintClickImage": "Click the image above or",
     "buttonGoToGraph": "Jump right in!",
@@ -64,7 +63,28 @@
     "missionStatementText": "We enable people to learn, <strong>independent of their situation in life</strong> and the resources at their disposal.\nKnowledge gives us the power to choose.\nWe give you the power to <strong>choose your own path</strong>.",
     "crowdsourcingHeader": "Powered by Crowdsourcing",
     "crowdsourcingExplanation": "The Learn Graph collects votes about the dependency of knowledge on other knowledge. This creates a network of dependencies, a weighted, directed graph, which anyone can navigate to learn about these dependencies.\nWe choose an open knowledge approach: Everyone gets full non-commercial access, for free. We’re here to support you in your journey.",
-    "crowdsourcingCallToAction": "That means users like you build this knowledge base, and everyone benefits from it. Contribute your knowledge today, by voting on existing connections or creating new entries!"
+    "crowdsourcingCallToAction": "That means users like you build this knowledge base, and everyone benefits from it. Contribute your knowledge today, by voting on existing connections or creating new entries!",
+    "highlights": {
+      "independence": "Independence",
+      "independentFromEducationalInstitutions": "You are independent of educational institutions!",
+      "control": "Control",
+      "controlOfYourLearningPath": "You're in control of your learning path, and you can choose every step of your learning path.",
+      "availability": "Availability",
+      "accessibleLowEntryBarrier": "Learngraph.org is available — it has an extremely low entry barrier!",
+      "noAttendanceExamsFees": "No need for attendance, exams, or fees!",
+      "youControlHowMuchWhenAndHow": "You control how much you learn, when you learn, and how fast you learn.",
+      "openAndEasyStart": "Anyone can sign up, and its easy to get started."
+    },
+    "qnas": {
+      "qWhereIsGoodLearningContent": "I've found which topics I want to learn about, where do I find good learning content?",
+      "aLookIntoResourcesAndCrowdsourcingFeature": "Look into the resources field of each subject. We plan to add another feature which enables crowdsourcing learning resources as well. Come back soon to see it!",
+      "qLearnGraphFree": "Is the Learn Graph free?",
+      "aFreeAndOSMoneyTbd": "Yes, it's free and open-source! The project and how it is financed are still in development. We might add premium features in the future, but the core functionality will always be free.",
+      "qDiffToConventionalLearningPlatforms": "How is the Learn Graph different from conventional learning platforms?",
+      "aNoContentHosting": "We do not host content ourselves, instead we focus on the connections between knowledge. We aim to be a platform that points you in the right directions and enables you to find the knowledge you're looking for on other websites / books.",
+      "qProjectVision": "What's your vision with this project?",
+      "aLearningEcosystem": "We plan to build a learning ecosystem. We believe that education and cooperation are the keys to a better world."
+    }
   },
   "navigation": {
     "link-to-landing-page": "Welcome",

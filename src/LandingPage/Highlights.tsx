@@ -8,40 +8,42 @@ import Typography from "@mui/material/Typography";
 import ConstructionRoundedIcon from "@mui/icons-material/ConstructionRounded";
 import ThumbUpAltRoundedIcon from "@mui/icons-material/ThumbUpAltRounded";
 import FlagRoundedIcon from "@mui/icons-material/FlagRounded";
+import { useTranslation } from "react-i18next";
+import { TFunction } from "i18next";
 
-// TODO(umb): translate this file
-const items = [
+const getItems = (t: TFunction<"translation", undefined>) => [
   {
     icon: <FlagRoundedIcon />,
-    title: "Independence",
-    description: "You are independent of educational institutions!",
+    title: t("landing.highlights.independence"),
+    description: t("landing.highlights.independentFromEducationalInstitutions"),
   },
   {
     icon: <ConstructionRoundedIcon />,
-    title: "Control",
-    description:
-      "You're in control of your learning path, and you can choose every step of your learning path.",
+    title: t("landing.highlights.control"),
+    description: t("landing.highlights.controlOfYourLearningPath"),
   },
   {
     icon: <ThumbUpAltRoundedIcon />,
-    title: "Availability",
+    title: t("landing.highlights.availability"),
     // TODO(skep): add branding to "Learngraph.org" string
-    description: `Learngraph.org is available — it has an extremely low entry barrier!`,
+    description: t("landing.highlights.accessibleLowEntryBarrier"),
   },
   {
-    description: "No need for attendance, exams, or fees!",
+    description: t("landing.highlights.noAttendanceExamsFees"),
   },
   {
-    description:
-      "You control how much you learn, when you learn, and how fast you learn.",
+    description: t("landing.highlights.youControlHowMuchWhenAndHow"),
   },
   {
     // TODO(skep): "get started" should link to /howto page or some tutorial/introduction page
-    description: "Anyone can sign up, and its easy to get started.",
+    description: t("landing.highlights.openAndEasyStart"),
   },
 ];
 
 export default function Highlights() {
+  const { t } = useTranslation();
+  const items = getItems(t);
+
   return (
     <Box
       id="highlights"

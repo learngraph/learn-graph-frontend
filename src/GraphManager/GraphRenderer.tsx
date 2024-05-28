@@ -63,6 +63,7 @@ import {
   nodeCanvasObject,
   nodePointerAreaPaint,
   setGraphSize,
+  makeOnNodeHover,
 } from "./utils";
 
 interface GraphRendererProps {
@@ -188,7 +189,8 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     makeInitialGraphData(),
   );
   const { language, userID, theme } = useUserDataContext();
-  const { data: graphDataFromBackend } = useGraphData();
+  const { data: graphDataFromBackend, queryResponse: graphDataInfo } =
+    useGraphData();
   const [shiftHeld, setShiftHeld] = useState(false);
   const downHandler = ({ key }: any) => {
     if (key === "Shift") {
@@ -282,12 +284,11 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   controller.zoom.setUserZoomLevel = zoomControl.onZoomChange;
   props.controllerRef.current = controller;
   const onBackgroundClick = makeOnBackgroundClick(controller);
-  const onNodeHover = (
-    node: ForceGraphNodeObject | null,
-    _ /*prevNode*/ : ForceGraphNodeObject | null,
-  ) => {
-    controller.specialNodes.hoveredNode = node;
-  };
+  useEffect(() => {
+    if (graphDataInfo.error) {
+      console.error(`graphDataInfo.error: ${graphDataInfo.error}`);
+    }
+  }, [graphDataInfo]);
   useEffect(() => {
     convertAndSetGraph(setGraph, graphDataFromBackend);
   }, [graphDataFromBackend]);
@@ -340,6 +341,20 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       controller.mode.setIsEditingEnabled(false);
     }
   }, [userID]);
+  useEffect(() => {
+    controller.forceGraphRef.current?.d3Force(
+      "link",
+      Object.assign(() => {}, { id: () => {} }),
+    );
+    controller.forceGraphRef.current?.d3Force(
+      "charge",
+      Object.assign(() => {}, { id: () => {} }),
+    );
+    controller.forceGraphRef.current?.d3Force(
+      "center",
+      Object.assign(() => {}, { id: () => {} }),
+    );
+  }, [controller.forceGraphRef]);
   return (
     <>
       <SmallAlignBottomLargeAlignLeft
@@ -364,7 +379,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
               nodeThreeObject={makeNodeThreeObject(controller)}
               nodePointerAreaPaint={makeNodePointerAreaPaint(controller)}
               onNodeClick={makeOnNodeClick(controller)}
-              onNodeHover={onNodeHover}
+              onNodeHover={makeOnNodeHover(controller)}
               onNodeDrag={makeOnNodeDrag(controller)}
               onNodeDragEnd={makeOnNodeDragEnd(controller)}
               onLinkHover={onLinkHover}
@@ -391,7 +406,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
               nodeCanvasObject={makeNodeCanvasObject(controller)}
               nodePointerAreaPaint={makeNodePointerAreaPaint(controller)}
               onNodeClick={makeOnNodeClick(controller)}
-              onNodeHover={onNodeHover}
+              onNodeHover={makeOnNodeHover(controller)}
               onNodeDrag={makeOnNodeDrag(controller)}
               onNodeDragEnd={makeOnNodeDragEnd(controller)}
               onLinkHover={onLinkHover}
