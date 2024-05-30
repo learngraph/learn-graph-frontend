@@ -2,14 +2,14 @@ import { ListItemText, Menu, MenuItem } from "@mui/material";
 import { languageDict } from "@src/shared/languageDict";
 
 import Button, { ButtonProps } from "@mui/material/Button";
-import { useState } from "react";
-import i18n from "@src/shared/i18n";
+import { ReactNode, useState } from "react";
 
 interface LanguageSelectProps {
   onLanguageSelect: (arg0: string) => void;
   selectedLanguage: string;
   buttonProps: ButtonProps;
-  buttonText: string;
+  buttonText: ReactNode;
+  languageTextMap?: Map<string, string>;
 }
 
 export const LanguageSelect = ({
@@ -17,9 +17,11 @@ export const LanguageSelect = ({
   buttonText,
   selectedLanguage,
   onLanguageSelect,
+  languageTextMap,
 }: LanguageSelectProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const isOpen = Boolean(anchorEl);
+  const hasLanguageTextMap = Boolean(languageTextMap);
 
   const handleItemSelect = (languageString: string) => {
     setAnchorEl(null);
@@ -54,12 +56,25 @@ export const LanguageSelect = ({
       >
         {Object.entries(languageDict).map(
           ([languageString, languageProperties]) => {
+            let displayItem = <></>;
+            if (hasLanguageTextMap) {
+              displayItem = (
+                <ListItemText
+                  title={languageProperties.displayText}
+                >{`${languageProperties.displayIcon} ${languageTextMap?.get(languageString) ?? "-"}`}</ListItemText>
+              );
+            } else {
+              displayItem = (
+                <ListItemText>{`${languageProperties.displayIcon} ${languageProperties.displayText}`}</ListItemText>
+              );
+            }
+
             return (
               <MenuItem
                 onClick={() => handleItemSelect(languageString)}
                 key={languageString}
               >
-                <ListItemText>{`${languageProperties.displayIcon} ${languageProperties.displayText}`}</ListItemText>
+                {displayItem}
               </MenuItem>
             );
           },

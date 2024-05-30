@@ -51,7 +51,12 @@ export default function Hero() {
         color: theme.palette.text.secondary,
       })}
     >
-      <TranslatedText />
+      <TranslatedText
+        onUpdate={() => {}}
+        inputText={{
+          translations: [{ language: "en", content: "im an eng text" }],
+        }}
+      />
       <Container
         sx={{
           display: "flex",
