@@ -9,6 +9,8 @@ import {
   ForceGraphNodeObject,
 } from "./types";
 
+import { userSearchMatching } from "./Header/Search";
+
 // global configuration
 export const G_CONFIG = {
   linkCanvasObjectMode: "replace",
@@ -323,6 +325,28 @@ export const setGraphSize = (conf: GraphSizeConfig) => {
   }
   const rect = containerElement.getBoundingClientRect();
   conf.setAvailableSpace(rect);
+};
+
+const convertAndSetGraph = (
+  setGraph: Dispatch<SetStateAction<ForceGraphGraphData>>,
+  data: { graph: BackendGraphData },
+) => {
+  const graph = convertBackendGraphToForceGraph(data);
+  if (!graph) {
+    return;
+  }
+  setGraph(graph);
+};
+
+export const onGraphUpdate = (
+  ctrl: Controller,
+  data: { graph: BackendGraphData },
+  setGraph: Dispatch<SetStateAction<ForceGraphGraphData>>,
+) => {
+  convertAndSetGraph(setGraph, data);
+
+  // when receive a new graph, user search must be invalidated
+  userSearchMatching({ current: ctrl }, "");
 };
 
 export const nodePointerAreaPaint = (
