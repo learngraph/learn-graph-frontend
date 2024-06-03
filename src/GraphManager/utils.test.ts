@@ -340,6 +340,8 @@ describe("onGraphUpdate", () => {
     // @ts-ignore
     onGraphUpdate( ctrl, { graph: graphData }, setGraph);
     expect(ctrl.graph.current).toEqual(graphData);
-    expect(setGraph).toHaveBeenCalledWith(makeGraphState(graphData, jest.fn()));
+    expect(setGraph).toHaveBeenCalledWith(graphData);
+    expect(ctrl.search.setIsResultShown).toHaveBeenCalledWith(false);
+    expect(ctrl.search.setHighlightNodes).toHaveBeenCalledWith(new Set());
   });
 });
