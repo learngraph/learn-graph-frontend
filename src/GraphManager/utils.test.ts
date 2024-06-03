@@ -331,14 +331,13 @@ describe("makeOnNodeHover", () => {
   });
 });
 
-
 describe("onGraphUpdate", () => {
   it("should update the graph data", () => {
     const ctrl = makeMockController();
     const graphData = { nodes: [], links: [] };
     const setGraph = jest.fn();
     // @ts-ignore
-    onGraphUpdate( ctrl, { graph: graphData }, setGraph);
+    onGraphUpdate(ctrl, { graph: graphData }, setGraph);
     expect(ctrl.graph.current).toEqual(graphData);
     expect(setGraph).toHaveBeenCalledWith(graphData);
     expect(ctrl.search.setIsResultShown).toHaveBeenCalledWith(false);

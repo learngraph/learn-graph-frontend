@@ -330,7 +330,7 @@ const convertAndSetGraph = (
     return;
   }
   setGraph(graph);
-}; 
+};
 
 export const onGraphUpdate = (
   ctrl: Controller,

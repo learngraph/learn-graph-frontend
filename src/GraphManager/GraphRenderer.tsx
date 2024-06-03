@@ -1,13 +1,6 @@
 import ForceGraph2D from "react-force-graph-2d";
 import ForceGraph3D from "react-force-graph-3d";
-import {
-  useRef,
-  useState,
-  useLayoutEffect,
-  useEffect,
-  Dispatch,
-  SetStateAction,
-} from "react";
+import { useRef, useState, useLayoutEffect, useEffect } from "react";
 import Box from "@mui/material/Box";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material";
@@ -16,7 +9,6 @@ import {
   ForceGraphGraphData,
   ForceGraphNodeObject,
   ForceGraphLinkObject,
-  BackendGraphData,
   LocalForceGraphMethods,
 } from "./types";
 import { ZoomState } from "./Zoom";
@@ -53,8 +45,6 @@ import { SearchResultPopUp } from "./SearchResultPopUp";
 import {
   G_CONFIG,
   Rectangle,
-  convertBackendGraphToForceGraph,
-  onGraphUpdate,
   linkCanvasObject,
   linkPointerAreaPaint,
   makeGraphState,
@@ -65,6 +55,7 @@ import {
   nodePointerAreaPaint,
   setGraphSize,
   makeOnNodeHover,
+  onGraphUpdate,
 } from "./utils";
 
 interface GraphRendererProps {
@@ -280,7 +271,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     }
   }, [graphDataInfo]);
   useEffect(() => {
-    convertAndSetGraph(setGraph, graphDataFromBackend);
+    onGraphUpdate(controller, graphDataFromBackend, setGraph);
   }, [graphDataFromBackend]);
   // XXX(skep): should we disable right click? it's kind of annoying for the
   // canvas, but outside we might want to allow it..
