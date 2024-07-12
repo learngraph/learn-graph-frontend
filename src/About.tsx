@@ -63,7 +63,7 @@ const TeamMember = ({
 
 export const About = () => {
   const theme = useTheme();
-  const { t } = useTranslation("about");
+  const { t } = useTranslation();
   return (
     <NavigationWithContent
       withSideNavigation={true}
@@ -78,38 +78,38 @@ export const About = () => {
           }}
         >
           <TypographyMaxWidth variant="h4" gutterBottom id="about">
-            {t("headline-About Us")}
+            {t("about.headline-About Us")}
           </TypographyMaxWidth>
           <TypographyMaxWidth paragraph>
-            {t("mission-statement")}
+            {t("about.mission-statement")}
           </TypographyMaxWidth>
           <TypographyMaxWidth paragraph>
-            {t("what-is-learngraph")}
+            {t("about.what-is-learngraph")}
           </TypographyMaxWidth>
 
           <Divider sx={{ margin: "20px 0" }} />
           <TypographyMaxWidth variant="h5" gutterBottom id="whoarewe">
-            {t("headline-Who Are We")}
+            {t("about.headline-Who Are We")}
           </TypographyMaxWidth>
           <TeamMember
-            imageSrc="public/team-laurin.png"
+            imageSrc="team-laurin.png"
             name="Laurin Hagemann"
-            description={t("team-Laurin")}
+            description={t("about.team-Laurin")}
             linkedInUrl="https://www.linkedin.com/in/laurin-hagemann-573616201/"
           />
           <TeamMember
-            imageSrc="public/team-placeholder.png"
-            name={t("team-placeholder")}
-            description={t("team-placeholder")}
+            imageSrc="team-placeholder.png"
+            name={t("about.team-placeholder-name")}
+            description={t("about.team-placeholder-description")}
             linkedInUrl="https://www.linkedin.com/in/"
           />
 
           <Divider sx={{ margin: "20px 0" }} />
           <TypographyMaxWidth variant="h5" gutterBottom id="gettinginvolved">
-            {t("headline-getting-involved")}
+            {t("about.headline-getting-involved")}
           </TypographyMaxWidth>
           <TypographyMaxWidth paragraph>
-            {t("Join our-followed-by-link") + " "}
+            {t("about.Join our-followed-by-link") + " "}
             <Href href="https://discord.gg/DatEV4kNp6">Discord Server</Href>!
           </TypographyMaxWidth>
         </Box>
