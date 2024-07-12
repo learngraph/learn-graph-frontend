@@ -12,7 +12,9 @@
     "test": "jest",
     "test-watch": "jest --watch",
     "fmt": "prettier --write .",
-    "init-git": "ln -sf ../../tools/pre-commit .git/hooks/pre-commit"
+    "init-git": "ln -sf ../../tools/pre-commit .git/hooks/pre-commit",
+    "build-arm": "docker build -t test-frontend --build-arg='NGINX_IMAGE=arm64v8/nginx:stable-alpine' .",
+    "build-amd": "docker build -t test-frontend --build-arg='NGINX_IMAGE=nginx:1.12-alpine' ."
   },
   "dependencies": {
     "@apollo/client": "^3.9.4",
@@ -46,6 +48,7 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3",
     "@types/jest": "^29.5.12",
+    "@types/mui-image": "^1.0.5",
     "@types/node": "^20.11.17",
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",
@@ -61,8 +64,7 @@
     "eslint-plugin-react-refresh": "^0.4.5",
     "prettier": "^3.2.5",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
-    "@typescript-eslint/parser": "^6.21.0",
-    "@types/mui-image": "^1.0.5"
+    "@typescript-eslint/parser": "^6.21.0"
   },
   "proxy": "http://backend:8080"
 }
