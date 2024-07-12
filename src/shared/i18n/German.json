@@ -90,18 +90,18 @@
     "link-to-landing-page": "Willkommen",
     "link-to-about-page": "Über Uns",
     "link-to-Getting Involved!": "Mitmachen!",
-    "link-to-HowTo-Page": "HowTo",
+    "link-to-HowTo-Page": "Anleitung",
     "settings-buttons-like-login-etc": "Einstellungen"
   },
   "about": {
-    "headline-About Us": "About Us",
+    "headline-About Us": "Über uns",
     "mission-statement": "Unsere Mission: Freie Bildung für alle.",
     "what-is-learngraph": "Bildung geht über Lernressourcen hinaus &mdash; Lernen erfordert, einen Pfad durch die Landkarte des Wissens der Menschheit zu finden. Diese Karte ist der Learn Graph.",
-    "headline-getting-involved": "Getting Involved!",
-    "team-Laurin": "Founder and Architect",
+    "headline-getting-involved": "Mitmachen!",
+    "team-Laurin": "Gründer und Architekt",
     "headline-Who Are We": "LearnGraph Team",
-    "team-placeholder-name": "Future Member",
-    "team-placeholder-description": "Coming soon! We're looking for Co-Founders, Software Engineers and Designers!",
+    "team-placeholder-name": "Zukünftiges Mitglied",
+    "team-placeholder-description": "Wir suchen nach Mit-Gründer:innen, Software-Ingenieur:innen, und Designer:innen!",
     "Join our-followed-by-link": "Schau vorbei im"
   },
   "settings": {
