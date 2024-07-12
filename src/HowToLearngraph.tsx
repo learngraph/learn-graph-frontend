@@ -104,7 +104,7 @@ export const HowToLearngraph = () => {
                 change your language settings and then proceed with the
                 translation.
               </HowToTypography>
-              <HowToTopic>The Merge Zoom</HowToTopic>
+              <HowToTopic>[Coming soon!] The Merge Zoom</HowToTopic>
               <HowToImage src="HowTo-Toolbar.png" alt="" />
               <HowToTypography>
                 Some topics are more connected than other ones. Those might be
