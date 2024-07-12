@@ -90,13 +90,18 @@
     "link-to-landing-page": "Welcome",
     "link-to-about-page": "About",
     "link-to-Getting Involved!": "Getting Involved!",
+    "link-to-HowTo-Page": "HowTo",
     "settings-buttons-like-login-etc": "Settings"
   },
   "about": {
-    "headline: About Us": "About Us",
+    "headline-About Us": "About Us",
     "mission-statement": "Our mission: Free education for everyone.",
     "what-is-learngraph": "Education goes beyond learning resources &mdash; learning requires to find a path through the map of knowledge of humankind. This map is the learngraph.",
-    "headline:getting-involved": "Getting Involved!",
+    "headline-getting-involved": "Getting Involved!",
+    "team-Laurin": "Founder and Architect",
+    "headline-Who Are We": "LearnGraph Team",
+    "team-placeholder-name": "Future Member",
+    "team-placeholder-description": "Coming soon! We're looking for Co-Founders, Software Engineers and Designers!",
     "Join our-followed-by-link": "Join our"
   },
   "settings": {
