@@ -133,18 +133,18 @@ export const NavigationWithContent = (props: NavigationWithContentConfig) => {
       </ListItemButton>
     );
   };
-  const ListItemSubSectionLink = (conf: ListItemConfig) => {
-    return (
-      <ListItemButton
-        sx={{
-          fontSize: "smaller",
-          borderLeft: `1px solid ${menuPalette.contrastText}`,
-        }}
-      >
-        <ListItemSectionLink {...conf} />
-      </ListItemButton>
-    );
-  };
+  //const ListItemSubSectionLink = (conf: ListItemConfig) => {
+  //  return (
+  //    <ListItemButton
+  //      sx={{
+  //        fontSize: "smaller",
+  //        borderLeft: `1px solid ${menuPalette.contrastText}`,
+  //      }}
+  //    >
+  //      <ListItemSectionLink {...conf} />
+  //    </ListItemButton>
+  //  );
+  //};
   const ListItemGlobalLink = (conf: {
     globalPath: string;
     buttonText: string;
@@ -181,12 +181,12 @@ export const NavigationWithContent = (props: NavigationWithContentConfig) => {
         sectionID={"about"}
         buttonText={t("navigation.link-to-about-page")}
       />
-      <List sx={{ paddingLeft: 2 }}>
+      {/*<List sx={{ paddingLeft: 2 }}>
         <ListItemSubSectionLink
           sectionID={"gettinginvolved"}
           buttonText={t("navigation.link-to-Getting Involved!")}
         />
-      </List>
+      </List>*/}
       <DisplayOnlyOnSmallScreen>
         <Typography variant="overline">
           {t("navigation.settings-buttons-like-login-etc")}
