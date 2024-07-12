@@ -92,13 +92,13 @@ export const About = () => {
             {t("headline-Who Are We")}
           </TypographyMaxWidth>
           <TeamMember
-            imageSrc="public/team-laurin.png"
+            imageSrc="team-laurin.png"
             name="Laurin Hagemann"
             description={t("team-Laurin")}
             linkedInUrl="https://www.linkedin.com/in/laurin-hagemann-573616201/"
           />
           <TeamMember
-            imageSrc="public/team-placeholder.png"
+            imageSrc="team-placeholder.png"
             name={t("team-placeholder")}
             description={t("team-placeholder")}
             linkedInUrl="https://www.linkedin.com/in/"
