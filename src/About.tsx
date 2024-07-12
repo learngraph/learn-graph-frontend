@@ -97,6 +97,12 @@ export const About = () => {
             description={t("team-Laurin")}
             linkedInUrl="https://www.linkedin.com/in/laurin-hagemann-573616201/"
           />
+          <TeamMember
+            imageSrc="public/team-placeholder.png"
+            name={t("team-placeholder")}
+            description={t("team-placeholder")}
+            linkedInUrl="https://www.linkedin.com/in/"
+          />
 
           <Divider sx={{ margin: "20px 0" }} />
           <TypographyMaxWidth variant="h5" gutterBottom id="gettinginvolved">
