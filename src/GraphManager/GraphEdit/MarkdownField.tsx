@@ -37,7 +37,7 @@ import {
 import { MATCHERS } from "./matchers";
 
 const urlRegExp = new RegExp(
-  /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[\w]*))?)/,
+  /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[\w]*))?)/
 );
 const validateUrl = (url: string): boolean => {
   return url === "https://" || urlRegExp.test(url);
@@ -82,12 +82,12 @@ const FocusWhenStateChangePlugin = (props: {
 };
 
 const MarkdownEditor = (props: MarkdownEditorConfig) => {
-  const theme = {}; // see https://lexical.dev/docs/getting-started/theming
+  const theme = {}; // see https://lexical.dev/docs/getting-started/theming // TODO (enno) this theme is not connected to the theme defined at Theme.tsx 
   const loadInitialEditorState = () => {
     props.setIsEmpty(!props.initialMarkdownContent);
     $convertFromMarkdownString(
       props.initialMarkdownContent,
-      TRANSFORMERS_MARKDOWN,
+      TRANSFORMERS_MARKDOWN
     );
   };
   const initialConfig: InitialConfigType = {
@@ -112,7 +112,7 @@ const MarkdownEditor = (props: MarkdownEditorConfig) => {
   const onChange = (
     editorState: EditorState,
     _editor: LexicalEditor,
-    _tags: Set<string>,
+    _tags: Set<string>
   ) => {
     let markdown = "";
     editorState.read(() => {

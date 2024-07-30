@@ -2,8 +2,7 @@ import { createTheme } from "@mui/material/styles";
 import { ThemeProvider } from "@emotion/react";
 import { ReactNode } from "react";
 import { useUserDataContext } from "./Context/UserDataContext";
-// import { Palette } from "@mui/icons-material";
-import { grey } from "@mui/material/colors";
+import { grey, orange } from "@mui/material/colors";
 import { PaletteMode } from "@mui/material";
 
 // TODO find out about how what things get affected bay what change in this definition
@@ -15,8 +14,20 @@ export const ConfigurableTheme = ({ children }: { children: ReactNode }) => {
 };
 
 
-const mainLight = '#1976d2'
 const mainDark = "#ff9800"
+const secondaryDark = '#ed9e28'
+// const SoftBlue= '#647AD8' 
+// const LightPeriwinkle ='#ADB4E7' // wikipedia link colors in dark mode 
+
+// const mainLight = '#1976d2'
+
+// see https://mui.com/material-ui/customization/dark-mode/
+// What colors have been used/ defined so far?
+// palette.info in Navigation.tsx
+// palette.primary in Navigation PopUp and Hero
+// palette.secondary in PopUp
+// palette.background.default in About HowToLearngraph LandingPage Hero
+// [...] search for theme.palette.
 
 const getDesignTokens = (mode: PaletteMode) => ({
   palette: {
@@ -24,7 +35,8 @@ const getDesignTokens = (mode: PaletteMode) => ({
     ...(mode === 'light'
     ? {
         // palette values for light mode
-        primary: {main: mainLight},
+        primary: orange,
+        secondary: {main: secondaryDark},
         //divider: grey[100],
         text: {
           //primary: grey[900],
@@ -51,27 +63,3 @@ const getDesignTokens = (mode: PaletteMode) => ({
   }
 })
 
-
-// const theme = createTheme({
-//   palette: {
-//     mode: userSelectedTheme,
-//     primary: {
-//       main: userSelectedTheme === "dark" ? mainDark: mainLight}, //this retains the mui default for light mode but changes it for dark mode 
-//     // secondary: {
-//     //   main: 
-//     // }
-//   },
-//   typography: {
-//     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-//     fontSize: 14, //default value
-//   },
-//   components: {
-//     MuiButton: {
-//       styleOverrides: {
-//         root: {
-//           //borderRadius: 8, // Example customization: rounded corners for buttons
-//         },
-//       },
-//     },
-//   },
-// });
