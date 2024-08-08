@@ -4,7 +4,7 @@ import {
   LexicalComposer,
 } from "@lexical/react/LexicalComposer";
 import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPlugin";
-import { AutoLinkNode, LinkNode } from "@lexical/link";
+import { AutoLinkNode, LinkNode } from "@lexical/link"; // Link Node is (I think) not where the appearance of the link is defined.
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { AutoLinkPlugin } from "@lexical/react/LexicalAutoLinkPlugin";
 import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
@@ -35,6 +35,8 @@ import {
 } from "react";
 
 import { MATCHERS } from "./matchers";
+import '../../index.css'; // This is at the moment the only css file. I was able to change the link value there.
+import { useTheme } from "@emotion/react";
 
 const urlRegExp = new RegExp(
   /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[\w]*))?)/
@@ -82,7 +84,7 @@ const FocusWhenStateChangePlugin = (props: {
 };
 
 const MarkdownEditor = (props: MarkdownEditorConfig) => {
-  const theme = {}; // see https://lexical.dev/docs/getting-started/theming // TODO (enno) this theme is not connected to the theme defined at Theme.tsx 
+  const theme = useTheme(); // see https://lexical.dev/docs/getting-started/theming // TODO (enno) this theme is not connected to the theme defined at Theme.tsx 
   const loadInitialEditorState = () => {
     props.setIsEmpty(!props.initialMarkdownContent);
     $convertFromMarkdownString(

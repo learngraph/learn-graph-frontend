@@ -4,6 +4,8 @@ import { ReactNode } from "react";
 import { useUserDataContext } from "./Context/UserDataContext";
 import { grey, orange } from "@mui/material/colors";
 import { PaletteMode } from "@mui/material";
+import './index.css'
+
 
 // TODO find out about how what things get affected bay what change in this definition
 
@@ -30,7 +32,7 @@ const secondaryDark = '#ed9e28'
 // [...] search for theme.palette.
 
 const getDesignTokens = (mode: PaletteMode) => ({
-  palette: {
+  palette: {  
     mode,
     ...(mode === 'light'
     ? {
@@ -55,11 +57,14 @@ const getDesignTokens = (mode: PaletteMode) => ({
           primary: '#fff',
           secondary: grey[500],
         },
+        
+
       }),
       warning: {
         main: "rgba(255,7,58,1.00)",
         contrastText: "#fff", // You may need to adjust the contrast text color
       },
-  }
+  },
+  link: 'custom-link',
 })
 
