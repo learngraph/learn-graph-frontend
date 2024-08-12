@@ -13,12 +13,12 @@ code {
 }
 
 .custom-link {
-  color: #647AD8; 
+  color: #647ad8;
   text-decoration: none;
 }
 
 .custom-link:hover {
-  color: #ADB4E7;
+  color: #adb4e7;
   text-decoration: underline;
 }
 .custom-link:visited {
