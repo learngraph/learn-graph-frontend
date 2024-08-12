@@ -84,7 +84,7 @@ const FocusWhenStateChangePlugin = (props: {
 };
 
 const MarkdownEditor = (props: MarkdownEditorConfig) => {
-  const theme = useTheme(); // see https://lexical.dev/docs/getting-started/theming // TODO (enno) this theme is not connected to the theme defined at Theme.tsx 
+  const theme = useTheme(); // see https://lexical.dev/docs/getting-started/theming 
   const loadInitialEditorState = () => {
     props.setIsEmpty(!props.initialMarkdownContent);
     $convertFromMarkdownString(
