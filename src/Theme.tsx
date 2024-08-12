@@ -2,7 +2,6 @@ import { createTheme } from "@mui/material/styles";
 import { ThemeProvider } from "@emotion/react";
 import { ReactNode } from "react";
 import { useUserDataContext } from "./Context/UserDataContext";
-import { grey, orange } from "@mui/material/colors";
 import { PaletteMode } from "@mui/material";
 import './index.css'
 
@@ -16,9 +15,6 @@ export const ConfigurableTheme = ({ children }: { children: ReactNode }) => {
 };
 
 
-const mainDark = "#ff9800"
-const secondaryDark = '#ed9e28'
-
 const getDesignTokens = (mode: PaletteMode) => ({
   palette: {  
     mode,
@@ -27,6 +23,7 @@ const getDesignTokens = (mode: PaletteMode) => ({
       contrastText: "#fff", // You may need to adjust the contrast text color
     },
   },
-  link: 'custom-link', // defined in index.css 
+  link: 
+    mode === 'light' ? '' : 'custom-link', // defined in index.css 
 })
 
