@@ -35,7 +35,6 @@ import {
 } from "react";
 
 import { MATCHERS } from "./matchers";
-import "../../index.css"; // This is at the moment the only css file. I was able to change the link value there.
 import { useTheme } from "@emotion/react";
 
 const urlRegExp = new RegExp(
