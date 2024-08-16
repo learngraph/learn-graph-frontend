@@ -19,5 +19,5 @@ const getDesignTokens = (mode: PaletteMode) => ({
       contrastText: "#fff", // You may need to adjust the contrast text color
     },
   },
-  link: mode === "light" ? "" : "custom-link", // defined in index.css
+  link: mode === "light" ? "" : "darkmode-link", // defined in index.css
 });
