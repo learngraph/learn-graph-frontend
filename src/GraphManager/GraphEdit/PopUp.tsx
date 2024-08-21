@@ -684,6 +684,7 @@ export const analyzeEdits = (
   };
 };
 
+// stringToColor creates colors for the avatars of people editing nodes
 const stringToColor = (string: string) => {
   let hash = 0;
   let i;

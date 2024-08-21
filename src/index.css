@@ -11,3 +11,19 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.darkmode-link {
+  /*this is based on the default href in mui see https://mui.com/material-ui/react-link/ 
+  https://mui.com/material-ui/customization/default-theme/ */
+  color: #42a5f5;
+  text-underline-offset: 4px;
+  text-decoration: #42a5f5 underline;
+}
+
+.darkmode-link:hover {
+  text-decoration: #90caf9 underline;
+}
+.darkmode-link:visited {
+  color: #90caf9;
+}
+/* default colors used: primary.main:#90caf9 primary.dark:#42a5f5 */
