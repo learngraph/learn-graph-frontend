@@ -8,22 +8,26 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import { TFunction } from "i18next";
+import { Href } from "@src/shared/Components";
 
 interface qnaEntry {
   question: string;
-  answer: string;
+  answer: string | any;
 }
 
 const getQnaEntries = (t: TFunction<"translation", undefined>): qnaEntry[] => [
   {
-    question: t("landing.qnas.qWhereIsGoodLearningContent"),
-    answer: t("landing.qnas.aLookIntoResourcesAndCrowdsourcingFeature"),
-  },
-  {
     question: t("landing.qnas.qLearnGraphFree"),
-    answer: t("landing.qnas.aFreeAndOSMoneyTbd"),
+    answer: (
+      <Trans
+        i18nKey="landing.qnas.aFreeAndOSMoneyTbd"
+        components={{
+          linktogithub: <Href href="https://github.com/learngraph" />,
+        }}
+      />
+    ),
   },
   {
     question: t("landing.qnas.qDiffToConventionalLearningPlatforms"),

@@ -16,15 +16,20 @@ interface LanguageDictEntry {
   localeString: string;
 }
 const languageDict: { [language: string]: LanguageDictEntry } = {
+  de: {
+    displayText: "Deutsch",
+    displayIcon: "🇩🇪",
+    localeString: "deDE",
+  },
   en: {
     displayText: "English",
     displayIcon: "🇬🇧",
     localeString: "enUS",
   },
-  de: {
-    displayText: "Deutsch",
-    displayIcon: "🇩🇪",
-    localeString: "deDE",
+  es: {
+    displayText: "Español",
+    displayIcon: "🇪🇸",
+    localeString: "esES",
   },
   zh: {
     displayText: "中文",

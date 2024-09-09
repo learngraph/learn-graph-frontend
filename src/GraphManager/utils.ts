@@ -386,6 +386,8 @@ export const linkPointerAreaPaint = (
 
 export const drawLinkLine = (conf: DrawLinkConfig) => {
   const { ctx, color, link } = conf;
+  ctx.shadowBlur = 20;
+  ctx.shadowColor = "#FD0100";
   ctx.strokeStyle = color;
   ctx.fillStyle = color;
   let scale = conf.globalScale;
