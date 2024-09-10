@@ -56,11 +56,11 @@
   },
   "landing": {
     "header": "Du kannst <strong>alles</strong> lernen.",
-    "intro": "You decide what you want to learn.\nWe show you how to get there.\nEducation goes beyond learning resources - learning requires to find a path through the map of knowledge of humankind. This map is the learngraph.",
+    "intro": "Du suchst dir ein Ziel raus.\nWir zeigen dir, wie du dorthin kommst.\nBildung geht über Lernressourcen hinaus - Lernen erfordert einen Weg durch die Karte des Wissens der Menschheit. Diese Karte ist der LearnGraph.",
     "hintClickImage": "Klick auf das Bild oben oder",
     "buttonGoToGraph": "Lernen!",
     "missionStatementHeader": "Unsere Mission",
-    "missionStatementText": "Co-creating the future of education - free for everyone.\nWe enable people to learn, <strong>independent of their situation in life</strong> and the resources at their disposal.\n<linktowhitepaper>Read our whitepaper here</linktowhitepaper>.",
+    "missionStatementText": "Gemeinsam erschaffen wir die Zukunft der Bildung - frei für alle.\nWir ermöglichen Menschen zu lernen, <strong>unabhängig von ihrer Lebenssituation</strong> und den ihnen zur Verfügung stehenden Ressourcen.\n<linktowhitepaper>Lies unser Whitepaper hier</linktowhitepaper>.",
     "crowdsourcingHeader": "Powered by Crowdsourcing",
     "crowdsourcingExplanation": "Der Learn Graph sammelt Informationen darüber wie Wissen von anderem Wissen abhängt. Dies erzeugt eine Landkarte von Wissen, durch die jeder navigieren kann, um komplete Themen einordnen zu können.\nJeder erhält vollen nicht-kommerziellen Zugang, kostenlos. Wir sind hier, um Dich auf Deiner Reise zu unterstützen.",
     "crowdsourcingCallToAction": "Das bedeutet, dass Menschen wie du diese Wissensbasis bauen und alle davon profitieren. Trage dein Wissen heute bei, indem du über bestehende Verbindungen abstimmst oder neue Einträge erstellst!",
@@ -77,7 +77,7 @@
     },
     "qnas": {
       "qLearnGraphFree": "Ist der Learn Graph kostenlos?",
-      "aFreeAndOSMoneyTbd": "Yes, it's free and open-source! Checkout the <linktogithub>source code here</linktogithub>.",
+      "aFreeAndOSMoneyTbd": "Ja, es ist kostenlos und Open-Source! Schau dir den <linktogithub>Quellcode hier</linktogithub> an.",
       "qDiffToConventionalLearningPlatforms": "Wie unterscheidet sich der Learn Graph von herkömmlichen Lernplattformen?",
       "aNoContentHosting": "We do not host content ourselves, instead we provide you three tools: One a path to your goal, together with an overview to make decisions about your personal curriculum. Two a community of learners to connect with on your learning-journey. And three immediate access to Open Educational Resources (OER) content in the internet.",
       "qProjectVision": "Was ist eure Vision mit diesem Projekt?",
