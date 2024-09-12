@@ -8,8 +8,8 @@
   "user-name-button": "Benutzer: {{userName}}",
   "switch-language-button": "Sprache",
   "switch-language-button-short": "Spr.",
-  "Please login/signup to contribute!": "Bitte log Dich ein oder erstelle einen Account um beizutragen!",
-  "Session expired, please login again!": "Session ausgelaufen, bitte log dich erneut ein!",
+  "Please login/signup to contribute!": "Bitte log dich ein oder erstelle einen Account um beizutragen!",
+  "Session expired, please login again!": "Session abgelaufen, bitte log dich erneut ein!",
   "New Node": "Neues Thema",
   "New Link": "Neue Verknüpfung",
   "Link-weight-Irrelevant": "Irrelevant",
@@ -56,11 +56,11 @@
   },
   "landing": {
     "header": "Du kannst <strong>alles</strong> lernen.",
-    "intro": "Du entscheidest was du lernen willst.\nWir zeigen dir, wie du dorthin kommst.",
+    "intro": "Du suchst dir ein Ziel raus.\nWir zeigen dir, wie du dorthin kommst.\nBildung geht über Lernressourcen hinaus - Lernen erfordert einen Weg durch die Karte des Wissens der Menschheit. Diese Karte ist der LearnGraph.",
     "hintClickImage": "Klick auf das Bild oben oder",
     "buttonGoToGraph": "Lernen!",
     "missionStatementHeader": "Unsere Mission",
-    "missionStatementText": "Wir ermöglichen Menschen zu lernen, <strong>unabhängig von ihrer Lebenssituation</strong> und den ihr zur Verfügung stehenden Ressourcen.\nWissen ermöglicht es gute Entscheidungen zu treffen.\nWir geben dir die Möglichkeit, <strong>deinen eigenen Weg</strong> zu finden.",
+    "missionStatementText": "Gemeinsam erschaffen wir die Zukunft der Bildung - frei für alle.\nWir ermöglichen Menschen zu lernen, <strong>unabhängig von ihrer Lebenssituation</strong> und den ihnen zur Verfügung stehenden Ressourcen.\n<linktowhitepaper>Lies unser Whitepaper hier</linktowhitepaper>.",
     "crowdsourcingHeader": "Powered by Crowdsourcing",
     "crowdsourcingExplanation": "Der Learn Graph sammelt Informationen darüber wie Wissen von anderem Wissen abhängt. Dies erzeugt eine Landkarte von Wissen, durch die jeder navigieren kann, um komplete Themen einordnen zu können.\nJeder erhält vollen nicht-kommerziellen Zugang, kostenlos. Wir sind hier, um Dich auf Deiner Reise zu unterstützen.",
     "crowdsourcingCallToAction": "Das bedeutet, dass Menschen wie du diese Wissensbasis bauen und alle davon profitieren. Trage dein Wissen heute bei, indem du über bestehende Verbindungen abstimmst oder neue Einträge erstellst!",
@@ -76,14 +76,12 @@
       "openAndEasyStart": "Jeder kann mitmachen, und es ist einfach anzufangen."
     },
     "qnas": {
-      "qWhereIsGoodLearningContent": "Ich habe Themen gefunden, über die ich lernen möchte, wo finde ich gute Lerninhalte?",
-      "aLookIntoResourcesAndCrowdsourcingFeature": "Schau die den Ressourcenbereich eines Themas an. Wir planen, eine weitere Funktion hinzuzufügen, die das Crowdsourcing von Lernressourcen ermöglicht. Schau bald wieder vorbei, um sie zu sehen!",
       "qLearnGraphFree": "Ist der Learn Graph kostenlos?",
-      "aFreeAndOSMoneyTbd": "Ja, es ist kostenlos und Open-Source! Das Projekt und wie es finanziert wird, ist noch in Entwicklung. Wir werden in Zukunft Premium-Funktionen hinzufügen, aber die Kernfunktionalität wird immer kostenlos sein.",
+      "aFreeAndOSMoneyTbd": "Ja, es ist kostenlos und Open-Source! Schau dir den <linktogithub>Quellcode hier</linktogithub> an.",
       "qDiffToConventionalLearningPlatforms": "Wie unterscheidet sich der Learn Graph von herkömmlichen Lernplattformen?",
-      "aNoContentHosting": "Wir hosten keine Inhalte selbst, sondern konzentrieren uns auf die Zusammenhänge zwischen Wissen. Unser Ziel ist es, eine Plattform zu sein, die Sie in die richtige Richtung weist und dir ermöglicht, das Wissen, das du suchst, in anderen Quellen zu finden.",
+      "aNoContentHosting": "Wir Hosten keine Inhalte selbst, sondern wir stellen dir drei Dinge zur Verfügung: Erstens ein Landkarte mit dem Weg zu deinen (Lern-/Berufs-) Ziel, zusammen mit einem Überblick über deine persönlichen Möglichkeiten. Zweitens Lerngruppen, die du auf deiner Lernreise findest. Und drittens didaktisches Lern-Material (Open Educational Resources - OER) im Internet.",
       "qProjectVision": "Was ist eure Vision mit diesem Projekt?",
-      "aLearningEcosystem": "Wir planen ein Lernökosystem aufzubauen. Wir glauben, dass Bildung und Zusammenarbeit der Schlüssel zu einer besseren Welt sind."
+      "aLearningEcosystem": "Gemeinsam erschaffen wir ein Lernökosystem. Wir glauben, dass Bildung der Schlüssel zu einer besseren Welt ist."
     }
   },
   "navigation": {
@@ -95,14 +93,13 @@
   },
   "about": {
     "headline-About Us": "Über uns",
-    "mission-statement": "Unsere Mission: Freie Bildung für alle.",
-    "what-is-learngraph": "Bildung geht über Lernressourcen hinaus &mdash; Lernen erfordert, einen Pfad durch die Landkarte des Wissens der Menschheit zu finden. Diese Karte ist der Learn Graph.",
+    "who-are-we-story": "Wir sind Bildungs-Experten aus der ganzen Welt mit einer Vision: die nächste Generation auf die Probleme vorzubereiten, vor denen die Welt heute steht.",
     "headline-getting-involved": "Mitmachen!",
     "team-Laurin": "Gründer und Architekt",
     "headline-Who Are We": "LearnGraph Team",
     "team-placeholder-name": "Zukünftiges Mitglied",
     "team-placeholder-description": "Wir suchen nach Mit-Gründer:innen, Software-Ingenieur:innen, und Designer:innen!",
-    "Join our-followed-by-link": "Schau vorbei im"
+    "getting-involved": "Kontaktier uns über <mailtocontact>contact@learngraph.org</mailtocontact>, oder schau vorbei in unserer <linktodiscord>Discord Community</linktodiscord> von Mitwirkenden und Lernenden, und beteilige dich an der Mitgestaltung des Projekts selbst!"
   },
   "settings": {
     "headline-User-Settings": "Benutzereinstellungen",
