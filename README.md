@@ -21,7 +21,7 @@ with WSL problems & project setup.
 First setup a pre-commit hook via
 
 ```sh
-yarn init-git
+npm run init-git
 ```
 
 This will run tests, linter and auto-formatter before every commit.
@@ -52,9 +52,9 @@ We use [Vite](https://vitejs.dev/).
 Run the tests via
 
 ```sh
-yarn test
+npm run test
 # or
-yarn test-watch
+npm run test-watch
 ```
 
 Framework: We use jest, and @testing-library/react.
