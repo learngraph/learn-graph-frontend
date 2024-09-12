@@ -79,9 +79,9 @@
       "qLearnGraphFree": "Ist der Learn Graph kostenlos?",
       "aFreeAndOSMoneyTbd": "Ja, es ist kostenlos und Open-Source! Schau dir den <linktogithub>Quellcode hier</linktogithub> an.",
       "qDiffToConventionalLearningPlatforms": "Wie unterscheidet sich der Learn Graph von herkömmlichen Lernplattformen?",
-      "aNoContentHosting": "We do not host content ourselves, instead we provide you three tools: One a path to your goal, together with an overview to make decisions about your personal curriculum. Two a community of learners to connect with on your learning-journey. And three immediate access to Open Educational Resources (OER) content in the internet.",
+      "aNoContentHosting": "Wir Hosten keine Inhalte selbst, sondern wir stellen dir drei Dinge zur Verfügung: Erstens ein Landkarte mit dem Weg zu deinen (Lern-/Berufs-) Ziel, zusammen mit einem Überblick über deine persönlichen Möglichkeiten. Zweitens Lerngruppen, die du auf deiner Lernreise findest. Und drittens didaktisches Lern-Material (Open Educational Resources - OER) im Internet.",
       "qProjectVision": "Was ist eure Vision mit diesem Projekt?",
-      "aLearningEcosystem": "Co-creating a learning ecosystem. We believe that education and cooperation are the keys to a better world."
+      "aLearningEcosystem": "Gemeinsam erschaffen wir ein Lernökosystem. Wir glauben, dass Bildung der Schlüssel zu einer besseren Welt ist."
     }
   },
   "navigation": {
@@ -93,13 +93,13 @@
   },
   "about": {
     "headline-About Us": "Über uns",
-    "who-are-we-story": "We are education professionals from all around the world with a vision to prepare the next generation for the problems that today's world is facing.",
+    "who-are-we-story": "Wir sind Bildungs-Experten aus der ganzen Welt mit einer Vision: die nächste Generation auf die Probleme vorzubereiten, vor denen die Welt heute steht.",
     "headline-getting-involved": "Mitmachen!",
     "team-Laurin": "Gründer und Architekt",
     "headline-Who Are We": "LearnGraph Team",
     "team-placeholder-name": "Zukünftiges Mitglied",
     "team-placeholder-description": "Wir suchen nach Mit-Gründer:innen, Software-Ingenieur:innen, und Designer:innen!",
-    "getting-involved": "Feel free to reach out to us via <mailtocontact>contact@learngraph.org</mailtocontact>, or join our <linktodiscord>discord community</linktodiscord> of contributors, learners and get involved in the co-creation of the project itself!"
+    "getting-involved": "Kontaktier uns über <mailtocontact>contact@learngraph.org</mailtocontact>, oder schau vorbei in unserer <linktodiscord>Discord Community</linktodiscord> von Mitwirkenden und Lernenden, und beteilige dich an der Mitgestaltung des Projekts selbst!"
   },
   "settings": {
     "headline-User-Settings": "Benutzereinstellungen",
