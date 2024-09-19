@@ -49,7 +49,10 @@ export default function FAQ() {
     (panel: string) => (_event: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? panel : false);
     };
-
+  const sxTextAlignAndWidth = {
+    width: { sm: "100%", md: "60%" },
+    textAlign: { sm: "left", md: "center" },
+  };
   return (
     <Container
       id="faq"
@@ -67,10 +70,7 @@ export default function FAQ() {
         component="h2"
         variant="h4"
         color="text.primary"
-        sx={{
-          width: { sm: "100%", md: "60%" },
-          textAlign: { sm: "left", md: "center" },
-        }}
+        sx={sxTextAlignAndWidth}
       >
         Frequently asked questions
       </Typography>
@@ -101,6 +101,31 @@ export default function FAQ() {
           </Accordion>
         ))}
       </Box>
+      <Typography
+        component="h2"
+        variant="h4"
+        color="text.primary"
+        sx={sxTextAlignAndWidth}
+      >
+        Impressum
+      </Typography>
+      <Typography color="text.primary" sx={sxTextAlignAndWidth}>
+        Laurin Hagemann <br />
+        Rechenerstr. 2 <br />
+        44787, Bochum <p />
+      </Typography>
+      <Typography
+        component="h3"
+        variant="h4"
+        color="text.primary"
+        sx={sxTextAlignAndWidth}
+      >
+        Kontakt
+      </Typography>
+      <Typography color="text.primary" sx={sxTextAlignAndWidth}>
+        Tel.: +491631925215 <br />
+        E-Mail: contact@learngraph.org
+      </Typography>
     </Container>
   );
 }
