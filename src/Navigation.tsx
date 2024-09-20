@@ -26,9 +26,12 @@ const BarItems = styled("div")(({ theme }) => ({
   gap: theme.spacing(2),
 }));
 
-const LEARNGRAPH_HEADER_TEXT = "Learn Graph";
+const LEARNGRAPH_HEADER_TEXT = import.meta.env.PROD
+  ? "Learn Graph"
+  : "TESTING VERSION";
 
-const LearngraphLOGO = (props: any) => {
+const LearngraphLOGO = (inProps: any) => {
+  const props = import.meta.env.PROD ? inProps : { ...inProps, color: "red" };
   return (
     <Typography
       variant="h6"
@@ -169,10 +172,7 @@ export const NavigationWithContent = (props: NavigationWithContentConfig) => {
         globalPath=""
         buttonText={t("navigation.link-to-landing-page")}
       />
-      <ListItemGlobalLink
-        globalPath="graph"
-        buttonText={LEARNGRAPH_HEADER_TEXT}
-      />
+      <ListItemGlobalLink globalPath="graph" buttonText="LearnGraph" />
       <ListItemGlobalLink
         globalPath="howto"
         buttonText={t("navigation.link-to-HowTo-Page")}
