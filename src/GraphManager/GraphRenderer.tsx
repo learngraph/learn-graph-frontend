@@ -169,7 +169,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   const [graph, setGraph] = useState<ForceGraphGraphData>(
     makeInitialGraphData(),
   );
-  const { language, userID, theme } = useUserDataContext();
+  const { language, theme } = useUserDataContext();
   const { data: graphDataFromBackend, queryResponse: graphDataInfo } =
     useGraphData();
   const [shiftHeld, setShiftHeld] = useState(false);
@@ -315,14 +315,6 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-  // don't change edit mode, default should always be read-only
-  //useEffect(() => {
-  //  if (userID) {
-  //    controller.mode.setIsEditingEnabled(true);
-  //  } else {
-  //    controller.mode.setIsEditingEnabled(false);
-  //  }
-  //}, [userID]);
   useEffect(() => {
     controller.forceGraphRef.current?.d3Force(
       "link",
