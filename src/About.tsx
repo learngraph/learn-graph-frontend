@@ -1,21 +1,13 @@
 // TODO(skep): translate this file!
-import {
-  Box,
-  Typography,
-  Divider,
-  Link as MuiLink,
-  useTheme,
-} from "@mui/material";
+import { Box, Typography, Divider, useTheme } from "@mui/material";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import { NavigationWithContent } from "./Navigation";
 import Image from "mui-image";
+import { Href } from "./shared/Components";
 
 const TypographyMaxWidth = (props: any) => {
   return <Typography sx={{ maxWidth: "80ch", ...props.sx }} {...props} />;
-};
-const Href = (props: any) => {
-  return <MuiLink {...props} target="_blank" rel="noopener noreferrer" />;
 };
 
 const TeamMember = ({
@@ -81,10 +73,7 @@ export const About = () => {
             {t("about.headline-About Us")}
           </TypographyMaxWidth>
           <TypographyMaxWidth paragraph>
-            {t("about.mission-statement")}
-          </TypographyMaxWidth>
-          <TypographyMaxWidth paragraph>
-            {t("about.what-is-learngraph")}
+            <Trans i18nKey="about.who-are-we-story" />
           </TypographyMaxWidth>
 
           <Divider sx={{ margin: "20px 0" }} />
@@ -109,8 +98,13 @@ export const About = () => {
             {t("about.headline-getting-involved")}
           </TypographyMaxWidth>
           <TypographyMaxWidth paragraph>
-            {t("about.Join our-followed-by-link") + " "}
-            <Href href="https://discord.gg/DatEV4kNp6">Discord Server</Href>!
+            <Trans
+              i18nKey="about.getting-involved"
+              components={{
+                mailtocontact: <Href href="mailto:contact@learngraph.org" />,
+                linktodiscord: <Href href="https://discord.gg/DatEV4kNp6" />,
+              }}
+            />
           </TypographyMaxWidth>
         </Box>
       }

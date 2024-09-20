@@ -56,11 +56,11 @@
   },
   "landing": {
     "header": "You can learn <strong>anything</strong>",
-    "intro": "You decide what you want to learn.\nWe show you how to get there.",
+    "intro": "You decide what you want to learn.\nWe show you how to get there.\nEducation goes beyond learning resources - learning requires to find a path through the map of knowledge of humankind. This map is the learngraph.",
     "hintClickImage": "Click the image above or",
     "buttonGoToGraph": "Jump right in!",
     "missionStatementHeader": "Our Mission",
-    "missionStatementText": "We enable people to learn, <strong>independent of their situation in life</strong> and the resources at their disposal.\nKnowledge gives us the power to choose.\nWe give you the power to <strong>choose your own path</strong>.",
+    "missionStatementText": "Co-creating the future of education - free for everyone.\nWe enable people to learn, <strong>independent of their situation in life</strong> and the resources at their disposal.\n<linktowhitepaper>Read our whitepaper here</linktowhitepaper>.",
     "crowdsourcingHeader": "Powered by Crowdsourcing",
     "crowdsourcingExplanation": "The Learn Graph collects votes about the dependency of knowledge on other knowledge. This creates a network of dependencies, a weighted, directed graph, which anyone can navigate to learn about these dependencies.\nWe choose an open knowledge approach: Everyone gets full non-commercial access, for free. We’re here to support you in your journey.",
     "crowdsourcingCallToAction": "That means users like you build this knowledge base, and everyone benefits from it. Contribute your knowledge today, by voting on existing connections or creating new entries!",
@@ -76,14 +76,12 @@
       "openAndEasyStart":"Anyone can sign up, and its easy to get started."
     },
     "qnas": {
-      "qWhereIsGoodLearningContent":"I've found which topics I want to learn about, where do I find good learning content?",
-      "aLookIntoResourcesAndCrowdsourcingFeature": "Look into the resources field of each subject. We plan to add another feature which enables crowdsourcing learning resources as well. Come back soon to see it!",
       "qLearnGraphFree": "Is the Learn Graph free?",
-      "aFreeAndOSMoneyTbd": "Yes, it's free and open-source! The project and how it is financed are still in development. We might add premium features in the future, but the core functionality will always be free.",
+      "aFreeAndOSMoneyTbd": "Yes, it's free and open-source! Checkout the <linktogithub>source code here</linktogithub>.",
       "qDiffToConventionalLearningPlatforms": "How is the Learn Graph different from conventional learning platforms?",
-      "aNoContentHosting": "We do not host content ourselves, instead we focus on the connections between knowledge. We aim to be a platform that points you in the right directions and enables you to find the knowledge you're looking for on other websites / books.",
+      "aNoContentHosting": "We do not host content ourselves, instead we provide you three tools: One a path to your goal, together with an overview to make decisions about your personal curriculum. Two a community of learners to connect with on your learning-journey. And three immediate access to Open Educational Resources (OER) content in the internet.",
       "qProjectVision": "What's your vision with this project?",
-      "aLearningEcosystem": "We plan to build a learning ecosystem. We believe that education and cooperation are the keys to a better world."
+      "aLearningEcosystem": "Co-creating a learning ecosystem. We believe that education and cooperation are the keys to a better world."
     }
   },
   "navigation": {
@@ -95,14 +93,13 @@
   },
   "about": {
     "headline-About Us": "About Us",
-    "mission-statement": "Our mission: Free education for everyone.",
-    "what-is-learngraph": "Education goes beyond learning resources &mdash; learning requires to find a path through the map of knowledge of humankind. This map is the learngraph.",
+    "who-are-we-story": "We are education professionals from all around the world with a vision to prepare the next generation for the problems that today's world is facing.",
     "headline-getting-involved": "Getting Involved!",
     "team-Laurin": "Founder and Architect",
     "headline-Who Are We": "LearnGraph Team",
     "team-placeholder-name": "Future Member",
     "team-placeholder-description": "Coming soon! We're looking for Co-Founders, Software Engineers and Designers!",
-    "Join our-followed-by-link": "Join our"
+    "getting-involved": "Feel free to reach out to us via <mailtocontact>contact@learngraph.org</mailtocontact>, or join our <linktodiscord>discord community</linktodiscord> of contributors, learners and get involved in the co-creation of the project itself!"
   },
   "settings": {
     "headline-User-Settings": "User Settings",
