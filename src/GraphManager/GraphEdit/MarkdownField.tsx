@@ -42,7 +42,13 @@ const urlRegExp = new RegExp(
 );
 export const validateUrl = (url: string): boolean => {
   return url === "https://" || urlRegExp.test(url);
+  //          ^-- this one confuses me the urlRegExp should be 
+  //              enough to find all valid links...
 };
+
+// const containsUrl = (markdown: string): boolean => {
+//   return 
+// };
 
 export interface MarkdownConfig {
   fieldName: string;
