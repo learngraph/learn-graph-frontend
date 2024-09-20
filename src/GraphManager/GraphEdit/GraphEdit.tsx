@@ -35,7 +35,7 @@ export const FG_ENGINE_COOLDOWN_TICKS_DEFAULT = 1000;
 export const FG_ENGINE_COOLDOWN_TICKS_DISABLED = 0;
 
 // onNodeDrag: snap's to the node if distance < this[0], un-snaps if distance > this[1]
-const NODE_DRAG_SNAP_IN_OUT_DISTANCES = [35, 45];
+const NODE_DRAG_SNAP_IN_OUT_DISTANCES = [5, 15];
 export const DRAG_snapInDistanceSquared = Math.pow(
   NODE_DRAG_SNAP_IN_OUT_DISTANCES[0],
   2,
@@ -204,6 +204,9 @@ export const onNodeDrag = (
   dragSourceNode: ForceGraphNodeObject,
   _: Position,
 ) => {
+  if (!ctrl.mode.isEditingEnabled) {
+    return;
+  }
   const distanceSquared = (a: Partial<Position>, b: Partial<Position>) => {
     return Math.pow(a.x! - b.x!, 2) + Math.pow(a.y! - b.y!, 2);
   };

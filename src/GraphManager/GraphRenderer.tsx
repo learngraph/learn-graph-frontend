@@ -219,7 +219,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   >(new Set());
 
   const [isEditingEnabled, setIsEditingEnabled] = useState(false);
-  const [allowGraphInteractions, setAllowGraphInteractions] = useState(false);
+  const [allowGraphInteractions, setAllowGraphInteractions] = useState(true);
   const [use3D, setUse3D] = useState<boolean>(false);
   const controller: Controller = {
     backend,
@@ -315,13 +315,14 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-  useEffect(() => {
-    if (userID) {
-      controller.mode.setIsEditingEnabled(true);
-    } else {
-      controller.mode.setIsEditingEnabled(false);
-    }
-  }, [userID]);
+  // don't change edit mode, default should always be read-only
+  //useEffect(() => {
+  //  if (userID) {
+  //    controller.mode.setIsEditingEnabled(true);
+  //  } else {
+  //    controller.mode.setIsEditingEnabled(false);
+  //  }
+  //}, [userID]);
   useEffect(() => {
     controller.forceGraphRef.current?.d3Force(
       "link",

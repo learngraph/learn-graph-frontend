@@ -4,20 +4,33 @@ import Button from "@mui/material/Button";
 
 import { Controller } from "./GraphEdit";
 import { CircleContainer, buttonIconStyle } from "./CreateButton";
+import { AlertFnRef, AlertPopupBar } from "@src/shared/Alert";
+import { useUserDataContext } from "@src/Context/UserDataContext";
+import i18n from "@src/shared/i18n";
 
 export const EditModeButton = ({ ctrl }: { ctrl: Controller }) => {
+  const displayAlertRef: AlertFnRef = {};
+  const { userID } = useUserDataContext();
   const onClick = () => {
-    ctrl.mode.setAllowGraphInteractions(!ctrl.mode.allowGraphInteractions);
+    const displayAlert = displayAlertRef.current ?? alert;
+    if (!userID) {
+      displayAlert(i18n.t("To edit the graph please login."));
+      return;
+    }
+    ctrl.mode.setIsEditingEnabled(!ctrl.mode.isEditingEnabled);
   };
   return (
-    <Button id="basic-button" onClick={onClick}>
-      <CircleContainer>
-        {ctrl.mode.allowGraphInteractions ? (
-          <EditIcon style={buttonIconStyle} />
-        ) : (
-          <VisibilityIcon style={buttonIconStyle} />
-        )}
-      </CircleContainer>
-    </Button>
+    <>
+      <AlertPopupBar displayAlertRef={displayAlertRef} />
+      <Button id="basic-button" onClick={onClick}>
+        <CircleContainer>
+          {ctrl.mode.isEditingEnabled ? (
+            <EditIcon style={buttonIconStyle} />
+          ) : (
+            <VisibilityIcon style={buttonIconStyle} />
+          )}
+        </CircleContainer>
+      </Button>
+    </>
   );
 };
