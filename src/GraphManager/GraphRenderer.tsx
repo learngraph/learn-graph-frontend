@@ -315,7 +315,10 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-  useEffect(() => {
+  const disableForcesFor2DGraphOnly = () => {
+    if (controller.mode.use3D) {
+      return;
+    }
     controller.forceGraphRef.current?.d3Force(
       "link",
       Object.assign(() => {}, { id: () => {} }),
@@ -328,7 +331,8 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       "center",
       Object.assign(() => {}, { id: () => {} }),
     );
-  }, [controller.forceGraphRef]);
+  };
+  useEffect(disableForcesFor2DGraphOnly, [controller.forceGraphRef.current]);
   return (
     <>
       <SmallAlignBottomLargeAlignLeft
@@ -351,23 +355,16 @@ export const GraphRenderer = (props: GraphRendererProps) => {
               //controlType="fly" // XXX: doesn't work well with catching mouse-events...
               cooldownTicks={cooldownTicks}
               nodeThreeObject={makeNodeThreeObject(controller)}
-              nodePointerAreaPaint={makeNodePointerAreaPaint(controller)}
-              onNodeClick={makeOnNodeClick(controller)}
-              onNodeHover={makeOnNodeHover(controller)}
-              onNodeDrag={makeOnNodeDrag(controller)}
-              onNodeDragEnd={makeOnNodeDragEnd(controller)}
-              onLinkHover={onLinkHover}
-              onLinkClick={makeOnLinkClick(controller)}
-              linkDirectionalArrowLength={0}
+              nodePointerAreaPaint={() => {}}
+              linkPointerAreaPaint={() => {}}
               // XXX: linkCanvasObjectMode should just be a string, but due to a bug in
               // force-graph it must be passed as function, otherwise linkCanvasObject
               // is never called. -> remove after force-graph module update
               // @ts-ignore
               linkCanvasObjectMode={() => G_CONFIG.linkCanvasObjectMode}
               linkCanvasObject={makeLinkCanvasObject(controller)}
-              linkPointerAreaPaint={makeLinkPointerAreaPaint(controller)}
-              //onZoom={makeOnZoomAndPanListener(controller)}
-              onBackgroundClick={onBackgroundClick}
+              linkDirectionalArrowLength={0}
+              controlType="fly"
             />
           ) : (
             <ForceGraph2D
