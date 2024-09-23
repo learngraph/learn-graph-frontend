@@ -27,6 +27,7 @@ import {
 import { GraphEditPopUp, GraphEditPopUpState } from "./GraphEdit/PopUp";
 import { CreateButton } from "./GraphEdit/CreateButton";
 import { EditModeButton } from "./GraphEdit/ModeButton";
+import { NoTouchButton } from "./GraphEdit/NoTouchButton";
 import { UserSettings } from "./GraphEdit/UserSettings";
 import { useCreateNode } from "./RPCHooks/useCreateNode";
 import { useCreateEdge } from "./RPCHooks/useCreateEdge";
@@ -333,6 +334,97 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     );
   };
   useEffect(disableForcesFor2DGraphOnly, [controller.forceGraphRef.current]);
+
+  useEffect(() => {
+    const checkTouchDevice = () => {
+      const hasTouchPoints =
+        "maxTouchPoints" in navigator && navigator.maxTouchPoints > 0;
+      const hasTouchEvent = "ontouchstart" in window;
+      const matchMedia = window.matchMedia("(pointer: coarse)").matches;
+      //setIsTouchDevice(hasTouchPoints || hasTouchEvent || matchMedia);
+      const isTouchDevice = hasTouchPoints || hasTouchEvent || matchMedia;
+      if (isTouchDevice) {
+        controller.mode.setAllowGraphInteractions(false);
+      }
+    };
+
+    checkTouchDevice();
+  }, []);
+
+  //// For touch drag
+  //const isDragging = useRef(false);
+  //const lastTouchX = useRef(0);
+  //const lastTouchY = useRef(0);
+  //// For double tap
+  //const lastTap = useRef<number>(0);
+  //const tapTimeout = useRef<number | null>(null);
+  //const tapX = useRef(0);
+  //const tapY = useRef(0);
+  //useEffect(() => {
+  //  const handleTouchStart = (e: TouchEvent) => {
+  //    alert("touch start!!");
+  //    const touch = e.touches[0];
+  //    const touchX = touch.clientX;
+  //    const touchY = touch.clientY;
+  //    // For touch drag
+  //    isDragging.current = true;
+  //    lastTouchX.current = touchX;
+  //    lastTouchY.current = touchY;
+  //    // For double tap
+  //    const currentTime = new Date().getTime();
+  //    const tapLength = currentTime - lastTap.current;
+  //    if (
+  //      tapLength < 300 &&
+  //      tapLength > 0 &&
+  //      Math.abs(touchX - tapX.current) < 20 &&
+  //      Math.abs(touchY - tapY.current) < 20
+  //    ) {
+  //      // Double tap detected
+  //      console.log("Double tap detected");
+  //      if (tapTimeout.current) {
+  //        window.clearTimeout(tapTimeout.current);
+  //      }
+  //    } else {
+  //      tapTimeout.current = window.setTimeout(() => {
+  //        // Single tap action (if needed)
+  //        if (tapTimeout.current) {
+  //          window.clearTimeout(tapTimeout.current);
+  //        }
+  //      }, 300);
+  //    }
+  //    lastTap.current = currentTime;
+  //    tapX.current = touchX;
+  //    tapY.current = touchY;
+  //  };
+  //  const handleTouchMove = (e: TouchEvent) => {
+  //    if (!isDragging.current) return;
+  //    const touch = e.touches[0];
+  //    const touchX = touch.clientX;
+  //    const touchY = touch.clientY;
+  //    // Calculate movement
+  //    const dx = touchX - lastTouchX.current;
+  //    const dy = touchY - lastTouchY.current;
+  //    // Update last touch positions
+  //    lastTouchX.current = touchX;
+  //    lastTouchY.current = touchY;
+  //    // Handle drag
+  //    console.log(`Dragging: dx=${dx}, dy=${dy}`);
+  //  };
+  //  const handleTouchEnd = () => {
+  //    isDragging.current = false;
+  //  };
+  //  // Attach event listeners to the window
+  //  window.addEventListener("touchstart", handleTouchStart);
+  //  window.addEventListener("touchmove", handleTouchMove);
+  //  window.addEventListener("touchend", handleTouchEnd);
+  //  // Cleanup event listeners on component unmount
+  //  return () => {
+  //    window.removeEventListener("touchstart", handleTouchStart);
+  //    window.removeEventListener("touchmove", handleTouchMove);
+  //    window.removeEventListener("touchend", handleTouchEnd);
+  //  };
+  //}, []);
+
   return (
     <>
       <SmallAlignBottomLargeAlignLeft
@@ -352,7 +444,6 @@ export const GraphRenderer = (props: GraphRendererProps) => {
               // @ts-ignore: either 2d or 3d forcegraph - should be ok
               ref={controller.forceGraphRef}
               graphData={graph}
-              //controlType="fly" // XXX: doesn't work well with catching mouse-events...
               cooldownTicks={cooldownTicks}
               nodeThreeObject={makeNodeThreeObject(controller)}
               nodePointerAreaPaint={() => {}}
@@ -410,6 +501,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
           flexDirection: "column",
         }}
       >
+        <NoTouchButton ctrl={controller} />
         <UserSettings ctrl={controller} />
         <EditModeButton ctrl={controller} />
         <CreateButton ctrl={controller} />
