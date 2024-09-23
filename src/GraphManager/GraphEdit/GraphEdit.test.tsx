@@ -149,9 +149,23 @@ describe("onNodeDrag", () => {
       },
     };
   };
+  it("should not do anything if mode.isEditingEnabled is false", () => {
+    const { node_1, node_3_close } = makeNodes();
+    const ctrl = makeMockController();
+    ctrl.mode.isEditingEnabled = false;
+    // @ts-ignore
+    ctrl.nodeDrag = makeNodeDragState({});
+    ctrl.graph.current.nodes = [node_1, node_3_close];
+    // @ts-ignore
+    onNodeDrag(ctrl, node_1, { x: 0, y: 0 });
+    expect(ctrl.nodeDrag.state).toEqual({});
+    expect(ctrl.setCooldownTicks).not.toHaveBeenCalled();
+    expect(ctrl.graph.addLink).not.toHaveBeenCalled();
+  });
   it("should add currently dragged node to NodeDragState, and do nothing else if no other node in range", () => {
     const { node_1, node_2_far } = makeNodes();
     const ctrl = makeMockController();
+    ctrl.mode.isEditingEnabled = true;
     // @ts-ignore
     ctrl.nodeDrag = makeNodeDragState({});
     ctrl.graph.current.nodes = [node_1, node_2_far];
@@ -164,6 +178,7 @@ describe("onNodeDrag", () => {
   });
   it("should add interimLink for in-range node and remove for out-of-range node", () => {
     const ctrl = makeMockController();
+    ctrl.mode.isEditingEnabled = true;
     const { node_1, node_3_close } = makeNodes();
     ctrl.graph.current.nodes = [node_1, node_3_close];
     // @ts-ignore
@@ -192,6 +207,7 @@ describe("onNodeDrag", () => {
   });
   it("should switch interim link if getting close to another node", () => {
     const ctrl = makeMockController();
+    ctrl.mode.isEditingEnabled = true;
     const { node_1, node_2_far, node_3_close } = makeNodes();
     ctrl.graph.current.nodes = [node_1, node_3_close, node_2_far];
     // @ts-ignore
@@ -232,6 +248,7 @@ describe("onNodeDrag", () => {
   });
   it("should not switch interim if current node is closer than the new one", () => {
     const ctrl = makeMockController();
+    ctrl.mode.isEditingEnabled = true;
     const { node_1, node_2_far, node_3_close } = makeNodes();
     ctrl.graph.current.nodes = [node_1, node_3_close, node_2_far];
     // @ts-ignore
@@ -261,6 +278,7 @@ describe("onNodeDrag", () => {
   });
   it("should not remove links where the source node, is not the currently dragged one", () => {
     const ctrl = makeMockController();
+    ctrl.mode.isEditingEnabled = true;
     const { node_1, node_2_far, node_3_close, node_4_far } = makeNodes();
     ctrl.graph.current.nodes = [node_1, node_4_far, node_3_close, node_2_far];
     const link_12 = { id: "1", source: node_1, target: node_2_far, value: 5 };
@@ -284,6 +302,7 @@ describe("onNodeDrag", () => {
 });
 
 describe("onNodeDragEnd", () => {
+  // TODO(skep): also test mode.isEditingEnabled = false, to have no effect
   it("shoud do nothing if no interimLink exists", () => {
     const ctrl = makeMockController();
     ctrl.nodeDrag.state = {};

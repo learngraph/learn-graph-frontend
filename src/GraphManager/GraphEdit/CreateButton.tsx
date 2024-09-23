@@ -15,12 +15,15 @@ import { useUserDataContext } from "@src/Context/UserDataContext";
 import i18n from "@src/shared/i18n";
 import { AlertFnRef, AlertPopupBar } from "@src/shared/Alert";
 
+// Icon style for all button icons on the RHS of the screen.
 export const buttonIconStyle = { fontSize: 40 };
 
-// TODO(skep): use theme here for backgroundColor!
-// Styled component for the shaded circle
-export const CircleContainer = styled("div")({
-  backgroundColor: "rgba(0, 0, 0, 0.2)",
+// Base component for all buttons on the RHS of the screen.
+export const CircleContainer = styled("div")(({ theme }) => ({
+  backgroundColor:
+    theme.palette.mode === "light"
+      ? theme.palette.grey[200]
+      : theme.palette.grey[800],
   borderRadius: "50%",
   padding: "8px", // Adjust padding as needed
   display: "inline-flex",
@@ -28,9 +31,12 @@ export const CircleContainer = styled("div")({
   justifyContent: "center",
   transition: "background-color 0.3s",
   "&:hover": {
-    backgroundColor: "rgba(0, 0, 0, 0.4)",
+    backgroundColor:
+      theme.palette.mode === "light"
+        ? theme.palette.grey[800]
+        : theme.palette.grey[200],
   },
-});
+}));
 
 interface CreateButtonProps {
   ctrl: Controller;
