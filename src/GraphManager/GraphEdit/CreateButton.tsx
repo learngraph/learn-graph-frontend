@@ -14,12 +14,15 @@ import { useTranslation } from "react-i18next";
 import { useUserDataContext } from "@src/Context/UserDataContext";
 import i18n from "@src/shared/i18n";
 import { AlertFnRef, AlertPopupBar } from "@src/shared/Alert";
+import { Theme, useTheme } from "@mui/material";
 
 // Icon style for all button icons on the RHS of the screen.
 export const buttonIconStyle = { fontSize: 40 };
 
-// Base component for all buttons on the RHS of the screen.
-export const CircleContainer = styled("div")(({ theme }) => ({
+const StyledDiv = styled("div", {
+  // Step 2: Prevent 'theme' from being forwarded as a prop
+  shouldForwardProp: (prop) => prop !== "theme",
+})(({ theme }: { theme: Theme }) => ({
   backgroundColor:
     theme.palette.mode === "light"
       ? theme.palette.grey[200]
@@ -37,6 +40,14 @@ export const CircleContainer = styled("div")(({ theme }) => ({
         : theme.palette.grey[200],
   },
 }));
+interface CircleContainerProps {
+  children?: React.ReactNode;
+}
+
+// Base component for all buttons on the RHS of the screen.
+export const CircleContainer = (props: CircleContainerProps) => {
+  return <StyledDiv theme={useTheme()}>{props.children}</StyledDiv>;
+};
 
 interface CreateButtonProps {
   ctrl: Controller;
