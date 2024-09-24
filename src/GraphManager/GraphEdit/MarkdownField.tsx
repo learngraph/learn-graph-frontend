@@ -40,9 +40,15 @@ import { useTheme } from "@emotion/react";
 const urlRegExp = new RegExp(
   /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[\w]*))?)/,
 );
-const validateUrl = (url: string): boolean => {
+export const validateUrl = (url: string): boolean => {
   return url === "https://" || urlRegExp.test(url);
+  //          ^-- this one confuses me the urlRegExp should be 
+  //              enough to find all valid links...
 };
+
+// const containsUrl = (markdown: string): boolean => {
+//   return 
+// };
 
 export interface MarkdownConfig {
   fieldName: string;
@@ -119,6 +125,13 @@ const MarkdownEditor = (props: MarkdownEditorConfig) => {
     editorState.read(() => {
       markdown = $convertToMarkdownString(TRANSFORMERS_MARKDOWN);
     });
+    // TODO:
+    //if containsUrl(markdown) {
+    //  markdown = fixLinkIssue(markdown);
+    //}
+    // 1) http://localhost:3000/graph <- has ()-braces? no
+    // 2) [http://localhost:3000/grap(h)](http://localhost:3000/grap%27h%28)
+    // 3) http://localhost:3000/grap(h) <- has braces must be changed
     props.setValueOnChange(markdown);
     props.setIsEmpty(markdown === "");
   };
