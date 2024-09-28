@@ -5,13 +5,12 @@ import { Trans, useTranslation } from "react-i18next";
 import { NavigationWithContent } from "./Navigation";
 import Image from "mui-image";
 import { Href } from "./shared/Components";
-import { styled } from '@mui/material/styles';
 
 // Updated TeamMember component with 'role' prop
 interface TeamMemberProps {
   imageSrc: string;
   name: string;
-  description: string;
+  description: string | React.ReactElement;
   linkedInUrl: string;
 }
 
@@ -24,12 +23,7 @@ const TeamMember = ({
   const theme = useTheme();
 
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      margin={2}
-    >
+    <Box display="flex" flexDirection="column" alignItems="center" margin={2}>
       <Image src={imageSrc} alt={name} width={150} height={150} />
       <Typography variant="h6" marginTop={1} textAlign="center">
         {name}
@@ -54,8 +48,6 @@ const TeamMember = ({
   );
 };
 
-
-
 const TypographyMaxWidth = (props: any) => {
   return <Typography sx={{ maxWidth: "80ch", ...props.sx }} {...props} />;
 };
@@ -78,16 +70,16 @@ export const About = () => {
           }}
         >
           <TypographyMaxWidth variant="h4" gutterBottom id="about">
-            {t('about.headline-About Us')}
+            {t("about.headline-About Us")}
           </TypographyMaxWidth>
           <TypographyMaxWidth paragraph>
             <Trans i18nKey="about.who-are-we-story" />
           </TypographyMaxWidth>
 
-          <Divider sx={{ margin: '20px 0' }} />
+          <Divider sx={{ margin: "20px 0" }} />
 
           <TypographyMaxWidth variant="h5" gutterBottom id="whoarewe">
-            {t('about.headline-Who Are We')}
+            {t("about.headline-Who Are We")}
           </TypographyMaxWidth>
 
           {/* Use Grid to layout team members */}
@@ -96,7 +88,7 @@ export const About = () => {
               <TeamMember
                 imageSrc="team-laurin.png"
                 name="Laurin Hagemann"
-                description={t('about.team-Laurin')}
+                description={t("about.team-Laurin")}
                 linkedInUrl="https://www.linkedin.com/in/laurin-hagemann/"
               />
             </Grid>
@@ -104,7 +96,7 @@ export const About = () => {
               <TeamMember
                 imageSrc="team-namatama.png"
                 name="Namatama Theresa Katanekwa"
-                description={t('about.team-Namatama')}
+                description={t("about.team-Namatama")}
                 linkedInUrl="https://www.linkedin.com/in/namatama-theresa-katanekwa-5697b3196/"
               />
             </Grid>
@@ -112,16 +104,35 @@ export const About = () => {
               <TeamMember
                 imageSrc="team-efecan.jpeg"
                 name="Efecan Köse"
-                description={t('about.team-Efecan')}
+                description={t("about.team-Efecan")}
                 linkedInUrl="https://www.linkedin.com/in/efecan-k%C3%B6se-3b45a432a/"
               />
             </Grid>
           </Grid>
 
-          <Divider sx={{ margin: '20px 0' }} />
+          <Divider sx={{ margin: "20px 0" }} />
+
+          <TypographyMaxWidth variant="h5" gutterBottom id="whoarewe">
+            {t("about.headline-travel-group")}
+          </TypographyMaxWidth>
+          <TeamMember
+            imageSrc="team-placeholder.png"
+            name={t("about.team-placeholder-name")}
+            description={
+              <Trans
+                i18nKey="about.team-placeholder-description"
+                components={{
+                  mailtojobs: <Href href="mailto:jobs@learngraph.org" />,
+                }}
+              />
+            }
+            linkedInUrl="https://www.linkedin.com/in/"
+          />
+
+          <Divider sx={{ margin: "20px 0" }} />
 
           <TypographyMaxWidth variant="h5" gutterBottom id="gettinginvolved">
-            {t('about.headline-getting-involved')}
+            {t("about.headline-getting-involved")}
           </TypographyMaxWidth>
           <TypographyMaxWidth paragraph>
             <Trans
@@ -137,4 +148,3 @@ export const About = () => {
     />
   );
 };
-
