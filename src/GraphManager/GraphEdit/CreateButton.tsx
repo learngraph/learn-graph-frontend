@@ -64,6 +64,7 @@ export const CreateButton = ({ ctrl }: CreateButtonProps) => {
       displayAlert(i18n.t("To edit the graph please login."));
       return;
     }
+    ctrl.mode.setIsEditingEnabled(true);
     setAnchorEl(event.currentTarget);
   };
   const handleClose = (menuItem: string) => {
