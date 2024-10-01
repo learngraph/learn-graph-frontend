@@ -75,7 +75,7 @@ function transformGraphData(backendData: BackendGraphData) {
       source: link.source,
       target: link.target,
       attributes: {
-        weight: link.value
+        size: link.value/2 //halved looks a bit nicer but can be changed
       }
     }))
   };
