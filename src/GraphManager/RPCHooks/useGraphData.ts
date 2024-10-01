@@ -65,8 +65,9 @@ function transformGraphData(backendData: BackendGraphData) {
       attributes: {
         x: node.position?.x ?? 0,
         y: node.position?.y ?? 0,
-        description: node.description,
+        label: node.description,
         resources: node.resources,
+        size: 10,
       }
     })),
     edges: backendData.links.map(link => ({

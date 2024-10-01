@@ -15,7 +15,7 @@ export const GraphRendererSigma: React.FC = () => {
         // Create a new Graphology graph instance
         const graph = new Graph();
   
-        // Import the graph data (assuming your `data` is in Graphology's format)
+        // `data` must have Graphology's format 
         graph.import(data);
   
         // Create a new Sigma renderer instance
