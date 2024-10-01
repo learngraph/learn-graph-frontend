@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import EdgeCurveProgram from "@sigma/edge-curve"; // for edge interaction and curved edges
+import { EdgeCurvedArrowProgram } from "@sigma/edge-curve"; // for edge interaction and curved edges
 import Graph from "graphology";
 import Sigma from "sigma";
 import { useGraphologyGraphData } from "./RPCHooks/useGraphData";
@@ -23,7 +23,7 @@ export const GraphRendererSigma: React.FC = () => {
           allowInvalidContainer: true, // Optional: handles cases where the container might not be ready immediately
           defaultEdgeType: "curve", // Set default edge type to 'curve' for curved edges
           edgeProgramClasses: {
-            curve: EdgeCurveProgram, // Use the EdgeCurveProgram for rendering curved edges
+            curve: EdgeCurvedArrowProgram,
           },
         });
   
