@@ -94,7 +94,7 @@ export const About = () => {
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
               <TeamMember
-                imageSrc="team-namatama.png"
+                imageSrc="team-namatama.jpg"
                 name="Namatama Theresa Katanekwa"
                 description={t("about.team-Namatama")}
                 linkedInUrl="https://www.linkedin.com/in/namatama-theresa-katanekwa-5697b3196/"
