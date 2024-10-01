@@ -2,7 +2,6 @@
 import { Box } from "@mui/material";
 import { NavigationWithContent } from "./Navigation";
 import Hero from "./LandingPage/Hero";
-import Highlights from "./LandingPage/Highlights";
 import MissionStatement from "./LandingPage/MissionStatement";
 import Crowdsourcing from "./LandingPage/Crowdsourcing";
 import FAQ from "./LandingPage/FAQ";
@@ -24,7 +23,6 @@ export const LandingPage = () => {
           <Box id="main-page-content">
             <MissionStatement />
             <Crowdsourcing />
-            <Highlights />
             <FAQ />
           </Box>
         </Box>
