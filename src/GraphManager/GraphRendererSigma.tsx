@@ -3,35 +3,36 @@ import { EdgeCurvedArrowProgram } from "@sigma/edge-curve"; // for edge interact
 import Graph from "graphology";
 import Sigma from "sigma";
 import { useGraphologyGraphData } from "./RPCHooks/useGraphData";
-import { Rectangle, setGraphSize } from "./utils";
+import { Rectangle } from "./utils";
 
 export const GraphRendererSigma: React.FC = () => {
-  const containerRef = useRef<HTMLDivElement | null>(null); // Create a ref for the Sigma container
+  const containerRef = useRef<HTMLDivElement | null>(null); // Ref for Sigma container
+  const { data, queryResponse } = useGraphologyGraphData(); // Fetch graph data using custom hook
 
-  const { data, queryResponse } = useGraphologyGraphData(); // Fetch graph data using the custom hook
-  const wrapperRef = useRef<HTMLDivElement>(null);
+  //// ------- scale graph to available space -------
+  // Use window's size as the initial dimensions
   const [availableSpace, setAvailableSpace] = useState<Rectangle>({
-    height: 400,
-    width: 600,
+    height: window.innerHeight,
+    width: window.innerWidth,
   });
-  const graphSizeConfig = { wrapperRef, setAvailableSpace };
-  // Set the graph size when the component mounts
-  useLayoutEffect(() => {
-    resizeContainer(); // Set the initial size
-    setGraphSize(graphSizeConfig); // Set size based on your custom logic
-  }, []); // Empty dependency array it could contain [controller.search.highlightNodes] for 
 
   // Helper function to update the size of the container
   const resizeContainer = () => {
-    if (wrapperRef.current) {
-      const { clientWidth, clientHeight } = wrapperRef.current;
+    if (containerRef.current) {
+      const { clientWidth, clientHeight } = containerRef.current;
       setAvailableSpace({ width: clientWidth, height: clientHeight });
     }
   };
 
+  // Set the graph size when the component mounts
+  useLayoutEffect(() => {
+    resizeContainer(); // Set the initial size when the component mounts
+  }, []); // Empty dependency array, so it runs only on mount (could run on )
+
+  // Update the container size on window resize
   useEffect(() => {
     const handleResize = () => {
-      resizeContainer();
+      resizeContainer(); // Properly call the resizeContainer function
     };
     window.addEventListener("resize", handleResize);
     return () => {
@@ -39,7 +40,7 @@ export const GraphRendererSigma: React.FC = () => {
     };
   }, []);
 
-  //Graph rendering
+  //// -------- Graph rendering ----------
   useEffect(() => {
     // Ensure the data is available and the container is ready
     if (data && containerRef.current) {
@@ -60,7 +61,7 @@ export const GraphRendererSigma: React.FC = () => {
         renderer.kill(); // Kill the renderer to avoid memory leaks
       };
     }
-  }, [data]); // Dependency array to rerun effect when data changes
+  }, [data, availableSpace]); // Recalculate graph size when data or available space changes
 
   // Handle loading and error states
   if (queryResponse.loading) return <div>Loading graph...</div>;
@@ -69,20 +70,20 @@ export const GraphRendererSigma: React.FC = () => {
 
   return (
     <div
-    ref={containerRef}
-    style={{
-      height: "100vh", // Take the full height of the viewport
-      width: "100vw",  // Take the full width of the viewport
-    }}
-  >
-    <div
-      id="sigma-container"
+      ref={containerRef}
       style={{
-        height: availableSpace.height + "px",
-        width: availableSpace.width + "px",
+        height: "100vh", // Take the full height of the viewport
+        width: "100vw", // Take the full width of the viewport
       }}
-    ></div>
-  </div>
+    >
+      <div
+        id="sigma-container"
+        style={{
+          height: availableSpace.height + "px",
+          width: availableSpace.width + "px",
+        }}
+      ></div>
+    </div>
   );
 };
 
