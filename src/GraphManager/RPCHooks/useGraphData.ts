@@ -36,7 +36,7 @@ export function useGraphData(): GraphDataResponse {
   return { data, queryResponse: { loading, error, networkStatus } };
 }
 
-// Transform function: Converts BackendGraphData to Graphology format
+// Transform function: Converts BackendGraphData to Graphology formatq
 export function transformGraphData(backendData: BackendGraphData) {
   const graphologyData = {
     nodes: backendData.nodes.map((node) => ({
