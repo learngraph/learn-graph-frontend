@@ -33,7 +33,7 @@ export const GraphManagerSigma = (_: GraphManagerProps): JSX.Element => {
         }}
         alwaysDisplayNavDrawer={true}
       />
-      <GraphRendererSigma/>
+      <GraphRendererSigma />
     </Box>
   );
 };

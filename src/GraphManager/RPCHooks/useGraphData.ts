@@ -35,32 +35,11 @@ export function useGraphData(): GraphDataResponse {
 
   return { data, queryResponse: { loading, error, networkStatus } };
 }
-// Graphology compatible interface for nodes and edges
-export interface GraphologyNode {
-  key: string;
-  attributes: {
-    x: number;
-    y: number;
-    description: string;
-    resources: any[];
-    [key: string]: any; // Additional attributes if needed
-  };
-}
-
-export interface GraphologyEdge {
-  key: string;
-  source: string;
-  target: string;
-  attributes: {
-    weight: number;
-    [key: string]: any; // Additional attributes if needed
-  };
-}
 
 // Transform function: Converts BackendGraphData to Graphology format
-function transformGraphData(backendData: BackendGraphData) {
+export function transformGraphData(backendData: BackendGraphData) {
   const graphologyData = {
-    nodes: backendData.nodes.map(node => ({
+    nodes: backendData.nodes.map((node) => ({
       key: node.id,
       attributes: {
         x: node.position?.x ?? 0,
@@ -68,16 +47,16 @@ function transformGraphData(backendData: BackendGraphData) {
         label: node.description,
         resources: node.resources,
         size: 10,
-      }
+      },
     })),
-    edges: backendData.links.map(link => ({
+    edges: backendData.links.map((link) => ({
       key: link.id,
       source: link.source,
       target: link.target,
       attributes: {
-        size: link.value/2 //halved looks a bit nicer but can be changed
-      }
-    }))
+        size: link.value / 2, //halved looks a bit nicer but can be changed
+      },
+    })),
   };
 
   return graphologyData;
@@ -85,7 +64,12 @@ function transformGraphData(backendData: BackendGraphData) {
 
 export interface GraphologyGraphData {
   nodes: Array<{ key: string; attributes: any }>;
-  edges: Array<{ key: string; source: string; target: string; attributes: any }>;
+  edges: Array<{
+    key: string;
+    source: string;
+    target: string;
+    attributes: any;
+  }>;
 }
 
 export interface GraphologyGraphDataResponse {
@@ -104,5 +88,8 @@ export function useGraphologyGraphData(): GraphologyGraphDataResponse {
     transformedData = transformGraphData(data.graph as BackendGraphData);
   }
 
-  return { data: transformedData, queryResponse: { loading, error, networkStatus } };
+  return {
+    data: transformedData,
+    queryResponse: { loading, error, networkStatus },
+  };
 }
