@@ -1,10 +1,9 @@
 import { useRef, MutableRefObject } from "react";
 import { Box } from "@mui/material";
-
 import { userSearchMatching } from "./Header/Search";
 import { Controller } from "./GraphEdit/GraphEdit";
 import { NavigationWithContent } from "@src/Navigation";
-import GraphRendererSigma from "./GraphRendererSigma";
+import { GraphRendererSigma } from "./GraphRendererSigma";
 
 interface GraphManagerProps {}
 
@@ -33,7 +32,8 @@ export const GraphManagerSigma = (_: GraphManagerProps): JSX.Element => {
         }}
         alwaysDisplayNavDrawer={true}
       />
-      <GraphRendererSigma />
+      <GraphRendererSigma controllerRef={controllerRef} />
     </Box>
+    
   );
 };
