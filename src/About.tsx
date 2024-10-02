@@ -1,61 +1,61 @@
 // TODO(skep): translate this file!
-import { Box, Typography, Divider, useTheme } from "@mui/material";
+import { Box, Typography, Divider, useTheme, Grid } from "@mui/material";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import { Trans, useTranslation } from "react-i18next";
 import { NavigationWithContent } from "./Navigation";
 import Image from "mui-image";
 import { Href } from "./shared/Components";
 
-const TypographyMaxWidth = (props: any) => {
-  return <Typography sx={{ maxWidth: "80ch", ...props.sx }} {...props} />;
-};
+// Updated TeamMember component with 'role' prop
+interface TeamMemberProps {
+  imageSrc: string;
+  name: string;
+  description: string | React.ReactElement;
+  linkedInUrl: string;
+}
 
 const TeamMember = ({
   imageSrc,
   name,
   description,
   linkedInUrl,
-}: {
-  imageSrc: string;
-  name: string;
-  description: string;
-  linkedInUrl: string;
-}) => {
+}: TeamMemberProps) => {
+  const theme = useTheme();
+
   return (
-    <Box
-      display="flex"
-      alignItems="center"
-      marginTop={2}
-      marginBottom={2}
-      marginLeft={5}
-    >
-      <Box
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        marginRight={3}
+    <Box display="flex" flexDirection="column" alignItems="center" margin={2}>
+      <Image src={imageSrc} alt={name} width={150} height={150} />
+      <Typography variant="h6" marginTop={1} textAlign="center">
+        {name}
+        <Href
+          href={linkedInUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ marginLeft: 8 }}
+        >
+          <LinkedInIcon fontSize="small" />
+        </Href>
+      </Typography>
+      {/* Display the role below the name */}
+      <Typography
+        variant="subtitle1"
+        color={theme.palette.text.secondary}
+        textAlign="center"
       >
-        <Image src={imageSrc} alt={name} width={150} height={150} />
-        <TypographyMaxWidth variant="h6" marginTop={1}>
-          {name}
-          <Href
-            href={linkedInUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            sx={{ marginLeft: 1 }}
-          >
-            <LinkedInIcon />
-          </Href>
-        </TypographyMaxWidth>
-      </Box>
-      <TypographyMaxWidth paragraph>{description}</TypographyMaxWidth>
+        {description}
+      </Typography>
     </Box>
   );
+};
+
+const TypographyMaxWidth = (props: any) => {
+  return <Typography sx={{ maxWidth: "80ch", ...props.sx }} {...props} />;
 };
 
 export const About = () => {
   const theme = useTheme();
   const { t } = useTranslation();
+
   return (
     <NavigationWithContent
       withSideNavigation={true}
@@ -77,23 +77,60 @@ export const About = () => {
           </TypographyMaxWidth>
 
           <Divider sx={{ margin: "20px 0" }} />
+
           <TypographyMaxWidth variant="h5" gutterBottom id="whoarewe">
             {t("about.headline-Who Are We")}
           </TypographyMaxWidth>
-          <TeamMember
-            imageSrc="team-laurin.png"
-            name="Laurin Hagemann"
-            description={t("about.team-Laurin")}
-            linkedInUrl="https://www.linkedin.com/in/laurin-hagemann-573616201/"
-          />
+
+          {/* Use Grid to layout team members */}
+          <Grid container spacing={4}>
+            <Grid item xs={12} sm={6} md={4}>
+              <TeamMember
+                imageSrc="team-laurin.png"
+                name="Laurin Hagemann"
+                description={t("about.team-Laurin")}
+                linkedInUrl="https://www.linkedin.com/in/laurin-hagemann/"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4}>
+              <TeamMember
+                imageSrc="team-namatama.jpg"
+                name="Namatama Theresa Katanekwa"
+                description={t("about.team-Namatama")}
+                linkedInUrl="https://www.linkedin.com/in/namatama-theresa-katanekwa-5697b3196/"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4}>
+              <TeamMember
+                imageSrc="team-efecan.jpeg"
+                name="Efecan Köse"
+                description={t("about.team-Efecan")}
+                linkedInUrl="https://www.linkedin.com/in/efecan-k%C3%B6se-3b45a432a/"
+              />
+            </Grid>
+          </Grid>
+
+          <Divider sx={{ margin: "20px 0" }} />
+
+          <TypographyMaxWidth variant="h5" gutterBottom id="whoarewe">
+            {t("about.headline-travel-group")}
+          </TypographyMaxWidth>
           <TeamMember
             imageSrc="team-placeholder.png"
             name={t("about.team-placeholder-name")}
-            description={t("about.team-placeholder-description")}
+            description={
+              <Trans
+                i18nKey="about.team-placeholder-description"
+                components={{
+                  mailtojobs: <Href href="mailto:jobs@learngraph.org" />,
+                }}
+              />
+            }
             linkedInUrl="https://www.linkedin.com/in/"
           />
 
           <Divider sx={{ margin: "20px 0" }} />
+
           <TypographyMaxWidth variant="h5" gutterBottom id="gettinginvolved">
             {t("about.headline-getting-involved")}
           </TypographyMaxWidth>

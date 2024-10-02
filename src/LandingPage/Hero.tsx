@@ -7,6 +7,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { Trans, useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { Href } from "@src/shared/Components";
 
 export default function Hero() {
   const { t } = useTranslation();
@@ -89,7 +90,12 @@ export default function Hero() {
                   : "text.secondary",
             }}
           >
-            {t("landing.intro")}
+            <Trans
+              i18nKey="landing.intro"
+              components={{
+                linktodiscord: <Href href="https://discord.gg/DatEV4kNp6" />,
+              }}
+            />
           </Typography>
         </Stack>
         <Box
