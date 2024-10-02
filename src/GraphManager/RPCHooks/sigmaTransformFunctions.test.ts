@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { transformGraphData } from "./useGraphData";
+import { transformGraphDataToSigma } from "./sigmaTransformFunctions";
 import { BackendGraphData } from "../types";
 
 describe("transform GraphData", () => {
@@ -60,7 +60,7 @@ describe("transform GraphData", () => {
       ],
     };
 
-    const result = transformGraphData(backendData);
+    const result = transformGraphDataToSigma(backendData);
 
     // Step 4: Check if the output matches the expected result
     expect(result).toEqual(expectedGraphologyData);
