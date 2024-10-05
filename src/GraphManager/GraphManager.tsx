@@ -11,7 +11,9 @@ interface GraphManagerProps {}
 export type ControllerRef = MutableRefObject<Controller | undefined>;
 
 export const GraphManager = (_: GraphManagerProps): JSX.Element => {
-  const controllerRef: ControllerRef = useRef<Controller | undefined>(undefined);
+  const controllerRef: ControllerRef = useRef<Controller | undefined>(
+    undefined,
+  );
   const searchCallback = (userInput: string) => {
     userSearchMatching(controllerRef, userInput);
   };

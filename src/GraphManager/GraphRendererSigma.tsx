@@ -1,4 +1,10 @@
-import React, { MutableRefObject, useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, {
+  MutableRefObject,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { EdgeCurvedArrowProgram } from "@sigma/edge-curve"; // for edge interaction and curved edges
 import Graph from "graphology";
 import Sigma from "sigma";
@@ -12,10 +18,14 @@ import { UserSettings } from "./GraphEdit/UserSettings";
 import { Controller } from "./GraphEdit/GraphEdit";
 
 interface GraphRendererProps {
-  controllerRef: MutableRefObject<Controller | undefined>; // Define the prop type
+  controller: Controller;
+  backgroundColor: "black" | "white";
+  graphData: any;
 }
-export const GraphRendererSigma: React.FC<GraphRendererProps> = ({ controllerRef }) => {
-  const controller = controllerRef.current;
+
+export const GraphRendererSigma: React.FC<GraphRendererProps> = ({
+  controller,
+}) => {
   const containerRef = useRef<HTMLDivElement | null>(null); // Ref for Sigma container
   const { data, queryResponse } = useGraphologyGraphData(); // Fetch graph data using custom hook
 
@@ -83,7 +93,7 @@ export const GraphRendererSigma: React.FC<GraphRendererProps> = ({ controllerRef
       ref={containerRef}
       sx={{
         height: "100vh", // Full viewport height
-        width: "100vw",  // Full viewport width
+        width: "100vw", // Full viewport width
         position: "relative",
       }}
     >
@@ -94,17 +104,18 @@ export const GraphRendererSigma: React.FC<GraphRendererProps> = ({ controllerRef
           width: availableSpace.width + "px",  // Dynamic width based on available space
         }}
       /> */}
-      
+
       <Box
-        sx={{ position: "fixed",   // Fixed position relative to the viewport
-        bottom: 0,           // Stick to the bottom
-        right: 0,            // Stick to the right
-        padding: "16px",     // Add padding around the button container
-        display: "flex",     // Flexbox layout
-        flexDirection: "column", // Arrange buttons in a column
-        gap: "8px",          // Space between the buttons
-        zIndex: 1000,        // Ensure it's above other elements
-        backgroundColor: "rgba(255, 255, 255, 0.8)", // Semi-transparent background for visibility
+        sx={{
+          position: "fixed", // Fixed position relative to the viewport
+          bottom: 0, // Stick to the bottom
+          right: 0, // Stick to the right
+          padding: "16px", // Add padding around the button container
+          display: "flex", // Flexbox layout
+          flexDirection: "column", // Arrange buttons in a column
+          gap: "8px", // Space between the buttons
+          zIndex: 1000, // Ensure it's above other elements
+          backgroundColor: "rgba(255, 255, 255, 0.8)", // Semi-transparent background for visibility
         }}
       >
         {controller ? (
