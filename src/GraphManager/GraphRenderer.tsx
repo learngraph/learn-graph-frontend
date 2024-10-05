@@ -1,6 +1,6 @@
 import ForceGraph2D from "react-force-graph-2d";
 import ForceGraph3D from "react-force-graph-3d";
-import { useRef, useState, useLayoutEffect, useEffect, useImperativeHandle, forwardRef } from "react";
+import { useRef, useState, useLayoutEffect, useEffect } from "react";
 import Box from "@mui/material/Box";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material";
@@ -166,7 +166,7 @@ const SmallAlignBottomLargeAlignLeft = ({
   );
 };
 
-export const GraphRenderer =forwardRef<Controller, GraphRendererProps>((props, ref) => {
+export const GraphRenderer = (props: GraphRendererProps) => {
   const [graph, setGraph] = useState<ForceGraphGraphData>(
     makeInitialGraphData(),
   );
@@ -262,9 +262,6 @@ export const GraphRenderer =forwardRef<Controller, GraphRendererProps>((props, r
       setUse3D,
     },
   };
-   // Expose controller to parent component
-   useImperativeHandle(ref, () => controller);
-   
   const zoomControl = makeZoomControl(controller);
   controller.zoom.setUserZoomLevel = zoomControl.onZoomChange;
   props.controllerRef.current = controller;
@@ -512,4 +509,4 @@ export const GraphRenderer =forwardRef<Controller, GraphRendererProps>((props, r
       {/*<ZoomControlPanel zoomControl={zoomControl} /> XXX(skep): disabled due to performance issue*/}
     </>
   );
-});
+};
