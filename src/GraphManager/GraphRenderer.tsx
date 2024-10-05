@@ -1,4 +1,3 @@
-import ForceGraph2D from "react-force-graph-2d";
 import ForceGraph3D from "react-force-graph-3d";
 import {
   useRef,
@@ -21,13 +20,13 @@ import {
 import { ZoomState } from "./Zoom";
 import { useGraphData } from "./RPCHooks";
 import {
-  makeOnBackgroundClick,
+  //makeOnBackgroundClick,
   Controller,
   NodeDragState,
-  makeOnNodeDrag,
-  makeOnNodeDragEnd,
-  makeOnLinkClick,
-  makeOnNodeClick,
+  //makeOnNodeDrag,
+  //makeOnNodeDragEnd,
+  //makeOnLinkClick,
+  //makeOnNodeClick,
   Backend,
   FG_ENGINE_COOLDOWN_TICKS_DEFAULT,
 } from "./GraphEdit/GraphEdit";
@@ -46,7 +45,7 @@ import { useUserDataContext } from "@src/Context/UserDataContext";
 import {
   //ZoomControlPanel,
   makeZoomControl,
-  makeOnZoomAndPanListener,
+  //makeOnZoomAndPanListener,
 } from "./ZoomControlPanel";
 import { ControllerRef } from "./GraphManager";
 import { SearchResultPopUp } from "./SearchResultPopUp";
@@ -54,15 +53,15 @@ import {
   G_CONFIG,
   Rectangle,
   linkCanvasObject,
-  linkPointerAreaPaint,
+  //linkPointerAreaPaint,
   makeGraphState,
   makeInitialGraphData,
   makeKeydownListener,
   nodeCanvas3dObject,
-  nodeCanvasObject,
-  nodePointerAreaPaint,
+  //nodeCanvasObject,
+  //nodePointerAreaPaint,
   setGraphSize,
-  makeOnNodeHover,
+  //makeOnNodeHover,
   onGraphUpdate,
 } from "./utils";
 import GraphRendererSigma from "./GraphRendererSigma";
@@ -73,42 +72,9 @@ interface GraphRendererProps {
 
 // node render & interaction
 
-const makeNodeCanvasObject = (ctrl: Controller) => {
-  return (
-    node: ForceGraphNodeObject,
-    ctx: CanvasRenderingContext2D,
-    globalScale: number,
-  ) => {
-    return nodeCanvasObject(
-      node,
-      ctx,
-      globalScale,
-      ctrl,
-      ctrl.graph.current.nodes.length,
-    );
-  };
-};
-
 const makeNodeThreeObject = (ctrl: Controller) => {
   return (node: ForceGraphNodeObject) => {
     return nodeCanvas3dObject(node, ctrl.graph.current.nodes.length);
-  };
-};
-
-const makeNodePointerAreaPaint = (ctrl: Controller) => {
-  return (
-    node: ForceGraphNodeObject,
-    color: string,
-    ctx: CanvasRenderingContext2D,
-    globalScale: number,
-  ) => {
-    nodePointerAreaPaint(
-      node,
-      color,
-      ctx,
-      globalScale,
-      ctrl.mode.allowGraphInteractions,
-    );
   };
 };
 
@@ -122,19 +88,6 @@ const makeLinkCanvasObject = (ctrl: Controller) => {
   ) => {
     return linkCanvasObject(ctrl, link, ctx, globalScale);
   };
-};
-
-const makeLinkPointerAreaPaint = (ctrl: Controller) => {
-  return (
-    link: ForceGraphLinkObject,
-    invisibleTouchPaint: string,
-    ctx: CanvasRenderingContext2D,
-    globalScale: number,
-  ) => linkPointerAreaPaint(ctrl, link, invisibleTouchPaint, ctx, globalScale);
-};
-
-const onLinkHover = (_: ForceGraphLinkObject | null): void => {
-  //console.log("linkHov", params);
 };
 
 const SmallAlignBottomLargeAlignLeft = ({
@@ -277,7 +230,7 @@ export const GraphRenderer = forwardRef<Controller, GraphRendererProps>(
     const zoomControl = makeZoomControl(controller);
     controller.zoom.setUserZoomLevel = zoomControl.onZoomChange;
     props.controllerRef.current = controller;
-    const onBackgroundClick = makeOnBackgroundClick(controller);
+    //const onBackgroundClick = makeOnBackgroundClick(controller);
     useEffect(() => {
       if (graphDataInfo.error) {
         console.error(`graphDataInfo.error: ${graphDataInfo.error}`);
@@ -362,80 +315,6 @@ export const GraphRenderer = forwardRef<Controller, GraphRendererProps>(
 
       checkTouchDevice();
     }, []);
-
-    //// For touch drag
-    //const isDragging = useRef(false);
-    //const lastTouchX = useRef(0);
-    //const lastTouchY = useRef(0);
-    //// For double tap
-    //const lastTap = useRef<number>(0);
-    //const tapTimeout = useRef<number | null>(null);
-    //const tapX = useRef(0);
-    //const tapY = useRef(0);
-    //useEffect(() => {
-    //  const handleTouchStart = (e: TouchEvent) => {
-    //    alert("touch start!!");
-    //    const touch = e.touches[0];
-    //    const touchX = touch.clientX;
-    //    const touchY = touch.clientY;
-    //    // For touch drag
-    //    isDragging.current = true;
-    //    lastTouchX.current = touchX;
-    //    lastTouchY.current = touchY;
-    //    // For double tap
-    //    const currentTime = new Date().getTime();
-    //    const tapLength = currentTime - lastTap.current;
-    //    if (
-    //      tapLength < 300 &&
-    //      tapLength > 0 &&
-    //      Math.abs(touchX - tapX.current) < 20 &&
-    //      Math.abs(touchY - tapY.current) < 20
-    //    ) {
-    //      // Double tap detected
-    //      console.log("Double tap detected");
-    //      if (tapTimeout.current) {
-    //        window.clearTimeout(tapTimeout.current);
-    //      }
-    //    } else {
-    //      tapTimeout.current = window.setTimeout(() => {
-    //        // Single tap action (if needed)
-    //        if (tapTimeout.current) {
-    //          window.clearTimeout(tapTimeout.current);
-    //        }
-    //      }, 300);
-    //    }
-    //    lastTap.current = currentTime;
-    //    tapX.current = touchX;
-    //    tapY.current = touchY;
-    //  };
-    //  const handleTouchMove = (e: TouchEvent) => {
-    //    if (!isDragging.current) return;
-    //    const touch = e.touches[0];
-    //    const touchX = touch.clientX;
-    //    const touchY = touch.clientY;
-    //    // Calculate movement
-    //    const dx = touchX - lastTouchX.current;
-    //    const dy = touchY - lastTouchY.current;
-    //    // Update last touch positions
-    //    lastTouchX.current = touchX;
-    //    lastTouchY.current = touchY;
-    //    // Handle drag
-    //    console.log(`Dragging: dx=${dx}, dy=${dy}`);
-    //  };
-    //  const handleTouchEnd = () => {
-    //    isDragging.current = false;
-    //  };
-    //  // Attach event listeners to the window
-    //  window.addEventListener("touchstart", handleTouchStart);
-    //  window.addEventListener("touchmove", handleTouchMove);
-    //  window.addEventListener("touchend", handleTouchEnd);
-    //  // Cleanup event listeners on component unmount
-    //  return () => {
-    //    window.removeEventListener("touchstart", handleTouchStart);
-    //    window.removeEventListener("touchmove", handleTouchMove);
-    //    window.removeEventListener("touchend", handleTouchEnd);
-    //  };
-    //}, []);
 
     return (
       <>

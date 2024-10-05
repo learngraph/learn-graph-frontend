@@ -1,10 +1,4 @@
-import React, {
-  MutableRefObject,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { EdgeCurvedArrowProgram } from "@sigma/edge-curve"; // for edge interaction and curved edges
 import Graph from "graphology";
 import Sigma from "sigma";
