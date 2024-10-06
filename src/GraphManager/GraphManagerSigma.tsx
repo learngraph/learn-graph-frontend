@@ -34,6 +34,5 @@ export const GraphManagerSigma = (_: GraphManagerProps): JSX.Element => {
       />
       <GraphRendererSigma controllerRef={controllerRef} />
     </Box>
-    
   );
 };
