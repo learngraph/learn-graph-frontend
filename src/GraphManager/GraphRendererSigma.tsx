@@ -91,38 +91,6 @@ export const GraphRendererSigma: React.FC<GraphRendererProps> = ({
         position: "relative",
       }}
     >
-      {/* <Box
-        id="sigma-container"
-        sx={{
-          height: availableSpace.height + "px", // Dynamic height based on available space
-          width: availableSpace.width + "px",  // Dynamic width based on available space
-        }}
-      /> */}
-
-      <Box
-        sx={{
-          position: "fixed", // Fixed position relative to the viewport
-          bottom: 0, // Stick to the bottom
-          right: 0, // Stick to the right
-          padding: "16px", // Add padding around the button container
-          display: "flex", // Flexbox layout
-          flexDirection: "column", // Arrange buttons in a column
-          gap: "8px", // Space between the buttons
-          zIndex: 1000, // Ensure it's above other elements
-          backgroundColor: "rgba(255, 255, 255, 0.8)", // Semi-transparent background for visibility
-        }}
-      >
-        {controller ? (
-          <>
-            <NoTouchButton ctrl={controller} />
-            <UserSettings ctrl={controller} />
-            <EditModeButton ctrl={controller} />
-            <CreateButton ctrl={controller} />
-          </>
-        ) : (
-          <Box>Loading...</Box>
-        )}
-      </Box>
     </Box>
   );
 };

@@ -31,10 +31,6 @@ import {
   FG_ENGINE_COOLDOWN_TICKS_DEFAULT,
 } from "./GraphEdit/GraphEdit";
 import { GraphEditPopUp, GraphEditPopUpState } from "./GraphEdit/PopUp";
-import { CreateButton } from "./GraphEdit/CreateButton";
-import { EditModeButton } from "./GraphEdit/ModeButton";
-import { NoTouchButton } from "./GraphEdit/NoTouchButton";
-import { UserSettings } from "./GraphEdit/UserSettings";
 import { useCreateNode } from "./RPCHooks/useCreateNode";
 import { useCreateEdge } from "./RPCHooks/useCreateEdge";
 import { useSubmitVote } from "./RPCHooks/useSubmitVote";
@@ -65,6 +61,10 @@ import {
   onGraphUpdate,
 } from "./utils";
 import GraphRendererSigma from "./GraphRendererSigma";
+import { CreateButton } from "./GraphEdit/CreateButton";
+import { EditModeButton } from "./GraphEdit/ModeButton";
+import { NoTouchButton } from "./GraphEdit/NoTouchButton";
+import { UserSettings } from "./GraphEdit/UserSettings";
 
 interface GraphRendererProps {
   controllerRef: ControllerRef;
