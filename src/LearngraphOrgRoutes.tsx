@@ -3,7 +3,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { About } from "./About";
 import { HowToLearngraph } from "./HowToLearngraph";
 import { LandingPage } from "./LandingPage";
-import { GraphManagerSigma } from "./GraphManager/GraphManagerSigma";
+// import { GraphManagerSigma } from "./GraphManager/GraphManagerSigma";
 
 export const LearngraphOrgRoutes = () => {
   return (
@@ -12,7 +12,7 @@ export const LearngraphOrgRoutes = () => {
       <Route path="/about" Component={About} />
       <Route path="/howto" Component={HowToLearngraph} />
       <Route path="/graph" Component={GraphManager} />
-      <Route path="/graphsigma" Component={GraphManagerSigma} />
+      {/* <Route path="/graphsigma" Component={GraphManagerSigma} /> */}
       <Route
         path="*"
         element={
