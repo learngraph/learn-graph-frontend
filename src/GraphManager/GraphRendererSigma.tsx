@@ -14,7 +14,7 @@ interface GraphRendererProps {
 }
 
 export const GraphRendererSigma: React.FC<GraphRendererProps> = ({
-  controller,
+  // controller,
 }) => {
   const containerRef = useRef<HTMLDivElement | null>(null); // Ref for Sigma container
   const { data, queryResponse } = useGraphologyGraphData(); // Fetch graph data using custom hook
