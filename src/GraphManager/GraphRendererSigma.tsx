@@ -14,8 +14,9 @@ interface GraphRendererProps {
 }
 
 export const GraphRendererSigma: React.FC<GraphRendererProps> = ({
-  // controller,
+  controller, backgroundColor
 }) => {
+  controller.language // for the linter...
   const containerRef = useRef<HTMLDivElement | null>(null); // Ref for Sigma container
   const { data, queryResponse } = useGraphologyGraphData(); // Fetch graph data using custom hook
 
@@ -85,6 +86,7 @@ export const GraphRendererSigma: React.FC<GraphRendererProps> = ({
         height: "100vh", // Full viewport height
         width: "100vw", // Full viewport width
         position: "relative",
+        background: backgroundColor,
       }}
     ></Box>
   );
