@@ -90,7 +90,7 @@ export type LocalForceGraphMethods =
 export type ForceGraphRef = MutableRefObject<LocalForceGraphMethods>;
 
 // Graphology compatible interface for nodes and edges
-export interface GraphologyNode {
+export interface GraphologyNodeType {
   key: string;
   attributes: {
     x: number;
@@ -101,7 +101,7 @@ export interface GraphologyNode {
   };
 }
 
-export interface GraphologyEdge {
+export interface GraphologyEdgeType {
   key: string;
   source: string;
   target: string;

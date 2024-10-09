@@ -325,7 +325,7 @@ export const GraphRenderer = forwardRef<Controller, GraphRendererProps>(
             sx={{
               flex: "3",
               overflow: "hidden",
-              // It would be nice to change the background color here I think 
+              // It would be nice to change the background color here I think
             }}
           >
             {controller.mode.use3D ? (
@@ -352,6 +352,7 @@ export const GraphRenderer = forwardRef<Controller, GraphRendererProps>(
             ) : (
               <GraphRendererSigma
                 backgroundColor={theme === "dark" ? "black" : "white"}
+                sigmaStyle= {{height: availableSpace.height, width: availableSpace.width}}
                 //height={availableSpace.height}
                 //width={availableSpace.width}
                 graphData={graph}
