@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 // import { EdgeCurvedArrowProgram } from "@sigma/edge-curve"; // for edge interaction and curved edges
 import Graph from "graphology";
 // import Sigma from "sigma";
-// import { useGraphologyGraphData } from "./RPCHooks/useGraphData";
+import { useGraphologyGraphData } from "./RPCHooks/useGraphData";
 // import { Box } from "@mui/material";
 import { Controller } from "./GraphEdit/GraphEdit";
 import { SigmaContainer, useLoadGraph } from "@react-sigma/core";
@@ -71,15 +71,17 @@ interface GraphRendererProps {
 // };
 
 export const LoadGraph = () => {
-  // const { data, queryResponse } = useGraphologyGraphData(); // Fetch graph data using custom hook
+  const { data, queryResponse } = useGraphologyGraphData(); // Fetch graph data using custom hook
   const loadGraph = useLoadGraph();
   useEffect(() => {
-    
+    if (data){
     const graph = new Graph();
-    // graph.import(data)
-    graph.addNode("first", { x: 0, y: 0, size: 15, label: "My first node", color: "#FA4F40" });
-    loadGraph(graph);
-  }, [loadGraph]);
+    graph.import(data) 
+    console.log("hi?")
+    graph.forEachNode(node => console.log(node))
+    // graph.addNode("first", { x: 0, y: 0, size: 15, label: "My first node", color: "#FA4F40" });
+    loadGraph(graph);}
+  }, [loadGraph]);// This does not load the Graph unless I change this file while the docker service is running ':)
   
   return null;
 }
