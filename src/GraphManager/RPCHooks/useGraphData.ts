@@ -1,6 +1,7 @@
 import { gql, useQuery } from "@apollo/client";
 import { BackendGraphData } from "../types";
 import { ApolloQueryResponse } from "./types";
+import { transformGraphDataToSigma } from "./sigmaTransformFunctions";
 
 const GET_GRAPH_DATA = gql`
   query getGraph {
@@ -34,4 +35,36 @@ export function useGraphData(): GraphDataResponse {
   const { loading, data, error, networkStatus } = useQuery(GET_GRAPH_DATA, {});
 
   return { data, queryResponse: { loading, error, networkStatus } };
+}
+
+export interface GraphologyGraphData {
+  nodes: Array<{ key: string; attributes: any }>;
+  edges: Array<{
+    key: string;
+    source: string;
+    target: string;
+    attributes: any;
+  }>;
+}
+
+export interface GraphologyGraphDataResponse {
+  data: GraphologyGraphData | null; // Data in graphology format
+  queryResponse: ApolloQueryResponse; // Loading, error, and network status info
+}
+
+// Modified useGraphData function
+export function useGraphologyGraphData(): GraphologyGraphDataResponse {
+  const { loading, data, error, networkStatus } = useQuery(GET_GRAPH_DATA, {});
+
+  let transformedData: GraphologyGraphData | null = null;
+
+  if (data) {
+    // Transform the backend data into Graphology format
+    transformedData = transformGraphDataToSigma(data.graph as BackendGraphData);
+  }
+
+  return {
+    data: transformedData,
+    queryResponse: { loading, error, networkStatus },
+  };
 }
