@@ -1,4 +1,5 @@
 import { GraphManager } from "./GraphManager/GraphManager";
+import { PlaygroundManager } from "./GraphManager/PlaygroundManager";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { About } from "./About";
 import { HowToLearngraph } from "./HowToLearngraph";
@@ -11,6 +12,7 @@ export const LearngraphOrgRoutes = () => {
       <Route path="/about" Component={About} />
       <Route path="/howto" Component={HowToLearngraph} />
       <Route path="/graph" Component={GraphManager} />
+      <Route path="/playground" Component={PlaygroundManager} />
       <Route
         path="*"
         element={

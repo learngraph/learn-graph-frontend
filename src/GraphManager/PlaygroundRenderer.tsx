@@ -10,9 +10,9 @@ import {
   ForceGraphNodeObject,
   ForceGraphLinkObject,
   LocalForceGraphMethods,
+  BackendGraphData,
 } from "./types";
 import { ZoomState } from "./Zoom";
-import { useGraphData } from "./RPCHooks";
 import {
   makeOnBackgroundClick,
   Controller,
@@ -59,7 +59,7 @@ import {
   onGraphUpdate,
 } from "./utils";
 
-interface GraphRendererProps {
+interface PlaygroundRendererProps {
   controllerRef: ControllerRef;
 }
 
@@ -166,13 +166,15 @@ const SmallAlignBottomLargeAlignLeft = ({
   );
 };
 
-export const GraphRenderer = (props: GraphRendererProps) => {
+export const PlaygroundRenderer = (props: PlaygroundRendererProps) => {
   const [graph, setGraph] = useState<ForceGraphGraphData>(
     makeInitialGraphData(),
   );
   const { language, theme } = useUserDataContext();
-  const { data: graphDataFromBackend, queryResponse: graphDataInfo } =
-    useGraphData();
+  // formerly
+  //const { data: graphDataFromBackend, queryResponse: graphDataInfo } = useGraphData();
+  const graphDataFromBackend: {graph: BackendGraphData} = {graph: {nodes: [], links: []}};
+  const graphDataInfo = {error: ""};
   const [shiftHeld, setShiftHeld] = useState(false);
   const downHandler = ({ key }: any) => {
     if (key === "Shift") {
@@ -197,19 +199,29 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     graphData: { nodes: [], links: [] },
   };
   const [zoomState, setZoomState] = useState(zoomInitState);
-  const { createNode } = useCreateNode();
-  const { createEdge } = useCreateEdge();
-  const { submitVote } = useSubmitVote();
-  const { updateNode } = useUpdateNode();
-  const { deleteNode } = useDeleteNode();
-  const { deleteEdge } = useDeleteEdge();
+  //const { createNode } = useCreateNode();
+  //const { createEdge } = useCreateEdge();
+  //const { submitVote } = useSubmitVote();
+  //const { updateNode } = useUpdateNode();
+  //const { deleteNode } = useDeleteNode();
+  //const { deleteEdge } = useDeleteEdge();
+  var nodeIDCounter = 0;
+  const nextNodeID = () => {
+    nodeIDCounter += 1;
+    return nodeIDCounter;
+  }
+  var edgeIDCounter = 0;
+  const nextEdgeID = () => {
+    edgeIDCounter += 1;
+    return edgeIDCounter;
+  }
   const backend: Backend = {
-    createNode,
-    updateNode,
-    createLink: createEdge,
-    submitVote,
-    deleteNode,
-    deleteLink: deleteEdge,
+    createNode: () => { return Promise.resolve({data: {createNode: {ID: nextNodeID()}}}) },
+    updateNode: () => { return Promise.resolve({}) },
+    createLink: () => { return Promise.resolve({data: {createEdge: {ID: nextEdgeID()}}}) },
+    submitVote: () => { return Promise.resolve({}) },
+    deleteNode: () => { return Promise.resolve({}) },
+    deleteLink: () => { return Promise.resolve({}) },
   };
   const [cooldownTicks, setCooldownTicks] = useState(
     FG_ENGINE_COOLDOWN_TICKS_DEFAULT,
@@ -273,7 +285,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   }, [graphDataInfo]);
   useEffect(() => {
     onGraphUpdate(controller, graphDataFromBackend, setGraph);
-  }, [graphDataFromBackend]);
+  }, [/*graphDataFromBackend*/]);
   // XXX(skep): should we disable right click? it's kind of annoying for the
   // canvas, but outside we might want to allow it..
   //useEffect(() => {
