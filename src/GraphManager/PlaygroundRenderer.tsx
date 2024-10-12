@@ -50,8 +50,10 @@ import {
   nodePointerAreaPaint,
   setGraphSize,
   makeOnNodeHover,
-  onGraphUpdate,
 } from "./utils";
+import { DeletePlaygroundGraphButton } from "./GraphEdit/DeletePlaygroundGraphButton";
+
+const LOCAL_STORAGE_KEY = 'playgroundGraph';
 
 interface PlaygroundRendererProps {
   controllerRef: ControllerRef;
@@ -167,12 +169,22 @@ export const PlaygroundRenderer = (props: PlaygroundRendererProps) => {
   const [graph, setGraph] = useState<ForceGraphGraphData>(
     makeInitialGraphData(),
   );
+  useEffect(() => {
+    const savedGraph = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (savedGraph) {
+      const localGraph = JSON.parse(savedGraph);
+      const findMax = (max: number, current: number) => (current > max ? current : max);
+      nodeIDCounter = localGraph.nodes.map((node: {id: string}) => parseInt(node.id, 10)).reduce(findMax, 0);
+      edgeIDCounter = localGraph.links.map((link: {id: string}) => parseInt(link.id, 10)).reduce(findMax, 0);
+      setGraph(localGraph);
+    } else {
+      setGraph({nodes: [], links: []});
+    }
+  }, []);
+
   const { language, theme } = useUserDataContext();
   // formerly
   //const { data: graphDataFromBackend, queryResponse: graphDataInfo } = useGraphData();
-  const graphDataFromBackend: { graph: BackendGraphData } = {
-    graph: { nodes: [], links: [] },
-  };
   const graphDataInfo = { error: "" };
   const [shiftHeld, setShiftHeld] = useState(false);
   const downHandler = ({ key }: any) => {
@@ -283,6 +295,18 @@ export const PlaygroundRenderer = (props: PlaygroundRendererProps) => {
       setUse3D,
     },
   };
+  const oldAddNode = controller.graph.addNode;
+  controller.graph.addNode =  (args) => {
+      const ret = oldAddNode(args);
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(controller.graph.current));
+      return ret;
+  };
+  const oldAddLink = controller.graph.addLink;
+  controller.graph.addLink =  (args) => {
+      const ret = oldAddLink(args);
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(controller.graph.current));
+      return ret;
+  };
   const zoomControl = makeZoomControl(controller);
   controller.zoom.setUserZoomLevel = zoomControl.onZoomChange;
   props.controllerRef.current = controller;
@@ -292,14 +316,6 @@ export const PlaygroundRenderer = (props: PlaygroundRendererProps) => {
       console.error(`graphDataInfo.error: ${graphDataInfo.error}`);
     }
   }, [graphDataInfo]);
-  useEffect(
-    () => {
-      onGraphUpdate(controller, graphDataFromBackend, setGraph);
-    },
-    [
-      /*graphDataFromBackend*/
-    ],
-  );
   // XXX(skep): should we disable right click? it's kind of annoying for the
   // canvas, but outside we might want to allow it..
   //useEffect(() => {
@@ -453,6 +469,7 @@ export const PlaygroundRenderer = (props: PlaygroundRendererProps) => {
           flexDirection: "column",
         }}
       >
+        <DeletePlaygroundGraphButton ctrl={controller} />
         <NoTouchButton ctrl={controller} />
         <UserSettings ctrl={controller} />
         <EditModeButton ctrl={controller} />
