@@ -56,7 +56,7 @@ export interface GraphologyGraphDataResponse {
 export function useGraphologyGraphData(): GraphologyGraphDataResponse {
   const { loading, data, error, networkStatus } = useQuery(GET_GRAPH_DATA, {});
 
-  let transformedData: GraphologyGraphData | null = null;
+  let transformedData: GraphologyGraphData | null = null;// this might be a problem.
 
   if (data) {
     // Transform the backend data into Graphology format

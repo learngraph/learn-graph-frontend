@@ -71,7 +71,7 @@ interface GraphRendererProps {
 // };
 
 export const LoadGraph = () => {
-  const { data, queryResponse } = useGraphologyGraphData(); // Fetch graph data using custom hook
+  const { data, queryResponse } = useGraphologyGraphData(); // Fetch graph data using custom hook 
   const loadGraph = useLoadGraph();
   useEffect(() => {
     if (data){
@@ -81,7 +81,7 @@ export const LoadGraph = () => {
     graph.forEachNode(node => console.log(node))
     // graph.addNode("first", { x: 0, y: 0, size: 15, label: "My first node", color: "#FA4F40" });
     loadGraph(graph);}
-  }, [loadGraph]);// This does not load the Graph unless I change this file while the docker service is running ':)
+  }, [loadGraph, queryResponse]);// This now reload the Graph whenever the query response changes...
   
   return null;
 }
