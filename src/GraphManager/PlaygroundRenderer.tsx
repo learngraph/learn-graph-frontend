@@ -29,12 +29,6 @@ import { CreateButton } from "./GraphEdit/CreateButton";
 import { EditModeButton } from "./GraphEdit/ModeButton";
 import { NoTouchButton } from "./GraphEdit/NoTouchButton";
 import { UserSettings } from "./GraphEdit/UserSettings";
-import { useCreateNode } from "./RPCHooks/useCreateNode";
-import { useCreateEdge } from "./RPCHooks/useCreateEdge";
-import { useSubmitVote } from "./RPCHooks/useSubmitVote";
-import { useUpdateNode } from "./RPCHooks/useUpdateNode";
-import { useDeleteNode } from "./RPCHooks/useDeleteNode";
-import { useDeleteEdge } from "./RPCHooks/useDeleteEdge";
 import { useUserDataContext } from "@src/Context/UserDataContext";
 import {
   //ZoomControlPanel,
@@ -166,6 +160,9 @@ const SmallAlignBottomLargeAlignLeft = ({
   );
 };
 
+let nodeIDCounter = 0;
+let edgeIDCounter = 0;
+
 export const PlaygroundRenderer = (props: PlaygroundRendererProps) => {
   const [graph, setGraph] = useState<ForceGraphGraphData>(
     makeInitialGraphData(),
@@ -173,8 +170,10 @@ export const PlaygroundRenderer = (props: PlaygroundRendererProps) => {
   const { language, theme } = useUserDataContext();
   // formerly
   //const { data: graphDataFromBackend, queryResponse: graphDataInfo } = useGraphData();
-  const graphDataFromBackend: {graph: BackendGraphData} = {graph: {nodes: [], links: []}};
-  const graphDataInfo = {error: ""};
+  const graphDataFromBackend: { graph: BackendGraphData } = {
+    graph: { nodes: [], links: [] },
+  };
+  const graphDataInfo = { error: "" };
   const [shiftHeld, setShiftHeld] = useState(false);
   const downHandler = ({ key }: any) => {
     if (key === "Shift") {
@@ -205,23 +204,33 @@ export const PlaygroundRenderer = (props: PlaygroundRendererProps) => {
   //const { updateNode } = useUpdateNode();
   //const { deleteNode } = useDeleteNode();
   //const { deleteEdge } = useDeleteEdge();
-  var nodeIDCounter = 0;
   const nextNodeID = () => {
     nodeIDCounter += 1;
-    return nodeIDCounter;
-  }
-  var edgeIDCounter = 0;
+    return nodeIDCounter.toString();
+  };
   const nextEdgeID = () => {
     edgeIDCounter += 1;
-    return edgeIDCounter;
-  }
+    return edgeIDCounter.toString();
+  };
   const backend: Backend = {
-    createNode: () => { return Promise.resolve({data: {createNode: {ID: nextNodeID()}}}) },
-    updateNode: () => { return Promise.resolve({}) },
-    createLink: () => { return Promise.resolve({data: {createEdge: {ID: nextEdgeID()}}}) },
-    submitVote: () => { return Promise.resolve({}) },
-    deleteNode: () => { return Promise.resolve({}) },
-    deleteLink: () => { return Promise.resolve({}) },
+    createNode: () => {
+      return Promise.resolve({ data: { createNode: { ID: nextNodeID() } } });
+    },
+    updateNode: () => {
+      return Promise.resolve({});
+    },
+    createLink: () => {
+      return Promise.resolve({ data: { createEdge: { ID: nextEdgeID() } } });
+    },
+    submitVote: () => {
+      return Promise.resolve({});
+    },
+    deleteNode: () => {
+      return Promise.resolve({});
+    },
+    deleteLink: () => {
+      return Promise.resolve({});
+    },
   };
   const [cooldownTicks, setCooldownTicks] = useState(
     FG_ENGINE_COOLDOWN_TICKS_DEFAULT,
@@ -283,9 +292,14 @@ export const PlaygroundRenderer = (props: PlaygroundRendererProps) => {
       console.error(`graphDataInfo.error: ${graphDataInfo.error}`);
     }
   }, [graphDataInfo]);
-  useEffect(() => {
-    onGraphUpdate(controller, graphDataFromBackend, setGraph);
-  }, [/*graphDataFromBackend*/]);
+  useEffect(
+    () => {
+      onGraphUpdate(controller, graphDataFromBackend, setGraph);
+    },
+    [
+      /*graphDataFromBackend*/
+    ],
+  );
   // XXX(skep): should we disable right click? it's kind of annoying for the
   // canvas, but outside we might want to allow it..
   //useEffect(() => {
