@@ -10,7 +10,6 @@ import {
   ForceGraphNodeObject,
   ForceGraphLinkObject,
   LocalForceGraphMethods,
-  BackendGraphData,
 } from "./types";
 import { ZoomState } from "./Zoom";
 import {
@@ -53,7 +52,7 @@ import {
 } from "./utils";
 import { DeletePlaygroundGraphButton } from "./GraphEdit/DeletePlaygroundGraphButton";
 
-const LOCAL_STORAGE_KEY = 'playgroundGraph';
+const LOCAL_STORAGE_KEY = "playgroundGraph";
 
 interface PlaygroundRendererProps {
   controllerRef: ControllerRef;
@@ -173,12 +172,17 @@ export const PlaygroundRenderer = (props: PlaygroundRendererProps) => {
     const savedGraph = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (savedGraph) {
       const localGraph = JSON.parse(savedGraph);
-      const findMax = (max: number, current: number) => (current > max ? current : max);
-      nodeIDCounter = localGraph.nodes.map((node: {id: string}) => parseInt(node.id, 10)).reduce(findMax, 0);
-      edgeIDCounter = localGraph.links.map((link: {id: string}) => parseInt(link.id, 10)).reduce(findMax, 0);
+      const findMax = (max: number, current: number) =>
+        current > max ? current : max;
+      nodeIDCounter = localGraph.nodes
+        .map((node: { id: string }) => parseInt(node.id, 10))
+        .reduce(findMax, 0);
+      edgeIDCounter = localGraph.links
+        .map((link: { id: string }) => parseInt(link.id, 10))
+        .reduce(findMax, 0);
       setGraph(localGraph);
     } else {
-      setGraph({nodes: [], links: []});
+      setGraph({ nodes: [], links: [] });
     }
   }, []);
 
@@ -295,18 +299,38 @@ export const PlaygroundRenderer = (props: PlaygroundRendererProps) => {
       setUse3D,
     },
   };
-  const oldAddNode = controller.graph.addNode;
-  controller.graph.addNode =  (args) => {
-      const ret = oldAddNode(args);
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(controller.graph.current));
-      return ret;
-  };
-  const oldAddLink = controller.graph.addLink;
-  controller.graph.addLink =  (args) => {
-      const ret = oldAddLink(args);
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(controller.graph.current));
-      return ret;
-  };
+  useEffect(() => {
+    if (
+      controller.graph.current.nodes.length == 3 &&
+      controller.graph.current.nodes.find(
+        (node) => node.description === "loading",
+      )
+    ) {
+      return;
+    }
+    localStorage.setItem(
+      LOCAL_STORAGE_KEY,
+      JSON.stringify(controller.graph.current),
+    );
+  }, [controller.graph.current]);
+  //const oldAddNode = controller.graph.addNode;
+  //controller.graph.addNode = (args) => {
+  //  const ret = oldAddNode(args);
+  //  localStorage.setItem(
+  //    LOCAL_STORAGE_KEY,
+  //    JSON.stringify(controller.graph.current),
+  //  );
+  //  return ret;
+  //};
+  //const oldAddLink = controller.graph.addLink;
+  //controller.graph.addLink = (args) => {
+  //  const ret = oldAddLink(args);
+  //  localStorage.setItem(
+  //    LOCAL_STORAGE_KEY,
+  //    JSON.stringify(controller.graph.current),
+  //  );
+  //  return ret;
+  //};
   const zoomControl = makeZoomControl(controller);
   controller.zoom.setUserZoomLevel = zoomControl.onZoomChange;
   props.controllerRef.current = controller;
