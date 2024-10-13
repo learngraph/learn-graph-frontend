@@ -20,7 +20,7 @@ export const DeletePlaygroundGraphButton = (props: { ctrl: Controller }) => {
   };
 
   return (
-    <Tooltip title="Discard playground data">
+    <Tooltip placement="left-end" title="Discard playground data">
       <Button onClick={handleDelete}>
         <CircleContainer>
           <DeleteIcon style={buttonIconStyle} />

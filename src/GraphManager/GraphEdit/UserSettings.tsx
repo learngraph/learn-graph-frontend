@@ -9,7 +9,7 @@ import { useState } from "react";
 
 import { CircleContainer, buttonIconStyle } from "./CreateButton";
 import { Controller } from "./GraphEdit";
-import { FormControlLabel, FormGroup } from "@mui/material";
+import { FormControlLabel, FormGroup, Tooltip } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useUserDataContext } from "@src/Context/UserDataContext";
 
@@ -76,11 +76,14 @@ const UserSettingsButton = ({
   ctrl: Controller;
   onClick: () => void;
 }) => {
+  // TOOD(skep): translate tooltip
   return (
-    <Button id="basic-button" onClick={onClick}>
-      <CircleContainer>
-        <SettingsIcon style={buttonIconStyle} />
-      </CircleContainer>
-    </Button>
+    <Tooltip placement="left-end" title="Settings">
+      <Button id="basic-button" onClick={onClick}>
+        <CircleContainer>
+          <SettingsIcon style={buttonIconStyle} />
+        </CircleContainer>
+      </Button>
+    </Tooltip>
   );
 };
