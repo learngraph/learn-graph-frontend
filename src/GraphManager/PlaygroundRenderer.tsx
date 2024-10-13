@@ -308,29 +308,21 @@ export const PlaygroundRenderer = (props: PlaygroundRendererProps) => {
     ) {
       return;
     }
+    const { nodes, links } = controller.graph.current;
     localStorage.setItem(
       LOCAL_STORAGE_KEY,
-      JSON.stringify(controller.graph.current),
+      JSON.stringify({
+        nodes: nodes,
+        // to save links we need the node id's not the objects!
+        links: links.map((link) => ({
+          id: link.id,
+          source: link.source.id,
+          target: link.target.id,
+          value: link.value,
+        })),
+      }),
     );
   }, [controller.graph.current]);
-  //const oldAddNode = controller.graph.addNode;
-  //controller.graph.addNode = (args) => {
-  //  const ret = oldAddNode(args);
-  //  localStorage.setItem(
-  //    LOCAL_STORAGE_KEY,
-  //    JSON.stringify(controller.graph.current),
-  //  );
-  //  return ret;
-  //};
-  //const oldAddLink = controller.graph.addLink;
-  //controller.graph.addLink = (args) => {
-  //  const ret = oldAddLink(args);
-  //  localStorage.setItem(
-  //    LOCAL_STORAGE_KEY,
-  //    JSON.stringify(controller.graph.current),
-  //  );
-  //  return ret;
-  //};
   const zoomControl = makeZoomControl(controller);
   controller.zoom.setUserZoomLevel = zoomControl.onZoomChange;
   props.controllerRef.current = controller;
