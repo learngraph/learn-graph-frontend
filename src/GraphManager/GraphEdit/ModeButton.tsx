@@ -7,6 +7,7 @@ import { CircleContainer, buttonIconStyle } from "./CreateButton";
 import { AlertFnRef, AlertPopupBar } from "@src/shared/Alert";
 import { useUserDataContext } from "@src/Context/UserDataContext";
 import i18n from "@src/shared/i18n";
+import Tooltip from "@mui/material/Tooltip";
 
 export const EditModeButton = ({ ctrl }: { ctrl: Controller }) => {
   const displayAlertRef: AlertFnRef = {};
@@ -22,15 +23,21 @@ export const EditModeButton = ({ ctrl }: { ctrl: Controller }) => {
   return (
     <>
       <AlertPopupBar displayAlertRef={displayAlertRef} />
-      <Button id="basic-button" onClick={onClick}>
-        <CircleContainer>
-          {ctrl.mode.isEditingEnabled ? (
-            <EditIcon style={buttonIconStyle} />
-          ) : (
-            <VisibilityIcon style={buttonIconStyle} />
-          )}
-        </CircleContainer>
-      </Button>
+      {/*TOOD(skep): translate*/}
+      <Tooltip
+        placement="left-end"
+        title={!ctrl.mode.isEditingEnabled ? "Edit Mode" : "Read-only Mode"}
+      >
+        <Button id="basic-button" onClick={onClick}>
+          <CircleContainer>
+            {ctrl.mode.isEditingEnabled ? (
+              <EditIcon style={buttonIconStyle} />
+            ) : (
+              <VisibilityIcon style={buttonIconStyle} />
+            )}
+          </CircleContainer>
+        </Button>
+      </Tooltip>
     </>
   );
 };

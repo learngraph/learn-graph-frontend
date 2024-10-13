@@ -136,18 +136,6 @@ export const NavigationWithContent = (props: NavigationWithContentConfig) => {
       </ListItemButton>
     );
   };
-  //const ListItemSubSectionLink = (conf: ListItemConfig) => {
-  //  return (
-  //    <ListItemButton
-  //      sx={{
-  //        fontSize: "smaller",
-  //        borderLeft: `1px solid ${menuPalette.contrastText}`,
-  //      }}
-  //    >
-  //      <ListItemSectionLink {...conf} />
-  //    </ListItemButton>
-  //  );
-  //};
   const ListItemGlobalLink = (conf: {
     globalPath: string;
     buttonText: string;
@@ -177,16 +165,14 @@ export const NavigationWithContent = (props: NavigationWithContentConfig) => {
         globalPath="howto"
         buttonText={t("navigation.link-to-HowTo-Page")}
       />
+      <ListItemGlobalLink
+        globalPath="playground"
+        buttonText={t("navigation.link-to-playground-page")}
+      />
       <ListItemSectionLink
         sectionID={"about"}
         buttonText={t("navigation.link-to-about-page")}
       />
-      {/*<List sx={{ paddingLeft: 2 }}>
-        <ListItemSubSectionLink
-          sectionID={"gettinginvolved"}
-          buttonText={t("navigation.link-to-Getting Involved!")}
-        />
-      </List>*/}
       <DisplayOnlyOnSmallScreen>
         <Typography variant="overline">
           {t("navigation.settings-buttons-like-login-etc")}
