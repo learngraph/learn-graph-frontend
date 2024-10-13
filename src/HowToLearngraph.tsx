@@ -101,6 +101,12 @@ export const HowToLearngraph = () => {
               How to LearnGraph
             </Typography>
 
+            <HowToTypography>
+              Try the interface{" "}
+              <Href href="/playground">in our Playground</Href>! All data you
+              insert is only saved locally in your browser.
+            </HowToTypography>
+
             <HowToTopic>Content Guidelines</HowToTopic>
 
             <HowToTypography>

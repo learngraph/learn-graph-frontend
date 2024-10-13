@@ -315,6 +315,9 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       onGraphUpdate(controller, graphDataFromBackend, setGraph);
     }, [graphDataFromBackend]);
   }
+  // FIXME(skep): if you add a link, and reload, the last link is not saved,
+  // unless another node is added afterwards, or an INTERIM-link is created in
+  // the meantime
   if (props.isPlayground) {
     // load local storage graph
     useEffect(() => {
