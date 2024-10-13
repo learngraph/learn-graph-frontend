@@ -58,9 +58,11 @@ import {
   makeOnNodeHover,
   onGraphUpdate,
 } from "./utils";
+import { DeletePlaygroundGraphButton } from "./GraphEdit/DeletePlaygroundGraphButton";
 
 interface GraphRendererProps {
   controllerRef: ControllerRef;
+  isPlayground: boolean;
 }
 
 // node render & interaction
@@ -166,13 +168,23 @@ const SmallAlignBottomLargeAlignLeft = ({
   );
 };
 
+const PLAYGROUND_LOCAL_STORAGE_KEY = "playgroundGraph";
+let playgroundNodeIDCounter = 0;
+let playgroundEdgeIDCounter = 0;
+const nextPlaygroundNodeID = () => {
+  playgroundNodeIDCounter += 1;
+  return playgroundNodeIDCounter.toString();
+};
+const nextPlaygroundEdgeID = () => {
+  playgroundEdgeIDCounter += 1;
+  return playgroundEdgeIDCounter.toString();
+};
+
 export const GraphRenderer = (props: GraphRendererProps) => {
   const [graph, setGraph] = useState<ForceGraphGraphData>(
     makeInitialGraphData(),
   );
   const { language, theme } = useUserDataContext();
-  const { data: graphDataFromBackend, queryResponse: graphDataInfo } =
-    useGraphData();
   const [shiftHeld, setShiftHeld] = useState(false);
   const downHandler = ({ key }: any) => {
     if (key === "Shift") {
@@ -197,20 +209,48 @@ export const GraphRenderer = (props: GraphRendererProps) => {
     graphData: { nodes: [], links: [] },
   };
   const [zoomState, setZoomState] = useState(zoomInitState);
-  const { createNode } = useCreateNode();
-  const { createEdge } = useCreateEdge();
-  const { submitVote } = useSubmitVote();
-  const { updateNode } = useUpdateNode();
-  const { deleteNode } = useDeleteNode();
-  const { deleteEdge } = useDeleteEdge();
-  const backend: Backend = {
-    createNode,
-    updateNode,
-    createLink: createEdge,
-    submitVote,
-    deleteNode,
-    deleteLink: deleteEdge,
-  };
+  let backend: Backend;
+  if (!props.isPlayground) {
+    const { createNode } = useCreateNode();
+    const { createEdge } = useCreateEdge();
+    const { submitVote } = useSubmitVote();
+    const { updateNode } = useUpdateNode();
+    const { deleteNode } = useDeleteNode();
+    const { deleteEdge } = useDeleteEdge();
+    backend = {
+      createNode,
+      updateNode,
+      createLink: createEdge,
+      submitVote,
+      deleteNode,
+      deleteLink: deleteEdge,
+    };
+  } else {
+    backend = {
+      createNode: () => {
+        return Promise.resolve({
+          data: { createNode: { ID: nextPlaygroundNodeID() } },
+        });
+      },
+      updateNode: () => {
+        return Promise.resolve({});
+      },
+      createLink: () => {
+        return Promise.resolve({
+          data: { createEdge: { ID: nextPlaygroundEdgeID() } },
+        });
+      },
+      submitVote: () => {
+        return Promise.resolve({});
+      },
+      deleteNode: () => {
+        return Promise.resolve({});
+      },
+      deleteLink: () => {
+        return Promise.resolve({});
+      },
+    };
+  }
   const [cooldownTicks, setCooldownTicks] = useState(
     FG_ENGINE_COOLDOWN_TICKS_DEFAULT,
   );
@@ -262,18 +302,72 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       setUse3D,
     },
   };
+  if (!props.isPlayground) {
+    // load the real graph
+    const { data: graphDataFromBackend, queryResponse: graphDataInfo } =
+      useGraphData();
+    useEffect(() => {
+      if (graphDataInfo.error) {
+        console.error(`graphDataInfo.error: ${graphDataInfo.error}`);
+      }
+    }, [graphDataInfo]);
+    useEffect(() => {
+      onGraphUpdate(controller, graphDataFromBackend, setGraph);
+    }, [graphDataFromBackend]);
+  }
+  if (props.isPlayground) {
+    // load local storage graph
+    useEffect(() => {
+      const savedGraph = localStorage.getItem(PLAYGROUND_LOCAL_STORAGE_KEY);
+      if (savedGraph) {
+        const localGraph = JSON.parse(savedGraph);
+        const findMax = (max: number, current: number) =>
+          current > max ? current : max;
+        playgroundNodeIDCounter = localGraph.nodes
+          .map((node: { id: string }) => parseInt(node.id, 10))
+          .reduce(findMax, 0);
+        playgroundEdgeIDCounter = localGraph.links
+          .map((link: { id: string }) => parseInt(link.id, 10))
+          .reduce(findMax, 0);
+        setGraph(localGraph);
+      } else {
+        setGraph({ nodes: [], links: [] });
+      }
+    }, []);
+    // save the graph to local storage onChange
+    useEffect(() => {
+      if (
+        (controller.graph.current.nodes.length == 3 &&
+          controller.graph.current.nodes.find(
+            (node) => node.description === "loading",
+          )) ||
+        /*missing link means graph is not loaded yet*/
+        controller.graph.current.links.find((link) => !link.source?.id)
+      ) {
+        return;
+      }
+      const { nodes, links } = controller.graph.current;
+      localStorage.setItem(
+        PLAYGROUND_LOCAL_STORAGE_KEY,
+        JSON.stringify({
+          nodes: nodes,
+          // to save links we need the node id's not the objects!
+          links: links
+            .filter((link) => !link.id.includes("INTERIM"))
+            .map((link) => ({
+              id: link.id,
+              source: link.source.id,
+              target: link.target.id,
+              value: link.value,
+            })),
+        }),
+      );
+    }, [controller.graph.current]);
+  }
   const zoomControl = makeZoomControl(controller);
   controller.zoom.setUserZoomLevel = zoomControl.onZoomChange;
   props.controllerRef.current = controller;
   const onBackgroundClick = makeOnBackgroundClick(controller);
-  useEffect(() => {
-    if (graphDataInfo.error) {
-      console.error(`graphDataInfo.error: ${graphDataInfo.error}`);
-    }
-  }, [graphDataInfo]);
-  useEffect(() => {
-    onGraphUpdate(controller, graphDataFromBackend, setGraph);
-  }, [graphDataFromBackend]);
   // XXX(skep): should we disable right click? it's kind of annoying for the
   // canvas, but outside we might want to allow it..
   //useEffect(() => {
@@ -427,6 +521,9 @@ export const GraphRenderer = (props: GraphRendererProps) => {
           flexDirection: "column",
         }}
       >
+        {props.isPlayground && (
+          <DeletePlaygroundGraphButton ctrl={controller} />
+        )}
         <NoTouchButton ctrl={controller} />
         <UserSettings ctrl={controller} />
         <EditModeButton ctrl={controller} />
