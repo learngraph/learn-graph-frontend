@@ -1,13 +1,28 @@
 import React, { useEffect } from "react";
-// import { EdgeCurvedArrowProgram } from "@sigma/edge-curve"; // for edge interaction and curved edges
-import Graph from "graphology";
-// import Sigma from "sigma";
-import { useGraphologyGraphData } from "./RPCHooks/useGraphData";
-// import { Box } from "@mui/material";
+
 import { Controller } from "./GraphEdit/GraphEdit";
 import { SigmaContainer, useLoadGraph } from "@react-sigma/core";
 import "@react-sigma/core/lib/react-sigma.min.css";
+import { MultiDirectedGraph } from "graphology";
+import { useGraphologyGraphData } from "./RPCHooks/useGraphData";
 // import { GraphologyEdgeType, GraphologyNodeType } from "./types";
+
+export const GraphologyGraph = () => { 
+  const { data, queryResponse } = useGraphologyGraphData(); // Fetch graph data using custom hook 
+  const loadGraph = useLoadGraph();
+  useEffect(() => {
+    if (data){
+    const graph = new MultiDirectedGraph(); // This needs to be available for createNodeAtPosition()
+    graph.import(data) 
+    console.log("hi?")
+    // graph.forEachNode(node => console.log(node))
+    // graph.addNode("first", { x: 0, y: 0, size: 15, label: "My first node", color: "#FA4F40" });
+    loadGraph(graph);}
+  }, [/*loadGraph, */ queryResponse]);// This now reloads the Graph whenever the query response changes...
+  
+  return null;
+}
+
 
 interface GraphRendererProps {
   controller: Controller;
@@ -16,6 +31,17 @@ interface GraphRendererProps {
   sigmaStyle: {height:number, width: number};
 }
 
+
+export const GraphRendererSigma: React.FC<GraphRendererProps> = () => {
+
+  return (
+    <SigmaContainer>
+      <GraphologyGraph />
+    </SigmaContainer>
+  );
+};
+
+export default GraphRendererSigma;
 
 // export const DisplaySigma: React.FC<GraphRendererProps> = ({
 //   controller,
@@ -70,31 +96,7 @@ interface GraphRendererProps {
 //   );
 // };
 
-export const LoadGraph = () => {
-  const { data, queryResponse } = useGraphologyGraphData(); // Fetch graph data using custom hook 
-  const loadGraph = useLoadGraph();
-  useEffect(() => {
-    if (data){
-    const graph = new Graph();
-    graph.import(data) 
-    console.log("hi?")
-    graph.forEachNode(node => console.log(node))
-    // graph.addNode("first", { x: 0, y: 0, size: 15, label: "My first node", color: "#FA4F40" });
-    loadGraph(graph);}
-  }, [loadGraph, queryResponse]);// This now reload the Graph whenever the query response changes...
-  
-  return null;
-}
 
 
 
-export const GraphRendererSigma: React.FC<GraphRendererProps> = () => {
 
-  return (
-    <SigmaContainer>
-      <LoadGraph />
-    </SigmaContainer>
-  );
-};
-
-export default GraphRendererSigma;
