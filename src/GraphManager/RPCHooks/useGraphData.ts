@@ -1,7 +1,7 @@
 import { gql, useQuery } from "@apollo/client";
 import { BackendGraphData } from "../types";
 import { ApolloQueryResponse } from "./types";
-import { transformGraphDataToSigma } from "./sigmaTransformFunctions";
+import { convertBackendGraphToGraphologyData } from "../utils";
 
 const GET_GRAPH_DATA = gql`
   query getGraph {
@@ -56,11 +56,13 @@ export interface GraphologyGraphDataResponse {
 export function useGraphologyGraphData(): GraphologyGraphDataResponse {
   const { loading, data, error, networkStatus } = useQuery(GET_GRAPH_DATA, {});
 
-  let transformedData: GraphologyGraphData | null = null;// this might be a problem.
+  let transformedData: GraphologyGraphData | null = null; // this might be a problem.
 
   if (data) {
     // Transform the backend data into Graphology format
-    transformedData = transformGraphDataToSigma(data.graph as BackendGraphData);
+    transformedData = convertBackendGraphToGraphologyData(
+      data.graph as BackendGraphData,
+    );
   }
 
   return {

@@ -1,11 +1,22 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 
 import { Controller } from "./GraphEdit/GraphEdit";
 import { SigmaContainer, useLoadGraph } from "@react-sigma/core";
 import "@react-sigma/core/lib/react-sigma.min.css";
 import { MultiDirectedGraph } from "graphology";
 import { useGraphologyGraphData } from "./RPCHooks/useGraphData";
+import {
+  DEFAULT_EDGE_CURVATURE,
+  EdgeCurvedArrowProgram,
+} from "@sigma/edge-curve";
 // import { GraphologyEdgeType, GraphologyNodeType } from "./types";
+
+interface GraphRendererProps {
+  controller: Controller;
+  backgroundColor: "black" | "white";
+  graphData: any;
+  sigmaStyle: { height: number; width: number };
+}
 
 export const GraphologyGraph = () => {
   const { data, queryResponse } = useGraphologyGraphData(); // Fetch graph data using custom hook
@@ -18,22 +29,32 @@ export const GraphologyGraph = () => {
       // graph.forEachNode(node => console.log(node))
       // graph.addNode("first", { x: 0, y: 0, size: 15, label: "My first node", color: "#FA4F40" });
       loadGraph(graph);
+      graph.forEachEdge((edge) => {
+        graph.mergeEdgeAttributes(edge, {
+          type: "curved",
+          curvature: DEFAULT_EDGE_CURVATURE,
+        });
+      });
     }
   }, [/*loadGraph, */ queryResponse]); // This now reloads the Graph whenever the query response changes...
 
   return null;
 };
 
-interface GraphRendererProps {
-  controller: Controller;
-  backgroundColor: "black" | "white";
-  graphData: any;
-  sigmaStyle: { height: number; width: number };
-}
-
 export const GraphRendererSigma: React.FC<GraphRendererProps> = () => {
+  const settings = useMemo(
+    () => ({
+      allowInvalidContainer: true,
+      renderEdgeLabels: true,
+      defaultEdgeType: "curved",
+      edgeProgramClasses: {
+        curved: EdgeCurvedArrowProgram,
+      },
+    }),
+    [],
+  );
   return (
-    <SigmaContainer>
+    <SigmaContainer settings={settings}>
       <GraphologyGraph />
     </SigmaContainer>
   );
