@@ -20,6 +20,7 @@ import { SubmitVoteFn } from "@src/GraphManager/RPCHooks/useSubmitVote";
 import { UpdateNodeFn } from "@src/GraphManager/RPCHooks/useUpdateNode";
 import { DeleteNodeFn } from "@src/GraphManager/RPCHooks/useDeleteNode";
 import { DeleteEdgeFn } from "@src/GraphManager/RPCHooks/useDeleteEdge";
+import { MultiDirectedGraph as SigmaGraph } from "graphology";
 import { ZoomState } from "@src/GraphManager/Zoom";
 import i18n from "@src/shared/i18n";
 
@@ -125,6 +126,13 @@ export const openCreateNodePopUpAtPagePosition = (
     };
     graph.addNode(newNode);
     forceGraphRef.current?.centerAt(x, y, 1000);
+    const newSigmaGraph = new SigmaGraph();
+    newSigmaGraph.addNode(result.data!.createNode.ID, {
+      label: form.nodeDescription,
+      x,
+      y,
+    });
+    // sigma.setGraph(newSigmaGraph)
   };
   popUp.setState({
     isOpen: true,
