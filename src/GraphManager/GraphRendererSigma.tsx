@@ -7,33 +7,31 @@ import { MultiDirectedGraph } from "graphology";
 import { useGraphologyGraphData } from "./RPCHooks/useGraphData";
 // import { GraphologyEdgeType, GraphologyNodeType } from "./types";
 
-export const GraphologyGraph = () => { 
-  const { data, queryResponse } = useGraphologyGraphData(); // Fetch graph data using custom hook 
+export const GraphologyGraph = () => {
+  const { data, queryResponse } = useGraphologyGraphData(); // Fetch graph data using custom hook
   const loadGraph = useLoadGraph();
   useEffect(() => {
-    if (data){
-    const graph = new MultiDirectedGraph(); // This needs to be available for createNodeAtPosition()
-    graph.import(data) 
-    console.log("hi?")
-    // graph.forEachNode(node => console.log(node))
-    // graph.addNode("first", { x: 0, y: 0, size: 15, label: "My first node", color: "#FA4F40" });
-    loadGraph(graph);}
-  }, [/*loadGraph, */ queryResponse]);// This now reloads the Graph whenever the query response changes...
-  
-  return null;
-}
+    if (data) {
+      const graph = new MultiDirectedGraph(); // This needs to be available for createNodeAtPosition()
+      graph.import(data);
+      console.log("hi?");
+      // graph.forEachNode(node => console.log(node))
+      // graph.addNode("first", { x: 0, y: 0, size: 15, label: "My first node", color: "#FA4F40" });
+      loadGraph(graph);
+    }
+  }, [/*loadGraph, */ queryResponse]); // This now reloads the Graph whenever the query response changes...
 
+  return null;
+};
 
 interface GraphRendererProps {
   controller: Controller;
   backgroundColor: "black" | "white";
   graphData: any;
-  sigmaStyle: {height:number, width: number};
+  sigmaStyle: { height: number; width: number };
 }
 
-
 export const GraphRendererSigma: React.FC<GraphRendererProps> = () => {
-
   return (
     <SigmaContainer>
       <GraphologyGraph />
@@ -51,14 +49,12 @@ export default GraphRendererSigma;
 //   const containerRef = useRef<HTMLDivElement | null>(null); // Ref for Sigma container
 //   const { data, queryResponse } = useGraphologyGraphData(); // Fetch graph data using custom hook
 
-
-
 //   //// -------- Graph rendering ----------
 //   useEffect(() => {
 //     // Ensure the data is available and the container is ready
 //     if (data && containerRef.current) {
 //       const graph = new Graph();
-      
+
 //       // `data` must have Graphology's format
 //       graph.import(data);
 //       const renderer = new Sigma(graph, containerRef.current, {
@@ -68,7 +64,6 @@ export default GraphRendererSigma;
 //           curve: EdgeCurvedArrowProgram,
 //         },
 //       });
-      
 
 //       // Cleanup on component unmount
 //       return () => {
@@ -76,7 +71,6 @@ export default GraphRendererSigma;
 //       };
 //     }
 //   }, [data, availableSpace]); // Recalculate graph size when data or available space changes
-
 
 //   // Handle loading and error states
 //   if (queryResponse.loading) return <div>Loading graph...</div>;
@@ -95,8 +89,3 @@ export default GraphRendererSigma;
 //     ></Box>
 //   );
 // };
-
-
-
-
-

@@ -352,7 +352,10 @@ export const GraphRenderer = forwardRef<Controller, GraphRendererProps>(
             ) : (
               <GraphRendererSigma
                 backgroundColor={theme === "dark" ? "black" : "white"}
-                sigmaStyle= {{height: availableSpace.height, width: availableSpace.width}}
+                sigmaStyle={{
+                  height: availableSpace.height,
+                  width: availableSpace.width,
+                }}
                 //height={availableSpace.height}
                 //width={availableSpace.width}
                 graphData={graph}
@@ -400,5 +403,3 @@ export const GraphRenderer = forwardRef<Controller, GraphRendererProps>(
     );
   },
 );
-
-
