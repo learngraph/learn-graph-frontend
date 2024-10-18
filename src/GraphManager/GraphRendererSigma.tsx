@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 import { Controller } from "./GraphEdit/GraphEdit";
 import { SigmaContainer, useLoadGraph } from "@react-sigma/core";
@@ -21,22 +21,29 @@ interface GraphRendererProps {
 export const GraphologyGraph = () => {
   const { data, queryResponse } = useGraphologyGraphData(); // Fetch graph data using custom hook
   const loadGraph = useLoadGraph();
+  const [graph, setGraphData] = useState<MultiDirectedGraph | null>(null);
   useEffect(() => {
     if (data) {
-      const graph = new MultiDirectedGraph(); // This needs to be available for createNodeAtPosition()
-      graph.import(data);
+      const initialGraph = new MultiDirectedGraph(); // This needs to be available for createNodeAtPosition()
+      initialGraph.import(data);
       console.log("hi?");
       // graph.forEachNode(node => console.log(node))
       // graph.addNode("first", { x: 0, y: 0, size: 15, label: "My first node", color: "#FA4F40" });
-      loadGraph(graph);
-      graph.forEachEdge((edge) => {
-        graph.mergeEdgeAttributes(edge, {
+      initialGraph.forEachEdge((edge) => {
+        initialGraph.mergeEdgeAttributes(edge, {
           type: "curved",
           curvature: DEFAULT_EDGE_CURVATURE,
         });
       });
+      loadGraph(initialGraph);
+      setGraphData(initialGraph)
     }
-  }, [/*loadGraph, */ queryResponse]); // This now reloads the Graph whenever the query response changes...
+  }, [loadGraph, queryResponse]); // This now reloads the Graph whenever the query response changes...
+  
+    // if (graph) {
+    // graph.addNode('salomon', { label: 'Node 3', x: 0.5, y: 0.5, size: 10, color: '#0f0' });}
+    // loadGraph(graph)
+  
 
   return null;
 };
