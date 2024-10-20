@@ -214,7 +214,7 @@ const drawTextWithBackground = (
   drawText(text, ctx, position);
 };
 
-export const makeGraphState = (
+export const makeGraphState = ( // sigma integration needs to happen here
   graph: ForceGraphGraphData,
   setGraph: Dispatch<SetStateAction<ForceGraphGraphData>>,
 ) => {

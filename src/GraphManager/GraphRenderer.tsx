@@ -184,7 +184,7 @@ export const GraphRenderer = forwardRef<Controller, GraphRendererProps>(
     const [isEditingEnabled, setIsEditingEnabled] = useState(false);
     const [allowGraphInteractions, setAllowGraphInteractions] = useState(true);
     const [use3D, setUse3D] = useState<boolean>(false);
-    const controller: Controller = {
+    const controller: Controller = { // TODO integrate sigmaRef into the controller and give it to GraphRendererSigma
       backend,
       popUp: {
         state: editPopUpState,
