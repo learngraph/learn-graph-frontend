@@ -89,7 +89,7 @@ export const openCreateNodePopUpAtMousePosition = (
 
 export const openCreateNodePopUpAtPagePosition = (
   pagePosition: Position,
-  { backend, graph, popUp, forceGraphRef, language, sigmaRef }: Controller,
+{ backend, graph, popUp, forceGraphRef, language, /*sigmaRef*/ }: Controller,
 ) => {
   const onFormSubmit = async (form: NewNodeForm) => {
     const result = await backend.createNode({
