@@ -26,8 +26,6 @@ interface GraphLoadingProps {
 }
 
 export const GraphologyGraph: React.FC<GraphLoadingProps> = () => {
-  // const sigma = useSigma(); // Use Sigma's instance
-
   const { data, queryResponse } = useGraphologyGraphData(); // Fetch graph data using custom hook
   const loadGraph = useLoadGraph();
   useEffect(() => {
@@ -36,8 +34,6 @@ export const GraphologyGraph: React.FC<GraphLoadingProps> = () => {
       const initialGraph = new MultiDirectedGraph(); // This needs to be available for createNodeAtPosition()
       initialGraph.import(data);
       console.log("hi?"); //this actually appears on every size change
-      // graph.forEachNode(node => console.log(node))
-      // graph.addNode("first", { x: 0, y: 0, size: 15, label: "My first node", color: "#FA4F40" });
       initialGraph.forEachEdge((edge) => {
         initialGraph.mergeEdgeAttributes(edge, {
           type: "curved",
@@ -84,7 +80,11 @@ export const GraphRendererSigma: React.FC<GraphRendererProps> = ({
     [],
   );
   return (
-    <SigmaContainer ref={controller.setSigmaRef} settings={settings}>
+    <SigmaContainer
+      ref={controller.setSigmaRef}
+      settings={settings}
+      graph={MultiDirectedGraph}
+    >
       <GraphologyGraph controller={controller} />
       <GraphEvents />
     </SigmaContainer>

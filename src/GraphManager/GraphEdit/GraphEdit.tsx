@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { Dispatch, SetStateAction } from "react";
 import {
   LinkEditDefaultValues,
   NewLinkForm,
@@ -20,10 +20,8 @@ import { SubmitVoteFn } from "@src/GraphManager/RPCHooks/useSubmitVote";
 import { UpdateNodeFn } from "@src/GraphManager/RPCHooks/useUpdateNode";
 import { DeleteNodeFn } from "@src/GraphManager/RPCHooks/useDeleteNode";
 import { DeleteEdgeFn } from "@src/GraphManager/RPCHooks/useDeleteEdge";
-import { MultiDirectedGraph as SigmaGraph } from "graphology";
 import { ZoomState } from "@src/GraphManager/Zoom";
 import i18n from "@src/shared/i18n";
-import { Label } from "@mui/icons-material";
 import { GraphologyGraphData } from "../RPCHooks/useGraphData";
 
 // Note: must be kept constant for all times, otherwise database must be
@@ -68,7 +66,7 @@ export interface GraphState {
   removeNode: (node: ForceGraphNodeObject) => void;
 }
 export interface GraphologyGraphState {
-  current : GraphologyGraphData
+  current: GraphologyGraphData;
 }
 export interface Backend {
   createNode: CreateNodeFn;
@@ -132,12 +130,12 @@ export const openCreateNodePopUpAtPagePosition = (
     graph.addNode(newNode);
     forceGraphRef.current?.centerAt(x, y, 1000);
 
-    // TODO implement this with the correct sigma graph 
+    // TODO implement this with the correct sigma graph
     // const sigmaGraph = sigmaRef.getGraph();
     // sigmaGraph.addNode(result.data!.createNode.ID, {
-      // x: x,
-      // y: y,
-      // label: form.nodeDescription,
+    // x: x,
+    // y: y,
+    // label: form.nodeDescription,
     // });
 
     // sigma.setGraph(newSigmaGraph)
