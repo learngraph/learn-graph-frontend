@@ -11,7 +11,6 @@ import {
   onNodeDragEnd,
   openCreateLinkPopUp,
   openCreateNodePopUpAtMousePosition,
-  openCreateNodePopUpAtPagePosition,
 } from "./GraphEdit";
 import { GraphEditPopUpState, NewLinkForm } from "./PopUp";
 import { ForceGraphLinkObject } from "@src/GraphManager/types";
@@ -670,15 +669,5 @@ describe("onNodeClick", () => {
     expect(ctrl.backend.deleteNode).toHaveBeenNthCalledWith(1, { id: "1" });
     expect(ctrl.graph.removeNode).toHaveBeenCalledTimes(1);
     expect(ctrl.graph.removeNode).toHaveBeenNthCalledWith(1, node);
-  });
-});
-
-describe("openCreateNodePopUpAtPagePosition", () => {
-  it("should enable editing if it is disabled", () => {
-    const ctrl = makeMockController();
-    // @ts-ignore
-    openCreateNodePopUpAtPagePosition({ x: 1, y: 2 }, ctrl);
-    expect(ctrl.mode.setIsEditingEnabled).toHaveBeenCalledTimes(1);
-    expect(ctrl.mode.setIsEditingEnabled).toHaveBeenCalledWith(true);
   });
 });
