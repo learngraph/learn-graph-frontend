@@ -16,6 +16,8 @@ import {
   ForceGraphNodeObject,
   ForceGraphLinkObject,
   LocalForceGraphMethods,
+  GraphologyNodeType,
+  GraphologyEdgeType,
 } from "./types";
 import { ZoomState } from "./Zoom";
 import { useGraphData } from "./RPCHooks";
@@ -65,6 +67,7 @@ import { CreateButton } from "./GraphEdit/CreateButton";
 import { EditModeButton } from "./GraphEdit/ModeButton";
 import { NoTouchButton } from "./GraphEdit/NoTouchButton";
 import { UserSettings } from "./GraphEdit/UserSettings";
+import Sigma from "sigma";
 
 interface GraphRendererProps {
   controllerRef: ControllerRef;
@@ -184,7 +187,12 @@ export const GraphRenderer = forwardRef<Controller, GraphRendererProps>(
     const [isEditingEnabled, setIsEditingEnabled] = useState(false);
     const [allowGraphInteractions, setAllowGraphInteractions] = useState(true);
     const [use3D, setUse3D] = useState<boolean>(false);
-    const controller: Controller = { // TODO integrate sigmaRef into the controller and give it to GraphRendererSigma
+    const [sigmaRef, setSigmaRef] = useState<Sigma<
+      GraphologyNodeType,
+      GraphologyEdgeType
+    > | null>(null);
+    const controller: Controller = {
+      // TODO integrate sigmaRef into the controller and give it to GraphRendererSigma
       backend,
       popUp: {
         state: editPopUpState,
@@ -204,6 +212,8 @@ export const GraphRenderer = forwardRef<Controller, GraphRendererProps>(
         highlightNodes,
         setHighlightNodes,
       },
+      sigmaRef,
+      setSigmaRef,
       specialNodes: {},
       keys: { shiftHeld },
       zoom: {

@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import {
   LinkEditDefaultValues,
   NewLinkForm,
@@ -23,6 +23,8 @@ import { DeleteEdgeFn } from "@src/GraphManager/RPCHooks/useDeleteEdge";
 import { MultiDirectedGraph as SigmaGraph } from "graphology";
 import { ZoomState } from "@src/GraphManager/Zoom";
 import i18n from "@src/shared/i18n";
+import { Label } from "@mui/icons-material";
+import { GraphologyGraphData } from "../RPCHooks/useGraphData";
 
 // Note: must be kept constant for all times, otherwise database must be
 // migrated to a new maximum weight.
@@ -65,6 +67,9 @@ export interface GraphState {
   ) => void;
   removeNode: (node: ForceGraphNodeObject) => void;
 }
+export interface GraphologyGraphState {
+  current : GraphologyGraphData
+}
 export interface Backend {
   createNode: CreateNodeFn;
   updateNode: UpdateNodeFn;
@@ -86,7 +91,7 @@ export const openCreateNodePopUpAtMousePosition = (
 
 export const openCreateNodePopUpAtPagePosition = (
   pagePosition: Position,
-  { backend, graph, popUp, forceGraphRef, language }: Controller,
+  { backend, graph, popUp, forceGraphRef, language, sigmaRef }: Controller,
 ) => {
   const onFormSubmit = async (form: NewNodeForm) => {
     const result = await backend.createNode({
@@ -126,12 +131,15 @@ export const openCreateNodePopUpAtPagePosition = (
     };
     graph.addNode(newNode);
     forceGraphRef.current?.centerAt(x, y, 1000);
-    const newSigmaGraph = new SigmaGraph();
-    newSigmaGraph.addNode(result.data!.createNode.ID, {
-      label: form.nodeDescription,
-      x,
-      y,
-    });
+
+    // TODO implement this with the correct sigma graph 
+    // const sigmaGraph = sigmaRef.getGraph();
+    // sigmaGraph.addNode(result.data!.createNode.ID, {
+      // x: x,
+      // y: y,
+      // label: form.nodeDescription,
+    // });
+
     // sigma.setGraph(newSigmaGraph)
   };
   popUp.setState({
@@ -175,6 +183,8 @@ export interface ModeState {
 
 export interface Controller {
   search: SearchState;
+  sigmaRef: any; // TODO make a good type for this :)
+  setSigmaRef: any;
   graph: GraphState;
   forceGraphRef: ForceGraphRef;
   setCooldownTicks: Dispatch<SetStateAction<number>>; // TODO(skep): should be combined into forceGraph { ref; setCDTicks; }
