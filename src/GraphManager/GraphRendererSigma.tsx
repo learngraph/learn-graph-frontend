@@ -2,6 +2,8 @@ import React, { useEffect, useMemo } from "react";
 
 import { Controller } from "./GraphEdit/GraphEdit";
 import {
+  ControlsContainer,
+  SearchControl,
   SigmaContainer,
   useLoadGraph,
   useRegisterEvents,
@@ -87,6 +89,9 @@ export const GraphRendererSigma: React.FC<GraphRendererProps> = ({
     >
       <GraphologyGraph controller={controller} />
       <GraphEvents />
+      <ControlsContainer position={"top-right"}>
+        <SearchControl style={{ width: "200px" }} />
+      </ControlsContainer>
     </SigmaContainer>
   );
 };
