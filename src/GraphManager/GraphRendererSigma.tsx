@@ -32,7 +32,7 @@ export const GraphologyGraph: React.FC<GraphLoadingProps> = () => {
   const loadGraph = useLoadGraph();
   useEffect(() => {
     if (data) {
-      // I should have a load graph routine here that loads the graph everytime the data or the graphology instance changes
+      // There should be load graph routine here that loads the graph everytime the data or the graphology instance changes
       const initialGraph = new MultiDirectedGraph(); // This needs to be available for createNodeAtPosition()
       initialGraph.import(data);
       console.log("hi?"); //this actually appears on every size change
@@ -91,6 +91,7 @@ export const GraphRendererSigma: React.FC<GraphRendererProps> = ({
       <GraphEvents />
       <ControlsContainer position={"top-right"}>
         <SearchControl style={{ width: "200px" }} />
+        {/* Maybe this can be integrated into the existing search window */}
       </ControlsContainer>
     </SigmaContainer>
   );
