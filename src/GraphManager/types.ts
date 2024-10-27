@@ -89,24 +89,11 @@ export type LocalForceGraphMethods =
   | undefined;
 export type ForceGraphRef = MutableRefObject<LocalForceGraphMethods>;
 
-// Graphology compatible interface for nodes and edges
-export interface GraphologyNodeType {
-  key: string;
-  attributes: {
-    x: number;
-    y: number;
-    description: string;
-    resources: any[];
-    [key: string]: any; // Additional attributes if needed
-  };
-}
+// Graphology compatible interface for nodes and edges based on https://sim51.github.io/react-sigma/docs/example/external_state
+export interface GraphologyNodeType 
+  { x: number; y: number; label: string; size: number }
+
 
 export interface GraphologyEdgeType {
-  key: string;
-  source: string;
-  target: string;
-  attributes: {
-    weight: number;
-    [key: string]: any; // Additional attributes if needed
-  };
+  size?: number
 }

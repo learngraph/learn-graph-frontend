@@ -187,10 +187,9 @@ export const GraphRenderer = forwardRef<Controller, GraphRendererProps>(
     const [isEditingEnabled, setIsEditingEnabled] = useState(false);
     const [allowGraphInteractions, setAllowGraphInteractions] = useState(true);
     const [use3D, setUse3D] = useState<boolean>(false);
-    const [sigmaRef, setSigmaRef] = useState<Sigma<
-      GraphologyNodeType,
-      GraphologyEdgeType
-    > | null>(null);
+    const [sigmaRef, setSigmaRef] = useState<Sigma<GraphologyNodeType, GraphologyEdgeType> | null>(
+      null,
+    );
     const controller: Controller = {
       // TODO integrate sigmaRef into the controller and give it to GraphRendererSigma
       backend,
@@ -236,6 +235,15 @@ export const GraphRenderer = forwardRef<Controller, GraphRendererProps>(
     };
     // Expose controller to parent component
     useImperativeHandle(ref, () => controller);
+
+    useEffect(() => {
+      if (sigmaRef) {
+        const graph = sigmaRef.getGraph();
+        graph.addNode("A", { x: 0, y: 0, label: "Node A", size: 10 });
+        graph.addNode("B", { x: 1, y: 1, label: "Node B", size: 10 });
+        graph.addEdgeWithKey("rel1", "A", "B", { size: 5 });
+      }
+    }, [sigmaRef]);
 
     const zoomControl = makeZoomControl(controller);
     controller.zoom.setUserZoomLevel = zoomControl.onZoomChange;
