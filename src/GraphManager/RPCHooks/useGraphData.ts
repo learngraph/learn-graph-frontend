@@ -33,7 +33,7 @@ export interface GraphDataResponse {
 
 export function useGraphData(): GraphDataResponse {
   const { loading, data, error, networkStatus } = useQuery(GET_GRAPH_DATA, {});
-
+  console.log("called for basic graph data");
   return { data, queryResponse: { loading, error, networkStatus } };
 }
 
@@ -64,8 +64,8 @@ export function useGraphologyGraphData(): GraphologyGraphDataResponse {
       data.graph as BackendGraphData,
     );
   }
-  
-  console.log("called for Graphology data")
+
+  console.log("called for Graphology data");
   return {
     data: transformedData,
     queryResponse: { loading, error, networkStatus },

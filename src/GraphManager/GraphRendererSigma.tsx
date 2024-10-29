@@ -5,16 +5,11 @@ import {
   ControlsContainer,
   SearchControl,
   SigmaContainer,
-  useLoadGraph,
   useRegisterEvents,
 } from "@react-sigma/core";
 import "@react-sigma/core/lib/react-sigma.min.css";
 import { MultiDirectedGraph } from "graphology";
-import { useGraphologyGraphData } from "./RPCHooks/useGraphData";
-import {
-  DEFAULT_EDGE_CURVATURE,
-  EdgeCurvedArrowProgram,
-} from "@sigma/edge-curve";
+import { EdgeCurvedArrowProgram } from "@sigma/edge-curve";
 // import { GraphologyEdgeType, GraphologyNodeType } from "./types";
 
 interface GraphRendererProps {
@@ -22,9 +17,6 @@ interface GraphRendererProps {
   backgroundColor: "black" | "white";
   graphData: any;
   sigmaStyle: { height: number; width: number };
-}
-interface GraphLoadingProps {
-  controller: Controller;
 }
 
 // export const GraphologyGraph: React.FC<GraphLoadingProps> = () => {
