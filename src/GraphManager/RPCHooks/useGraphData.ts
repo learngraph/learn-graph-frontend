@@ -64,7 +64,8 @@ export function useGraphologyGraphData(): GraphologyGraphDataResponse {
       data.graph as BackendGraphData,
     );
   }
-
+  
+  console.log("called for Graphology data")
   return {
     data: transformedData,
     queryResponse: { loading, error, networkStatus },

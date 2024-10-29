@@ -68,6 +68,7 @@ import { EditModeButton } from "./GraphEdit/ModeButton";
 import { NoTouchButton } from "./GraphEdit/NoTouchButton";
 import { UserSettings } from "./GraphEdit/UserSettings";
 import Sigma from "sigma";
+import { useGraphologyGraphData } from "./RPCHooks/useGraphData";
 
 interface GraphRendererProps {
   controllerRef: ControllerRef;
@@ -237,18 +238,31 @@ export const GraphRenderer = forwardRef<Controller, GraphRendererProps>(
     // Expose controller to parent component
     useImperativeHandle(ref, () => controller);
 
+    const { data, queryResponse } = useGraphologyGraphData(); // Fetch graph data using custom hook
+    // const loadGraph = useLoadGraph();
+
+    // useEffect(() => {
+    //   // this is the Implementation from https://sim51.github.io/react-sigma/docs/example/external_state
+    //   // it does show the Nodes and link given here but they are overwritten by the Graph in GraphologyGraph.
+    //   // It however uses the settings provided in the sigma container.
+    //   // TODO: connect the Graph loading routine with sigmaRef, maybe even put it next to the code here.
+    //   if (sigmaRef) {
+    //     const graph = sigmaRef.getGraph();
+    //     graph.addNode("A", { x: 0, y: 0, label: "Node A", size: 10 });
+    //     graph.addNode("B", { x: 1, y: 1, label: "Node B", size: 10 });
+    //     graph.addEdgeWithKey("rel1", "A", "B", { size: 5 });
+    //   } 
+    // }, [sigmaRef]);
     useEffect(() => {
-      // this is the Implementation from https://sim51.github.io/react-sigma/docs/example/external_state
-      // it does show the Nodes and link given here but they are overwritten by the Graph in GraphologyGraph.
-      // It however uses the settings provided in the sigma container.
-      // TODO: connect the Graph loading routine with sigmaRef, maybe even put it next to the code here.
-      if (sigmaRef) {
-        const graph = sigmaRef.getGraph();
-        graph.addNode("A", { x: 0, y: 0, label: "Node A", size: 10 });
-        graph.addNode("B", { x: 1, y: 1, label: "Node B", size: 10 });
-        graph.addEdgeWithKey("rel1", "A", "B", { size: 5 });
+      if (data && sigmaRef) {  
+        // There should be load graph routine here that loads the graph every time the data or the graphology instance changes
+        const sigmaGraph = sigmaRef.getGraph(); 
+        sigmaGraph.import(data);
+        console.log("hi at ref load");
+        // loadGraph(sigmaGraph);
       }
-    }, [sigmaRef]);
+    }, [sigmaRef, queryResponse]); // This now reloads the Graph whenever the query response changes...
+
 
     const zoomControl = makeZoomControl(controller);
     controller.zoom.setUserZoomLevel = zoomControl.onZoomChange;
