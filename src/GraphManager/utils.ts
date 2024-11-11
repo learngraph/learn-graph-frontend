@@ -307,9 +307,21 @@ export const convertBackendGraphToForceGraph: GraphConverter = (data) => {
 //};
 
 export const makeInitialGraphData = () => {
-  const n_graph: ForceGraphNodeObject = { id: "1", description: "graph", position: {x: 1, y: 2 ,z: 0} };
-  const n_is: ForceGraphNodeObject = { id: "2", description: "is", position: {x: 2, y: 1 ,z: 0} };
-  const n_loading: ForceGraphNodeObject = { id: "3", description: "loading", position: {x: 3, y: 2 ,z: 0} };
+  const n_graph: ForceGraphNodeObject = {
+    id: "1",
+    description: "graph",
+    position: { x: 1, y: 2, z: 0 },
+  };
+  const n_is: ForceGraphNodeObject = {
+    id: "2",
+    description: "is",
+    position: { x: 2, y: 1, z: 0 },
+  };
+  const n_loading: ForceGraphNodeObject = {
+    id: "3",
+    description: "loading",
+    position: { x: 3, y: 2, z: 0 },
+  };
   const initialGraphData: ForceGraphGraphData = {
     nodes: [n_graph, n_is, n_loading],
     links: [
