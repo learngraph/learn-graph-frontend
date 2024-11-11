@@ -58,7 +58,7 @@ export interface NodeTypeAddition {
   id: string;
   description: string;
   resources?: string;
-  position?: Vector;
+  position: Vector;
 }
 
 export interface DataSetType {

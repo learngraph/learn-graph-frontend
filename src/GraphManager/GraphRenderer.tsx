@@ -16,8 +16,8 @@ import {
   ForceGraphNodeObject,
   ForceGraphLinkObject,
   LocalForceGraphMethods,
-  GraphologyNodeType,
-  GraphologyEdgeType,
+  // GraphologyNodeType,
+  // GraphologyEdgeType,
 } from "./types";
 import { ZoomState } from "./Zoom";
 import { useGraphData } from "./RPCHooks";
@@ -67,7 +67,7 @@ import { CreateButton } from "./GraphEdit/CreateButton";
 import { EditModeButton } from "./GraphEdit/ModeButton";
 import { NoTouchButton } from "./GraphEdit/NoTouchButton";
 import { UserSettings } from "./GraphEdit/UserSettings";
-import Sigma from "sigma";
+// import Sigma from "sigma";
 
 interface GraphRendererProps {
   controllerRef: ControllerRef;
@@ -187,10 +187,10 @@ export const GraphRenderer = forwardRef<Controller, GraphRendererProps>(
     const [isEditingEnabled, setIsEditingEnabled] = useState(false);
     const [allowGraphInteractions, setAllowGraphInteractions] = useState(true);
     const [use3D, setUse3D] = useState<boolean>(false);
-    const [sigmaRef, setSigmaRef] = useState<Sigma<
-      GraphologyNodeType,
-      GraphologyEdgeType
-    > | null>(null);
+    // const [sigmaRef, setSigmaRef] = useState<Sigma<
+    //   GraphologyNodeType,
+    //   GraphologyEdgeType
+    // > | null>(null);
     const controller: Controller = {
       // TODO integrate sigmaRef into the controller and give it to GraphRendererSigma
       backend,
@@ -212,8 +212,8 @@ export const GraphRenderer = forwardRef<Controller, GraphRendererProps>(
         highlightNodes,
         setHighlightNodes,
       },
-      sigmaRef,
-      setSigmaRef,
+      // sigmaRef,
+      // setSigmaRef,
       specialNodes: {},
       keys: { shiftHeld },
       zoom: {
@@ -237,18 +237,18 @@ export const GraphRenderer = forwardRef<Controller, GraphRendererProps>(
     // Expose controller to parent component
     useImperativeHandle(ref, () => controller);
 
-    useEffect(() => {
-      // this is the Implementation from https://sim51.github.io/react-sigma/docs/example/external_state
-      // it does show the Nodes and link given here but they are overwritten by the Graph in GraphologyGraph.
-      // It however uses the settings provided in the sigma container.
-      // TODO: connect the Graph loading routine with sigmaRef, maybe even put it next to the code here.
-      if (sigmaRef) {
-        const graph = sigmaRef.getGraph();
-        graph.addNode("A", { x: 0, y: 0, label: "Node A", size: 10 });
-        graph.addNode("B", { x: 1, y: 1, label: "Node B", size: 10 });
-        graph.addEdgeWithKey("rel1", "A", "B", { size: 5 });
-      }
-    }, [sigmaRef]);
+    // useEffect(() => {
+    //   // this is the Implementation from https://sim51.github.io/react-sigma/docs/example/external_state
+    //   // it does show the Nodes and link given here but they are overwritten by the Graph in GraphologyGraph.
+    //   // It however uses the settings provided in the sigma container.
+    //   // TODO: connect the Graph loading routine with sigmaRef, maybe even put it next to the code here.
+    //   if (sigmaRef) {
+    //     const graph = sigmaRef.getGraph();
+    //     graph.addNode("A", { x: 0, y: 0, label: "Node A", size: 10 });
+    //     graph.addNode("B", { x: 1, y: 1, label: "Node B", size: 10 });
+    //     graph.addEdgeWithKey("rel1", "A", "B", { size: 5 });
+    //   }
+    // }, [sigmaRef]);
 
     const zoomControl = makeZoomControl(controller);
     controller.zoom.setUserZoomLevel = zoomControl.onZoomChange;

@@ -10,11 +10,12 @@ import {
 } from "@react-sigma/core";
 import "@react-sigma/core/lib/react-sigma.min.css";
 import { MultiDirectedGraph } from "graphology";
-import { useGraphologyGraphData } from "./RPCHooks/useGraphData";
+import { GraphologyGraphData } from "./RPCHooks/useGraphData";
 import {
   DEFAULT_EDGE_CURVATURE,
   EdgeCurvedArrowProgram,
 } from "@sigma/edge-curve";
+import { ForceGraphGraphData } from "./types";
 // import { GraphologyEdgeType, GraphologyNodeType } from "./types";
 
 interface GraphRendererProps {
@@ -24,27 +25,31 @@ interface GraphRendererProps {
   sigmaStyle: { height: number; width: number };
 }
 interface GraphLoadingProps {
-  controller: Controller;
+  // controller: Controller;
+  graphData: GraphologyGraphData;
 }
 
-export const GraphologyGraph: React.FC<GraphLoadingProps> = () => {
-  const { data, queryResponse } = useGraphologyGraphData(); // Fetch graph data using custom hook
+export const GraphologyGraph: React.FC<GraphLoadingProps> = ({ graphData }) => {
+  // const { data, queryResponse } = useGraphologyGraphData(); // Fetch graph data using custom hook
   const loadGraph = useLoadGraph();
   useEffect(() => {
-    if (data) {
+    if (graphData) {
       // There should be load graph routine here that loads the graph everytime the data or the graphology instance changes
-      const initialGraph = new MultiDirectedGraph(); // This needs to be available for createNodeAtPosition()
-      initialGraph.import(data);
-      console.log("hi?"); //this actually appears on every size change
-      initialGraph.forEachEdge((edge) => {
-        initialGraph.mergeEdgeAttributes(edge, {
+      const graph = new MultiDirectedGraph(); // This needs to be available for createNodeAtPosition()
+      graph.import(graphData);
+      console.log("hi?");
+      // console.log(graphData);
+      graph.forEachEdge((edge) => {
+        graph.mergeEdgeAttributes(edge, {
           type: "curved",
           curvature: DEFAULT_EDGE_CURVATURE,
         });
+        // console.log(graph.hasNode("3"))
+        // console.log(graph.getNodeAttribute("3", "label"));
       });
-      loadGraph(initialGraph);
+      loadGraph(graph);
     }
-  }, [loadGraph, queryResponse]); // This now reloads the Graph whenever the query response changes...
+  }, [loadGraph, graphData]);
 
   return null;
 };
@@ -67,9 +72,38 @@ const GraphEvents: React.FC = () => {
   return null;
 };
 
+export function transformForceToSigma(data: ForceGraphGraphData) {
+  const sigmaGraphData: GraphologyGraphData = {
+    nodes: data.nodes.map((node) => ({
+      key: node.id,
+      attributes: {
+        x: node.position.x ,
+        y: node.position.y ,
+        label: node.description,
+        resources: node.resources,
+        size: 10,
+      },
+    })),
+    edges: data.links.map((link) => ({
+      key: link.id,
+      source: link.source.id ?? link.source,
+      target: link.target.id ?? link.target,
+      attributes: {
+        size: link.value / 2, //halved looks a bit nicer but can be changed
+      },
+    })),
+  };
+
+  return sigmaGraphData;
+}
+
 export const GraphRendererSigma: React.FC<GraphRendererProps> = ({
-  controller,
+  // controller,
+  graphData,
 }) => {
+  const convertedData = transformForceToSigma(graphData);
+  // console.log(graphData);
+  // console.log(convertedData);
   const settings = useMemo(
     () => ({
       allowInvalidContainer: true,
@@ -83,11 +117,11 @@ export const GraphRendererSigma: React.FC<GraphRendererProps> = ({
   );
   return (
     <SigmaContainer
-      ref={controller.setSigmaRef}
+      // ref={controller.setSigmaRef}
       settings={settings}
       graph={MultiDirectedGraph}
     >
-      <GraphologyGraph controller={controller} />
+      <GraphologyGraph /*controller={controller}*/ graphData={convertedData} />
       <GraphEvents />
       <ControlsContainer position={"top-right"}>
         <SearchControl style={{ width: "200px" }} />

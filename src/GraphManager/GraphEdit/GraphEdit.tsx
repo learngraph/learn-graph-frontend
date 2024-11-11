@@ -181,8 +181,8 @@ export interface ModeState {
 
 export interface Controller {
   search: SearchState;
-  sigmaRef: any; // TODO make a good type for this :)
-  setSigmaRef: any;
+  // sigmaRef: any; // TODO make a good type for this :)
+  // setSigmaRef: any;
   graph: GraphState;
   forceGraphRef: ForceGraphRef;
   setCooldownTicks: Dispatch<SetStateAction<number>>; // TODO(skep): should be combined into forceGraph { ref; setCDTicks; }

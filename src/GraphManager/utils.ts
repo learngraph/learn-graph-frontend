@@ -290,7 +290,7 @@ export const convertBackendGraphToForceGraph: GraphConverter = (data) => {
     node.y = node.position?.y;
     node.z = node.position?.z;
     // forcegraph-js creates a position object, and ours would interfere
-    delete node.position;
+    // delete node.position;
   });
   return fgGraph;
 };
@@ -307,16 +307,17 @@ export const convertBackendGraphToForceGraph: GraphConverter = (data) => {
 //};
 
 export const makeInitialGraphData = () => {
-  const n_graph: ForceGraphNodeObject = { id: "1", description: "graph" };
-  const n_is: ForceGraphNodeObject = { id: "2", description: "is" };
-  const n_loading: ForceGraphNodeObject = { id: "3", description: "loading" };
-  return {
+  const n_graph: ForceGraphNodeObject = { id: "1", description: "graph", position: {x: 1, y: 2 ,z: 0} };
+  const n_is: ForceGraphNodeObject = { id: "2", description: "is", position: {x: 2, y: 1 ,z: 0} };
+  const n_loading: ForceGraphNodeObject = { id: "3", description: "loading", position: {x: 3, y: 2 ,z: 0} };
+  const initialGraphData: ForceGraphGraphData = {
     nodes: [n_graph, n_is, n_loading],
     links: [
       { id: "1", source: n_graph, target: n_is, value: 5 },
       { id: "2", source: n_is, target: n_loading, value: 5 },
     ],
   };
+  return initialGraphData;
 };
 
 export const setGraphSize = (conf: GraphSizeConfig) => {
@@ -340,7 +341,7 @@ const convertAndSetGraph = (
 };
 
 export function convertBackendGraphToGraphologyData(
-  backendData: BackendGraphData,
+  backendData: BackendGraphData, // Idea: Turn this into convertForceGraphDataIntoGraphology
 ) {
   const graphologyData = {
     nodes: backendData.nodes.map((node) => ({
@@ -366,6 +367,13 @@ export function convertBackendGraphToGraphologyData(
   return graphologyData;
 }
 
+// export function convertForceGraphDataIntoGraphology( forceData: ForceGraphGraphData ){
+// const graphologyData = {
+//
+// }
+// }
+//
+//
 export const onGraphUpdate = (
   ctrl: Controller,
   data: { graph: BackendGraphData },
@@ -572,7 +580,7 @@ export const makeOnNodeHover = (ctrl: Controller) => {
   return onNodeHover;
 };
 
-//// could be usefull later?
+//// could be useful later?
 //const linkDescriptionPosition = (link: ForceGraphLinkObject) => {
 //  return Object.assign(
 //    // @ts-ignore

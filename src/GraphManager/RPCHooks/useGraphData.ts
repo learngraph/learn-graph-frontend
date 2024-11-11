@@ -1,7 +1,7 @@
 import { gql, useQuery } from "@apollo/client";
 import { BackendGraphData } from "../types";
 import { ApolloQueryResponse } from "./types";
-import { convertBackendGraphToGraphologyData } from "../utils";
+// import { convertBackendGraphToGraphologyData } from "../utils";
 
 const GET_GRAPH_DATA = gql`
   query getGraph {
@@ -52,21 +52,21 @@ export interface GraphologyGraphDataResponse {
   queryResponse: ApolloQueryResponse; // Loading, error, and network status info
 }
 
-// Modified useGraphData function
-export function useGraphologyGraphData(): GraphologyGraphDataResponse {
-  const { loading, data, error, networkStatus } = useQuery(GET_GRAPH_DATA, {});
+// Modified useGraphData function (unused)
+// export function useGraphologyGraphData(): GraphologyGraphDataResponse {
+//   const { loading, data, error, networkStatus } = useQuery(GET_GRAPH_DATA, {});
 
-  let transformedData: GraphologyGraphData | null = null; // this might be a problem.
+//   let transformedData: GraphologyGraphData | null = null; // this might be a problem.
 
-  if (data) {
-    // Transform the backend data into Graphology format
-    transformedData = convertBackendGraphToGraphologyData(
-      data.graph as BackendGraphData,
-    );
-  }
+//   if (data) {
+//     // Transform the backend data into Graphology format
+//     transformedData = convertBackendGraphToGraphologyData(
+//       data.graph as BackendGraphData,
+//     );
+//   }
 
-  return {
-    data: transformedData,
-    queryResponse: { loading, error, networkStatus },
-  };
-}
+//   return {
+//     data: transformedData,
+//     queryResponse: { loading, error, networkStatus },
+//   };
+// }
