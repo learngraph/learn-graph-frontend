@@ -77,8 +77,8 @@ export function transformForceToSigma(data: ForceGraphGraphData) {
     nodes: data.nodes.map((node) => ({
       key: node.id,
       attributes: {
-        x: node.position.x ,
-        y: node.position.y ,
+        x: node.position?.x ?? 0,
+        y: node.position?.y ?? 0,
         label: node.description,
         resources: node.resources,
         size: 10,
