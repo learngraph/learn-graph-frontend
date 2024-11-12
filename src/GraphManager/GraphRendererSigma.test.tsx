@@ -5,6 +5,8 @@
 // import { render } from "@testing-library/react";
 // import { SigmaContainer } from "@react-sigma/core";
 
+import { assert } from "console";
+
 // describe("correct graph loading", () => {
 //   const [graph, setGraph] = useState<ForceGraphGraphData>(
 //     makeInitialGraphData(),
@@ -17,4 +19,9 @@
 //       </SigmaContainer>,
 //     );
 //   });
-// });
+// }); // TODO(enno) there is something of an Integration test to be done here, though maybe its overkill
+describe("Placeholder Test", () => {
+  it("should pass", () => {
+    assert(true);
+  });
+});

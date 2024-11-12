@@ -291,6 +291,9 @@ export const GraphRenderer = forwardRef<Controller, GraphRendererProps>(
       height: 400,
       width: 600,
     });
+    // TODO(enno): understand graphSizeConfig maybe the popup cant be displayed,
+    // because there is no connection to the sigma container that it has to
+    // appear on.
     const graphSizeConfig = { wrapperRef, setAvailableSpace };
     useLayoutEffect(() => {
       setGraphSize(graphSizeConfig);
