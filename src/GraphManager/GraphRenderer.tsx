@@ -530,7 +530,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
         {/* TODO(skep): test this as UserInterfaceButtons */}
         <NoTouchButton ctrl={controller} />
         <UserSettings ctrl={controller} />
-        <EditModeButton ctrl={controller} />
+        <EditModeButton ctrl={controller} isPlayground={props.isPlayground} />
         {controller.mode.isEditingEnabled && <CreateButton ctrl={controller} />}
       </Box>
       {/*<ZoomControlPanel zoomControl={zoomControl} /> XXX(skep): disabled due to performance issue*/}
