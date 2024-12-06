@@ -1,178 +1,149 @@
-import { makeMockController } from "./GraphEdit.testingutil";
-import {openCreateNodePopUpAtPagePosition, openCreateLinkPopUp } from "./GraphEdit";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 
+import { NoTouchButton } from "./NoTouchButton";
+import { UserSettingsButton } from "./UserSettingsButton";
+import { EditModeButton } from "./ModeButton";
+import { CreateButton} from "./CreateButton";
+import { Controller } from "./GraphEdit";
+
+// Mock functions from GraphEdit
 jest.mock("./GraphEdit", () => ({
-    openCreateNodePopUpAtPagePosition: jest.fn(),
-    openCreateLinkPopUp: jest.fn(),
-  }));
+  openCreateNodePopUpAtPagePosition: jest.fn(),
+  openCreateLinkPopUp: jest.fn(),
+  i18n: { t: jest.fn((key: string) => key) }, // Mock translation function
+}));
 
-describe("UserSettings", () => {
-    it("should toggle isOpen state when toggleDrawer is called", () => {
-        // Arrange: Mock initial state
-        let isOpen = false;
-        const toggleDrawer = () => {
-          isOpen = !isOpen; // Simulate toggling the drawer state
-        };
-        // Act: Simulate what happens when the button is clicked
-        toggleDrawer();
-      
-        // Assert: Check if the state toggled
-        expect(isOpen).toBe(true); 
-        // Act again: Toggle back to simulate closing the drawer
-        toggleDrawer();
-      
-        // Assert: Check if the state toggled back
-        expect(isOpen).toBe(false);
-      });
-      it("should call ctrl.mode.setUse3D when toggling 3D display", () => {
-        // Arrange: Mock controller
-        const ctrl = makeMockController();
-        ctrl.mode.use3D = false; // Initial state
-        ctrl.mode.setUse3D = jest.fn((fn: (current: boolean) => boolean) => {
-          ctrl.mode.use3D = fn(ctrl.mode.use3D);
-        });
-      
-        // Act: Simulate toggling 3D mode on
-        ctrl.mode.setUse3D((current: boolean) => !current);
-      
-        // Assert: Check that 3D mode is now true
-        expect(ctrl.mode.use3D).toBe(true);
-        expect(ctrl.mode.setUse3D).toHaveBeenCalledTimes(1);
-      
-        // Act: Simulate toggling 3D mode off
-        ctrl.mode.setUse3D((current: boolean) => !current);
-      
-        // Assert: Check that 3D mode is now false
-        expect(ctrl.mode.use3D).toBe(false);
-        expect(ctrl.mode.setUse3D).toHaveBeenCalledTimes(2);
-      });
-      
-});
-describe("NoTouchButton", () => {
-    it("should toggle ctrl.mode.allowGraphInteractions when clicked", () => {
-      // Arrange: Mock controller
-      const ctrl = makeMockController();
-      ctrl.mode.allowGraphInteractions = false; // Initial state
-      ctrl.mode.setAllowGraphInteractions = jest.fn((fn: (current: boolean) => boolean) => {
-        ctrl.mode.allowGraphInteractions = fn(ctrl.mode.allowGraphInteractions);
-      });
-  
-      // Act: Simulate button click to enable graph interactions
-      ctrl.mode.setAllowGraphInteractions((current: boolean) => !current);
-  
-      // Assert: Check that graph interactions are now enabled
-      expect(ctrl.mode.allowGraphInteractions).toBe(true);
-      expect(ctrl.mode.setAllowGraphInteractions).toHaveBeenCalledTimes(1);
-  
-      // Act: Simulate button click to disable graph interactions
-      ctrl.mode.setAllowGraphInteractions((current: boolean) => !current);
-  
-      // Assert: Check that graph interactions are now disabled
-      expect(ctrl.mode.allowGraphInteractions).toBe(false);
-      expect(ctrl.mode.setAllowGraphInteractions).toHaveBeenCalledTimes(2);
-    });
-  
+// Mock User Data Context
+jest.mock("@src/Context/UserDataContext", () => ({
+  useUserDataContext: jest.fn(),
+}));
+
+import { useUserDataContext } from "@src/Context/UserDataContext";
+
+describe("Button Components", () => {
+  let mockController: Controller;
+  let setIsOpen: jest.Mock;
+  let mockDisplayAlert: jest.Mock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    // Configure the mocked useUserDataContext
+    (useUserDataContext as jest.Mock).mockReturnValue({ userID: null });
+
+    // Mock necessary parts of the Controller
+    mockController = {
+      popUp: { state: { isOpen: false }, setState: jest.fn() },
+      graph: {
+        current: {
+          nodes: [],
+          edges: [],
+        },
+      },
+      language: "en",
+      mode: {
+        isEditingEnabled: true,
+        setIsEditingEnabled: jest.fn(),
+        allowGraphInteractions: true,
+        setAllowGraphInteractions: jest.fn(),
+        use3D: false,
+        setUse3D: jest.fn(),
+      },
+      search: {
+        isResultShown: false,
+        setIsResultShown: jest.fn(),
+        highlightNodes: new Set(),
+        setHighlightNodes: jest.fn(),
+      },
+    } as unknown as Controller;
+
+    setIsOpen = jest.fn();
+    mockDisplayAlert = jest.fn();
+    global.alert = mockDisplayAlert; // Mock global alert
   });
 
-  describe("EditModeButton", () => {
-    it("should toggle ctrl.mode.isEditingEnabled when clicked", () => {
-      // Arrange: Mock controller
-      const ctrl = makeMockController();
-      ctrl.mode.isEditingEnabled = false; // Initial state
-      ctrl.mode.setIsEditingEnabled = jest.fn((newValue: boolean) => {
-        ctrl.mode.isEditingEnabled = newValue;
-      });
-  
-      // Act: Simulate enabling edit mode
-      ctrl.mode.setIsEditingEnabled(!ctrl.mode.isEditingEnabled);
-  
-      // Assert: Check that edit mode is now enabled
-      expect(ctrl.mode.isEditingEnabled).toBe(true);
-      expect(ctrl.mode.setIsEditingEnabled).toHaveBeenCalledWith(true);
-      expect(ctrl.mode.setIsEditingEnabled).toHaveBeenCalledTimes(1);
-  
-      // Act: Simulate disabling edit mode
-      ctrl.mode.setIsEditingEnabled(!ctrl.mode.isEditingEnabled);
-  
-      // Assert: Check that edit mode is now disabled
-      expect(ctrl.mode.isEditingEnabled).toBe(false);
-      expect(ctrl.mode.setIsEditingEnabled).toHaveBeenCalledWith(false);
-      expect(ctrl.mode.setIsEditingEnabled).toHaveBeenCalledTimes(2);
-    });
-  
-    // it("should show an alert if user is not logged in when clicked", () => {
-    //     // Code here
-    //       });
-    
-    //   it("should render the correct icon based on isEditingEnabled state", () => {
-    //    //code here
-    //   });   
-  });
+  it("should toggle allowGraphInteractions when NoTouchButton is clicked", async () => {
+    render(<NoTouchButton ctrl={mockController} />);
+    const user = userEvent.setup();
 
-describe("CreateButton", () => {
-    let mockController: any;
+    const button = screen.getByRole("button", { name: /View-only mode|Enable Graph-Interaction/i });
+    await user.click(button);
 
-    beforeEach(() => {
-        mockController = {
-          mode: { isEditingEnabled: true },
-        };
-      });
-
-  it("should update anchorEl state when button is clicked", () => {
-    // Arrange: Mock the initial state of anchorEl
-    let anchorEl: HTMLElement | null = null;
-
-    // Simulate the setAnchorEl function that changes the anchorEl state
-    const setAnchorEl = (value: HTMLElement | null) => {
-      anchorEl = value;
-    };
-
-    // Act: Simulate button click by manually updating the anchorEl state
-    setAnchorEl(document.createElement("div")); // Simulating the button click setting anchorEl
-
-    // Assert: Check if anchorEl is set correctly
-    expect(anchorEl).not.toBeNull(); // Assert that anchorEl is set to a non-null value
-  });
-
-  it("should call openCreateNodePopUpAtPagePosition when 'New Node' is selected", () => {
-    // Arrange: Mock initial state
-    const ctrl = mockController;
-    const menuItem = "newNode";
-
-    // Mock the openCreateNodePopUpAtPagePosition function
-    const setIsEditingEnabledMock = jest.fn();
-    ctrl.mode.setIsEditingEnabled = setIsEditingEnabledMock;
-
-    // Act: Simulate the selection of "New Node"
-    if (menuItem === "newNode") {
-      openCreateNodePopUpAtPagePosition(
-        { x: window.innerWidth / 2, y: window.innerHeight / 2 },
-        ctrl
-      );
-    }
-    // Assert: Check that the correct function was called with the expected arguments
-    expect(openCreateNodePopUpAtPagePosition).toHaveBeenCalledWith(
-      { x: window.innerWidth / 2, y: window.innerHeight / 2 },
-      ctrl
+    expect(mockController.mode.setAllowGraphInteractions).toHaveBeenCalledWith(
+      expect.any(Function)
     );
   });
 
-  it("should call openCreateLinkPopUp when 'New Link' is selected", () => {
-    // Arrange: Mock initial state
-    const ctrl = mockController;
-    const menuItem = "newLink";
+  it("should toggle drawer open state when UserSettingsButton is clicked", async () => {
+    const toggleDrawer = () => setIsOpen((current: boolean) => !current);
 
-    // Mock the openCreateLinkPopUp function
-    const setIsEditingEnabledMock = jest.fn();
-    ctrl.mode.setIsEditingEnabled = setIsEditingEnabledMock;
+    render(
+      <UserSettingsButton
+        ctrl={mockController}
+        onClick={toggleDrawer}
+      />
+    );
+    const user = userEvent.setup();
 
-    // Act: Simulate the selection of "New Link"
-    if (menuItem === "newLink") {
-      openCreateLinkPopUp(ctrl, undefined);
-    }
-    // Assert: Check that the correct function was called
-    expect(openCreateLinkPopUp).toHaveBeenCalledWith(ctrl, undefined);
+    const button = screen.getByRole("button", { name: /Settings/i });
+    await user.click(button);
+
+    expect(setIsOpen).toHaveBeenCalledWith(expect.any(Function));
   });
+
+  it("should toggle isEditingEnabled when EditModeButton is clicked", async () => {
+    // Configure userID for this test
+    (useUserDataContext as jest.Mock).mockReturnValue({ userID: "testUser" });
+
+    const user = userEvent.setup();
+    mockController.mode.isEditingEnabled = false;
+
+    render(
+      <EditModeButton
+        ctrl={mockController}
+        isPlayground={false}
+      />
+    );
+
+    const button = screen.getByRole("button", { name: /Edit Mode/i });
+    await user.click(button);
+
+    expect(mockController.mode.setIsEditingEnabled).toHaveBeenCalledWith(true);
+  });
+
+  it("should display alert if user is not logged in and isPlayground is false", async () => {
+    const user = userEvent.setup();
+  
+    // Explicitly set userID to null and isPlayground to false
+    (useUserDataContext as jest.Mock).mockReturnValue({ userID: null });
+    mockController.mode.isEditingEnabled = false;
+  
+    // Render the component with isPlayground explicitly set to false
+    render(<EditModeButton ctrl={mockController} isPlayground={false} />);
+    // Locate the button
+    const button = screen.getByRole("button", { name: /Edit Mode/i });
+    await user.click(button);
+    expect(mockController.mode.setIsEditingEnabled).not.toHaveBeenCalled();
+  });
+
+  
+  it("should change anchorEl state and render the menu when the button is clicked", async () => {
+  const user = userEvent.setup();
+  (useUserDataContext as jest.Mock).mockReturnValue({ userID: "testUser" });
+
+  render(<CreateButton ctrl={mockController} />);
+  // Locate the button
+  const button = screen.getByRole("button", { name: /Contribute knowledge/i });
+  await user.click(button);
+
+  // Verify that the menu is rendered
+  const menu = screen.getByRole("menu");
+  expect(menu).toBeInTheDocument();
+  // Verify the menu is associated with the anchorEl
+  expect(menu).toHaveAttribute("aria-labelledby", "basic-button");
 });
+
   
   
+});
