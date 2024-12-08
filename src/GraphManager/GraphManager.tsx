@@ -6,11 +6,13 @@ import { userSearchMatching } from "./Header/Search";
 import { Controller } from "./GraphEdit/GraphEdit";
 import { NavigationWithContent } from "@src/Navigation";
 
-interface GraphManagerProps {}
+interface GraphManagerProps {
+  isPlayground: boolean;
+}
 
 export type ControllerRef = MutableRefObject<Controller | undefined>;
 
-export const GraphManager = (_: GraphManagerProps): JSX.Element => {
+export const GraphManager = (props: GraphManagerProps): JSX.Element => {
   const controllerRef: ControllerRef = useRef<Controller>();
   const searchCallback = (userInput: string) => {
     userSearchMatching(controllerRef, userInput);
@@ -33,7 +35,7 @@ export const GraphManager = (_: GraphManagerProps): JSX.Element => {
         }}
         alwaysDisplayNavDrawer={true}
       />
-      <GraphRenderer controllerRef={controllerRef} />
+      <GraphRenderer controllerRef={controllerRef} {...props} />
     </Box>
   );
 };

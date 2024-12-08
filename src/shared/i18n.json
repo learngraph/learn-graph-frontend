@@ -86,6 +86,7 @@
   },
   "navigation": {
     "link-to-landing-page": "Welcome",
+    "link-to-playground-page": "Playground",
     "link-to-about-page": "About",
     "link-to-Getting Involved!": "Getting Involved!",
     "link-to-HowTo-Page": "HowTo",
@@ -110,5 +111,31 @@
     "Dark Theme": "Dark Theme",
     "headline-Experimental Settings": "Experimental Settings:",
     "3D Display": "3D Display"
+  },
+  "howto": {
+    "headline-how-to": "How to LearnGraph",
+    "headline-footerp1": "Try the interface",
+    "headline-footerp2": "in our Playground",
+    "headline-footerp3": "! All data you insert is only saved locally in your browser.",
+    "subh-1": "Content Guidelines",
+    "subh-1-footerp1": "Are you unsure what topics are appropriate? See our ",
+    "subh-1-footerp2": "Content Guidelines here!",
+    "subh-2": "Interface",
+    "para-1": "The LearnGraph is a map of learning dependencies. In this image, you can see that in order to understand multiplication, you need to learn about addition. There is no way around learning addition first, so the connection between them is strong. The arrow always points you towards the things you have to learn to understand a given topic. Clicking on a topic reveals learning resources and information about the most important learning dependencies.",
+    "subh-3": "Interact with the LearnGraph",
+    "para-3-bullet1": "Click the ",
+    "para-3-bullet2": "icon to switch between edit and view-only mode.",
+    "para-3-bullet3": "Search for subjects using the search bar.",
+    "para-3-bullet4": "Click on any topic (in edit mode) to reveal learning resources.",
+    "para-3-bullet6": "The",
+    "para-3-bullet7": "icon lets you switch between edit and read-only mode. Move the subject toward its prerequisite knowledge to create a new link. Alternatively, use the",
+    "para-3-bullet8": "icon",
+    "para-3-bullet9": "\"New dependency\" dialogue. Select an existing link to vote on the strength of the connection. To add a new topic, use the",
+    "para-3-bullet10": "icon",
+    "para-3-bullet11": "\"New subject\" dialogue.",
+    "subh-4": "Translations",
+    "para-4": "You may find some subjects in a different language than your selected one. They are marked by the corresponding country flag. You can translate subjects to your selected language by editing the subject and removing the flag icon. To insert a translation in a different language than your currently selected one, first change your language settings and then proceed with the translation.",
+    "subh-5": "[Coming Soon!] The Merge Zoom",
+    "para-5": "Some topics are more connected than others. These might be more important to learn about. The zoom slider on the right-hand side groups areas of knowledge under the banner of the topic that is required the most, i.e., has the highest number of arrows pointing toward it."
   }
 }

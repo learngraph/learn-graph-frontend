@@ -64,7 +64,6 @@ export const CreateButton = ({ ctrl }: CreateButtonProps) => {
       displayAlert(i18n.t("To edit the graph please login."));
       return;
     }
-    ctrl.mode.setIsEditingEnabled(true);
     setAnchorEl(event.currentTarget);
   };
   const handleClose = (menuItem: string) => {
@@ -87,17 +86,20 @@ export const CreateButton = ({ ctrl }: CreateButtonProps) => {
   return (
     <>
       <AlertPopupBar displayAlertRef={displayAlertRef} />
-      <Button
-        id="basic-button"
-        aria-controls={open ? "basic-menu" : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? "true" : undefined}
-        onClick={handleClick}
-      >
-        <CircleContainer>
-          <AddIcon style={buttonIconStyle} />
-        </CircleContainer>
-      </Button>
+      {/*TOOD(skep): translate*/}
+      <Tooltip placement="left-end" title="Contribute knowledge">
+        <Button
+          id="basic-button"
+          aria-controls={open ? "basic-menu" : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? "true" : undefined}
+          onClick={handleClick}
+        >
+          <CircleContainer>
+            <AddIcon style={buttonIconStyle} />
+          </CircleContainer>
+        </Button>
+      </Tooltip>
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}

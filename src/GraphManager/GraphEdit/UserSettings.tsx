@@ -1,17 +1,15 @@
-import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import SettingsIcon from "@mui/icons-material/Settings";
 import Drawer from "@mui/material/Drawer";
 import Typography from "@mui/material/Typography";
 import Checkbox from "@mui/material/Checkbox";
 import Divider from "@mui/material/Divider";
 import { useState } from "react";
 
-import { CircleContainer, buttonIconStyle } from "./CreateButton";
 import { Controller } from "./GraphEdit";
 import { FormControlLabel, FormGroup } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useUserDataContext } from "@src/Context/UserDataContext";
+import { UserSettingsButton } from "./UserSettingsButton";
 
 export const UserSettings = ({ ctrl }: { ctrl: Controller }) => {
   const { t } = useTranslation();
@@ -67,20 +65,5 @@ export const UserSettings = ({ ctrl }: { ctrl: Controller }) => {
         </Box>
       </Drawer>
     </>
-  );
-};
-
-const UserSettingsButton = ({
-  onClick,
-}: {
-  ctrl: Controller;
-  onClick: () => void;
-}) => {
-  return (
-    <Button id="basic-button" onClick={onClick}>
-      <CircleContainer>
-        <SettingsIcon style={buttonIconStyle} />
-      </CircleContainer>
-    </Button>
   );
 };

@@ -10,7 +10,11 @@ export const LearngraphOrgRoutes = () => {
       <Route path="/" Component={LandingPage} />
       <Route path="/about" Component={About} />
       <Route path="/howto" Component={HowToLearngraph} />
-      <Route path="/graph" Component={GraphManager} />
+      <Route path="/graph" element={<GraphManager isPlayground={false} />} />
+      <Route
+        path="/playground"
+        element={<GraphManager isPlayground={true} />}
+      />
       <Route
         path="*"
         element={
@@ -20,19 +24,3 @@ export const LearngraphOrgRoutes = () => {
     </Routes>
   );
 };
-
-// try:
-// <Route
-//   exact
-//   path="/"
-//   render={props => (
-//     <Page {...props} component={Index} title="Index Page" />
-//   )}
-// />
-//
-// <Route
-//   path="/about"
-//   render={props => (
-//     <Page {...props} component={About} title="About Page" />
-//   )}
-// />

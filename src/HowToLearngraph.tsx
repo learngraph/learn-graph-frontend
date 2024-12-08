@@ -1,20 +1,68 @@
 //TODO: Translation
 import { ReactNode } from "react";
-import { Box, Container, Typography, useTheme } from "@mui/material";
+import {
+  Box,
+  Container,
+  Typography,
+  useTheme,
+  useMediaQuery,
+} from "@mui/material";
 import Image from "mui-image";
 import { NavigationWithContent } from "./Navigation";
 import { Add, Edit } from "@mui/icons-material";
+import { Href } from "./shared/Components";
+import { useTranslation } from "react-i18next";
 
-const HowToImage = (props: { src: string; alt: string }) => {
+// New HowToSection Component
+const HowToSection = (props: { children: ReactNode; reverse?: boolean }) => {
+  const theme = useTheme();
+  const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
+  
   return (
-    <Box sx={{ display: "flex", justifyContent: "center", py: 3 }}>
-      <Image src={props.src} alt={props.alt} fit="contain" width="50%" />
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: isMdUp
+          ? props.reverse
+            ? "row-reverse"
+            : "row"
+          : "column",
+        alignItems: "center",
+        gap: theme.spacing(2),
+        py: theme.spacing(2),
+      }}
+    >
+      {props.children}
     </Box>
   );
 };
-const HowToTypography = (props: { children: ReactNode }) => {
-  return <Typography sx={{ maxWidth: "100ch" }}>{props.children}</Typography>;
+
+const HowToImage = (props: {
+  src: string;
+  alt: string;
+  heightOverride?: string;
+}) => {
+  return (
+    <Box sx={{ flex: 1, display: "flex", justifyContent: "center", py: 3 }}>
+      <Image
+        src={props.src}
+        alt={props.alt}
+        fit="contain"
+        width={props.heightOverride ? "" : "100%"}
+        height={props.heightOverride ?? ""}
+      />
+    </Box>
+  );
 };
+
+const HowToTypography = (props: { children: ReactNode }) => {
+  return (
+    <Typography sx={{ flex: 1, maxWidth: "100ch" }}>
+      {props.children}
+    </Typography>
+  );
+};
+
 const HowToTopic = (props: { children: ReactNode }) => {
   const theme = useTheme();
   return (
@@ -32,91 +80,102 @@ const HowToTopic = (props: { children: ReactNode }) => {
 
 export const HowToLearngraph = () => {
   const theme = useTheme();
-
+  const { t } = useTranslation();
   return (
-    <>
-      <NavigationWithContent
-        withSideNavigation={true}
-        content={
-          <Box
+    <NavigationWithContent
+      withSideNavigation={true}
+      content={
+        <Box
+          sx={{
+            width: "100%",
+            backgroundColor: theme.palette.background.default,
+            color: theme.palette.text.primary,
+          }}
+        >
+          <Container
             sx={{
-              width: "100%",
-              backgroundColor: theme.palette.background.default,
-              color: theme.palette.text.primary,
+              padding: theme.spacing(4),
             }}
+            component="main"
           >
-            <Container
-              sx={{
-                padding: theme.spacing(4),
-              }}
-              component="main"
-            >
-              <Typography sx={{ paddingBottom: theme.spacing(4) }} variant="h1">
-                How to use the learngraph {/*TODO(skep): lg-logo*/}
-              </Typography>
-              <HowToTypography>
-                The learngraph is a map of learning dependencies. In this image
-                you can see that in order to understand multiplication you need
-                to learn about addition.
-              </HowToTypography>
+            <Typography sx={{ paddingBottom: theme.spacing(4) }} variant="h1">
+            {t("howto.headline-how-to")}
+            </Typography>
+
+            <HowToTypography>
+            {t("howto.headline-footerp1")}{" "}
+              <Href href="/playground">{t("howto.headline-footerp2")}</Href>! {t("howto.headline-footerp3")}
+            </HowToTypography>
+
+            <HowToTopic>{t("howto.subh-1")}</HowToTopic>
+
+            <HowToTypography>
+            {t("howto.subh-1-footerp1")}{" "}
+              <Href href="https://docs.google.com/document/d/1e2LL2_fKiKXA7GXQdTOYeCw3jpyc8GNxG0P9ehKcJ0Q/edit?usp=sharing">
+              {t("howto.subh-1-footerp2")}
+              </Href>
+              !
+            </HowToTypography>
+
+            <HowToTopic>{t("howto.subh-2")}</HowToTopic>
+
+            <HowToSection>
               <HowToImage
                 src="HowTo-link.png"
-                alt="Two blobs one labeled Multiplication the other labeled Addition are visible. An arrow pointing towards Addition connects those two."
+                alt="Diagram showing multiplication depending on addition"
               />
               <HowToTypography>
-                There is no way around learning addition first so the connection
-                between them is strong. The Arrow always points you towards the
-                things you have to learn to understand a given topic. Clicking
-                on a topic reveals learning resources and infos about the most
-                important learning dependencies.
+              {t("howto.para-1")}
               </HowToTypography>
+            </HowToSection>
 
-              <HowToTopic>Interact with the learngraph</HowToTopic>
+            <HowToTopic>{t("howto.subh-3")}</HowToTopic>
+
+            <HowToSection reverse>
               <HowToTypography>
                 <ul>
                   <li>
-                    Click the <Edit fontSize="small" /> icon to switch between
-                    Edit and view-only mode
+                  {t("howto.para-3-bullet1")}<Edit fontSize="small" /> {t("howto.para-3-bullet2")}
                   </li>
-                  <li>Search for subjects using the search bar</li>
+                  <li>{t("howto.para-3-bullet3")}</li>
                   <li>
-                    Click on any topic (in edit mode) to reveal learning
-                    resources
+                  {t("howto.para-3-bullet4")}
                   </li>
                 </ul>
-                The <Edit fontSize="small" /> icon lets you switch between edit
-                and read-only mode. Move the subject toward its prerequisite
-                knowledge to create a new link. Alternatively use the
-                <Add fontSize="small" /> icon &gt; "New dependency" dialogue
-                Select an existing link to vote on the strength of the
-                connection. To add a new Topic use the <Add fontSize="small" />{" "}
-                icon &gt; "New subject" dialogue.
+                {t("howto.para-3-bullet6")}<Edit fontSize="small" /> {t("howto.para-3-bullet7")}{" "}
+                <Add fontSize="small" /> {t("howto.para-3-bullet8")}&gt; {t("howto.para-3-bullet9")} <Add fontSize="small" />{" "}
+                {t("howto.para-3-bullet10")}&gt; {t("howto.para-3-bullet11")}
               </HowToTypography>
+              <HowToImage
+                src="HowTo-interact.png"
+                alt="Interaction example"
+                heightOverride="20%"
+              />
+            </HowToSection>
 
-              <HowToTopic> Translations </HowToTopic>
-              <HowToImage src="HowTo-translation-de-en.png" alt="" />
+            <HowToTopic>{t("howto.subh-4")}</HowToTopic>
+
+            <HowToSection>
+              <HowToImage
+                src="HowTo-translation-de-en.png"
+                alt="Translation example"
+              />
               <HowToTypography>
-                You may find some subjects in a different language than your
-                selected one. They are marked by the corresponding country flag.
-                You can translate subjects to your selected language by editing
-                the subject and removing the flag icon. To insert a translation
-                in a different language than your currently selected on, first
-                change your language settings and then proceed with the
-                translation.
+              {t("howto.para-4")}
               </HowToTypography>
-              <HowToTopic>[Coming soon!] The Merge Zoom</HowToTopic>
-              <HowToImage src="HowTo-Toolbar.png" alt="" />
+            </HowToSection>
+
+            <HowToTopic>{t("howto.subh-5")}</HowToTopic>
+
+            <HowToSection reverse>
               <HowToTypography>
-                Some topics are more connected than other ones. Those might be
-                more important than other things to learn about. The zoom slider
-                on the right hand side groups areas of knowledge under the
-                banner of the topic that is required the most ie. has the
-                highest amount of arrows pointing toward it.
+              {t("howto.para-5")}
               </HowToTypography>
-            </Container>
-          </Box>
-        }
-      />
-    </>
+              <HowToImage src="HowTo-Toolbar.png" alt="Toolbar example" />
+            </HowToSection>
+          </Container>
+        </Box>
+      }
+    />
   );
 };
