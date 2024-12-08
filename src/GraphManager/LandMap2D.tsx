@@ -150,7 +150,20 @@ export const LandMap2D = forwardRef<LocalForceGraphMethods, LandMap2DProps>(
     const setTransform = (newTf: { x: number; y: number; k: number }) => {
       if (typeof newTf === "function") {
         console.log(`setTransform: func`);
-        setTransformState(newTf);
+        setTransformState((prev) => {
+          let afterFunc = newTf(prev);
+          if (
+            !afterFunc.x ||
+            afterFunc.x === NaN ||
+            !afterFunc.y ||
+            afterFunc.y === NaN ||
+            !afterFunc.k ||
+            afterFunc.k === NaN
+          ) {
+            return { x: 0, y: 0, k: 1 };
+          }
+          return afterFunc;
+        });
       } else {
         console.log(`setTransform: x=${newTf.x} y=${newTf.y} k=${newTf.k}`);
         setTransformState({
