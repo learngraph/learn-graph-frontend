@@ -17,7 +17,7 @@ import { useTranslation } from "react-i18next";
 const HowToSection = (props: { children: ReactNode; reverse?: boolean }) => {
   const theme = useTheme();
   const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
-  
+
   return (
     <Box
       sx={{
@@ -99,20 +99,21 @@ export const HowToLearngraph = () => {
             component="main"
           >
             <Typography sx={{ paddingBottom: theme.spacing(4) }} variant="h1">
-            {t("howto.headline-how-to")}
+              {t("howto.headline-how-to")}
             </Typography>
 
             <HowToTypography>
-            {t("howto.headline-footerp1")}{" "}
-              <Href href="/playground">{t("howto.headline-footerp2")}</Href>! {t("howto.headline-footerp3")}
+              {t("howto.headline-footerp1")}{" "}
+              <Href href="/playground">{t("howto.headline-footerp2")}</Href>!{" "}
+              {t("howto.headline-footerp3")}
             </HowToTypography>
 
             <HowToTopic>{t("howto.subh-1")}</HowToTopic>
 
             <HowToTypography>
-            {t("howto.subh-1-footerp1")}{" "}
+              {t("howto.subh-1-footerp1")}{" "}
               <Href href="https://docs.google.com/document/d/1e2LL2_fKiKXA7GXQdTOYeCw3jpyc8GNxG0P9ehKcJ0Q/edit?usp=sharing">
-              {t("howto.subh-1-footerp2")}
+                {t("howto.subh-1-footerp2")}
               </Href>
               !
             </HowToTypography>
@@ -124,9 +125,7 @@ export const HowToLearngraph = () => {
                 src="HowTo-link.png"
                 alt="Diagram showing multiplication depending on addition"
               />
-              <HowToTypography>
-              {t("howto.para-1")}
-              </HowToTypography>
+              <HowToTypography>{t("howto.para-1")}</HowToTypography>
             </HowToSection>
 
             <HowToTopic>{t("howto.subh-3")}</HowToTopic>
@@ -135,15 +134,16 @@ export const HowToLearngraph = () => {
               <HowToTypography>
                 <ul>
                   <li>
-                  {t("howto.para-3-bullet1")}<Edit fontSize="small" /> {t("howto.para-3-bullet2")}
+                    {t("howto.para-3-bullet1")}
+                    <Edit fontSize="small" /> {t("howto.para-3-bullet2")}
                   </li>
                   <li>{t("howto.para-3-bullet3")}</li>
-                  <li>
-                  {t("howto.para-3-bullet4")}
-                  </li>
+                  <li>{t("howto.para-3-bullet4")}</li>
                 </ul>
-                {t("howto.para-3-bullet6")}<Edit fontSize="small" /> {t("howto.para-3-bullet7")}{" "}
-                <Add fontSize="small" /> {t("howto.para-3-bullet8")}&gt; {t("howto.para-3-bullet9")} <Add fontSize="small" />{" "}
+                {t("howto.para-3-bullet6")}
+                <Edit fontSize="small" /> {t("howto.para-3-bullet7")}{" "}
+                <Add fontSize="small" /> {t("howto.para-3-bullet8")}&gt;{" "}
+                {t("howto.para-3-bullet9")} <Add fontSize="small" />{" "}
                 {t("howto.para-3-bullet10")}&gt; {t("howto.para-3-bullet11")}
               </HowToTypography>
               <HowToImage
@@ -160,17 +160,13 @@ export const HowToLearngraph = () => {
                 src="HowTo-translation-de-en.png"
                 alt="Translation example"
               />
-              <HowToTypography>
-              {t("howto.para-4")}
-              </HowToTypography>
+              <HowToTypography>{t("howto.para-4")}</HowToTypography>
             </HowToSection>
 
             <HowToTopic>{t("howto.subh-5")}</HowToTopic>
 
             <HowToSection reverse>
-              <HowToTypography>
-              {t("howto.para-5")}
-              </HowToTypography>
+              <HowToTypography>{t("howto.para-5")}</HowToTypography>
               <HowToImage src="HowTo-Toolbar.png" alt="Toolbar example" />
             </HowToSection>
           </Container>

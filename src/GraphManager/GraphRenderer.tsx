@@ -1,4 +1,5 @@
-import ForceGraph2D from "react-force-graph-2d";
+//import ForceGraph2D from "react-force-graph-2d";
+import { LandMap2D as ForceGraph2D } from "./LandMap2D";
 import ForceGraph3D from "react-force-graph-3d";
 import { useRef, useState, useLayoutEffect, useEffect } from "react";
 import Box from "@mui/material/Box";
@@ -413,24 +414,6 @@ export const GraphRenderer = (props: GraphRendererProps) => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-  const disableForcesFor2DGraphOnly = () => {
-    if (controller.mode.use3D) {
-      return;
-    }
-    controller.forceGraphRef.current?.d3Force(
-      "link",
-      Object.assign(() => {}, { id: () => {} }),
-    );
-    controller.forceGraphRef.current?.d3Force(
-      "charge",
-      Object.assign(() => {}, { id: () => {} }),
-    );
-    controller.forceGraphRef.current?.d3Force(
-      "center",
-      Object.assign(() => {}, { id: () => {} }),
-    );
-  };
-  useEffect(disableForcesFor2DGraphOnly, [controller.forceGraphRef.current]);
 
   useEffect(() => {
     const checkTouchDevice = () => {
