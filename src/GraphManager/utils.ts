@@ -521,7 +521,7 @@ export const makeOnNodeHover = (ctrl: Controller) => {
     node: ForceGraphNodeObject | null,
     _ /*prevNode*/ : ForceGraphNodeObject | null,
   ) => {
-    ctrl.forceGraphRef.current?.d3ReheatSimulation();
+    //ctrl.forceGraphRef.current?.d3ReheatSimulation();
     ctrl.specialNodes.hoveredNode = node;
     if (!node) {
       ctrl.specialNodes.oneLinkAwayFromHoveredNode = { source: [], target: [] };

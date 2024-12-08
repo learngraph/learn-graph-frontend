@@ -671,4 +671,3 @@ describe("onNodeClick", () => {
     expect(ctrl.graph.removeNode).toHaveBeenNthCalledWith(1, node);
   });
 });
-

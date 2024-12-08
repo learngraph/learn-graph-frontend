@@ -4,7 +4,7 @@ import userEvent from "@testing-library/user-event";
 import { NoTouchButton } from "./NoTouchButton";
 import { UserSettingsButton } from "./UserSettingsButton";
 import { EditModeButton } from "./ModeButton";
-import { CreateButton} from "./CreateButton";
+import { CreateButton } from "./CreateButton";
 import { Controller } from "./GraphEdit";
 
 // Mock functions from GraphEdit
@@ -67,23 +67,20 @@ describe("Button Components", () => {
     render(<NoTouchButton ctrl={mockController} />);
     const user = userEvent.setup();
 
-    const button = screen.getByRole("button", { name: /View-only mode|Enable Graph-Interaction/i });
+    const button = screen.getByRole("button", {
+      name: /View-only mode|Enable Graph-Interaction/i,
+    });
     await user.click(button);
 
     expect(mockController.mode.setAllowGraphInteractions).toHaveBeenCalledWith(
-      expect.any(Function)
+      expect.any(Function),
     );
   });
 
   it("should toggle drawer open state when UserSettingsButton is clicked", async () => {
     const toggleDrawer = () => setIsOpen((current: boolean) => !current);
 
-    render(
-      <UserSettingsButton
-        ctrl={mockController}
-        onClick={toggleDrawer}
-      />
-    );
+    render(<UserSettingsButton ctrl={mockController} onClick={toggleDrawer} />);
     const user = userEvent.setup();
 
     const button = screen.getByRole("button", { name: /Settings/i });
@@ -99,12 +96,7 @@ describe("Button Components", () => {
     const user = userEvent.setup();
     mockController.mode.isEditingEnabled = false;
 
-    render(
-      <EditModeButton
-        ctrl={mockController}
-        isPlayground={false}
-      />
-    );
+    render(<EditModeButton ctrl={mockController} isPlayground={false} />);
 
     const button = screen.getByRole("button", { name: /Edit Mode/i });
     await user.click(button);
@@ -114,11 +106,11 @@ describe("Button Components", () => {
 
   it("should display alert if user is not logged in and isPlayground is false", async () => {
     const user = userEvent.setup();
-  
+
     // Explicitly set userID to null and isPlayground to false
     (useUserDataContext as jest.Mock).mockReturnValue({ userID: null });
     mockController.mode.isEditingEnabled = false;
-  
+
     // Render the component with isPlayground explicitly set to false
     render(<EditModeButton ctrl={mockController} isPlayground={false} />);
     // Locate the button
@@ -127,23 +119,21 @@ describe("Button Components", () => {
     expect(mockController.mode.setIsEditingEnabled).not.toHaveBeenCalled();
   });
 
-  
   it("should change anchorEl state and render the menu when the button is clicked", async () => {
-  const user = userEvent.setup();
-  (useUserDataContext as jest.Mock).mockReturnValue({ userID: "testUser" });
+    const user = userEvent.setup();
+    (useUserDataContext as jest.Mock).mockReturnValue({ userID: "testUser" });
 
-  render(<CreateButton ctrl={mockController} />);
-  // Locate the button
-  const button = screen.getByRole("button", { name: /Contribute knowledge/i });
-  await user.click(button);
+    render(<CreateButton ctrl={mockController} />);
+    // Locate the button
+    const button = screen.getByRole("button", {
+      name: /Contribute knowledge/i,
+    });
+    await user.click(button);
 
-  // Verify that the menu is rendered
-  const menu = screen.getByRole("menu");
-  expect(menu).toBeInTheDocument();
-  // Verify the menu is associated with the anchorEl
-  expect(menu).toHaveAttribute("aria-labelledby", "basic-button");
-});
-
-  
-  
+    // Verify that the menu is rendered
+    const menu = screen.getByRole("menu");
+    expect(menu).toBeInTheDocument();
+    // Verify the menu is associated with the anchorEl
+    expect(menu).toHaveAttribute("aria-labelledby", "basic-button");
+  });
 });
