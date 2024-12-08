@@ -147,8 +147,18 @@ export const LandMap2D = forwardRef<LocalForceGraphMethods, LandMap2DProps>(
     // Transform state for pan/zoom
     const [transform, setTransformState] = useState({ x: 0, y: 0, k: 1 });
     // FIXME(hack): somewhere transform object becomes null
-    const setTransform = (newTf: {x: number, y: number, k: number}) => {
-      setTransformState({ x: newTf.x ?? 0, y: newTf.y ?? 0, k: newTf.k ?? 1 });
+    const setTransform = (newTf: { x: number; y: number; k: number }) => {
+      if (typeof newTf === "function") {
+        console.log(`setTransform: func`);
+        setTransformState(newTf);
+      } else {
+        console.log(`setTransform: x=${newTf.x} y=${newTf.y} k=${newTf.k}`);
+        setTransformState({
+          x: newTf.x ?? 0,
+          y: newTf.y ?? 0,
+          k: newTf.k ?? 1,
+        });
+      }
     };
     const [isPanning, setIsPanning] = useState(false);
     const [isDraggingNode, setIsDraggingNode] =
@@ -359,6 +369,9 @@ export const LandMap2D = forwardRef<LocalForceGraphMethods, LandMap2DProps>(
           // We'll move the graph according to mouse movement
           const dx = e.movementX;
           const dy = e.movementY;
+          console.log(
+            `were panning [${[dx, dy]}] -> [${[transform.x, transform.y]}]`,
+          );
           setTransform((prev) => ({ ...prev, x: prev.x + dx, y: prev.y + dy }));
           if (onZoom)
             onZoom({
