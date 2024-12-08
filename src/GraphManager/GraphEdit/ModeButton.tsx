@@ -2,6 +2,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import Button from "@mui/material/Button";
 
+
 import { Controller } from "./GraphEdit";
 import { CircleContainer, buttonIconStyle } from "./CreateButton";
 import { AlertFnRef, AlertPopupBar } from "@src/shared/Alert";
@@ -9,12 +10,13 @@ import { useUserDataContext } from "@src/Context/UserDataContext";
 import i18n from "@src/shared/i18n";
 import Tooltip from "@mui/material/Tooltip";
 
-export const EditModeButton = ({ ctrl }: { ctrl: Controller }) => {
+
+export const EditModeButton = ({ ctrl,isPlayground }: { ctrl: Controller; isPlayground: boolean}) => {
   const displayAlertRef: AlertFnRef = {};
   const { userID } = useUserDataContext();
   const onClick = () => {
     const displayAlert = displayAlertRef.current ?? alert;
-    if (!userID) {
+    if (!userID && !isPlayground) {
       displayAlert(i18n.t("To edit the graph please login."));
       return;
     }

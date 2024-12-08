@@ -85,9 +85,8 @@ export const openCreateNodePopUpAtMousePosition = (
 
 export const openCreateNodePopUpAtPagePosition = (
   pagePosition: Position,
-  { backend, graph, popUp, forceGraphRef, language, mode }: Controller,
+  { backend, graph, popUp, forceGraphRef, language }: Controller,
 ) => {
-  mode.setIsEditingEnabled(true);
   const onFormSubmit = async (form: NewNodeForm) => {
     const result = await backend.createNode({
       description: {

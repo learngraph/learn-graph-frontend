@@ -301,6 +301,12 @@ export const LinkCreatePopUp = ({
     });
   }, [sourceNode, targetNode]);
   fields.push(
+    <LinkWeightSlider
+      defaultValue={DEFAULT_EDIT_LINK_WEIGHT}
+      setSliderValue={setSliderValue}
+    />,
+  );
+  fields.push(
     <TextFieldFormikGeneratorAutocomplete
       fieldName="sourceNode"
       fieldLabel={t("Source Node")}
@@ -316,6 +322,7 @@ export const LinkCreatePopUp = ({
       }}
     />,
   );
+
   fields.push(
     <TextFieldFormikGeneratorAutocomplete
       fieldName="targetNode"
@@ -331,12 +338,7 @@ export const LinkCreatePopUp = ({
       }}
     />,
   );
-  fields.push(
-    <LinkWeightSlider
-      defaultValue={DEFAULT_EDIT_LINK_WEIGHT}
-      setSliderValue={setSliderValue}
-    />,
-  );
+
   return (
     <DraggableForm
       ctrl={ctrl}
