@@ -10,26 +10,25 @@ export default function Crowdsourcing() {
       sx={{
         pt: { xs: 4, sm: 12 },
         pb: { xs: 8, sm: 16 },
-        position: "relative",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        gap: { xs: 3, sm: 6 },
+        
         color: theme.palette.text.primary,
       }}
     >
       <Box
         sx={{
-          width: { sm: "100%", md: "60%" },
+          width: { sm: "100%", md: "100%" },
           textAlign: { sm: "left", md: "center" },
           whiteSpace: "pre-line",
         }}
       >
-        <Typography variant="h2">{t("landing.crowdsourcingHeader")}</Typography>
-        <Typography variant="body1" paragraph>
+        <Typography variant="h2" sx={{color:"white"}}>{t("landing.crowdsourcingHeader")}</Typography>
+        <Typography variant="body1" paragraph sx={{color:"white", textAlign:"left", fontWeight:"bold"}}>
           <Trans i18nKey="landing.crowdsourcingExplanation" />
         </Typography>
-        <Typography variant="body1" paragraph>
+        <Typography variant="body1" paragraph sx={{color:"white",  textAlign:"left", fontWeight:"bold"}}>
           <Trans i18nKey="landing.crowdsourcingCallToAction" />
         </Typography>
       </Box>

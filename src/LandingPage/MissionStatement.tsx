@@ -9,8 +9,8 @@ export default function MissionStatement() {
     <Container
       id="mission-statement"
       sx={{
-        pt: { xs: 4, sm: 12 },
-        pb: { xs: 8, sm: 16 },
+        pt: { xs: 20, sm: 12 },
+        pb: { xs: 10, sm: 4 },
         position: "relative",
         display: "flex",
         flexDirection: "column",
@@ -21,15 +21,15 @@ export default function MissionStatement() {
     >
       <Box
         sx={{
-          width: { sm: "100%", md: "60%" },
+          width: { sm: "90%", md: "60%" },
           textAlign: { sm: "left", md: "center" },
           whiteSpace: "pre-line",
         }}
       >
-        <Typography variant="h2">
+        <Typography variant="h2" sx={{color:"white"}}>
           {t("landing.missionStatementHeader")}
         </Typography>
-        <Typography variant="body1" paragraph>
+        <Typography variant="body1" paragraph sx={{color:"white", textAlign:"left"}}>
           <Trans
             i18nKey="landing.missionStatementText"
             components={{

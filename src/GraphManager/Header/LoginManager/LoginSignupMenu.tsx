@@ -107,7 +107,7 @@ export default function LoginSignupMenu() {
   return (
     <>
       <AlertPopupBar displayAlertRef={displayAlertRef} />
-      <Button variant="contained" color="primary" onClick={handleClickOpen}>
+      <Button variant="contained" sx={{background:"none", color:"white"}} onClick={handleClickOpen}>
         {t("Login/Signup")}
       </Button>
       <Dialog open={open} onClose={handleClose}>

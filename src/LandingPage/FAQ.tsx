@@ -49,16 +49,13 @@ export default function FAQ() {
     (panel: string) => (_event: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? panel : false);
     };
-  const sxTextAlignAndWidth = {
-    width: { sm: "100%", md: "60%" },
-    textAlign: { sm: "left", md: "center" },
-  };
+
   return (
     <Container
       id="faq"
       sx={{
-        pt: { xs: 4, sm: 12 },
-        pb: { xs: 8, sm: 16 },
+        width: { sm: "100%", md: "100%" },
+        pb: { xs: 10, sm: 18 },
         position: "relative",
         display: "flex",
         flexDirection: "column",
@@ -67,14 +64,14 @@ export default function FAQ() {
       }}
     >
       <Typography
-        component="h2"
-        variant="h4"
+        component="h1"
+        variant="h2"
         color="text.primary"
-        sx={sxTextAlignAndWidth}
+        sx={{color:"white"}}
       >
-        Frequently asked questions
+        FAQs
       </Typography>
-      <Box sx={{ width: "100%" }}>
+      <Box sx={{ width: "90%" }}>
         {qnaEntries.map(({ question, answer }, index) => (
           <Accordion
             expanded={expanded === `panel${index + 1}`}
@@ -85,7 +82,7 @@ export default function FAQ() {
               aria-controls={`panel${index + 1}d-content`}
               id={`panel${index + 1}d-header`}
             >
-              <Typography component="h3" variant="subtitle2">
+              <Typography component="h3" variant="subtitle2" sx={{ textAlign:"left"}} >
                 {question}
               </Typography>
             </AccordionSummary>
@@ -101,31 +98,7 @@ export default function FAQ() {
           </Accordion>
         ))}
       </Box>
-      <Typography
-        component="h2"
-        variant="h4"
-        color="text.primary"
-        sx={sxTextAlignAndWidth}
-      >
-        Impressum
-      </Typography>
-      <Typography color="text.primary" sx={sxTextAlignAndWidth}>
-        Laurin Hagemann <br />
-        Rechenerstr. 2 <br />
-        44787, Bochum <p />
-      </Typography>
-      <Typography
-        component="h3"
-        variant="h4"
-        color="text.primary"
-        sx={sxTextAlignAndWidth}
-      >
-        Kontakt
-      </Typography>
-      <Typography color="text.primary" sx={sxTextAlignAndWidth}>
-        Tel.: +491631925215 <br />
-        E-Mail: contact@learngraph.org
-      </Typography>
+     
     </Container>
   );
 }
