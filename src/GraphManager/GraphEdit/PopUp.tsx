@@ -16,6 +16,9 @@ import { Mark } from "@mui/base/useSlider";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useTranslation } from "react-i18next";
+import { useCreateNode } from "../RPCHooks/useCreateNode";
+
+
 
 import {
   Controller,
@@ -37,7 +40,6 @@ import { useNodeEdits } from "@src/GraphManager/RPCHooks/useNodeEdits";
 import { useLinkEdits } from "@src/GraphManager/RPCHooks/useLinkEdits";
 import { NodeEdit as BackendNodeEdit, NodeEditType } from "../RPCHooks/types";
 import { AvatarGroup, List, ListItem, useTheme } from "@mui/material";
-import i18n from "@src/shared/i18n";
 import { useUserDataContext } from "@src/Context/UserDataContext";
 
 // TODO(skep): MIN_NODE_DESCRIPTION_LENGTH should be language dependent; for
@@ -243,85 +245,131 @@ export const getKeyForNode = (node: ForceGraphNodeObject) => {
   return `${node?.id}`;
 };
 export const getIDForNode = (node: ForceGraphNodeObject) => node?.id ?? "";
+
 export const LinkCreatePopUp = ({
   handleClose,
   ctrl,
 }: SubGraphEditPopUpProps) => {
   const [sliderValue, setSliderValue] = useState<number | Array<number>>(
-    DEFAULT_EDIT_LINK_WEIGHT,
+    DEFAULT_EDIT_LINK_WEIGHT
   );
   const [dynamicFields, setDynamicFields] = useState<{
     source: boolean;
     target: boolean;
   }>({ source: false, target: false });
-  const [newNodeResources, setNewNodeResources] = useState<{
-    source: string;
-    target: string;
-  }>({ source: "", target: "" });
 
-  const formik = useFormik<NewLinkForm>({
+  const [isEditingEnabled, setIsEditingEnabled] = useState(false);
+  const { createNode } = useCreateNode(); // Backend mutation for node creation
+  const nodes = ctrl.graph.current.nodes;
+
+  const formik = useFormik({
     initialValues: {
       sourceNode: "",
       targetNode: "",
       linkWeight: 5,
+      newSourceNodeDescription: "",
+      newSourceNodeResources: "",
+      newTargetNodeDescription: "",
+      newTargetNodeResources: "",
     },
     validationSchema: yup.object({
       sourceNode: yup.string().test("validate-node", function (value) {
         if (!value) return true;
-        if (!ctrl.graph.current.nodes.find((node) => node.id === value)) {
+        if (!nodes.some((node) => node.id === value)) {
           return this.createError({
             path: this.path,
-            message: `Node "${value}" does not exist. Click "Insert Node" to create.`,
+            message: `Node "${value}" does not exist.`,
           });
         }
         return true;
       }),
       targetNode: yup.string().test("validate-node", function (value) {
         if (!value) return true;
-        if (!ctrl.graph.current.nodes.find((node) => node.id === value)) {
+        if (!nodes.some((node) => node.id === value)) {
           return this.createError({
             path: this.path,
-            message: `Node "${value}" does not exist. Click "Insert Node" to create.`,
+            message: `Node "${value}" does not exist.`,
           });
         }
         return true;
       }),
     }),
-    onSubmit: (form: NewLinkForm) => {
-      const finalSliderValue: number = sliderValue as number;
-      ctrl.popUp.state.linkEdit?.onFormSubmit({
-        ...form,
-        linkWeight: finalSliderValue,
-      });
-      handleClose();
+    onSubmit: async (form) => {
+      try {
+        // Handle node creation if needed
+        if (dynamicFields.source) {
+          await createAndAddNode("source", form.newSourceNodeDescription, form.newSourceNodeResources);
+        }
+        if (dynamicFields.target) {
+          await createAndAddNode("target", form.newTargetNodeDescription, form.newTargetNodeResources);
+        }
+
+        // Handle link creation
+        ctrl.popUp.state.linkEdit?.onFormSubmit({
+          sourceNode: form.sourceNode,
+          targetNode: form.targetNode,
+          linkWeight: sliderValue as number,
+        });
+        
+        handleClose();
+      } catch (error) {
+        console.error("Error during node or link creation:", error);
+      }
     },
   });
 
-  const handleAddNode = (field: "source" | "target") => {
-    const nodeName = formik.values[field === "source" ? "sourceNode" : "targetNode"];
+  const createAndAddNode = async (field: "source" | "target", description: string, resources: string) => {
+    const result = await createNode({
+      description: { translations: [{ language: ctrl.language, content: description }] },
+      resources: resources
+        ? { translations: [{ language: ctrl.language, content: resources }] }
+        : undefined,
+    });
+
+    if (!result.data?.createNode?.ID) {
+      console.error(`Failed to create ${field} node in backend.`);
+      throw new Error("Node creation failed.");
+    }
+
     const newNode = {
-      id: nodeName,
-      description: nodeName,
-      resources: newNodeResources[field],
+      id: result.data.createNode.ID,
+      description,
+      resources,
     };
 
-    // Add the new node to the graph
-    ctrl.graph.current.nodes.push(newNode);
+    ctrl.graph.addNode(newNode);
 
-    // Clear the error and dynamic fields for the respective field
-    setNewNodeResources({ ...newNodeResources, [field]: "" });
-    setDynamicFields({ ...dynamicFields, [field]: false });
-    formik.validateForm();
+    // Update graph state and re-render
+    const updatedGraph = {
+      ...ctrl.graph.current,
+      nodes: [...ctrl.graph.current.nodes, newNode],
+    };
+    ctrl.graph.setGraph(updatedGraph);
+    
+    formik.setFieldValue(field === "source" ? "sourceNode" : "targetNode", newNode.id);
+    setDynamicFields((prev) => ({ ...prev, [field]: false })); // Close dynamic fields
   };
 
-  const nodes = ctrl.graph.current.nodes;
+  useEffect(() => {
+    // Update Save button state based on validity of source/target nodes
+    setIsEditingEnabled(
+      !!formik.values.sourceNode &&
+      !!formik.values.targetNode &&
+      !formik.errors.sourceNode &&
+      !formik.errors.targetNode
+    );
+  }, [formik.values, formik.errors]);
+
+  const handleInsertNodeClick = (field: "source" | "target") => {
+    setDynamicFields((prev) => ({ ...prev, [field]: true }));
+  };
 
   return (
     <DraggableForm
       ctrl={ctrl}
       popUp={ctrl.popUp}
       handleClose={handleClose}
-      isEditingEnabled={ctrl.mode.isEditingEnabled}
+      isEditingEnabled={isEditingEnabled}
       formik={formik}
       fields={[
         <div key="sourceField">
@@ -330,23 +378,15 @@ export const LinkCreatePopUp = ({
             fieldLabel={"Source Node"}
             formik={formik}
             options={nodes}
-            optionLabel={getLabelForNode}
-            optionKey={getKeyForNode}
-            optionValue={getIDForNode}
-            autoFocus
+            optionLabel={(node: any) => node?.description || ""}
+            optionKey={(node: any) => node?.id || ""}
+            optionValue={(node: any) => node?.id || ""}
           />
-          {formik.errors.sourceNode && !dynamicFields.source && (
+          {!nodes.some((node) => node.id === formik.values.sourceNode) && (
             <Typography
               variant="body2"
-              style={{
-                color: "blue",
-                cursor: "pointer",
-                textDecoration: "underline",
-                marginTop: "0.5em",
-              }}
-              onClick={() =>
-                setDynamicFields({ ...dynamicFields, source: true })
-              }
+              style={{ color: "blue", cursor: "pointer", textDecoration: "underline" }}
+              onClick={() => handleInsertNodeClick("source")}
             >
               Insert Node
             </Typography>
@@ -354,22 +394,22 @@ export const LinkCreatePopUp = ({
           {dynamicFields.source && (
             <>
               <MarkdownEditorWrapper
-                fieldName="nodeResources"
+                fieldName="newSourceNodeResources"
                 fieldLabel={"Node Resources"}
                 initialMarkdownContent=""
-                setValueOnChange={(markdown: string) =>
-                  setNewNodeResources({ ...newNodeResources, source: markdown })
-                }
-                isEditingEnabled={ctrl.mode.isEditingEnabled}
+                setValueOnChange={(markdown) => {
+                  formik.setFieldValue("newSourceNodeResources", markdown);
+                }}
+                isEditingEnabled={true}
               />
-              <Button
+                <Button
                 variant="contained"
                 color="primary"
-                onClick={() => handleAddNode("source")}
+                onClick={() => createAndAddNode("source", formik.values.sourceNode, formik.values.newSourceNodeResources)}
                 sx={{ marginTop: "1em" }}
-                disabled={!newNodeResources.source.trim()}
+                disabled={!formik.values.sourceNode.trim() || !formik.values.newSourceNodeResources.trim()}
               >
-                {"Confirm Node Creation"}
+                Confirm Node Creation
               </Button>
             </>
           )}
@@ -380,45 +420,39 @@ export const LinkCreatePopUp = ({
             fieldLabel={"Target Node"}
             formik={formik}
             options={nodes}
-            optionLabel={getLabelForNode}
-            optionKey={getKeyForNode}
-            optionValue={getIDForNode}
+            optionLabel={(node: any) => node?.description || ""}
+            optionKey={(node: any) => node?.id || ""}
+            optionValue={(node: any) => node?.id || ""}
           />
-          {formik.errors.targetNode && !dynamicFields.target && (
+          {!nodes.some((node) => node.id === formik.values.targetNode) && (
             <Typography
               variant="body2"
-              style={{
-                color: "blue",
-                cursor: "pointer",
-                textDecoration: "underline",
-                marginTop: "0.5em",
-              }}
-              onClick={() =>
-                setDynamicFields({ ...dynamicFields, target: true })
-              }
+              style={{ color: "blue", cursor: "pointer", textDecoration: "underline" }}
+              onClick={() => handleInsertNodeClick("target")}
             >
               Insert Node
             </Typography>
           )}
           {dynamicFields.target && (
             <>
+             
               <MarkdownEditorWrapper
-                fieldName="nodeResources"
+                fieldName="newTargetNodeResources"
                 fieldLabel={"Node Resources"}
                 initialMarkdownContent=""
-                setValueOnChange={(markdown: string) =>
-                  setNewNodeResources({ ...newNodeResources, target: markdown })
-                }
-                isEditingEnabled={ctrl.mode.isEditingEnabled}
+                setValueOnChange={(markdown) => {
+                  formik.setFieldValue("newTargetNodeResources", markdown);
+                }}
+                isEditingEnabled={true}
               />
-              <Button
+               <Button
                 variant="contained"
                 color="primary"
-                onClick={() => handleAddNode("target")}
+                onClick={() => createAndAddNode("target", formik.values.targetNode, formik.values.newTargetNodeResources)}
                 sx={{ marginTop: "1em" }}
-                disabled={!newNodeResources.target.trim()}
+                disabled={!formik.values.targetNode.trim() || !formik.values.newTargetNodeResources.trim()}
               >
-                {"Confirm Node Creation"}
+                Confirm Node Creation
               </Button>
             </>
           )}
@@ -431,6 +465,13 @@ export const LinkCreatePopUp = ({
     />
   );
 };
+
+
+
+
+
+
+
 
 
 
