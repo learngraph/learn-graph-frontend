@@ -10,6 +10,7 @@ See
 ### How to Contribute?
 
 - Commit messages should follow the [conventional commits guideline](https://www.conventionalcommits.org/en/v1.0.0/),
+- Make sure to run `npm run fmt && npm run lint` before requesting a review! This process can be automated with hook installed by `npm run init-git` (see below).
 - Create a PR & wait for review,
 - PRs should be "squashed & merged"
 
