@@ -5,6 +5,7 @@ import {
   FG_ENGINE_COOLDOWN_TICKS_DISABLED,
   INTERIM_TMP_LINK_ID,
   NodeDragState,
+  makeOnBackgroundClick,
   onLinkClick,
   onNodeClick,
   onNodeDrag,
@@ -672,3 +673,45 @@ describe("onNodeClick", () => {
   });
 });
 
+type MockController = ReturnType<typeof makeMockController>;
+
+describe("makeOnBackgroundClick", () => {
+  let controller: MockController;
+
+  beforeEach(() => {
+    controller = makeMockController();
+  });
+
+  it("should enable editing and open popup when ctrlKey is pressed", () => {
+    const mouseEvent = new MouseEvent("click", { ctrlKey: true });
+    // @ts-ignore
+    const onClick = makeOnBackgroundClick(controller);
+
+    onClick(mouseEvent);
+
+    expect(controller.mode.setIsEditingEnabled).toHaveBeenCalledWith(true);
+  });
+
+  it("should enable editing and open popup when metaKey is pressed", () => {
+    const mouseEvent = new MouseEvent("click", { metaKey: true });
+    // @ts-ignore
+    const onClick = makeOnBackgroundClick(controller);
+
+    onClick(mouseEvent);
+
+    expect(controller.mode.setIsEditingEnabled).toHaveBeenCalledWith(true);
+  });
+
+  it("should not enable editing or open popup when neither ctrlKey nor metaKey is pressed", () => {
+    const mouseEvent = new MouseEvent("click", {
+      ctrlKey: false,
+      metaKey: false,
+    });
+    // @ts-ignore
+    const onClick = makeOnBackgroundClick(controller);
+
+    onClick(mouseEvent);
+
+    expect(controller.mode.setIsEditingEnabled).not.toHaveBeenCalled();
+  });
+});

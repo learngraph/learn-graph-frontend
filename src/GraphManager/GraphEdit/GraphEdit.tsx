@@ -182,8 +182,8 @@ export interface Controller {
 
 export const makeOnBackgroundClick = (controller: Controller) => {
   return (mouse: MouseEvent) => {
-    console.log(mouse);
-    if (mouse.ctrlKey) {
+    if (mouse.ctrlKey || mouse.metaKey) {
+      controller.mode.setIsEditingEnabled(true);
       openCreateNodePopUpAtMousePosition(mouse, controller);
     }
   };
