@@ -680,38 +680,55 @@ describe("makeOnBackgroundClick", () => {
 
   beforeEach(() => {
     controller = makeMockController();
+    controller.mode.isEditingEnabled = true;
+    jest.spyOn(global, "alert").mockImplementation(jest.fn()); // Mock alert globally
   });
 
-  it("should enable editing and open popup when ctrlKey is pressed", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it("should open popup when user is logged in and ctrlKey is pressed", () => {
     const mouseEvent = new MouseEvent("click", { ctrlKey: true });
     // @ts-ignore
-    const onClick = makeOnBackgroundClick(controller);
-
+    const onClick = makeOnBackgroundClick(controller, "validUserID");
     onClick(mouseEvent);
-
-    expect(controller.mode.setIsEditingEnabled).toHaveBeenCalledWith(true);
+    expect(controller.popUp.setState).toHaveBeenCalledTimes(1);
   });
 
-  it("should enable editing and open popup when metaKey is pressed", () => {
+  it("should open popup when user is logged in and metaKey is pressed", () => {
     const mouseEvent = new MouseEvent("click", { metaKey: true });
     // @ts-ignore
-    const onClick = makeOnBackgroundClick(controller);
-
+    const onClick = makeOnBackgroundClick(controller, "validUserID");
     onClick(mouseEvent);
-
-    expect(controller.mode.setIsEditingEnabled).toHaveBeenCalledWith(true);
+    expect(controller.popUp.setState).toHaveBeenCalledTimes(1);
   });
 
-  it("should not enable editing or open popup when neither ctrlKey nor metaKey is pressed", () => {
+  it("should not open popup when user is not logged in", () => {
+    const mouseEvent = new MouseEvent("click", { ctrlKey: true });
+    // @ts-ignore
+    const onClick = makeOnBackgroundClick(controller, ""); // User not logged in
+    onClick(mouseEvent);
+    expect(controller.popUp.setState).not.toHaveBeenCalled();
+  });
+
+  it("should not open popup when user is not in edit mode", () => {
+    const mouseEvent = new MouseEvent("click", { ctrlKey: true });
+    controller.mode.isEditingEnabled = false;
+    // @ts-ignore
+    const onClick = makeOnBackgroundClick(controller, "validUserID");
+    onClick(mouseEvent);
+    expect(controller.popUp.setState).not.toHaveBeenCalled();
+  });
+
+  it("should not open popup when neither ctrlKey nor metaKey is pressed", () => {
     const mouseEvent = new MouseEvent("click", {
       ctrlKey: false,
       metaKey: false,
     });
     // @ts-ignore
-    const onClick = makeOnBackgroundClick(controller);
-
+    const onClick = makeOnBackgroundClick(controller, "validUserID");
     onClick(mouseEvent);
-
-    expect(controller.mode.setIsEditingEnabled).not.toHaveBeenCalled();
+    expect(controller.popUp.setState).not.toHaveBeenCalled();
   });
 });

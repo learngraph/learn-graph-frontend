@@ -184,7 +184,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   const [graph, setGraph] = useState<ForceGraphGraphData>(
     makeInitialGraphData(),
   );
-  const { language, theme } = useUserDataContext();
+  const { language, theme, userID } = useUserDataContext();
   const [shiftHeld, setShiftHeld] = useState(false);
   const downHandler = ({ key }: any) => {
     if (key === "Shift") {
@@ -370,7 +370,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   const zoomControl = makeZoomControl(controller);
   controller.zoom.setUserZoomLevel = zoomControl.onZoomChange;
   props.controllerRef.current = controller;
-  const onBackgroundClick = makeOnBackgroundClick(controller);
+  const onBackgroundClick = makeOnBackgroundClick(controller, userID);
   // XXX(skep): should we disable right click? it's kind of annoying for the
   // canvas, but outside we might want to allow it..
   //useEffect(() => {
