@@ -178,8 +178,8 @@ export const GraphEditPopUp = ({ ctrl }: GraphEditPopUpProps) => {
 
 const addKeyboardShortcuts = (formik: any) => {
   const handleKeyPress = (event: KeyboardEvent) => {
-    // Check if Ctrl key is pressed and Enter key is pressed
-    if (event.ctrlKey && event.key === "Enter") {
+    // Check if Ctrl/Cmd key is pressed and Enter key is pressed
+    if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
       formik.submitForm();
     }
   };
