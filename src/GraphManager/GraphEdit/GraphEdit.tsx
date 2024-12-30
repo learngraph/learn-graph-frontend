@@ -1,4 +1,5 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState,useEffect } from "react";
+
 import {
   LinkEditDefaultValues,
   NewLinkForm,
@@ -22,6 +23,7 @@ import { DeleteNodeFn } from "@src/GraphManager/RPCHooks/useDeleteNode";
 import { DeleteEdgeFn } from "@src/GraphManager/RPCHooks/useDeleteEdge";
 import { ZoomState } from "@src/GraphManager/Zoom";
 import i18n from "@src/shared/i18n";
+
 
 // Note: must be kept constant for all times, otherwise database must be
 // migrated to a new maximum weight.
@@ -316,52 +318,184 @@ export interface LinkEditPopUpConfig {
   onCancel?: () => void;
 }
 
+
+
+const createGraphLink = async (
+  ctrl: Controller,
+  source: string,
+  target: string,
+  weight: number
+) => {
+  console.log("Creating link with values:", { source, target, weight });
+
+  try {
+  
+
+    // Backend call to create the link
+    const result = await ctrl.backend.createLink({
+      from: source,
+      to: target,
+      weight,
+    });
+
+    if (!result.data?.createEdge?.ID) {
+      console.error("Failed to create link");
+      return;
+    }
+
+    const linkID = result.data.createEdge.ID;
+    console.log("Link created with ID:", linkID);
+
+    // Add the link to the graph
+    const sourceNode = ctrl.graph.current.nodes.find((node) => node.id === source);
+    const targetNode = ctrl.graph.current.nodes.find((node) => node.id === target);
+
+    if (!sourceNode || !targetNode) {
+      throw new Error(`Source or target node not found in graph for link creation`);
+    }
+
+    const validLink = {
+      id: linkID,
+      source: sourceNode,
+      target: targetNode,
+      value: weight,
+    };
+
+    ctrl.graph.addLink(validLink);
+    console.log("Link added to graph:", validLink);
+  } catch (error) {
+    console.error("Error creating link:", error);
+  }
+};
+
+
 export const openCreateLinkPopUp = (
   ctrl: Controller,
   conf?: LinkEditPopUpConfig,
+  
 ) => {
+  
   const onFormSubmit = async (form: NewLinkForm) => {
-    const result = await ctrl.backend.createLink({
-      from: form.sourceNode,
-      to: form.targetNode,
-      weight: form.linkWeight,
-    });
-    if (!result.data?.createEdge.ID) {
-      // TODO(skep): display error to user?!
-      return;
-    }
-    const linkID = result.data!.createEdge.ID;
-    if (
-      !!conf?.updateExistingLink &&
-      form.sourceNode === conf.updateExistingLink.source.id &&
-      form.targetNode === conf.updateExistingLink.target.id
-    ) {
-      ctrl.graph.updateLink(conf.updateExistingLink, {
-        ...conf.updateExistingLink,
-        value: form.linkWeight,
-        id: linkID,
+    console.log("create link popup called with form: ", form);
+    let target_id = form.targetNode;
+    let source_id = form.sourceNode;
+    // Ensure source node exists
+    if (form.createSourceNode) {
+      console.log("Creating Source node");
+      const sourceNodeResult = await ctrl.backend.createNode({
+        description: {
+          translations: [
+            { language: ctrl.language, content: form.sourceNode },
+          ],
+        },
+        resources: { translations: [] }, // Optional empty resources
       });
-    } else {
-      if (conf?.updateExistingLink) {
-        ctrl.graph.removeLink(conf.updateExistingLink);
+      if (!sourceNodeResult.data) {
+        console.error("Failed to create source node");
+        return;
       }
-      const link: ForceGraphLinkObjectInitial = {
-        id: linkID,
-        source: form.sourceNode,
-        target: form.targetNode,
-        value: form.linkWeight,
+      // const newSourceNodeID = sourceNodeResult.data.createNode.ID;
+      // form.sourceNode = newSourceNodeID; // Update form with the new node ID
+      // console.log("Source node id:", newSourceNodeID);
+      
+      source_id = sourceNodeResult.data!.createNode.ID;
+      console.log("sourcenode created with ID:",source_id);
+      const newSourceNode = {
+        id: source_id,
+        description: form.sourceNode,
+        resources: "",
       };
-      ctrl.graph.addLink(link);
+      ctrl.graph.addNode(newSourceNode);
+      // Wait for the graph to update
+      //await new Promise((resolve) => setTimeout(resolve, 1000)); // Adjust delay as needed
     }
+  
+    // Ensure target node exists
+    if (form.createTargetNode) {
+      console.log("Creating Target node");
+      const targetNodeResult = await ctrl.backend.createNode({
+        description: {
+          translations: [
+            { language: ctrl.language, content: form.targetNode },
+          ],
+        },
+        resources: { translations: [] }, // Optional empty resources
+      });
+      if (!targetNodeResult.data) {
+        console.error("Failed to create target node");
+        return;
+      }
+      // const newTargetNodeID = targetNodeResult.data.createNode.ID;
+      // form.targetNode = newTargetNodeID; // Update form with the new node ID
+      // console.log("Target node id:", newTargetNodeID);
+      target_id = targetNodeResult.data!.createNode.ID;
+      console.log("target node created with ID:",target_id);
+      const newTargetNode = {
+        id: target_id,
+        description: form.targetNode,
+        resources: "",
+      };
+      ctrl.graph.addNode(newTargetNode);
+      // Wait for the graph to update
+      //await new Promise((resolve) => setTimeout(resolve, 1000)); // Adjust delay as needed
+    }
+    if (form.createSourceNode || form.createTargetNode) {
+      console.log("Calling link creator");
+      // Delay the link creation to allow the graph to update
+      await createGraphLink(ctrl, source_id, target_id, form.linkWeight);
+     //nicer to remove this, write test cases
+    }
+  
+    //Create the link
+    if(!form.createSourceNode && !form.createTargetNode){
+      console.log("Link being directly created");
+    const result = await ctrl.backend.createLink({
+       from: source_id,
+       to: target_id,
+       weight: form.linkWeight,
+     });
+  
+     if (!result.data?.createEdge.ID) {
+       console.error("Failed to create link");
+       return;
+     }
+  
+     const linkID = result.data.createEdge.ID;
+     console.log("link created with id:", linkID)
+  
+     if (
+       conf?.updateExistingLink &&
+       form.sourceNode === conf.updateExistingLink.source.id &&
+       form.targetNode === conf.updateExistingLink.target.id
+     ) {
+       ctrl.graph.updateLink(conf.updateExistingLink, {
+         ...conf.updateExistingLink,
+         value: form.linkWeight,
+         id: linkID,
+       });
+     } else {
+       if (conf?.updateExistingLink) {
+         ctrl.graph.removeLink(conf.updateExistingLink);
+       }
+       const link: ForceGraphLinkObjectInitial = {
+         id: linkID,
+         source: form.sourceNode,
+         target: form.targetNode,
+         value: form.linkWeight,
+      };
+       ctrl.graph.addLink(link);
+     
+    }
+      }
   };
+
+
   ctrl.popUp.setState({
     nodeEdit: undefined,
     isOpen: true,
     title: i18n.t("To learn about source -> target is required", {
-      source:
-        conf?.linkEditDefaults?.source?.description ?? i18n.t("Source Node"),
-      target:
-        conf?.linkEditDefaults?.target?.description ?? i18n.t("Target Node"),
+      source: conf?.linkEditDefaults?.source?.description ?? i18n.t("Source Node"),
+      target: conf?.linkEditDefaults?.target?.description ?? i18n.t("Target Node"),
     }),
     linkEdit: {
       onFormSubmit,
@@ -370,6 +504,7 @@ export const openCreateLinkPopUp = (
     },
   });
 };
+
 
 export const makeOnLinkClick = (ctrl: Controller) => {
   return (link: ForceGraphLinkObject) => {
