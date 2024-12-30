@@ -63,7 +63,9 @@ export default function LocaleManager() {
     <>
       <Button
         variant="contained"
-        startIcon={<TranslateIcon />}
+        startIcon={<TranslateIcon
+          sx={{color:"white", background:"none"}}
+          />}
         onClick={handleClick}
         aria-label="switch language"
         sx={{
@@ -72,7 +74,8 @@ export default function LocaleManager() {
           textOverflow: "ellipsis", // Add ellipsis if text overflows
           overflow: "hidden", // Hide overflowed content
           background:"none",
-          color:"white"
+          border:"0.5px solid white",
+          borderRadius:"6px",
         }}
       >
         {isSmallScreen

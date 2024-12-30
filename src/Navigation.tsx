@@ -217,11 +217,13 @@ export const NavigationWithContent = (props: NavigationWithContentConfig) => {
   const buttonAndNavDrawer = (
     <>
       <IconButton
-        sx={menuColors}
+       
         onClick={() => setIsDrawerOpen(true)}
         size="medium"
       >
-        <MenuIcon />
+        <MenuIcon
+         sx={{background:"none", color:"white"}}
+        />
       </IconButton>
       <Drawer
         anchor="left"
@@ -245,7 +247,15 @@ export const NavigationWithContent = (props: NavigationWithContentConfig) => {
               {buttonAndNavDrawer}{" "}
             </DisplayOnlyOnSmallScreen>
           )}
-          <Logo size={90} />
+          <div
+          onClick={() => navigate("/")}
+          style={{background:"transparent",
+          }}
+          >
+          <Logo
+          size={90}/>
+          </div>
+          
           <LearngraphLOGO
             onClick={() => navigate("/")}
             sx={{

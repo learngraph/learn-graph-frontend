@@ -18,7 +18,9 @@ const Logo = ({ size = 100 }) => {
     ];
   
     return (
-      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
+      <svg width={size} height={size} 
+      style={{ background: "none", cursor:"pointer" }}
+      viewBox={`0 0 ${size} ${size}`}>
       {/* Central Circle */}
       <circle cx={centerX} cy={centerY} r={mainCircleRadius} fill="orange" stroke={OutlineColor} strokeWidth={nodeRadius * 0.5} />
       
