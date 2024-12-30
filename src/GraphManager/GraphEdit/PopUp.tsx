@@ -18,8 +18,6 @@ import * as yup from "yup";
 import { useTranslation } from "react-i18next";
 import { useCreateNode } from "../RPCHooks/useCreateNode";
 
-
-
 import {
   Controller,
   DEFAULT_EDIT_LINK_WEIGHT,
@@ -251,7 +249,7 @@ export const LinkCreatePopUp = ({
   ctrl,
 }: SubGraphEditPopUpProps) => {
   const [sliderValue, setSliderValue] = useState<number | Array<number>>(
-    DEFAULT_EDIT_LINK_WEIGHT
+    DEFAULT_EDIT_LINK_WEIGHT,
   );
   const [dynamicFields, setDynamicFields] = useState<{
     source: boolean;
@@ -298,10 +296,18 @@ export const LinkCreatePopUp = ({
       try {
         // Handle node creation if needed
         if (dynamicFields.source) {
-          await createAndAddNode("source", form.newSourceNodeDescription, form.newSourceNodeResources);
+          await createAndAddNode(
+            "source",
+            form.newSourceNodeDescription,
+            form.newSourceNodeResources,
+          );
         }
         if (dynamicFields.target) {
-          await createAndAddNode("target", form.newTargetNodeDescription, form.newTargetNodeResources);
+          await createAndAddNode(
+            "target",
+            form.newTargetNodeDescription,
+            form.newTargetNodeResources,
+          );
         }
 
         // Handle link creation
@@ -310,7 +316,7 @@ export const LinkCreatePopUp = ({
           targetNode: form.targetNode,
           linkWeight: sliderValue as number,
         });
-        
+
         handleClose();
       } catch (error) {
         console.error("Error during node or link creation:", error);
@@ -318,9 +324,15 @@ export const LinkCreatePopUp = ({
     },
   });
 
-  const createAndAddNode = async (field: "source" | "target", description: string, resources: string) => {
+  const createAndAddNode = async (
+    field: "source" | "target",
+    description: string,
+    resources: string,
+  ) => {
     const result = await createNode({
-      description: { translations: [{ language: ctrl.language, content: description }] },
+      description: {
+        translations: [{ language: ctrl.language, content: description }],
+      },
       resources: resources
         ? { translations: [{ language: ctrl.language, content: resources }] }
         : undefined,
@@ -345,8 +357,11 @@ export const LinkCreatePopUp = ({
       nodes: [...ctrl.graph.current.nodes, newNode],
     };
     ctrl.graph.setGraph(updatedGraph);
-    
-    formik.setFieldValue(field === "source" ? "sourceNode" : "targetNode", newNode.id);
+
+    formik.setFieldValue(
+      field === "source" ? "sourceNode" : "targetNode",
+      newNode.id,
+    );
     setDynamicFields((prev) => ({ ...prev, [field]: false })); // Close dynamic fields
   };
 
@@ -354,9 +369,9 @@ export const LinkCreatePopUp = ({
     // Update Save button state based on validity of source/target nodes
     setIsEditingEnabled(
       !!formik.values.sourceNode &&
-      !!formik.values.targetNode &&
-      !formik.errors.sourceNode &&
-      !formik.errors.targetNode
+        !!formik.values.targetNode &&
+        !formik.errors.sourceNode &&
+        !formik.errors.targetNode,
     );
   }, [formik.values, formik.errors]);
 
@@ -385,7 +400,11 @@ export const LinkCreatePopUp = ({
           {!nodes.some((node) => node.id === formik.values.sourceNode) && (
             <Typography
               variant="body2"
-              style={{ color: "blue", cursor: "pointer", textDecoration: "underline" }}
+              style={{
+                color: "blue",
+                cursor: "pointer",
+                textDecoration: "underline",
+              }}
               onClick={() => handleInsertNodeClick("source")}
             >
               Insert Node
@@ -402,12 +421,21 @@ export const LinkCreatePopUp = ({
                 }}
                 isEditingEnabled={true}
               />
-                <Button
+              <Button
                 variant="contained"
                 color="primary"
-                onClick={() => createAndAddNode("source", formik.values.sourceNode, formik.values.newSourceNodeResources)}
+                onClick={() =>
+                  createAndAddNode(
+                    "source",
+                    formik.values.sourceNode,
+                    formik.values.newSourceNodeResources,
+                  )
+                }
                 sx={{ marginTop: "1em" }}
-                disabled={!formik.values.sourceNode.trim() || !formik.values.newSourceNodeResources.trim()}
+                disabled={
+                  !formik.values.sourceNode.trim() ||
+                  !formik.values.newSourceNodeResources.trim()
+                }
               >
                 Confirm Node Creation
               </Button>
@@ -427,7 +455,11 @@ export const LinkCreatePopUp = ({
           {!nodes.some((node) => node.id === formik.values.targetNode) && (
             <Typography
               variant="body2"
-              style={{ color: "blue", cursor: "pointer", textDecoration: "underline" }}
+              style={{
+                color: "blue",
+                cursor: "pointer",
+                textDecoration: "underline",
+              }}
               onClick={() => handleInsertNodeClick("target")}
             >
               Insert Node
@@ -435,7 +467,6 @@ export const LinkCreatePopUp = ({
           )}
           {dynamicFields.target && (
             <>
-             
               <MarkdownEditorWrapper
                 fieldName="newTargetNodeResources"
                 fieldLabel={"Node Resources"}
@@ -445,12 +476,21 @@ export const LinkCreatePopUp = ({
                 }}
                 isEditingEnabled={true}
               />
-               <Button
+              <Button
                 variant="contained"
                 color="primary"
-                onClick={() => createAndAddNode("target", formik.values.targetNode, formik.values.newTargetNodeResources)}
+                onClick={() =>
+                  createAndAddNode(
+                    "target",
+                    formik.values.targetNode,
+                    formik.values.newTargetNodeResources,
+                  )
+                }
                 sx={{ marginTop: "1em" }}
-                disabled={!formik.values.targetNode.trim() || !formik.values.newTargetNodeResources.trim()}
+                disabled={
+                  !formik.values.targetNode.trim() ||
+                  !formik.values.newTargetNodeResources.trim()
+                }
               >
                 Confirm Node Creation
               </Button>
@@ -465,16 +505,6 @@ export const LinkCreatePopUp = ({
     />
   );
 };
-
-
-
-
-
-
-
-
-
-
 
 interface VoteLinkForm {
   linkWeight: number;
