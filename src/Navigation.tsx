@@ -1,4 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
+import '@fontsource/orbitron';
 import {
   Box,
   Typography,
@@ -20,29 +21,41 @@ import LocaleManager from "./GraphManager/Header/LocaleManager";
 import LoginManager from "./GraphManager/Header/LoginManager";
 import { SearchBarProps, SearchField } from "./GraphManager/Header/Search";
 import { useTranslation } from "react-i18next";
+import Logo from  '../src/logo';
+
 
 const BarItems = styled("div")(({ theme }) => ({
   display: "flex",
   gap: theme.spacing(2),
 }));
-
+interface LearngraphLOGOProps {
+  onClick?: () => void; 
+  sx?: object;
+}
 const LEARNGRAPH_HEADER_TEXT = import.meta.env.PROD
-  ? "Learn Graph"
-  : "TESTING VERSION";
+  ? "Learngraph"
+  : "LEARNGRAPH";
 
-const LearngraphLOGO = (inProps: any) => {
-  const props = import.meta.env.PROD ? inProps : { ...inProps, color: "red" };
-  return (
-    <Typography
-      variant="h6"
-      noWrap
-      component="div"
-      sx={{ ...props.sx }}
-      {...props}
-    >
-      {LEARNGRAPH_HEADER_TEXT}
-    </Typography>
-  );
+  const LearngraphLOGO: React.FC<LearngraphLOGOProps> = ({ onClick , sx}) => {
+    return (
+      <Typography
+        variant="h6"
+        noWrap
+        component="div"
+        sx={{
+          color: "white",
+          fontFamily: "Orbitron, sans-serif",
+          letterSpacing: "0.2em",
+          textTransform: "uppercase",
+          fontWeight:"bold",
+          ...sx,
+        
+        }}
+        onClick={onClick} // Attach onClick if provided
+      >
+        {LEARNGRAPH_HEADER_TEXT}
+      </Typography>
+    );
 };
 
 interface ListItemConfig {
@@ -136,11 +149,14 @@ export const NavigationWithContent = (props: NavigationWithContentConfig) => {
       </ListItemButton>
     );
   };
+
   const ListItemGlobalLink = (conf: {
     globalPath: string;
     buttonText: string;
   }) => {
     return (
+
+    
       <ListItemButton
         component={Link}
         to={`/${conf.globalPath}`}
@@ -151,7 +167,7 @@ export const NavigationWithContent = (props: NavigationWithContentConfig) => {
     );
   };
   const menuColors = {
-    background: menuPalette.main,
+    
     color: menuPalette.contrastText,
   };
   const navigationList = (
@@ -173,7 +189,11 @@ export const NavigationWithContent = (props: NavigationWithContentConfig) => {
         sectionID={"about"}
         buttonText={t("navigation.link-to-about-page")}
       />
-      <DisplayOnlyOnSmallScreen>
+      <ListItemGlobalLink
+        globalPath="sigma"
+        buttonText="Sigma"
+      />
+       <DisplayOnlyOnSmallScreen>
         <Typography variant="overline">
           {t("navigation.settings-buttons-like-login-etc")}
         </Typography>
@@ -214,8 +234,9 @@ export const NavigationWithContent = (props: NavigationWithContentConfig) => {
   );
   return (
     <>
-      <AppBar position="static">
-        <Toolbar sx={{ gap: theme.spacing(2) }}>
+     
+     <AppBar position="static" color="transparent" elevation={0}>
+        <Toolbar sx={{ gap: theme.spacing(2),backgroundColor:'none' }}>
           {props.alwaysDisplayNavDrawer ? (
             buttonAndNavDrawer
           ) : (
@@ -224,6 +245,7 @@ export const NavigationWithContent = (props: NavigationWithContentConfig) => {
               {buttonAndNavDrawer}{" "}
             </DisplayOnlyOnSmallScreen>
           )}
+          <Logo size={90} />
           <LearngraphLOGO
             onClick={() => navigate("/")}
             sx={{
@@ -241,7 +263,7 @@ export const NavigationWithContent = (props: NavigationWithContentConfig) => {
           {/* Note: This Box pushes other bar-items to the right */}
           <BarItems sx={{ alignItems: "right" }}>
             <DisplayOnlyOnLargeScreen sx={{ height: "auto" }}>
-              <Box sx={{ display: "flex", gap: 1 }}>
+              <Box sx={{ display: "flex", gap: 2 }}>
                 <LocaleManager />
                 <LoginManager />
               </Box>
@@ -267,5 +289,6 @@ export const NavigationWithContent = (props: NavigationWithContentConfig) => {
         {props.content ?? null}
       </Box>
     </>
+    
   );
 };

@@ -18,22 +18,22 @@ interface LanguageDictEntry {
 const languageDict: { [language: string]: LanguageDictEntry } = {
   de: {
     displayText: "Deutsch",
-    displayIcon: "🇩🇪",
+    displayIcon: "ð©ðª",
     localeString: "deDE",
   },
   en: {
     displayText: "English",
-    displayIcon: "🇬🇧",
+    displayIcon: "ð¬ð§",
     localeString: "enUS",
   },
   es: {
-    displayText: "Español",
-    displayIcon: "🇪🇸",
+    displayText: "EspaÃ±ol",
+    displayIcon: "ðªð¸",
     localeString: "esES",
   },
   zh: {
-    displayText: "中文",
-    displayIcon: "🇹🇼",
+    displayText: "ä¸­æ",
+    displayIcon: "ð¹ð¼",
     localeString: "zhTW",
   },
 };
@@ -71,6 +71,8 @@ export default function LocaleManager() {
           whiteSpace: "normal", // Allow text to wrap
           textOverflow: "ellipsis", // Add ellipsis if text overflows
           overflow: "hidden", // Hide overflowed content
+          background:"none",
+          color:"white"
         }}
       >
         {isSmallScreen
