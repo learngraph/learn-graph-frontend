@@ -1,0 +1,36 @@
+.custom-button {
+    border: 2px solid rgb(255, 85, 0);
+    background-color: transparent;
+    color: white;
+    border-radius: 14px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: none;
+    transition: background-color 0.3s, color 0.3s;
+    width: 100%;
+    max-width: 300px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .custom-button:hover {
+    background-color: white;
+    color: black;
+  }
+  
+  .custom-button:focus {
+    outline: none;
+  }
+  
+  .custom-button:active {
+    background-color: lightgray;
+  }
+  
+  .custom-button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 20px; /* For child buttons to appear to the right */
+  }
+  

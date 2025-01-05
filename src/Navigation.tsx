@@ -189,10 +189,7 @@ export const NavigationWithContent = (props: NavigationWithContentConfig) => {
         sectionID={"about"}
         buttonText={t("navigation.link-to-about-page")}
       />
-      <ListItemGlobalLink
-        globalPath="sigma"
-        buttonText="Sigma"
-      />
+     
        <DisplayOnlyOnSmallScreen>
         <Typography variant="overline">
           {t("navigation.settings-buttons-like-login-etc")}

@@ -5,6 +5,7 @@ import Hero from "./LandingPage/Hero";
 import MissionStatement from "./LandingPage/MissionStatement";
 import Crowdsourcing from "./LandingPage/Crowdsourcing";
 import FAQ from "./LandingPage/FAQ";
+import PersonalizedExperience from "./LandingPage/Choices";
 
 
 export const LandingPage = () => {
@@ -28,6 +29,7 @@ export const LandingPage = () => {
           sx={{display:"flex", margin:"auto", flexDirection:"column",padding:"2% 0px"}}
         >
           <Hero />
+          <PersonalizedExperience/>
           <Box id="main-page-content" sx={{display:"flex",
              flexDirection:"column",
              textAlign:"center"  }}
