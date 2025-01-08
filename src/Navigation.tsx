@@ -234,8 +234,8 @@ export const NavigationWithContent = (props: NavigationWithContentConfig) => {
   return (
     <>
      
-     <AppBar position="static" color="transparent" elevation={0}>
-        <Toolbar sx={{ gap: theme.spacing(2),backgroundColor:'none' }}>
+     <AppBar position="static"  elevation={0}>
+        <Toolbar sx={{ gap: theme.spacing(2),backgroundColor:'#28343e' }}>
           {props.alwaysDisplayNavDrawer ? (
             buttonAndNavDrawer
           ) : (
