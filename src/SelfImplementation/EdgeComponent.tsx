@@ -1,5 +1,5 @@
-import React from 'react';
-import { Edge, useGraph } from './GraphContext';
+import React from "react";
+import { Edge, useGraph } from "./GraphContext";
 
 interface EdgeProps {
   edge: Edge;
@@ -8,8 +8,8 @@ interface EdgeProps {
 const EdgeComponent: React.FC<EdgeProps> = ({ edge }) => {
   const { nodes } = useGraph();
 
-  const fromNode = nodes.find(node => node.id === edge.from);
-  const toNode = nodes.find(node => node.id === edge.to);
+  const fromNode = nodes.find((node) => node.id === edge.from);
+  const toNode = nodes.find((node) => node.id === edge.to);
 
   if (!fromNode || !toNode) return null;
 

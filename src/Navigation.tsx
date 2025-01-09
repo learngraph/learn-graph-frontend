@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import '@fontsource/orbitron';
+import "@fontsource/orbitron";
 import {
   Box,
   Typography,
@@ -21,41 +21,39 @@ import LocaleManager from "./GraphManager/Header/LocaleManager";
 import LoginManager from "./GraphManager/Header/LoginManager";
 import { SearchBarProps, SearchField } from "./GraphManager/Header/Search";
 import { useTranslation } from "react-i18next";
-import Logo from  '../src/logo';
-
+import Logo from "../src/logo";
 
 const BarItems = styled("div")(({ theme }) => ({
   display: "flex",
   gap: theme.spacing(2),
 }));
 interface LearngraphLOGOProps {
-  onClick?: () => void; 
+  onClick?: () => void;
   sx?: object;
 }
 const LEARNGRAPH_HEADER_TEXT = import.meta.env.PROD
   ? "Learngraph"
   : "LEARNGRAPH";
 
-  const LearngraphLOGO: React.FC<LearngraphLOGOProps> = ({ onClick , sx}) => {
-    return (
-      <Typography
-        variant="h6"
-        noWrap
-        component="div"
-        sx={{
-          color: "white",
-          fontFamily: "Orbitron, sans-serif",
-          letterSpacing: "0.2em",
-          textTransform: "uppercase",
-          fontWeight:"bold",
-          ...sx,
-        
-        }}
-        onClick={onClick} // Attach onClick if provided
-      >
-        {LEARNGRAPH_HEADER_TEXT}
-      </Typography>
-    );
+const LearngraphLOGO: React.FC<LearngraphLOGOProps> = ({ onClick, sx }) => {
+  return (
+    <Typography
+      variant="h6"
+      noWrap
+      component="div"
+      sx={{
+        color: "white",
+        fontFamily: "Orbitron, sans-serif",
+        letterSpacing: "0.2em",
+        textTransform: "uppercase",
+        fontWeight: "bold",
+        ...sx,
+      }}
+      onClick={onClick} // Attach onClick if provided
+    >
+      {LEARNGRAPH_HEADER_TEXT}
+    </Typography>
+  );
 };
 
 interface ListItemConfig {
@@ -155,8 +153,6 @@ export const NavigationWithContent = (props: NavigationWithContentConfig) => {
     buttonText: string;
   }) => {
     return (
-
-    
       <ListItemButton
         component={Link}
         to={`/${conf.globalPath}`}
@@ -167,7 +163,6 @@ export const NavigationWithContent = (props: NavigationWithContentConfig) => {
     );
   };
   const menuColors = {
-    
     color: menuPalette.contrastText,
   };
   const navigationList = (
@@ -189,8 +184,8 @@ export const NavigationWithContent = (props: NavigationWithContentConfig) => {
         sectionID={"about"}
         buttonText={t("navigation.link-to-about-page")}
       />
-     
-       <DisplayOnlyOnSmallScreen>
+
+      <DisplayOnlyOnSmallScreen>
         <Typography variant="overline">
           {t("navigation.settings-buttons-like-login-etc")}
         </Typography>
@@ -213,14 +208,8 @@ export const NavigationWithContent = (props: NavigationWithContentConfig) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const buttonAndNavDrawer = (
     <>
-      <IconButton
-       
-        onClick={() => setIsDrawerOpen(true)}
-        size="medium"
-      >
-        <MenuIcon
-         sx={{background:"none", color:"white"}}
-        />
+      <IconButton onClick={() => setIsDrawerOpen(true)} size="medium">
+        <MenuIcon sx={{ background: "none", color: "white" }} />
       </IconButton>
       <Drawer
         anchor="left"
@@ -233,9 +222,8 @@ export const NavigationWithContent = (props: NavigationWithContentConfig) => {
   );
   return (
     <>
-     
-     <AppBar position="static"  elevation={0}>
-        <Toolbar sx={{ gap: theme.spacing(2),backgroundColor:'#28343e' }}>
+      <AppBar position="static" elevation={0}>
+        <Toolbar sx={{ gap: theme.spacing(2), backgroundColor: "#28343e" }}>
           {props.alwaysDisplayNavDrawer ? (
             buttonAndNavDrawer
           ) : (
@@ -245,14 +233,11 @@ export const NavigationWithContent = (props: NavigationWithContentConfig) => {
             </DisplayOnlyOnSmallScreen>
           )}
           <div
-          onClick={() => navigate("/")}
-          style={{background:"transparent",
-          }}
+            onClick={() => navigate("/")}
+            style={{ background: "transparent" }}
           >
-          <Logo
-          size={90}/>
+            <Logo size={90} />
           </div>
-          
           <LearngraphLOGO
             onClick={() => navigate("/")}
             sx={{
@@ -296,6 +281,5 @@ export const NavigationWithContent = (props: NavigationWithContentConfig) => {
         {props.content ?? null}
       </Box>
     </>
-    
   );
 };

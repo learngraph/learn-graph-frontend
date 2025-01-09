@@ -13,7 +13,7 @@ export default function Crowdsourcing() {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        
+
         color: theme.palette.text.primary,
       }}
     >
@@ -24,11 +24,29 @@ export default function Crowdsourcing() {
           whiteSpace: "pre-line",
         }}
       >
-        <Typography variant="h2" sx={{color:"white"}}>{t("landing.crowdsourcingHeader")}</Typography>
-        <Typography variant="body1" paragraph sx={{color:"white", textAlign:"left", fontWeight:"bold"}}>
+        <Typography variant="h2" sx={{ color: "white" }}>
+          {t("landing.crowdsourcingHeader")}
+        </Typography>
+        <Typography
+          variant="body1"
+          paragraph
+          sx={{
+            color: theme.palette.primary.contrastText,
+            textAlign: "left",
+            fontWeight: "bold",
+          }}
+        >
           <Trans i18nKey="landing.crowdsourcingExplanation" />
         </Typography>
-        <Typography variant="body1" paragraph sx={{color:"white",  textAlign:"left", fontWeight:"bold"}}>
+        <Typography
+          variant="body1"
+          paragraph
+          sx={{
+            color: theme.palette.primary.contrastText,
+            textAlign: "left",
+            fontWeight: "bold",
+          }}
+        >
           <Trans i18nKey="landing.crowdsourcingCallToAction" />
         </Typography>
       </Box>

@@ -1,7 +1,7 @@
-import React from 'react';
-import { GraphProvider, useGraph } from './GraphContext';
-import GraphComponent from './GraphComponent';
-import '../styles/GrpahStyles.nodule.css';
+import React from "react";
+import { GraphProvider, useGraph } from "./GraphContext";
+import GraphComponent from "./GraphComponent";
+import "../styles/GrpahStyles.nodule.css";
 
 const Implementation: React.FC = () => {
   const { addNode } = useGraph();
@@ -20,11 +20,18 @@ const Implementation: React.FC = () => {
   };
 
   return (
-    <div style={{ padding: '20px' }}>
-      <button onClick={handleAddNode} style={{ marginBottom: '20px' }}>
+    <div style={{ padding: "20px" }}>
+      <button onClick={handleAddNode} style={{ marginBottom: "20px" }}>
         Add Node
       </button>
-      <div style={{ border: '1px solid black', width: '100%', height: '500px', overflow: 'hidden' }}>
+      <div
+        style={{
+          border: "1px solid black",
+          width: "100%",
+          height: "500px",
+          overflow: "hidden",
+        }}
+      >
         <GraphComponent />
       </div>
     </div>

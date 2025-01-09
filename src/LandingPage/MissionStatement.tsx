@@ -5,31 +5,58 @@ import { Trans, useTranslation } from "react-i18next";
 export default function MissionStatement() {
   const { t } = useTranslation();
   const theme = useTheme();
+
   return (
     <Container
       id="mission-statement"
       sx={{
-        pt: { xs: 20, sm: 12 },
-        pb: { xs: 10, sm: 4 },
-        position: "relative",
+        pt: { xs: 10, sm: 10 },
+        pb: { xs: 10, sm: 7 },
+        width: "100%",
         display: "flex",
-        flexDirection: "column",
+        flexDirection: "row",
         alignItems: "center",
-        gap: { xs: 3, sm: 6 },
-        color: theme.palette.text.primary,
+        justifyContent: "center", // Centers the content horizontally
+        gap: 4, // Adds spacing between the two boxes
+        color: theme.palette.primary.contrastText,
+        textAlign: "center",
       }}
     >
+      {/* Box for the Image */}
       <Box
         sx={{
-          width: { sm: "90%", md: "60%" },
-          textAlign: { sm: "left", md: "center" },
-          whiteSpace: "pre-line",
+          width: { sm: "90%", md: "40%" }, // Adjust the width for better layout
+          height: "300px", // Ensures the height of the box
+          borderRadius: "10px",
+          backgroundImage: `url(/missionst1.png)`,
+          backgroundSize: "cover", // Ensures the image covers the box
+          backgroundRepeat: "no-repeat", // Prevents tiling
+          backgroundPosition: "center",
+        }}
+      ></Box>
+
+      {/* Box for the Text */}
+      <Box
+        sx={{
+          width: { sm: "90%", md: "40%" }, // Matches the width with the image box
+          textAlign: "center", // Centers the text inside the box
         }}
       >
-        <Typography variant="h2" sx={{color:"white"}}>
+        <Typography
+          variant="h2"
+          sx={{ color: theme.palette.primary.contrastText }}
+        >
           {t("landing.missionStatementHeader")}
         </Typography>
-        <Typography variant="body1" paragraph sx={{color:"white", textAlign:"left"}}>
+        <Typography
+          variant="body1"
+          paragraph
+          sx={{
+            color: theme.palette.primary.contrastText,
+            textAlign: "center",
+            fontWeight: "bold",
+          }}
+        >
           <Trans
             i18nKey="landing.missionStatementText"
             components={{

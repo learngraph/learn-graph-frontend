@@ -1,4 +1,9 @@
-import React, { createContext, useContext, useState, PropsWithChildren } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  PropsWithChildren,
+} from "react";
 
 export interface Node {
   id: string;
@@ -30,22 +35,24 @@ export const GraphProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
   const addNode = (node: Node) => setNodes([...nodes, node]);
   const removeNode = (id: string) => {
-    setNodes(nodes.filter(node => node.id !== id));
-    setEdges(edges.filter(edge => edge.from !== id && edge.to !== id));
+    setNodes(nodes.filter((node) => node.id !== id));
+    setEdges(edges.filter((edge) => edge.from !== id && edge.to !== id));
   };
 
   const addEdge = (edge: Edge) => {
-    if (!edges.some(e => e.from === edge.from && e.to === edge.to)) {
+    if (!edges.some((e) => e.from === edge.from && e.to === edge.to)) {
       setEdges([...edges, edge]);
     }
   };
 
   const removeEdge = (from: string, to: string) => {
-    setEdges(edges.filter(edge => edge.from !== from || edge.to !== to));
+    setEdges(edges.filter((edge) => edge.from !== from || edge.to !== to));
   };
 
   return (
-    <GraphContext.Provider value={{ nodes, edges, addNode, removeNode, addEdge, removeEdge }}>
+    <GraphContext.Provider
+      value={{ nodes, edges, addNode, removeNode, addEdge, removeEdge }}
+    >
       {children}
     </GraphContext.Provider>
   );
@@ -54,7 +61,7 @@ export const GraphProvider: React.FC<PropsWithChildren> = ({ children }) => {
 export const useGraph = () => {
   const context = useContext(GraphContext);
   if (!context) {
-    throw new Error('useGraph must be used within a GraphProvider');
+    throw new Error("useGraph must be used within a GraphProvider");
   }
   return context;
 };

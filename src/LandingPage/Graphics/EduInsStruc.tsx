@@ -29,13 +29,17 @@ export default function EducationInstituteGraph({ size = 210 }) {
   ];
 
   return (
-    <svg 
-    viewBox={`0 0 ${size} ${size}`}
-    width="100%"
-    height="100%"
-    preserveAspectRatio="xMidYMid meet"
-    style={{ display: "block", maxWidth: "100%", maxHeight: "100%", background:"none" }}
-    
+    <svg
+      viewBox={`0 0 ${size} ${size}`}
+      width="100%"
+      height="100%"
+      preserveAspectRatio="xMidYMid meet"
+      style={{
+        display: "block",
+        maxWidth: "100%",
+        maxHeight: "100%",
+        background: "none",
+      }}
     >
       {/* Edges */}
       {edges.map((edge, index) => {
@@ -66,7 +70,6 @@ export default function EducationInstituteGraph({ size = 210 }) {
           fill={nodeColor}
         />
       ))}
-         </svg>
-    
+    </svg>
   );
 }

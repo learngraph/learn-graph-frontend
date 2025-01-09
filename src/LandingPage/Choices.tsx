@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Box, Container, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { useNavigate } from "react-router-dom";
 import EducationInstituteGraph from "./Graphics/EduInsStruc";
 import LearnerGraph from "./Graphics/LearnerStru";
 import FoundationGraph from "./Graphics/FlundationStru";
 import BusinessGraph from "./Graphics/BussinessStru";
+import { ArrowBack } from "@mui/icons-material";
 import "./Styles/ButtonStyles.css";
 
 export default function PersonalizedExperience() {
@@ -17,35 +17,77 @@ export default function PersonalizedExperience() {
     setActiveOption(activeOption === option ? null : option);
   };
 
+  const handleArrowClick = () => {
+    setActiveOption(null); // Reset active option
+  };
+
   const handleSubOptionClick = (url: string) => {
     window.open(url, "_blank"); // Opens the link in a new tab
   };
 
-  const renderSubOptions = (option: string): { label: string; path: string }[] => {
+  const renderSubOptions = (
+    option: string,
+  ): { label: string; path: string }[] => {
     switch (option) {
       case "Education Institute":
         return [
-          { label: "University", path: "https://docs.google.com/document/d/1Ik3TinEIBwSYe8YOMXJWASLcAwFTnagXlRxWKuMN8iM/edit?usp=sharing" },
-          { label: "VHS", path: "https://docs.google.com/document/d/1Ik3TinEIBwSYe8YOMXJWASLcAwFTnagXlRxWKuMN8iM/edit?usp=sharing" },
-          { label: "School (Primary Education)", path: "https://docs.google.com/document/d/1Ik3TinEIBwSYe8YOMXJWASLcAwFTnagXlRxWKuMN8iM/edit?usp=sharing" },
-          { label: "Vocational Training Institution/Platform", path: "https://docs.google.com/document/d/1Ik3TinEIBwSYe8YOMXJWASLcAwFTnagXlRxWKuMN8iM/edit?usp=sharing" },
-          { label: "A School District", path: "https://docs.google.com/document/d/1Ik3TinEIBwSYe8YOMXJWASLcAwFTnagXlRxWKuMN8iM/edit?usp=sharing" },
+          {
+            label: "University",
+            path: "https://docs.google.com/document/d/1Ik3TinEIBwSYe8YOMXJWASLcAwFTnagXlRxWKuMN8iM/edit?usp=sharing",
+          },
+          {
+            label: "VHS",
+            path: "https://docs.google.com/document/d/1Ik3TinEIBwSYe8YOMXJWASLcAwFTnagXlRxWKuMN8iM/edit?usp=sharing",
+          },
+          {
+            label: "School (Primary Education)",
+            path: "https://docs.google.com/document/d/1Ik3TinEIBwSYe8YOMXJWASLcAwFTnagXlRxWKuMN8iM/edit?usp=sharing",
+          },
+          {
+            label: "Vocational Training Institution/Platform",
+            path: "https://docs.google.com/document/d/1Ik3TinEIBwSYe8YOMXJWASLcAwFTnagXlRxWKuMN8iM/edit?usp=sharing",
+          },
+          {
+            label: "A School District",
+            path: "https://docs.google.com/document/d/1Ik3TinEIBwSYe8YOMXJWASLcAwFTnagXlRxWKuMN8iM/edit?usp=sharing",
+          },
         ];
       case "Learner":
         return [
-          { label: "A Researcher", path: "https://docs.google.com/document/d/1Ik3TinEIBwSYe8YOMXJWASLcAwFTnagXlRxWKuMN8iM/edit?usp=sharing" },
-          { label: "Looking for Vocational Training", path: "https://docs.google.com/document/d/1Ik3TinEIBwSYe8YOMXJWASLcAwFTnagXlRxWKuMN8iM/edit?usp=sharing" },
-          { label: "A Student, Pupil", path: "https://docs.google.com/document/d/1Ik3TinEIBwSYe8YOMXJWASLcAwFTnagXlRxWKuMN8iM/edit?usp=sharing" },
+          {
+            label: "A Researcher",
+            path: "https://docs.google.com/document/d/1Ik3TinEIBwSYe8YOMXJWASLcAwFTnagXlRxWKuMN8iM/edit?usp=sharing",
+          },
+          {
+            label: "Looking for Vocational Training",
+            path: "https://docs.google.com/document/d/1Ik3TinEIBwSYe8YOMXJWASLcAwFTnagXlRxWKuMN8iM/edit?usp=sharing",
+          },
+          {
+            label: "A Student, Pupil",
+            path: "https://docs.google.com/document/d/1Ik3TinEIBwSYe8YOMXJWASLcAwFTnagXlRxWKuMN8iM/edit?usp=sharing",
+          },
         ];
       case "Foundation":
         return [
-          { label: "Looking to Support Developmental Spaces", path: "https://docs.google.com/document/d/1Ik3TinEIBwSYe8YOMXJWASLcAwFTnagXlRxWKuMN8iM/edit?usp=sharing" },
-          { label: "Looking to Support Education of the Disadvantaged", path: "https://docs.google.com/document/d/1Ik3TinEIBwSYe8YOMXJWASLcAwFTnagXlRxWKuMN8iM/edit?usp=sharing" },
+          {
+            label: "Looking to Support Developmental Spaces",
+            path: "https://docs.google.com/document/d/1Ik3TinEIBwSYe8YOMXJWASLcAwFTnagXlRxWKuMN8iM/edit?usp=sharing",
+          },
+          {
+            label: "Looking to Support Education of the Disadvantaged",
+            path: "https://docs.google.com/document/d/1Ik3TinEIBwSYe8YOMXJWASLcAwFTnagXlRxWKuMN8iM/edit?usp=sharing",
+          },
         ];
       case "Business":
         return [
-          { label: "An Education Project", path: "https://docs.google.com/document/d/1Ik3TinEIBwSYe8YOMXJWASLcAwFTnagXlRxWKuMN8iM/edit?usp=sharing" },
-          { label: "Looking for Up-Skilling / Transformation", path: "https://docs.google.com/document/d/1Ik3TinEIBwSYe8YOMXJWASLcAwFTnagXlRxWKuMN8iM/edit?usp=sharing" },
+          {
+            label: "An Education Project",
+            path: "https://docs.google.com/document/d/1Ik3TinEIBwSYe8YOMXJWASLcAwFTnagXlRxWKuMN8iM/edit?usp=sharing",
+          },
+          {
+            label: "Looking for Up-Skilling / Transformation",
+            path: "https://docs.google.com/document/d/1Ik3TinEIBwSYe8YOMXJWASLcAwFTnagXlRxWKuMN8iM/edit?usp=sharing",
+          },
         ];
       default:
         return [];
@@ -67,18 +109,17 @@ export default function PersonalizedExperience() {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        margin: "auto",
         justifyContent: "center",
         color: theme.palette.text.primary,
         backdropFilter: "blur(1px)",
-        width:"100%",
-        backgroundColor: "rgba(255, 255, 255, 0.2)",
       }}
     >
       <Typography
         variant="h3"
         sx={{
           marginBottom: 4,
-          color: "rgb(73, 255, 56)",
+          color: theme.palette.primary.light,
           fontWeight: "bold",
           textAlign: "center",
         }}
@@ -89,35 +130,49 @@ export default function PersonalizedExperience() {
         variant="h4"
         sx={{
           marginBottom: 4,
-          color: "black",
           textAlign: "center",
+          color: theme.palette.primary.contrastText,
         }}
       >
         I am a/an
       </Typography>
+      {activeOption && (
+        <Box
+          sx={{
+            position: "absolute",
+            left: "25%", // Align to the very left
+            top: "23%", // Adjust based on the height of the elements above
+            cursor: "pointer", // Pointer cursor for interactivity
+          }}
+          onClick={handleArrowClick} // Handle click to reset activeOption
+        >
+          <ArrowBack sx={{ color: "white", fontSize: "30px" }} />
+        </Box>
+      )}
       <Box
         sx={{
           display: "flex",
           flexDirection: "row",
           justifyContent: "center",
           alignItems: "center",
-          margin:"auto",
+          margin: "auto",
           transition: "all 1s ease",
-          
         }}
       >
-        {mainOptions.map((option, index) => (
+        {mainOptions.map((option) => (
           <Box
             key={option.label}
             sx={{
-              display: activeOption && activeOption !== option.label ? "none" : "flex",
+              display:
+                activeOption && activeOption !== option.label ? "none" : "flex",
               flexDirection: "column",
               alignItems: "center",
               cursor: "pointer",
               transition: "transform 0.5s ease, opacity 0.5s ease",
-              transform: activeOption === option.label ? "scale(1.2)" : "scale(1)",
+              transform:
+                activeOption === option.label ? "scale(1.2)" : "scale(1)",
               opacity: activeOption && activeOption !== option.label ? 0 : 1,
-                "&:hover": {
+              "&:hover": {
                 transform: "scale(1.2)",
                 backgroundColor: "rgba(255, 255, 255, 0.3)", // Hover effect
               },
@@ -161,9 +216,9 @@ export default function PersonalizedExperience() {
                 backgroundColor: "transparent",
                 transition: "all 0.3s ease",
                 "&:hover": {
-                transform: "scale(1.1)",
-                backgroundColor: "rgba(255, 255, 255, 0.3)", // Hover effect
-              },
+                  transform: "scale(1.1)",
+                  backgroundColor: "rgba(255, 255, 255, 0.3)", // Hover effect
+                },
               }}
               onClick={() => handleSubOptionClick(subOption.path)}
             >

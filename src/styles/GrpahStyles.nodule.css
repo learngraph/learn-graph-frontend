@@ -1,12 +1,11 @@
 svg {
-    background-color: #f9f9f9;
-  }
-  
-  circle {
-    cursor: grab;
-  }
-  
-  circle:active {
-    cursor: grabbing;
-  }
-  
+  background-color: #f9f9f9;
+}
+
+circle {
+  cursor: grab;
+}
+
+circle:active {
+  cursor: grabbing;
+}

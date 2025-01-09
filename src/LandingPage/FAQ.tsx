@@ -67,7 +67,7 @@ export default function FAQ() {
         component="h1"
         variant="h2"
         color="text.primary"
-        sx={{color:"white"}}
+        sx={{ color: "white" }}
       >
         FAQs
       </Typography>
@@ -82,7 +82,11 @@ export default function FAQ() {
               aria-controls={`panel${index + 1}d-content`}
               id={`panel${index + 1}d-header`}
             >
-              <Typography component="h3" variant="subtitle2" sx={{ textAlign:"left"}} >
+              <Typography
+                component="h3"
+                variant="subtitle2"
+                sx={{ textAlign: "left" }}
+              >
                 {question}
               </Typography>
             </AccordionSummary>
@@ -98,7 +102,6 @@ export default function FAQ() {
           </Accordion>
         ))}
       </Box>
-     
     </Container>
   );
 }

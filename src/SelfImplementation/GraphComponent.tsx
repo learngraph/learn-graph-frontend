@@ -1,7 +1,7 @@
-import React from 'react';
-import { useGraph } from './GraphContext';
-import NodeComponent from './NodeComponent';
-import EdgeComponent from './EdgeComponent';
+import React from "react";
+import { useGraph } from "./GraphContext";
+import NodeComponent from "./NodeComponent";
+import EdgeComponent from "./EdgeComponent";
 
 const GraphComponent: React.FC = () => {
   const { nodes, edges } = useGraph();
@@ -11,7 +11,7 @@ const GraphComponent: React.FC = () => {
       {edges.map((edge, index) => (
         <EdgeComponent key={index} edge={edge} />
       ))}
-      {nodes.map(node => (
+      {nodes.map((node) => (
         <NodeComponent key={node.id} node={node} />
       ))}
     </svg>

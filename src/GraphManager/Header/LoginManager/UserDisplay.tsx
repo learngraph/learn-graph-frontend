@@ -33,13 +33,18 @@ export default function UserDisplay(props: UserDisplayProps) {
     <>
       <Button
         variant="contained"
-        startIcon={<PersonIcon 
-          sx={{color:"white", background:"none"}}
-        />}
-        sx={{backgroundColor:"transparent",
-             border:"1px solid white",
-             borderRadius:"6px"
-
+        startIcon={
+          <PersonIcon
+            sx={{
+              color: theme.palette.primary.contrastText,
+              background: "none",
+            }}
+          />
+        }
+        sx={{
+          backgroundColor: "transparent",
+          border: "1px solid white",
+          borderRadius: "6px",
         }}
         onClick={handleClick}
         aria-label="user menu"
