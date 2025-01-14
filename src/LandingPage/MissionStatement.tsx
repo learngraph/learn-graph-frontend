@@ -25,8 +25,8 @@ export default function MissionStatement() {
       {/* Box for the Image */}
       <Box
         sx={{
-          width: { sm: "90%", md: "40%" }, // Adjust the width for better layout
-          height: "300px", // Ensures the height of the box
+          width: { sm: "95%", md: "60%" }, // Adjust the width for better layout
+          height: "350px", // Ensures the height of the box
           borderRadius: "10px",
           backgroundImage: `url(/missionst1.png)`,
           backgroundSize: "cover", // Ensures the image covers the box
@@ -53,7 +53,7 @@ export default function MissionStatement() {
           paragraph
           sx={{
             color: theme.palette.primary.contrastText,
-            textAlign: "center",
+            textAlign: "justify",
             fontWeight: "bold",
           }}
         >
