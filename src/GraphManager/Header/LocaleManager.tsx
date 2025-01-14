@@ -18,22 +18,22 @@ interface LanguageDictEntry {
 const languageDict: { [language: string]: LanguageDictEntry } = {
   de: {
     displayText: "Deutsch",
-    displayIcon: "ð©ðª",
+    displayIcon: "ä",
     localeString: "deDE",
   },
   en: {
     displayText: "English",
-    displayIcon: "ð¬ð§",
+    displayIcon: "a",
     localeString: "enUS",
   },
   es: {
-    displayText: "EspaÃ±ol",
-    displayIcon: "ðªð¸",
+    displayText: "Espanól",
+    displayIcon: "á",
     localeString: "esES",
   },
   zh: {
-    displayText: "ä¸­æ",
-    displayIcon: "ð¹ð¼",
+    displayText: "语言",
+    displayIcon: "一个",
     localeString: "zhTW",
   },
 };

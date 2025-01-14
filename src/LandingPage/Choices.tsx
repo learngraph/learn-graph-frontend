@@ -6,10 +6,12 @@ import LearnerGraph from "./Graphics/LearnerStru";
 import FoundationGraph from "./Graphics/FlundationStru";
 import BusinessGraph from "./Graphics/BussinessStru";
 import { ArrowBack } from "@mui/icons-material";
+import { useTranslation } from "react-i18next";
 import "./Styles/ButtonStyles.css";
 
 export default function PersonalizedExperience() {
   const theme = useTheme();
+  const { t } = useTranslation();
 
   const [activeOption, setActiveOption] = useState<string | null>(null);
 
@@ -29,7 +31,7 @@ export default function PersonalizedExperience() {
     option: string,
   ): { label: string; path: string }[] => {
     switch (option) {
-      case "Education Institute":
+      case t("choices.firsttype"):
         return [
           {
             label: "University",
@@ -52,7 +54,7 @@ export default function PersonalizedExperience() {
             path: "https://docs.google.com/document/d/1Ik3TinEIBwSYe8YOMXJWASLcAwFTnagXlRxWKuMN8iM/edit?usp=sharing",
           },
         ];
-      case "Learner":
+      case t("choices.secondtype"):
         return [
           {
             label: "A Researcher",
@@ -67,7 +69,7 @@ export default function PersonalizedExperience() {
             path: "https://docs.google.com/document/d/1Ik3TinEIBwSYe8YOMXJWASLcAwFTnagXlRxWKuMN8iM/edit?usp=sharing",
           },
         ];
-      case "Foundation":
+      case t("choices.thirdtype"):
         return [
           {
             label: "Looking to Support Developmental Spaces",
@@ -78,7 +80,7 @@ export default function PersonalizedExperience() {
             path: "https://docs.google.com/document/d/1Ik3TinEIBwSYe8YOMXJWASLcAwFTnagXlRxWKuMN8iM/edit?usp=sharing",
           },
         ];
-      case "Business":
+      case t("choices.fourthttype"):
         return [
           {
             label: "An Education Project",
@@ -95,10 +97,10 @@ export default function PersonalizedExperience() {
   };
 
   const mainOptions = [
-    { label: "Education Institute", component: <EducationInstituteGraph /> },
-    { label: "Learner", component: <LearnerGraph /> },
-    { label: "Foundation", component: <FoundationGraph /> },
-    { label: "Business", component: <BusinessGraph /> },
+    { label: t("choices.firsttype"), component: <EducationInstituteGraph /> },
+    { label: t("choices.secondtype"), component: <LearnerGraph /> },
+    { label: t("choices.thirdtype"), component: <FoundationGraph /> },
+    { label: t("choices.fourthtype"), component: <BusinessGraph /> },
   ];
 
   return (
@@ -124,7 +126,7 @@ export default function PersonalizedExperience() {
           textAlign: "center",
         }}
       >
-        Personalize Your Experience
+        {t("choices.headline-Choices")}
       </Typography>
       <Typography
         variant="h4"
@@ -134,7 +136,7 @@ export default function PersonalizedExperience() {
           color: theme.palette.primary.contrastText,
         }}
       >
-        I am a/an
+        {t("choices.subheading")}
       </Typography>
       {activeOption && (
         <Box

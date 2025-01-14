@@ -10,8 +10,8 @@ export default function MissionStatement() {
     <Container
       id="mission-statement"
       sx={{
-        pt: { xs: 10, sm: 10 },
-        pb: { xs: 10, sm: 7 },
+        pt: { xs: 10, sm: 2 },
+        pb: { xs: 10, sm: 10 },
         width: "100%",
         display: "flex",
         flexDirection: "row",

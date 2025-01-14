@@ -110,5 +110,14 @@
     "Dark Theme": "Dunkles Design",
     "headline-Experimental Settings": "Experimentelle Einstellungen:",
     "3D Display": "3D Anzeige"
-  }
+  },
+  "choices": {
+    "headline-Choices": "Personalisieren Sie Ihr Erlebnis",
+    "subheading": "Ich bin ein/e",
+    "firsttype": "Bildungseinrichtung",
+    "secondtype": "Lernende/r",
+    "thirdtype": "Stiftung",
+    "fourthtype": "Unternehmen"
+}
+
 }

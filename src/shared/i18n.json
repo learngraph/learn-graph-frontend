@@ -111,5 +111,14 @@
     "Dark Theme": "Dark Theme",
     "headline-Experimental Settings": "Experimental Settings:",
     "3D Display": "3D Display"
+  },
+  "choices": {
+    "headline-Choices": "Personalize Your Experience",
+    "subheading": "I am a/an",
+    "firsttype": "Education Institute",
+    "secondtype": "Learner",
+    "thirdtype": "Foundation",
+    "fourthtype": "Bussiness"
+    
   }
 }
