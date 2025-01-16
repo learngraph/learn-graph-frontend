@@ -4,7 +4,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import i18n from "@src/shared/i18n";
 import { useUserDataContext } from "@src/Context/UserDataContext";
 import { useUserDataBackendContext } from "@src/Context/UserDataBackendContext";
-import {useTheme} from "@mui/material";
+import { useTheme } from "@mui/material";
 interface UserDisplayProps {
   userID: string;
   userName: string;
@@ -37,7 +37,10 @@ export default function UserDisplay(props: UserDisplayProps) {
         startIcon={
           <PersonIcon
             sx={{
-              color: { xs: theme.palette.common.black , sm: theme.palette.primary.contrastText },
+              color: {
+                xs: theme.palette.common.black,
+                sm: theme.palette.primary.contrastText,
+              },
               background: "none",
             }}
           />
