@@ -24,7 +24,7 @@ export default function Footer() {
           fontFamily: "Orbitron, sans-serif",
           fontWeight: "bold",
           marginBottom: "10px",
-          padding:"10px 0px"
+          padding: "10px 0px",
         }}
       >
         LEARNGRAPH
@@ -36,7 +36,7 @@ export default function Footer() {
           display: "flex",
           justifyContent: "center",
           gap: "20px",
-          padding:"15px 0px",
+          padding: "15px 0px",
           marginBottom: "10px",
         }}
       >
@@ -92,7 +92,6 @@ export default function Footer() {
           contact@learngraph.org
         </Typography>
       </Box>
-     
     </Box>
   );
 }

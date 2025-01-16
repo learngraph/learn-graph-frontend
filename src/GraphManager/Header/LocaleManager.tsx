@@ -66,7 +66,7 @@ export default function LocaleManager() {
         startIcon={
           <TranslateIcon
             sx={{
-              color: theme.palette.primary.contrastText,
+              color: { xs: theme.palette.common.black , sm: theme.palette.primary.contrastText },
               background: "none",
             }}
           />
@@ -80,6 +80,8 @@ export default function LocaleManager() {
           overflow: "hidden", // Hide overflowed content
           background: "none",
           border: "0.5px solid white",
+          color: { xs: theme.palette.common.black , sm: theme.palette.primary.contrastText },
+            
           borderRadius: "6px",
         }}
       >

@@ -14,7 +14,7 @@ export default function MissionStatement() {
         pb: { xs: 10, sm: 10 },
         width: "100%",
         display: "flex",
-        flexDirection: "row",
+        flexDirection: { xs: "column", sm: "row" },
         alignItems: "center",
         justifyContent: "center", // Centers the content horizontally
         gap: 4, // Adds spacing between the two boxes
@@ -25,8 +25,10 @@ export default function MissionStatement() {
       {/* Box for the Image */}
       <Box
         sx={{
-          width: { sm: "95%", md: "60%" }, // Adjust the width for better layout
-          height: "350px", // Ensures the height of the box
+          width: { sm: "95%", md: "60%", xs:"90%" }, // Adjust the width for better layout
+          height: { xs: "200px", sm: "350px" },// Ensures the height of the box
+          minWidth: "300px",
+          minHeight:"200px",
           borderRadius: "10px",
           backgroundImage: `url(/missionst1.png)`,
           backgroundSize: "cover", // Ensures the image covers the box
@@ -44,7 +46,10 @@ export default function MissionStatement() {
       >
         <Typography
           variant="h2"
-          sx={{ color: theme.palette.primary.contrastText }}
+          sx={{ 
+            color: theme.palette.primary.contrastText,
+            fontSize:{ xs: "40px", sm: "60px" },
+           }}
         >
           {t("landing.missionStatementHeader")}
         </Typography>
@@ -55,6 +60,7 @@ export default function MissionStatement() {
             color: theme.palette.primary.contrastText,
             textAlign: "justify",
             fontWeight: "bold",
+            fontSize:{ xs: "13px", sm: "17px" },
           }}
         >
           <Trans

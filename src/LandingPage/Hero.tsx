@@ -18,6 +18,7 @@ export default function Hero() {
       sx={{
         display: "flex",
         flexDirection: { xs: "column" },
+        fontSize:{ xs: "40px", sm: "60px" },
         alignSelf: "center",
         textAlign: "center",
         color: theme.palette.primary.contrastText,
@@ -35,7 +36,7 @@ export default function Hero() {
       id="hero"
       sx={{
         display: "flex",
-        flexDirection: "row",
+        flexDirection: { xs: "column", sm: "row" }, // Vertical for mobile, horizontal for larger screens
         justifyContent: "center", // Align left and right sections
         alignItems: "center", // Align items to the top
         width: "fit-content", // Shrink to fit content
@@ -48,7 +49,8 @@ export default function Hero() {
       {/* Text Content on the Left */}
       <Box
         sx={{
-          width: "35%", // Takes 35% of the total width
+          width: { xs: "90%", sm: "35%" }, // Full width for mobile, 35% for larger screens
+          
           display: "flex",
 
           flexDirection: "column",
@@ -63,6 +65,7 @@ export default function Hero() {
           sx={{
             color: "white",
             textAlign: "left", // Align text to the left
+            
           }}
         >
           {headerText}
@@ -74,6 +77,7 @@ export default function Hero() {
           sx={{
             color: "white",
             fontWeight: "bold",
+            fontSize:{ xs: "13px", sm: "17px" },
             marginTop: "10px", // Add spacing between text
           }}
         >
@@ -98,7 +102,7 @@ export default function Hero() {
       {/* Image Content on the Right */}
       <Box
         sx={{
-          width: "50%", // Takes 65% of the total width
+          width: { xs: "90%", sm: "50%" },  // Takes 65% of the total width
           display: "flex",
           flexDirection: "column", // Stack image and text vertically
           alignItems: "center", // Center contents horizontally
@@ -126,10 +130,9 @@ export default function Hero() {
               theme.palette.mode === "light"
                 ? `0 0 12px 8px ${alpha("#9CCCFC", 0.2)}`
                 : `0 0 24px 12px ${alpha("#033363", 0.2)}`,
-                ":hover": {
-                cursor: "pointer",
-              },
-                
+            ":hover": {
+              cursor: "pointer",
+            },
           }}
           onClick={() => navigate("/graph")}
         />
@@ -144,7 +147,11 @@ export default function Hero() {
             gap: "10px", // Add spacing between text and button
           }}
         >
-          <Typography variant="body1" sx={{ color: "white" }}>
+          <Typography variant="body1" 
+          sx={{ 
+            color: "white",
+            fontSize:{ xs: "13px", sm: "17px" },
+           }}>
             {t("landing.hintClickImage")}
           </Typography>
           <Button
@@ -154,6 +161,7 @@ export default function Hero() {
               background: "none",
               border: "0.5px solid gray",
               font: "caption",
+              fontSize:{ xs: "13px", sm: "17px" },
             }}
           >
             {t("landing.buttonGoToGraph")}

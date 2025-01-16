@@ -80,7 +80,7 @@ export default function PersonalizedExperience() {
             path: "https://docs.google.com/document/d/1Ik3TinEIBwSYe8YOMXJWASLcAwFTnagXlRxWKuMN8iM/edit?usp=sharing",
           },
         ];
-      case t("choices.fourthttype"):
+      case t("choices.fourthtype"):
         return [
           {
             label: "An Education Project",
@@ -124,6 +124,7 @@ export default function PersonalizedExperience() {
           color: theme.palette.primary.light,
           fontWeight: "bold",
           textAlign: "center",
+          fontSize:{ xs: "36px", sm: "60px" },
         }}
       >
         {t("choices.headline-Choices")}
@@ -131,30 +132,32 @@ export default function PersonalizedExperience() {
       <Typography
         variant="h4"
         sx={{
-          marginBottom: 4,
+          marginBottom: { xs:1, sm:4 },
           textAlign: "center",
           color: theme.palette.primary.contrastText,
+          fontSize:{ xs: "28px", sm: "45px" },
         }}
       >
         {t("choices.subheading")}
       </Typography>
       {activeOption && (
-        <Box
+       
+             <Box
           sx={{
-            position: "absolute",
-            left: "25%", // Align to the very left
-            top: "23%", // Adjust based on the height of the elements above
-            cursor: "pointer", // Pointer cursor for interactivity
+            position:"relative",
+            left: { xs:"-50%", sm:"-30%" },
+           cursor: "pointer", // Pointer cursor for interactivity
           }}
           onClick={handleArrowClick} // Handle click to reset activeOption
         >
           <ArrowBack sx={{ color: "white", fontSize: "30px" }} />
         </Box>
-      )}
+      
+        )}
       <Box
         sx={{
           display: "flex",
-          flexDirection: "row",
+          flexDirection: { xs: "column", sm: "row" },
           justifyContent: "center",
           alignItems: "center",
           margin: "auto",
@@ -176,6 +179,7 @@ export default function PersonalizedExperience() {
               opacity: activeOption && activeOption !== option.label ? 0 : 1,
               "&:hover": {
                 transform: "scale(1.2)",
+                marginTop:"40px",
                 backgroundColor: "rgba(255, 255, 255, 0.3)", // Hover effect
               },
             }}
@@ -193,6 +197,7 @@ export default function PersonalizedExperience() {
           </Box>
         ))}
       </Box>
+      
       {activeOption && (
         <Box
           sx={{
@@ -204,6 +209,7 @@ export default function PersonalizedExperience() {
             transition: "opacity 0.5s ease",
           }}
         >
+          
           {renderSubOptions(activeOption).map((subOption) => (
             <Box
               key={subOption.label}

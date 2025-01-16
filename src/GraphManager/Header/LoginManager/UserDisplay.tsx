@@ -4,7 +4,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import i18n from "@src/shared/i18n";
 import { useUserDataContext } from "@src/Context/UserDataContext";
 import { useUserDataBackendContext } from "@src/Context/UserDataBackendContext";
-
+import {useTheme} from "@mui/material";
 interface UserDisplayProps {
   userID: string;
   userName: string;
@@ -16,6 +16,7 @@ export default function UserDisplay(props: UserDisplayProps) {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
+  const theme = useTheme();
   const { logout: logoutUserInContext } = useUserDataContext();
   const { backend } = useUserDataBackendContext();
 
@@ -36,7 +37,7 @@ export default function UserDisplay(props: UserDisplayProps) {
         startIcon={
           <PersonIcon
             sx={{
-              color: theme.palette.primary.contrastText,
+              color: { xs: theme.palette.common.black , sm: theme.palette.primary.contrastText },
               background: "none",
             }}
           />
