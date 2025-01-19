@@ -37,10 +37,7 @@ export default function UserDisplay(props: UserDisplayProps) {
         startIcon={
           <PersonIcon
             sx={{
-              color: {
-                xs: theme.palette.common.black,
-                sm: theme.palette.primary.contrastText,
-              },
+              color: theme.palette.common.white,
               background: "none",
             }}
           />
@@ -49,6 +46,7 @@ export default function UserDisplay(props: UserDisplayProps) {
           backgroundColor: "transparent",
           border: "1px solid white",
           borderRadius: "6px",
+          color: theme.palette.common.white,
         }}
         onClick={handleClick}
         aria-label="user menu"

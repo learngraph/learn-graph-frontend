@@ -10,7 +10,6 @@ export default function Hero() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const theme = useTheme();
-
   const headerText = (
     <Typography
       component="h2"
@@ -21,7 +20,7 @@ export default function Hero() {
         fontSize: { xs: "40px", sm: "60px" },
         alignSelf: "center",
         textAlign: "center",
-        color: theme.palette.primary.contrastText,
+        color: theme.palette.common.white,
         "& strong": {
           color: theme.palette.primary.light,
         },
@@ -42,21 +41,17 @@ export default function Hero() {
         width: "fit-content", // Shrink to fit content
         height: "fit-content", // Adjust height based on content
         margin: "auto", // Center the container
-        padding: "20px", // Add spacing inside the container
-        gap: "20px", // Space between left and right sections
+        padding: theme.spacing(2), // Add spacing inside the container
+        gap: theme.spacing(2), // Space between left and right sections
       }}
     >
       {/* Text Content on the Left */}
       <Box
         sx={{
           width: { xs: "90%", sm: "35%" }, // Full width for mobile, 35% for larger screens
-
           display: "flex",
-
           flexDirection: "column",
           padding: "30px 20px", // Add some padding
-          backdropFilter: "blur(1px)", // Blurred background
-          borderRadius: "10px", // Rounded corners
         }}
       >
         <Typography
@@ -77,7 +72,7 @@ export default function Hero() {
             color: "white",
             fontWeight: "bold",
             fontSize: { xs: "13px", sm: "17px" },
-            marginTop: "10px", // Add spacing between text
+            marginTop: theme.spacing(1), // Add spacing between text
           }}
         >
           <Trans
@@ -105,7 +100,7 @@ export default function Hero() {
           display: "flex",
           flexDirection: "column", // Stack image and text vertically
           alignItems: "center", // Center contents horizontally
-          gap: "20px",
+          gap: theme.spacing(2),
         }}
       >
         {/* Image */}
@@ -143,7 +138,7 @@ export default function Hero() {
             flexDirection: "row", // Align text and button horizontally
             alignItems: "center",
             justifyContent: "center", // Center the row
-            gap: "10px", // Add spacing between text and button
+            gap: theme.spacing(1), // Add spacing between text and button
           }}
         >
           <Typography
@@ -163,6 +158,7 @@ export default function Hero() {
               border: "0.5px solid gray",
               font: "caption",
               fontSize: { xs: "13px", sm: "17px" },
+              color: theme.palette.common.white,
             }}
           >
             {t("landing.buttonGoToGraph")}

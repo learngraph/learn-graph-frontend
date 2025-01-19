@@ -114,11 +114,7 @@ export default function LoginSignupMenu() {
         sx={{
           background: "none",
           border: "1px solid white",
-          color: {
-            xs: theme.palette.common.black,
-            sm: theme.palette.primary.contrastText,
-          },
-
+          color: theme.palette.common.white,
           borderRadius: "5px",
         }}
         onClick={handleClickOpen}

@@ -13,13 +13,11 @@ export default function Crowdsourcing() {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-
-        color: theme.palette.text.primary,
       }}
     >
       <Box
         sx={{
-          width: { sm: "100%", md: "100%" },
+          width: "100%",
           textAlign: { sm: "left", md: "center" },
           whiteSpace: "pre-line",
         }}
@@ -31,7 +29,7 @@ export default function Crowdsourcing() {
           variant="body1"
           paragraph
           sx={{
-            color: theme.palette.primary.contrastText,
+            color: theme.palette.common.white,
             textAlign: "left",
             fontWeight: "bold",
           }}
@@ -42,7 +40,7 @@ export default function Crowdsourcing() {
           variant="body1"
           paragraph
           sx={{
-            color: theme.palette.primary.contrastText,
+            color: theme.palette.common.white,
             textAlign: "left",
             fontWeight: "bold",
           }}

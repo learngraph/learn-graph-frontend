@@ -18,22 +18,22 @@ interface LanguageDictEntry {
 const languageDict: { [language: string]: LanguageDictEntry } = {
   de: {
     displayText: "Deutsch",
-    displayIcon: "ä",
+    displayIcon: "🇩🇪",
     localeString: "deDE",
   },
   en: {
     displayText: "English",
-    displayIcon: "a",
+    displayIcon: "🇬🇧",
     localeString: "enUS",
   },
   es: {
     displayText: "Espanól",
-    displayIcon: "á",
+    displayIcon: "🇪🇸",
     localeString: "esES",
   },
   zh: {
-    displayText: "语言",
-    displayIcon: "一个",
+    displayText: "中文",
+    displayIcon: "🇹🇼",
     localeString: "zhTW",
   },
 };
@@ -66,10 +66,7 @@ export default function LocaleManager() {
         startIcon={
           <TranslateIcon
             sx={{
-              color: {
-                xs: theme.palette.common.black,
-                sm: theme.palette.primary.contrastText,
-              },
+              color: theme.palette.common.white,
               background: "none",
             }}
           />
@@ -83,11 +80,7 @@ export default function LocaleManager() {
           overflow: "hidden", // Hide overflowed content
           background: "none",
           border: "0.5px solid white",
-          color: {
-            xs: theme.palette.common.black,
-            sm: theme.palette.primary.contrastText,
-          },
-
+          color: theme.palette.common.white,
           borderRadius: "6px",
         }}
       >

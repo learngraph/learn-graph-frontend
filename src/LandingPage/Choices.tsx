@@ -113,15 +113,13 @@ export default function PersonalizedExperience() {
         alignItems: "center",
         margin: "auto",
         justifyContent: "center",
-        color: theme.palette.text.primary,
-        backdropFilter: "blur(1px)",
       }}
     >
       <Typography
         variant="h3"
         sx={{
-          marginBottom: 4,
-          color: theme.palette.primary.light,
+          marginBottom: theme.spacing(4),
+          color: theme.palette.common.white,
           fontWeight: "bold",
           textAlign: "center",
           fontSize: { xs: "36px", sm: "60px" },
@@ -132,9 +130,9 @@ export default function PersonalizedExperience() {
       <Typography
         variant="h4"
         sx={{
-          marginBottom: { xs: 1, sm: 4 },
+          marginBottom: { xs: theme.spacing(1.2), sm: theme.spacing(4) },
           textAlign: "center",
-          color: theme.palette.primary.contrastText,
+          color: theme.palette.primary.light,
           fontSize: { xs: "28px", sm: "45px" },
         }}
       >
@@ -177,7 +175,6 @@ export default function PersonalizedExperience() {
               opacity: activeOption && activeOption !== option.label ? 0 : 1,
               "&:hover": {
                 transform: "scale(1.2)",
-                marginTop: "40px",
                 backgroundColor: "rgba(255, 255, 255, 0.3)", // Hover effect
               },
             }}
@@ -199,7 +196,7 @@ export default function PersonalizedExperience() {
       {activeOption && (
         <Box
           sx={{
-            marginTop: 10,
+            marginTop: theme.spacing(6),
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -212,7 +209,7 @@ export default function PersonalizedExperience() {
               key={subOption.label}
               sx={{
                 width: "80%",
-                padding: "10px",
+                padding: theme.spacing(1.25),
                 textAlign: "center",
                 border: "2px solid rgb(255, 85, 0)",
                 borderRadius: "14px",

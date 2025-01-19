@@ -32,8 +32,8 @@ interface LearngraphLOGOProps {
   sx?: object;
 }
 const LEARNGRAPH_HEADER_TEXT = import.meta.env.PROD
-  ? "Learngraph"
-  : "LEARNGRAPH";
+  ? "LEARNGRAPH"
+  : "TESTING VERSION";
 
 const LearngraphLOGO: React.FC<LearngraphLOGOProps> = ({ onClick, sx }) => {
   return (

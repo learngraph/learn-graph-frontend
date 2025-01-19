@@ -18,7 +18,6 @@ export default function MissionStatement() {
         alignItems: "center",
         justifyContent: "center", // Centers the content horizontally
         gap: 4, // Adds spacing between the two boxes
-        color: theme.palette.primary.contrastText,
         textAlign: "center",
       }}
     >
@@ -47,7 +46,7 @@ export default function MissionStatement() {
         <Typography
           variant="h2"
           sx={{
-            color: theme.palette.primary.contrastText,
+            color: theme.palette.common.white,
             fontSize: { xs: "40px", sm: "60px" },
           }}
         >
@@ -57,7 +56,7 @@ export default function MissionStatement() {
           variant="body1"
           paragraph
           sx={{
-            color: theme.palette.primary.contrastText,
+            color: theme.palette.common.white,
             textAlign: "justify",
             fontWeight: "bold",
             fontSize: { xs: "13px", sm: "17px" },
