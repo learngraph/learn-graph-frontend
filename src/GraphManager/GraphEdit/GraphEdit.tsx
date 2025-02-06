@@ -85,9 +85,8 @@ export const openCreateNodePopUpAtMousePosition = (
 
 export const openCreateNodePopUpAtPagePosition = (
   pagePosition: Position,
-  { backend, graph, popUp, forceGraphRef, language, mode }: Controller,
+  { backend, graph, popUp, forceGraphRef, language }: Controller,
 ) => {
-  mode.setIsEditingEnabled(true);
   const onFormSubmit = async (form: NewNodeForm) => {
     const result = await backend.createNode({
       description: {
@@ -181,11 +180,21 @@ export interface Controller {
   mode: ModeState;
 }
 
-export const makeOnBackgroundClick = (controller: Controller) => {
+export const makeOnBackgroundClick = (
+  controller: Controller,
+  userID: string,
+) => {
   return (mouse: MouseEvent) => {
-    console.log(mouse);
-    if (mouse.ctrlKey) {
+    if (
+      userID &&
+      controller.mode.isEditingEnabled &&
+      (mouse.ctrlKey || mouse.metaKey)
+    ) {
       openCreateNodePopUpAtMousePosition(mouse, controller);
+    } else if (!userID) {
+      alert("Login is required to perform this action."); // TODO(skep): translate
+    } else if (!controller.mode.isEditingEnabled) {
+      alert("Switch to edit mode to perform this action."); // TODO(skep): translate
     }
   };
 };
