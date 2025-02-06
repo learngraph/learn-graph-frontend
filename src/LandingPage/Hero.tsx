@@ -1,9 +1,6 @@
 import { alpha, useTheme } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Container from "@mui/material/Container";
-import { Link } from "react-router-dom";
-import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { Trans, useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -13,23 +10,19 @@ export default function Hero() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const theme = useTheme();
-
   const headerText = (
     <Typography
-      component="h1"
-      variant="h1"
+      component="h2"
+      variant="h2"
       sx={{
         display: "flex",
         flexDirection: { xs: "column" },
+        fontSize: { xs: "40px", sm: "60px" },
         alignSelf: "center",
         textAlign: "center",
-        color:
-          theme.palette.mode === "light"
-            ? theme.palette.text.primary
-            : theme.palette.text.primary,
+        color: theme.palette.common.white,
         "& strong": {
-          color:
-            theme.palette.mode === "light" ? "primary.main" : "primary.dark",
+          color: theme.palette.primary.light,
         },
       }}
     >
@@ -40,123 +33,138 @@ export default function Hero() {
   return (
     <Box
       id="hero"
-      sx={(theme) => ({
-        width: "100%",
-        backgroundImage:
-          theme.palette.mode === "light"
-            ? `linear-gradient(180deg, ${theme.palette.primary.light}, ${theme.palette.background.default})`
-            : `linear-gradient(${theme.palette.primary.dark}, ${theme.palette.background.default})`,
-        backgroundSize: "100% 20%",
-        backgroundRepeat: "no-repeat",
-        color: theme.palette.text.secondary,
-      })}
+      sx={{
+        display: "flex",
+        flexDirection: { xs: "column", sm: "row" }, // Vertical for mobile, horizontal for larger screens
+        justifyContent: "center", // Align left and right sections
+        alignItems: "center", // Align items to the top
+        width: "fit-content", // Shrink to fit content
+        height: "fit-content", // Adjust height based on content
+        margin: "auto", // Center the container
+        padding: theme.spacing(2), // Add spacing inside the container
+        gap: theme.spacing(2), // Space between left and right sections
+      }}
     >
-      <Container
+      {/* Text Content on the Left */}
+      <Box
         sx={{
+          width: { xs: "90%", sm: "35%" }, // Full width for mobile, 35% for larger screens
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",
-          pt: { xs: 14, sm: 20 },
-          pb: { xs: 8, sm: 12 },
-          gap: 2,
+          padding: "30px 20px", // Add some padding
         }}
       >
-        <Stack spacing={2} useFlexGap sx={{ width: { xs: "100%", sm: "70%" } }}>
-          <Typography
-            component="h1"
-            variant="h1"
-            sx={{
-              display: "flex",
-              flexDirection: { xs: "column" },
-              alignSelf: "center",
-              textAlign: "center",
-              color:
-                theme.palette.mode === "light"
-                  ? theme.palette.text.primary
-                  : theme.palette.text.primary,
-            }}
-          >
-            {headerText}
-          </Typography>
-          <Typography
-            variant="body1"
-            textAlign="center"
-            color="text.secondary"
-            sx={{
-              whiteSpace: "pre-line",
-              color:
-                theme.palette.mode === "light"
-                  ? "text.secondary"
-                  : "text.secondary",
-            }}
-          >
-            <Trans
-              i18nKey="landing.intro"
-              components={{
-                linktodiscord: <Href href="https://discord.gg/DatEV4kNp6" />,
-              }}
-            />
-          </Typography>
-        </Stack>
-        <Box
+        <Typography
+          component="h2"
+          variant="h2"
           sx={{
-            width: "100%",
-            display: "flex",
-            justifyContent: "center",
-            flexDirection: "column",
-            gap: 2,
+            color: "white",
+            textAlign: "left", // Align text to the left
           }}
         >
-          <Link to="/graph">
-            <Box
-              id="image"
-              sx={{
-                mt: { xs: 8, sm: 10 },
-                alignSelf: "center",
-                height: { xs: 200, sm: 700 },
-                width: "100%",
-                backgroundImage:
-                  theme.palette.mode === "light"
-                    ? 'url("/screenshot_learngraph.png")'
-                    : 'url("/screenshot_learngraph.png")',
-                backgroundSize: "cover",
-                borderRadius: "10px",
-                outline: "1px solid",
-                outlineColor:
-                  theme.palette.mode === "light"
-                    ? alpha("#BFCCD9", 0.5)
-                    : alpha("#9CCCFC", 0.1),
-                boxShadow:
-                  theme.palette.mode === "light"
-                    ? `0 0 12px 8px ${alpha("#9CCCFC", 0.2)}`
-                    : `0 0 24px 12px ${alpha("#033363", 0.2)}`,
-              }}
-            />
-          </Link>
+          {headerText}
+        </Typography>
 
-          <Stack
-            direction={{ xs: "column", sm: "row" }}
-            alignSelf="center"
-            spacing={1}
-            useFlexGap
-            alignItems={"center"}
+        <Typography
+          variant="body1"
+          textAlign="justify"
+          sx={{
+            color: "white",
+            fontWeight: "bold",
+            fontSize: { xs: "13px", sm: "17px" },
+            marginTop: theme.spacing(1), // Add spacing between text
+          }}
+        >
+          <Trans
+            i18nKey="landing.intro"
+            components={{
+              linktodiscord: (
+                <Href
+                  href="https://discord.gg/DatEV4kNp6"
+                  style={{
+                    color: "blue",
+                    fontWeight: "bold",
+                    textDecoration: "underline",
+                  }}
+                />
+              ),
+            }}
+          />
+        </Typography>
+      </Box>
+
+      {/* Image Content on the Right */}
+      <Box
+        sx={{
+          width: { xs: "90%", sm: "50%" }, // Takes 65% of the total width
+          display: "flex",
+          flexDirection: "column", // Stack image and text vertically
+          alignItems: "center", // Center contents horizontally
+          gap: theme.spacing(2),
+        }}
+      >
+        {/* Image */}
+
+        <Box
+          id="image"
+          sx={{
+            opacity: "90%",
+            width: "100%",
+            maxWidth: "750px", // Limit maximum width
+            aspectRatio: "12 / 9", // Maintain aspect ratio
+            backgroundImage:
+              theme.palette.mode === "light"
+                ? 'url("/screenshot_learngraph.png")'
+                : 'url("/screenshot_learngraph.png")',
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover", // Ensure the image scales proportionally
+            backgroundPosition: "center", // Center the image
+            borderRadius: "10px", // Rounded corners
+            boxShadow:
+              theme.palette.mode === "light"
+                ? `0 0 12px 8px ${alpha("#9CCCFC", 0.2)}`
+                : `0 0 24px 12px ${alpha("#033363", 0.2)}`,
+            ":hover": {
+              cursor: "pointer",
+            },
+          }}
+          onClick={() => navigate("/graph")}
+        />
+
+        {/* Hint and Button */}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row", // Align text and button horizontally
+            alignItems: "center",
+            justifyContent: "center", // Center the row
+            gap: theme.spacing(1), // Add spacing between text and button
+          }}
+        >
+          <Typography
+            variant="body1"
             sx={{
-              width: { xs: "100%", sm: "auto" },
+              color: "white",
+              fontSize: { xs: "13px", sm: "17px" },
             }}
           >
-            <Typography variant="body1">
-              {t("landing.hintClickImage")}
-            </Typography>
-            <Button
-              onClick={() => navigate("/graph")}
-              variant="contained"
-              color="primary"
-            >
-              {t("landing.buttonGoToGraph")}
-            </Button>
-          </Stack>
+            {t("landing.hintClickImage")}
+          </Typography>
+          <Button
+            onClick={() => navigate("/graph")}
+            variant="contained"
+            sx={{
+              background: "none",
+              border: "0.5px solid gray",
+              font: "caption",
+              fontSize: { xs: "13px", sm: "17px" },
+              color: theme.palette.common.white,
+            }}
+          >
+            {t("landing.buttonGoToGraph")}
+          </Button>
         </Box>
-      </Container>
+      </Box>
     </Box>
   );
 }

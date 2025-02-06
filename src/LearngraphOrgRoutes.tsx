@@ -3,7 +3,6 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { About } from "./About";
 import { HowToLearngraph } from "./HowToLearngraph";
 import { LandingPage } from "./LandingPage";
-
 export const LearngraphOrgRoutes = () => {
   return (
     <Routes>

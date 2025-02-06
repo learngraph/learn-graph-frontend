@@ -112,7 +112,15 @@
     "headline-Experimental Settings": "Experimentelle Einstellungen:",
     "3D Display": "3D Anzeige"
   },
-  "howto": {
+  "choices": {
+    "headline-Choices": "Personalisieren Sie Ihr Erlebnis",
+    "subheading": "Ich bin ein/e",
+    "firsttype": "Bildungseinrichtung",
+    "secondtype": "Lernende/r",
+    "thirdtype": "Stiftung",
+    "fourthtype": "Unternehmen"
+},
+"howto": {
     "headline-how-to": "Wie man LearnGraph nutzt",
     "headline-footerp1": "Probieren Sie die Oberfläche",
     "headline-footerp2": "in unserem Playground",
