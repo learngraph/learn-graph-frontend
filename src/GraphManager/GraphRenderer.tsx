@@ -184,7 +184,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   const [graph, setGraph] = useState<ForceGraphGraphData>(
     makeInitialGraphData(),
   );
-  const { language, theme } = useUserDataContext();
+  const { language, theme, userID } = useUserDataContext();
   const [shiftHeld, setShiftHeld] = useState(false);
   const downHandler = ({ key }: any) => {
     if (key === "Shift") {
@@ -370,7 +370,7 @@ export const GraphRenderer = (props: GraphRendererProps) => {
   const zoomControl = makeZoomControl(controller);
   controller.zoom.setUserZoomLevel = zoomControl.onZoomChange;
   props.controllerRef.current = controller;
-  const onBackgroundClick = makeOnBackgroundClick(controller);
+  const onBackgroundClick = makeOnBackgroundClick(controller, userID);
   // XXX(skep): should we disable right click? it's kind of annoying for the
   // canvas, but outside we might want to allow it..
   //useEffect(() => {
@@ -527,10 +527,11 @@ export const GraphRenderer = (props: GraphRendererProps) => {
         {props.isPlayground && (
           <DeletePlaygroundGraphButton ctrl={controller} />
         )}
+        {/* TODO(skep): test this as UserInterfaceButtons */}
         <NoTouchButton ctrl={controller} />
         <UserSettings ctrl={controller} />
-        <EditModeButton ctrl={controller} />
-        <CreateButton ctrl={controller} />
+        <EditModeButton ctrl={controller} isPlayground={props.isPlayground} />
+        {controller.mode.isEditingEnabled && <CreateButton ctrl={controller} />}
       </Box>
       {/*<ZoomControlPanel zoomControl={zoomControl} /> XXX(skep): disabled due to performance issue*/}
     </>

@@ -1,9 +1,11 @@
 // TODO(skep): translate this file!
-import { Box, Typography, Divider, useTheme, Paper } from "@mui/material";
+import { Box, Typography, Divider, useTheme, Paper} from "@mui/material";
 import { Trans, useTranslation } from "react-i18next";
 import { NavigationWithContent } from "./Navigation";
-import { Handshake } from "@mui/icons-material";
+import { Handshake, Start } from "@mui/icons-material";
+import Startingpoint from "./LandingPage/Startingpoint";
 import TeamSlider from "./MemberCard";
+import Footer from "./LandingPage/Footer";
 
 // Updated TeamMember component with 'role' prop
 
@@ -16,42 +18,57 @@ export const About = () => {
   const { t } = useTranslation();
 
   return (
-    <NavigationWithContent
-      withSideNavigation={true}
-      content={
+       <Box >
+          <NavigationWithContent
+        alwaysDisplayNavDrawer={true}
+        content={
         <Box
           component="main"
           sx={{
-            backgroundColor: theme.palette.background.default,
-            color: theme.palette.text.primary,
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(/LGBG2.png)`, // Overlay + Image
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+            backgroundAttachment: "fixed", // Keeps the background fixed during scroll
+            backgroundPosition: "center",
+            minHeight: "100vh", // Ensures the background covers the viewport
+        
             flexGrow: 1,
             padding: 3,
           }}
         >
           <Box
             sx={{
-              backgroundColor: theme.palette.background.default,
-              color: theme.palette.text.primary,
               display: "flex",
               flexDirection: { sm: "column", md: "row" },
-              justifyContent: "space-between",
+              justifyContent: "center",
               alignItems: "center",
-              margin: "auto",
+              margin: "40px auto",
             }}
           >
             <Box
               sx={{
                 display: "flex",
                 flexDirection: "column",
+                padding:"10px 10%",
                 width: { sm: "95%", md: "50%", xs: "40%" },
               }}
             >
-              <TypographyMaxWidth variant="h4" gutterBottom id="about">
+              <TypographyMaxWidth variant="h4" gutterBottom id="about"
+              color={theme.palette.common.white}
+              fontWeight="bold"
+              >
                 {t("about.headline-About-Us")}
               </TypographyMaxWidth>
               <Typography
                 variant="body1"
-                sx={{ textAlign: "justify", width: "97%" }}
+                sx={{ 
+                  textAlign: "justify",
+                  width: "97%",
+                  fontSize:theme.spacing(2),
+                  fontWeight:"bold",
+
+                 }}
+                color={theme.palette.common.white}
               >
                 {t("about.aboutLG-para")}
               </Typography>
@@ -60,11 +77,11 @@ export const About = () => {
               sx={{
                 backgroundImage: 'url("/Inno.png")',
                 width: { sm: "95%", md: "60%", xs: "60%" }, // Adjust the width for better layout
-                height: { xs: "200px", sm: "450px" }, // Ensures the height of the box
                 minWidth: "300px",
-                minHeight: "200px",
-                padding: theme.spacing(-10),
+                minHeight: "400px",
+                padding:"10px -10%",
                 borderRadius: "10px",
+                margin:"5px 5% 10px 10px",
                 backgroundSize: "contain", // Ensures the image covers the box
                 backgroundRepeat: "no-repeat", // Prevents tiling
                 backgroundPosition: "center",
@@ -74,8 +91,6 @@ export const About = () => {
           <Divider />
           <Box
             sx={{
-              backgroundColor: theme.palette.background.default,
-              color: theme.palette.text.primary,
               display: "flex",
               flexDirection: { sm: "column", md: "row" },
               justifyContent: "space-between",
@@ -85,29 +100,41 @@ export const About = () => {
           >
             <Box
               sx={{
-                backgroundImage: 'url("/start.png")',
-                width: { sm: "95%", md: "40%", xs: "40%" }, // Adjust the width for better layout
+                width: { sm: "50%", md: "40%", xs: "40%" }, // Adjust the width for better layout
                 height: { xs: "200px", sm: "450px" }, // Ensures the height of the box
-                minWidth: "300px",
+                minWidth: "50%",
                 minHeight: "200px",
                 marginLeft: "-2%",
-                padding: theme.spacing(-20),
-                backgroundSize: "contain", // Ensures the image covers the box
-                backgroundRepeat: "no-repeat", // Prevents tiling
-                backgroundPosition: "center",
+                padding: theme.spacing(2),
+               
               }}
-            ></Box>
+            >
+              <Startingpoint/>
+            </Box>
 
             <Box
               sx={{
                 display: "flex",
                 flexDirection: "column",
+                padding:"10px 10%"
               }}
             >
-              <TypographyMaxWidth variant="h4" gutterBottom id="about">
+              <TypographyMaxWidth variant="h4" gutterBottom id="about"
+               color={theme.palette.common.white}
+               fontWeight="bold"
+              >
                 {t("about.Storyh")}
               </TypographyMaxWidth>
-              <TypographyMaxWidth paragraph>
+              <TypographyMaxWidth paragraph 
+               color={theme.palette.common.white}
+               sx={{ 
+                textAlign: "justify",
+                width: "97%",
+                fontSize:theme.spacing(2),
+                fontWeight:"bold",
+
+               }}
+              >
                 <Trans i18nKey="about.Storyp" />
               </TypographyMaxWidth>
             </Box>
@@ -127,7 +154,10 @@ export const About = () => {
               variant="h4"
               gutterBottom
               id="whoarewe"
-              sx={{ marginTop: theme.spacing(4) }}
+              sx={{ marginTop: theme.spacing(4),
+                fontWeight:"bold"
+               }}
+              color={theme.palette.common.white}
             >
               {t("about.Our-Team")}
             </Typography>
@@ -135,7 +165,14 @@ export const About = () => {
               variant="body1"
               gutterBottom
               id="whoarewe"
-              sx={{ marginBottom: "100px" }}
+              sx={{ 
+                marginBottom: theme.spacing(10),
+                fontWeight:"bold",
+                fontSize:theme.spacing(2)
+
+
+              }}
+              color={theme.palette.common.white}
             >
               {t("about.Our-Team-text")}
             </Typography>
@@ -155,8 +192,12 @@ export const About = () => {
             }}
           >
             <Box sx={{ marginTop: "60px" }} />
-            <TypographyMaxWidth variant="h4" gutterBottom id="whoarewe">
+            <TypographyMaxWidth variant="h4" gutterBottom id="whoarewe"
+            color="white"
+            fontWeight="bold"
+            >
               {t("about.headline-travel-group")}
+              
             </TypographyMaxWidth>
             <Box
               sx={{
@@ -166,7 +207,8 @@ export const About = () => {
               <Paper
                 elevation={3}
                 sx={{
-                  maxWidth: 440,
+                  maxWidth: 550,
+                  background: "linear-gradient(rgba(200, 200, 200, 0.4), rgba(150, 150, 150, 0.3))",
                   padding: 4,
                   margin: "auto",
                   borderTop: "5px solid blue",
@@ -203,13 +245,13 @@ export const About = () => {
                   sx={{ color: "blue", textDecoration: "underline" }}
                 >
                   <Handshake
-                    sx={{ color: "black", height: "35px", width: "35px" }}
+                    sx={{ color: theme.palette.common.white, height: "35px", width: "35px" }}
                   />
                 </Typography>
                 <Typography
                   variant="body1"
                   fontStyle="italic"
-                  sx={{ marginTop: 2, textAlign: "justify" }}
+                  sx={{ marginTop: 2, textAlign: "justify",color: theme.palette.common.white,}}
                 >
                   {t("about.team-placeholder-description")}
                 </Typography>
@@ -218,8 +260,15 @@ export const About = () => {
           </Box>
 
           <Divider sx={{ margin: "20px 0" }} />
+         
         </Box>
+       
+       
       }
-    />
+      />
+       <Box>
+           <Footer/>
+        </Box>
+      </Box>
   );
 };

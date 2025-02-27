@@ -1,11 +1,9 @@
 import React, { useState } from "react";
-import { Box, Typography, Paper, IconButton, Divider } from "@mui/material";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import { Box, Typography, Paper, IconButton, Divider, useTheme} from "@mui/material";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import { Mail, Phone } from "@mui/icons-material";
 import { useTranslation } from "react-i18next";
-import { useTheme } from "@emotion/react";
+
 
 interface TeamMember {
   imageSrc: string;
@@ -18,14 +16,15 @@ interface TeamMember {
 }
 
 const TeamMemberCard: React.FC<{ member: TeamMember }> = ({ member }) => {
-  const theme = useTheme();
+const theme = useTheme();
   return (
     <Paper
       elevation={3}
       sx={{
-        maxWidth: 700,
+        maxWidth: 550,
+        background: "linear-gradient(rgba(200, 200, 200, 0.4), rgba(150, 150, 150, 0.3))",
         padding: 5,
-        margin: "auto",
+        margin: "30px auto",
         borderTop: "5px solid blue",
         borderRadius: 3,
         textAlign: "center",
@@ -58,27 +57,27 @@ const TeamMemberCard: React.FC<{ member: TeamMember }> = ({ member }) => {
         }}
       >
         <a href={member.linkedInUrl} target="_blank" rel="noopener noreferrer">
-          <LinkedInIcon sx={{ color: "black", fontSize: "2rem" }} />
+          <LinkedInIcon sx={{ color: theme.palette.common.white, fontSize: "2rem" }} />
         </a>
         <a href={`mailto:${member.email}`}>
-          <Mail sx={{ color: "black", fontSize: "2rem" }} />
+          <Mail sx={{ color:theme.palette.common.white, fontSize: "2rem" }} />
         </a>
         <a href={`tel:${member.phoneNumber}`}>
-          <Phone sx={{ color: "black", fontSize: "2rem" }} />
+          <Phone sx={{ color: theme.palette.common.white, fontSize: "2rem" }} />
         </a>
       </Box>
       <Typography
         variant="body1"
         fontStyle="italic"
-        sx={{ marginTop: 2, fontSize: "17px" }}
+        sx={{ marginTop: 2, fontSize: "17px" ,color: theme.palette.common.white}}
       >
         "{member.quote}"
       </Typography>
       <Divider sx={{ marginTop: 2 }} />
-      <Typography variant="h6" fontWeight="bold" sx={{ marginTop: 2 }}>
+      <Typography variant="h6" fontWeight="bold" sx={{ marginTop: 2, color: theme.palette.common.white }}>
         {member.name}
       </Typography>
-      <Typography variant="body2" color="text.secondary">
+      <Typography variant="body2" color="text.secondary" sx={{ color: theme.palette.common.white }}>
         {member.description}
       </Typography>
     </Paper>
@@ -128,39 +127,22 @@ const TeamSlider = () => {
     },
   ];
 
-  const [index, setIndex] = useState(0);
 
-  const handleNext = () => {
-    setIndex((prev) => (prev + 1) % teamMembers.length);
-  };
-
-  const handlePrev = () => {
-    setIndex((prev) => (prev - 1 + teamMembers.length) % teamMembers.length);
-  };
 
   return (
     <Box
       display="flex"
+      flexDirection={{ xs: "column", md: "row" }}
       alignItems="center"
       justifyContent="center"
-      position="relative"
+     
+      gap={4}
+      flexWrap="wrap"
       width="100%"
-      maxWidth="500px"
-      margin="auto"
     >
-      <IconButton
-        sx={{ position: "absolute", left: -50, zIndex: 2 }}
-        onClick={handlePrev}
-      >
-        <ArrowBackIosIcon />
-      </IconButton>
-      <TeamMemberCard member={teamMembers[index]} />
-      <IconButton
-        sx={{ position: "absolute", right: -50, zIndex: 2 }}
-        onClick={handleNext}
-      >
-        <ArrowForwardIosIcon />
-      </IconButton>
+      {teamMembers.map((member, index) => (
+        <TeamMemberCard key={index} member={member} />
+      ))}
     </Box>
   );
 };

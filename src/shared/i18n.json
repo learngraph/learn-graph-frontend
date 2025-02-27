@@ -97,8 +97,8 @@
     "aboutLG-para": "LearnGraph is an innovative educational platform developed by a diverse team with expertise in education, technology, and global partnerships. Our mission is to democratize education by providing a personalized, accessible, and user-driven learning experience. LearnGraph empowers learners to create their own educational paths, offering high-quality resources without the limitations of traditional systems. By leveraging crowdsourced learning dependencies and connecting learners with peers and mentors, the platform continuously evolves to meet the needs of today’s dynamic educational landscape.",
     "missionh":"Our Mission",
     "missionp":"Co-creating the future of education - free for everyone.We enable people to learn, independent of their situation in life and the resources at their disposal.",
-    "Storyh":"How it all began",
-    "Storyp":"Here lies the story of our creation whoch started with two freinds just bouncing ideas off eachother, trying to find out how they fit into this world, fixing a system that annoyed them.",
+    "Storyh":"This is the Beginning",
+    "Storyp":"Here lies the story of our creation which started with two freinds just bouncing ideas off eachother, trying to find out how they fit into this world, fixing a system that annoyed them.",
     "aboutLG-team": "Our team brings together specialists in educational strategy, UX/UI design, and software development. With a focus on accessibility, diversity, and inclusion, LearnGraph ensures that learners from all backgrounds can benefit from personalized learning journeys. We are committed to fostering a global community of learners and educators, enabling meaningful connections, and making quality education accessible to everyone, regardless of geographical or financial barriers.",
     "Our-Team":"This is us",
     "Our-Team-text":"Vibe with the current members of our team",
@@ -119,6 +119,40 @@
     "Dark Theme": "Dark Theme",
     "headline-Experimental Settings": "Experimental Settings:",
     "3D Display": "3D Display"
+  },
+  "choices": {
+    "headline-Choices": "Personalize Your Experience",
+    "subheading": "I am a/an",
+    "firsttype": "Education Institute",
+    "secondtype": "Learner",
+    "thirdtype": "Foundation",
+    "fourthtype": "Business"
+  },
+  "howto": {
+    "headline-how-to": "How to LearnGraph",
+    "headline-footerp1": "Try the interface",
+    "headline-footerp2": "in our Playground",
+    "headline-footerp3": "! All data you insert is only saved locally in your browser.",
+    "subh-1": "Content Guidelines",
+    "subh-1-footerp1": "Are you unsure what topics are appropriate? See our ",
+    "subh-1-footerp2": "Content Guidelines here!",
+    "subh-2": "Interface",
+    "para-1": "The LearnGraph is a map of learning dependencies. In this image, you can see that in order to understand multiplication, you need to learn about addition. There is no way around learning addition first, so the connection between them is strong. The arrow always points you towards the things you have to learn to understand a given topic. Clicking on a topic reveals learning resources and information about the most important learning dependencies.",
+    "subh-3": "Interact with the LearnGraph",
+    "para-3-bullet1": "Click the ",
+    "para-3-bullet2": "icon to switch between edit and view-only mode.",
+    "para-3-bullet3": "Search for subjects using the search bar.",
+    "para-3-bullet4": "Click on any topic (in edit mode) to reveal learning resources.",
+    "para-3-bullet6": "The",
+    "para-3-bullet7": "icon lets you switch between edit and read-only mode. Move the subject toward its prerequisite knowledge to create a new link. Alternatively, use the",
+    "para-3-bullet8": "icon",
+    "para-3-bullet9": "\"New dependency\" dialogue. Select an existing link to vote on the strength of the connection. To add a new topic, use the",
+    "para-3-bullet10": "icon",
+    "para-3-bullet11": "\"New subject\" dialogue.",
+    "subh-4": "Translations",
+    "para-4": "You may find some subjects in a different language than your selected one. They are marked by the corresponding country flag. You can translate subjects to your selected language by editing the subject and removing the flag icon. To insert a translation in a different language than your currently selected one, first change your language settings and then proceed with the translation.",
+    "subh-5": "[Coming Soon!] The Merge Zoom",
+    "para-5": "Some topics are more connected than others. These might be more important to learn about. The zoom slider on the right-hand side groups areas of knowledge under the banner of the topic that is required the most, i.e., has the highest number of arrows pointing toward it."
   }
  
 }

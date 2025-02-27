@@ -4,7 +4,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import i18n from "@src/shared/i18n";
 import { useUserDataContext } from "@src/Context/UserDataContext";
 import { useUserDataBackendContext } from "@src/Context/UserDataBackendContext";
-
+import { useTheme } from "@mui/material";
 interface UserDisplayProps {
   userID: string;
   userName: string;
@@ -16,6 +16,7 @@ export default function UserDisplay(props: UserDisplayProps) {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
+  const theme = useTheme();
   const { logout: logoutUserInContext } = useUserDataContext();
   const { backend } = useUserDataBackendContext();
 
@@ -33,8 +34,20 @@ export default function UserDisplay(props: UserDisplayProps) {
     <>
       <Button
         variant="contained"
-        startIcon={<PersonIcon />}
-        color="primary"
+        startIcon={
+          <PersonIcon
+            sx={{
+              color: theme.palette.common.white,
+              background: "none",
+            }}
+          />
+        }
+        sx={{
+          backgroundColor: "transparent",
+          border: "1px solid white",
+          borderRadius: "6px",
+          color: theme.palette.common.white,
+        }}
         onClick={handleClick}
         aria-label="user menu"
       >

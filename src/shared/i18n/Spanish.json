@@ -86,6 +86,7 @@
   },
   "navigation": {
     "link-to-landing-page": "Welcome",
+    "link-to-playground-page": "Playground",
     "link-to-about-page": "About",
     "link-to-Getting Involved!": "Getting Involved!",
     "link-to-HowTo-Page": "HowTo",
@@ -110,5 +111,31 @@
     "Dark Theme": "Dark Theme",
     "headline-Experimental Settings": "Experimental Settings:",
     "3D Display": "3D Display"
+  },
+  "howto": {
+    "headline-how-to": "Cómo usar LearnGraph",
+    "headline-footerp1": "Prueba la interfaz",
+    "headline-footerp2": "en nuestro Playground",
+    "headline-footerp3": "¡Todos los datos que introduces se guardan únicamente en tu navegador.",
+    "subh-1": "Directrices de contenido",
+    "subh-1-footerp1": "¿No estás seguro de qué temas son apropiados? Consulta nuestras ",
+    "subh-1-footerp2": "Directrices de contenido aquí.",
+    "subh-2": "Interfaz",
+    "para-1": "LearnGraph es un mapa de dependencias de aprendizaje. En esta imagen, puedes ver que para entender la multiplicación, necesitas aprender sobre la suma. No hay forma de evitar aprender la suma primero, por lo que la conexión entre ellas es fuerte. La flecha siempre apunta hacia las cosas que debes aprender para entender un tema determinado. Al hacer clic en un tema, se revelan recursos de aprendizaje e información sobre las dependencias de aprendizaje más importantes.",
+    "subh-3": "Interactúa con LearnGraph",
+    "para-3-bullet1": "Haz clic en el ",
+    "para-3-bullet2": "icono para alternar entre el modo de edición y el modo de solo lectura.",
+    "para-3-bullet3": "Busca temas utilizando la barra de búsqueda.",
+    "para-3-bullet4": "Haz clic en cualquier tema (en modo de edición) para revelar recursos de aprendizaje.",
+    "para-3-bullet6": "El",
+    "para-3-bullet7": "icono te permite alternar entre el modo de edición y el modo de solo lectura. Mueve el tema hacia su conocimiento previo necesario para crear un nuevo enlace. Alternativamente, utiliza el",
+    "para-3-bullet8": "icono",
+    "para-3-bullet9": "diálogo de \"Nueva dependencia\". Selecciona un enlace existente para votar sobre la fuerza de la conexión. Para agregar un nuevo tema, utiliza el",
+    "para-3-bullet10": "icono",
+    "para-3-bullet11": "diálogo de \"Nuevo tema\".",
+    "subh-4": "Traducciones",
+    "para-4": "Es posible que encuentres algunos temas en un idioma diferente al que seleccionaste. Están marcados con la bandera del país correspondiente. Puedes traducir temas a tu idioma seleccionado editando el tema y eliminando el icono de la bandera. Para insertar una traducción en un idioma diferente al que tienes seleccionado, primero cambia tus configuraciones de idioma y luego procede con la traducción.",
+    "subh-5": "[¡Próximamente!] El Zoom de Fusión",
+    "para-5": "Algunos temas están más conectados que otros. Estos podrían ser más importantes de aprender. El control deslizante de zoom en el lado derecho agrupa áreas de conocimiento bajo el tema que se requiere más, es decir, el que tiene el mayor número de flechas apuntando hacia él."
   }
 }

@@ -178,8 +178,8 @@ export const GraphEditPopUp = ({ ctrl }: GraphEditPopUpProps) => {
 
 const addKeyboardShortcuts = (formik: any) => {
   const handleKeyPress = (event: KeyboardEvent) => {
-    // Check if Ctrl key is pressed and Enter key is pressed
-    if (event.ctrlKey && event.key === "Enter") {
+    // Check if Ctrl/Cmd key is pressed and Enter key is pressed
+    if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
       formik.submitForm();
     }
   };
@@ -301,6 +301,12 @@ export const LinkCreatePopUp = ({
     });
   }, [sourceNode, targetNode]);
   fields.push(
+    <LinkWeightSlider
+      defaultValue={DEFAULT_EDIT_LINK_WEIGHT}
+      setSliderValue={setSliderValue}
+    />,
+  );
+  fields.push(
     <TextFieldFormikGeneratorAutocomplete
       fieldName="sourceNode"
       fieldLabel={t("Source Node")}
@@ -316,6 +322,7 @@ export const LinkCreatePopUp = ({
       }}
     />,
   );
+
   fields.push(
     <TextFieldFormikGeneratorAutocomplete
       fieldName="targetNode"
@@ -331,12 +338,7 @@ export const LinkCreatePopUp = ({
       }}
     />,
   );
-  fields.push(
-    <LinkWeightSlider
-      defaultValue={DEFAULT_EDIT_LINK_WEIGHT}
-      setSliderValue={setSliderValue}
-    />,
-  );
+
   return (
     <DraggableForm
       ctrl={ctrl}

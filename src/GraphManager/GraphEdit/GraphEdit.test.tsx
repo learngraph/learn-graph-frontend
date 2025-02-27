@@ -5,13 +5,13 @@ import {
   FG_ENGINE_COOLDOWN_TICKS_DISABLED,
   INTERIM_TMP_LINK_ID,
   NodeDragState,
+  makeOnBackgroundClick,
   onLinkClick,
   onNodeClick,
   onNodeDrag,
   onNodeDragEnd,
   openCreateLinkPopUp,
   openCreateNodePopUpAtMousePosition,
-  openCreateNodePopUpAtPagePosition,
 } from "./GraphEdit";
 import { GraphEditPopUpState, NewLinkForm } from "./PopUp";
 import { ForceGraphLinkObject } from "@src/GraphManager/types";
@@ -673,12 +673,62 @@ describe("onNodeClick", () => {
   });
 });
 
-describe("openCreateNodePopUpAtPagePosition", () => {
-  it("should enable editing if it is disabled", () => {
-    const ctrl = makeMockController();
+type MockController = ReturnType<typeof makeMockController>;
+
+describe("makeOnBackgroundClick", () => {
+  let controller: MockController;
+
+  beforeEach(() => {
+    controller = makeMockController();
+    controller.mode.isEditingEnabled = true;
+    jest.spyOn(global, "alert").mockImplementation(jest.fn()); // Mock alert globally
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it("should open popup when user is logged in and ctrlKey is pressed", () => {
+    const mouseEvent = new MouseEvent("click", { ctrlKey: true });
     // @ts-ignore
-    openCreateNodePopUpAtPagePosition({ x: 1, y: 2 }, ctrl);
-    expect(ctrl.mode.setIsEditingEnabled).toHaveBeenCalledTimes(1);
-    expect(ctrl.mode.setIsEditingEnabled).toHaveBeenCalledWith(true);
+    const onClick = makeOnBackgroundClick(controller, "validUserID");
+    onClick(mouseEvent);
+    expect(controller.popUp.setState).toHaveBeenCalledTimes(1);
+  });
+
+  it("should open popup when user is logged in and metaKey is pressed", () => {
+    const mouseEvent = new MouseEvent("click", { metaKey: true });
+    // @ts-ignore
+    const onClick = makeOnBackgroundClick(controller, "validUserID");
+    onClick(mouseEvent);
+    expect(controller.popUp.setState).toHaveBeenCalledTimes(1);
+  });
+
+  it("should not open popup when user is not logged in", () => {
+    const mouseEvent = new MouseEvent("click", { ctrlKey: true });
+    // @ts-ignore
+    const onClick = makeOnBackgroundClick(controller, ""); // User not logged in
+    onClick(mouseEvent);
+    expect(controller.popUp.setState).not.toHaveBeenCalled();
+  });
+
+  it("should not open popup when user is not in edit mode", () => {
+    const mouseEvent = new MouseEvent("click", { ctrlKey: true });
+    controller.mode.isEditingEnabled = false;
+    // @ts-ignore
+    const onClick = makeOnBackgroundClick(controller, "validUserID");
+    onClick(mouseEvent);
+    expect(controller.popUp.setState).not.toHaveBeenCalled();
+  });
+
+  it("should not open popup when neither ctrlKey nor metaKey is pressed", () => {
+    const mouseEvent = new MouseEvent("click", {
+      ctrlKey: false,
+      metaKey: false,
+    });
+    // @ts-ignore
+    const onClick = makeOnBackgroundClick(controller, "validUserID");
+    onClick(mouseEvent);
+    expect(controller.popUp.setState).not.toHaveBeenCalled();
   });
 });

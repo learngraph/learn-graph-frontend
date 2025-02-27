@@ -1,32 +1,61 @@
 // TODO(skep): translate this file!
-import { Box } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import { NavigationWithContent } from "./Navigation";
 import Hero from "./LandingPage/Hero";
 import MissionStatement from "./LandingPage/MissionStatement";
-import Crowdsourcing from "./LandingPage/Crowdsourcing";
-import FAQ from "./LandingPage/FAQ";
+import Footer from "./LandingPage/Footer";
+import PersonalizedExperience from "./LandingPage/Choices";
 
 export const LandingPage = () => {
   return (
-    <NavigationWithContent
-      alwaysDisplayNavDrawer={true}
-      content={
-        <Box
-          component="main"
-          sx={(theme) => ({
-            flexGrow: 1,
-            padding: 3,
-            backgroundColor: theme.palette.background.default,
-          })}
-        >
-          <Hero />
-          <Box id="main-page-content">
-            <MissionStatement />
-            <Crowdsourcing />
-            <FAQ />
+    <Box
+      sx={{
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(/LGBG2.png)`, // Overlay + Image
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        backgroundAttachment: "fixed", // Keeps the background fixed during scroll
+        backgroundPosition: "center",
+        minHeight: "100vh", // Ensures the background covers the viewport
+      }}
+    >
+      <NavigationWithContent
+        alwaysDisplayNavDrawer={true}
+        content={
+          <Box
+            component="main"
+            sx={{
+              display: "flex",
+              margin: "auto",
+              flexDirection: "column",
+              padding: "0px 0px",
+            }}
+          >
+            <Hero />
+            <PersonalizedExperience />
+            <Box
+              id="main-page-content"
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                textAlign: "center",
+              }}
+            >
+              <Container sx={{ display: "flex", flexDirection: "row" }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    marginLeft: "-10px",
+                  }}
+                >
+                  <MissionStatement />
+                </Box>
+              </Container>
+            </Box>
           </Box>
-        </Box>
-      }
-    />
+        }
+      />
+      <Footer />
+    </Box>
   );
 };

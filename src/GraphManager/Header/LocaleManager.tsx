@@ -27,7 +27,7 @@ const languageDict: { [language: string]: LanguageDictEntry } = {
     localeString: "enUS",
   },
   es: {
-    displayText: "Español",
+    displayText: "Espanól",
     displayIcon: "🇪🇸",
     localeString: "esES",
   },
@@ -63,7 +63,14 @@ export default function LocaleManager() {
     <>
       <Button
         variant="contained"
-        startIcon={<TranslateIcon />}
+        startIcon={
+          <TranslateIcon
+            sx={{
+              color: theme.palette.common.white,
+              background: "none",
+            }}
+          />
+        }
         onClick={handleClick}
         aria-label="switch language"
         sx={{
@@ -71,6 +78,10 @@ export default function LocaleManager() {
           whiteSpace: "normal", // Allow text to wrap
           textOverflow: "ellipsis", // Add ellipsis if text overflows
           overflow: "hidden", // Hide overflowed content
+          background: "none",
+          border: "0.5px solid white",
+          color: theme.palette.common.white,
+          borderRadius: "6px",
         }}
       >
         {isSmallScreen

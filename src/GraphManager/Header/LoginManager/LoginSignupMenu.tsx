@@ -15,6 +15,7 @@ import { useTranslation } from "react-i18next";
 import { useUserDataBackendContext } from "@src/Context/UserDataBackendContext";
 import i18n from "@src/shared/i18n";
 import { AlertFnRef, AlertPopupBar } from "@src/shared/Alert";
+import { useTheme } from "@mui/material";
 
 enum TabNames {
   "LOGIN",
@@ -104,10 +105,20 @@ export default function LoginSignupMenu() {
     loginUserInContext(rsp.data?.createUserWithEMail.login);
   };
   const { t } = useTranslation();
+  const theme = useTheme();
   return (
     <>
       <AlertPopupBar displayAlertRef={displayAlertRef} />
-      <Button variant="contained" color="primary" onClick={handleClickOpen}>
+      <Button
+        variant="contained"
+        sx={{
+          background: "none",
+          border: "1px solid white",
+          color: theme.palette.common.white,
+          borderRadius: "5px",
+        }}
+        onClick={handleClickOpen}
+      >
         {t("Login/Signup")}
       </Button>
       <Dialog open={open} onClose={handleClose}>

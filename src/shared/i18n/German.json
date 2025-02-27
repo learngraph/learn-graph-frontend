@@ -86,6 +86,7 @@
   },
   "navigation": {
     "link-to-landing-page": "Willkommen",
+    "link-to-playground-page": "Playground",
     "link-to-about-page": "Über Uns",
     "link-to-Getting Involved!": "Mitmachen!",
     "link-to-HowTo-Page": "Anleitung",
@@ -110,5 +111,39 @@
     "Dark Theme": "Dunkles Design",
     "headline-Experimental Settings": "Experimentelle Einstellungen:",
     "3D Display": "3D Anzeige"
+  },
+  "choices": {
+    "headline-Choices": "Personalisieren Sie Ihr Erlebnis",
+    "subheading": "Ich bin ein/e",
+    "firsttype": "Bildungseinrichtung",
+    "secondtype": "Lernende/r",
+    "thirdtype": "Stiftung",
+    "fourthtype": "Unternehmen"
+},
+"howto": {
+    "headline-how-to": "Wie man LearnGraph nutzt",
+    "headline-footerp1": "Probieren Sie die Oberfläche",
+    "headline-footerp2": "in unserem Playground",
+    "headline-footerp3": "! Alle eingegebenen Daten werden nur lokal in Ihrem Browser gespeichert.",
+    "subh-1": "Inhaltsrichtlinien",
+    "subh-1-footerp1": "Sind Sie unsicher, welche Themen geeignet sind? Sehen Sie sich unsere ",
+    "subh-1-footerp2": "Inhaltsrichtlinien hier an!",
+    "subh-2": "Benutzeroberfläche",
+    "para-1": "Der LearnGraph ist eine Karte von Lernabhängigkeiten. In diesem Bild sehen Sie, dass man zum Verstehen von Multiplikation zuerst Addition lernen muss. Es führt kein Weg daran vorbei, Addition zuerst zu lernen, daher ist die Verbindung zwischen ihnen stark. Der Pfeil zeigt immer auf die Dinge, die man lernen muss, um ein bestimmtes Thema zu verstehen. Ein Klick auf ein Thema zeigt Lernressourcen und Informationen zu den wichtigsten Lernabhängigkeiten.",
+    "subh-3": "Mit dem LearnGraph interagieren",
+    "para-3-bullet1": "Klicken Sie auf das ",
+    "para-3-bullet2": "Symbol, um zwischen Bearbeitungs- und Nur-Anzeige-Modus zu wechseln.",
+    "para-3-bullet3": "Suchen Sie nach Themen mithilfe der Suchleiste.",
+    "para-3-bullet4": "Klicken Sie auf ein beliebiges Thema (im Bearbeitungsmodus), um Lernressourcen anzuzeigen.",
+    "para-3-bullet6": "Das",
+    "para-3-bullet7": "Symbol ermöglicht das Umschalten zwischen Bearbeitungs- und Nur-Lese-Modus. Bewegen Sie das Thema in Richtung seiner Voraussetzungen, um eine neue Verbindung zu erstellen. Alternativ können Sie das",
+    "para-3-bullet8": "Symbol",
+    "para-3-bullet9": "„Neue Abhängigkeit“-Dialogfeld verwenden. Wählen Sie eine bestehende Verbindung aus, um über die Stärke der Verbindung abzustimmen. Um ein neues Thema hinzuzufügen, verwenden Sie das",
+    "para-3-bullet10": "Symbol",
+    "para-3-bullet11": "„Neues Thema“-Dialogfeld.",
+    "subh-4": "Übersetzungen",
+    "para-4": "Einige Themen können in einer anderen Sprache als der von Ihnen ausgewählten angezeigt werden. Sie sind mit der entsprechenden Länderflagge markiert. Sie können Themen in Ihre ausgewählte Sprache übersetzen, indem Sie das Thema bearbeiten und das Flaggen-Symbol entfernen. Um eine Übersetzung in einer anderen Sprache als der aktuellen einzufügen, ändern Sie zuerst Ihre Spracheinstellungen und fahren Sie dann mit der Übersetzung fort.",
+    "subh-5": "[Demnächst verfügbar!] Der Zusammenführungs-Zoom",
+    "para-5": "Einige Themen sind stärker miteinander verbunden als andere. Diese könnten wichtiger zu lernen sein. Der Zoom-Schieberegler auf der rechten Seite gruppiert Wissensbereiche unter dem Banner des Themas, das am meisten benötigt wird, d. h., auf das die meisten Pfeile zeigen."
   }
 }

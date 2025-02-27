@@ -40,7 +40,7 @@ export default function LoginForm(props: LoginFormProps) {
   const { t } = useTranslation();
   return (
     <StyledBox sx={StyledBoxSX}>
-      <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+      <Avatar sx={{ m: 1, bgcolor: "none" }}>
         <LockOutlined />
       </Avatar>
       <Typography component="h1" variant="h5">
