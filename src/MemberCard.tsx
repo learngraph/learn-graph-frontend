@@ -1,9 +1,8 @@
 import React from "react";
-import { Box, Typography, Paper, Divider, useTheme} from "@mui/material";
+import { Box, Typography, Paper, Divider, useTheme } from "@mui/material";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import { Mail, Phone } from "@mui/icons-material";
 import { useTranslation } from "react-i18next";
-
 
 interface TeamMember {
   imageSrc: string;
@@ -16,13 +15,14 @@ interface TeamMember {
 }
 
 const TeamMemberCard: React.FC<{ member: TeamMember }> = ({ member }) => {
-const theme = useTheme();
+  const theme = useTheme();
   return (
     <Paper
       elevation={3}
       sx={{
         maxWidth: 550,
-        background: "linear-gradient(rgba(200, 200, 200, 0.4), rgba(150, 150, 150, 0.3))",
+        background:
+          "linear-gradient(rgba(200, 200, 200, 0.4), rgba(150, 150, 150, 0.3))",
         padding: 5,
         margin: "30px auto",
         borderTop: "5px solid blue",
@@ -57,10 +57,12 @@ const theme = useTheme();
         }}
       >
         <a href={member.linkedInUrl} target="_blank" rel="noopener noreferrer">
-          <LinkedInIcon sx={{ color: theme.palette.common.white, fontSize: "2rem" }} />
+          <LinkedInIcon
+            sx={{ color: theme.palette.common.white, fontSize: "2rem" }}
+          />
         </a>
         <a href={`mailto:${member.email}`}>
-          <Mail sx={{ color:theme.palette.common.white, fontSize: "2rem" }} />
+          <Mail sx={{ color: theme.palette.common.white, fontSize: "2rem" }} />
         </a>
         <a href={`tel:${member.phoneNumber}`}>
           <Phone sx={{ color: theme.palette.common.white, fontSize: "2rem" }} />
@@ -69,15 +71,27 @@ const theme = useTheme();
       <Typography
         variant="body1"
         fontStyle="italic"
-        sx={{ marginTop: 2, fontSize: "17px" ,color: theme.palette.common.white}}
+        sx={{
+          marginTop: 2,
+          fontSize: "17px",
+          color: theme.palette.common.white,
+        }}
       >
         "{member.quote}"
       </Typography>
       <Divider sx={{ marginTop: 2 }} />
-      <Typography variant="h6" fontWeight="bold" sx={{ marginTop: 2, color: theme.palette.common.white }}>
+      <Typography
+        variant="h6"
+        fontWeight="bold"
+        sx={{ marginTop: 2, color: theme.palette.common.white }}
+      >
         {member.name}
       </Typography>
-      <Typography variant="body2" color="text.secondary" sx={{ color: theme.palette.common.white }}>
+      <Typography
+        variant="body2"
+        color="text.secondary"
+        sx={{ color: theme.palette.common.white }}
+      >
         {member.description}
       </Typography>
     </Paper>
@@ -127,15 +141,12 @@ const TeamSlider = () => {
     },
   ];
 
-
-
   return (
     <Box
       display="flex"
       flexDirection={{ xs: "column", md: "row" }}
       alignItems="center"
       justifyContent="center"
-     
       gap={4}
       flexWrap="wrap"
       width="100%"
