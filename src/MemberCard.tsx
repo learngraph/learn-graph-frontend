@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Box, Typography, Paper, IconButton, Divider, useTheme} from "@mui/material";
+import React from "react";
+import { Box, Typography, Paper, Divider, useTheme} from "@mui/material";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import { Mail, Phone } from "@mui/icons-material";
 import { useTranslation } from "react-i18next";

@@ -2,7 +2,7 @@
 import { Box, Typography, Divider, useTheme, Paper} from "@mui/material";
 import { Trans, useTranslation } from "react-i18next";
 import { NavigationWithContent } from "./Navigation";
-import { Handshake, Start } from "@mui/icons-material";
+import { Handshake} from "@mui/icons-material";
 import Startingpoint from "./LandingPage/Startingpoint";
 import TeamSlider from "./MemberCard";
 import Footer from "./LandingPage/Footer";
