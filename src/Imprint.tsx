@@ -93,10 +93,14 @@ export const Imprint = () => {
         Haftungsausschluss
       </Typography>
       <Typography variant="body1" gutterBottom>
-        Trotz sorgfältiger inhaltlicher Kontrolle übernehmen wir keine Haftung für die Inhalte externer Links. Für den Inhalt der verlinkten Seiten sind ausschließlich deren Betreiber verantwortlich.
+        Trotz sorgfältiger inhaltlicher Kontrolle übernehmen wir keine Haftung
+        für die Inhalte externer Links. Für den Inhalt der verlinkten Seiten
+        sind ausschließlich deren Betreiber verantwortlich.
         <br />
         <br />
-        Die Inhalte dieser Seite wurden mit größtmöglicher Sorgfalt erstellt. Dennoch übernehmen wir keine Gewähr für die Richtigkeit, Vollständigkeit und Aktualität der bereitgestellten Informationen.
+        Die Inhalte dieser Seite wurden mit größtmöglicher Sorgfalt erstellt.
+        Dennoch übernehmen wir keine Gewähr für die Richtigkeit, Vollständigkeit
+        und Aktualität der bereitgestellten Informationen.
       </Typography>
     </Box>
   );
