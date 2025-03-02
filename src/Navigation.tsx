@@ -171,15 +171,6 @@ export const NavigationWithContent = (props: NavigationWithContentConfig) => {
         globalPath=""
         buttonText={t("navigation.link-to-landing-page")}
       />
-      <ListItemGlobalLink globalPath="graph" buttonText="LearnGraph" />
-      <ListItemGlobalLink
-        globalPath="howto"
-        buttonText={t("navigation.link-to-HowTo-Page")}
-      />
-      <ListItemGlobalLink
-        globalPath="playground"
-        buttonText={t("navigation.link-to-playground-page")}
-      />
       <ListItemSectionLink
         sectionID={"about"}
         buttonText={t("navigation.link-to-about-page")}

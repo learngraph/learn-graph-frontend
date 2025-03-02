@@ -128,7 +128,6 @@ export default function Hero() {
               cursor: "pointer",
             },
           }}
-          onClick={() => navigate("/graph")}
         />
 
         {/* Hint and Button */}
@@ -150,19 +149,6 @@ export default function Hero() {
           >
             {t("landing.hintClickImage")}
           </Typography>
-          <Button
-            onClick={() => navigate("/graph")}
-            variant="contained"
-            sx={{
-              background: "none",
-              border: "0.5px solid gray",
-              font: "caption",
-              fontSize: { xs: "13px", sm: "17px" },
-              color: theme.palette.common.white,
-            }}
-          >
-            {t("landing.buttonGoToGraph")}
-          </Button>
         </Box>
       </Box>
     </Box>
