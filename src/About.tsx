@@ -1,52 +1,13 @@
 // TODO(skep): translate this file!
-import { Box, Typography, Divider, useTheme, Grid } from "@mui/material";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import { Box, Typography, Divider, useTheme, Paper } from "@mui/material";
 import { Trans, useTranslation } from "react-i18next";
 import { NavigationWithContent } from "./Navigation";
-import Image from "mui-image";
-import { Href } from "./shared/Components";
+import { Handshake } from "@mui/icons-material";
+import Startingpoint from "./LandingPage/Startingpoint";
+import TeamSlider from "./MemberCard";
+import Footer from "./LandingPage/Footer";
 
 // Updated TeamMember component with 'role' prop
-interface TeamMemberProps {
-  imageSrc: string;
-  name: string;
-  description: string | React.ReactElement;
-  linkedInUrl: string;
-}
-
-const TeamMember = ({
-  imageSrc,
-  name,
-  description,
-  linkedInUrl,
-}: TeamMemberProps) => {
-  const theme = useTheme();
-
-  return (
-    <Box display="flex" flexDirection="column" alignItems="center" margin={2}>
-      <Image src={imageSrc} alt={name} width={150} height={150} />
-      <Typography variant="h6" marginTop={1} textAlign="center">
-        {name}
-        <Href
-          href={linkedInUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ marginLeft: 8 }}
-        >
-          <LinkedInIcon fontSize="small" />
-        </Href>
-      </Typography>
-      {/* Display the role below the name */}
-      <Typography
-        variant="subtitle1"
-        color={theme.palette.text.secondary}
-        textAlign="center"
-      >
-        {description}
-      </Typography>
-    </Box>
-  );
-};
 
 const TypographyMaxWidth = (props: any) => {
   return <Typography sx={{ maxWidth: "80ch", ...props.sx }} {...props} />;
@@ -57,94 +18,265 @@ export const About = () => {
   const { t } = useTranslation();
 
   return (
-    <NavigationWithContent
-      withSideNavigation={true}
-      content={
-        <Box
-          component="main"
-          sx={{
-            backgroundColor: theme.palette.background.default,
-            color: theme.palette.text.primary,
-            flexGrow: 1,
-            padding: 3,
-          }}
-        >
-          <TypographyMaxWidth variant="h4" gutterBottom id="about">
-            {t("about.headline-About Us")}
-          </TypographyMaxWidth>
-          <TypographyMaxWidth paragraph>
-            <Trans i18nKey="about.who-are-we-story" />
-          </TypographyMaxWidth>
+    <Box>
+      <NavigationWithContent
+        alwaysDisplayNavDrawer={true}
+        content={
+          <Box
+            component="main"
+            sx={{
+              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(/LGBG2.png)`, // Overlay + Image
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "cover",
+              backgroundAttachment: "fixed", // Keeps the background fixed during scroll
+              backgroundPosition: "center",
+              minHeight: "100vh", // Ensures the background covers the viewport
 
-          <Divider sx={{ margin: "20px 0" }} />
-
-          <TypographyMaxWidth variant="h5" gutterBottom id="whoarewe">
-            {t("about.headline-Who Are We")}
-          </TypographyMaxWidth>
-
-          {/* Use Grid to layout team members */}
-          <Grid container spacing={4}>
-            <Grid item xs={12} sm={6} md={4}>
-              <TeamMember
-                imageSrc="team-laurin.png"
-                name="Laurin Hagemann"
-                description={t("about.team-Laurin")}
-                linkedInUrl="https://www.linkedin.com/in/laurin-hagemann/"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <TeamMember
-                imageSrc="team-namatama.jpg"
-                name="Namatama Theresa Katanekwa"
-                description={t("about.team-Namatama")}
-                linkedInUrl="https://www.linkedin.com/in/namatama-theresa-katanekwa-5697b3196/"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <TeamMember
-                imageSrc="team-efecan.jpeg"
-                name="Efecan Köse"
-                description={t("about.team-Efecan")}
-                linkedInUrl="https://www.linkedin.com/in/efecan-k%C3%B6se-3b45a432a/"
-              />
-            </Grid>
-          </Grid>
-
-          <Divider sx={{ margin: "20px 0" }} />
-
-          <TypographyMaxWidth variant="h5" gutterBottom id="whoarewe">
-            {t("about.headline-travel-group")}
-          </TypographyMaxWidth>
-          <TeamMember
-            imageSrc="team-placeholder.png"
-            name={t("about.team-placeholder-name")}
-            description={
-              <Trans
-                i18nKey="about.team-placeholder-description"
-                components={{
-                  mailtojobs: <Href href="mailto:jobs@learngraph.org" />,
-                }}
-              />
-            }
-            linkedInUrl="https://www.linkedin.com/in/"
-          />
-
-          <Divider sx={{ margin: "20px 0" }} />
-
-          <TypographyMaxWidth variant="h5" gutterBottom id="gettinginvolved">
-            {t("about.headline-getting-involved")}
-          </TypographyMaxWidth>
-          <TypographyMaxWidth paragraph>
-            <Trans
-              i18nKey="about.getting-involved"
-              components={{
-                mailtocontact: <Href href="mailto:contact@learngraph.org" />,
-                linktodiscord: <Href href="https://discord.gg/DatEV4kNp6" />,
+              flexGrow: 1,
+              padding: 3,
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: { sm: "column", md: "row" },
+                justifyContent: "center",
+                alignItems: "center",
+                margin: "40px auto",
               }}
-            />
-          </TypographyMaxWidth>
-        </Box>
-      }
-    />
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  padding: "10px 10%",
+                  width: { sm: "95%", md: "50%", xs: "40%" },
+                }}
+              >
+                <TypographyMaxWidth
+                  variant="h4"
+                  gutterBottom
+                  id="about"
+                  color={theme.palette.common.white}
+                  fontWeight="bold"
+                >
+                  {t("about.headline-About-Us")}
+                </TypographyMaxWidth>
+                <Typography
+                  variant="body1"
+                  sx={{
+                    textAlign: "justify",
+                    width: "97%",
+                    fontSize: theme.spacing(2),
+                    fontWeight: "bold",
+                  }}
+                  color={theme.palette.common.white}
+                >
+                  {t("about.aboutLG-para")}
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  backgroundImage: 'url("/Inno.png")',
+                  width: { sm: "95%", md: "60%", xs: "60%" }, // Adjust the width for better layout
+                  minWidth: "300px",
+                  minHeight: "400px",
+                  padding: "10px -10%",
+                  borderRadius: "10px",
+                  margin: "5px 5% 10px 10px",
+                  backgroundSize: "contain", // Ensures the image covers the box
+                  backgroundRepeat: "no-repeat", // Prevents tiling
+                  backgroundPosition: "center",
+                }}
+              ></Box>
+            </Box>
+            <Divider />
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: { sm: "column", md: "row" },
+                justifyContent: "space-between",
+                alignItems: "center",
+                margin: "auto",
+              }}
+            >
+              <Box
+                sx={{
+                  width: { sm: "50%", md: "40%", xs: "40%" }, // Adjust the width for better layout
+                  height: { xs: "200px", sm: "450px" }, // Ensures the height of the box
+                  minWidth: "50%",
+                  minHeight: "200px",
+                  marginLeft: "-2%",
+                  padding: theme.spacing(2),
+                }}
+              >
+                <Startingpoint />
+              </Box>
+
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  padding: "10px 10%",
+                }}
+              >
+                <TypographyMaxWidth
+                  variant="h4"
+                  gutterBottom
+                  id="about"
+                  color={theme.palette.common.white}
+                  fontWeight="bold"
+                >
+                  {t("about.Storyh")}
+                </TypographyMaxWidth>
+                <TypographyMaxWidth
+                  paragraph
+                  color={theme.palette.common.white}
+                  sx={{
+                    textAlign: "justify",
+                    width: "97%",
+                    fontSize: theme.spacing(2),
+                    fontWeight: "bold",
+                  }}
+                >
+                  <Trans i18nKey="about.Storyp" />
+                </TypographyMaxWidth>
+              </Box>
+            </Box>
+            <Divider />
+
+            <Box
+              position="relative"
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                margin: "auto",
+                alignItems: "center",
+              }}
+            >
+              <Typography
+                variant="h4"
+                gutterBottom
+                id="whoarewe"
+                sx={{ marginTop: theme.spacing(4), fontWeight: "bold" }}
+                color={theme.palette.common.white}
+              >
+                {t("about.Our-Team")}
+              </Typography>
+              <Typography
+                variant="body1"
+                gutterBottom
+                id="whoarewe"
+                sx={{
+                  marginBottom: theme.spacing(10),
+                  fontWeight: "bold",
+                  fontSize: theme.spacing(2),
+                }}
+                color={theme.palette.common.white}
+              >
+                {t("about.Our-Team-text")}
+              </Typography>
+              {/* SwipeableDrawer */}
+
+              <TeamSlider />
+
+              {/* Right Arrow */}
+            </Box>
+            <Box
+              position="relative"
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                margin: "auto",
+                alignItems: "center",
+              }}
+            >
+              <Box sx={{ marginTop: "60px" }} />
+              <TypographyMaxWidth
+                variant="h4"
+                gutterBottom
+                id="whoarewe"
+                color="white"
+                fontWeight="bold"
+              >
+                {t("about.headline-travel-group")}
+              </TypographyMaxWidth>
+              <Box
+                sx={{
+                  marginTop: 9,
+                }}
+              >
+                <Paper
+                  elevation={3}
+                  sx={{
+                    maxWidth: 550,
+                    background:
+                      "linear-gradient(rgba(200, 200, 200, 0.4), rgba(150, 150, 150, 0.3))",
+                    padding: 4,
+                    margin: "auto",
+                    borderTop: "5px solid blue",
+                    borderRadius: 3,
+                    textAlign: "center",
+                    position: "relative",
+                  }}
+                >
+                  <Box
+                    component="img"
+                    src="team-placeholder.png"
+                    sx={{
+                      width: 160,
+                      height: 160,
+                      borderRadius: "50%",
+                      objectFit: "cover",
+                      position: "absolute",
+                      top: -80,
+                      left: "50%",
+                      transform: "translateX(-50%)",
+                      border: "4px solid white",
+                      boxShadow: 2,
+                    }}
+                  />
+                  <Box
+                    sx={{
+                      paddingBottom: 5,
+                      paddingTop: 4,
+                    }}
+                  />
+                  <Typography
+                    component="a"
+                    href="mailto:jobs@learngraph.org"
+                    sx={{ color: "blue", textDecoration: "underline" }}
+                  >
+                    <Handshake
+                      sx={{
+                        color: theme.palette.common.white,
+                        height: "35px",
+                        width: "35px",
+                      }}
+                    />
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    fontStyle="italic"
+                    sx={{
+                      marginTop: 2,
+                      textAlign: "justify",
+                      color: theme.palette.common.white,
+                    }}
+                  >
+                    {t("about.team-placeholder-description")}
+                  </Typography>
+                </Paper>
+              </Box>
+            </Box>
+
+            <Divider sx={{ margin: "20px 0" }} />
+          </Box>
+        }
+      />
+      <Box>
+        <Footer />
+      </Box>
+    </Box>
   );
 };
