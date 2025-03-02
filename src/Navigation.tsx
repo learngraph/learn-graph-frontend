@@ -17,9 +17,7 @@ import {
 import { styled } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
 import { ReactNode, forwardRef, useState } from "react";
-import LocaleManager from "./GraphManager/Header/LocaleManager";
-import LoginManager from "./GraphManager/Header/LoginManager";
-import { SearchBarProps, SearchField } from "./GraphManager/Header/Search";
+import LocaleManager from "./Header/LocaleManager";
 import { useTranslation } from "react-i18next";
 import Logo from "../src/logo";
 
@@ -114,7 +112,6 @@ interface NavigationWithContentConfig {
   content?: ReactNode;
   alwaysDisplayNavDrawer?: boolean;
   withSideNavigation?: boolean;
-  search?: SearchBarProps;
 }
 
 export const NavigationWithContent = (props: NavigationWithContentConfig) => {
@@ -175,6 +172,10 @@ export const NavigationWithContent = (props: NavigationWithContentConfig) => {
         sectionID={"about"}
         buttonText={t("navigation.link-to-about-page")}
       />
+      <ListItemGlobalLink
+        globalPath={"imprint"}
+        buttonText={t("navigation.link-to-imprint-page")}
+      />
 
       <DisplayOnlyOnSmallScreen>
         <Typography variant="overline">
@@ -190,8 +191,6 @@ export const NavigationWithContent = (props: NavigationWithContentConfig) => {
           }}
         >
           <ListItemButton component={LocaleManager} />
-          <ListItemButton component={LoginManager} />{" "}
-          {/* FIXME(skep): alignment only works for LocaleManager, but not for LoginManager ¯\_(ツ)_/¯ */}
         </Box>
       </DisplayOnlyOnSmallScreen>
     </List>
@@ -237,18 +236,12 @@ export const NavigationWithContent = (props: NavigationWithContentConfig) => {
               },
             }}
           />
-          {props.search ? (
-            <BarItems sx={{ alignItems: "left" }}>
-              <SearchField props={props.search!} />
-            </BarItems>
-          ) : null}
           <Box sx={{ flexGrow: 1 }} />{" "}
           {/* Note: This Box pushes other bar-items to the right */}
           <BarItems sx={{ alignItems: "right" }}>
             <DisplayOnlyOnLargeScreen sx={{ height: "auto" }}>
               <Box sx={{ display: "flex", gap: 2 }}>
                 <LocaleManager />
-                <LoginManager />
               </Box>
             </DisplayOnlyOnLargeScreen>
           </BarItems>
