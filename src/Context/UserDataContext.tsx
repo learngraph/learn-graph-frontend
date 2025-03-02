@@ -30,7 +30,7 @@ export interface UserDataContextValues {
 }
 type Themes = "light" | "dark";
 
-const SUPPORTED_LANGUAGE_TAGS = ["en", "de"]; // FIXME(skep): unused now!!
+const SUPPORTED_LANGUAGE_TAGS = ["en", "de", "zh"]; // FIXME(skep): unused now!!
 const DEFAULT_LANGUAGE = "en";
 
 export const errMsgNoDefault =
