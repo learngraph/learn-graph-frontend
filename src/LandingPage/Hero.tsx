@@ -1,14 +1,10 @@
 import { alpha, useTheme } from "@mui/material";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { Trans, useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { Trans } from "react-i18next";
 import { Href } from "@src/shared/Components";
 
 export default function Hero() {
-  const { t } = useTranslation();
-  const navigate = useNavigate();
   const theme = useTheme();
   const headerText = (
     <Typography
@@ -128,42 +124,7 @@ export default function Hero() {
               cursor: "pointer",
             },
           }}
-          onClick={() => navigate("/graph")}
         />
-
-        {/* Hint and Button */}
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row", // Align text and button horizontally
-            alignItems: "center",
-            justifyContent: "center", // Center the row
-            gap: theme.spacing(1), // Add spacing between text and button
-          }}
-        >
-          <Typography
-            variant="body1"
-            sx={{
-              color: "white",
-              fontSize: { xs: "13px", sm: "17px" },
-            }}
-          >
-            {t("landing.hintClickImage")}
-          </Typography>
-          <Button
-            onClick={() => navigate("/graph")}
-            variant="contained"
-            sx={{
-              background: "none",
-              border: "0.5px solid gray",
-              font: "caption",
-              fontSize: { xs: "13px", sm: "17px" },
-              color: theme.palette.common.white,
-            }}
-          >
-            {t("landing.buttonGoToGraph")}
-          </Button>
-        </Box>
       </Box>
     </Box>
   );

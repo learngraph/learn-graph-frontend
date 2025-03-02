@@ -30,7 +30,7 @@ export interface UserDataContextValues {
 }
 type Themes = "light" | "dark";
 
-const SUPPORTED_LANGUAGE_TAGS = ["en", "de", "zh"];
+const SUPPORTED_LANGUAGE_TAGS = ["en", "de", "zh"]; // FIXME(skep): unused now!!
 const DEFAULT_LANGUAGE = "en";
 
 export const errMsgNoDefault =
@@ -264,6 +264,7 @@ export const UserDataContextProvider: React.FC<{
     //uri: import.meta.env.REACT_APP_BACKEND_DN, // FIXME(skep): not working, option seems to be ignored, since learngraph.org is working and we currently set this to https://learn-tree.info/query, which should not work at all
     fetch,
   });
+  // TODO(skep): remove apollo stuff
   const cache = new InMemoryCache();
   const client = new ApolloClient({
     cache: cache,
