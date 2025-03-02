@@ -93,17 +93,25 @@
     "settings-buttons-like-login-etc": "設定"
   },
   "about": {
-    "headline-About Us": "About Us",
-    "who-are-we-story": "We are education professionals from all around the world with a vision to prepare the next generation for the problems that today's world is facing.",
-    "headline-getting-involved": "加入我們的行列吧",
+    "headline-About-Us": "This is Learngraph",
+    "aboutLG-para": "LearnGraph is an innovative educational platform developed by a diverse team with expertise in education, technology, and global partnerships. Our mission is to democratize education by providing a personalized, accessible, and user-driven learning experience. LearnGraph empowers learners to create their own educational paths, offering high-quality resources without the limitations of traditional systems. By leveraging crowdsourced learning dependencies and connecting learners with peers and mentors, the platform continuously evolves to meet the needs of today’s dynamic educational landscape.",
+    "missionh": "Our Mission",
+    "missionp": "Co-creating the future of education - free for everyone.We enable people to learn, independent of their situation in life and the resources at their disposal.",
+    "Storyh": "This is the Beginning",
+    "Storyp": "Here lies the story of our creation which started with two freinds just bouncing ideas off eachother, trying to find out how they fit into this world, fixing a system that annoyed them.",
+    "aboutLG-team": "Our team brings together specialists in educational strategy, UX/UI design, and software development. With a focus on accessibility, diversity, and inclusion, LearnGraph ensures that learners from all backgrounds can benefit from personalized learning journeys. We are committed to fostering a global community of learners and educators, enabling meaningful connections, and making quality education accessible to everyone, regardless of geographical or financial barriers.",
+    "Our-Team": "This is us",
+    "Our-Team-text": "Vibe with the current members of our team",
     "team-Laurin": "執行長",
     "team-Namatama": "Global Partnership Director",
     "team-Efecan": "Head of Educational Strategy and Innovation",
-    "headline-Who Are We": "共同創辦人",
-    "headline-travel-group": "Fellow Travellers",
-    "team-placeholder-name": "You?!",
-    "team-placeholder-description": "We're looking for Education Professionals, Software Engineers and Designers!\nContact us at <mailtojobs>jobs@learngraph.org</mailtojobs>",
-    "getting-involved": "Feel free to reach out to us via <mailtocontact>contact@learngraph.org</mailtocontact>, or join our <linktodiscord>discord community</linktodiscord> of contributors, learners and get involved in the co-creation of the project itself!"
+    "team-Talal": "Development Engineer",
+    "quote-Laurin": "Constantly nurturing the sapling me and my team planted and eventually we will all see it turn into the most majestic tree",
+    "quote-Nama": "The world is a really big place and there are people that have been privilleged with resources, it's the duty of those people to help the ones without",
+    "quote-Efecan": "My love for learngraph originates from my profession as an instructor, I love working on new ways of nurturing the newer generations",
+    "quote-Talal": "It's scary out there, but we were never meant to be alone. Whats important isn't what I can do for me its what everyone can do for the human race",
+    "headline-travel-group": "This is you",
+    "team-placeholder-description": "We are always on the lookout for passionate individuals eager to contribute to our mission of transforming education. Whether you're a software developer, an education enthusiast, or someone with unique skills to bring to the table, there’s a place for you at LearnGraph. Join us in shaping the future of accessible, personalized learning and be part of a global community dedicated to making quality education available to everyone."
   },
   "settings": {
     "headline-User-Settings": "User Settings",
