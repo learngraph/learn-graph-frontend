@@ -3,7 +3,7 @@
   "switch-language-button-short": "Id.",
   "landing": {
     "header": "Puedes aprender <strong>cualquier cosa</strong>",
-    "intro": "En LearnGraph estamos co-creando el sistema educativo del mañana – ¡Únete a nuestra <linktodiscord>Comunidad de Práctica</linktodiscord>!\nEste es un prototipo que implementa una forma sencilla de obtener rutas de aprendizaje mediante crowdsourcing, pidiéndote que crees y votes sobre las dependencias de aprendizaje que has encontrado.\nEl resultado es un mapa geográfico de las dependencias de aprendizaje, en el que pronto implementaremos la búsqueda de rutas (creación de currículos), el zoom (reducción de detalles, como en Google Maps) y la formación ad-hoc de comunidades basadas en el camino de aprendizaje actual, para conectarte con compañeros en tu viaje de aprendizaje personalizado.",
+    "intro": "En LearnGraph, creemos que todos merecen forjar su propio camino único. Estamos creando un mapa interactivo y dinámico del conocimiento – una especie de Google Maps para el aprendizaje – diseñado para empoderarte y ayudarte a navegar por un mundo de oportunidades infinitas, adaptadas a tus pasiones. Nuestra plataforma está en constante desarrollo y se impulsa gracias a la colaboración comunitaria. Únete a nuestra <linktodiscord>Comunidad de Práctica</linktodiscord> en Discord y ayuda a dar forma al futuro de la educación!",
     "hintClickImage": "Haz clic en la imagen de arriba o",
     "buttonGoToGraph": "¡Empieza ya!",
     "missionStatementHeader": "Nuestra Misión",
@@ -73,5 +73,11 @@
     "secondtype": "Estudiante",
     "thirdtype": "Fundación",
     "fourthtype": "Empresa"
+  },
+  "footer": {
+    "copy": "© {{year}} LearnGraph gUG (Haftungsbeschränkt). Todos los derechos reservados.",
+    "imprint": "Aviso legal",
+    "privacyPolicy": "Política de privacidad",
+    "termsOfUse": "Términos de uso"
   }
 }
