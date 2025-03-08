@@ -3,7 +3,7 @@
   "switch-language-button-short": "Lang.",
   "landing": {
     "header": "You can learn <strong>anything</strong>",
-    "intro": "At LearnGraph we're co-creating the education system of tomorrow - Join our <linktodiscord>Comunity of Practice</linktodiscord>!\nThis is a prototype that implements a simple way to crowd-source learning-paths, by asking you to create and vote on learning-dependncies you've encountered.\nThe result is a geographical map of learning dependencies, where we will soon implement path finding (curriculum creation), zooming (detail reduction, like on google maps) and ad-hoc community formation based on the current learning-path you're on to connect you with peers on your personalized learning-journey!",
+    "intro": "At LearnGraph, we believe everyone deserves to forge their own unique path. We're building an interactive, dynamic map of knowledge – a sort of Google Maps for learning – designed to empower you to navigate a world of endless opportunities tailored to your passions. Our platform is actively in development and driven by community collaboration. Join our <linktodiscord>Community of Practice</linktodiscord> on Discord and help shape the future of education!",
     "hintClickImage": "Click the image above or",
     "buttonGoToGraph": "Jump right in!",
     "missionStatementHeader": "Our Mission",
@@ -73,5 +73,11 @@
     "secondtype": "Learner",
     "thirdtype": "Foundation",
     "fourthtype": "Business"
+  },
+  "footer": {
+    "copy": "© {{year}} LearnGraph gUG (Haftungsbeschränkt). All rights reserved.",
+    "imprint": "Imprint",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfUse": "Terms of Use"
   }
 }

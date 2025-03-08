@@ -123,3 +123,94 @@ export const Imprint = () => {
 };
 
 export default Imprint;
+
+export const PrivacyPolicy = () => {
+  const content = (
+    <Box
+      sx={{
+        padding: "2rem",
+        maxWidth: "800px",
+        margin: "2rem auto",
+        backgroundColor: "rgba(255,255,255,0.8)",
+        borderRadius: "8px",
+      }}
+    >
+      <Typography variant="h4" gutterBottom>
+        Datenschutzerklärung
+      </Typography>
+      <Divider sx={{ marginBottom: "1rem" }} />
+      <Typography variant="body1" gutterBottom>
+        Diese Datenschutzerklärung informiert Sie über die Art, den Umfang und
+        Zweck der Verarbeitung personenbezogener Daten innerhalb unseres
+        Onlineangebotes und der mit ihm verbundenen Webseiten, Funktionen und
+        Inhalte.
+      </Typography>
+      <Typography variant="body1" gutterBottom>
+        Wir nehmen den Schutz Ihrer Daten sehr ernst und behandeln Ihre
+        personenbezogenen Daten vertraulich und entsprechend der gesetzlichen
+        Datenschutzvorschriften sowie dieser Datenschutzerklärung.
+      </Typography>
+    </Box>
+  );
+
+  return (
+    <Box
+      sx={{
+        backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(/LGBG2.png)`,
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        backgroundAttachment: "fixed",
+        backgroundPosition: "center",
+        minHeight: "100vh",
+      }}
+    >
+      <NavigationWithContent alwaysDisplayNavDrawer={true} content={content} />
+      <Footer />
+    </Box>
+  );
+};
+
+export const TermsOfUse = () => {
+  const content = (
+    <Box
+      sx={{
+        padding: "2rem",
+        maxWidth: "800px",
+        margin: "2rem auto",
+        backgroundColor: "rgba(255,255,255,0.8)",
+        borderRadius: "8px",
+      }}
+    >
+      <Typography variant="h4" gutterBottom>
+        Nutzungsbedingungen
+      </Typography>
+      <Divider sx={{ marginBottom: "1rem" }} />
+      <Typography variant="body1" gutterBottom>
+        Durch den Zugriff auf und die Nutzung dieser Website erklären Sie sich
+        mit den folgenden Nutzungsbedingungen einverstanden. Bitte lesen Sie
+        diese sorgfältig durch.
+      </Typography>
+      <Typography variant="body1" gutterBottom>
+        Die Inhalte dieser Website werden mit größtmöglicher Sorgfalt erstellt.
+        Dennoch können wir keine Gewähr für die Aktualität, Richtigkeit und
+        Vollständigkeit der Inhalte übernehmen.
+      </Typography>
+    </Box>
+  );
+
+  return (
+    <Box
+      sx={{
+        backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(/LGBG2.png)`,
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        backgroundAttachment: "fixed",
+        backgroundPosition: "center",
+        minHeight: "100vh",
+      }}
+    >
+      <NavigationWithContent alwaysDisplayNavDrawer={true} content={content} />
+      <Footer />
+    </Box>
+  );
+};

@@ -1,7 +1,10 @@
 import { Box, Typography } from "@mui/material";
 import { FaLinkedin, FaInstagram, FaDiscord } from "react-icons/fa";
 import Logo from "@src/logo";
+import { useTranslation } from "react-i18next";
+
 export default function Footer() {
+  const { t } = useTranslation();
   const handleIconClick = (url: string) => {
     window.open(url, "_blank"); // Opens the link in a new tab
   };
@@ -74,22 +77,48 @@ export default function Footer() {
         />
       </Box>
 
-      {/* Contact Information */}
-      <Box>
+      {/* Legal and Navigation Links */}
+      <Box sx={{ marginBottom: "10px" }}>
         <Typography variant="body2" sx={{ marginBottom: "5px" }}>
-          Laurin Hagemann Oskar-Hoffmannstr. 134 44789, Bochum
+          {t("footer.copy", { year: new Date().getFullYear() })}
         </Typography>
         <Typography
           variant="body2"
           component="a"
-          href="mailto:contact@learngraph.org"
+          href="/imprint"
+          sx={{
+            color: "white",
+            textDecoration: "none",
+            "&:hover": { textDecoration: "underline" },
+            marginRight: "10px",
+          }}
+        >
+          {t("footer.imprint")}
+        </Typography>
+        <Typography
+          variant="body2"
+          component="a"
+          href="/privacy-policy"
+          sx={{
+            color: "white",
+            textDecoration: "none",
+            "&:hover": { textDecoration: "underline" },
+            marginRight: "10px",
+          }}
+        >
+          {t("footer.privacyPolicy")}
+        </Typography>
+        <Typography
+          variant="body2"
+          component="a"
+          href="/terms-of-use"
           sx={{
             color: "white",
             textDecoration: "none",
             "&:hover": { textDecoration: "underline" },
           }}
         >
-          contact@learngraph.org
+          {t("footer.termsOfUse")}
         </Typography>
       </Box>
     </Box>
