@@ -3,7 +3,7 @@
   "switch-language-button-short": "語",
   "landing": {
     "header": "<strong>一切</strong>知識，盡在掌中！",
-    "intro": "在 LearnGraph，我們正在共同創造未來的教育體系——加入我們的 <linktodiscord>實踐社群</linktodiscord>！\n這是一個原型，提供一種簡單的方式來眾包學習路徑，透過請你建立並為你遇到的學習依賴關係投票。\n結果會呈現一張學習依賴關係的地理地圖，我們將很快在此實現路徑搜尋（課程建立）、縮放（細節縮減，類似 Google 地圖）以及根據你當前學習路徑所組成的臨時社群，幫助你與同伴在個人化的學習旅程中互相連結！",
+    "intro": "在 LearnGraph，我們相信每個人都應該走出屬於自己獨特的道路。我們正在打造一個互動且動態的知識地圖——一種類似於學習版 Google 地圖的工具——旨在幫助您探索一個充滿無限機會、根據您的熱情量身定制的世界。我們的平台正積極開發中，並由社群合作推動。加入我們在 Discord 上的 <linktodiscord>實踐社群</linktodiscord>，一起共創教育的未來！",
     "hintClickImage": "點擊上方圖片或",
     "buttonGoToGraph": "開始探索",
     "missionStatementHeader": "我們的使命",
@@ -73,5 +73,11 @@
     "secondtype": "學習者",
     "thirdtype": "基金會",
     "fourthtype": "企業"
+  },
+  "footer": {
+    "copy": "© {{year}} LearnGraph gUG (Haftungsbeschränkt). 版權所有。",
+    "imprint": "法律聲明",
+    "privacyPolicy": "隱私權政策",
+    "termsOfUse": "使用條款"
   }
 }
