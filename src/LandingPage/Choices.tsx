@@ -27,6 +27,23 @@ export default function PersonalizedExperience() {
     window.open(url, "_blank"); // Opens the link in a new tab
   };
 
+  const EDU_INSTITUTE_PITCH =
+    "https://drive.google.com/file/d/12SuoMcRlDZXLiwckVivs99sI5_m3wvMN/view";
+  const LEARNING_PLATFORM_PITCH =
+    "https://docs.google.com/document/d/1DklXZCpAmaBateIyE7Jt25D8n8aRsbvTDLIFqaGCFUA/edit?usp=sharing";
+  const NON_PROFIT_PITCH =
+    "https://docs.google.com/document/d/17MH24VA5NNUEjeNJJlN-wWQ7EKB8lplIQVDOJs9cyzE/edit?usp=sharing";
+  const UP_SKILLING_PITCH =
+    "https://docs.google.com/document/d/1xPWnLTym_kgKpvWXplb983c1HJiNyVoE96sf-KgZTAU/edit?usp=sharing";
+  const PERSONALIZED_EDUCATION_PITCH =
+    "https://docs.google.com/document/d/1xPWnLTym_kgKpvWXplb983c1HJiNyVoE96sf-KgZTAU/edit?usp=sharing";
+  const DELIBERATELY_DEVELOPMENTAL_SPACES_PITCH =
+    "https://drive.google.com/file/d/1_ZhbhKRd9Uh6hH1MC7ZTF5rPLxvTz4bB/view?usp=sharing";
+  const PUBLISHING_COMPANY_PITCH =
+    "https://docs.google.com/document/d/1-LM7SL13OlEJAUo-XmgXfUvXS5r3mm3nGr4iSU8zRUY/edit?usp=sharing";
+  const POLITICAL_EDU_PITCH =
+    "https://docs.google.com/document/d/1Ik3TinEIBwSYe8YOMXJWASLcAwFTnagXlRxWKuMN8iM/edit?usp=sharing";
+
   const renderSubOptions = (
     option: string,
   ): { label: string; path: string }[] => {
@@ -35,60 +52,68 @@ export default function PersonalizedExperience() {
         return [
           {
             label: "University",
-            path: "https://docs.google.com/document/d/1Ik3TinEIBwSYe8YOMXJWASLcAwFTnagXlRxWKuMN8iM/edit?usp=sharing",
+            path: EDU_INSTITUTE_PITCH,
           },
           {
-            label: "VHS",
-            path: "https://docs.google.com/document/d/1Ik3TinEIBwSYe8YOMXJWASLcAwFTnagXlRxWKuMN8iM/edit?usp=sharing",
+            label: "Vocational Education & Training",
+            path: EDU_INSTITUTE_PITCH,
           },
           {
-            label: "School (Primary Education)",
-            path: "https://docs.google.com/document/d/1Ik3TinEIBwSYe8YOMXJWASLcAwFTnagXlRxWKuMN8iM/edit?usp=sharing",
+            label: "Learning-Platform",
+            path: LEARNING_PLATFORM_PITCH,
           },
           {
-            label: "Vocational Training Institution/Platform",
-            path: "https://docs.google.com/document/d/1Ik3TinEIBwSYe8YOMXJWASLcAwFTnagXlRxWKuMN8iM/edit?usp=sharing",
-          },
-          {
-            label: "A School District",
-            path: "https://docs.google.com/document/d/1Ik3TinEIBwSYe8YOMXJWASLcAwFTnagXlRxWKuMN8iM/edit?usp=sharing",
+            label: "K-12",
+            path: EDU_INSTITUTE_PITCH,
           },
         ];
       case t("choices.secondtype"):
         return [
           {
-            label: "A Researcher",
-            path: "https://docs.google.com/document/d/1Ik3TinEIBwSYe8YOMXJWASLcAwFTnagXlRxWKuMN8iM/edit?usp=sharing",
+            label: "Looking for Vocational Training",
+            path: PERSONALIZED_EDUCATION_PITCH,
           },
           {
-            label: "Looking for Vocational Training",
-            path: "https://docs.google.com/document/d/1Ik3TinEIBwSYe8YOMXJWASLcAwFTnagXlRxWKuMN8iM/edit?usp=sharing",
+            label: "A Researcher",
+            path: PERSONALIZED_EDUCATION_PITCH,
           },
           {
             label: "A Student, Pupil",
-            path: "https://docs.google.com/document/d/1Ik3TinEIBwSYe8YOMXJWASLcAwFTnagXlRxWKuMN8iM/edit?usp=sharing",
+            path: PERSONALIZED_EDUCATION_PITCH,
           },
         ];
       case t("choices.thirdtype"):
         return [
           {
-            label: "Looking to Support Developmental Spaces",
-            path: "https://docs.google.com/document/d/1Ik3TinEIBwSYe8YOMXJWASLcAwFTnagXlRxWKuMN8iM/edit?usp=sharing",
+            label: "Looking to Support Education of the Disadvantaged",
+            path: NON_PROFIT_PITCH,
           },
           {
-            label: "Looking to Support Education of the Disadvantaged",
-            path: "https://docs.google.com/document/d/1Ik3TinEIBwSYe8YOMXJWASLcAwFTnagXlRxWKuMN8iM/edit?usp=sharing",
+            label: "Looking to Support Developmental Spaces",
+            path: DELIBERATELY_DEVELOPMENTAL_SPACES_PITCH,
+          },
+          {
+            label: "Political Actor",
+            path: POLITICAL_EDU_PITCH,
           },
         ];
       case t("choices.fourthtype"):
         return [
           {
-            label: "An Education Project",
-            path: "https://docs.google.com/document/d/1Ik3TinEIBwSYe8YOMXJWASLcAwFTnagXlRxWKuMN8iM/edit?usp=sharing",
+            label: "Learning-Platform",
+            path: LEARNING_PLATFORM_PITCH,
           },
           {
-            label: "Looking for Up-Skilling / Transformation",
-            path: "https://docs.google.com/document/d/1Ik3TinEIBwSYe8YOMXJWASLcAwFTnagXlRxWKuMN8iM/edit?usp=sharing",
+            label: "Publishing Company",
+            path: PUBLISHING_COMPANY_PITCH,
+          },
+          {
+            label: "Looking for Up-Skilling",
+            path: UP_SKILLING_PITCH,
+          },
+          {
+            label: "Non-Profit Education Project",
+            path: NON_PROFIT_PITCH,
           },
         ];
       default:
