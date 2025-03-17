@@ -31,23 +31,25 @@ export default function Hero() {
       id="hero"
       sx={{
         display: "flex",
-        flexDirection: { xs: "column", sm: "row" }, // Vertical for mobile, horizontal for larger screens
+        flexDirection: { xs: "column", sm: "column", md: "row" }, // Vertical for mobile, horizontal for larger screens
         justifyContent: "center", // Align left and right sections
         alignItems: "center", // Align items to the top
         width: "fit-content", // Shrink to fit content
         height: "fit-content", // Adjust height based on content
         margin: "auto", // Center the container
-        padding: theme.spacing(2), // Add spacing inside the container
+        padding: theme.spacing(3), // Add spacing inside the container
         gap: theme.spacing(2), // Space between left and right sections
       }}
     >
       {/* Text Content on the Left */}
       <Box
         sx={{
-          width: { xs: "90%", sm: "35%" }, // Full width for mobile, 35% for larger screens
+          width: { sx: "90%", sm: "90%", md: "35%" }, // Full width for mobile, 35% for larger screens
           display: "flex",
           flexDirection: "column",
-          padding: "30px 20px", // Add some padding
+          padding: theme.spacing(3),
+          backgroundColor: alpha(theme.palette.common.black, 0.7),
+          borderRadius: theme.spacing(4),
         }}
       >
         <Typography
@@ -92,7 +94,7 @@ export default function Hero() {
       {/* Image Content on the Right */}
       <Box
         sx={{
-          width: { xs: "90%", sm: "50%" }, // Takes 65% of the total width
+          width: { xs: "90%", sm: "90%", md: "40%" }, // Takes 65% of the total width
           display: "flex",
           flexDirection: "column", // Stack image and text vertically
           alignItems: "center", // Center contents horizontally
@@ -115,14 +117,14 @@ export default function Hero() {
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover", // Ensure the image scales proportionally
             backgroundPosition: "center", // Center the image
-            borderRadius: "10px", // Rounded corners
+            borderRadius: theme.spacing(4), // Rounded corners
             boxShadow:
               theme.palette.mode === "light"
-                ? `0 0 12px 8px ${alpha("#9CCCFC", 0.2)}`
-                : `0 0 24px 12px ${alpha("#033363", 0.2)}`,
-            ":hover": {
-              cursor: "pointer",
-            },
+                ? `0 0 12px 8px ${alpha("#9CCCFC", 0.7)}`
+                : `0 0 24px 12px ${alpha("#033363", 0.7)}`,
+            //":hover": {
+            //  cursor: "pointer",
+            //},
           }}
         />
       </Box>
