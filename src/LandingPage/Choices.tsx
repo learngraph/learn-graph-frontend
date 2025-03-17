@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Box, Container, Typography } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+import { alpha, useTheme } from "@mui/material/styles";
 import EducationInstituteGraph from "./Graphics/EduInsStruc";
 import LearnerGraph from "./Graphics/LearnerStru";
 import FoundationGraph from "./Graphics/FlundationStru";
@@ -12,7 +12,7 @@ import "./Styles/ButtonStyles.css";
 export default function PersonalizedExperience() {
   const theme = useTheme();
   const { t } = useTranslation();
-
+  const [hoveredOption, setHoveredOption] = useState<string | null>(null);
   const [activeOption, setActiveOption] = useState<string | null>(null);
 
   const handleButtonClick = (option: string) => {
@@ -140,29 +140,38 @@ export default function PersonalizedExperience() {
         justifyContent: "center",
       }}
     >
-      <Typography
-        variant="h3"
+      <Box
         sx={{
-          marginBottom: theme.spacing(4),
-          color: theme.palette.common.white,
-          fontWeight: "bold",
-          textAlign: "center",
-          fontSize: { xs: "36px", sm: "60px" },
+          backgroundColor: alpha(theme.palette.common.black, 0.5),
+          borderRadius: theme.spacing(4),
+          width: { xs: "100%", sm: "70%", md: "50%" },
+          marginBottom: theme.spacing(2),
         }}
       >
-        {t("choices.headline-Choices")}
-      </Typography>
-      <Typography
-        variant="h4"
-        sx={{
-          marginBottom: { xs: theme.spacing(1.2), sm: theme.spacing(4) },
-          textAlign: "center",
-          color: theme.palette.primary.light,
-          fontSize: { xs: "28px", sm: "45px" },
-        }}
-      >
-        {t("choices.subheading")}
-      </Typography>
+        <Typography
+          variant="h3"
+          sx={{
+            margin: theme.spacing(4),
+            color: theme.palette.common.white,
+            fontWeight: "bold",
+            textAlign: "center",
+            fontSize: { xs: "36px", sm: "60px" },
+          }}
+        >
+          {t("choices.headline-Choices")}
+        </Typography>
+        <Typography
+          variant="h4"
+          sx={{
+            marginBottom: { xs: theme.spacing(1.2), sm: theme.spacing(4) },
+            textAlign: "center",
+            color: theme.palette.primary.light,
+            fontSize: { xs: "28px", sm: "45px" },
+          }}
+        >
+          {t("choices.subheading")}
+        </Typography>
+      </Box>
       {activeOption && (
         <Box
           sx={{
@@ -183,12 +192,14 @@ export default function PersonalizedExperience() {
           alignItems: "center",
           margin: "auto",
           transition: "all 1s ease",
+          gap: theme.spacing(2),
         }}
       >
         {mainOptions.map((option) => (
           <Box
             key={option.label}
             sx={{
+              position: "relative",
               display:
                 activeOption && activeOption !== option.label ? "none" : "flex",
               flexDirection: "column",
@@ -198,22 +209,81 @@ export default function PersonalizedExperience() {
               transform:
                 activeOption === option.label ? "scale(1.2)" : "scale(1)",
               opacity: activeOption && activeOption !== option.label ? 0 : 1,
+              backgroundColor: alpha(theme.palette.common.white, 0.2),
+              borderRadius: theme.spacing(4),
               "&:hover": {
-                transform: "scale(1.2)",
-                backgroundColor: "rgba(255, 255, 255, 0.3)", // Hover effect
+                transform: "scale(1.1)",
+                backgroundColor: alpha(theme.palette.common.white, 0.4),
               },
             }}
             onClick={() => handleButtonClick(option.label)}
+            onMouseEnter={() => setHoveredOption(option.label)}
+            onMouseLeave={() => setHoveredOption(null)}
           >
             {option.component}
             <Typography
               sx={{
                 color: "white",
                 fontWeight: "bold",
+                marginBottom: theme.spacing(2),
               }}
             >
               {option.label}
             </Typography>
+            {hoveredOption === option.label && (
+              <Box
+                sx={{
+                  position: "absolute",
+                  top: "100%",
+                  left: 0,
+                  backgroundColor: alpha(theme.palette.common.black, 0.8),
+                  padding: theme.spacing(1),
+                  borderRadius: theme.spacing(1),
+                  zIndex: 10,
+                  mt: 1,
+                  boxShadow: 3,
+                  display: "flex",
+                  flexDirection: "column",
+                  minWidth: "120px",
+                }}
+              >
+                {activeOption === option.label && (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      mb: theme.spacing(1),
+                    }}
+                  >
+                    <ArrowBack
+                      sx={{
+                        fontSize: "16px",
+                        color: "white",
+                        mr: theme.spacing(0.5),
+                      }}
+                    />
+                    <Typography variant="caption" sx={{ color: "white" }}>
+                      {t("choices.back")}
+                    </Typography>
+                  </Box>
+                )}
+                {!activeOption &&
+                  renderSubOptions(option.label).map((subOption) => (
+                    <Typography
+                      key={subOption.label}
+                      variant="caption"
+                      sx={{
+                        color: "white",
+                        display: "block",
+                        mb: 0.5,
+                        textAlign: "left",
+                      }}
+                    >
+                      {subOption.label}
+                    </Typography>
+                  ))}
+              </Box>
+            )}
           </Box>
         ))}
       </Box>
@@ -225,7 +295,7 @@ export default function PersonalizedExperience() {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            gap: 2,
+            gap: theme.spacing(2),
             transition: "opacity 0.5s ease",
           }}
         >

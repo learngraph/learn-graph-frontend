@@ -1,4 +1,4 @@
-import { Box, Container, Typography, useTheme } from "@mui/material";
+import { alpha, Box, Container, Typography, useTheme } from "@mui/material";
 import { Href } from "@src/shared/Components";
 import { Trans, useTranslation } from "react-i18next";
 
@@ -14,7 +14,7 @@ export default function MissionStatement() {
         pb: { xs: 10, sm: 10 },
         width: "100%",
         display: "flex",
-        flexDirection: { xs: "column", sm: "row" },
+        flexDirection: { xs: "column", sm: "column", md: "row" },
         alignItems: "center",
         justifyContent: "center", // Centers the content horizontally
         gap: 4, // Adds spacing between the two boxes
@@ -28,11 +28,15 @@ export default function MissionStatement() {
           height: { xs: "200px", sm: "350px" }, // Ensures the height of the box
           minWidth: "300px",
           minHeight: "200px",
-          borderRadius: "10px",
+          borderRadius: theme.spacing(4),
           backgroundImage: `url(/missionst1.png)`,
           backgroundSize: "cover", // Ensures the image covers the box
           backgroundRepeat: "no-repeat", // Prevents tiling
           backgroundPosition: "center",
+          boxShadow:
+            theme.palette.mode === "light"
+              ? `0 0 12px 8px ${alpha("#9CCCFC", 0.7)}`
+              : `0 0 24px 12px ${alpha("#033363", 0.7)}`,
         }}
       ></Box>
 
@@ -41,6 +45,9 @@ export default function MissionStatement() {
         sx={{
           width: { sm: "90%", md: "40%" }, // Matches the width with the image box
           textAlign: "center", // Centers the text inside the box
+          backgroundColor: alpha(theme.palette.common.black, 0.7),
+          borderRadius: theme.spacing(4),
+          padding: theme.spacing(3),
         }}
       >
         <Typography
@@ -71,6 +78,26 @@ export default function MissionStatement() {
             }}
           />
         </Typography>
+
+        {/* Podcast Alternative */}
+        <Box sx={{ mt: theme.spacing(2) }}>
+          <Typography
+            variant="body2"
+            sx={{
+              color: theme.palette.common.white,
+              fontWeight: "bold",
+            }}
+          >
+            {t("landing.podcastAlternative")}
+          </Typography>
+          <audio
+            controls
+            style={{ width: "100%", marginTop: theme.spacing(1) }}
+          >
+            <source src="/mission-podcast.mp3" type="audio/mp3" />
+            Your browser does not support the audio element.
+          </audio>
+        </Box>
       </Box>
     </Container>
   );

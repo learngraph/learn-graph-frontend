@@ -11,6 +11,7 @@
     "crowdsourcingHeader": "Un enfoque co-creativo",
     "crowdsourcingExplanation": "El LearnGraph recopila votos de estudiantes y educadores sobre la dependencia del conocimiento respecto a otros conocimientos. Esto crea una red de dependencias, un grafo dirigido y ponderado, que cualquiera puede navegar como si fuera un mapa para formar un currículo personalizado.\nOptamos por un enfoque de conocimiento abierto enlazando únicamente a OER (Recursos Educativos Abiertos), de modo que todos tengan acceso completo y gratuito al LearnGraph sin fines comerciales. Nunca habrá un muro de pago entre tú y tu viaje de aprendizaje.",
     "crowdsourcingCallToAction": "Esto significa que usuarios como tú construyen esta base de conocimiento, y todos se benefician de ella. ¡Contribuye con tu conocimiento hoy, votando las conexiones existentes o creando nuevos temas y dependencias!",
+    "podcastAlternative": "¿Prefieres escuchar? Prueba nuestra alternativa en formato podcast y embárcate en un viaje sonoro con nosotros!",
     "highlights": {
       "independence": "Independencia",
       "independentFromEducationalInstitutions": "¡Eres independiente de las instituciones educativas!",
@@ -69,6 +70,7 @@
   "choices": {
     "headline-Choices": "Personaliza tu experiencia",
     "subheading": "Yo soy:",
+    "back": "Atrás",
     "firsttype": "Institución Educativa",
     "secondtype": "Estudiante",
     "thirdtype": "Fundación",
