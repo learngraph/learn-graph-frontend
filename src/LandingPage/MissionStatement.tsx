@@ -78,6 +78,26 @@ export default function MissionStatement() {
             }}
           />
         </Typography>
+
+        {/* Podcast Alternative */}
+        <Box sx={{ mt: theme.spacing(2) }}>
+          <Typography
+            variant="body2"
+            sx={{
+              color: theme.palette.common.white,
+              fontWeight: "bold",
+            }}
+          >
+            {t("landing.podcastAlternative")}
+          </Typography>
+          <audio
+            controls
+            style={{ width: "100%", marginTop: theme.spacing(1) }}
+          >
+            <source src="/mission-podcast.mp3" type="audio/mp3" />
+            Your browser does not support the audio element.
+          </audio>
+        </Box>
       </Box>
     </Container>
   );

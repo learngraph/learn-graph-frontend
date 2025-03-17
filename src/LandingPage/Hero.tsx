@@ -109,11 +109,8 @@ export default function Hero() {
             opacity: "90%",
             width: "100%",
             maxWidth: "750px", // Limit maximum width
-            aspectRatio: "12 / 9", // Maintain aspect ratio
-            backgroundImage:
-              theme.palette.mode === "light"
-                ? 'url("/screenshot_learngraph.png")'
-                : 'url("/screenshot_learngraph.png")',
+            aspectRatio: "16 / 9", // Maintain aspect ratio
+            backgroundImage: 'url("/screenshot_learngraph.png")',
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover", // Ensure the image scales proportionally
             backgroundPosition: "center", // Center the image
