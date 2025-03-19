@@ -306,11 +306,11 @@ export default function PersonalizedExperience() {
                 width: "80%",
                 padding: theme.spacing(1.25),
                 textAlign: "center",
-                border: "2px solid rgb(255, 85, 0)",
                 borderRadius: "14px",
                 cursor: "pointer",
                 color: "white",
-                backgroundColor: "transparent",
+                border: "2px solid rgb(255, 85, 0)",
+                backgroundColor: alpha(theme.palette.common.black, 0.6),
                 transition: "all 0.3s ease",
                 "&:hover": {
                   transform: "scale(1.1)",
