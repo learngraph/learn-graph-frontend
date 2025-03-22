@@ -64,9 +64,13 @@ const TeamMemberCard: React.FC<{ member: TeamMember }> = ({ member }) => {
         <a href={`mailto:${member.email}`}>
           <Mail sx={{ color: theme.palette.common.white, fontSize: "2rem" }} />
         </a>
-        {member.phoneNumber && <a href={`tel:${member.phoneNumber}`}>
-          <Phone sx={{ color: theme.palette.common.white, fontSize: "2rem" }} />
-        </a>}
+        {member.phoneNumber && (
+          <a href={`tel:${member.phoneNumber}`}>
+            <Phone
+              sx={{ color: theme.palette.common.white, fontSize: "2rem" }}
+            />
+          </a>
+        )}
       </Box>
       <Typography
         variant="body1"
