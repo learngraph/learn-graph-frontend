@@ -64,9 +64,13 @@ const TeamMemberCard: React.FC<{ member: TeamMember }> = ({ member }) => {
         <a href={`mailto:${member.email}`}>
           <Mail sx={{ color: theme.palette.common.white, fontSize: "2rem" }} />
         </a>
-        <a href={`tel:${member.phoneNumber}`}>
-          <Phone sx={{ color: theme.palette.common.white, fontSize: "2rem" }} />
-        </a>
+        {member.phoneNumber && (
+          <a href={`tel:${member.phoneNumber}`}>
+            <Phone
+              sx={{ color: theme.palette.common.white, fontSize: "2rem" }}
+            />
+          </a>
+        )}
       </Box>
       <Typography
         variant="body1"
@@ -106,8 +110,8 @@ const TeamSlider = () => {
       imageSrc: "team-laurin.png",
       name: "Laurin Hagemann",
       description: t("about.team-Laurin"),
-      email: "help@learngraph.org",
-      phoneNumber: "+491638692006",
+      email: "laurin@learngraph.org",
+      phoneNumber: "+491631925215",
       quote: t("about.quote-Laurin"),
       linkedInUrl: "https://www.linkedin.com/in/laurin-hagemann/",
     },
@@ -115,8 +119,8 @@ const TeamSlider = () => {
       imageSrc: "team-namatama.jpg",
       name: "Namatama Theresa Katanekwa",
       description: t("about.team-Namatama"),
-      email: "help@learngraph.org",
-      phoneNumber: "+491638692006",
+      email: "nama@learngraph.org",
+      phoneNumber: "",
       quote: t("about.quote-Nama"),
       linkedInUrl:
         "https://www.linkedin.com/in/namatama-theresa-katanekwa-5697b3196/",
@@ -125,8 +129,8 @@ const TeamSlider = () => {
       imageSrc: "team-efecan.jpeg",
       name: "Efecan Köse",
       description: t("about.team-Efecan"),
-      email: "help@learngraph.org",
-      phoneNumber: "+491638692006",
+      email: "efe@learngraph.org",
+      phoneNumber: "",
       quote: t("about.quote-Efecan"),
       linkedInUrl: "https://www.linkedin.com/in/efecan-k%C3%B6se-3b45a432a/",
     },
