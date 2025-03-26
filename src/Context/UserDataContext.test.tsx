@@ -6,7 +6,6 @@ import {
   UserDataContextProvider,
   useUserDataContext,
 } from "./UserDataContext";
-//import "@testing-library/jest-dom";
 
 describe("UserDataContext", () => {
   let mockStore: Record<string, string> = {};
@@ -141,25 +140,25 @@ describe("translateLocaleToLanguageTag", () => {
 
 describe("handleGraphQLErrors", () => {
   it("should do nothing if no error message is present", () => {
-    const msg = jest.fn();
+    const msg = vi.fn();
     const ctx = {};
     // @ts-ignore
     handleGraphQLErrors(ctx, msg, []);
     expect(msg).not.toHaveBeenCalled();
   });
   it("should do nothing if no error message matches", () => {
-    const msg = jest.fn();
+    const msg = vi.fn();
     const ctx = {};
     // @ts-ignore
     handleGraphQLErrors(ctx, msg, [{ message: "unknown" }]);
     expect(msg).not.toHaveBeenCalled();
   });
   it("should warn the user about not being logged in", () => {
-    const msg = jest.fn();
+    const msg = vi.fn();
     const ctx = {
-      setUserID: jest.fn(),
-      setUserName: jest.fn(),
-      setAuthenticationToken: jest.fn(),
+      setUserID: vi.fn(),
+      setUserName: vi.fn(),
+      setAuthenticationToken: vi.fn(),
     };
     // @ts-ignore
     handleGraphQLErrors(ctx, msg, [

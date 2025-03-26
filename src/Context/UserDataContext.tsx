@@ -1,14 +1,4 @@
 import React, { useEffect } from "react";
-import {
-  ApolloProvider,
-  ApolloClient,
-  InMemoryCache,
-  ApolloLink,
-  HttpLink,
-} from "@apollo/client";
-import { onError } from "@apollo/client/link/error";
-import { GraphQLErrors } from "@apollo/client/errors";
-import { setContext, ContextSetter } from "@apollo/client/link/context";
 import fetch from "cross-fetch";
 import i18n from "@src/shared/i18n";
 
@@ -147,19 +137,6 @@ export const handleGraphQLErrors = (
     }
   });
 };
-const makeNotifyUserOnNotLoggedInError = (
-  ctx: UserDataContextValues,
-  popUpWith: (msg: string) => void,
-) => {
-  return onError(({ graphQLErrors, networkError }) => {
-    if (graphQLErrors) {
-      handleGraphQLErrors(ctx, popUpWith, graphQLErrors);
-    }
-    if (networkError) {
-      console.error(`[Network error]: ${networkError}`);
-    }
-  });
-};
 
 export const translateLocaleToLanguageTag = (locale: string) => {
   for (const tag of SUPPORTED_LANGUAGE_TAGS) {
@@ -241,42 +218,10 @@ export const UserDataContextProvider: React.FC<{
   };
 
   const displayAlertRef: AlertFnRef = {};
-  const notifyUserOnNotLoggedInError = makeNotifyUserOnNotLoggedInError(
-    ctx,
-    (message: string) => {
-      const displayAlert = displayAlertRef.current ?? alert;
-      displayAlert(message);
-    },
-  );
-  const addUserIDHeaderFromContext: ContextSetter = (_, { headers }) => {
-    return addUserIDHeader({ headers, userID: ctx.userID });
-  };
-  const linkUserID = setContext(addUserIDHeaderFromContext);
-  const addAuthHeaderFromContext: ContextSetter = (_, { headers }) => {
-    return addAuthHeader({ headers, token: ctx.authenticationToken });
-  };
-  const linkAuth = setContext(addAuthHeaderFromContext);
-  const addLanguageHeaderFromContext: ContextSetter = (_, { headers }) => {
-    return addLanguageHeader({ headers, language: ctx.language });
-  };
-  const linkLang = setContext(addLanguageHeaderFromContext);
-  const linkHttp: ApolloLink = new HttpLink({
-    //uri: import.meta.env.REACT_APP_BACKEND_DN, // FIXME(skep): not working, option seems to be ignored, since learngraph.org is working and we currently set this to https://learn-tree.info/query, which should not work at all
-    fetch,
-  });
-  // TODO(skep): remove apollo stuff
-  const cache = new InMemoryCache();
-  const client = new ApolloClient({
-    cache: cache,
-    link: notifyUserOnNotLoggedInError.concat(
-      linkUserID.concat(linkLang.concat(linkAuth.concat(linkHttp))),
-    ),
-  });
-
   return (
     <UserDataContext.Provider value={ctx}>
       <AlertPopupBar displayAlertRef={displayAlertRef} />
-      <ApolloProvider client={client}>{children}</ApolloProvider>
+      {children}
     </UserDataContext.Provider>
   );
 };
