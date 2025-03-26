@@ -1,269 +1,95 @@
 import { Link, useNavigate } from "react-router-dom";
-import "@fontsource/orbitron";
-import {
-  Box,
-  Typography,
-  List,
-  ListItemButton,
-  ListItemText,
-  Toolbar,
-  AppBar,
-  Drawer,
-  useTheme,
-  SxProps,
-  Theme,
-  IconButton,
-} from "@mui/material";
-import { styled } from "@mui/material/styles";
-import MenuIcon from "@mui/icons-material/Menu";
-import { ReactNode, forwardRef, useState } from "react";
-import LocaleManager from "./Header/LocaleManager";
 import { useTranslation } from "react-i18next";
+import { useEffect, useState, ReactNode } from "react";
 import Logo from "../src/logo";
+import LocaleManager from "./Header/LocaleManager";
 
-const BarItems = styled("div")(({ theme }) => ({
-  display: "flex",
-  gap: theme.spacing(2),
-}));
-interface LearngraphLOGOProps {
-  onClick?: () => void;
-  sx?: object;
-}
-const LEARNGRAPH_HEADER_TEXT = import.meta.env.PROD
-  ? "LEARNGRAPH"
-  : "TESTING VERSION";
-
-const LearngraphLOGO: React.FC<LearngraphLOGOProps> = ({ onClick, sx }) => {
-  return (
-    <Typography
-      variant="h6"
-      noWrap
-      component="div"
-      sx={{
-        color: "white",
-        fontFamily: "Orbitron, sans-serif",
-        letterSpacing: "0.2em",
-        textTransform: "uppercase",
-        fontWeight: "bold",
-        ...sx,
-      }}
-      onClick={onClick} // Attach onClick if provided
-    >
-      {LEARNGRAPH_HEADER_TEXT}
-    </Typography>
-  );
-};
-
-interface ListItemConfig {
-  sectionID: string;
-  buttonText: string;
-}
-
-const DisplayOnlyOnSmallScreen = forwardRef<
-  HTMLDivElement,
-  { children: ReactNode }
->(({ children }, ref) => {
-  return (
-    <Box
-      ref={ref}
-      sx={{
-        flexShrink: 0,
-        display: { xs: "block", sm: "none" },
-      }}
-    >
-      {children}
-    </Box>
-  );
-});
-
-const DisplayOnlyOnLargeScreen = ({
-  children,
-  sx,
-}: {
-  children: ReactNode;
-  sx?: SxProps<Theme>;
-}) => {
-  return (
-    <Box
-      sx={{
-        flexShrink: 0,
-        display: { xs: "none", sm: "block" },
-        height: "100vh",
-        ...sx,
-      }}
-    >
-      {children}
-    </Box>
-  );
-};
-
-// Note: content must be used when withSideNavigation is true, if
-// withSideNavigation is false, then other components can just be created after
-// this one, i.e.
-// ```js
-// <NavigationWithContent withSideNavigation={true} content={<Other />} />
-// // or
-// <>
-//  <NavigationWithContent />
-//  <Other />
-// </>
-// ```
 interface NavigationWithContentConfig {
   content?: ReactNode;
-  alwaysDisplayNavDrawer?: boolean;
-  withSideNavigation?: boolean;
 }
 
-export const NavigationWithContent = (props: NavigationWithContentConfig) => {
+export const NavigationWithContent = ({
+  content,
+}: NavigationWithContentConfig) => {
   const navigate = useNavigate();
-  const theme = useTheme();
   const { t } = useTranslation();
-  const menuPalette = theme.palette.info;
-  const scrollToSectionID = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    } else {
-      console.log(`no element '${sectionId}' found`);
-    }
-  };
-  const goToAboutSection = (sectionId: string) => {
-    setIsDrawerOpen(false);
-    navigate(`/about#${sectionId}`);
-    scrollToSectionID(sectionId);
-  };
-  const ListItemSectionLink = (conf: ListItemConfig) => {
-    return (
-      <ListItemButton
-        component={Link}
-        to={`/about#${conf.sectionID}`}
-        sx={{ paddingLeft: 2 }}
-        onClick={() => goToAboutSection(conf.sectionID)}
-      >
-        <ListItemText primary={`${conf.buttonText}`} />
-      </ListItemButton>
-    );
-  };
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const ListItemGlobalLink = (conf: {
-    globalPath: string;
-    buttonText: string;
-  }) => {
-    return (
-      <ListItemButton
-        component={Link}
-        to={`/${conf.globalPath}`}
-        sx={{ paddingLeft: 2 }}
-      >
-        <ListItemText primary={`${conf.buttonText}`} />
-      </ListItemButton>
-    );
-  };
-  const menuColors = {
-    color: menuPalette.contrastText,
-  };
-  const navigationList = (
-    <List>
-      <ListItemGlobalLink
-        globalPath=""
-        buttonText={t("navigation.link-to-landing-page")}
-      />
-      <ListItemSectionLink
-        sectionID={"about"}
-        buttonText={t("navigation.link-to-about-page")}
-      />
-      <ListItemGlobalLink
-        globalPath={"imprint"}
-        buttonText={t("navigation.link-to-imprint-page")}
-      />
+  const menuItems = [
+    { label: t("navigation.link-to-landing-page"), path: "/" },
+    { label: t("navigation.link-to-about-page"), path: "/about" },
+    { label: t("navigation.link-to-imprint-page"), path: "/imprint" },
+  ];
 
-      <DisplayOnlyOnSmallScreen>
-        <Typography variant="overline">
-          {t("navigation.settings-buttons-like-login-etc")}
-        </Typography>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            padding: 1,
-            gap: 1,
-          }}
-        >
-          <ListItemButton component={LocaleManager} />
-        </Box>
-      </DisplayOnlyOnSmallScreen>
-    </List>
-  );
-  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-  const buttonAndNavDrawer = (
-    <>
-      <IconButton onClick={() => setIsDrawerOpen(true)} size="medium">
-        <MenuIcon sx={{ background: "none", color: "white" }} />
-      </IconButton>
-      <Drawer
-        anchor="left"
-        open={isDrawerOpen}
-        onClose={() => setIsDrawerOpen(false)}
-      >
-        {navigationList}
-      </Drawer>
-    </>
-  );
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <>
-      <AppBar position="static" elevation={0}>
-        <Toolbar sx={{ gap: theme.spacing(2), backgroundColor: "#28343e" }}>
-          {props.alwaysDisplayNavDrawer ? (
-            buttonAndNavDrawer
-          ) : (
-            <DisplayOnlyOnSmallScreen>
-              {" "}
-              {buttonAndNavDrawer}{" "}
-            </DisplayOnlyOnSmallScreen>
-          )}
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 backdrop-blur-md ${
+          scrolled ? "py-1 bg-black/30 shadow-md" : "py-2 bg-black/80"
+        }`}
+      >
+        <nav className="max-w-7xl mx-auto px-4 flex items-center justify-between">
           <div
+            className="flex items-center cursor-pointer"
             onClick={() => navigate("/")}
-            style={{ background: "transparent" }}
           >
-            <Logo size={90} />
+            <Logo size={scrolled ? 50 : 70} />
+            <span className="ml-2 font-bold uppercase font-orbitron tracking-widest text-white">
+              {import.meta.env.PROD ? "LEARNGRAPH" : "TESTING VERSION"}
+            </span>
           </div>
-          <LearngraphLOGO
-            onClick={() => navigate("/")}
-            sx={{
-              ":hover": {
-                cursor: "pointer",
-              },
-            }}
-          />
-          <Box sx={{ flexGrow: 1 }} />{" "}
-          {/* Note: This Box pushes other bar-items to the right */}
-          <BarItems sx={{ alignItems: "right" }}>
-            <DisplayOnlyOnLargeScreen sx={{ height: "auto" }}>
-              <Box sx={{ display: "flex", gap: 2 }}>
-                <LocaleManager />
-              </Box>
-            </DisplayOnlyOnLargeScreen>
-          </BarItems>
-        </Toolbar>
-      </AppBar>
-      <Box sx={{ display: "flex" }}>
-        {props.withSideNavigation ? (
-          <DisplayOnlyOnLargeScreen
-            sx={{
-              ...menuColors,
-              color: theme.palette.text.primary,
-              backgroundColor:
-                theme.palette.mode === "light"
-                  ? theme.palette.primary.main
-                  : theme.palette.grey[800],
-            }}
+
+          {/* Desktop navigation */}
+          <div className="hidden sm:flex items-center gap-4">
+            {menuItems.map((item) => (
+              <Link
+                key={item.label}
+                to={item.path}
+                className="px-4 py-1 rounded-md bg-white/20 hover:bg-white/40 transition-colors text-white"
+              >
+                {item.label}
+              </Link>
+            ))}
+            <LocaleManager />
+          </div>
+
+          {/* Mobile navigation button */}
+          <button
+            className="sm:hidden px-3 py-1 bg-white/20 text-white rounded-md"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
-            {navigationList}
-          </DisplayOnlyOnLargeScreen>
-        ) : null}
-        {props.content ?? null}
-      </Box>
+            ☰
+          </button>
+        </nav>
+      </header>
+
+      {/* Mobile full-screen menu */}
+      {mobileMenuOpen && (
+        <div className="sm:hidden fixed inset-0 z-[1000] bg-black/80 backdrop-blur-md flex flex-col items-center justify-center gap-6">
+          {menuItems.map((item) => (
+            <Link
+              key={item.label}
+              to={item.path}
+              className="text-xl py-2 px-6 rounded-md bg-white/20 hover:bg-white/40 transition-colors text-white"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              {item.label}
+            </Link>
+          ))}
+          <div onClick={() => setMobileMenuOpen(false)}>
+            <LocaleManager />
+          </div>
+        </div>
+      )}
+
+      <main className="pt-16 sm:pt-20">{content ?? null}</main>
     </>
   );
 };

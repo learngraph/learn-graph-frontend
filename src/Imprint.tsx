@@ -116,7 +116,7 @@ export const Imprint = () => {
         minHeight: "100vh",
       }}
     >
-      <NavigationWithContent alwaysDisplayNavDrawer={true} content={content} />
+      <NavigationWithContent content={content} />
       <Footer />
     </Box>
   );
@@ -164,7 +164,7 @@ export const PrivacyPolicy = () => {
         minHeight: "100vh",
       }}
     >
-      <NavigationWithContent alwaysDisplayNavDrawer={true} content={content} />
+      <NavigationWithContent content={content} />
       <Footer />
     </Box>
   );
@@ -209,7 +209,7 @@ export const TermsOfUse = () => {
         minHeight: "100vh",
       }}
     >
-      <NavigationWithContent alwaysDisplayNavDrawer={true} content={content} />
+      <NavigationWithContent content={content} />
       <Footer />
     </Box>
   );

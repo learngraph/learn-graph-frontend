@@ -160,17 +160,6 @@ export default function PersonalizedExperience() {
         >
           {t("choices.headline-Choices")}
         </Typography>
-        <Typography
-          variant="h4"
-          sx={{
-            marginBottom: { xs: theme.spacing(1.2), sm: theme.spacing(4) },
-            textAlign: "center",
-            color: theme.palette.primary.light,
-            fontSize: { xs: "28px", sm: "45px" },
-          }}
-        >
-          {t("choices.subheading")}
-        </Typography>
       </Box>
       {activeOption && (
         <Box

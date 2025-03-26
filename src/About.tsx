@@ -1,5 +1,3 @@
-// TODO(skep): translate this file!
-import { Box, Typography, Divider, useTheme, Paper } from "@mui/material";
 import { Trans, useTranslation } from "react-i18next";
 import { NavigationWithContent } from "./Navigation";
 import { Handshake } from "@mui/icons-material";
@@ -7,276 +5,110 @@ import Startingpoint from "./LandingPage/Startingpoint";
 import TeamSlider from "./MemberCard";
 import Footer from "./LandingPage/Footer";
 
-// Updated TeamMember component with 'role' prop
-
-const TypographyMaxWidth = (props: any) => {
-  return <Typography sx={{ maxWidth: "80ch", ...props.sx }} {...props} />;
-};
-
 export const About = () => {
-  const theme = useTheme();
   const { t } = useTranslation();
 
   return (
-    <Box>
+    <div>
       <NavigationWithContent
-        alwaysDisplayNavDrawer={true}
         content={
-          <Box
-            component="main"
-            sx={{
-              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(/LGBG2.png)`, // Overlay + Image
-              backgroundRepeat: "no-repeat",
-              backgroundSize: "cover",
-              backgroundAttachment: "fixed", // Keeps the background fixed during scroll
-              backgroundPosition: "center",
-              minHeight: "100vh", // Ensures the background covers the viewport
-
-              flexGrow: 1,
-              padding: 3,
+          <main
+            className="min-h-screen flex flex-col bg-fixed bg-cover bg-center bg-no-repeat"
+            style={{
+              backgroundImage:
+                "linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(/LGBG2.png)",
             }}
           >
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: { sm: "column", md: "row" },
-                justifyContent: "center",
-                alignItems: "center",
-                margin: "40px auto",
-              }}
-            >
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  padding: "10px 10%",
-                  width: { sm: "95%", md: "50%", xs: "40%" },
-                }}
-              >
-                <TypographyMaxWidth
-                  variant="h4"
-                  gutterBottom
+            <div className="flex flex-col md:flex-row justify-center items-center my-10 mx-auto gap-6 px-4">
+              <div className="flex-1 bg-black/50 p-6 rounded-xl backdrop-blur-md">
+                <h1
+                  className="text-3xl font-bold text-white mb-4 max-w-prose"
                   id="about"
-                  color={theme.palette.common.white}
-                  fontWeight="bold"
                 >
                   {t("about.headline-About-Us")}
-                </TypographyMaxWidth>
-                <Typography
-                  variant="body1"
-                  sx={{
-                    textAlign: "justify",
-                    width: "97%",
-                    fontSize: theme.spacing(2),
-                    fontWeight: "bold",
-                  }}
-                  color={theme.palette.common.white}
-                >
+                </h1>
+                <p className="text-white text-justify font-semibold text-base max-w-prose">
                   {t("about.aboutLG-para")}
-                </Typography>
-              </Box>
-              <Box
-                sx={{
-                  backgroundImage: 'url("/Inno.png")',
-                  width: { sm: "95%", md: "60%", xs: "60%" }, // Adjust the width for better layout
-                  minWidth: "300px",
-                  minHeight: "400px",
-                  padding: "10px -10%",
-                  borderRadius: "10px",
-                  margin: "5px 5% 10px 10px",
-                  backgroundSize: "contain", // Ensures the image covers the box
-                  backgroundRepeat: "no-repeat", // Prevents tiling
-                  backgroundPosition: "center",
-                }}
-              ></Box>
-            </Box>
-            <Divider />
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: { sm: "column", md: "row" },
-                justifyContent: "space-between",
-                alignItems: "center",
-                margin: "auto",
-              }}
-            >
-              <Box
-                sx={{
-                  width: { sm: "50%", md: "40%", xs: "40%" }, // Adjust the width for better layout
-                  height: { xs: "200px", sm: "450px" }, // Ensures the height of the box
-                  minWidth: "50%",
-                  minHeight: "200px",
-                  marginLeft: "-2%",
-                  padding: theme.spacing(2),
-                }}
-              >
-                <Startingpoint />
-              </Box>
+                </p>
+              </div>
 
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  padding: "10px 10%",
-                }}
-              >
-                <TypographyMaxWidth
-                  variant="h4"
-                  gutterBottom
-                  id="about"
-                  color={theme.palette.common.white}
-                  fontWeight="bold"
+              <div
+                className="flex-1 min-h-[300px] bg-contain bg-center bg-no-repeat rounded-xl shadow-xl"
+                style={{ backgroundImage: 'url("/Inno.png")' }}
+              ></div>
+            </div>
+
+            <hr className="border-gray-300 my-8 mx-4" />
+
+            <div className="flex flex-col md:flex-row justify-between items-center gap-6 mx-auto px-4">
+              <div className="flex-1 w-full md:w-[45%] p-4 rounded-xl bg-black/50 backdrop-blur-md">
+                <Startingpoint />
+              </div>
+
+              <div className="flex-1 bg-black/50 p-6 rounded-xl backdrop-blur-md">
+                <h2
+                  className="text-3xl font-bold text-white mb-4 max-w-prose"
+                  id="story"
                 >
                   {t("about.Storyh")}
-                </TypographyMaxWidth>
-                <TypographyMaxWidth
-                  paragraph
-                  color={theme.palette.common.white}
-                  sx={{
-                    textAlign: "justify",
-                    width: "97%",
-                    fontSize: theme.spacing(2),
-                    fontWeight: "bold",
-                  }}
-                >
+                </h2>
+                <p className="text-white text-justify font-semibold text-base max-w-prose">
                   <Trans i18nKey="about.Storyp" />
-                </TypographyMaxWidth>
-              </Box>
-            </Box>
-            <Divider />
+                </p>
+              </div>
+            </div>
 
-            <Box
-              position="relative"
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                margin: "auto",
-                alignItems: "center",
-              }}
-            >
-              <Typography
-                variant="h4"
-                gutterBottom
+            <hr className="border-gray-300 my-8 mx-4" />
+
+            <section className="flex flex-col items-center px-4">
+              <h2
+                className="text-3xl font-bold text-white mt-8 mb-4 text-center"
                 id="whoarewe"
-                sx={{ marginTop: theme.spacing(4), fontWeight: "bold" }}
-                color={theme.palette.common.white}
               >
                 {t("about.Our-Team")}
-              </Typography>
-              <Typography
-                variant="body1"
-                gutterBottom
-                id="whoarewe"
-                sx={{
-                  marginBottom: theme.spacing(10),
-                  fontWeight: "bold",
-                  fontSize: theme.spacing(2),
-                }}
-                color={theme.palette.common.white}
-              >
+              </h2>
+              <p className="text-white text-center font-semibold mb-10">
                 {t("about.Our-Team-text")}
-              </Typography>
-              {/* SwipeableDrawer */}
+              </p>
 
               <TeamSlider />
+            </section>
 
-              {/* Right Arrow */}
-            </Box>
-            <Box
-              position="relative"
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                margin: "auto",
-                alignItems: "center",
-              }}
-            >
-              <Box sx={{ marginTop: "60px" }} />
-              <TypographyMaxWidth
-                variant="h4"
-                gutterBottom
-                id="whoarewe"
-                color="white"
-                fontWeight="bold"
+            <section className="flex flex-col items-center my-16 px-4">
+              <h2
+                className="text-3xl font-bold text-white mb-8 text-center"
+                id="travelgroup"
               >
                 {t("about.headline-travel-group")}
-              </TypographyMaxWidth>
-              <Box
-                sx={{
-                  marginTop: 9,
-                }}
-              >
-                <Paper
-                  elevation={3}
-                  sx={{
-                    maxWidth: 550,
-                    background:
-                      "linear-gradient(rgba(200, 200, 200, 0.4), rgba(150, 150, 150, 0.3))",
-                    padding: 4,
-                    margin: "auto",
-                    borderTop: "5px solid blue",
-                    borderRadius: 3,
-                    textAlign: "center",
-                    position: "relative",
-                  }}
-                >
-                  <Box
-                    component="img"
-                    src="team-placeholder.png"
-                    sx={{
-                      width: 160,
-                      height: 160,
-                      borderRadius: "50%",
-                      objectFit: "cover",
-                      position: "absolute",
-                      top: -80,
-                      left: "50%",
-                      transform: "translateX(-50%)",
-                      border: "4px solid white",
-                      boxShadow: 2,
-                    }}
-                  />
-                  <Box
-                    sx={{
-                      paddingBottom: 5,
-                      paddingTop: 4,
-                    }}
-                  />
-                  <Typography
-                    component="a"
-                    href="mailto:jobs@learngraph.org"
-                    sx={{ color: "blue", textDecoration: "underline" }}
-                  >
-                    <Handshake
-                      sx={{
-                        color: theme.palette.common.white,
-                        height: "35px",
-                        width: "35px",
-                      }}
-                    />
-                  </Typography>
-                  <Typography
-                    variant="body1"
-                    fontStyle="italic"
-                    sx={{
-                      marginTop: 2,
-                      textAlign: "justify",
-                      color: theme.palette.common.white,
-                    }}
-                  >
-                    {t("about.team-placeholder-description")}
-                  </Typography>
-                </Paper>
-              </Box>
-            </Box>
+              </h2>
 
-            <Divider sx={{ margin: "20px 0" }} />
-          </Box>
+              <div className="relative max-w-xl w-full bg-gradient-to-br from-gray-300/40 to-gray-400/30 p-6 rounded-xl shadow-xl border-t-4 border-blue-500 backdrop-blur-md text-center">
+                <img
+                  src="team-placeholder.png"
+                  alt="Team Placeholder"
+                  className="absolute -top-20 left-1/2 -translate-x-1/2 w-40 h-40 rounded-full object-cover border-4 border-white shadow-md"
+                />
+
+                <div className="mt-20">
+                  <a
+                    href="mailto:jobs@learngraph.org"
+                    className="inline-flex items-center justify-center"
+                  >
+                    <Handshake className="text-white w-9 h-9" />
+                  </a>
+                  <p className="text-white italic mt-4 text-justify">
+                    {t("about.team-placeholder-description")}
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            <hr className="border-gray-300 my-8 mx-4" />
+          </main>
         }
       />
-      <Box>
-        <Footer />
-      </Box>
-    </Box>
+
+      <Footer />
+    </div>
   );
 };

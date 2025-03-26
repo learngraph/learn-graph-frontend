@@ -67,7 +67,6 @@ export default function LocaleManager() {
           <TranslateIcon
             sx={{
               color: theme.palette.common.white,
-              background: "none",
             }}
           />
         }
@@ -78,7 +77,6 @@ export default function LocaleManager() {
           whiteSpace: "normal", // Allow text to wrap
           textOverflow: "ellipsis", // Add ellipsis if text overflows
           overflow: "hidden", // Hide overflowed content
-          background: "none",
           border: "0.5px solid white",
           color: theme.palette.common.white,
           borderRadius: "6px",
