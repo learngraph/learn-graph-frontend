@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useEffect, useState, ReactNode } from "react";
+import { useState, ReactNode } from "react";
 import Logo from "../src/logo";
 import LocaleManager from "./Header/LocaleManager";
 
@@ -13,7 +13,6 @@ export const NavigationWithContent = ({
 }: NavigationWithContentConfig) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const menuItems = [
@@ -21,25 +20,17 @@ export const NavigationWithContent = ({
     { label: t("navigation.link-to-about-page"), path: "/about" },
   ];
 
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 backdrop-blur-md ${
-          scrolled ? "py-1 bg-black/30 shadow-md" : "py-2 bg-black/80"
-        }`}
+        className={`fixed top-0 left-0 right-0 z-50 transition duration-300 backdrop-blur-md bg-black/30 py-1 hover:bg-black/60 shadow-md`}
       >
         <nav className="max-w-7xl mx-auto px-4 flex items-center justify-between">
           <div
             className="flex items-center cursor-pointer"
             onClick={() => navigate("/")}
           >
-            <Logo size={scrolled ? 50 : 70} />
+            <Logo size={50} />
             <span className="ml-2 font-bold uppercase font-orbitron tracking-widest text-white">
               {import.meta.env.PROD ? "LEARNGRAPH" : "TESTING VERSION"}
             </span>
@@ -88,7 +79,7 @@ export const NavigationWithContent = ({
         </div>
       )}
 
-      <main className="pt-16 sm:pt-20">{content ?? null}</main>
+      <main>{content ?? null}</main>
     </>
   );
 };

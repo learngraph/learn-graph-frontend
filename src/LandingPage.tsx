@@ -13,7 +13,7 @@ const infoBlocks = [
     target: "Universities & Educators",
     headline:
       "Finally, a system that supports every learner — without burning out faculty.",
-    imageUrl: "/images/edu-classroom.jpg", // replace with your actual asset path
+    imageUrl: "/students-learning.png", // replace with your actual asset path
     keywords: [
       "adaptive learning",
       "dropout reduction",
@@ -23,12 +23,11 @@ const infoBlocks = [
       "micro-credentials",
       "learning analytics",
     ],
-    color: "red-400", // Indigo
   },
   {
     target: "Independent Learners",
     headline: "No more guessing. You now have a GPS for your learning journey.",
-    imageUrl: "/images/learning-map.jpg",
+    imageUrl: "/screenshot_learngraph.png",
     keywords: [
       "personalized",
       "goal-driven",
@@ -39,12 +38,11 @@ const infoBlocks = [
       "open access",
       "certification-ready",
     ],
-    color: "green-400", // Emerald
   },
   {
     target: "Schools & Parents",
     headline: "Kids don’t need pressure. They need purpose.",
-    imageUrl: "/images/kids-project.jpg",
+    imageUrl: "kids-learning.png",
     keywords: [
       "curiosity",
       "empathy",
@@ -55,12 +53,11 @@ const infoBlocks = [
       "exploration",
       "engagement",
     ],
-    color: "purple-400", // Amber
   },
   {
     target: "Companies & Adult Learners",
     headline: "Reskill, upskill, or just grow — without losing your mind.",
-    imageUrl: "/images/workplace-learning.jpg",
+    imageUrl: "collaboration-hub.webp",
     keywords: [
       "upskilling",
       "resilience",
@@ -70,7 +67,6 @@ const infoBlocks = [
       "flexible learning",
       "peer mentorship",
     ],
-    color: "red-400", // Blue
   },
   {
     target: "Policy Makers & Ministries",
@@ -87,7 +83,6 @@ const infoBlocks = [
       "education equity",
       "impact",
     ],
-    color: "yellow-400", // Violet
   },
   {
     target: "Funders & Foundations",
@@ -104,7 +99,6 @@ const infoBlocks = [
       "grassroots-led",
       "sustainable",
     ],
-    color: "indigo-400", // Red
   },
 ];
 
@@ -235,8 +229,8 @@ export const LandingPage = () => {
           >
             <Hero />
             <USPCTASection blocks={uspCtaBlocks} />
-            <h2 className="text-center text-white text-4xl font-bold my-16">
-              <span className="inline-block bg-black/70 px-4 py-2 rounded-xl">
+            <h2 className="text-center text-white text-4xl font-bold my-2">
+              <span className="inline-block bg-black/70 px-[20%] py-10 rounded-xl">
                 Why Choose LearnGraph.
               </span>
             </h2>
