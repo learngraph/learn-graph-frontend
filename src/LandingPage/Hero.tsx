@@ -92,7 +92,10 @@ export default function Hero() {
       // Debounce so we only act after scrolling has "stopped"
       scrollTimeout = window.setTimeout(() => {
         // Check if scroll position is past half the viewport height
-        if (window.scrollY > window.innerHeight * relativePagePositionToTransition) {
+        if (
+          window.scrollY >
+          window.innerHeight * relativePagePositionToTransition
+        ) {
           if (!isAction && headerRef.current) {
             const scramble = new TextScramble(headerRef.current);
             scramble.setText(t("landing.headerAction"));

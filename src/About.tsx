@@ -57,28 +57,33 @@ export const About = () => {
             <hr className="border-gray-300 my-8 mx-4" />
 
             <section className="flex flex-col items-center px-4">
-              <h2
-                className="text-3xl font-bold text-white mt-8 mb-4 text-center"
-                id="whoarewe"
-              >
-                {t("about.Our-Team")}
-              </h2>
-              <p className="text-white text-center font-semibold mb-10">
-                {t("about.Our-Team-text")}
-              </p>
+              <div className="bg-black/60 rounded-lg shadow-md p-6">
+                <h2
+                  className="text-3xl font-bold text-white mt-8 mb-4 text-center"
+                  id="whoarewe"
+                >
+                  {t("about.Our-Team")}
+                </h2>
+                <p className="text-white text-center font-semibold">
+                  {t("about.Our-Team-text")}
+                </p>
+              </div>
 
+              <div className="mt-26"></div>
               <TeamSlider />
             </section>
 
             <section className="flex flex-col items-center my-16 px-4">
-              <h2
-                className="text-3xl font-bold text-white mb-8 text-center"
-                id="travelgroup"
-              >
-                {t("about.headline-travel-group")}
-              </h2>
+              <div className="bg-black/70 rounded-lg shadow-md w-[40%] p-6">
+                <h2
+                  className="text-3xl font-bold text-white text-center"
+                  id="travelgroup"
+                >
+                  {t("about.headline-travel-group")}
+                </h2>
+              </div>
 
-              <div className="relative max-w-xl w-full bg-gradient-to-br from-gray-300/40 to-gray-400/30 p-6 rounded-xl shadow-xl border-t-4 border-blue-500 backdrop-blur-md text-center">
+              <div className="relative mt-28 max-w-xl w-full bg-gradient-to-br from-gray-300/40 to-gray-400/30 p-6 rounded-xl shadow-xl border-t-4 border-blue-500 backdrop-blur-md text-center">
                 <img
                   src="team-placeholder.png"
                   alt="Team Placeholder"

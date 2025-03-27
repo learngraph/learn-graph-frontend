@@ -1,8 +1,5 @@
 import React, { useEffect } from "react";
-import fetch from "cross-fetch";
 import i18n from "@src/shared/i18n";
-
-import { addAuthHeader, addLanguageHeader, addUserIDHeader } from "./link";
 import { AlertFnRef, AlertPopupBar } from "@src/shared/Alert";
 
 export interface UserDataContextValues {
