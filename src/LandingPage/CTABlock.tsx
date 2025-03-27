@@ -1,4 +1,16 @@
-export default function USPCTASection({ blocks }) {
+export type USPFeatureCard = {
+  symbol: string;
+  headline: string;
+  text: string;
+  cta: string;
+  onClick: () => void;
+};
+
+export default function USPCTASection({
+  blocks,
+}: {
+  blocks: USPFeatureCard[];
+}) {
   return (
     <div className="flex flex-wrap justify-center gap-6 p-4">
       {blocks.map((block, index) => (

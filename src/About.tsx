@@ -19,8 +19,8 @@ export const About = () => {
                 "linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(/LGBG2.png)",
             }}
           >
-            <div className="flex flex-col md:flex-row justify-center items-center my-10 mx-auto gap-6 px-4">
-              <div className="flex-1 bg-black/50 p-6 rounded-xl backdrop-blur-md">
+            <div className="flex lg:flex-row flex-col xs:flex-row justify-center items-center my-10 mx-10 gap-6 px-4 ">
+              <div className="flex-1 bg-black/50 p-6 rounded-xl backdrop-blur-md max-w-prose">
                 <h1
                   className="text-3xl font-bold text-white mb-4 max-w-prose"
                   id="about"
@@ -31,11 +31,7 @@ export const About = () => {
                   {t("about.aboutLG-para")}
                 </p>
               </div>
-
-              <div
-                className="flex-1 min-h-[300px] bg-contain bg-center bg-no-repeat rounded-xl shadow-xl"
-                style={{ backgroundImage: 'url("/Inno.png")' }}
-              ></div>
+              <div className="opacity-90 w-[80%] lg:w-[40%] aspect-video bg-no-repeat bg-cover bg-center rounded-2xl shadow-[0_0_12px_8px_rgba(156,204,252,0.7)] dark:shadow-[0_0_24px_12px_rgba(3,51,99,0.7)] bg-[url('/Inno.png')]"></div>
             </div>
 
             <hr className="border-gray-300 my-8 mx-4" />

@@ -19,7 +19,6 @@ export const NavigationWithContent = ({
   const menuItems = [
     { label: t("navigation.link-to-landing-page"), path: "/" },
     { label: t("navigation.link-to-about-page"), path: "/about" },
-    { label: t("navigation.link-to-imprint-page"), path: "/imprint" },
   ];
 
   useEffect(() => {

@@ -6,6 +6,107 @@ import MissionStatement from "./LandingPage/MissionStatement";
 import Footer from "./LandingPage/Footer";
 import PersonalizedExperience from "./LandingPage/Choices";
 import USPCTASection from "./LandingPage/CTABlock";
+import InfoBlocks from "./LandingPage/InfoBlocks";
+
+const infoBlocks = [
+  {
+    target: "Universities & Educators",
+    headline:
+      "Finally, a system that supports every learner — without burning out faculty.",
+    imageUrl: "/images/edu-classroom.jpg", // replace with your actual asset path
+    keywords: [
+      "adaptive learning",
+      "dropout reduction",
+      "scalable pedagogy",
+      "AI guidance",
+      "emotional safety",
+      "micro-credentials",
+      "learning analytics",
+    ],
+    color: "red-400", // Indigo
+  },
+  {
+    target: "Independent Learners",
+    headline: "No more guessing. You now have a GPS for your learning journey.",
+    imageUrl: "/images/learning-map.jpg",
+    keywords: [
+      "personalized",
+      "goal-driven",
+      "peer support",
+      "learning map",
+      "self-paced",
+      "meaningful growth",
+      "open access",
+      "certification-ready",
+    ],
+    color: "green-400", // Emerald
+  },
+  {
+    target: "Schools & Parents",
+    headline: "Kids don’t need pressure. They need purpose.",
+    imageUrl: "/images/kids-project.jpg",
+    keywords: [
+      "curiosity",
+      "empathy",
+      "flexibility",
+      "purpose",
+      "inner development",
+      "community",
+      "exploration",
+      "engagement",
+    ],
+    color: "purple-400", // Amber
+  },
+  {
+    target: "Companies & Adult Learners",
+    headline: "Reskill, upskill, or just grow — without losing your mind.",
+    imageUrl: "/images/workplace-learning.jpg",
+    keywords: [
+      "upskilling",
+      "resilience",
+      "soft skills",
+      "real-world impact",
+      "career alignment",
+      "flexible learning",
+      "peer mentorship",
+    ],
+    color: "red-400", // Blue
+  },
+  {
+    target: "Policy Makers & Ministries",
+    headline:
+      "Solve dropout, teacher shortages, and outdated systems — in one platform.",
+    imageUrl: "/images/ministry-classroom.jpg",
+    keywords: [
+      "scalable",
+      "cost-effective",
+      "low-infrastructure",
+      "national rollout",
+      "AI-enabled",
+      "future-proof",
+      "education equity",
+      "impact",
+    ],
+    color: "yellow-400", // Violet
+  },
+  {
+    target: "Funders & Foundations",
+    headline:
+      "Invest in an education system that doesn’t just teach — it transforms.",
+    imageUrl: "/images/global-learning.jpg",
+    keywords: [
+      "open-source",
+      "inclusive",
+      "transformational",
+      "inner development",
+      "tech-for-good",
+      "high impact",
+      "grassroots-led",
+      "sustainable",
+    ],
+    color: "indigo-400", // Red
+  },
+];
 
 export const LandingPage = () => {
   const uspCtaBlocks = [
@@ -134,6 +235,12 @@ export const LandingPage = () => {
           >
             <Hero />
             <USPCTASection blocks={uspCtaBlocks} />
+            <h2 className="text-center text-white text-4xl font-bold my-16">
+              <span className="inline-block bg-black/70 px-4 py-2 rounded-xl">
+                Why Choose LearnGraph.
+              </span>
+            </h2>
+            <InfoBlocks blocks={infoBlocks} />
             <PersonalizedExperience />
             <Box
               id="main-page-content"

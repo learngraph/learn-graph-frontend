@@ -107,7 +107,7 @@ const TeamSlider = () => {
 
   const teamMembers: TeamMember[] = [
     {
-      imageSrc: "team-laurin.png",
+      imageSrc: "team-laurin.jpg",
       name: "Laurin Hagemann",
       description: t("about.team-Laurin"),
       email: "laurin@learngraph.org",
