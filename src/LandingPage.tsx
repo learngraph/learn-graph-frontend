@@ -5,7 +5,7 @@ import MissionStatement from "./LandingPage/MissionStatement";
 import Footer from "./LandingPage/Footer";
 import USPCTASection from "./LandingPage/CTABlock";
 import InfoBlocks from "./LandingPage/InfoBlocks";
-import VideoSection from "./LandingPage/Video";
+import YoutubeVideo from "./LandingPage/Video";
 
 const uspCtaBlocksUnused = [
   // Foundation / Funders / NGOs
@@ -212,20 +212,18 @@ export const LandingPage = () => {
   ];
 
   return (
-    <div
-      className="bg-[linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)),url('/LGBG2.png')] bg-no-repeat bg-cover bg-fixed bg-center min-h-screen"
-    >
+    <div className="bg-[linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)),url('/LGBG2.png')] bg-no-repeat bg-cover bg-fixed bg-center min-h-screen">
       <NavigationWithContent
         content={
           <>
             <Hero />
             <USPCTASection blocks={uspCtaBlocks} />
-            <VideoSection videoID="cHv1LGXfJRU" />
-            <h2 className="text-center text-white text-4xl font-bold my-2">
-              <span className="inline-block bg-black/70 px-[20%] py-10 rounded-xl">
+            <YoutubeVideo videoID="cHv1LGXfJRU" />
+            <div className="w-full p-6 bg-black/70">
+              <h2 className="text-[40px] sm:text-[60px] text-center text-white">
                 Why Choose LearnGraph.
-              </span>
-            </h2>
+              </h2>
+            </div>
             <InfoBlocks blocks={infoBlocks} />
             <MissionStatement />
           </>

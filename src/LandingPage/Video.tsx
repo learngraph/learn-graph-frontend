@@ -1,8 +1,8 @@
-export interface VideoSectionProps {
+export interface YoutubeVideoProps {
   videoID: string;
 }
 
-export default function VideoSection(props: VideoSectionProps) {
+export default function YoutubeVideo(props: YoutubeVideoProps) {
   return (
     <div className="w-full p-6 flex justify-center">
       <div className="w-full max-w-4xl aspect-video bg-black/60 rounded-lg shadow-xl overflow-hidden">

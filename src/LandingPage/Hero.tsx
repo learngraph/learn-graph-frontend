@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Trans, useTranslation } from "react-i18next";
+import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const totalAnimationFrames = 15;
 const relativePagePositionToTransition = 1 / 2;
@@ -18,7 +18,7 @@ class TextScramble {
     end: number;
     char: string;
   }> = [];
-  resolve: Function = () => {};
+  resolve = () => {};
 
   constructor(el: HTMLElement) {
     this.el = el;
@@ -48,7 +48,8 @@ class TextScramble {
     let output = "";
     let complete = 0;
     for (let i = 0, n = this.queue.length; i < n; i++) {
-      let { from, to, start, end, char } = this.queue[i];
+      const { from, to, start, end, char: constChar } = this.queue[i];
+      let char = constChar;
       if (this.frame >= end) {
         complete++;
         output += to;
