@@ -12,7 +12,9 @@
   "navigation": {
     "link-to-landing-page": "Welcome",
     "link-to-about-page": "About",
-    "link-to-imprint-page": "Imprint"
+    "link-to-imprint-page": "Imprint",
+    "solutions": "Solutions",
+    "back": "Back"
   },
   "about": {
     "Storyh":"How did it all start?",

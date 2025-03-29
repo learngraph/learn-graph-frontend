@@ -182,15 +182,15 @@ export const LandingPage = () => {
       symbol: "🎓",
       headline: "Reduce Dropout. Boost Engagement.",
       text: "LearnGraph helps your students stay on track with personalized learning paths, peer coaching, and emotional reflection — all built into a platform that works alongside your existing systems.",
-      cta: "Book a Pilot",
-      onClick: () => (window.location.href = "/contact?type=hei"),
+      cta: "Learn More",
+      onClick: () => (window.location.href = "/university"),
     },
     // Individual Learner
     {
       symbol: "🧭",
       headline: "Your Education, Your Way.",
       text: "Tired of one-size-fits-all learning? LearnGraph shows you exactly where you are, where you want to go, and how to get there — with smart guidance, real resources, and peer support.",
-      cta: "Start for Free",
+      cta: "Enroll in our Pilot",
       onClick: () => (window.location.href = "/join"),
     },
     // Workforce / HR
@@ -219,12 +219,7 @@ export const LandingPage = () => {
             <Hero />
             <USPCTASection blocks={uspCtaBlocks} />
             <YoutubeVideo videoID="cHv1LGXfJRU" />
-            <div className="w-full p-6 bg-black/70">
-              <h2 className="text-[40px] sm:text-[60px] text-center text-white">
-                Why Choose LearnGraph.
-              </h2>
-            </div>
-            <InfoBlocks blocks={infoBlocks} />
+            <InfoBlocks headline="Why Choose LearnGraph." blocks={infoBlocks} />
             <MissionStatement />
           </>
         }
