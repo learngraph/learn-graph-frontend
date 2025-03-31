@@ -2,7 +2,6 @@
 import { NavigationWithContent } from "./Navigation";
 import Hero from "./LandingPage/Hero";
 import MissionStatement from "./LandingPage/MissionStatement";
-import Footer from "./LandingPage/Footer";
 import USPCTASection from "./LandingPage/CTABlock";
 import InfoBlocks from "./LandingPage/InfoBlocks";
 import YoutubeVideo from "./LandingPage/Video";
@@ -224,7 +223,6 @@ export const LandingPage = () => {
           </>
         }
       />
-      <Footer />
     </div>
   );
 };

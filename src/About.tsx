@@ -2,7 +2,6 @@ import { Trans, useTranslation } from "react-i18next";
 import { NavigationWithContent } from "./Navigation";
 import { Handshake } from "@mui/icons-material";
 import TeamSlider from "./MemberCard";
-import Footer from "./LandingPage/Footer";
 
 export const About = () => {
   const { t } = useTranslation();
@@ -105,8 +104,6 @@ export const About = () => {
           </main>
         }
       />
-
-      <Footer />
     </div>
   );
 };

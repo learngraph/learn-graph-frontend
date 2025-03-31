@@ -1,8 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useState, ReactNode } from "react";
+import { useState, ReactNode, useEffect } from "react";
 import Logo from "../src/logo";
 import LocaleManager from "./Header/LocaleManager";
+import Footer from "./LandingPage/Footer";
 
 interface NavigationWithContentConfig {
   content?: ReactNode;
@@ -18,10 +19,11 @@ export const NavigationWithContent = ({
 
   // Define the solution links
   const SOLUTION_LINKS = [
+    { label: "Policy", path: "/policy" },
     { label: "Universities", path: "/universities" },
-    { label: "K-12", path: "/k-12" },
-    { label: "Adult Education", path: "/adult-education" },
-    { label: "Institutions", path: "/institutions" },
+    { label: "Industry", path: "/industry" },
+    { label: "Ecosystem", path: "/ecosystem" },
+    //{ label: "K-12", path: "/k-12" },
   ];
 
   // Shared CSS classes
@@ -33,36 +35,61 @@ export const NavigationWithContent = ({
     "text-lg py-1 px-4 rounded-2xl bg-blue-500/70 hover:bg-white/40 transition-colors text-white";
 
   // Desktop navigation component remains unchanged
-  const DesktopNav = () => (
-    <div className="hidden sm:flex items-center gap-4">
-      <Link to="/" className={linkClassesDesktop}>
-        {t("navigation.link-to-landing-page")}
-      </Link>
+  const DesktopNav = () => {
+    const [solutionsOpen, setSolutionsOpen] = useState(false);
+    const [isHoverable, setIsHoverable] = useState(true);
 
-      <div className="relative group">
-        <button className={linkClassesDesktop}>
-          {t("navigation.solutions")}
-        </button>
-        <div className="absolute left-0 mt-2 w-48 bg-black/90 backdrop-blur-md rounded-2xl shadow-lg opacity-0 group-hover:opacity-100 transition-opacity z-50">
-          {SOLUTION_LINKS.map((solution) => (
-            <Link
-              key={solution.path}
-              to={solution.path}
-              className="block px-4 py-2 hover:bg-white/40 hover:rounded-2xl text-white"
-            >
-              {solution.label}
-            </Link>
-          ))}
+    useEffect(() => {
+      // Check if the device supports hover
+      const mq = window.matchMedia("(hover: hover)");
+      setIsHoverable(mq.matches);
+
+      const handleChange = (e: { matches: boolean }) =>
+        setIsHoverable(e.matches);
+      mq.addEventListener("change", handleChange);
+      return () => mq.removeEventListener("change", handleChange);
+    }, []);
+
+    return (
+      <div className="hidden sm:flex items-center gap-4">
+        <Link to="/" className={linkClassesDesktop}>
+          {t("navigation.link-to-landing-page")}
+        </Link>
+
+        <div
+          className="relative group"
+          onClick={
+            !isHoverable ? () => setSolutionsOpen((prev) => !prev) : undefined
+          }
+        >
+          <button className={linkClassesDesktop}>
+            {t("navigation.solutions")}
+          </button>
+          <div
+            className={`absolute left-0 mt-2 w-48 bg-black/90 backdrop-blur-md rounded-2xl shadow-lg transition-opacity z-50 
+            ${isHoverable ? "opacity-0 group-hover:opacity-100" : solutionsOpen ? "opacity-100" : "opacity-0"}`}
+          >
+            {SOLUTION_LINKS.map((solution) => (
+              <Link
+                key={solution.path}
+                to={solution.path}
+                className="block px-4 py-2 hover:bg-white/40 hover:rounded-2xl text-white"
+                onClick={() => setSolutionsOpen(false)}
+              >
+                {solution.label}
+              </Link>
+            ))}
+          </div>
         </div>
+
+        <Link to="/about" className={linkClassesDesktop}>
+          {t("navigation.link-to-about-page")}
+        </Link>
+
+        <LocaleManager />
       </div>
-
-      <Link to="/about" className={linkClassesDesktop}>
-        {t("navigation.link-to-about-page")}
-      </Link>
-
-      <LocaleManager />
-    </div>
-  );
+    );
+  };
 
   // Mobile navigation component with sub-menu handling
   const closeButton = (
@@ -174,6 +201,7 @@ export const NavigationWithContent = ({
       {mobileMenuOpen && <MobileNav />}
 
       <main>{content ?? null}</main>
+      <Footer />
     </>
   );
 };
