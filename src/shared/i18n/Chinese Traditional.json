@@ -2,70 +2,35 @@
   "switch-language-button": "語言",
   "switch-language-button-short": "語",
   "landing": {
-    "header": "<strong>一切</strong>知識，盡在掌中！",
+    "header": "All the paths you didn't go..",
+    "headerAction": "You can now explore them all!",
     "intro": "在 LearnGraph，我們相信每個人都應該走出屬於自己獨特的道路。我們正在打造一個互動且動態的知識地圖——一種類似於學習版 Google 地圖的工具——旨在幫助您探索一個充滿無限機會、根據您的熱情量身定制的世界。我們的平台正積極開發中，並由社群合作推動。加入我們在 Discord 上的 <linktodiscord>實踐社群</linktodiscord>，一起共創教育的未來！",
-    "hintClickImage": "點擊上方圖片或",
-    "buttonGoToGraph": "開始探索",
     "missionStatementHeader": "我們的使命",
     "missionStatementText": "共同創造未來的教育——免費提供給每個人。\n我們使人們能夠學習，<strong>無論他們的生活狀況如何</strong>，也無論可利用的資源有多少。\n<linktowhitepaper>點此閱讀我們的白皮書</linktowhitepaper>.",
-    "crowdsourcingHeader": "世界各地集思廣益",
-    "crowdsourcingExplanation": "Learn Graph 收集學習者和教育者對知識間依賴關係的投票。這創造了一個依賴關係網絡——一個加權、有向的圖譜，任何人都可以像瀏覽地圖一樣探索它，以形成個人化的課程。\n我們採用開放知識的方式，僅連結至 OER（開放教育資源），讓每個人都能免費獲得 LearnGraph 的完整非商業性使用權。你與你的學習旅程之間永遠不會有付費牆。",
-    "crowdsourcingCallToAction": "這意味著像你這樣的使用者在構建這個知識庫，每個人都能從中受益。今天就貢獻你的知識，對現有連結投票或創建新的主題與依賴關係吧！",
-    "podcastAlternative": "喜歡聆聽嗎？試試我們的播客替代方案，與我們一起展開聲音之旅！",
-    "highlights": {
-      "independence": "獨立性",
-      "independentFromEducationalInstitutions": "你不依賴於教育機構！",
-      "control": "掌控",
-      "controlOfYourLearningPath": "你掌控著自己的學習路徑，每一步都由你決定。",
-      "availability": "可及性",
-      "accessibleLowEntryBarrier": "Learngraph.org 可隨時使用——入門門檻極低！",
-      "noAttendanceExamsFees": "不收學費、沒有點名、不用考試！",
-      "youControlHowMuchWhenAndHow": "你決定學多少、學多久以及學習速度。",
-      "openAndEasyStart": "任何人都可以註冊，開始學習非常容易。"
-    },
-    "qnas": {
-      "qLearnGraphFree": "LearnGraph 收費嗎？",
-      "aFreeAndOSMoneyTbd": "完全免費，而且完全開源！原始碼放在<linktogithub>我們的 Github 頁面</linktogithub>。",
-      "qDiffToConventionalLearningPlatforms": "和傳統學習平臺相比，LearnGraph 有哪些不同？",
-      "aNoContentHosting": "我們不自行托管內容，而是為你提供三項工具：第一，通往你目標的路徑與協助你決策個人化課程的總覽；第二，一個讓你在學習旅程中與其他學習者連結的社群；第三，直接存取網路上開放教育資源（OER）內容。",
-      "qProjectVision": "你對這個專案的願景是什麼？",
-      "aLearningEcosystem": "共同創建一個學習生態系統。我們相信，教育與合作是創造更美好世界的關鍵。"
-    }
+    "podcastAlternative": "喜歡聆聽嗎？試試我們的播客替代方案，與我們一起展開聲音之旅！"
   },
   "navigation": {
     "link-to-landing-page": "歡迎使用",
     "link-to-about-page": "關於我們",
-    "link-to-Getting Involved!": "加入我們的行列吧",
     "link-to-imprint-page": "法定資訊",
-    "settings-buttons-like-login-etc": "設定"
+    "solutions": "Solutions",
+    "back": "Back"
   },
   "about": {
-    "headline-About-Us": "這是 LearnGraph",
-    "aboutLG-para": "LearnGraph 是一個創新的教育平台，由一個多元化團隊開發，該團隊在教育、科技及全球夥伴關係上擁有專業知識。我們的使命是透過提供個人化、易於接近且由使用者驅動的學習體驗來推動教育民主化。LearnGraph 使學習者能夠創造自己的教育路徑，提供高品質資源，而不受傳統體制的限制。透過利用眾包的學習依賴關係並連結學習者與同行及導師，該平台不斷演進以滿足現今充滿動態變化的教育需求。",
-    "missionh": "我們的使命",
-    "missionp": "共同創造未來的教育——免費提供給每個人。我們使人們能夠學習，無論其生活狀況如何，也無論可利用的資源如何。",
-    "Storyh": "這是開始",
-    "Storyp": "這裡講述了我們的創始故事，起初兩位朋友彼此交流點子，試圖找出自己在這個世界中的定位，並改善一個令他們困擾的體制。",
-    "aboutLG-team": "我們的團隊集合了教育策略、UX/UI 設計和軟體開發方面的專家。透過重視無障礙、多元與包容，LearnGraph 確保各背景的學習者都能從個人化學習旅程中受益。我們致力於建立一個全球學習者與教育者社群，促進有意義的連結，並使高品質教育對所有人皆易於取得，不受地域或經濟障礙影響。",
-    "Our-Team": "這就是我們",
-    "Our-Team-text": "認識我們的團隊成員",
+    "Storyh": "How did it all start?",
+    "Storyp": "After living in a Buddhist temple, Laurin came back with no agenda—just presence. He listened. One day, a friend said, “Wouldn’t it be cool if learning worked like Google Maps?” The idea sat in the space between them, waiting. Laurin picked it up. Soon, others joined. That’s how LearnGraph quietly began.",
+    "Our-Team": "The Team",
+    "Our-Team-text": "We’re not just building a platform—we’re living the practice.",
     "team-Laurin": "執行長",
     "team-Namatama": "全球夥伴關係總監",
     "team-Efecan": "教育策略與創新部門主管",
     "team-Talal": "開發工程師",
-    "quote-Laurin": "我們不斷呵護團隊栽下的小樹苗，最終必見它成長為最壯麗的大樹。",
+    "quote-Laurin": "The best ideas come from stillness. LearnGraph wasn’t built to disrupt — it was built to listen, to guide, and to grow with those who are ready to listen.",
     "quote-Nama": "這個世界廣闊無垠，有些人擁有豐富資源，幫助那些資源匱乏的人是他們的責任。",
-    "quote-Efecan": "我對 LearnGraph 的熱愛源自於我作為講師的職業，我喜歡探索培育新一代的新方法。",
+    "quote-Efecan": "Education is not about filling a vessel, but about kindling a flame - and I intend to set the whole system ablaze.",
     "quote-Talal": "外面的世界雖充滿挑戰，但我們本不該孤單。重要的不在於我能為自己做什麼，而在於每個人能為全人類做什麼。",
-    "headline-travel-group": "這就是你",
-    "team-placeholder-description": "我們時刻尋找充滿熱情、渴望為教育轉型貢獻力量的人才。無論你是軟體開發者、教育愛好者，或擁有獨特技能的人，LearnGraph 都有你的一席之地。加入我們，一同塑造一個易於取得且個人化的學習未來，成為致力於提供高品質教育給所有人的全球社群的一部分。"
-  },
-  "settings": {
-    "headline-User-Settings": "使用者設定",
-    "headline-Visuals": "視覺效果：",
-    "Dark Theme": "深色主題",
-    "headline-Experimental Settings": "實驗性設定：",
-    "3D Display": "3D 顯示"
+    "headline-travel-group": "You?!",
+    "team-placeholder-description": "We’re always looking for curious minds to join us. Whether you code, care about learning, or just have a wild idea—come say hi. <discord>Join our Discord</discord>, or send us a message to <email>jobs@learngraph.org</email>!"
   },
   "choices": {
     "headline-Choices": "個人化你的體驗",
