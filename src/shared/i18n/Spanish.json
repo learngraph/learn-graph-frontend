@@ -2,70 +2,35 @@
   "switch-language-button": "Idioma",
   "switch-language-button-short": "Id.",
   "landing": {
-    "header": "Puedes aprender <strong>cualquier cosa</strong>",
+    "header": "All the paths you didn't go..",
+    "headerAction": "You can now explore them all!",
     "intro": "En LearnGraph, creemos que todos merecen forjar su propio camino único. Estamos creando un mapa interactivo y dinámico del conocimiento – una especie de Google Maps para el aprendizaje – diseñado para empoderarte y ayudarte a navegar por un mundo de oportunidades infinitas, adaptadas a tus pasiones. Nuestra plataforma está en constante desarrollo y se impulsa gracias a la colaboración comunitaria. Únete a nuestra <linktodiscord>Comunidad de Práctica</linktodiscord> en Discord y ayuda a dar forma al futuro de la educación!",
-    "hintClickImage": "Haz clic en la imagen de arriba o",
-    "buttonGoToGraph": "¡Empieza ya!",
     "missionStatementHeader": "Nuestra Misión",
     "missionStatementText": "Co-creando el futuro de la educación – gratis para todos.\nFacilitamos que las personas aprendan, <strong>independientemente de su situación en la vida</strong> y de los recursos a su disposición.\n<linktowhitepaper>Lee nuestro whitepaper aquí</linktowhitepaper>.",
-    "crowdsourcingHeader": "Un enfoque co-creativo",
-    "crowdsourcingExplanation": "El LearnGraph recopila votos de estudiantes y educadores sobre la dependencia del conocimiento respecto a otros conocimientos. Esto crea una red de dependencias, un grafo dirigido y ponderado, que cualquiera puede navegar como si fuera un mapa para formar un currículo personalizado.\nOptamos por un enfoque de conocimiento abierto enlazando únicamente a OER (Recursos Educativos Abiertos), de modo que todos tengan acceso completo y gratuito al LearnGraph sin fines comerciales. Nunca habrá un muro de pago entre tú y tu viaje de aprendizaje.",
-    "crowdsourcingCallToAction": "Esto significa que usuarios como tú construyen esta base de conocimiento, y todos se benefician de ella. ¡Contribuye con tu conocimiento hoy, votando las conexiones existentes o creando nuevos temas y dependencias!",
-    "podcastAlternative": "¿Prefieres escuchar? Prueba nuestra alternativa en formato podcast y embárcate en un viaje sonoro con nosotros!",
-    "highlights": {
-      "independence": "Independencia",
-      "independentFromEducationalInstitutions": "¡Eres independiente de las instituciones educativas!",
-      "control": "Control",
-      "controlOfYourLearningPath": "Tú controlas tu camino de aprendizaje, y puedes elegir cada paso de tu ruta.",
-      "availability": "Disponibilidad",
-      "accessibleLowEntryBarrier": "¡Learngraph.org está disponible — tiene una barrera de entrada extremadamente baja!",
-      "noAttendanceExamsFees": "¡No se requieren asistencias, exámenes ni cuotas!",
-      "youControlHowMuchWhenAndHow": "Tú decides cuánto aprendes, cuándo aprendes y qué tan rápido lo haces.",
-      "openAndEasyStart": "Cualquiera puede registrarse, y es fácil comenzar."
-    },
-    "qnas": {
-      "qLearnGraphFree": "¿Es el LearnGraph gratis?",
-      "aFreeAndOSMoneyTbd": "¡Sí, es gratis y de código abierto! Revisa el <linktogithub>código fuente aquí</linktogithub>.",
-      "qDiffToConventionalLearningPlatforms": "¿En qué se diferencia el LearnGraph de las plataformas de aprendizaje convencionales?",
-      "aNoContentHosting": "No alojamos contenido nosotros mismos, en su lugar te ofrecemos tres herramientas: Primero, un camino hacia tu meta, junto con una visión general para tomar decisiones sobre tu currículo personal. Segundo, una comunidad de estudiantes con la que conectarte en tu viaje de aprendizaje. Y tercero, acceso inmediato a contenidos OER (Recursos Educativos Abiertos) en Internet.",
-      "qProjectVision": "¿Cuál es tu visión para este proyecto?",
-      "aLearningEcosystem": "Co-creando un ecosistema de aprendizaje. Creemos que la educación y la cooperación son la clave para un mundo mejor."
-    }
+    "podcastAlternative": "¿Prefieres escuchar? Prueba nuestra alternativa en formato podcast y embárcate en un viaje sonoro con nosotros!"
   },
   "navigation": {
     "link-to-landing-page": "Bienvenido",
     "link-to-about-page": "Sobre nosotros",
-    "link-to-Getting Involved!": "¡Involúcrate!",
     "link-to-imprint-page": "Aviso legal",
-    "settings-buttons-like-login-etc": "Configuración"
+    "solutions": "Solutions",
+    "back": "Back"
   },
   "about": {
-    "headline-About-Us": "Esto es LearnGraph",
-    "aboutLG-para": "LearnGraph es una plataforma educativa innovadora desarrollada por un equipo diverso con experiencia en educación, tecnología y asociaciones globales. Nuestra misión es democratizar la educación proporcionando una experiencia de aprendizaje personalizada, accesible y centrada en el usuario. LearnGraph empodera a los estudiantes para que creen sus propios caminos educativos, ofreciendo recursos de alta calidad sin las limitaciones de los sistemas tradicionales. Aprovechando las dependencias de aprendizaje obtenidas mediante crowdsourcing y conectando a los estudiantes con compañeros y mentores, la plataforma evoluciona continuamente para satisfacer las necesidades del dinámico panorama educativo actual.",
-    "missionh": "Nuestra Misión",
-    "missionp": "Co-creando el futuro de la educación – gratis para todos. Facilitamos que las personas aprendan, independientemente de su situación en la vida y de los recursos disponibles.",
-    "Storyh": "Este es el Comienzo",
-    "Storyp": "Aquí se encuentra la historia de nuestra creación, que comenzó con dos amigos intercambiando ideas, tratando de descubrir cómo encajaban en este mundo y arreglando un sistema que les molestaba.",
-    "aboutLG-team": "Nuestro equipo reúne a especialistas en estrategia educativa, diseño UX/UI y desarrollo de software. Con un enfoque en la accesibilidad, la diversidad y la inclusión, LearnGraph garantiza que estudiantes de todos los orígenes puedan beneficiarse de caminos de aprendizaje personalizados. Estamos comprometidos a fomentar una comunidad global de estudiantes y educadores, facilitando conexiones significativas y haciendo que la educación de calidad sea accesible para todos, sin importar las barreras geográficas o económicas.",
-    "Our-Team": "Esto somos nosotros",
-    "Our-Team-text": "Conoce a los actuales miembros de nuestro equipo",
+    "Storyh": "How did it all start?",
+    "Storyp": "After living in a Buddhist temple, Laurin came back with no agenda—just presence. He listened. One day, a friend said, “Wouldn’t it be cool if learning worked like Google Maps?” The idea sat in the space between them, waiting. Laurin picked it up. Soon, others joined. That’s how LearnGraph quietly began.",
+    "Our-Team": "The Team",
+    "Our-Team-text": "We’re not just building a platform—we’re living the practice.",
     "team-Laurin": "CEO",
     "team-Namatama": "Director de Alianzas Globales",
     "team-Efecan": "Jefe de Estrategia Educativa e Innovación",
     "team-Talal": "Ingeniero de Desarrollo",
-    "quote-Laurin": "Cuidando constantemente el retoño que mi equipo y yo plantamos, y eventualmente veremos cómo se convierte en el árbol más majestuoso.",
+    "quote-Laurin": "The best ideas come from stillness. LearnGraph wasn’t built to disrupt — it was built to listen, to guide, and to grow with those who are ready to listen.",
     "quote-Nama": "El mundo es un lugar realmente grande y hay personas que han sido privilegiadas con recursos; es deber de esas personas ayudar a quienes no los tienen.",
-    "quote-Efecan": "Mi amor por LearnGraph se origina en mi profesión como instructor; me encanta trabajar en nuevas formas de nutrir a las nuevas generaciones.",
+    "quote-Efecan": "Education is not about filling a vessel, but about kindling a flame - and I intend to set the whole system ablaze.",
     "quote-Talal": "Es aterrador allá afuera, pero nunca estuvimos destinados a estar solos. Lo importante no es lo que yo pueda hacer por mí, sino lo que todos puedan hacer por la humanidad.",
-    "headline-travel-group": "Esto eres tú",
-    "team-placeholder-description": "Siempre estamos en la búsqueda de personas apasionadas que deseen contribuir a nuestra misión de transformar la educación. Ya seas desarrollador de software, entusiasta de la educación o alguien con habilidades únicas para aportar, hay un lugar para ti en LearnGraph. Únete a nosotros para dar forma al futuro del aprendizaje accesible y personalizado y sé parte de una comunidad global dedicada a hacer que la educación de calidad esté al alcance de todos."
-  },
-  "settings": {
-    "headline-User-Settings": "Configuración de Usuario",
-    "headline-Visuals": "Visuales:",
-    "Dark Theme": "Tema Oscuro",
-    "headline-Experimental Settings": "Configuración Experimental:",
-    "3D Display": "Visualización 3D"
+    "headline-travel-group": "You?!",
+    "team-placeholder-description": "We’re always looking for curious minds to join us. Whether you code, care about learning, or just have a wild idea—come say hi. <discord>Join our Discord</discord>, or send us a message to <email>jobs@learngraph.org</email>!"
   },
   "choices": {
     "headline-Choices": "Personaliza tu experiencia",
