@@ -5,7 +5,7 @@ import USPCTASection, { USPFeatureCard } from "./LandingPage/CTABlock";
 import InfoBlocks from "./LandingPage/InfoBlocks";
 import YoutubeVideo from "./LandingPage/Video";
 
-const uspCtaBlocksUnused = [
+const _uspCtaBlocksUnused = [
   // Foundation / Funders / NGOs
   {
     symbol: "💖",
@@ -76,7 +76,7 @@ const uspCtaBlocksUnused = [
   },
 ];
 
-const infoBlocksUnused = [
+const _infoBlocksUnused = [
   {
     target: "Schools & Parents",
     headline: "Kids don’t need pressure. They need purpose.",
