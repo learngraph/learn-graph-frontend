@@ -41,7 +41,7 @@ const ComingSoonComponent: React.FC = () => {
         <img
           src="/learngraph-logo-no-background-on-black.png"
           alt="Exciting Preview"
-          className="w-32 h-32 md:w-[40%] md:h-[40%] animate-pulse"
+          className="w-[60%] h-[60%] md:w-[40%] md:h-[40%] animate-pulse"
           style={{ animationDuration: "2s" }}
         />
       </div>
@@ -152,22 +152,6 @@ const ComingSoonComponent: React.FC = () => {
             <div className="absolute inset-0 border-4 border-white rounded-2xl animate-pulse"></div>
           </div>
         </div>
-      </div>
-
-      {/* Social Proof Section */}
-      <div className="mb-8">
-        <h2 className="text-3xl mb-4">Our Advisory Board</h2>
-        <p>
-          Proudly supported by{" "}
-          <a href="/#advisory-board" className="underline">
-            Oliver Schuster (visibleRuhr eG)
-          </a>{" "}
-          and{" "}
-          <a href="/#advisory-board" className="underline">
-            Patrik Maltusch (EA)
-          </a>
-          .
-        </p>
       </div>
 
       {/* Incentives for Sharing Section */}

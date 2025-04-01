@@ -4,6 +4,7 @@ import { Imprint, TermsOfUse, PrivacyPolicy } from "./Imprint";
 import { LandingPage } from "./LandingPage";
 import { CGUniversity } from "./CustomerGroup/University";
 import ComingSoon from "./CustomerGroup/ComingSoon";
+import ContactUs from "./ContactUs";
 
 export const LearngraphOrgRoutes = () => {
   return (
@@ -16,6 +17,8 @@ export const LearngraphOrgRoutes = () => {
       <Route path="/industry" Component={ComingSoon} />
       <Route path="/ecosystem" Component={ComingSoon} />
       <Route path="/k-12" Component={ComingSoon} />
+      <Route path="/contact" Component={ContactUs} />
+      <Route path="/contact-us" Component={ContactUs} />
 
       {/* About Us */}
       <Route path="/über-uns" Component={About} />

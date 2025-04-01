@@ -1,4 +1,3 @@
-// TODO(skep): translate this file!
 import { NavigationWithContent } from "./Navigation";
 import Hero from "./LandingPage/Hero";
 import MissionStatement from "./LandingPage/MissionStatement";
@@ -174,6 +173,26 @@ const infoBlocks = [
   },
 ];
 
+const finalCTA: USPFeatureCard[] = [
+  {
+    symbol: "🚀",
+    headline: "Experience the Future of Education",
+    text: "Discover how our platform transforms your life's journey.",
+    cta: "Request a Demo",
+    onClick: () => (window.location.href = "/contact"),
+  },
+];
+
+export const GetADemoCTA = ({ blocks }: { blocks: USPFeatureCard[] }) => {
+  return (
+    <section className="py-12 bg-blue-800/80 text-white text-center">
+      <div className="container mx-auto px-4">
+        <USPCTASection blocks={blocks} />
+      </div>
+    </section>
+  );
+};
+
 export const LandingPage = () => {
   const uspCtaBlocks = [
     // HEI
@@ -222,32 +241,29 @@ export const LandingPage = () => {
             <MissionStatement />
             {/* TODO: 
               - FAQ
-              - Advisory Board
+              - Social Proof
              */}
+            {/* TODO: Advisory Board Section */}
+            {/* 
+            <div className="mb-8">
+              <h2 className="text-3xl mb-4">Our Advisory Board</h2>
+              <p>
+                Proudly supported by{" "}
+                <a href="/#advisory-board" className="underline">
+                  Oliver Schuster (visibleRuhr eG)
+                </a>{" "}
+                and{" "}
+                <a href="/#advisory-board" className="underline">
+                  Patrik Maltusch (EA)
+                </a>
+                .
+              </p>
+            </div>
+            */}
             <GetADemoCTA blocks={finalCTA} />
           </>
         }
       />
     </div>
-  );
-};
-
-const finalCTA: USPFeatureCard[] = [
-  {
-    symbol: "🚀",
-    headline: "Experience the Future of Education",
-    text: "Discover how our innovative, data-driven platform transforms insights into actionable strategies that enhance your growth.",
-    cta: "Request a Demo",
-    onClick: () => (window.location.href = "/contact"),
-  },
-];
-
-export const GetADemoCTA = ({ blocks }: { blocks: USPFeatureCard[] }) => {
-  return (
-    <section className="py-12 bg-blue-800/80 text-white text-center">
-      <div className="container mx-auto px-4">
-        <USPCTASection blocks={blocks} />
-      </div>
-    </section>
   );
 };
