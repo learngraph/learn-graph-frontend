@@ -1,8 +1,7 @@
 import React from "react";
-import { Box, Typography, Paper, Divider, useTheme } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import { Mail, Phone } from "@mui/icons-material";
-import { useTranslation } from "react-i18next";
 
 interface TeamMember {
   imageSrc: string;
@@ -15,99 +14,49 @@ interface TeamMember {
 }
 
 const TeamMemberCard: React.FC<{ member: TeamMember }> = ({ member }) => {
-  const theme = useTheme();
   return (
-    <Paper
-      elevation={3}
-      sx={{
-        maxWidth: 550,
-        background:
-          "linear-gradient(rgba(200, 200, 200, 0.4), rgba(150, 150, 150, 0.3))",
-        padding: 5,
-        margin: "30px auto",
-        borderTop: "5px solid blue",
-        borderRadius: 3,
-        textAlign: "center",
-        position: "relative",
-      }}
-    >
-      <Box
-        component="img"
+    <div className="max-w-[550px] bg-gradient-to-b from-gray-300/40 to-gray-400/30 p-5 my-8 mx-auto border-t-4 border-blue-500 rounded-2xl text-center relative backdrop-blur-lg">
+      <img
         src={member.imageSrc}
         alt={member.name}
-        sx={{
-          width: 150,
-          height: 150,
-          borderRadius: "50%",
-          objectFit: "cover",
-          position: "absolute",
-          top: -80,
-          left: "50%",
-          transform: "translateX(-50%)",
-          border: "4px solid white",
-          boxShadow: 2,
-        }}
+        className="w-[150px] h-[150px] rounded-full object-cover absolute -top-20 left-1/2 -translate-x-1/2 border-4 border-white shadow-md"
       />
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          gap: 1.5,
-          marginTop: 6,
-        }}
-      >
+      <div className="flex justify-center gap-4 mt-16">
         <a href={member.linkedInUrl} target="_blank" rel="noopener noreferrer">
           <LinkedInIcon
-            sx={{ color: theme.palette.common.white, fontSize: "2rem" }}
+            style={{ fontSize: "3rem" }}
+            className="text-white hover:scale-135"
           />
         </a>
         <a href={`mailto:${member.email}`}>
-          <Mail sx={{ color: theme.palette.common.white, fontSize: "2rem" }} />
+          <Mail
+            style={{ fontSize: "3rem" }}
+            className="text-white hover:scale-135"
+          />
         </a>
         {member.phoneNumber && (
           <a href={`tel:${member.phoneNumber}`}>
             <Phone
-              sx={{ color: theme.palette.common.white, fontSize: "2rem" }}
+              style={{ fontSize: "3rem" }}
+              className="text-white hover:scale-135"
             />
           </a>
         )}
-      </Box>
-      <Typography
-        variant="body1"
-        fontStyle="italic"
-        sx={{
-          marginTop: 2,
-          fontSize: "17px",
-          color: theme.palette.common.white,
-        }}
-      >
-        "{member.quote}"
-      </Typography>
-      <Divider sx={{ marginTop: 2 }} />
-      <Typography
-        variant="h6"
-        fontWeight="bold"
-        sx={{ marginTop: 2, color: theme.palette.common.white }}
-      >
-        {member.name}
-      </Typography>
-      <Typography
-        variant="body2"
-        color="text.secondary"
-        sx={{ color: theme.palette.common.white }}
-      >
-        {member.description}
-      </Typography>
-    </Paper>
+      </div>
+      <p className="mt-2 italic text-[17px] text-white">"{member.quote}"</p>
+      <hr className="mt-2 border-t border-gray-200" />
+      <h3 className="mt-2 font-bold text-white">{member.name}</h3>
+      <p className="text-white">{member.description}</p>
+    </div>
   );
 };
 
 const TeamSlider = () => {
-  const { t } = useTranslation(); // ✅ Now inside a component!
+  const { t } = useTranslation();
 
   const teamMembers: TeamMember[] = [
     {
-      imageSrc: "team-laurin.png",
+      imageSrc: "team-laurin.jpg",
       name: "Laurin Hagemann",
       description: t("about.team-Laurin"),
       email: "laurin@learngraph.org",
@@ -146,19 +95,11 @@ const TeamSlider = () => {
   ];
 
   return (
-    <Box
-      display="flex"
-      flexDirection={{ xs: "column", md: "row" }}
-      alignItems="center"
-      justifyContent="center"
-      gap={4}
-      flexWrap="wrap"
-      width="100%"
-    >
+    <div className="flex flex-col md:flex-row items-center justify-center gap-4 flex-wrap w-full">
       {teamMembers.map((member, index) => (
         <TeamMemberCard key={index} member={member} />
       ))}
-    </Box>
+    </div>
   );
 };
 

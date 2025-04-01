@@ -1,7 +1,5 @@
-import { Box, Typography, Divider } from "@mui/material";
+import React from "react";
 import { NavigationWithContent } from "./Navigation";
-import Footer from "./LandingPage/Footer";
-
 // Constant variables for legal and contact details
 const COMPANY_NAME = "LearnGraph gUG (Haftungsbeschränkt)";
 const ADDRESS_LINE1 = "Oskar-Hoffmannstr. 134";
@@ -13,86 +11,57 @@ const HANDELSREGISTER = "Handelsregister: Amtsgericht Bochum, HRB: TBD";
 const VAT_ID = "Umsatzsteuer-Identifikationsnummer: TBD";
 
 export const Imprint = () => {
-  // The main content of the Impressum is wrapped in a Box with a semi-transparent background for readability.
   const content = (
-    <Box
-      sx={{
-        padding: "2rem",
-        maxWidth: "800px",
-        margin: "2rem auto",
-        backgroundColor: "rgba(255,255,255,0.8)",
-        borderRadius: "8px",
-      }}
-    >
-      <Typography variant="h4" gutterBottom>
-        Impressum
-      </Typography>
-      <Divider sx={{ marginBottom: "1rem" }} />
+    <div className="p-8 max-w-xl mx-auto my-8 bg-white bg-opacity-80 rounded-lg">
+      <h1 className="text-3xl font-bold mb-4 mt-6">Impressum</h1>
+      <hr className="mb-4" />
 
       {/* Angaben gemäß § 5 TMG */}
-      <Typography variant="h6" gutterBottom>
-        Angaben gemäß § 5 TMG
-      </Typography>
-      <Typography variant="body1" gutterBottom>
+      <h2 className="text-xl font-semibold mb-2">Angaben gemäß § 5 TMG</h2>
+      <p className="mb-2">
         {COMPANY_NAME}
         <br />
         {ADDRESS_LINE1}
         <br />
         {ZIP_CITY}
-      </Typography>
+      </p>
 
       {/* Geschäftsführer */}
-      <Typography variant="h6" gutterBottom sx={{ marginTop: "1rem" }}>
-        Geschäftsführer
-      </Typography>
-      <Typography variant="body1" gutterBottom>
-        {GESCHAEFTSFUEHRER.join(", ")}
-      </Typography>
+      <h2 className="text-xl font-semibold mb-2 mt-4">Geschäftsführer</h2>
+      <p className="mb-2">{GESCHAEFTSFUEHRER.join(", ")}</p>
 
       {/* Kontakt */}
-      <Typography variant="h6" gutterBottom sx={{ marginTop: "1rem" }}>
-        Kontakt
-      </Typography>
-      <Typography variant="body1" gutterBottom>
+      <h2 className="text-xl font-semibold mb-2 mt-4">Kontakt</h2>
+      <p className="mb-2">
         Telefon: {PHONE_NUMBER}
         <br />
         E-Mail:{" "}
-        <a href={`mailto:${EMAIL}`} style={{ color: "inherit" }}>
+        <a href={`mailto:${EMAIL}`} className="text-blue-600 underline">
           {EMAIL}
         </a>
-      </Typography>
+      </p>
 
       {/* Handelsregister */}
-      <Typography variant="h6" gutterBottom sx={{ marginTop: "1rem" }}>
-        Handelsregister
-      </Typography>
-      <Typography variant="body1" gutterBottom>
-        {HANDELSREGISTER}
-      </Typography>
+      <h2 className="text-xl font-semibold mb-2 mt-4">Handelsregister</h2>
+      <p className="mb-2">{HANDELSREGISTER}</p>
 
       {/* Umsatzsteuer-ID */}
-      <Typography variant="h6" gutterBottom sx={{ marginTop: "1rem" }}>
-        Umsatzsteuer-ID
-      </Typography>
-      <Typography variant="body1" gutterBottom>
-        {VAT_ID}
-      </Typography>
+      <h2 className="text-xl font-semibold mb-2 mt-4">Umsatzsteuer-ID</h2>
+      <p className="mb-2">{VAT_ID}</p>
 
       {/* Verantwortlich für den Inhalt */}
-      <Typography variant="h6" gutterBottom sx={{ marginTop: "1rem" }}>
+      <h2 className="text-xl font-semibold mb-2 mt-4">
         Verantwortlich für den Inhalt
-      </Typography>
-      <Typography variant="body1" gutterBottom>
+      </h2>
+      <p className="mb-2">
         {COMPANY_NAME}
         <br />
         {ADDRESS_LINE1}, {ZIP_CITY}
-      </Typography>
+      </p>
 
       {/* Haftungsausschluss */}
-      <Typography variant="h6" gutterBottom sx={{ marginTop: "1rem" }}>
-        Haftungsausschluss
-      </Typography>
-      <Typography variant="body1" gutterBottom>
+      <h2 className="text-xl font-semibold mb-2 mt-4">Haftungsausschluss</h2>
+      <p className="mb-2">
         Trotz sorgfältiger inhaltlicher Kontrolle übernehmen wir keine Haftung
         für die Inhalte externer Links. Für den Inhalt der verlinkten Seiten
         sind ausschließlich deren Betreiber verantwortlich.
@@ -101,116 +70,66 @@ export const Imprint = () => {
         Die Inhalte dieser Seite wurden mit größtmöglicher Sorgfalt erstellt.
         Dennoch übernehmen wir keine Gewähr für die Richtigkeit, Vollständigkeit
         und Aktualität der bereitgestellten Informationen.
-      </Typography>
-    </Box>
+      </p>
+    </div>
   );
 
   return (
-    <Box
-      sx={{
-        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(/LGBG2.png)`,
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "cover",
-        backgroundAttachment: "fixed",
-        backgroundPosition: "center",
-        minHeight: "100vh",
-      }}
-    >
-      <NavigationWithContent alwaysDisplayNavDrawer={true} content={content} />
-      <Footer />
-    </Box>
+    <div className="bg-[linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)),url('/LGBG2.png')] bg-no-repeat bg-cover bg-fixed bg-center min-h-screen">
+      <NavigationWithContent content={content} />
+    </div>
   );
 };
 
-export default Imprint;
-
 export const PrivacyPolicy = () => {
   const content = (
-    <Box
-      sx={{
-        padding: "2rem",
-        maxWidth: "800px",
-        margin: "2rem auto",
-        backgroundColor: "rgba(255,255,255,0.8)",
-        borderRadius: "8px",
-      }}
-    >
-      <Typography variant="h4" gutterBottom>
-        Datenschutzerklärung
-      </Typography>
-      <Divider sx={{ marginBottom: "1rem" }} />
-      <Typography variant="body1" gutterBottom>
+    <div className="p-8 max-w-xl mx-auto my-8 bg-white bg-opacity-80 rounded-lg">
+      <h1 className="text-3xl font-bold mb-4">Datenschutzerklärung</h1>
+      <hr className="mb-4" />
+      <p className="mb-2">
         Diese Datenschutzerklärung informiert Sie über die Art, den Umfang und
         Zweck der Verarbeitung personenbezogener Daten innerhalb unseres
         Onlineangebotes und der mit ihm verbundenen Webseiten, Funktionen und
         Inhalte.
-      </Typography>
-      <Typography variant="body1" gutterBottom>
+      </p>
+      <p className="mb-2">
         Wir nehmen den Schutz Ihrer Daten sehr ernst und behandeln Ihre
         personenbezogenen Daten vertraulich und entsprechend der gesetzlichen
         Datenschutzvorschriften sowie dieser Datenschutzerklärung.
-      </Typography>
-    </Box>
+      </p>
+    </div>
   );
 
   return (
-    <Box
-      sx={{
-        backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(/LGBG2.png)`,
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "cover",
-        backgroundAttachment: "fixed",
-        backgroundPosition: "center",
-        minHeight: "100vh",
-      }}
-    >
-      <NavigationWithContent alwaysDisplayNavDrawer={true} content={content} />
-      <Footer />
-    </Box>
+    <div className="bg-[linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)),url('/LGBG2.png')] bg-no-repeat bg-cover bg-fixed bg-center min-h-screen">
+      <NavigationWithContent content={content} />
+    </div>
   );
 };
 
 export const TermsOfUse = () => {
   const content = (
-    <Box
-      sx={{
-        padding: "2rem",
-        maxWidth: "800px",
-        margin: "2rem auto",
-        backgroundColor: "rgba(255,255,255,0.8)",
-        borderRadius: "8px",
-      }}
-    >
-      <Typography variant="h4" gutterBottom>
-        Nutzungsbedingungen
-      </Typography>
-      <Divider sx={{ marginBottom: "1rem" }} />
-      <Typography variant="body1" gutterBottom>
+    <div className="p-8 max-w-xl mx-auto my-8 bg-white bg-opacity-80 rounded-lg">
+      <h1 className="text-3xl font-bold mb-4">Nutzungsbedingungen</h1>
+      <hr className="mb-4" />
+      <p className="mb-2">
         Durch den Zugriff auf und die Nutzung dieser Website erklären Sie sich
         mit den folgenden Nutzungsbedingungen einverstanden. Bitte lesen Sie
         diese sorgfältig durch.
-      </Typography>
-      <Typography variant="body1" gutterBottom>
+      </p>
+      <p className="mb-2">
         Die Inhalte dieser Website werden mit größtmöglicher Sorgfalt erstellt.
         Dennoch können wir keine Gewähr für die Aktualität, Richtigkeit und
         Vollständigkeit der Inhalte übernehmen.
-      </Typography>
-    </Box>
+      </p>
+    </div>
   );
 
   return (
-    <Box
-      sx={{
-        backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(/LGBG2.png)`,
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "cover",
-        backgroundAttachment: "fixed",
-        backgroundPosition: "center",
-        minHeight: "100vh",
-      }}
-    >
-      <NavigationWithContent alwaysDisplayNavDrawer={true} content={content} />
-      <Footer />
-    </Box>
+    <div className="bg-[linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)),url('/LGBG2.png')] bg-no-repeat bg-cover bg-fixed bg-center min-h-screen">
+      <NavigationWithContent content={content} />
+    </div>
   );
 };
+
+export default Imprint;

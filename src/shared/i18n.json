@@ -2,70 +2,35 @@
   "switch-language-button": "Language",
   "switch-language-button-short": "Lang.",
   "landing": {
-    "header": "You can learn <strong>anything</strong>",
+    "header": "All the paths you didn't go..",
+    "headerAction": "You can now explore them all!",
     "intro": "At LearnGraph, we believe everyone deserves to forge their own unique path. We're building an interactive, dynamic map of knowledge – a sort of Google Maps for learning – designed to empower you to navigate a world of endless opportunities tailored to your passions. Our platform is actively in development and driven by community collaboration. Join our <linktodiscord>Community of Practice</linktodiscord> on Discord and help shape the future of education!",
-    "hintClickImage": "Click the image above or",
-    "buttonGoToGraph": "Jump right in!",
     "missionStatementHeader": "Our Mission",
     "missionStatementText": "Co-creating the future of education - free for everyone.\nWe enable people to learn, <strong>independent of their situation in life</strong> and the resources at their disposal.\n<linktowhitepaper>Read our whitepaper here</linktowhitepaper>.",
-    "crowdsourcingHeader": "A Co-creative Approach",
-    "crowdsourcingExplanation": "The Learn Graph collects votes from learners and educators about the dependency of knowledge on other knowledge. This creates a network of dependencies, a weighted, directed graph, which anyone can navigate just like a landmap to form a personalized curriculum.\nWe choose an open knowledge approach by linking only to OER (Open Educational Resources), everyone gets full non-commercial access to the LearnGraph for free. There will never be a paywall between you and your learning-journey.",
-    "crowdsourcingCallToAction": "That means users like you build this knowledge base, and everyone benefits from it. Contribute your knowledge today, by voting on existing connections or creating new subjects and dependencies!",
-    "podcastAlternative": "Prefer listening? Try our podcast alternative and embark on an audio journey with us!",
-    "highlights":{
-      "independence" :"Independence",
-      "independentFromEducationalInstitutions":"You are independent of educational institutions!",
-      "control": "Control",
-      "controlOfYourLearningPath":"You're in control of your learning path, and you can choose every step of your learning path.",
-      "availability": "Availability",
-      "accessibleLowEntryBarrier": "Learngraph.org is available — it has an extremely low entry barrier!",
-      "noAttendanceExamsFees": "No need for attendance, exams, or fees!",
-      "youControlHowMuchWhenAndHow": "You control how much you learn, when you learn, and how fast you learn.",
-      "openAndEasyStart":"Anyone can sign up, and its easy to get started."
-    },
-    "qnas": {
-      "qLearnGraphFree": "Is the Learn Graph free?",
-      "aFreeAndOSMoneyTbd": "Yes, it's free and open-source! Checkout the <linktogithub>source code here</linktogithub>.",
-      "qDiffToConventionalLearningPlatforms": "How is the Learn Graph different from conventional learning platforms?",
-      "aNoContentHosting": "We do not host content ourselves, instead we provide you three tools: One a path to your goal, together with an overview to make decisions about your personal curriculum. Two a community of learners to connect with on your learning-journey. And three immediate access to Open Educational Resources (OER) content in the internet.",
-      "qProjectVision": "What's your vision with this project?",
-      "aLearningEcosystem": "Co-creating a learning ecosystem. We believe that education and cooperation are the keys to a better world."
-    }
+    "podcastAlternative": "Prefer listening? Try our podcast alternative and embark on an audio journey with us!"
   },
   "navigation": {
     "link-to-landing-page": "Welcome",
     "link-to-about-page": "About",
-    "link-to-Getting Involved!": "Getting Involved!",
     "link-to-imprint-page": "Imprint",
-    "settings-buttons-like-login-etc": "Settings"
+    "solutions": "Solutions",
+    "back": "Back"
   },
   "about": {
-    "headline-About-Us": "This is Learngraph",
-    "aboutLG-para": "LearnGraph is an innovative educational platform developed by a diverse team with expertise in education, technology, and global partnerships. Our mission is to democratize education by providing a personalized, accessible, and user-driven learning experience. LearnGraph empowers learners to create their own educational paths, offering high-quality resources without the limitations of traditional systems. By leveraging crowdsourced learning dependencies and connecting learners with peers and mentors, the platform continuously evolves to meet the needs of today’s dynamic educational landscape.",
-    "missionh":"Our Mission",
-    "missionp":"Co-creating the future of education - free for everyone.We enable people to learn, independent of their situation in life and the resources at their disposal.",
-    "Storyh":"This is the Beginning",
-    "Storyp":"Here lies the story of our creation which started with two friends just bouncing ideas off eachother, trying to find out how they fit into this world, fixing a system that annoyed them.",
-    "aboutLG-team": "Our team brings together specialists in educational strategy, UX/UI design, and software development. With a focus on accessibility, diversity, and inclusion, LearnGraph ensures that learners from all backgrounds can benefit from personalized learning journeys. We are committed to fostering a global community of learners and educators, enabling meaningful connections, and making quality education accessible to everyone, regardless of geographical or financial barriers.",
-    "Our-Team":"This is us",
-    "Our-Team-text":"Vibe with the current members of our team",
+    "Storyh":"How did it all start?",
+    "Storyp":"After living in a Buddhist temple, Laurin came back with no agenda—just presence. He listened. One day, a friend said, “Wouldn’t it be cool if learning worked like Google Maps?” The idea sat in the space between them, waiting. Laurin picked it up. Soon, others joined. That’s how LearnGraph quietly began.",
+    "Our-Team":"The Team",
+    "Our-Team-text":"We’re not just building a platform—we’re living the practice.",
     "team-Laurin": "CEO",
     "team-Namatama": "Global Partnership Director",
     "team-Efecan": "Head of Educational Strategy and Innovation",
     "team-Talal": "Development Engineer",
-    "quote-Laurin": "Constantly nurturing the sapling me and my team planted and eventually we will all see it turn into the most majestic tree",
+    "quote-Laurin": "The best ideas come from stillness. LearnGraph wasn’t built to disrupt — it was built to listen, to guide, and to grow with those who are ready to listen.",
     "quote-Nama": "The world is a really big place and there are people that have been privilleged with resources, it's the duty of those people to help the ones without",
-    "quote-Efecan": "My love for learngraph originates from my profession as an instructor, I love working on new ways of nurturing the newer generations",
+    "quote-Efecan": "Education is not about filling a vessel, but about kindling a flame - and I intend to set the whole system ablaze.",
     "quote-Talal": "It's scary out there, but we were never meant to be alone. Whats important isn't what I can do for me its what everyone can do for the human race",
-    "headline-travel-group": "This is you",
-    "team-placeholder-description": "We are always on the lookout for passionate individuals eager to contribute to our mission of transforming education. Whether you're a software developer, an education enthusiast, or someone with unique skills to bring to the table, there’s a place for you at LearnGraph. Join us in shaping the future of accessible, personalized learning and be part of a global community dedicated to making quality education available to everyone."
-  },
-  "settings": {
-    "headline-User-Settings": "User Settings",
-    "headline-Visuals": "Visuals:",
-    "Dark Theme": "Dark Theme",
-    "headline-Experimental Settings": "Experimental Settings:",
-    "3D Display": "3D Display"
+    "headline-travel-group": "You?!",
+    "team-placeholder-description": "We’re always looking for curious minds to join us. Whether you code, care about learning, or just have a wild idea—come say hi. <discord>Join our Discord</discord>, or send us a message to <email>jobs@learngraph.org</email>!"
   },
   "choices": {
     "headline-Choices": "Personalize Your Experience",

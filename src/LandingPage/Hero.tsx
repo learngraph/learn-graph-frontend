@@ -1,130 +1,145 @@
-import { alpha, useTheme } from "@mui/material";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import { Trans } from "react-i18next";
-import { Href } from "@src/shared/Components";
+import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+
+const totalAnimationFrames = 15;
+const relativePagePositionToTransition = 1 / 2;
+
+// A class to animate text scrambling
+class TextScramble {
+  el: HTMLElement;
+  // The set of characters used for scrambling
+  chars: string = "!<>-_\\/[]{}—=+*^?#________";
+  frame: number = 0;
+  frameRequest: number = 0;
+  queue: Array<{
+    from: string;
+    to: string;
+    start: number;
+    end: number;
+    char: string;
+  }> = [];
+  resolve = () => {};
+
+  constructor(el: HTMLElement) {
+    this.el = el;
+    this.update = this.update.bind(this);
+  }
+
+  // Increase the ranges for start/end to slow down the effect a bit.
+  setText(newText: string) {
+    const oldText = this.el.innerText;
+    const length = Math.max(oldText.length, newText.length);
+    const promise = new Promise<void>((resolve) => (this.resolve = resolve));
+    this.queue = [];
+    for (let i = 0; i < length; i++) {
+      const from = oldText[i] || "";
+      const to = newText[i] || "";
+      const start = Math.floor(Math.random() * totalAnimationFrames);
+      const end = start + Math.floor(Math.random() * totalAnimationFrames);
+      this.queue.push({ from, to, start, end, char: "" });
+    }
+    cancelAnimationFrame(this.frameRequest);
+    this.frame = 0;
+    this.update();
+    return promise;
+  }
+
+  update() {
+    let output = "";
+    let complete = 0;
+    for (let i = 0, n = this.queue.length; i < n; i++) {
+      const { from, to, start, end, char: constChar } = this.queue[i];
+      let char = constChar;
+      if (this.frame >= end) {
+        complete++;
+        output += to;
+      } else if (this.frame >= start) {
+        if (!char || Math.random() < 0.28) {
+          char = this.randomChar();
+          this.queue[i].char = char;
+        }
+        output += `<span class="dud">${char}</span>`;
+      } else {
+        output += from;
+      }
+    }
+    this.el.innerHTML = output;
+    if (complete === this.queue.length) {
+      this.resolve();
+    } else {
+      this.frameRequest = requestAnimationFrame(this.update);
+      this.frame++;
+    }
+  }
+
+  randomChar() {
+    return this.chars[Math.floor(Math.random() * this.chars.length)];
+  }
+}
 
 export default function Hero() {
-  const theme = useTheme();
-  const headerText = (
-    <Typography
-      component="h2"
-      variant="h2"
-      sx={{
-        display: "flex",
-        flexDirection: { xs: "column" },
-        fontSize: { xs: "40px", sm: "60px" },
-        alignSelf: "center",
-        textAlign: "center",
-        color: theme.palette.common.white,
-        "& strong": {
-          color: theme.palette.primary.light,
-        },
-      }}
-    >
-      <Trans i18nKey="landing.header" />
-    </Typography>
-  );
+  const { t } = useTranslation();
+  const headerRef = useRef<HTMLHeadingElement>(null);
+  // Track whether the scramble has switched to the "action" text.
+  const [isAction, setIsAction] = useState(false);
+
+  useEffect(() => {
+    let scrollTimeout: number | undefined;
+
+    const handleScroll = () => {
+      if (scrollTimeout) {
+        clearTimeout(scrollTimeout);
+      }
+      // Debounce so we only act after scrolling has "stopped"
+      scrollTimeout = window.setTimeout(() => {
+        // Check if scroll position is past half the viewport height
+        if (
+          window.scrollY >
+          window.innerHeight * relativePagePositionToTransition
+        ) {
+          if (!isAction && headerRef.current) {
+            const scramble = new TextScramble(headerRef.current);
+            scramble.setText(t("landing.headerAction"));
+            setIsAction(true);
+          }
+        } else {
+          if (isAction && headerRef.current) {
+            const scramble = new TextScramble(headerRef.current);
+            scramble.setText(t("landing.header"));
+            setIsAction(false);
+          }
+        }
+      }, 0);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isAction, t]);
 
   return (
-    <Box
-      id="hero"
-      sx={{
-        display: "flex",
-        flexDirection: { xs: "column", sm: "column", md: "row" }, // Vertical for mobile, horizontal for larger screens
-        justifyContent: "center", // Align left and right sections
-        alignItems: "center", // Align items to the top
-        width: "fit-content", // Shrink to fit content
-        height: "fit-content", // Adjust height based on content
-        margin: "auto", // Center the container
-        padding: theme.spacing(3), // Add spacing inside the container
-        gap: theme.spacing(2), // Space between left and right sections
-      }}
-    >
-      {/* Text Content on the Left */}
-      <Box
-        sx={{
-          width: { sx: "90%", sm: "90%", md: "35%" }, // Full width for mobile, 35% for larger screens
-          display: "flex",
-          flexDirection: "column",
-          padding: theme.spacing(3),
-          backgroundColor: alpha(theme.palette.common.black, 0.7),
-          borderRadius: theme.spacing(4),
-        }}
+    <div>
+      <div
+        id="hero"
+        className="flex flex-col items-center justify-start w-full h-screen overflow-hidden"
       >
-        <Typography
-          component="h2"
-          variant="h2"
-          sx={{
-            color: "white",
-            textAlign: "left", // Align text to the left
-          }}
+        {/* Background image filling entire viewport height */}
+        <div className="w-full flex-grow bg-[url('/trail.webp')] bg-cover bg-center" />
+      </div>
+      {/* Centered H2 header below the image */}
+      <div className="w-full p-6 bg-black/70">
+        <h2
+          ref={headerRef}
+          className="text-[40px] sm:text-[60px] text-center text-white"
         >
-          {headerText}
-        </Typography>
-
-        <Typography
-          variant="body1"
-          textAlign="justify"
-          sx={{
-            color: "white",
-            fontWeight: "bold",
-            fontSize: { xs: "13px", sm: "17px" },
-            marginTop: theme.spacing(1), // Add spacing between text
-          }}
-        >
-          <Trans
-            i18nKey="landing.intro"
-            components={{
-              linktodiscord: (
-                <Href
-                  href="https://discord.gg/DatEV4kNp6"
-                  style={{
-                    color: "blue",
-                    fontWeight: "bold",
-                    textDecoration: "underline",
-                  }}
-                />
-              ),
-            }}
-          />
-        </Typography>
-      </Box>
-
-      {/* Image Content on the Right */}
-      <Box
-        sx={{
-          width: { xs: "90%", sm: "90%", md: "40%" }, // Takes 65% of the total width
-          display: "flex",
-          flexDirection: "column", // Stack image and text vertically
-          alignItems: "center", // Center contents horizontally
-          gap: theme.spacing(2),
-        }}
-      >
-        {/* Image */}
-
-        <Box
-          id="image"
-          sx={{
-            opacity: "90%",
-            width: "100%",
-            maxWidth: "750px", // Limit maximum width
-            aspectRatio: "16 / 9", // Maintain aspect ratio
-            backgroundImage: 'url("/screenshot_learngraph.png")',
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover", // Ensure the image scales proportionally
-            backgroundPosition: "center", // Center the image
-            borderRadius: theme.spacing(4), // Rounded corners
-            boxShadow:
-              theme.palette.mode === "light"
-                ? `0 0 12px 8px ${alpha("#9CCCFC", 0.7)}`
-                : `0 0 24px 12px ${alpha("#033363", 0.7)}`,
-            //":hover": {
-            //  cursor: "pointer",
-            //},
-          }}
-        />
-      </Box>
-    </Box>
+          {t("landing.header")}
+        </h2>
+      </div>
+      {/* Optional CSS for scrambled (dud) characters */}
+      <style>{`
+        .dud {
+          opacity: 0.5;
+        }
+      `}</style>
+    </div>
   );
 }
