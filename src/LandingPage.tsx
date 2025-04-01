@@ -1,9 +1,126 @@
+import { useNavigate } from "react-router-dom";
 import { NavigationWithContent } from "./Navigation";
 import Hero from "./LandingPage/Hero";
 import MissionStatement from "./LandingPage/MissionStatement";
 import USPCTASection, { USPFeatureCard } from "./LandingPage/CTABlock";
 import InfoBlocks from "./LandingPage/InfoBlocks";
 import YoutubeVideo from "./LandingPage/Video";
+
+export const LandingPage = () => {
+  const navigate = useNavigate();
+
+  // Define the USP CTA blocks inline with their respective onClick handlers.
+  const uspCtaBlocks: USPFeatureCard[] = [
+    {
+      symbol: "🎓",
+      headline: "Reduce Dropout. Boost Engagement.",
+      text: "LearnGraph helps your students stay on track with personalized learning paths, peer coaching, and emotional reflection — all built into a platform that works alongside your existing systems.",
+      cta: "Learn More",
+      onClick: () => navigate("/university"),
+    },
+    {
+      symbol: "🧭",
+      headline: "Your Education, Your Way.",
+      text: "Tired of one-size-fits-all learning? LearnGraph shows you exactly where you are, where you want to go, and how to get there — with smart guidance, real resources, and peer support.",
+      cta: "Enroll in our Pilot",
+      onClick: () => navigate("/join"),
+    },
+    {
+      symbol: "💼",
+      headline: "Upskill Without the Overwhelm.",
+      text: "Whether it’s soft skills or digital tools, LearnGraph guides adult learners step-by-step with peer support and real-world relevance.",
+      cta: "Use for Training",
+      onClick: () => navigate("/upskill"),
+    },
+    {
+      symbol: "🌱",
+      headline: "Open-Source, Mission-First, Impact-Obsessed.",
+      text: "We don’t chase profit. We chase purpose. Your support goes directly into scaling impact across the Global South.",
+      cta: "Become a Partner",
+      onClick: () => navigate("/support"),
+    },
+  ];
+
+  const finalCTA: USPFeatureCard[] = [
+    {
+      symbol: "🚀",
+      headline: "Experience the Future of Education",
+      text: "Discover how our platform transforms your life's journey.",
+      cta: "Request a Demo",
+      onClick: () => navigate("/contact"),
+    },
+  ];
+
+  const infoBlocks = [
+    {
+      target: "Companies & Adult Learners",
+      headline: "Reskill, upskill, or just grow — without losing your mind.",
+      imageUrl: "collaboration-hub.webp",
+      keywords: [
+        "upskilling",
+        "resilience",
+        "soft skills",
+        "real-world impact",
+        "career alignment",
+        "flexible learning",
+        "peer mentorship",
+      ],
+    },
+    {
+      target: "Independent Learners",
+      headline:
+        "No more guessing. You now have a GPS for your learning journey.",
+      imageUrl: "/screenshot_learngraph.png",
+      keywords: [
+        "personalized",
+        "goal-driven",
+        "peer support",
+        "learning map",
+        "self-paced",
+        "meaningful growth",
+        "open access",
+        "certification-ready",
+      ],
+    },
+    {
+      target: "Funders & Foundations",
+      headline:
+        "Invest in an education system that doesn’t just teach — it transforms.",
+      imageUrl: "/rural-learning-map.webp",
+      keywords: [
+        "open-source",
+        "inclusive",
+        "transformational",
+        "inner development",
+        "tech-for-good",
+        "high impact",
+        "grassroots-led",
+        "sustainable",
+      ],
+    },
+  ];
+
+  return (
+    <div className="bg-[linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)),url('/LGBG2.png')] bg-no-repeat bg-cover bg-fixed bg-center min-h-screen">
+      <NavigationWithContent
+        content={
+          <>
+            <Hero />
+            <USPCTASection blocks={uspCtaBlocks} />
+            <YoutubeVideo videoID="cHv1LGXfJRU" />
+            <InfoBlocks headline="Why Choose LearnGraph." blocks={infoBlocks} />
+            <MissionStatement />
+            <div className="py-12 bg-blue-800/80 text-white text-center">
+              <USPCTASection blocks={finalCTA} />
+            </div>
+          </>
+        }
+      />
+    </div>
+  );
+};
+
+export default LandingPage;
 
 const _uspCtaBlocksUnused = [
   // Foundation / Funders / NGOs
@@ -124,146 +241,3 @@ const _infoBlocksUnused = [
     ],
   },
 ];
-
-const infoBlocks = [
-  {
-    target: "Companies & Adult Learners",
-    headline: "Reskill, upskill, or just grow — without losing your mind.",
-    imageUrl: "collaboration-hub.webp",
-    keywords: [
-      "upskilling",
-      "resilience",
-      "soft skills",
-      "real-world impact",
-      "career alignment",
-      "flexible learning",
-      "peer mentorship",
-    ],
-  },
-  {
-    target: "Independent Learners",
-    headline: "No more guessing. You now have a GPS for your learning journey.",
-    imageUrl: "/screenshot_learngraph.png",
-    keywords: [
-      "personalized",
-      "goal-driven",
-      "peer support",
-      "learning map",
-      "self-paced",
-      "meaningful growth",
-      "open access",
-      "certification-ready",
-    ],
-  },
-  {
-    target: "Funders & Foundations",
-    headline:
-      "Invest in an education system that doesn’t just teach — it transforms.",
-    imageUrl: "/rural-learning-map.webp",
-    keywords: [
-      "open-source",
-      "inclusive",
-      "transformational",
-      "inner development",
-      "tech-for-good",
-      "high impact",
-      "grassroots-led",
-      "sustainable",
-    ],
-  },
-];
-
-const finalCTA: USPFeatureCard[] = [
-  {
-    symbol: "🚀",
-    headline: "Experience the Future of Education",
-    text: "Discover how our platform transforms your life's journey.",
-    cta: "Request a Demo",
-    onClick: () => (window.location.href = "/contact"),
-  },
-];
-
-export const GetADemoCTA = ({ blocks }: { blocks: USPFeatureCard[] }) => {
-  return (
-    <section className="py-12 bg-blue-800/80 text-white text-center">
-      <div className="container mx-auto px-4">
-        <USPCTASection blocks={blocks} />
-      </div>
-    </section>
-  );
-};
-
-export const LandingPage = () => {
-  const uspCtaBlocks = [
-    // HEI
-    {
-      symbol: "🎓",
-      headline: "Reduce Dropout. Boost Engagement.",
-      text: "LearnGraph helps your students stay on track with personalized learning paths, peer coaching, and emotional reflection — all built into a platform that works alongside your existing systems.",
-      cta: "Learn More",
-      onClick: () => (window.location.href = "/university"),
-    },
-    // Individual Learner
-    {
-      symbol: "🧭",
-      headline: "Your Education, Your Way.",
-      text: "Tired of one-size-fits-all learning? LearnGraph shows you exactly where you are, where you want to go, and how to get there — with smart guidance, real resources, and peer support.",
-      cta: "Enroll in our Pilot",
-      onClick: () => (window.location.href = "/join"),
-    },
-    // Workforce / HR
-    {
-      symbol: "💼",
-      headline: "Upskill Without the Overwhelm.",
-      text: "Whether it’s soft skills or digital tools, LearnGraph guides adult learners step-by-step with peer support and real-world relevance.",
-      cta: "Use for Training",
-      onClick: () => (window.location.href = "/upskill"),
-    },
-    // Funders / NGOs / Angels
-    {
-      symbol: "🌱",
-      headline: "Open-Source, Mission-First, Impact-Obsessed.",
-      text: "We don’t chase profit. We chase purpose. Your support goes directly into scaling impact across the Global South.",
-      cta: "Become a Partner",
-      onClick: () => (window.location.href = "/support"),
-    },
-  ];
-
-  return (
-    <div className="bg-[linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)),url('/LGBG2.png')] bg-no-repeat bg-cover bg-fixed bg-center min-h-screen">
-      <NavigationWithContent
-        content={
-          <>
-            <Hero />
-            <USPCTASection blocks={uspCtaBlocks} />
-            <YoutubeVideo videoID="cHv1LGXfJRU" />
-            <InfoBlocks headline="Why Choose LearnGraph." blocks={infoBlocks} />
-            <MissionStatement />
-            {/* TODO: 
-              - FAQ
-              - Social Proof
-             */}
-            {/* TODO: Advisory Board Section */}
-            {/* 
-            <div className="mb-8">
-              <h2 className="text-3xl mb-4">Our Advisory Board</h2>
-              <p>
-                Proudly supported by{" "}
-                <a href="/#advisory-board" className="underline">
-                  Oliver Schuster (visibleRuhr eG)
-                </a>{" "}
-                and{" "}
-                <a href="/#advisory-board" className="underline">
-                  Patrik Maltusch (EA)
-                </a>
-                .
-              </p>
-            </div>
-            */}
-            <GetADemoCTA blocks={finalCTA} />
-          </>
-        }
-      />
-    </div>
-  );
-};

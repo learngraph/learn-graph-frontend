@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import { NavigationWithContent } from "@src/Navigation";
+import { SLACK_WEBHOOK_TOKEN } from "./constants";
 
 const ContactUsComponent: React.FC = () => {
   return (
@@ -78,7 +79,7 @@ Message: ${formData.message}`,
 
     try {
       const response = await fetch(
-        "https://hooks.slack.com/services/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",
+        `https://hooks.slack.com/services/${SLACK_WEBHOOK_TOKEN}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

@@ -18,7 +18,7 @@ export const About = () => {
             }}
           >
             {/* Origin Story */}
-            <div className="flex lg:flex-row flex-col xs:flex-row justify-center items-center my-10 mx-10 gap-6 px-4 ">
+            <div className="flex lg:flex-row flex-col xs:flex-row justify-center items-center my-10 mx-10 gap-6 px-4">
               <div className="flex-1 bg-black/50 p-6 rounded-xl backdrop-blur-md max-w-prose">
                 <h1
                   className="text-3xl font-bold text-white mb-4 max-w-prose"
@@ -52,7 +52,7 @@ export const About = () => {
             </section>
 
             <section className="flex flex-col items-center my-16 px-4">
-              <div className="bg-black/70 rounded-2xl shadow-md w-[40%] p-6">
+              <div className="bg-black/70 rounded-2xl shadow-md w-[40%] p-6 mb-15">
                 <h2
                   className="text-3xl font-bold text-white text-center"
                   id="travelgroup"
@@ -61,7 +61,7 @@ export const About = () => {
                 </h2>
               </div>
 
-              <div className="relative mt-28 max-w-xl w-full bg-gradient-to-br from-gray-300/40 to-gray-400/30 p-6 rounded-xl shadow-xl border-t-4 border-blue-500 backdrop-blur-md text-center">
+              <div className="max-w-[550px] bg-gradient-to-b from-gray-300/40 to-gray-400/30 p-5 my-8 mx-auto border-t-4 border-blue-500 rounded-2xl text-center relative backdrop-blur-lg">
                 <img
                   src="team-placeholder.png"
                   alt="Team Placeholder"
@@ -73,7 +73,7 @@ export const About = () => {
                     href="mailto:jobs@learngraph.org"
                     className="inline-flex items-center justify-center"
                   >
-                    <Handshake className="text-white w-9 h-9" />
+                    <Handshake className="text-white scale-170 hover:scale-300" />
                   </a>
                   <p className="text-white italic mt-4 text-justify">
                     <Trans
@@ -99,8 +99,6 @@ export const About = () => {
                 </div>
               </div>
             </section>
-
-            <hr className="border-gray-300 my-8 mx-4" />
           </main>
         }
       />

@@ -244,7 +244,7 @@ export const CGUniversity: FC = () => {
                     <InsightStat key={insight.id} insight={insight} />
                   ))}
                 </div>
-                <p className="text-center text-lg italic">
+                <p className="text-center text-lg italic bg-white/85 rounded-2xl p-2">
                   Collectively, these insights demonstrate that data-driven
                   interventions and active learning strategies can significantly
                   enhance student retention, reduce failure rates, and boost
