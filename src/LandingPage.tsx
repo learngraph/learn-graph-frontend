@@ -2,7 +2,7 @@
 import { NavigationWithContent } from "./Navigation";
 import Hero from "./LandingPage/Hero";
 import MissionStatement from "./LandingPage/MissionStatement";
-import USPCTASection from "./LandingPage/CTABlock";
+import USPCTASection, { USPFeatureCard } from "./LandingPage/CTABlock";
 import InfoBlocks from "./LandingPage/InfoBlocks";
 import YoutubeVideo from "./LandingPage/Video";
 
@@ -220,9 +220,34 @@ export const LandingPage = () => {
             <YoutubeVideo videoID="cHv1LGXfJRU" />
             <InfoBlocks headline="Why Choose LearnGraph." blocks={infoBlocks} />
             <MissionStatement />
+            {/* TODO: 
+              - FAQ
+              - Advisory Board
+             */}
+            <GetADemoCTA blocks={finalCTA} />
           </>
         }
       />
     </div>
+  );
+};
+
+const finalCTA: USPFeatureCard[] = [
+  {
+    symbol: "🚀",
+    headline: "Experience the Future of Education",
+    text: "Discover how our innovative, data-driven platform transforms insights into actionable strategies that enhance your growth.",
+    cta: "Request a Demo",
+    onClick: () => (window.location.href = "/contact"),
+  },
+];
+
+export const GetADemoCTA = ({ blocks }: { blocks: USPFeatureCard[] }) => {
+  return (
+    <section className="py-12 bg-blue-800/80 text-white text-center">
+      <div className="container mx-auto px-4">
+        <USPCTASection blocks={blocks} />
+      </div>
+    </section>
   );
 };

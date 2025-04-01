@@ -1,126 +1,77 @@
-import { Box, Typography } from "@mui/material";
 import { FaLinkedin, FaInstagram, FaDiscord } from "react-icons/fa";
 import Logo from "@src/logo";
 import { useTranslation } from "react-i18next";
 
+const handleIconClick = (url: string) => {
+  window.open(url, "_blank");
+};
+
+export const SocialMediaIcons = () => {
+  return (
+    <>
+      <FaLinkedin
+        size={30}
+        className="cursor-pointer transition-transform duration-300 hover:scale-110"
+        onClick={() =>
+          handleIconClick("https://www.linkedin.com/company/learngraph")
+        }
+      />
+      <FaInstagram
+        size={30}
+        className="cursor-pointer transition-transform duration-300 hover:scale-110"
+        onClick={() =>
+          handleIconClick(
+            "https://www.instagram.com/learngraph_org/?igsh=ZXNjeTRtYjNyOGd0",
+          )
+        }
+      />
+      <FaDiscord
+        size={30}
+        className="cursor-pointer transition-transform duration-300 hover:scale-110"
+        onClick={() => handleIconClick("https://discord.com/invite/DatEV4kNp6")}
+      />
+    </>
+  );
+};
+
 export default function Footer() {
   const { t } = useTranslation();
-  const handleIconClick = (url: string) => {
-    window.open(url, "_blank"); // Opens the link in a new tab
-  };
 
   return (
-    <Box
-      sx={{
-        backgroundColor: "#28343e",
-        color: "white",
-        textAlign: "center",
-        padding: "30px 10px 30px 10px",
-        fontFamily: "Orbitron, sans-serif",
-      }}
-    >
+    <div className="bg-[#28343e] text-white text-center py-8 px-2 font-orbitron">
       {/* Project Name */}
       <Logo />
-      <Typography
-        variant="h5"
-        sx={{
-          fontFamily: "Orbitron, sans-serif",
-          fontWeight: "bold",
-          marginBottom: "10px",
-          padding: "10px 0px",
-        }}
-      >
-        LEARNGRAPH
-      </Typography>
+      <h5 className="text-xl font-bold mb-2 py-2">LEARNGRAPH</h5>
 
       {/* Social Media Icons */}
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          gap: "20px",
-          padding: "15px 0px",
-          marginBottom: "10px",
-        }}
-      >
-        {/* LinkedIn Icon */}
-        <FaLinkedin
-          size={30}
-          style={{ cursor: "pointer", transition: "transform 0.3s ease" }}
-          onMouseOver={(e) => (e.currentTarget.style.transform = "scale(1.2)")}
-          onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1)")}
-          onClick={() =>
-            handleIconClick("https://www.linkedin.com/company/learngraph")
-          }
-        />
-        {/* Instagram Icon */}
-        <FaInstagram
-          size={30}
-          style={{ cursor: "pointer", transition: "transform 0.3s ease" }}
-          onMouseOver={(e) => (e.currentTarget.style.transform = "scale(1.2)")}
-          onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1)")}
-          onClick={() =>
-            handleIconClick(
-              "https://www.instagram.com/learngraph_org/?igsh=ZXNjeTRtYjNyOGd0",
-            )
-          }
-        />
-        {/* Discord Icon */}
-        <FaDiscord
-          size={30}
-          style={{ cursor: "pointer", transition: "transform 0.3s ease" }}
-          onMouseOver={(e) => (e.currentTarget.style.transform = "scale(1.2)")}
-          onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1)")}
-          onClick={() =>
-            handleIconClick("https://discord.com/invite/DatEV4kNp6")
-          }
-        />
-      </Box>
+      <div className="flex justify-center gap-5 py-4 mb-2">
+        <SocialMediaIcons />
+      </div>
 
       {/* Legal and Navigation Links */}
-      <Box sx={{ marginBottom: "10px" }}>
-        <Typography variant="body2" sx={{ marginBottom: "5px" }}>
+      <div className="mb-2">
+        <p className="text-sm mb-2">
           {t("footer.copy", { year: new Date().getFullYear() })}
-        </Typography>
-        <Typography
-          variant="body2"
-          component="a"
+        </p>
+        <a
           href="/imprint"
-          sx={{
-            color: "white",
-            textDecoration: "none",
-            "&:hover": { textDecoration: "underline" },
-            marginRight: "10px",
-          }}
+          className="text-sm text-white no-underline hover:underline mr-2"
         >
           {t("footer.imprint")}
-        </Typography>
-        <Typography
-          variant="body2"
-          component="a"
+        </a>
+        <a
           href="/privacy-policy"
-          sx={{
-            color: "white",
-            textDecoration: "none",
-            "&:hover": { textDecoration: "underline" },
-            marginRight: "10px",
-          }}
+          className="text-sm text-white no-underline hover:underline mr-2"
         >
           {t("footer.privacyPolicy")}
-        </Typography>
-        <Typography
-          variant="body2"
-          component="a"
+        </a>
+        <a
           href="/terms-of-use"
-          sx={{
-            color: "white",
-            textDecoration: "none",
-            "&:hover": { textDecoration: "underline" },
-          }}
+          className="text-sm text-white no-underline hover:underline"
         >
           {t("footer.termsOfUse")}
-        </Typography>
-      </Box>
-    </Box>
+        </a>
+      </div>
+    </div>
   );
 }

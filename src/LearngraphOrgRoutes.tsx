@@ -3,6 +3,7 @@ import { About } from "./About";
 import { Imprint, TermsOfUse, PrivacyPolicy } from "./Imprint";
 import { LandingPage } from "./LandingPage";
 import { CGUniversity } from "./CustomerGroup/University";
+import ComingSoon from "./CustomerGroup/ComingSoon";
 
 export const LearngraphOrgRoutes = () => {
   return (
@@ -10,8 +11,11 @@ export const LearngraphOrgRoutes = () => {
       <Route path="/" Component={LandingPage} />
 
       {/* Customer Groups */}
-      <Route path="/universities" Component={CGUniversity} />
       <Route path="/university" Component={CGUniversity} />
+      <Route path="/policy" Component={ComingSoon} />
+      <Route path="/industry" Component={ComingSoon} />
+      <Route path="/ecosystem" Component={ComingSoon} />
+      <Route path="/k-12" Component={ComingSoon} />
 
       {/* About Us */}
       <Route path="/über-uns" Component={About} />

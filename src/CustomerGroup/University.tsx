@@ -1,6 +1,6 @@
 import { useState, FC } from "react";
 import { NavigationWithContent } from "@src/Navigation";
-import USPCTASection from "@src/LandingPage/CTABlock";
+import { GetADemoCTA } from "@src/LandingPage";
 
 // --- Type Declarations ---
 interface ChallengeBlock {
@@ -149,7 +149,7 @@ const InsightStat: FC<InsightStatProps> = ({ insight }) => {
 
   return (
     <div
-      className={`relative flex flex-col items-center cursor-pointer transition-all duration-300 bg-blue-600 text-white ${
+      className={`relative flex flex-col items-center cursor-pointer transition-all duration-300 bg-blue-700 text-white ${
         isExpanded ? "w-64 h-64 rounded-2xl p-4" : "w-50 h-50 rounded-full"
       }`}
       onMouseEnter={() => setIsExpanded(true)}
@@ -211,9 +211,9 @@ export const CGUniversity: FC = () => {
             </section>
 
             {/* Challenges Section */}
-            <section className="py-12 bg-white">
+            <section className="py-12">
               <div className="container mx-auto px-4">
-                <h2 className="text-3xl font-bold text-center mb-8">
+                <h2 className="text-3xl font-bold text-center mb-8 bg-white/85 rounded-2xl">
                   Institutional Challenges
                 </h2>
                 <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
@@ -236,10 +236,10 @@ export const CGUniversity: FC = () => {
             {/* Insights Section */}
             <section className="py-12">
               <div className="container mx-auto px-4">
-                <h2 className="text-3xl font-bold text-center mb-8 bg-white/70 rounded-2xl">
+                <h2 className="text-3xl font-bold text-center mb-8 bg-white/85 rounded-2xl">
                   Turning Insights into Action
                 </h2>
-                <div className="flex flex-wrap justify-center gap-8 mb-4 bg-white/70 rounded-2xl p-4">
+                <div className="flex flex-wrap justify-center gap-8 mb-4 bg-white/85 rounded-2xl p-4">
                   {researchInsights.map((insight) => (
                     <InsightStat key={insight.id} insight={insight} />
                   ))}
@@ -254,9 +254,9 @@ export const CGUniversity: FC = () => {
             </section>
 
             {/* Solutions Section */}
-            <section className="py-12 bg-gray-50">
+            <section className="py-12">
               <div className="container mx-auto px-4">
-                <h2 className="text-3xl font-bold text-center mb-8">
+                <h2 className="text-3xl font-bold text-center mb-8 bg-white/85 rounded-2xl">
                   What LearnGraph Provides
                 </h2>
                 <div className="grid gap-8 md:grid-cols-1 lg:grid-cols-3">
@@ -291,11 +291,7 @@ export const CGUniversity: FC = () => {
             </section>
 
             {/* CTA Section */}
-            <section className="py-12 bg-blue-600 text-white text-center">
-              <div className="container mx-auto px-4">
-                <USPCTASection blocks={ctaBlocks} />
-              </div>
-            </section>
+            <GetADemoCTA blocks={ctaBlocks} />
           </>
         }
       />

@@ -20,7 +20,7 @@ export const NavigationWithContent = ({
   // Define the solution links
   const SOLUTION_LINKS = [
     { label: "Policy", path: "/policy" },
-    { label: "Universities", path: "/universities" },
+    { label: "Universities", path: "/university" },
     { label: "Industry", path: "/industry" },
     { label: "Ecosystem", path: "/ecosystem" },
     //{ label: "K-12", path: "/k-12" },
