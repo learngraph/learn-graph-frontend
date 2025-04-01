@@ -110,13 +110,21 @@ export const LandingPage = () => {
             <YoutubeVideo videoID="cHv1LGXfJRU" />
             <InfoBlocks headline="Why Choose LearnGraph." blocks={infoBlocks} />
             <MissionStatement />
-            <div className="py-12 bg-blue-800/80 text-white text-center">
-              <USPCTASection blocks={finalCTA} />
-            </div>
+            <GetADemoCTA blocks={finalCTA} />
           </>
         }
       />
     </div>
+  );
+};
+
+export const GetADemoCTA = ({ blocks }: { blocks: USPFeatureCard[] }) => {
+  return (
+    <section className="py-12 bg-blue-800/80 text-white text-center">
+      <div className="container mx-auto px-4">
+        <USPCTASection blocks={blocks} />
+      </div>
+    </section>
   );
 };
 

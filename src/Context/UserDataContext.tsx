@@ -25,7 +25,7 @@ export const useUserDataContext = () => React.useContext(UserDataContext);
 const storageSave = (key: string, value: any) => {
   localStorage.setItem(key, JSON.stringify(value));
 };
-const storageDel = (key: string) => {
+const _storageDel = (key: string) => {
   localStorage.removeItem(key);
 };
 const storageLoad = (key: string) => {
@@ -43,21 +43,6 @@ const loadUserDataFromLS = () => {
     language: storageLoad(StorageKeys.language),
   };
   return r;
-};
-
-const deleteUserDataFromLS = () => {
-  storageDel(StorageKeys.language);
-};
-
-// clearUserDataCtx is a shorthand for clearUserData
-const clearUserDataCtx = (_: UserDataContextValues) => {
-  return clearUserData();
-};
-
-// clearUserData removes all user data from the running application and from
-// browser local storage
-const clearUserData = () => {
-  deleteUserDataFromLS();
 };
 
 export const translateLocaleToLanguageTag = (locale: string) => {
