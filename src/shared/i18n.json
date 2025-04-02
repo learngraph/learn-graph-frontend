@@ -1,6 +1,12 @@
 {
   "switch-language-button": "Language",
   "switch-language-button-short": "Lang.",
+  "Navigation":{
+  "policy": "Policy",
+  "Universities": "Universities",
+  "Industry":"Industry",
+  "Ecosystem":"Ecosystem"
+  },
   "landing": {
     "header": "All the paths you didn't go..",
     "headerAction": "You can now explore them all!",
@@ -46,5 +52,177 @@
     "imprint": "Imprint",
     "privacyPolicy": "Privacy Policy",
     "termsOfUse": "Terms of Use"
+  },
+  "soon": {
+  "logoAlt": "Exciting Preview",
+  "comingSoon": "Coming Soon",
+  "launchingIn": "Launching in {{days}}d {{hours}}h {{minutes}}m {{seconds}}s",
+
+  "stayConnected": "Stay Connected",
+
+  "getInTouch": "Get in Touch",
+  "emailText": "Email us at",
+  "orVisit": "or visit our",
+  "aboutPage": "About",
+
+  "exploreMore": "Explore More",
+  "roadmap": "Our Roadmap",
+  "advisoryBoard": "Advisory Board",
+  "faq": "FAQ",
+
+  "visualPrototype": "Visual Prototype",
+  "visualPrototype1": "Visual Prototype 1",
+  "visualPrototype2": "Visual Prototype 2",
+
+  "spreadSupport": "Spread the Word & Support the Cause",
+  "productSoon": "Our product is soon ready for demo and we’re launching a non-profit initiative in Africa with",
+  "joinDiscord": "Join our",
+  "discordChannel": "Discord channel",
+  "joinDiscordButton": "Join Discord"
+},
+"university": {
+  "lm":"Learn More",
+  "heroHeadline": "Empower Your Institution with Data-Driven Insights",
+  "heroText": "Transform your educational ecosystem with personalized analytics, hybrid learning solutions, and seamless interoperability.",
+   "heroImageAlt": "Digital Ecosystem for Education",
+  "challengesTitle": "Institutional Challenges",
+  "challenge1": {
+    "headline": "Enhanced Retention",
+    "text": "Support students before subtle disengagement occurs by proactively addressing early warning signs. Optimize support to boost retention without casting blame."
+  },
+  "challenge2": {
+    "headline": "Integrated Pathways",
+    "text": "Break down silos in your curriculum to connect interdisciplinary courses. Enable smoother transitions and enhanced academic mobility across departments."
+  },
+  "challenge3": {
+    "headline": "Data to Action",
+    "text": "Transform your existing data into actionable strategies. Convert insights into targeted interventions that support student success."
+  },
+  "challenge4": {
+    "headline": "Seamless Interoperability",
+    "text": "Align your systems with European standards to create a unified ecosystem that recognizes learning achievements across borders."
+  },
+
+  "insightsTitle": "Turning Insights into Action",
+  "insight1": {
+    "title": "23% Graduation Increase",
+    "description": "Georgia State University used predictive analytics to target at-risk students, resulting in a 23% increase in graduation rates and a 5% decrease in the achievement gap."
+  },
+  "insight2": {
+    "title": "5% decreased achievement gap",
+    "description": "The University of Arizona's personalized interventions based on predictive analytics led to a 7% increase in retention rates and a 10% boost in graduation rates."
+  },
+  "insight3": {
+    "title": "30% Retention Improvement",
+    "description": "Studies suggest that sophisticated learning analytics can improve student retention by up to 30%, demonstrating the power of technology in education."
+  },
+  "insight4": {
+    "title": "11% Reduced failure rates",
+    "description": "A meta-analysis shows active learning reduces failure rates from 32% to 21% and improves exam performance significantly, underscoring its benefits in STEM courses."
+  },
+  "insightsSummary": "Collectively, these insights demonstrate that data-driven interventions and active learning strategies can significantly enhance student retention, reduce failure rates, and boost graduation outcomes.",
+
+  "solutionsTitle": "What LearnGraph Provides",
+  "solution1": {
+    "target": "Hybrid Learning Containers",
+    "headline": "Hybrid Learning Containers",
+    "text": "Our platform creates flexible, learner-centered spaces that blend digital and physical experiences. These containers can host interactive demos and multimedia content to support dynamic learning.",
+    "keywords": [
+      "Adaptive Spaces",
+      "Digital & Physical Integration",
+      "Interactive Learning",
+      "Customizable Environments"
+    ]
+  },
+  "solution2": {
+    "target": "Peer-Coaching & Mentorship",
+    "headline": "Peer-Coaching & Mentorship",
+    "text": "We foster robust networks of peer coaches and mentors that provide personalized support. This community-based approach builds confidence and enhances academic outcomes.",
+    "keywords": [
+      "Collaborative Learning",
+      "Personalized Guidance",
+      "Mentorship Networks",
+      "Community Engagement"
+    ]
+  },
+  "solution3": {
+    "target": "Interoperability & Open-Source",
+    "headline": "Interoperability & Open-Source Infrastructure",
+    "text": "LearnGraph aligns with the European Learning Model (ELM) and ESCO Skills & Competencies, enabling seamless recognition of academic progress across institutions with a scalable, open-source framework.",
+    "keywords": [
+      "European Standards",
+      "Seamless Integration",
+      "Cross-Border Mobility",
+      "Sustainable Innovation"
+    ]
+  },
+
+  "cta": {
+    "headline": "Experience the Future of Education",
+    "text": "Discover how our innovative, data-driven platform transforms insights into actionable strategies that enhance student success and institutional growth.",
+    "cta": "Request a Demo"
   }
+},
+  "LandingPage": {
+    "wcl":"Why choose Learngraph",
+  "uspBlocks": {
+    "reduceDropoutHeadline": "Reduce Dropout. Boost Engagement.",
+    "reduceDropoutText": "LearnGraph helps your students stay on track with personalized learning paths, peer coaching, and emotional reflection — all built into a platform that works alongside your existing systems.",
+    "reduceDropoutCTA": "Learn More",
+
+    "yourWayHeadline": "Your Education, Your Way.",
+    "yourWayText": "Tired of one-size-fits-all learning? LearnGraph shows you exactly where you are, where you want to go, and how to get there — with smart guidance, real resources, and peer support.",
+    "yourWayCTA": "Enroll in our Pilot",
+
+    "upskillHeadline": "Upskill Without the Overwhelm.",
+    "upskillText": "Whether it’s soft skills or digital tools, LearnGraph guides adult learners step-by-step with peer support and real-world relevance.",
+    "upskillCTA": "Use for Training",
+
+    "openSourceHeadline": "Open-Source, Mission-First, Impact-Obsessed.",
+    "openSourceText": "We don’t chase profit. We chase purpose. Your support goes directly into scaling impact across the Global South.",
+    "openSourceCTA": "Become a Partner",
+
+    "finalCTAHeadline": "Experience the Future of Education",
+    "finalCTAText": "Discover how our platform transforms your life's journey.",
+    "finalCTACTA": "Request a Demo"
+  },
+  "infoBlocks": {
+    "companiesTarget": "Companies & Adult Learners",
+    "companiesHeadline": "Reskill, upskill, or just grow — without losing your mind.",
+    "companiesKeywords": [
+      "upskilling",
+      "resilience",
+      "soft skills",
+      "real-world impact",
+      "career alignment",
+      "flexible learning",
+      "peer mentorship"
+    ],
+    "independentTarget": "Independent Learners",
+    "independentHeadline": "No more guessing. You now have a GPS for your learning journey.",
+    "independentKeywords": [
+      "personalized",
+      "goal-driven",
+      "peer support",
+      "learning map",
+      "self-paced",
+      "meaningful growth",
+      "open access",
+      "certification-ready"
+    ],
+    "fundersTarget": "Funders & Foundations",
+    "fundersHeadline": "Invest in an education system that doesn’t just teach — it transforms.",
+    "fundersKeywords": [
+      "open-source",
+      "inclusive",
+      "transformational",
+      "inner development",
+      "tech-for-good",
+      "high impact",
+      "grassroots-led",
+      "sustainable"
+    ]
+  }
+}
+
 }
