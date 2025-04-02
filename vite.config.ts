@@ -11,7 +11,6 @@ export default defineConfig({
     },
   },
   server: {
-    // TODO(skep): dev-only config, not for production!
     proxy: {
       "/graphql": {
         target: "http://backend:8080/query",
