@@ -2,7 +2,7 @@ import { BrowserRouter } from "react-router-dom";
 import { UserDataContextProvider } from "./Context/UserDataContext";
 import { LearngraphOrgRoutes } from "./LearngraphOrgRoutes";
 import { PostHogProvider } from "posthog-js/react";
-import { POSTHOG_API_KEY, POSTHOG_HOST } from "./constants.ts";
+import { POSTHOG_API_KEY, POSTHOG_HOST } from "./constants";
 
 export const App = () => {
   return (

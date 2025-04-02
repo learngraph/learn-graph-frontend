@@ -1,4 +1,3 @@
-import React from "react";
 import { NavigationWithContent } from "./Navigation";
 // Constant variables for legal and contact details
 const COMPANY_NAME = "LearnGraph gUG (Haftungsbeschränkt)";
