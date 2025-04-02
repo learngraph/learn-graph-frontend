@@ -13,6 +13,7 @@ FROM ${NGINX_IMAGE}
 ENV NODE_ENV=production
 COPY --from=builder /src/dist /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY entry-point.sh /src/
 EXPOSE 80
 LABEL app="learngraph-frontend"
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["sh", "/src/entry-point.sh"]

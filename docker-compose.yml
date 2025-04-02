@@ -1,4 +1,5 @@
 services:
+  # development
   frontend:
     image: node:20.10.0
     ports:
@@ -15,6 +16,18 @@ services:
         target: /src
     working_dir: /src
     command: npm run devPublic
+  # production test, see `npm run build-arm/-amd`
+  #frontend:
+  #  image: test-frontend
+  #  networks:
+  #    - learngraphnet
+  #  ports:
+  #    - "3000:80" # host:container
+  #  environment:
+  #    REACT_APP_BACKEND_DN: "https://learngraph.org/query"
+  #    VITE_POSTHOG_API_KEY: "${VITE_POSTHOG_API_KEY}"
+  #    VITE_POSTHOG_HOST: "${VITE_POSTHOG_HOST}"
+  #    VITE_SLACK_WEBHOOK_TOKEN: "${VITE_SLACK_WEBHOOK_TOKEN}"
 networks:
   learngraphnet:
     name: learngraphnet
