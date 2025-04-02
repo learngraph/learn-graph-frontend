@@ -7,7 +7,7 @@ export interface UserDataContextValues {
   setLanguage: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const SUPPORTED_LANGUAGE_TAGS = ["en", "de", "zh"]; // FIXME(skep): unused now!!
+const SUPPORTED_LANGUAGE_TAGS = ["en", "de", "zh"];
 const DEFAULT_LANGUAGE = "en";
 
 export const errMsgNoDefault =
@@ -25,9 +25,9 @@ export const useUserDataContext = () => React.useContext(UserDataContext);
 const storageSave = (key: string, value: any) => {
   localStorage.setItem(key, JSON.stringify(value));
 };
-const _storageDel = (key: string) => {
-  localStorage.removeItem(key);
-};
+//const _storageDel = (key: string) => {
+//  localStorage.removeItem(key);
+//};
 const storageLoad = (key: string) => {
   return JSON.parse(localStorage.getItem(key) ?? `""`);
 };

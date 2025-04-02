@@ -130,122 +130,122 @@ export const GetADemoCTA = ({ blocks }: { blocks: USPFeatureCard[] }) => {
 
 export default LandingPage;
 
-const _uspCtaBlocksUnused = [
-  // Foundation / Funders / NGOs
-  {
-    symbol: "💖",
-    headline: "Fund What the Future Needs.",
-    text: "LearnGraph blends AI, open access, and inner development to radically transform education from the inside out. We’re open-source, inclusive, and globally scalable.",
-    cta: "Support the Mission",
-    onClick: () => (window.location.href = "/support"),
-  },
-  {
-    symbol: "🛠️",
-    headline: "Build Human-Centered Systems at Scale.",
-    text: "LearnGraph bridges technology, inner development, and social cohesion — a rare trifecta for sustainable impact.",
-    cta: "Co-Design with Us",
-    onClick: () => (window.location.href = "/collaborate"),
-  },
-  // Educators / Mentors
-  {
-    symbol: "🧑‍🏫",
-    headline: "Anyone Can Be a Mentor. Really.",
-    text: "With built-in guidance and peer-coaching structures, even non-professionals—like community leaders, caregivers, or alumni—can support powerful learning.",
-    cta: "Become a Mentor",
-    onClick: () => (window.location.href = "/mentor"),
-  },
-  {
-    symbol: "📚",
-    headline: "Transform Your Classroom, Not Your Career.",
-    text: "Bring LearnGraph into your teaching without overhauling your syllabus. Support self-directed learners, reduce burnout, and increase engagement.",
-    cta: "Try It in Your Class",
-    onClick: () => (window.location.href = "/educators"),
-  },
-  // K-12 / Parents
-  {
-    symbol: "🧒",
-    headline: "Learning That Follows Curiosity.",
-    text: "Forget rigid curriculums. LearnGraph supports kids in exploring topics that matter to them, while still covering essentials through playful learning paths.",
-    cta: "Explore for Schools",
-    onClick: () => (window.location.href = "/k12"),
-  },
-  {
-    symbol: "🌍",
-    headline: "Education for Every Child, Everywhere.",
-    text: "No internet? No problem. LearnGraph is mobile-first, works offline, and includes local translations and community-based support.",
-    cta: "Bring It to Your Community",
-    onClick: () => (window.location.href = "/access"),
-  },
-  // Workforce / HR
-  {
-    symbol: "🧾",
-    headline: "From Degrees to Skills that Actually Matter.",
-    text: "Micro-credentials reflect real capabilities and growth, not just attendance. Help your team grow in ways that are measurable and meaningful.",
-    cta: "Add to Your HR Stack",
-    onClick: () => (window.location.href = "/microcredentials"),
-  },
-  // Policy Makers / Ministries
-  {
-    symbol: "🏛️",
-    headline: "Solve Dropout Without More Teachers.",
-    text: "AI-supported peer learning solves one of the biggest bottlenecks in education systems: human capacity.",
-    cta: "Request a Demo",
-    onClick: () => (window.location.href = "/government"),
-  },
-  {
-    symbol: "🗺️",
-    headline: "A System that Grows With Your People.",
-    text: "LearnGraph is modular, data-rich, and community-owned. It adapts to any region and evolves with your population.",
-    cta: "Talk Strategy",
-    onClick: () => (window.location.href = "/partnerships"),
-  },
-];
+//const uspCtaBlocksUnused = [
+//  // Foundation / Funders / NGOs
+//  {
+//    symbol: "💖",
+//    headline: "Fund What the Future Needs.",
+//    text: "LearnGraph blends AI, open access, and inner development to radically transform education from the inside out. We’re open-source, inclusive, and globally scalable.",
+//    cta: "Support the Mission",
+//    onClick: () => (window.location.href = "/support"),
+//  },
+//  {
+//    symbol: "🛠️",
+//    headline: "Build Human-Centered Systems at Scale.",
+//    text: "LearnGraph bridges technology, inner development, and social cohesion — a rare trifecta for sustainable impact.",
+//    cta: "Co-Design with Us",
+//    onClick: () => (window.location.href = "/collaborate"),
+//  },
+//  // Educators / Mentors
+//  {
+//    symbol: "🧑‍🏫",
+//    headline: "Anyone Can Be a Mentor. Really.",
+//    text: "With built-in guidance and peer-coaching structures, even non-professionals—like community leaders, caregivers, or alumni—can support powerful learning.",
+//    cta: "Become a Mentor",
+//    onClick: () => (window.location.href = "/mentor"),
+//  },
+//  {
+//    symbol: "📚",
+//    headline: "Transform Your Classroom, Not Your Career.",
+//    text: "Bring LearnGraph into your teaching without overhauling your syllabus. Support self-directed learners, reduce burnout, and increase engagement.",
+//    cta: "Try It in Your Class",
+//    onClick: () => (window.location.href = "/educators"),
+//  },
+//  // K-12 / Parents
+//  {
+//    symbol: "🧒",
+//    headline: "Learning That Follows Curiosity.",
+//    text: "Forget rigid curriculums. LearnGraph supports kids in exploring topics that matter to them, while still covering essentials through playful learning paths.",
+//    cta: "Explore for Schools",
+//    onClick: () => (window.location.href = "/k12"),
+//  },
+//  {
+//    symbol: "🌍",
+//    headline: "Education for Every Child, Everywhere.",
+//    text: "No internet? No problem. LearnGraph is mobile-first, works offline, and includes local translations and community-based support.",
+//    cta: "Bring It to Your Community",
+//    onClick: () => (window.location.href = "/access"),
+//  },
+//  // Workforce / HR
+//  {
+//    symbol: "🧾",
+//    headline: "From Degrees to Skills that Actually Matter.",
+//    text: "Micro-credentials reflect real capabilities and growth, not just attendance. Help your team grow in ways that are measurable and meaningful.",
+//    cta: "Add to Your HR Stack",
+//    onClick: () => (window.location.href = "/microcredentials"),
+//  },
+//  // Policy Makers / Ministries
+//  {
+//    symbol: "🏛️",
+//    headline: "Solve Dropout Without More Teachers.",
+//    text: "AI-supported peer learning solves one of the biggest bottlenecks in education systems: human capacity.",
+//    cta: "Request a Demo",
+//    onClick: () => (window.location.href = "/government"),
+//  },
+//  {
+//    symbol: "🗺️",
+//    headline: "A System that Grows With Your People.",
+//    text: "LearnGraph is modular, data-rich, and community-owned. It adapts to any region and evolves with your population.",
+//    cta: "Talk Strategy",
+//    onClick: () => (window.location.href = "/partnerships"),
+//  },
+//];
 
-const _infoBlocksUnused = [
-  {
-    target: "Schools & Parents",
-    headline: "Kids don’t need pressure. They need purpose.",
-    imageUrl: "kids-learning.png",
-    keywords: [
-      "curiosity",
-      "empathy",
-      "flexibility",
-      "purpose",
-      "inner development",
-      "community",
-      "exploration",
-      "engagement",
-    ],
-  },
-  {
-    target: "Policy Makers & Ministries",
-    headline:
-      "Solve dropout, teacher shortages, and outdated systems — in one platform.",
-    imageUrl: "/rural-minister-in-there-top.png",
-    keywords: [
-      "scalable",
-      "cost-effective",
-      "low-infrastructure",
-      "national rollout",
-      "AI-enabled",
-      "future-proof",
-      "education equity",
-      "impact",
-    ],
-  },
-  {
-    target: "Universities & Educators",
-    headline:
-      "Finally, a system that supports every learner — without burning out faculty.",
-    imageUrl: "/students-learning.png", // replace with your actual asset path
-    keywords: [
-      "adaptive learning",
-      "dropout reduction",
-      "scalable pedagogy",
-      "AI guidance",
-      "emotional safety",
-      "micro-credentials",
-      "learning analytics",
-    ],
-  },
-];
+//const infoBlocksUnused = [
+//  {
+//    target: "Schools & Parents",
+//    headline: "Kids don’t need pressure. They need purpose.",
+//    imageUrl: "kids-learning.png",
+//    keywords: [
+//      "curiosity",
+//      "empathy",
+//      "flexibility",
+//      "purpose",
+//      "inner development",
+//      "community",
+//      "exploration",
+//      "engagement",
+//    ],
+//  },
+//  {
+//    target: "Policy Makers & Ministries",
+//    headline:
+//      "Solve dropout, teacher shortages, and outdated systems — in one platform.",
+//    imageUrl: "/rural-minister-in-there-top.png",
+//    keywords: [
+//      "scalable",
+//      "cost-effective",
+//      "low-infrastructure",
+//      "national rollout",
+//      "AI-enabled",
+//      "future-proof",
+//      "education equity",
+//      "impact",
+//    ],
+//  },
+//  {
+//    target: "Universities & Educators",
+//    headline:
+//      "Finally, a system that supports every learner — without burning out faculty.",
+//    imageUrl: "/students-learning.png", // replace with your actual asset path
+//    keywords: [
+//      "adaptive learning",
+//      "dropout reduction",
+//      "scalable pedagogy",
+//      "AI guidance",
+//      "emotional safety",
+//      "micro-credentials",
+//      "learning analytics",
+//    ],
+//  },
+//];
