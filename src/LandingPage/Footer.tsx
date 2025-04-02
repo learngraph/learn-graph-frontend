@@ -40,7 +40,10 @@ export default function Footer() {
   return (
     <div className="bg-[#28343e] text-white text-center py-8 px-2 font-orbitron">
       {/* Project Name */}
-      <Logo />
+      <div className="flex items-center justify-center">
+        <Logo />
+      </div>
+
       <h5 className="text-xl font-bold mb-2 py-2">LEARNGRAPH</h5>
 
       {/* Social Media Icons */}
