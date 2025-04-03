@@ -1,39 +1,45 @@
 {
   "switch-language-button": "語言",
   "switch-language-button-short": "語",
+  "Navigation": {
+    "policy": "政策",
+    "Universities": "大學",
+    "Industry": "產業",
+    "Ecosystem": "生態系"
+  },
   "landing": {
-    "header": "All the paths you didn't go..",
-    "headerAction": "You can now explore them all!",
-    "intro": "在 LearnGraph，我們相信每個人都應該走出屬於自己獨特的道路。我們正在打造一個互動且動態的知識地圖——一種類似於學習版 Google 地圖的工具——旨在幫助您探索一個充滿無限機會、根據您的熱情量身定制的世界。我們的平台正積極開發中，並由社群合作推動。加入我們在 Discord 上的 <linktodiscord>實踐社群</linktodiscord>，一起共創教育的未來！",
+    "header": "所有你曾錯過的道路……",
+    "headerAction": "現在你可以探索所有路徑！",
+    "intro": "在 LearnGraph，我們相信每個人都應該擁有打造自己獨特學習路徑的權利。我們正在構建一個互動且動態的知識地圖——就像是學習版的 Google Maps——讓你能依據熱情，導航無限機會的世界。我們的平台仍在積極開發中，並由社群共同協作推動。加入我們在 Discord 上的<linktodiscord>實踐社群</linktodiscord>，共同形塑教育的未來！",
     "missionStatementHeader": "我們的使命",
-    "missionStatementText": "共同創造未來的教育——免費提供給每個人。\n我們使人們能夠學習，<strong>無論他們的生活狀況如何</strong>，也無論可利用的資源有多少。\n<linktowhitepaper>點此閱讀我們的白皮書</linktowhitepaper>.",
-    "podcastAlternative": "喜歡聆聽嗎？試試我們的播客替代方案，與我們一起展開聲音之旅！"
+    "missionStatementText": "共同創造教育的未來——免費且普及。\n我們致力於讓每個人都能學習，<strong>不受生活狀況或資源限制</strong>。\n<linktowhitepaper>點此閱讀我們的白皮書</linktowhitepaper>。",
+    "podcastAlternative": "喜歡聽音頻？試試我們的 Podcast 替代方案，和我們一起踏上聲音旅程！"
   },
   "navigation": {
-    "link-to-landing-page": "歡迎使用",
+    "link-to-landing-page": "歡迎",
     "link-to-about-page": "關於我們",
-    "link-to-imprint-page": "法定資訊",
-    "solutions": "Solutions",
-    "back": "Back"
+    "link-to-imprint-page": "法律資訊",
+    "solutions": "解決方案",
+    "back": "返回"
   },
   "about": {
-    "Storyh": "How did it all start?",
-    "Storyp": "After living in a Buddhist temple, Laurin came back with no agenda—just presence. He listened. One day, a friend said, “Wouldn’t it be cool if learning worked like Google Maps?” The idea sat in the space between them, waiting. Laurin picked it up. Soon, others joined. That’s how LearnGraph quietly began.",
-    "Our-Team": "The Team",
-    "Our-Team-text": "We’re not just building a platform—we’re living the practice.",
+    "Storyh": "一切是如何開始的？",
+    "Storyp": "在佛教寺廟生活一段時間後，Laurin 回來時並沒有計畫——只有當下的專注。他聆聽。有一天，一位朋友說：「如果學習能像 Google 地圖一樣就好了？」這個想法就這樣在兩人之間浮現，等待被實現。Laurin 把它撿起來，其他人也隨之加入。LearnGraph 就這樣悄悄誕生了。",
+    "Our-Team": "我們的團隊",
+    "Our-Team-text": "我們不只是打造一個平台——我們也在實踐它的理念。",
     "team-Laurin": "執行長",
-    "team-Namatama": "全球夥伴關係總監",
-    "team-Efecan": "教育策略與創新部門主管",
+    "team-Namatama": "全球合作總監",
+    "team-Efecan": "教育策略與創新主管",
     "team-Talal": "開發工程師",
-    "quote-Laurin": "The best ideas come from stillness. LearnGraph wasn’t built to disrupt — it was built to listen, to guide, and to grow with those who are ready to listen.",
-    "quote-Nama": "這個世界廣闊無垠，有些人擁有豐富資源，幫助那些資源匱乏的人是他們的責任。",
-    "quote-Efecan": "Education is not about filling a vessel, but about kindling a flame - and I intend to set the whole system ablaze.",
-    "quote-Talal": "外面的世界雖充滿挑戰，但我們本不該孤單。重要的不在於我能為自己做什麼，而在於每個人能為全人類做什麼。",
-    "headline-travel-group": "You?!",
-    "team-placeholder-description": "We’re always looking for curious minds to join us. Whether you code, care about learning, or just have a wild idea—come say hi. <discord>Join our Discord</discord>, or send us a message to <email>jobs@learngraph.org</email>!"
+    "quote-Laurin": "最好的想法來自內在的寧靜。LearnGraph 並非為了顛覆而生，而是為了傾聽、引導，並與那些願意傾聽的人一同成長。",
+    "quote-Nama": "這個世界非常廣闊，有些人擁有資源的特權，而擁有資源的人有責任去幫助那些沒有的人。",
+    "quote-Efecan": "教育不是填滿一個容器，而是點燃一把火——而我想要點燃整個系統。",
+    "quote-Talal": "外面的世界或許讓人害怕，但我們從來就不該獨自一人。重要的不是我能為自己做什麼，而是我們大家能為人類做些什麼。",
+    "headline-travel-group": "你？！",
+    "team-placeholder-description": "我們一直在尋找對學習充滿好奇心的人。不管你是會寫程式、關心教育，或只是有個瘋狂的想法——來和我們聊聊吧。<discord>加入我們的 Discord</discord>，或來信至 <email>jobs@learngraph.org</email>！"
   },
   "choices": {
-    "headline-Choices": "個人化你的體驗",
+    "headline-Choices": "自訂你的體驗",
     "subheading": "我是",
     "back": "返回",
     "firsttype": "教育機構",
@@ -42,9 +48,168 @@
     "fourthtype": "企業"
   },
   "footer": {
-    "copy": "© {{year}} LearnGraph gUG (Haftungsbeschränkt). 版權所有。",
-    "imprint": "法律聲明",
-    "privacyPolicy": "隱私權政策",
+    "copy": "© {{year}} LearnGraph gUG (有限責任公司)。保留所有權利。",
+    "imprint": "法律資訊",
+    "privacyPolicy": "隱私政策",
     "termsOfUse": "使用條款"
+  },
+  "soon": {
+    "logoAlt": "精彩預覽",
+    "comingSoon": "即將上線",
+    "launchingIn": "即將啟動：{{days}}天 {{hours}}時 {{minutes}}分 {{seconds}}秒",
+    "stayConnected": "保持聯繫",
+    "getInTouch": "聯絡我們",
+    "emailText": "電子郵件聯絡：",
+    "orVisit": "或造訪我們的",
+    "aboutPage": "關於我們",
+    "exploreMore": "探索更多",
+    "roadmap": "我們的開發路線圖",
+    "advisoryBoard": "顧問團",
+    "faq": "常見問題",
+    "visualPrototype": "視覺原型",
+    "visualPrototype1": "視覺原型 1",
+    "visualPrototype2": "視覺原型 2",
+    "spreadSupport": "傳播理念並支持我們的使命",
+    "productSoon": "我們的產品即將推出，並將與非洲的非營利組織合作",
+    "joinDiscord": "加入我們的",
+    "discordChannel": "Discord 頻道",
+    "joinDiscordButton": "加入 Discord"
+  },
+  "university": {
+    "lm": "了解更多",
+    "heroHeadline": "以數據驅動的洞察力賦能您的教育機構",
+    "heroText": "透過個人化分析、混合學習解決方案和無縫互操作性，轉型您的教育生態系統。",
+    "heroImageAlt": "教育的數位生態系統",
+    "challengesTitle": "機構面臨的挑戰",
+    "challenge1": {
+      "headline": "提升留校率",
+      "text": "在學生產生微妙的疏離感之前，主動處理早期警訊，優化支持策略，提升留校率，避免責備學生。"
+    },
+    "challenge2": {
+      "headline": "整合式學習路徑",
+      "text": "打破課程之間的壁壘，連接跨學科課程，促進順暢轉換與部門間的學術流動性。"
+    },
+    "challenge3": {
+      "headline": "數據轉化為行動",
+      "text": "將您現有的數據轉化為可操作的策略，針對性地介入以支持學生成功。"
+    },
+    "challenge4": {
+      "headline": "無縫互操作性",
+      "text": "使您的系統符合歐洲標準，創建一個統一的生態系統，跨境認可學習成果。"
+    },
+    "insightsTitle": "洞察轉化為行動",
+    "insight1": {
+      "title": "畢業率提高 23%",
+      "description": "喬治亞州立大學利用預測分析針對高風險學生，提升了 23% 的畢業率，並縮小了 5% 的成就差距。"
+    },
+    "insight2": {
+      "title": "成就差距降低 5%",
+      "description": "亞利桑那大學基於預測分析進行個人化干預，提升了 7% 的留校率和 10% 的畢業率。"
+    },
+    "insight3": {
+      "title": "留校率提升 30%",
+      "description": "研究指出，高階學習分析技術可將學生留校率提高至 30%，突顯科技在教育中的潛力。"
+    },
+    "insight4": {
+      "title": "失敗率降低 11%",
+      "description": "一項元分析指出，主動學習能將失敗率從 32% 降至 21%，並顯著提升考試成績，特別適用於 STEM 課程。"
+    },
+    "insightsSummary": "整體來看，這些洞察顯示，數據驅動的干預與主動學習策略能顯著提升學生留校率、降低失敗率並提高畢業成果。",
+    "solutionsTitle": "LearnGraph 提供的內容",
+    "solution1": {
+      "target": "混合學習容器",
+      "headline": "混合學習容器",
+      "text": "我們的平台打造靈活、以學習者為中心的空間，融合數位與實體體驗，支持互動式展示與多媒體內容，促進動態學習。",
+      "keywords": [
+        "適應性空間",
+        "數位與實體整合",
+        "互動學習",
+        "可自訂環境"
+      ]
+    },
+    "solution2": {
+      "target": "同儕教練與導師制度",
+      "headline": "同儕教練與導師制度",
+      "text": "我們推動強大的同儕教練與導師網絡，提供個人化支持。這種以社群為基礎的方法建立信心並提升學習成果。",
+      "keywords": [
+        "協作學習",
+        "個性化指導",
+        "導師網絡",
+        "社群參與"
+      ]
+    },
+    "solution3": {
+      "target": "互操作性與開源基礎設施",
+      "headline": "互操作性與開源基礎設施",
+      "text": "LearnGraph 對齊歐洲學習模型（ELM）與 ESCO 技能與能力架構，支援教育機構間學術進展的無縫銜接與識別。",
+      "keywords": [
+        "歐洲標準",
+        "無縫整合",
+        "跨境流動性",
+        "永續創新"
+      ]
+    },
+    "cta": {
+      "headline": "體驗教育的未來",
+      "text": "了解我們創新的數據驅動平台如何將洞察轉化為可操作策略，提升學生成功率與機構成長。",
+      "cta": "申請示範"
+    }
+  },
+  "LandingPage": {
+    "wcl": "為什麼選擇 LearnGraph",
+    "uspBlocks": {
+      "reduceDropoutHeadline": "減少輟學，提高參與度。",
+      "reduceDropoutText": "LearnGraph 幫助您的學生透過個人化學習路徑、同儕教練與情緒反思保持在正軌——這一切與您現有的系統完美整合。",
+      "reduceDropoutCTA": "了解更多",
+      "yourWayHeadline": "依你所想，自主學習。",
+      "yourWayText": "厭倦了一體適用的學習方式？LearnGraph 讓你精準掌握目前位置、目標方向與達成方法——有智慧導航、真實資源與同儕支持。",
+      "yourWayCTA": "參與我們的試點計畫",
+      "upskillHeadline": "無壓提升技能。",
+      "upskillText": "無論是軟技能還是數位工具，LearnGraph 都以真實應用與同儕支持，逐步引導成人學習者成長。",
+      "upskillCTA": "用於員工培訓",
+      "openSourceHeadline": "開源優先，使命導向，追求影響。",
+      "openSourceText": "我們不追逐利潤，而是追求使命。您的支持將直接幫助我們在全球南方擴大影響力。",
+      "openSourceCTA": "成為合作夥伴",
+      "finalCTAHeadline": "體驗教育的未來",
+      "finalCTAText": "探索我們的平臺如何轉變您人生的學習旅程。",
+      "finalCTACTA": "申請示範"
+    },
+    "infoBlocks": {
+      "companiesTarget": "企業與成人學習者",
+      "companiesHeadline": "升級、再培訓、或單純成長——不再感到困惑。",
+      "companiesKeywords": [
+        "技能提升",
+        "韌性",
+        "軟實力",
+        "真實影響",
+        "職涯對齊",
+        "彈性學習",
+        "同儕指導"
+      ],
+      "independentTarget": "獨立學習者",
+      "independentHeadline": "不再靠猜測。您現在擁有學習旅程的 GPS。",
+      "independentKeywords": [
+        "個性化",
+        "目標導向",
+        "同儕支持",
+        "學習地圖",
+        "自我節奏",
+        "有意義的成長",
+        "開放取用",
+        "可取得證書"
+      ],
+      "fundersTarget": "資助者與基金會",
+      "fundersHeadline": "投資於一個不僅教授知識，更能轉化生命的教育體系。",
+      "fundersKeywords": [
+        "開源",
+        "包容性",
+        "變革性",
+        "內在發展",
+        "善用科技",
+        "高影響力",
+        "由下而上",
+        "永續性"
+      ]
+    }
   }
 }
