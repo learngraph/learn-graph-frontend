@@ -31,6 +31,11 @@ const languageDict: { [language: string]: LanguageDictEntry } = {
     displayIcon: "🇪🇸",
     localeString: "esES",
   },
+  it: {
+    displayText: "Italiano",
+    displayIcon: "🇮🇹",
+    localeString: "itIT",
+  },
   zh: {
     displayText: "中文",
     displayIcon: "🇹🇼",

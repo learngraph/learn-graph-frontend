@@ -1,6 +1,7 @@
 import { useState, FC } from "react";
 import { NavigationWithContent } from "@src/Navigation";
 import { GetADemoCTA } from "@src/LandingPage";
+import { useTranslation } from "react-i18next";
 
 // --- Type Declarations ---
 interface ChallengeBlock {
@@ -37,115 +38,11 @@ interface InsightStatProps {
   insight: Insight;
 }
 
-// --- Data Definitions ---
-const challengeBlocks: ChallengeBlock[] = [
-  {
-    icon: "📉",
-    headline: "Enhanced Retention",
-    text: "Support students before subtle disengagement occurs by proactively addressing early warning signs. Optimize support to boost retention without casting blame.",
-  },
-  {
-    icon: "🔗",
-    headline: "Integrated Pathways",
-    text: "Break down silos in your curriculum to connect interdisciplinary courses. Enable smoother transitions and enhanced academic mobility across departments.",
-  },
-  {
-    icon: "📊",
-    headline: "Data to Action",
-    text: "Transform your existing data into actionable strategies. Convert insights into targeted interventions that support student success.",
-  },
-  {
-    icon: "🌐",
-    headline: "Seamless Interoperability",
-    text: "Align your systems with European standards to create a unified ecosystem that recognizes learning achievements across borders.",
-  },
-];
-
-const researchInsights: Insight[] = [
-  {
-    id: 1,
-    title: "23% Graduation Increase",
-    description:
-      "Georgia State University used predictive analytics to target at-risk students, resulting in a 23% increase in graduation rates and a 5% decrease in the achievement gap.",
-    link: "https://www.gofurther.com/blog/using-predictive-analytics-to-improve-student-retention?utm_source=chatgpt.com",
-  },
-  {
-    id: 2,
-    title: "5% decreased achievement gap",
-    description:
-      "The University of Arizona's personalized interventions based on predictive analytics led to a 7% increase in retention rates and a 10% boost in graduation rates.",
-    link: "https://www.gofurther.com/blog/using-predictive-analytics-to-improve-student-retention",
-  },
-  {
-    id: 3,
-    title: "30% Retention Improvement",
-    description:
-      "Studies suggest that sophisticated learning analytics can improve student retention by up to 30%, demonstrating the power of technology in education.",
-    link: "https://vorecol.com/blogs/blog-the-impact-of-aienhanced-learning-analytics-on-student-retention-and-engagement-metrics-188783",
-  },
-  {
-    id: 4,
-    title: "11% Reduced failure rates",
-    description:
-      "A meta-analysis shows active learning reduces failure rates from 32% to 21% and improves exam performance significantly, underscoring its benefits in STEM courses.",
-    link: "https://pubmed.ncbi.nlm.nih.gov/24821756",
-  },
-];
-
-const solutionBlocks: SolutionBlock[] = [
-  {
-    target: "Hybrid Learning Containers",
-    headline: "Hybrid Learning Containers",
-    imageUrl: "/learning-containers-static-w-plants.webp",
-    keywords: [
-      "Adaptive Spaces",
-      "Digital & Physical Integration",
-      "Interactive Learning",
-      "Customizable Environments",
-    ],
-    text: "Our platform creates flexible, learner-centered spaces that blend digital and physical experiences. These containers can host interactive demos and multimedia content to support dynamic learning.",
-  },
-  {
-    target: "Peer-Coaching & Mentorship",
-    headline: "Peer-Coaching & Mentorship",
-    imageUrl: "/coaching-circle-happy-faces.webp",
-    keywords: [
-      "Collaborative Learning",
-      "Personalized Guidance",
-      "Mentorship Networks",
-      "Community Engagement",
-    ],
-    text: "We foster robust networks of peer coaches and mentors that provide personalized support. This community-based approach builds confidence and enhances academic outcomes.",
-    extraClass: "object-top",
-  },
-  {
-    target: "Interoperability & Open-Source",
-    headline: "Interoperability & Open-Source Infrastructure",
-    imageUrl: "/university-standards-mobility-innovation-seamless.webp",
-    keywords: [
-      "European Standards",
-      "Seamless Integration",
-      "Cross-Border Mobility",
-      "Sustainable Innovation",
-    ],
-    text: "LearnGraph aligns with the European Learning Model (ELM) and ESCO Skills & Competencies, enabling seamless recognition of academic progress across institutions with a scalable, open-source framework.",
-  },
-];
-
-const ctaBlocks: CTA[] = [
-  {
-    symbol: "🚀",
-    headline: "Experience the Future of Education",
-    text: "Discover how our innovative, data-driven platform transforms insights into actionable strategies that enhance student success and institutional growth.",
-    cta: "Request a Demo",
-    onClick: () => (window.location.href = "/contact"),
-  },
-];
-
 // --- Components ---
 // InsightStat component: Expands inline from a circle into a square on hover/tap, displaying additional text.
 const InsightStat: FC<InsightStatProps> = ({ insight }) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
+  const { t } = useTranslation();
 
   return (
     <div
@@ -176,7 +73,7 @@ const InsightStat: FC<InsightStatProps> = ({ insight }) => {
             rel="noopener noreferrer"
             className="text-blue-200 underline mt-2 block"
           >
-            Learn More
+            {t("university.lm")}
           </a>
         </div>
       </div>
@@ -185,7 +82,102 @@ const InsightStat: FC<InsightStatProps> = ({ insight }) => {
 };
 
 // Main component
+
 export const CGUniversity: FC = () => {
+  //inside cause translation hook can"t be called outside
+  const { t } = useTranslation();
+  // --- Data Definitions ---
+  const challengeBlocks: ChallengeBlock[] = [
+    {
+      icon: "📉",
+      headline: t("university.challenge1.headline"),
+      text: t("university.challenge1.text"),
+    },
+    {
+      icon: "🔗",
+      headline: t("university.challenge2.headline"),
+      text: t("university.challenge2.text"),
+    },
+    {
+      icon: "📊",
+      headline: t("university.challenge3.headline"),
+      text: t("university.challenge3.text"),
+    },
+    {
+      icon: "🌐",
+      headline: t("university.challenge4.headline"),
+      text: t("university.challenge4.text"),
+    },
+  ];
+
+  const researchInsights: Insight[] = [
+    {
+      id: 1,
+      title: t("university.insight1.title"),
+      description: t("university.insight1.description"),
+      link: "https://www.gofurther.com/blog/using-predictive-analytics-to-improve-student-retention?utm_source=chatgpt.com",
+    },
+    {
+      id: 2,
+      title: t("university.insight2.title"),
+      description: t("university.insight2.description"),
+      link: "https://www.gofurther.com/blog/using-predictive-analytics-to-improve-student-retention",
+    },
+    {
+      id: 3,
+      title: t("university.insight3.title"),
+      description: t("university.insight3.description"),
+      link: "https://vorecol.com/blogs/blog-the-impact-of-aienhanced-learning-analytics-on-student-retention-and-engagement-metrics-188783",
+    },
+    {
+      id: 4,
+      title: t("university.insight4.title"),
+      description: t("university.insight4.description"),
+      link: "https://pubmed.ncbi.nlm.nih.gov/24821756",
+    },
+  ];
+
+  const solutionBlocks: SolutionBlock[] = [
+    {
+      target: t("university.solution1.target"),
+      headline: t("university.solution1.headline"),
+      imageUrl: "/learning-containers-static-w-plants.webp",
+      text: t("university.solution1.text"),
+      keywords: t("university.solution1.keywords", {
+        returnObjects: true,
+      }) as string[],
+    },
+    {
+      target: t("university.solution2.target"),
+      headline: t("university.solution2.headline"),
+      imageUrl: "/coaching-circle-happy-faces.webp",
+      text: t("university.solution2.text"),
+      keywords: t("university.solution2.keywords", {
+        returnObjects: true,
+      }) as string[],
+      extraClass: "object-top",
+    },
+    {
+      target: t("university.solution3.target"),
+      headline: t("university.solution3.headline"),
+      imageUrl: "/university-standards-mobility-innovation-seamless.webp",
+      text: t("university.solution3.text"),
+      keywords: t("university.solution3.keywords", {
+        returnObjects: true,
+      }) as string[],
+    },
+  ];
+
+  const ctaBlocks: CTA[] = [
+    {
+      symbol: "🚀",
+      headline: t("university.cta.headline"),
+      text: t("university.cta.text"),
+      cta: t("university.cta.cta"),
+      onClick: () => (window.location.href = "/contact"),
+    },
+  ];
+
   return (
     <div className="bg-[linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)),url('/LGBG2.png')] bg-no-repeat bg-cover bg-fixed bg-center min-h-screen">
       <NavigationWithContent
@@ -195,16 +187,12 @@ export const CGUniversity: FC = () => {
             <section className="py-12 bg-gray-900/60 text-white text-center">
               <div className="container mx-auto px-4">
                 <h1 className="text-4xl md:text-6xl font-bold mb-4">
-                  Empower Your Institution with Data-Driven Insights
+                  {t("university.heroHeadline")}
                 </h1>
-                <p className="text-xl mb-8">
-                  Transform your educational ecosystem with personalized
-                  analytics, hybrid learning solutions, and seamless
-                  interoperability.
-                </p>
+                <p className="text-xl mb-8">{t("university.heroText")}</p>
                 <img
                   src="/ai-ecosystem-for-edu.webp"
-                  alt="Digital Ecosystem for Education"
+                  alt={t("university.heroImageAlt")}
                   className="mx-auto my-8 rounded-lg shadow-lg max-w-100"
                 />
               </div>
@@ -214,7 +202,7 @@ export const CGUniversity: FC = () => {
             <section className="py-12">
               <div className="container mx-auto px-4">
                 <h2 className="text-3xl font-bold text-center mb-8 bg-white/85 rounded-2xl">
-                  Institutional Challenges
+                  {t("university.challengesTitle")}
                 </h2>
                 <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
                   {challengeBlocks.map((block, index) => (
@@ -237,7 +225,7 @@ export const CGUniversity: FC = () => {
             <section className="py-12">
               <div className="container mx-auto px-4">
                 <h2 className="text-3xl font-bold text-center mb-8 bg-white/85 rounded-2xl">
-                  Turning Insights into Action
+                  {t("university.insightsTitle")}
                 </h2>
                 <div className="flex flex-wrap justify-center gap-8 mb-4 bg-white/85 rounded-2xl p-4">
                   {researchInsights.map((insight) => (
@@ -245,10 +233,7 @@ export const CGUniversity: FC = () => {
                   ))}
                 </div>
                 <p className="text-center text-lg italic bg-white/85 rounded-2xl p-2">
-                  Collectively, these insights demonstrate that data-driven
-                  interventions and active learning strategies can significantly
-                  enhance student retention, reduce failure rates, and boost
-                  graduation outcomes.
+                  {t("university.insightsSummary")}
                 </p>
               </div>
             </section>
@@ -257,7 +242,7 @@ export const CGUniversity: FC = () => {
             <section className="py-12">
               <div className="container mx-auto px-4">
                 <h2 className="text-3xl font-bold text-center mb-8 bg-white/85 rounded-2xl">
-                  What LearnGraph Provides
+                  {t("university.solutionsTitle")}
                 </h2>
                 <div className="grid gap-8 md:grid-cols-1 lg:grid-cols-3">
                   {solutionBlocks.map((block, index) => (

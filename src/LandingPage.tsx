@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { NavigationWithContent } from "./Navigation";
+import { useTranslation } from "react-i18next";
 import Hero from "./LandingPage/Hero";
 import MissionStatement from "./LandingPage/MissionStatement";
 import USPCTASection, { USPFeatureCard } from "./LandingPage/CTABlock";
@@ -8,35 +9,35 @@ import YoutubeVideo from "./LandingPage/Video";
 
 export const LandingPage = () => {
   const navigate = useNavigate();
-
+  const { t } = useTranslation();
   // Define the USP CTA blocks inline with their respective onClick handlers.
   const uspCtaBlocks: USPFeatureCard[] = [
     {
       symbol: "🎓",
-      headline: "Reduce Dropout. Boost Engagement.",
-      text: "LearnGraph helps your students stay on track with personalized learning paths, peer coaching, and emotional reflection — all built into a platform that works alongside your existing systems.",
-      cta: "Learn More",
+      headline: t("LandingPage.uspBlocks.reduceDropoutHeadline"),
+      text: t("LandingPage.uspBlocks.reduceDropoutText"),
+      cta: t("LandingPage.uspBlocks.reduceDropoutCTA"),
       onClick: () => navigate("/university"),
     },
     {
       symbol: "🧭",
-      headline: "Your Education, Your Way.",
-      text: "Tired of one-size-fits-all learning? LearnGraph shows you exactly where you are, where you want to go, and how to get there — with smart guidance, real resources, and peer support.",
-      cta: "Enroll in our Pilot",
+      headline: t("LandingPage.uspBlocks.yourWayHeadline"),
+      text: t("LandingPage.uspBlocks.yourWayText"),
+      cta: t("LandingPage.uspBlocks.yourWayCTA"),
       onClick: () => navigate("/join"),
     },
     {
       symbol: "💼",
-      headline: "Upskill Without the Overwhelm.",
-      text: "Whether it’s soft skills or digital tools, LearnGraph guides adult learners step-by-step with peer support and real-world relevance.",
-      cta: "Use for Training",
+      headline: t("LandingPage.uspBlocks.upskillHeadline"),
+      text: t("LandingPage.uspBlocks.upskillText"),
+      cta: t("LandingPage.uspBlocks.upskillCTA"),
       onClick: () => navigate("/upskill"),
     },
     {
       symbol: "🌱",
-      headline: "Open-Source, Mission-First, Impact-Obsessed.",
-      text: "We don’t chase profit. We chase purpose. Your support goes directly into scaling impact across the Global South.",
-      cta: "Become a Partner",
+      headline: t("LandingPage.uspBlocks.openSourceHeadline"),
+      text: t("LandingPage.uspBlocks.openSourceText"),
+      cta: t("LandingPage.uspBlocks.openSourceCTA"),
       onClick: () => navigate("/support"),
     },
   ];
@@ -44,62 +45,39 @@ export const LandingPage = () => {
   const finalCTA: USPFeatureCard[] = [
     {
       symbol: "🚀",
-      headline: "Experience the Future of Education",
-      text: "Discover how our platform transforms your life's journey.",
-      cta: "Request a Demo",
+      headline: t("LandingPage.uspBlocks.finalCTAHeadline"),
+      text: t("LandingPage.uspBlocks.finalCTAText"),
+      cta: t("LandingPage.uspBlocks.finalCTACTA"),
       onClick: () => navigate("/contact"),
     },
   ];
 
   const infoBlocks = [
     {
-      target: "Companies & Adult Learners",
-      headline: "Reskill, upskill, or just grow — without losing your mind.",
+      target: t("LandingPage.infoBlocks.companiesTarget"),
+      headline: t("LandingPage.infoBlocks.companiesHeadline"),
       imageUrl: "collaboration-hub.webp",
-      keywords: [
-        "upskilling",
-        "resilience",
-        "soft skills",
-        "real-world impact",
-        "career alignment",
-        "flexible learning",
-        "peer mentorship",
-      ],
+      keywords: t("LandingPage.infoBlocks.companiesKeywords", {
+        returnObjects: true,
+      }) as string[],
     },
     {
-      target: "Independent Learners",
-      headline:
-        "No more guessing. You now have a GPS for your learning journey.",
+      target: t("LandingPage.infoBlocks.independentTarget"),
+      headline: t("LandingPage.infoBlocks.independentHeadline"),
       imageUrl: "/screenshot_learngraph.png",
-      keywords: [
-        "personalized",
-        "goal-driven",
-        "peer support",
-        "learning map",
-        "self-paced",
-        "meaningful growth",
-        "open access",
-        "certification-ready",
-      ],
+      keywords: t("LandingPage.infoBlocks.independentKeywords", {
+        returnObjects: true,
+      }) as string[],
     },
     {
-      target: "Funders & Foundations",
-      headline:
-        "Invest in an education system that doesn’t just teach — it transforms.",
+      target: t("LandingPage.infoBlocks.fundersTarget"),
+      headline: t("LandingPage.infoBlocks.fundersHeadline"),
       imageUrl: "/rural-learning-map.webp",
-      keywords: [
-        "open-source",
-        "inclusive",
-        "transformational",
-        "inner development",
-        "tech-for-good",
-        "high impact",
-        "grassroots-led",
-        "sustainable",
-      ],
+      keywords: t("LandingPage.infoBlocks.fundersKeywords", {
+        returnObjects: true,
+      }) as string[],
     },
   ];
-
   return (
     <div className="bg-[linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)),url('/LGBG2.png')] bg-no-repeat bg-cover bg-fixed bg-center min-h-screen">
       <NavigationWithContent
@@ -108,7 +86,7 @@ export const LandingPage = () => {
             <Hero />
             <USPCTASection blocks={uspCtaBlocks} />
             <YoutubeVideo videoID="cHv1LGXfJRU" />
-            <InfoBlocks headline="Why Choose LearnGraph." blocks={infoBlocks} />
+            <InfoBlocks headline={t("LandingPage.wcl")} blocks={infoBlocks} />
             <MissionStatement />
             <GetADemoCTA blocks={finalCTA} />
           </>

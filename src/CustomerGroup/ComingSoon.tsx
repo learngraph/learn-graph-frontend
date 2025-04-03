@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { FaLinkedin, FaInstagram, FaDiscord, FaYoutube } from "react-icons/fa";
 import { NavigationWithContent } from "@src/Navigation";
+import { useTranslation } from "react-i18next";
 
 const ComingSoonComponent: React.FC = () => {
-  // Target: 24.04.2025 12:00 GMT+1
+  const { t } = useTranslation();
+
   const targetDate = new Date("2025-04-24T12:00:00+01:00").getTime();
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
@@ -36,28 +38,32 @@ const ComingSoonComponent: React.FC = () => {
 
   return (
     <div className="bg-black text-white min-h-screen p-8 font-orbitron text-center">
-      {/* Header Pulsating Image */}
+      {/* Pulsating logo */}
       <div className="flex justify-center mb-8 mt-12">
         <img
           src="/learngraph-logo-no-background-on-black.png"
-          alt="Exciting Preview"
+          alt={t("soon.logoAlt")}
           className="w-[60%] h-[60%] md:w-[40%] md:h-[40%] animate-pulse"
           style={{ animationDuration: "2s" }}
         />
       </div>
 
-      {/* Hero Section */}
+      {/* Countdown */}
       <div className="mt-10 mb-8">
-        <h1 className="text-4xl mt-4">Coming Soon</h1>
+        <h1 className="text-4xl mt-4">{t("soon.comingSoon")}</h1>
         <p className="text-xl mt-2">
-          Launching in {timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m{" "}
-          {timeLeft.seconds}s
+          {t("soon.launchingIn", {
+            days: timeLeft.days,
+            hours: timeLeft.hours,
+            minutes: timeLeft.minutes,
+            seconds: timeLeft.seconds,
+          })}
         </p>
       </div>
 
-      {/* Subscription Section */}
+      {/* Social */}
       <div className="mb-8">
-        <h2 className="text-3xl mb-4">Stay Connected</h2>
+        <h2 className="text-3xl mb-4">{t("soon.stayConnected")}</h2>
         <div className="flex justify-center gap-6 text-4xl">
           <FaLinkedin
             className="cursor-pointer hover:scale-110 transition-transform"
@@ -95,58 +101,55 @@ const ComingSoonComponent: React.FC = () => {
         </div>
       </div>
 
-      {/* Get in Touch Section */}
+      {/* Contact */}
       <div className="mb-8">
-        <h2 className="text-3xl mb-4">Get in Touch</h2>
+        <h2 className="text-3xl mb-4">{t("soon.getInTouch")}</h2>
         <p className="mb-2">
-          Email us at{" "}
+          {t("soon.emailText")}{" "}
           <a href="mailto:contact@learngraph.org" className="underline">
             contact@learngraph.org
           </a>{" "}
-          or visit our{" "}
+          {t("soon.orVisit")}{" "}
           <a href="/about" className="underline">
-            About
-          </a>{" "}
-          page.
+            {t("soon.aboutPage")}
+          </a>
+          .
         </p>
       </div>
 
-      {/* Navigation Links Section */}
+      {/* Navigation */}
       <div className="mb-8">
-        <h2 className="text-3xl mb-4">Explore More</h2>
+        <h2 className="text-3xl mb-4">{t("soon.exploreMore")}</h2>
         <div className="flex flex-col items-center gap-2">
           <a href="/#roadmap" className="text-lg hover:underline">
-            Our Roadmap
+            {t("soon.roadmap")}
           </a>
           <a href="/#advisory-board" className="text-lg hover:underline">
-            Advisory Board
+            {t("soon.advisoryBoard")}
           </a>
           <a href="/#faq" className="text-lg hover:underline">
-            FAQ
+            {t("soon.faq")}
           </a>
         </div>
       </div>
 
-      {/* Visual Prototype Section */}
+      {/* Visual Prototypes */}
       <div className="mb-8">
-        <h2 className="text-3xl mb-4">Visual Prototype</h2>
+        <h2 className="text-3xl mb-4">{t("soon.visualPrototype")}</h2>
         <div className="flex justify-center items-center gap-4 flex-wrap">
-          {/* First Prototype */}
           <div className="relative w-[300px] h-[200px] overflow-hidden rounded-2xl">
             <img
               src="/screenshot_learngraph.png"
-              alt="Visual Prototype 1"
+              alt={t("soon.visualPrototype1")}
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 border-4 border-white rounded-2xl animate-pulse"></div>
           </div>
-          {/* Arrow Indicator */}
           <div className="text-white text-4xl animate-bounce">&#8594;</div>
-          {/* Second Prototype */}
           <div className="relative w-[300px] h-[200px] overflow-hidden rounded-2xl">
             <img
               src="/visual-prototype-beginning.png"
-              alt="Visual Prototype 2"
+              alt={t("soon.visualPrototype2")}
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 border-4 border-white rounded-2xl animate-pulse"></div>
@@ -154,23 +157,22 @@ const ComingSoonComponent: React.FC = () => {
         </div>
       </div>
 
-      {/* Incentives for Sharing Section */}
+      {/* Sharing CTA */}
       <div className="mb-8">
-        <h2 className="text-3xl mb-4">Spread the Word & Support the Cause</h2>
+        <h2 className="text-3xl mb-4">{t("soon.spreadSupport")}</h2>
         <p className="mb-2">
-          Our product is soon ready for demo and we’re launching a non-profit
-          initiative in Africa with{" "}
+          {t("soon.productSoon")}{" "}
           <a className="underline" href="https://dbtechafrica.org/">
             DbTechAfrica
           </a>
           .
         </p>
         <p className="mb-4">
-          Join our{" "}
+          {t("soon.joinDiscord")}{" "}
           <a className="underline" href="https://discord.com/invite/DatEV4kNp6">
-            Discord channel
-          </a>{" "}
-          to get involved and help support the cause!
+            {t("soon.discordChannel")}
+          </a>
+          !
         </p>
         <button
           className="bg-blue-600 hover:bg-blue-700 p-3 rounded-md"
@@ -178,13 +180,12 @@ const ComingSoonComponent: React.FC = () => {
             window.open("https://discord.com/invite/DatEV4kNp6", "_blank")
           }
         >
-          Join Discord
+          {t("soon.joinDiscordButton")}
         </button>
       </div>
     </div>
   );
 };
-
 const ComingSoon = () => {
   return <NavigationWithContent content={<ComingSoonComponent />} />;
 };
