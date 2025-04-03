@@ -24,21 +24,21 @@ export const LandingPage = () => {
       headline: t("LandingPage.uspBlocks.yourWayHeadline"),
       text: t("LandingPage.uspBlocks.yourWayText"),
       cta: t("LandingPage.uspBlocks.yourWayCTA"),
-      onClick: () => navigate("/join"),
+      onClick: () => navigate("/Individual"),
     },
     {
       symbol: "💼",
       headline: t("LandingPage.uspBlocks.upskillHeadline"),
       text: t("LandingPage.uspBlocks.upskillText"),
       cta: t("LandingPage.uspBlocks.upskillCTA"),
-      onClick: () => navigate("/upskill"),
+      onClick: () => navigate("/Institution"),
     },
     {
       symbol: "🌱",
       headline: t("LandingPage.uspBlocks.openSourceHeadline"),
       text: t("LandingPage.uspBlocks.openSourceText"),
       cta: t("LandingPage.uspBlocks.openSourceCTA"),
-      onClick: () => navigate("/support"),
+      onClick: () => navigate("/Nonprofit"),
     },
   ];
 

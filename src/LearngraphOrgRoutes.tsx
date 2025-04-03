@@ -3,6 +3,9 @@ import { About } from "./About";
 import { Imprint, TermsOfUse, PrivacyPolicy } from "./Imprint";
 import { LandingPage } from "./LandingPage";
 import { CGUniversity } from "./CustomerGroup/University";
+import { Individuals } from "./CustomerGroup/Individual";
+import { Institutions } from "./CustomerGroup/Institution";
+import { NonProfit } from "./CustomerGroup/Nonprofit";
 import ComingSoon from "./CustomerGroup/ComingSoon";
 import ContactUs from "./ContactUs";
 
@@ -13,6 +16,9 @@ export const LearngraphOrgRoutes = () => {
 
       {/* Customer Groups */}
       <Route path="/university" Component={CGUniversity} />
+      <Route path="/individual" Component={Individuals} />
+      <Route path="/institution" Component={Institutions} />
+      <Route path="/Nonprofit" Component={NonProfit} />
       <Route path="/policy" Component={ComingSoon} />
       <Route path="/industry" Component={ComingSoon} />
       <Route path="/ecosystem" Component={ComingSoon} />
