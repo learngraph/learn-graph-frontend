@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { NavigationWithContent } from "./Navigation";
-import { Trans, useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import Hero from "./LandingPage/Hero";
 import MissionStatement from "./LandingPage/MissionStatement";
 import USPCTASection, { USPFeatureCard } from "./LandingPage/CTABlock";
