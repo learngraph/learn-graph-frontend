@@ -120,7 +120,7 @@
     "title": "11% Reduced failure rates",
     "description": "A meta-analysis shows active learning reduces failure rates from 32% to 21% and improves exam performance significantly, underscoring its benefits in STEM courses."
   },
-  "insightsSummary": "Collectively, these insights demonstrate that data-driven interventions and active learning strategies can significantly enhance student retention, reduce failure rates, and boost graduation outcomes.",
+  "insightsSummary": "Data-driven interventions and active learning strategies can significantly enhance student retention, reduce failure rates, and boost graduation outcomes.",
 
   "solutionsTitle": "What LearnGraph Provides",
   "solution1": {
@@ -164,28 +164,29 @@
   }
 },
   "LandingPage": {
-    "wcl":"Why choose Learngraph",
-  "uspBlocks": {
-    "reduceDropoutHeadline": "Reduce Dropout. Boost Engagement.",
+  "wcl":"Why choose Learngraph",
+"uspBlocks": {
+    "reduceDropoutHeadline": "Reduce Dropout. Embrace Every Path.",
     "reduceDropoutText": "LearnGraph helps your students stay on track with personalized learning paths, peer coaching, and emotional reflection — all built into a platform that works alongside your existing systems.",
-    "reduceDropoutCTA": "Learn More",
+    "reduceDropoutCTA": "Explore Your Route",
 
-    "yourWayHeadline": "Your Education, Your Way.",
+    "yourWayHeadline": "Forge Your Own Journey.",
     "yourWayText": "Tired of one-size-fits-all learning? LearnGraph shows you exactly where you are, where you want to go, and how to get there — with smart guidance, real resources, and peer support.",
-    "yourWayCTA": "Enroll in our Pilot",
+    "yourWayCTA": "Begin Your Journey",
 
-    "upskillHeadline": "Upskill Without the Overwhelm.",
-    "upskillText": "Whether it’s soft skills or digital tools, LearnGraph guides adult learners step-by-step with peer support and real-world relevance.",
-    "upskillCTA": "Use for Training",
+    "upskillHeadline": "Upskill, Step by Step.",
+    "upskillText": "Every new skill is a step toward your success. It’s soft skills or digital tools, LearnGraph guides learners step-by-step with peer support and real-world relevance.",
+    "upskillCTA": "Take the First Step",
 
     "openSourceHeadline": "Open-Source, Mission-First, Impact-Obsessed.",
     "openSourceText": "We don’t chase profit. We chase purpose. Your support goes directly into scaling impact across the Global South.",
-    "openSourceCTA": "Become a Partner",
+    "openSourceCTA": "Become a Wayfarer",
 
     "finalCTAHeadline": "Experience the Future of Education",
-    "finalCTAText": "Discover how our platform transforms your life's journey.",
-    "finalCTACTA": "Request a Demo"
+    "finalCTAText": "Experience how LearnGraph transforms uncertainty into a clear, navigable journey — one decisive step at a time.",
+    "finalCTACTA": "Step into your Future now!"
   },
+
   "infoBlocks": {
     "companiesTarget": "Companies & Adult Learners",
     "companiesHeadline": "Reskill, upskill, or just grow — without losing your mind.",
