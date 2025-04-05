@@ -126,18 +126,19 @@
   "solution1": {
     "target": "Hybrid Learning Containers",
     "headline": "Hybrid Learning Containers",
-    "text": "Our platform creates flexible, learner-centered spaces that blend digital and physical experiences. These containers can host interactive demos and multimedia content to support dynamic learning.",
+    "text": "Our platform creates flexible, learner-centered spaces that blend digital and physical experiences. These containers are self-directed incubators for learning & personal growth. With hands-on projects everyone embarks on their personal journey; yet collectively learning & working towards a goal.",
     "keywords": [
       "Adaptive Spaces",
       "Digital & Physical Integration",
       "Interactive Learning",
-      "Customizable Environments"
+      "Customizable Environments",
+      "Protecting the flame of the learners"
     ]
   },
   "solution2": {
     "target": "Peer-Coaching & Mentorship",
     "headline": "Peer-Coaching & Mentorship",
-    "text": "We foster robust networks of peer coaches and mentors that provide personalized support. This community-based approach builds confidence and enhances academic outcomes.",
+    "text": "We foster robust networks of peer coaches and mentors that provide personalized support. This community-based approach builds confidence and enhances academic outcomes. Coaching and beeing coached are both incredible opportunities to learn.",
     "keywords": [
       "Collaborative Learning",
       "Personalized Guidance",
@@ -148,7 +149,7 @@
   "solution3": {
     "target": "Interoperability & Open-Source",
     "headline": "Interoperability & Open-Source Infrastructure",
-    "text": "LearnGraph aligns with the European Learning Model (ELM) and ESCO Skills & Competencies, enabling seamless recognition of academic progress across institutions with a scalable, open-source framework.",
+    "text": "LearnGraph aligns with the European Learning Model (ELM) and ESCO Skills & Competencies, enabling seamless recognition of academic progress across institutions with a scalable, open-source framework. While continuously evolving our internal dataset to map even to global open standarts like OpenCreds and Durable Skills.",
     "keywords": [
       "European Standards",
       "Seamless Integration",

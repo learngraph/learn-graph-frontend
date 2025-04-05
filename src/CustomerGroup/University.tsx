@@ -12,11 +12,14 @@ import {
   SolutionBlock,
   SolutionsSection,
 } from "@src/shared/Components";
+import { useNavigate } from "react-router-dom";
 
 // --- Components ---
 
 const CGUniversityContent: FC = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+
   // --- Data Definitions ---
   const challengeBlocks: ChallengeBlock[] = [
     {
@@ -105,7 +108,7 @@ const CGUniversityContent: FC = () => {
       headline: t("university.cta.headline"),
       text: t("university.cta.text"),
       cta: t("university.cta.cta"),
-      onClick: () => (window.location.href = "/contact"),
+      onClick: () => navigate("/contact"),
     },
   ];
 

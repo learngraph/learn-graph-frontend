@@ -230,7 +230,7 @@ export const SolutionsSection: FC<SolutionsSectionProps> = ({
                 {block.keywords.map((keyword, idx) => (
                   <span
                     key={idx}
-                    className="bg-green-600 text-offWhite text-sm px-2 py-1 rounded"
+                    className="bg-green-500/80 text-offWhite text-sm px-2 py-1 rounded"
                   >
                     {keyword}
                   </span>
