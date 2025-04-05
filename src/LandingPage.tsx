@@ -24,21 +24,21 @@ export const LandingPage = () => {
       headline: t("LandingPage.uspBlocks.yourWayHeadline"),
       text: t("LandingPage.uspBlocks.yourWayText"),
       cta: t("LandingPage.uspBlocks.yourWayCTA"),
-      onClick: () => navigate("/join"),
+      onClick: () => navigate("/contact"),
     },
     {
       symbol: "💼",
       headline: t("LandingPage.uspBlocks.upskillHeadline"),
       text: t("LandingPage.uspBlocks.upskillText"),
       cta: t("LandingPage.uspBlocks.upskillCTA"),
-      onClick: () => navigate("/upskill"),
+      onClick: () => navigate("/industry"),
     },
     {
       symbol: "🌱",
       headline: t("LandingPage.uspBlocks.openSourceHeadline"),
       text: t("LandingPage.uspBlocks.openSourceText"),
       cta: t("LandingPage.uspBlocks.openSourceCTA"),
-      onClick: () => navigate("/support"),
+      onClick: () => navigate("/contact"),
     },
   ];
 
@@ -115,14 +115,14 @@ export default LandingPage;
 //    headline: "Fund What the Future Needs.",
 //    text: "LearnGraph blends AI, open access, and inner development to radically transform education from the inside out. We’re open-source, inclusive, and globally scalable.",
 //    cta: "Support the Mission",
-//    onClick: () => (window.location.href = "/support"),
+//    onClick: () => navigate("/support"),
 //  },
 //  {
 //    symbol: "🛠️",
 //    headline: "Build Human-Centered Systems at Scale.",
 //    text: "LearnGraph bridges technology, inner development, and social cohesion — a rare trifecta for sustainable impact.",
 //    cta: "Co-Design with Us",
-//    onClick: () => (window.location.href = "/collaborate"),
+//    onClick: () => navigate("/collaborate"),
 //  },
 //  // Educators / Mentors
 //  {
@@ -130,14 +130,14 @@ export default LandingPage;
 //    headline: "Anyone Can Be a Mentor. Really.",
 //    text: "With built-in guidance and peer-coaching structures, even non-professionals—like community leaders, caregivers, or alumni—can support powerful learning.",
 //    cta: "Become a Mentor",
-//    onClick: () => (window.location.href = "/mentor"),
+//    onClick: () => navigate("/mentor"),
 //  },
 //  {
 //    symbol: "📚",
 //    headline: "Transform Your Classroom, Not Your Career.",
 //    text: "Bring LearnGraph into your teaching without overhauling your syllabus. Support self-directed learners, reduce burnout, and increase engagement.",
 //    cta: "Try It in Your Class",
-//    onClick: () => (window.location.href = "/educators"),
+//    onClick: () => navigate("/educators"),
 //  },
 //  // K-12 / Parents
 //  {
@@ -145,14 +145,14 @@ export default LandingPage;
 //    headline: "Learning That Follows Curiosity.",
 //    text: "Forget rigid curriculums. LearnGraph supports kids in exploring topics that matter to them, while still covering essentials through playful learning paths.",
 //    cta: "Explore for Schools",
-//    onClick: () => (window.location.href = "/k12"),
+//    onClick: () => navigate("/k12"),
 //  },
 //  {
 //    symbol: "🌍",
 //    headline: "Education for Every Child, Everywhere.",
 //    text: "No internet? No problem. LearnGraph is mobile-first, works offline, and includes local translations and community-based support.",
 //    cta: "Bring It to Your Community",
-//    onClick: () => (window.location.href = "/access"),
+//    onClick: () => navigate("/access"),
 //  },
 //  // Workforce / HR
 //  {
@@ -160,7 +160,7 @@ export default LandingPage;
 //    headline: "From Degrees to Skills that Actually Matter.",
 //    text: "Micro-credentials reflect real capabilities and growth, not just attendance. Help your team grow in ways that are measurable and meaningful.",
 //    cta: "Add to Your HR Stack",
-//    onClick: () => (window.location.href = "/microcredentials"),
+//    onClick: () => navigate("/microcredentials"),
 //  },
 //  // Policy Makers / Ministries
 //  {
@@ -168,14 +168,14 @@ export default LandingPage;
 //    headline: "Solve Dropout Without More Teachers.",
 //    text: "AI-supported peer learning solves one of the biggest bottlenecks in education systems: human capacity.",
 //    cta: "Request a Demo",
-//    onClick: () => (window.location.href = "/government"),
+//    onClick: () => navigate("/government"),
 //  },
 //  {
 //    symbol: "🗺️",
 //    headline: "A System that Grows With Your People.",
 //    text: "LearnGraph is modular, data-rich, and community-owned. It adapts to any region and evolves with your population.",
 //    cta: "Talk Strategy",
-//    onClick: () => (window.location.href = "/partnerships"),
+//    onClick: () => navigate("/partnerships"),
 //  },
 //];
 

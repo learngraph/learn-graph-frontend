@@ -18,7 +18,7 @@ export const About = () => {
             }}
           >
             {/* Origin Story */}
-            <div className="flex lg:flex-row flex-col xs:flex-row justify-center items-center my-10 mx-10 gap-6 px-4">
+            <div className="mt-18 flex lg:flex-row flex-col xs:flex-row justify-center items-center my-10 mx-10 gap-6 px-4">
               <div className="flex-1 bg-black/50 p-6 rounded-xl backdrop-blur-md max-w-prose">
                 <h1
                   className="text-3xl font-bold text-white mb-4 max-w-prose"
