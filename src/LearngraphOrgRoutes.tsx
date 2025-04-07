@@ -5,6 +5,7 @@ import { LandingPage } from "./LandingPage";
 import { CGUniversity } from "./CustomerGroup/University";
 import ComingSoon from "./CustomerGroup/ComingSoon";
 import ContactUs from "./ContactUs";
+import { CGNationPolicyJourney } from "./CustomerGroup/NationPolicy";
 
 export const LearngraphOrgRoutes = () => {
   return (
@@ -13,7 +14,7 @@ export const LearngraphOrgRoutes = () => {
 
       {/* Customer Groups */}
       <Route path="/university" Component={CGUniversity} />
-      <Route path="/policy" Component={ComingSoon} />
+      <Route path="/policy" Component={CGNationPolicyJourney} />
       <Route path="/industry" Component={ComingSoon} />
       <Route path="/ecosystem" Component={ComingSoon} />
       <Route path="/k-12" Component={ComingSoon} />
