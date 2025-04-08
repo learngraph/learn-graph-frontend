@@ -249,9 +249,11 @@ export const SolutionsSection: FC<SolutionsSectionProps> = ({
    ==================== */
 export interface CTASectionProps {
   ctaBlocks: CTA[];
+  buttonColor?: string;
 }
 
-export const CTASection: FC<CTASectionProps> = ({ ctaBlocks }): JSX.Element => {
+export const CTASection: FC<CTASectionProps> = ({ ctaBlocks, buttonColor: buttonColorInput }): JSX.Element => {
+  const buttonColor = buttonColorInput ?? "bg-orange-300 text-gray-800"
   return (
     <section>
       {ctaBlocks.map((cta, index) => (
@@ -265,7 +267,7 @@ export const CTASection: FC<CTASectionProps> = ({ ctaBlocks }): JSX.Element => {
             <p className="text-gray-700 max-w-prose mx-auto">{cta.text}</p>
             <button
               onClick={cta.onClick}
-              className="mt-4 px-4 py-2 bg-orange-300 text-gray-700 font-semibold rounded hover:scale-110 transition-scale duration-300 border border-softSilver hover:bg-green-600/20"
+              className={`mt-4 px-4 py-2 font-semibold rounded hover:scale-110 transition-scale duration-300 border border-softSilver ${buttonColor} hover:bg-green-600/20`}
             >
               {cta.cta}
             </button>
