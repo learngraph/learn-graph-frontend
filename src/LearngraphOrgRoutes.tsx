@@ -2,9 +2,14 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { About } from "./About";
 import { Imprint, TermsOfUse, PrivacyPolicy } from "./Imprint";
 import { LandingPage } from "./LandingPage";
-import { CGUniversity } from "./CustomerGroup/University";
+import { Impact } from "./Impact";
+import {
+  University,
+  PartnerSuccessStory as UniversityPartnerSuccessStory,
+} from "./CustomerGroup/University";
 import ComingSoon from "./CustomerGroup/ComingSoon";
 import ContactUs from "./ContactUs";
+import { NationPolicyJourney } from "./CustomerGroup/NationPolicy";
 
 export const LearngraphOrgRoutes = () => {
   return (
@@ -12,8 +17,12 @@ export const LearngraphOrgRoutes = () => {
       <Route path="/" Component={LandingPage} />
 
       {/* Customer Groups */}
-      <Route path="/university" Component={CGUniversity} />
-      <Route path="/policy" Component={ComingSoon} />
+      <Route path="/university" Component={University} />
+      <Route
+        path="/university/success-story/:partnerName"
+        element={<UniversityPartnerSuccessStory />}
+      />
+      <Route path="/nations" Component={NationPolicyJourney} />
       <Route path="/industry" Component={ComingSoon} />
       <Route path="/ecosystem" Component={ComingSoon} />
       <Route path="/k-12" Component={ComingSoon} />
@@ -21,6 +30,8 @@ export const LearngraphOrgRoutes = () => {
       <Route path="/contact-us" Component={ContactUs} />
 
       {/* About Us */}
+      <Route path="/impact" Component={Impact} />
+      <Route path="/wirkung" Component={Impact} />
       <Route path="/über-uns" Component={About} />
       <Route path="/about" Component={About} />
 

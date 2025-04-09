@@ -1,8 +1,18 @@
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, useLocation } from "react-router-dom";
 import { UserDataContextProvider } from "./Context/UserDataContext";
 import { LearngraphOrgRoutes } from "./LearngraphOrgRoutes";
 import { PostHogProvider } from "posthog-js/react";
 import { POSTHOG_API_KEY, POSTHOG_HOST } from "./constants";
+import { useEffect } from "react";
+
+// Ensure that useNavigation().navigate('/target') reaches the top of the target page.
+const ScrollToTop = (): null => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [pathname]);
+  return null;
+};
 
 export const App = () => {
   if (!POSTHOG_API_KEY) {
@@ -22,6 +32,7 @@ export const App = () => {
     >
       <BrowserRouter>
         <UserDataContextProvider>
+          <ScrollToTop />
           <LearngraphOrgRoutes />
         </UserDataContextProvider>
       </BrowserRouter>

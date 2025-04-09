@@ -2,7 +2,7 @@
   "switch-language-button": "Language",
   "switch-language-button-short": "Lang.",
   "Navigation":{
-  "policy": "Policy",
+  "nations": "Nations",
   "Universities": "Universities",
   "Industry":"Industry",
   "Ecosystem":"Ecosystem"
@@ -82,7 +82,7 @@
 },
 "university": {
   "lm":"Learn More",
-  "heroHeadline": "Empower Your Institution with Data-Driven Insights",
+  "heroHeadline": "Empower Your Institution",
   "heroText": "Transform your educational ecosystem with personalized analytics, hybrid learning solutions, and seamless interoperability.",
    "heroImageAlt": "Digital Ecosystem for Education",
   "challengesTitle": "Institutional Challenges",
@@ -120,24 +120,25 @@
     "title": "11% Reduced failure rates",
     "description": "A meta-analysis shows active learning reduces failure rates from 32% to 21% and improves exam performance significantly, underscoring its benefits in STEM courses."
   },
-  "insightsSummary": "Collectively, these insights demonstrate that data-driven interventions and active learning strategies can significantly enhance student retention, reduce failure rates, and boost graduation outcomes.",
+  "insightsSummary": "Data-driven interventions and active learning strategies can significantly enhance student retention, reduce failure rates, and boost graduation outcomes.",
 
   "solutionsTitle": "What LearnGraph Provides",
   "solution1": {
     "target": "Hybrid Learning Containers",
     "headline": "Hybrid Learning Containers",
-    "text": "Our platform creates flexible, learner-centered spaces that blend digital and physical experiences. These containers can host interactive demos and multimedia content to support dynamic learning.",
+    "text": "Our platform creates flexible, learner-centered spaces that blend digital and physical experiences. These containers are self-directed incubators for learning & personal growth. With hands-on projects everyone embarks on their personal journey; yet collectively learning & working towards a goal.",
     "keywords": [
       "Adaptive Spaces",
       "Digital & Physical Integration",
       "Interactive Learning",
-      "Customizable Environments"
+      "Customizable Environments",
+      "Protecting the flame of the learners"
     ]
   },
   "solution2": {
     "target": "Peer-Coaching & Mentorship",
     "headline": "Peer-Coaching & Mentorship",
-    "text": "We foster robust networks of peer coaches and mentors that provide personalized support. This community-based approach builds confidence and enhances academic outcomes.",
+    "text": "We foster robust networks of peer coaches and mentors that provide personalized support. This community-based approach builds confidence and enhances academic outcomes. Coaching and beeing coached are both incredible opportunities to learn.",
     "keywords": [
       "Collaborative Learning",
       "Personalized Guidance",
@@ -148,7 +149,7 @@
   "solution3": {
     "target": "Interoperability & Open-Source",
     "headline": "Interoperability & Open-Source Infrastructure",
-    "text": "LearnGraph aligns with the European Learning Model (ELM) and ESCO Skills & Competencies, enabling seamless recognition of academic progress across institutions with a scalable, open-source framework.",
+    "text": "LearnGraph aligns with the European Learning Model (ELM) and ESCO Skills & Competencies, enabling seamless recognition of academic progress across institutions with a scalable, open-source framework. While continuously evolving our internal dataset to map even to global open standarts like OpenCreds and Durable Skills.",
     "keywords": [
       "European Standards",
       "Seamless Integration",
@@ -158,34 +159,35 @@
   },
 
   "cta": {
-    "headline": "Experience the Future of Education",
+    "headline": "Take the first step into the Future",
     "text": "Discover how our innovative, data-driven platform transforms insights into actionable strategies that enhance student success and institutional growth.",
     "cta": "Request a Demo"
   }
 },
   "LandingPage": {
-    "wcl":"Why choose Learngraph",
-  "uspBlocks": {
-    "reduceDropoutHeadline": "Reduce Dropout. Boost Engagement.",
+  "wcl":"Why choose Learngraph",
+"uspBlocks": {
+    "reduceDropoutHeadline": "Reduce Dropout. Embrace Every Path.",
     "reduceDropoutText": "LearnGraph helps your students stay on track with personalized learning paths, peer coaching, and emotional reflection — all built into a platform that works alongside your existing systems.",
-    "reduceDropoutCTA": "Learn More",
+    "reduceDropoutCTA": "Explore Your Route",
 
-    "yourWayHeadline": "Your Education, Your Way.",
+    "yourWayHeadline": "Forge Your Own Journey.",
     "yourWayText": "Tired of one-size-fits-all learning? LearnGraph shows you exactly where you are, where you want to go, and how to get there — with smart guidance, real resources, and peer support.",
-    "yourWayCTA": "Enroll in our Pilot",
+    "yourWayCTA": "Begin Your Journey",
 
-    "upskillHeadline": "Upskill Without the Overwhelm.",
-    "upskillText": "Whether it’s soft skills or digital tools, LearnGraph guides adult learners step-by-step with peer support and real-world relevance.",
-    "upskillCTA": "Use for Training",
+    "upskillHeadline": "Upskill, Step by Step.",
+    "upskillText": "Every new skill is a step toward your success. It’s soft skills or digital tools, LearnGraph guides learners step-by-step with peer support and real-world relevance.",
+    "upskillCTA": "Take the First Step",
 
     "openSourceHeadline": "Open-Source, Mission-First, Impact-Obsessed.",
     "openSourceText": "We don’t chase profit. We chase purpose. Your support goes directly into scaling impact across the Global South.",
-    "openSourceCTA": "Become a Partner",
+    "openSourceCTA": "Become a Wayfarer",
 
     "finalCTAHeadline": "Experience the Future of Education",
-    "finalCTAText": "Discover how our platform transforms your life's journey.",
-    "finalCTACTA": "Request a Demo"
+    "finalCTAText": "Experience how LearnGraph transforms uncertainty into a clear, navigable journey — one decisive step at a time.",
+    "finalCTACTA": "Step into your Future now!"
   },
+
   "infoBlocks": {
     "companiesTarget": "Companies & Adult Learners",
     "companiesHeadline": "Reskill, upskill, or just grow — without losing your mind.",
