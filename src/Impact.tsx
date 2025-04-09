@@ -13,140 +13,210 @@ const ImpactStatBox: React.FC<{ title: string; description: string }> = ({
   description,
 }) => (
   <div className="bg-white shadow-2xl rounded-2xl p-6 text-center">
-    <div className="text-2xl  font-bold text-blue-600 mb-2">{title}</div>
+    <div className="text-2xl font-bold text-blue-600 mb-2">{title}</div>
     <p className="text-gray-700">{description}</p>
   </div>
 );
 
 const sections: ImpactSection[] = [
   {
-    id: "systems-change",
-    title: "Impact Means Evolution",
+    id: "hero",
+    title: "From Chaos to Connection",
     content: (
       <div>
         <p className="mb-4">
-          True change challenges systems to adapt, rethink, and transform.
-          LearnGraph builds the pathways, tools, and resilience to make that
-          evolution possible.
+          In a world overwhelmed by fragmentation and noise, something new is
+          emerging. Across the chaos, communities of learners are building
+          bridges, weaving new pathways of knowledge, resilience, and hope.
         </p>
         <p>
-          We are not here to lightly "improve" education or workforce
-          development. We are here to rewire how systems respond to the future.
+          LearnGraph supports this emergence — offering the digital soil where
+          local hubs of learning, healing, and collaboration can take root and
+          thrive.
         </p>
       </div>
     ),
   },
   {
-    id: "problem",
-    title: "Why Systems Must Change",
+    id: "meta-crisis",
+    title: "The Meta-Crisis We Face",
     content: (
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <ImpactStatBox
-          title="85%"
-          description="of employers globally report they can't find candidates with the right soft skills."
-        />
-        <ImpactStatBox
-          title="70%"
-          description="of students globally say their education system does not meet their individual needs."
-        />
-        <ImpactStatBox
-          title="12%"
-          description="of teachers feel 'satisfied' with their jobs, five times less than a decade ago."
-        />
+      <div>
+        <p className="mb-4">
+          We live amidst ecological collapse, political instability, fractured
+          education systems, and a widespread crisis of meaning. Old structures
+          can no longer meet the needs of a rapidly changing, interconnected
+          world.
+        </p>
+        <p>
+          Education, as it stands, is insufficient: disconnected from real-world
+          complexity, rigid in structure, and neglectful of emotional resilience
+          and relational skills.
+        </p>
       </div>
     ),
   },
   {
-    id: "impact-areas",
-    title: "Our Systemic Impact Areas",
+    id: "need",
+    title: "What the Future Demands",
     content: (
       <ul className="list-disc ml-5 space-y-2">
         <li>
-          <strong>Higher Education:</strong> Flexible curricula,
-          cross-institutional collaboration, and personalized learner pathways.
+          <strong>Whole-person development:</strong> Integrating intellect,
+          emotion, and practical action.
         </li>
         <li>
-          <strong>Workforce Reintegration:</strong> Aligning education with
-          real-world skills and career paths.
+          <strong>Self-governed learning:</strong> Learners shaping their own
+          journeys, not institutions dictating them.
         </li>
         <li>
-          <strong>Policy & Standards Alignment:</strong> Driving
-          interoperability across borders and credential systems.
+          <strong>Dynamic knowledge maps:</strong> Continuously evolving,
+          adaptable learning structures.
         </li>
         <li>
-          <strong>Community-Driven Educational Evolution:</strong> Dynamic,
-          crowdsourced learning ecosystems.
+          <strong>Community-centered education:</strong> Real transformation
+          happens together, not alone.
         </li>
       </ul>
     ),
   },
   {
-    id: "theory-of-change",
-    title: "Our Theory of Change",
+    id: "solution",
+    title: "The LearnGraph Solution",
     content: (
       <div>
-        <p className="mb-4 ">
-          We disrupt rigid systems with learner-centered infrastructure. We
-          support institutions and learners through reflection, peer
-          scaffolding, and transparent progress tracking. We foster real
-          evolution — making adaptation sustainable, human, and deeply
-          transformative.
+        <p className="mb-4">
+          LearnGraph is a living, open-source map of global knowledge, refined
+          through community contributions. But it's more than that: it supports
+          the formation of learning containers — self-organized groups where
+          whole-person learning can happen.
         </p>
-        <p>Change is hard. Support structures matter.</p>
+        <p>
+          Powered by dynamic learning paths, relational practices, and local
+          action, LearnGraph transforms education into an emergent, regenerative
+          force.
+        </p>
       </div>
     ),
   },
   {
-    id: "proof",
-    title: "Proof: Measuring System-Level Shifts",
+    id: "emergence",
+    title: "From Containers to Hubs",
     content: (
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div>
+        <p className="mb-4">
+          Across campuses, cities, and villages, small learning containers
+          become vibrant hubs — centers of co-creation, resilience, and
+          transformation.
+        </p>
+        <p>
+          Each hub is unique. Each is self-governed. Together, they form a
+          decentralized, living network of education for a new era.
+        </p>
+      </div>
+    ),
+  },
+  {
+    id: "impact-metrics",
+    title: "Impact You Can Measure",
+    content: (
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <ImpactStatBox
-          title="Cross-Institutional"
-          description="Collaborations initiated via LearnGraph pilots."
+          title="85%"
+          description="Employers say soft skills matter most — yet current education fails to teach them."
         />
         <ImpactStatBox
-          title="Personalized Routes"
-          description="Learning pathways built and successfully completed."
+          title="70%"
+          description="Students globally feel their education doesn't meet their individual needs."
         />
         <ImpactStatBox
-          title="70%+ Alignment"
-          description="Between skills learned and real-world industry needs."
-        />
-        <ImpactStatBox
-          title="Workforce Reintegration"
-          description="Measured improvements in employment rates post-program【39†source】."
+          title="60%+"
+          description="Retention improvement in learner-driven, peer-supported education models."
         />
       </div>
     ),
   },
   {
     id: "join",
-    title: "Be a Catalyst for System Evolution",
+    title: "Your Invitation",
     content: (
       <div>
         <p className="mb-4">
-          Change is not coming. It is already here. You can choose to be
-          overcome by change or actively shape it.
-          {/*Institutions, employers, and individuals must evolve — or risk irrelevance.*/}
+          Whether you are a learner, mentor, community builder, or institution —
+          you can help weave the future of education.
         </p>
-        <p>Partner with us. Pilot with us. Grow with us.</p>
+        <ul className="list-disc ml-5 space-y-2">
+          <li>
+            <strong>Start your journey:</strong> Follow a learning path. Form a
+            container.
+          </li>
+          <li>
+            <strong>Host a hub:</strong> Bring LearnGraph to your campus,
+            community, or organization.
+          </li>
+          <li>
+            <strong>Contribute knowledge:</strong> Help refine the global map of
+            learning.
+          </li>
+        </ul>
       </div>
     ),
   },
   {
-    id: "closing",
-    title: "A Final Reflection",
+    id: "impact-investors",
+    title: "Partner With Us: Impact at Scale",
     content: (
       <div>
-        <p>
-          System evolution is challenging. It stretches, pulls, and reshapes
-          what we know. It isn't painless — but in reflection, in community, and
-          with courage, transformation becomes sustainable.
+        <p className="mb-4">
+          Strategic investment in LearnGraph isn't just funding a platform —
+          it's nurturing a global movement of self-directed education,
+          resilience, and community transformation.
+        </p>
+        <ul className="list-disc ml-5 space-y-2">
+          <li>
+            <strong>Scalable Model:</strong> Each local hub seeds further growth
+            — one container can blossom into many.
+          </li>
+          <li>
+            <strong>Open Infrastructure:</strong> Global access, modular
+            expansion, and rapid community-driven evolution.
+          </li>
+          <li>
+            <strong>Systems-Level Leverage:</strong> By shifting how education
+            emerges, we catalyze change across workforce, governance, climate
+            resilience, and wellbeing sectors.
+          </li>
+          <li>
+            <strong>Radical Efficiency:</strong> Micro-grants, lightweight tech,
+            and community ownership deliver disproportionate impact per dollar.
+          </li>
+          <li>
+            <strong>Measurable Outcomes:</strong> Learner progression, hub
+            proliferation, cross-sector collaborations, and verified skills
+            acquisition.
+          </li>
+        </ul>
+        <p className="mt-6">
+          <strong>
+            Your investment plants seeds that regenerate the very fabric of
+            education, community, and planetary resilience.
+          </strong>
+        </p>
+      </div>
+    ),
+  },
+  {
+    id: "final-vision",
+    title: "Where We Are Going",
+    content: (
+      <div>
+        <p className="mb-4">
+          From scattered chaos, new gardens of learning are sprouting —
+          LearnGraph Hubs of collaboration, love, and purpose.
         </p>
         <p>
-          LearnGraph exists to build the ecosystems where that future is not
-          just possible — it is inevitable.
+          Wherever there is curiosity, there can be a hub. Wherever there is
+          care, there can be a future.
         </p>
       </div>
     ),
@@ -163,10 +233,10 @@ export const ImpactPage: React.FC = () => {
       >
         <div className="absolute inset-0 bg-black opacity-60"></div>
         <div className="relative max-w-4xl mx-auto text-center text-white">
-          <h1 className="text-5xl font-bold mb-4">Impact Means Evolution</h1>
+          <h1 className="text-5xl font-bold mb-4">From Chaos to Connection</h1>
           <p className="text-2xl">
-            We build the pathways, structures, and ecosystems that make
-            evolution sustainable.
+            We build the seeds, pathways, and ecosystems that let resilience,
+            collaboration, and love emerge.
           </p>
         </div>
       </section>
@@ -188,10 +258,12 @@ export const ImpactPage: React.FC = () => {
 
       <section className="bg-gray-100 py-20 px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl font-bold mb-4">Ready to Create Change?</h2>
+          <h2 className="text-4xl font-bold mb-4">
+            Ready to Be Part of the Emergence?
+          </h2>
           <p className="text-lg mb-8">
-            Be part of the evolution. Help build the structures that sustain
-            real, lasting change.
+            Help build the hubs of tomorrow. Shape the ecosystems of resilience
+            today.
           </p>
           <div className="flex flex-col md:flex-row justify-center items-center gap-6">
             <button
@@ -211,9 +283,8 @@ export const ImpactPage: React.FC = () => {
             </a>
           </div>
           <p className="text-sm text-gray-600 mt-6">
-            Our whitepaper outlines our impact plan, core hypotheses,
-            measurement tools, collaboration frameworks, and links to our
-            technical documentation.
+            Our whitepaper outlines our global impact vision, learning
+            infrastructure models, and technical foundations.
           </p>
         </div>
       </section>
