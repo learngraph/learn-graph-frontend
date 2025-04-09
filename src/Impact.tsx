@@ -1,6 +1,6 @@
 import React from "react";
 import { NavigationWithContent } from "./Navigation";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface ImpactSection {
   id: string;
