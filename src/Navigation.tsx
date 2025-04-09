@@ -19,10 +19,10 @@ export const NavigationWithContent = ({
 
   // Define the solution links
   const SOLUTION_LINKS = [
-    { label: t("Navigation.policy"), path: "/policy" },
     { label: t("Navigation.Universities"), path: "/university" },
     { label: t("Navigation.Industry"), path: "/industry" },
     { label: t("Navigation.Ecosystem"), path: "/ecosystem" },
+    { label: t("Navigation.nations"), path: "/nations" },
     //{ label: "K-12", path: "/k-12" },
   ];
 
@@ -81,6 +81,10 @@ export const NavigationWithContent = ({
             ))}
           </div>
         </div>
+
+        <Link to="/impact" className={linkClassesDesktop}>
+          Impact
+        </Link>
 
         <Link to="/about" className={linkClassesDesktop}>
           {t("navigation.link-to-about-page")}

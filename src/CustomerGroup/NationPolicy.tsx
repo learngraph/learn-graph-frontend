@@ -26,7 +26,11 @@ In essence, we’re inviting the reader to embark on a transformative exploratio
 
 // --- FadeInSection Component ---
 // This component uses the IntersectionObserver API to apply a fade-in transition
-interface FadeInProps { children: React.ReactNode; className?: string, duration?: number };
+interface FadeInProps {
+  children: React.ReactNode;
+  className?: string;
+  duration?: number;
+}
 const FadeInSection: React.FC<FadeInProps> = ({
   children,
   className = "",
@@ -90,7 +94,8 @@ const learnerJourneySteps: JourneyStepData[] = [
         />
         <p>
           <em>
-            "Every learner's spark lights the way to personal discovery and transformation."
+            "Every learner's spark lights the way to personal discovery and
+            transformation."
           </em>
         </p>
       </div>
@@ -100,8 +105,12 @@ const learnerJourneySteps: JourneyStepData[] = [
     curiousHeadline: "Mapping the Unseen",
     content: (
       <div>
-        <Question texts={["How can you navigate the vast landscape of knowledge to find your unique path?"]} />
-         {/* XXX: or this one
+        <Question
+          texts={[
+            "How can you navigate the vast landscape of knowledge to find your unique path?",
+          ]}
+        />
+        {/* XXX: or this one
         <img
           src="/screenshot_learngraph.png"
           alt="Interactive learning map"
@@ -114,7 +123,9 @@ const learnerJourneySteps: JourneyStepData[] = [
           className="w-full h-auto mt-2 rounded-md shadow-md"
         />
         <p>
-          <em>"Chart your unique course and transform complexity into clarity."</em>
+          <em>
+            "Chart your unique course and transform complexity into clarity."
+          </em>
         </p>
       </div>
     ),
@@ -123,18 +134,22 @@ const learnerJourneySteps: JourneyStepData[] = [
     curiousHeadline: "Who Will Join You?",
     content: (
       <div>
-        <Question texts={["How can strong connections amplify your learning journey?"]} />
+        <Question
+          texts={["How can strong connections amplify your learning journey?"]}
+        />
         <img
           src="woman-waiting-for-collab.png"
           className="w-full h-auto mt-2 rounded-md shadow-md"
-         />
+        />
         {/*TODO: <video
           src="/collaboration-initiation.mp4"
           controls
           className="w-full h-auto mt-2 rounded-md shadow-md"
         />*/}
         <p>
-          <em>"Collaboration turns individual potential into collective strength."</em>
+          <em>
+            "Collaboration turns individual potential into collective strength."
+          </em>
         </p>
       </div>
     ),
@@ -143,10 +158,15 @@ const learnerJourneySteps: JourneyStepData[] = [
     curiousHeadline: "From Vision to Reality?",
     content: (
       <div>
-        <Question texts={["What steps turn your dreams into achievements to be proud of?"]} />
+        <Question
+          texts={[
+            "What steps turn your dreams into achievements to be proud of?",
+          ]}
+        />
         <div className="my-4">
-          <strong>Media Suggestion:</strong> Use an animation or image of someone actively engaged in a project,
-          symbolizing the bridge from idea to action.
+          <strong>Media Suggestion:</strong> Use an animation or image of
+          someone actively engaged in a project, symbolizing the bridge from
+          idea to action.
         </div>
         <img
           src="/cityscape-night-alone.png"
@@ -154,7 +174,10 @@ const learnerJourneySteps: JourneyStepData[] = [
           className="w-full h-auto mt-2 rounded-md shadow-md"
         />
         <p>
-          <em>"Bridging dreams with action transforms aspirations into accomplishment."</em>
+          <em>
+            "Bridging dreams with action transforms aspirations into
+            accomplishment."
+          </em>
         </p>
       </div>
     ),
@@ -163,10 +186,15 @@ const learnerJourneySteps: JourneyStepData[] = [
     curiousHeadline: "What Will You Receive?",
     content: (
       <div>
-        <Question texts={["How will deep connections and meaningful work enrich your journey?"]} />
+        <Question
+          texts={[
+            "How will deep connections and meaningful work enrich your journey?",
+          ]}
+        />
         <div className="my-4">
-          <strong>Media Suggestion:</strong> Show an uplifting image of a community celebration or a warm interaction
-          that evokes the fulfillment of learning.
+          <strong>Media Suggestion:</strong> Show an uplifting image of a
+          community celebration or a warm interaction that evokes the
+          fulfillment of learning.
         </div>
         <img
           src="/happy-reunion-network.png"
@@ -174,7 +202,10 @@ const learnerJourneySteps: JourneyStepData[] = [
           className="w-full h-auto mt-2 rounded-md shadow-md"
         />
         <p>
-          <em>"Embrace the rewards of growth, connection, and personal fulfillment."</em>
+          <em>
+            "Embrace the rewards of growth, connection, and personal
+            fulfillment."
+          </em>
         </p>
       </div>
     ),
@@ -187,7 +218,11 @@ const nationJourneySteps: JourneyStepData[] = [
     curiousHeadline: "Can a nation dream?",
     content: (
       <div>
-        <Question texts={["How can the aspirations of millions be the first step toward transformative change?"]} />
+        <Question
+          texts={[
+            "How can the aspirations of millions be the first step toward transformative change?",
+          ]}
+        />
         <img
           src="/crowd-against-sunset.png"
           alt="Nation dreaming"
@@ -195,7 +230,8 @@ const nationJourneySteps: JourneyStepData[] = [
         />
         <p>
           <em>
-            "A nation that dares to dream ignites the spark of transformation, lighting the way for progress."
+            "A nation that dares to dream ignites the spark of transformation,
+            lighting the way for progress."
           </em>
         </p>
       </div>
@@ -205,10 +241,12 @@ const nationJourneySteps: JourneyStepData[] = [
     curiousHeadline: "Turning Vision into Strategy?",
     content: (
       <div>
-        <Question texts={[
-          "How can we harness the collective dream and turn it into a roadmap for progress?",
-          "What strategic steps are necessary to convert aspirations into real outcomes?"
-        ]} />
+        <Question
+          texts={[
+            "How can we harness the collective dream and turn it into a roadmap for progress?",
+            "What strategic steps are necessary to convert aspirations into real outcomes?",
+          ]}
+        />
         <img
           src="/nation-blueprint.png"
           alt="Blueprint for strategy"
@@ -216,7 +254,8 @@ const nationJourneySteps: JourneyStepData[] = [
         />
         <p>
           <em>
-            "By channeling collective vision into actionable strategies, we lay the foundation for a future built on purpose and precision."
+            "By channeling collective vision into actionable strategies, we lay
+            the foundation for a future built on purpose and precision."
           </em>
         </p>
       </div>
@@ -226,9 +265,15 @@ const nationJourneySteps: JourneyStepData[] = [
     curiousHeadline: "Data that Drives Change",
     content: (
       <div>
-        <Question texts={["What truths lie hidden within numbers?", "Could data be the catalyst that unlocks boundless potential?"]} />
+        <Question
+          texts={[
+            "What truths lie hidden within numbers?",
+            "Could data be the catalyst that unlocks boundless potential?",
+          ]}
+        />
         <div className="my-4">
-          <strong>Media Suggestion:</strong> Use an animated infographic or dynamic data visualization that morphs into a symbolic national map.
+          <strong>Media Suggestion:</strong> Use an animated infographic or
+          dynamic data visualization that morphs into a symbolic national map.
         </div>
         <img
           src="/images/data-placeholder.gif"
@@ -237,7 +282,9 @@ const nationJourneySteps: JourneyStepData[] = [
         />
         <p>
           <em>
-            "Imagine you could track education success by measuring the learners' value in industry—a direct link from anonymized individuals to economic outcome as a success metric."
+            "Imagine you could track education success by measuring the
+            learners' value in industry—a direct link from anonymized
+            individuals to economic outcome as a success metric."
           </em>
         </p>
       </div>
@@ -247,9 +294,16 @@ const nationJourneySteps: JourneyStepData[] = [
     curiousHeadline: "Empowering Through Connection?",
     content: (
       <div>
-        <Question texts={["What magic happens when diverse strengths unite?", "How do strong connections empower institutions and communities alike?"]} />
+        <Question
+          texts={[
+            "What magic happens when diverse strengths unite?",
+            "How do strong connections empower institutions and communities alike?",
+          ]}
+        />
         <div className="my-4">
-          <strong>Media Suggestion:</strong> Integrate a short video or interactive animation showing collaborative moments among institutions and community members.
+          <strong>Media Suggestion:</strong> Integrate a short video or
+          interactive animation showing collaborative moments among institutions
+          and community members.
         </div>
         <video
           src="/videos/connection-placeholder.mp4"
@@ -258,7 +312,10 @@ const nationJourneySteps: JourneyStepData[] = [
         />
         <p>
           <em>
-            "Imagine for every problem you can find the source in data—as a location, a social environment, and interaction; dive into it, experience it, and engage all stakeholders for immediate improvement."
+            "Imagine for every problem you can find the source in data—as a
+            location, a social environment, and interaction; dive into it,
+            experience it, and engage all stakeholders for immediate
+            improvement."
           </em>
         </p>
       </div>
@@ -268,7 +325,12 @@ const nationJourneySteps: JourneyStepData[] = [
     curiousHeadline: "Building a Brighter Tomorrow?",
     content: (
       <div>
-        <Question texts={["How will today’s bold steps shape the future?", "What legacy do we want to leave for the next generation?"]} />
+        <Question
+          texts={[
+            "How will today’s bold steps shape the future?",
+            "What legacy do we want to leave for the next generation?",
+          ]}
+        />
         <img
           src="/seeling-growing-tree.png"
           alt="Brighter tomorrow"
@@ -276,15 +338,14 @@ const nationJourneySteps: JourneyStepData[] = [
         />
         <p>
           <em>
-            "Together, we transform dreams and data into a flourishing reality, forging a future where every step creates lasting impact."
+            "Together, we transform dreams and data into a flourishing reality,
+            forging a future where every step creates lasting impact."
           </em>
         </p>
       </div>
     ),
   },
 ];
-
-
 
 // --- Journey Header Component ---
 // Now with a refined backdrop using a gradient.
@@ -295,7 +356,8 @@ const JourneyHeader: React.FC = () => {
         Welcome to the LearnGraph Ecosystem
       </h1>
       <p className="mt-2 text-lg sm:text-xl text-white/80 p-6">
-        Where individual dreams meet national progress—and every connection creates transformative impact.
+        Where individual dreams meet national progress—and every connection
+        creates transformative impact.
       </p>
     </header>
   );
@@ -312,10 +374,10 @@ const CallToAdventure: React.FC = () => {
         {/* Text container with enhanced contrast */}
         <div className="relative z-10 p-6 bg-black/70 backdrop-blur-md rounded-xl">
           <h2 className="text-4xl sm:text-5xl font-bold text-white">
-            Embark on the Adventure
+            Where are the seeds of the future?
           </h2>
           <p className="mt-4 text-xl text-white/90 max-w-2xl text-center">
-            Discover our the potential within.
+            Discover the potential within.
           </p>
         </div>
       </div>
@@ -332,21 +394,26 @@ const JourneyStep: React.FC<{ step: JourneyStepData; index: number }> = ({
   return (
     <div className="mb-4">
       <h3 className="text-xl font-semibold">{`${index + 1}. ${step.curiousHeadline}`}</h3>
-      <div className="mt-2">
-        {step.content}
-      </div>
+      <div className="mt-2">{step.content}</div>
     </div>
   );
 };
 
 // --- Journey Separator Component ---
 // A fun separator between steps wrapped in FadeInSection.
-const JourneySeparator = ({index}: { index: number }) => {
+const JourneySeparator = ({ index }: { index: number }) => {
+  const footstepsImages = [
+    "footsteps-city-sunset.png",
+    "footsteps-snow1.png",
+    "footsteps-sand1.png",
+    "footsteps-along-path.png",
+  ];
+  const footstepsImage = footstepsImages[index % footstepsImages.length];
   return (
     <FadeInSection>
       <div className="my-4 flex justify-center">
         <img
-          src="/footsteps-city-sunset.png"
+          src={`/${footstepsImage}`}
           alt="Separator footsteps"
           className="w-32 h-auto"
         />
@@ -385,11 +452,13 @@ const JourneySection: React.FC<{
 }> = ({ title, steps }) => {
   return (
     <section className="p-6 bg-black/20 backdrop-blur-md rounded-2xl shadow-lg my-4">
-      <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">{title}</h2>
+      <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">
+        {title}
+      </h2>
       {steps.map((step, index) => (
         <div key={index}>
           <JourneyStep step={step} index={index} />
-          {index < steps.length - 1 && <JourneySeparator index={index}/>}
+          {index < steps.length - 1 && <JourneySeparator index={index} />}
         </div>
       ))}
     </section>
@@ -436,39 +505,46 @@ const UnifyingVision: React.FC = () => {
     {
       symbol: "🌱",
       headline: "Take the first step now.",
-      text: "Act as a servant for all the people you want to support.",
+      text: "For all the people you want to support.",
       cta: "Get in touch.",
       onClick: () => navigate("/contact"),
     },
   ];
 
   return (
-    <FadeInSection duration={1500} >
+    <FadeInSection duration={1500}>
       <div className="w-full py-12 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-center">
         <div className="max-w-3xl mx-auto px-4">
           <h2 className="text-3xl sm:text-5xl font-bold mb-4">
             LearnGraph: Connecting Intentions, Shaping Futures
           </h2>
           <p className="text-lg sm:text-xl">
-            Join us in creating an educational future where every intention sparks a journey, every path leads to real-world impact, and every connection builds a stronger nation.
+            Join us in creating an educational future where every intention
+            sparks a journey, every path leads to real-world impact, and every
+            connection builds a stronger nation.
           </p>
         </div>
-        <CTASection ctaBlocks={ctaBlocks} buttonColor="bg-gradient-to-r from-indigo-600 to-purple-600"/>
+        <CTASection
+          ctaBlocks={ctaBlocks}
+          buttonColor="bg-gradient-to-r from-indigo-600 to-purple-600"
+          bgColor="bg-white"
+          textColor="text-black"
+        />
       </div>
     </FadeInSection>
   );
 };
 
 // --- Main Journey Page Component ---
-export const CGNationPolicyJourney: React.FC = () => {
-  return (
-    <NavigationWithContent content={<NationPolicyJourneyPage />} />
-  );
+export const NationPolicyJourney: React.FC = () => {
+  return <NavigationWithContent content={<NationPolicyJourneyPage />} />;
 };
 
 const NationPolicyJourneyPage: React.FC = () => {
   // Mobile view: state to toggle between learner and nation journeys.
-  const [selectedJourney, setSelectedJourney] = useState<"learner" | "nation">("learner");
+  const [selectedJourney, setSelectedJourney] = useState<"learner" | "nation">(
+    "learner",
+  );
 
   return (
     <div
@@ -482,21 +558,36 @@ const NationPolicyJourneyPage: React.FC = () => {
         {/* Desktop View: Show both journeys side by side */}
         <div className="hidden md:flex gap-8">
           <div className="w-1/2">
-            <JourneySection title="A Learner's Journey" steps={learnerJourneySteps} />
+            <JourneySection
+              title="A Learner's Journey"
+              steps={learnerJourneySteps}
+            />
           </div>
           <div className="w-1/2">
-            <JourneySection title="A Nation's Journey" steps={nationJourneySteps} />
+            <JourneySection
+              title="A Nation's Journey"
+              steps={nationJourneySteps}
+            />
           </div>
         </div>
 
         {/* Mobile View: Show journey content and toggle buttons */}
         <div className="md:hidden">
-          <MobileToggleButtons selectedJourney={selectedJourney} setSelectedJourney={setSelectedJourney} />
+          <MobileToggleButtons
+            selectedJourney={selectedJourney}
+            setSelectedJourney={setSelectedJourney}
+          />
           <div className="mt-16">
             {selectedJourney === "learner" ? (
-              <JourneySection title="A Learner's Journey" steps={learnerJourneySteps} />
+              <JourneySection
+                title="A Learner's Journey"
+                steps={learnerJourneySteps}
+              />
             ) : (
-              <JourneySection title="A Nation's Journey" steps={nationJourneySteps} />
+              <JourneySection
+                title="A Nation's Journey"
+                steps={nationJourneySteps}
+              />
             )}
           </div>
         </div>

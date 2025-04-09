@@ -90,7 +90,7 @@ const TeamSlider = () => {
       email: "muhammad.talal@learngraph.org",
       phoneNumber: "+491638692006",
       quote: t("about.quote-Talal"),
-      linkedInUrl: "https://www.linkedin.com",
+      linkedInUrl: "https://www.linkedin.com/in/muhammad-talal-02392b230/",
     },
   ];
 

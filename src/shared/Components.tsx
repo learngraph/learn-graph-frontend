@@ -92,7 +92,7 @@ export const ChallengesSection: FC<ChallengesSectionProps> = ({
   challengeBlocks,
 }): JSX.Element => {
   return (
-    <section className="py-12 bg-white">
+    <section className="py-12 bg-black/10">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold text-center mb-8 text-blue-800">
           Challenges
@@ -101,7 +101,7 @@ export const ChallengesSection: FC<ChallengesSectionProps> = ({
           {challengeBlocks.map((block, index) => (
             <div
               key={index}
-              className="bg-orange-500/10 border border-softSilver p-6 rounded-lg shadow-2xl text-center hover:shadow-lg transition-shadow"
+              className="bg-white border border-softSilver p-6 rounded-2xl hover:shadow-2xl text-center shadow-lg transition-shadow hover:scale-105"
             >
               <div className="text-4xl mb-4">{block.icon}</div>
               <h3 className="text-xl font-semibold mb-2 text-blue-800">
@@ -127,33 +127,43 @@ export const InsightStat: FC<InsightStatProps> = ({ insight }): JSX.Element => {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const { t } = useTranslation();
 
+  //<div className="relative p-[2px] bg-gradient-to-r from-indigo-700 to-purple-700 rounded">
+  //  <div className="flex flex-col items-center cursor-pointer transition-all bg-white text-black rounded">
+  //    </div>
+  //  </div>
   return (
     <div
-      className={`relative flex flex-col items-center cursor-pointer transition-all bg-blue-600 text-white drop-shadow-2xl hover:scale-105 ${
-        isExpanded ? "w-64 h-64 rounded-2xl p-4" : "w-64 h-64 rounded-full"
+      className={`p-[4px] bg-gradient-to-l from-indigo-700 to-purple-700 ${
+        isExpanded ? "w-66 h-66 rounded-2xl" : "w-66 h-66 rounded-full"
       }`}
-      onMouseEnter={(): void => setIsExpanded(true)}
-      onMouseLeave={(): void => setIsExpanded(false)}
-      onClick={(): void => setIsExpanded((prev: boolean): boolean => !prev)}
     >
-      <div className="flex flex-col items-center justify-center text-center h-full">
-        <div
-          className={`text-2xl font-bold transition-all ${isExpanded ? "mb-2" : "mt-34"}`}
-        >
-          {insight.title}
-        </div>
-        <div
-          className={`text-sm transition-opacity ${isExpanded ? "opacity-100" : "opacity-0"}`}
-        >
-          <p>{insight.description}</p>
-          <a
-            href={insight.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-200 underline mt-2 block"
+      <div
+        className={`relative flex flex-col items-center cursor-pointer transition-all bg-white text-black ${
+          isExpanded ? "w-64 h-64 rounded-2xl p-4" : "w-64 h-64 rounded-full"
+        }`}
+        onMouseEnter={(): void => setIsExpanded(true)}
+        onMouseLeave={(): void => setIsExpanded(false)}
+        onClick={(): void => setIsExpanded((prev: boolean): boolean => !prev)}
+      >
+        <div className="flex flex-col items-center justify-center text-center h-full">
+          <div
+            className={`text-2xl font-bold transition-all ${isExpanded ? "mb-2" : "mt-34"}`}
           >
-            {t("university.lm")}
-          </a>
+            {insight.title}
+          </div>
+          <div
+            className={`text-sm transition-opacity ${isExpanded ? "opacity-100" : "opacity-0"}`}
+          >
+            <p>{insight.description}</p>
+            <a
+              href={insight.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-700 underline mt-2 block"
+            >
+              {t("university.lm")}
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -206,7 +216,7 @@ export const SolutionsSection: FC<SolutionsSectionProps> = ({
   solutionBlocks,
 }): JSX.Element => {
   return (
-    <section className="py-12 bg-white">
+    <section className="py-12 bg-black/10">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold text-center mb-8 text-blue-800">
           {title}
@@ -250,24 +260,35 @@ export const SolutionsSection: FC<SolutionsSectionProps> = ({
 export interface CTASectionProps {
   ctaBlocks: CTA[];
   buttonColor?: string;
+  bgColor?: string;
+  textColor?: string;
 }
 
-export const CTASection: FC<CTASectionProps> = ({ ctaBlocks, buttonColor: buttonColorInput }): JSX.Element => {
-  const buttonColor = buttonColorInput ?? "bg-orange-300 text-gray-800"
+export const CTASection: FC<CTASectionProps> = ({
+  ctaBlocks,
+  buttonColor: buttonColorInput,
+  bgColor: bgColorInput,
+  textColor: textColorInput,
+}): JSX.Element => {
+  const buttonColor = buttonColorInput ?? "bg-green-500 text-gray-800";
+  const bgColor = bgColorInput ?? "bg-black/60 backdrop-blur-md";
+  const textColor = textColorInput ?? "text-white";
   return (
     <section>
       {ctaBlocks.map((cta, index) => (
         <div
           key={index}
-          className="flex items-center justify-center p-8 bg-white border border-softSilver rounded-lg shadow-2xl hover:scale-105 transition-scale duration-300 my-4 max-w-prose mx-auto"
+          className={`flex items-center justify-center p-8 ${bgColor} border border-softSilver rounded-lg shadow-2xl hover:scale-105 transition-scale duration-300 my-4 max-w-prose mx-auto`}
         >
           <div className="text-3xl mr-4">{cta.symbol}</div>
           <div>
-            <h3 className="text-2xl font-bold text-blue-800">{cta.headline}</h3>
-            <p className="text-gray-700 max-w-prose mx-auto">{cta.text}</p>
+            <h3 className={`text-2xl font-bold ${textColor}`}>
+              {cta.headline}
+            </h3>
+            <p className={`${textColor} max-w-prose mx-auto`}>{cta.text}</p>
             <button
               onClick={cta.onClick}
-              className={`mt-4 px-4 py-2 font-semibold rounded hover:scale-110 transition-scale duration-300 border border-softSilver ${buttonColor} hover:bg-green-600/20`}
+              className={`mt-4 px-4 py-2 font-semibold rounded hover:scale-110 transition-scale duration-300 border border-softSilver ${buttonColor} hover:bg-green-600`}
             >
               {cta.cta}
             </button>

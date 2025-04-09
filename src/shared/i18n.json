@@ -2,7 +2,7 @@
   "switch-language-button": "Language",
   "switch-language-button-short": "Lang.",
   "Navigation":{
-  "policy": "Policy",
+  "nations": "Nations",
   "Universities": "Universities",
   "Industry":"Industry",
   "Ecosystem":"Ecosystem"
@@ -82,7 +82,7 @@
 },
 "university": {
   "lm":"Learn More",
-  "heroHeadline": "Empower Your Institution with Data-Driven Insights",
+  "heroHeadline": "Empower Your Institution",
   "heroText": "Transform your educational ecosystem with personalized analytics, hybrid learning solutions, and seamless interoperability.",
    "heroImageAlt": "Digital Ecosystem for Education",
   "challengesTitle": "Institutional Challenges",
@@ -159,7 +159,7 @@
   },
 
   "cta": {
-    "headline": "Experience the Future of Education",
+    "headline": "Take the first step into the Future",
     "text": "Discover how our innovative, data-driven platform transforms insights into actionable strategies that enhance student success and institutional growth.",
     "cta": "Request a Demo"
   }
