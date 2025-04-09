@@ -273,6 +273,13 @@ export const ImpactPage: React.FC = () => {
             >
               Get Involved
             </button>
+            <button
+              type="button"
+              className="bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-10 rounded-2xl transition-colors"
+              onClick={() => navigate("/contact")}
+            >
+              Invest in Impact
+            </button>
             <a
               href="https://drive.google.com/file/d/1_ZhbhKRd9Uh6hH1MC7ZTF5rPLxvTz4bB/view"
               target="_blank"
