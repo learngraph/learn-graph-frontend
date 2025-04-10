@@ -2,7 +2,7 @@
   "switch-language-button": "Idioma",
   "switch-language-button-short": "Idi.",
   "Navigation": {
-    "policy": "Política",
+    "nations": "Nations",
     "Universities": "Universidades",
     "Industry": "Industria",
     "Ecosystem": "Ecosistema"
@@ -77,7 +77,7 @@
   },
   "university": {
     "lm": "Más información",
-    "heroHeadline": "Impulsa tu institución con conocimientos basados en datos",
+    "heroHeadline": "Empower Your Institution",
     "heroText": "Transforma tu ecosistema educativo con análisis personalizados, soluciones de aprendizaje híbridas e interoperabilidad sin fisuras.",
     "heroImageAlt": "Ecosistema digital para la educación",
     "challengesTitle": "Desafíos institucionales",
@@ -114,23 +114,24 @@
       "title": "Reducción del 11% en tasas de fracaso",
       "description": "Un meta-análisis muestra que el aprendizaje activo reduce las tasas de fracaso del 32% al 21% y mejora significativamente el rendimiento en los exámenes, destacando sus beneficios en cursos STEM."
     },
-    "insightsSummary": "Colectivamente, estas ideas demuestran que las intervenciones basadas en datos y las estrategias de aprendizaje activo pueden mejorar significativamente la retención estudiantil, reducir el fracaso y aumentar las tasas de graduación.",
+    "insightsSummary": "Data-driven interventions and active learning strategies can significantly enhance student retention, reduce failure rates, and boost graduation outcomes.",
     "solutionsTitle": "Lo que ofrece LearnGraph",
     "solution1": {
       "target": "Contenedores de aprendizaje híbrido",
       "headline": "Contenedores de aprendizaje híbrido",
-      "text": "Nuestra plataforma crea espacios flexibles centrados en el estudiante que combinan experiencias digitales y físicas. Estos contenedores pueden albergar demostraciones interactivas y contenido multimedia para apoyar el aprendizaje dinámico.",
+      "text": "Our platform creates flexible, learner-centered spaces that blend digital and physical experiences. These containers are self-directed incubators for learning & personal growth. With hands-on projects everyone embarks on their personal journey; yet collectively learning & working towards a goal.",
       "keywords": [
         "Espacios adaptativos",
         "Integración digital y física",
         "Aprendizaje interactivo",
-        "Entornos personalizables"
+        "Entornos personalizables",
+        "Protecting the flame of the learners"
       ]
     },
     "solution2": {
       "target": "Mentoría y coaching entre pares",
       "headline": "Mentoría y coaching entre pares",
-      "text": "Fomentamos redes sólidas de mentores y coaches entre pares que brindan apoyo personalizado. Este enfoque comunitario construye confianza y mejora los resultados académicos.",
+      "text": "We foster robust networks of peer coaches and mentors that provide personalized support. This community-based approach builds confidence and enhances academic outcomes. Coaching and beeing coached are both incredible opportunities to learn.",
       "keywords": [
         "Aprendizaje colaborativo",
         "Orientación personalizada",
@@ -141,7 +142,7 @@
     "solution3": {
       "target": "Interoperabilidad y código abierto",
       "headline": "Infraestructura interoperable y de código abierto",
-      "text": "LearnGraph se alinea con el Modelo Europeo de Aprendizaje (ELM) y las competencias de ESCO, permitiendo el reconocimiento fluido del progreso académico entre instituciones con una arquitectura escalable y abierta.",
+      "text": "LearnGraph aligns with the European Learning Model (ELM) and ESCO Skills & Competencies, enabling seamless recognition of academic progress across institutions with a scalable, open-source framework. While continuously evolving our internal dataset to map even to global open standarts like OpenCreds and Durable Skills.",
       "keywords": [
         "Estándares europeos",
         "Integración sin fisuras",
@@ -150,7 +151,7 @@
       ]
     },
     "cta": {
-      "headline": "Experimenta el futuro de la educación",
+      "headline": "Take the first step into the Future",
       "text": "Descubre cómo nuestra plataforma innovadora y basada en datos convierte el conocimiento en estrategias concretas para mejorar el éxito de los estudiantes y el crecimiento institucional.",
       "cta": "Solicita una demo"
     }
@@ -158,21 +159,21 @@
   "LandingPage": {
     "wcl": "¿Por qué elegir LearnGraph?",
     "uspBlocks": {
-      "reduceDropoutHeadline": "Reduce el abandono. Aumenta el compromiso.",
+      "reduceDropoutHeadline": "Reduce Dropout. Embrace Every Path.",
       "reduceDropoutText": "LearnGraph ayuda a tus estudiantes a mantenerse en el camino con rutas de aprendizaje personalizadas, coaching entre pares y reflexión emocional — todo dentro de una plataforma que se integra con tus sistemas existentes.",
-      "reduceDropoutCTA": "Más información",
-      "yourWayHeadline": "Tu educación. A tu manera.",
+      "reduceDropoutCTA": "Explore Your Route",
+      "yourWayHeadline": "Forge Your Own Journey.",
       "yourWayText": "¿Cansado del aprendizaje uniforme? LearnGraph te muestra exactamente dónde estás, a dónde quieres llegar y cómo hacerlo — con orientación inteligente, recursos reales y apoyo de compañeros.",
-      "yourWayCTA": "Únete a nuestro piloto",
-      "upskillHeadline": "Mejora tus habilidades sin agobios.",
-      "upskillText": "Ya sean habilidades blandas o herramientas digitales, LearnGraph guía a los adultos paso a paso con apoyo de compañeros y relevancia práctica.",
-      "upskillCTA": "Usar para capacitación",
+      "yourWayCTA": "Begin Your Journey",
+      "upskillHeadline": "Upskill, Step by Step.",
+      "upskillText": "Every new skill is a step toward your success. It’s soft skills or digital tools, LearnGraph guides learners step-by-step with peer support and real-world relevance.",
+      "upskillCTA": "Take the First Step",
       "openSourceHeadline": "Código abierto, misión primero, obsesión por el impacto.",
       "openSourceText": "No perseguimos beneficios. Perseguimos propósito. Tu apoyo va directamente a escalar el impacto en el Sur Global.",
-      "openSourceCTA": "Hazte socio",
+      "openSourceCTA": "Become a Wayfarer",
       "finalCTAHeadline": "Experimenta el futuro de la educación",
-      "finalCTAText": "Descubre cómo nuestra plataforma transforma el recorrido de tu vida.",
-      "finalCTACTA": "Solicita una demo"
+      "finalCTAText": "Experience how LearnGraph transforms uncertainty into a clear, navigable journey — one decisive step at a time.",
+      "finalCTACTA": "Step into your Future now!"
     },
     "infoBlocks": {
       "companiesTarget": "Empresas y adultos que aprenden",
