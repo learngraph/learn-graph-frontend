@@ -2,7 +2,7 @@
   "switch-language-button": "語言",
   "switch-language-button-short": "語",
   "Navigation": {
-    "policy": "政策",
+    "nations": "Nations",
     "Universities": "大學",
     "Industry": "產業",
     "Ecosystem": "生態系"
@@ -77,7 +77,7 @@
   },
   "university": {
     "lm": "了解更多",
-    "heroHeadline": "以數據驅動的洞察力賦能您的教育機構",
+    "heroHeadline": "Empower Your Institution",
     "heroText": "透過個人化分析、混合學習解決方案和無縫互操作性，轉型您的教育生態系統。",
     "heroImageAlt": "教育的數位生態系統",
     "challengesTitle": "機構面臨的挑戰",
@@ -114,23 +114,24 @@
       "title": "失敗率降低 11%",
       "description": "一項元分析指出，主動學習能將失敗率從 32% 降至 21%，並顯著提升考試成績，特別適用於 STEM 課程。"
     },
-    "insightsSummary": "整體來看，這些洞察顯示，數據驅動的干預與主動學習策略能顯著提升學生留校率、降低失敗率並提高畢業成果。",
+    "insightsSummary": "Data-driven interventions and active learning strategies can significantly enhance student retention, reduce failure rates, and boost graduation outcomes.",
     "solutionsTitle": "LearnGraph 提供的內容",
     "solution1": {
       "target": "混合學習容器",
       "headline": "混合學習容器",
-      "text": "我們的平台打造靈活、以學習者為中心的空間，融合數位與實體體驗，支持互動式展示與多媒體內容，促進動態學習。",
+      "text": "Our platform creates flexible, learner-centered spaces that blend digital and physical experiences. These containers are self-directed incubators for learning & personal growth. With hands-on projects everyone embarks on their personal journey; yet collectively learning & working towards a goal.",
       "keywords": [
         "適應性空間",
         "數位與實體整合",
         "互動學習",
-        "可自訂環境"
+        "可自訂環境",
+        "Protecting the flame of the learners"
       ]
     },
     "solution2": {
       "target": "同儕教練與導師制度",
       "headline": "同儕教練與導師制度",
-      "text": "我們推動強大的同儕教練與導師網絡，提供個人化支持。這種以社群為基礎的方法建立信心並提升學習成果。",
+      "text": "We foster robust networks of peer coaches and mentors that provide personalized support. This community-based approach builds confidence and enhances academic outcomes. Coaching and beeing coached are both incredible opportunities to learn.",
       "keywords": [
         "協作學習",
         "個性化指導",
@@ -141,7 +142,7 @@
     "solution3": {
       "target": "互操作性與開源基礎設施",
       "headline": "互操作性與開源基礎設施",
-      "text": "LearnGraph 對齊歐洲學習模型（ELM）與 ESCO 技能與能力架構，支援教育機構間學術進展的無縫銜接與識別。",
+      "text": "LearnGraph aligns with the European Learning Model (ELM) and ESCO Skills & Competencies, enabling seamless recognition of academic progress across institutions with a scalable, open-source framework. While continuously evolving our internal dataset to map even to global open standarts like OpenCreds and Durable Skills.",
       "keywords": [
         "歐洲標準",
         "無縫整合",
@@ -150,7 +151,7 @@
       ]
     },
     "cta": {
-      "headline": "體驗教育的未來",
+      "headline": "Take the first step into the Future",
       "text": "了解我們創新的數據驅動平台如何將洞察轉化為可操作策略，提升學生成功率與機構成長。",
       "cta": "申請示範"
     }
@@ -158,21 +159,21 @@
   "LandingPage": {
     "wcl": "為什麼選擇 LearnGraph",
     "uspBlocks": {
-      "reduceDropoutHeadline": "減少輟學，提高參與度。",
+      "reduceDropoutHeadline": "Reduce Dropout. Embrace Every Path.",
       "reduceDropoutText": "LearnGraph 幫助您的學生透過個人化學習路徑、同儕教練與情緒反思保持在正軌——這一切與您現有的系統完美整合。",
-      "reduceDropoutCTA": "了解更多",
-      "yourWayHeadline": "依你所想，自主學習。",
+      "reduceDropoutCTA": "Explore Your Route",
+      "yourWayHeadline": "Forge Your Own Journey.",
       "yourWayText": "厭倦了一體適用的學習方式？LearnGraph 讓你精準掌握目前位置、目標方向與達成方法——有智慧導航、真實資源與同儕支持。",
-      "yourWayCTA": "參與我們的試點計畫",
-      "upskillHeadline": "無壓提升技能。",
-      "upskillText": "無論是軟技能還是數位工具，LearnGraph 都以真實應用與同儕支持，逐步引導成人學習者成長。",
-      "upskillCTA": "用於員工培訓",
+      "yourWayCTA": "Begin Your Journey",
+      "upskillHeadline": "Upskill, Step by Step.",
+      "upskillText": "Every new skill is a step toward your success. It’s soft skills or digital tools, LearnGraph guides learners step-by-step with peer support and real-world relevance.",
+      "upskillCTA": "Take the First Step",
       "openSourceHeadline": "開源優先，使命導向，追求影響。",
       "openSourceText": "我們不追逐利潤，而是追求使命。您的支持將直接幫助我們在全球南方擴大影響力。",
-      "openSourceCTA": "成為合作夥伴",
+      "openSourceCTA": "Become a Wayfarer",
       "finalCTAHeadline": "體驗教育的未來",
-      "finalCTAText": "探索我們的平臺如何轉變您人生的學習旅程。",
-      "finalCTACTA": "申請示範"
+      "finalCTAText": "Experience how LearnGraph transforms uncertainty into a clear, navigable journey — one decisive step at a time.",
+      "finalCTACTA": "Step into your Future now!"
     },
     "infoBlocks": {
       "companiesTarget": "企業與成人學習者",
