@@ -28,7 +28,11 @@ const sites = [
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), tailwindcss(), Sitemap({ dynamicRoutes: sites })],
+  plugins: [
+    react(),
+    tailwindcss(),
+    Sitemap({ dynamicRoutes: sites, hostname: "https://learngraph.org" }),
+  ],
   resolve: {
     alias: {
       "@src": "/src",
