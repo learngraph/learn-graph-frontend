@@ -72,7 +72,7 @@ const Question: React.FC<{ texts: string[] }> = ({ texts }) => (
     {texts.map((text, index) => (
       <div
         key={index}
-        className="my-2 p-2 font-semibold text-white border-l-4 border-gray-500 backdrop-blur-2xl pl-4"
+        className="my-2 p-2 rounded-2xl font-semibold text-white border-l-4 border-r-4 border-gray-500 backdrop-blur-2xl pl-4"
       >
         {text}
       </div>
@@ -80,17 +80,46 @@ const Question: React.FC<{ texts: string[] }> = ({ texts }) => (
   </>
 );
 
-// Learner Journey
+interface ImageProps {
+  src: string;
+  alt: string;
+  className?: string;
+}
+const Image: React.FC<ImageProps> = ({ src, alt, className = "" }) => (
+  <img
+    src={src}
+    alt={alt}
+    className={`w-full h-auto mt-2 rounded-2xl shadow-2xl ${className}`}
+  />
+);
+
+interface VideoProps {
+  src: string;
+  className?: string;
+  controls?: boolean;
+}
+const Video: React.FC<VideoProps> = ({
+  src,
+  className = "",
+  controls = true,
+}) => (
+  <video
+    src={src}
+    controls={controls}
+    className={`w-full h-auto mt-2 rounded-2xl shadow-2xl ${className}`}
+  />
+);
+
+// Learner Journey Steps
 const learnerJourneySteps: JourneyStepData[] = [
   {
     curiousHeadline: "What sparks your journey?",
     content: (
       <div>
         <Question texts={["What ignites your passion for learning?"]} />
-        <img
+        <Image
           src="/glowing-spark.png"
           alt="Glowing spark representing passion"
-          className="w-full h-auto mt-2 rounded-md shadow-md"
         />
         <p>
           <em>
@@ -110,18 +139,7 @@ const learnerJourneySteps: JourneyStepData[] = [
             "How can you navigate the vast landscape of knowledge to find your unique path?",
           ]}
         />
-        {/* XXX: or this one
-        <img
-          src="/screenshot_learngraph.png"
-          alt="Interactive learning map"
-          className="w-full h-auto mt-2 rounded-md shadow-md"
-        />
-        */}
-        <img
-          src="/trail.webp"
-          alt="Interactive learning map"
-          className="w-full h-auto mt-2 rounded-md shadow-md"
-        />
+        <Image src="/trail.webp" alt="Interactive learning map" />
         <p>
           <em>
             "Chart your unique course and transform complexity into clarity."
@@ -137,15 +155,10 @@ const learnerJourneySteps: JourneyStepData[] = [
         <Question
           texts={["How can strong connections amplify your learning journey?"]}
         />
-        <img
+        <Image
           src="woman-waiting-for-collab.png"
-          className="w-full h-auto mt-2 rounded-md shadow-md"
+          alt="Waiting for collaboration"
         />
-        {/*TODO: <video
-          src="/collaboration-initiation.mp4"
-          controls
-          className="w-full h-auto mt-2 rounded-md shadow-md"
-        />*/}
         <p>
           <em>
             "Collaboration turns individual potential into collective strength."
@@ -163,15 +176,9 @@ const learnerJourneySteps: JourneyStepData[] = [
             "What steps turn your dreams into achievements to be proud of?",
           ]}
         />
-        <div className="my-4">
-          <strong>Media Suggestion:</strong> Use an animation or image of
-          someone actively engaged in a project, symbolizing the bridge from
-          idea to action.
-        </div>
-        <img
+        <Image
           src="/cityscape-night-alone.png"
           alt="Bridging vision with action"
-          className="w-full h-auto mt-2 rounded-md shadow-md"
         />
         <p>
           <em>
@@ -191,16 +198,7 @@ const learnerJourneySteps: JourneyStepData[] = [
             "How will deep connections and meaningful work enrich your journey?",
           ]}
         />
-        <div className="my-4">
-          <strong>Media Suggestion:</strong> Show an uplifting image of a
-          community celebration or a warm interaction that evokes the
-          fulfillment of learning.
-        </div>
-        <img
-          src="/happy-reunion-network.png"
-          alt="Rewarding connections"
-          className="w-full h-auto mt-2 rounded-md shadow-md"
-        />
+        <Image src="/happy-reunion-network.png" alt="Rewarding connections" />
         <p>
           <em>
             "Embrace the rewards of growth, connection, and personal
@@ -212,7 +210,7 @@ const learnerJourneySteps: JourneyStepData[] = [
   },
 ];
 
-// Nation Journey
+// Nation Journey Steps
 const nationJourneySteps: JourneyStepData[] = [
   {
     curiousHeadline: "Can a nation dream?",
@@ -220,14 +218,10 @@ const nationJourneySteps: JourneyStepData[] = [
       <div>
         <Question
           texts={[
-            "How can the aspirations of millions be the first step toward transformative change?",
+            "Can the aspirations of millions be the first step toward transformative change?",
           ]}
         />
-        <img
-          src="/crowd-against-sunset.png"
-          alt="Nation dreaming"
-          className="w-full h-auto mt-2 rounded-md shadow-md"
-        />
+        <Image src="/crowd-against-sunset.png" alt="Nation dreaming" />
         <p>
           <em>
             "A nation that dares to dream ignites the spark of transformation,
@@ -238,7 +232,7 @@ const nationJourneySteps: JourneyStepData[] = [
     ),
   },
   {
-    curiousHeadline: "Turning Vision into Strategy?",
+    curiousHeadline: "Turning Vision into Strategy.",
     content: (
       <div>
         <Question
@@ -247,11 +241,7 @@ const nationJourneySteps: JourneyStepData[] = [
             "What strategic steps are necessary to convert aspirations into real outcomes?",
           ]}
         />
-        <img
-          src="/nation-blueprint.png"
-          alt="Blueprint for strategy"
-          className="w-full h-auto mt-2 rounded-md shadow-md"
-        />
+        <Image src="/nation-blueprint.png" alt="Blueprint for strategy" />
         <p>
           <em>
             "By channeling collective vision into actionable strategies, we lay
@@ -271,15 +261,7 @@ const nationJourneySteps: JourneyStepData[] = [
             "Could data be the catalyst that unlocks boundless potential?",
           ]}
         />
-        <div className="my-4">
-          <strong>Media Suggestion:</strong> Use an animated infographic or
-          dynamic data visualization that morphs into a symbolic national map.
-        </div>
-        <img
-          src="/images/data-placeholder.gif"
-          alt="Data driving change"
-          className="w-full h-auto mt-2 rounded-md shadow-md"
-        />
+        <Image src="/images/data-placeholder.gif" alt="Data driving change" />
         <p>
           <em>
             "Imagine you could track education success by measuring the
@@ -291,7 +273,7 @@ const nationJourneySteps: JourneyStepData[] = [
     ),
   },
   {
-    curiousHeadline: "Empowering Through Connection?",
+    curiousHeadline: "Empowering Through Connection.",
     content: (
       <div>
         <Question
@@ -300,16 +282,7 @@ const nationJourneySteps: JourneyStepData[] = [
             "How do strong connections empower institutions and communities alike?",
           ]}
         />
-        <div className="my-4">
-          <strong>Media Suggestion:</strong> Integrate a short video or
-          interactive animation showing collaborative moments among institutions
-          and community members.
-        </div>
-        <video
-          src="/videos/connection-placeholder.mp4"
-          controls
-          className="w-full h-auto mt-2 rounded-md shadow-md"
-        />
+        <Video src="/videos/connection-placeholder.mp4" />
         <p>
           <em>
             "Imagine for every problem you can find the source in data—as a
@@ -322,20 +295,16 @@ const nationJourneySteps: JourneyStepData[] = [
     ),
   },
   {
-    curiousHeadline: "Building a Brighter Tomorrow?",
+    curiousHeadline: "Building a Brighter Tomorrow.",
     content: (
       <div>
         <Question
           texts={[
-            "How will today’s bold steps shape the future?",
+            "How will today's bold steps shape the future?",
             "What legacy do we want to leave for the next generation?",
           ]}
         />
-        <img
-          src="/seeling-growing-tree.png"
-          alt="Brighter tomorrow"
-          className="w-full h-auto mt-2 rounded-md shadow-md"
-        />
+        <Image src="/seeling-growing-tree.png" alt="Brighter tomorrow" />
         <p>
           <em>
             "Together, we transform dreams and data into a flourishing reality,
@@ -415,30 +384,8 @@ const JourneySeparator = ({ index }: { index: number }) => {
         <img
           src={`/${footstepsImage}`}
           alt="Separator footsteps"
-          className="w-32 h-auto"
+          className="w-32 h-auto rounded-2xl"
         />
-        {/* XXX: zoom in slowly? maybe a bit too trippy..
-        <div className="w-32 h-auto overflow-hidden relative">
-          <img
-            src="/footsteps-city-sunset.png"
-            alt="Separator footsteps"
-            className="w-full h-auto transform scale-200 animate-zoom-in-image origin-center"
-          />
-        </div>
-        <style>{`
-          @keyframes zoom-in-image {
-            0% {
-              transform: scale(1.0);
-            }
-            100% {
-              transform: scale(2.0);
-            }
-          }
-          .animate-zoom-in-image {
-            animation: zoom-in-image 3s ease-in-out forwards;
-            animation-delay: 1s;
-          }
-        `}</style> */}
       </div>
     </FadeInSection>
   );
