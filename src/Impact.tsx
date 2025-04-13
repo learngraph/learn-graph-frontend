@@ -30,9 +30,7 @@ export const ImpactPage: React.FC = () => {
       title: t("impact.sections.hero.title"),
       content: (
         <>
-          <p className="mb-4">
-            {t("impact.sections.hero.content.paragraph1")}
-          </p>
+          <p className="mb-4">{t("impact.sections.hero.content.paragraph1")}</p>
           <p>{t("impact.sections.hero.content.paragraph2")}</p>
         </>
       ),
@@ -59,7 +57,7 @@ export const ImpactPage: React.FC = () => {
               <li key={index}>
                 <strong>{item.strong}</strong> {item.text}
               </li>
-            )
+            ),
           )}
         </ul>
       ),
@@ -93,10 +91,16 @@ export const ImpactPage: React.FC = () => {
       title: t("impact.sections.impactMetrics.title"),
       content: (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {t("impact.sections.impactMetrics.stats", { returnObjects: true }).map(
+          {t("impact.sections.impactMetrics.stats", {
+            returnObjects: true,
+          }).map(
             (stat: { title: string; description: string }, index: number) => (
-              <ImpactStatBox key={index} title={stat.title} description={stat.description} />
-            )
+              <ImpactStatBox
+                key={index}
+                title={stat.title}
+                description={stat.description}
+              />
+            ),
           )}
         </div>
       ),
@@ -113,7 +117,7 @@ export const ImpactPage: React.FC = () => {
                 <li key={index}>
                   <strong>{item.strong}</strong> {item.text}
                 </li>
-              )
+              ),
             )}
           </ul>
         </div>
@@ -128,13 +132,13 @@ export const ImpactPage: React.FC = () => {
             {t("impact.sections.impactInvestors.content.paragraph1")}
           </p>
           <ul className="list-disc ml-5 space-y-2">
-            {t("impact.sections.impactInvestors.content.list", { returnObjects: true }).map(
-              (item: { strong: string; text: string }, index: number) => (
-                <li key={index}>
-                  <strong>{item.strong}</strong> {item.text}
-                </li>
-              )
-            )}
+            {t("impact.sections.impactInvestors.content.list", {
+              returnObjects: true,
+            }).map((item: { strong: string; text: string }, index: number) => (
+              <li key={index}>
+                <strong>{item.strong}</strong> {item.text}
+              </li>
+            ))}
           </ul>
           <p className="mt-6">
             {t("impact.sections.impactInvestors.content.paragraph2")}
@@ -165,9 +169,7 @@ export const ImpactPage: React.FC = () => {
       >
         <div className="absolute inset-0 bg-black opacity-60"></div>
         <div className="relative max-w-4xl mx-auto text-center text-white">
-          <h1 className="text-5xl font-bold mb-4">
-            {t("impact.hero.title")}
-          </h1>
+          <h1 className="text-5xl font-bold mb-4">{t("impact.hero.title")}</h1>
           <p className="text-2xl">{t("impact.hero.subtitle")}</p>
         </div>
       </section>
@@ -191,12 +193,8 @@ export const ImpactPage: React.FC = () => {
       {/* Call-to-action section */}
       <section className="bg-gray-100 py-20 px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl font-bold mb-4">
-            {t("impact.cta.title")}
-          </h2>
-          <p className="text-lg mb-8">
-            {t("impact.cta.subtitle")}
-          </p>
+          <h2 className="text-4xl font-bold mb-4">{t("impact.cta.title")}</h2>
+          <p className="text-lg mb-8">{t("impact.cta.subtitle")}</p>
           <div className="flex flex-col md:flex-row justify-center items-center gap-6">
             <button
               type="button"
@@ -221,9 +219,7 @@ export const ImpactPage: React.FC = () => {
               {t("impact.cta.buttons.readWhitepaper")}
             </a>
           </div>
-          <p className="text-sm text-gray-600 mt-6">
-            {t("impact.cta.footer")}
-          </p>
+          <p className="text-sm text-gray-600 mt-6">{t("impact.cta.footer")}</p>
         </div>
       </section>
     </div>
