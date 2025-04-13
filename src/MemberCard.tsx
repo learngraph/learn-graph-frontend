@@ -65,14 +65,13 @@ const TeamSlider = () => {
       linkedInUrl: "https://www.linkedin.com/in/laurin-hagemann/",
     },
     {
-      imageSrc: "team-namatama.jpg",
-      name: "Namatama Theresa Katanekwa",
-      description: t("about.team-Namatama"),
-      email: "nama@learngraph.org",
+      imageSrc: "team-nawa.jpeg",
+      name: "Nawa Sakanga",
+      description: t("about.team-Nawa"),
+      email: "nawa@learngraph.org",
       phoneNumber: "",
-      quote: t("about.quote-Nama"),
-      linkedInUrl:
-        "https://www.linkedin.com/in/namatama-theresa-katanekwa-5697b3196/",
+      quote: t("about.quote-Nawa"),
+      linkedInUrl: "https://www.linkedin.com/in/nawa-sakanga-98374a58/",
     },
     {
       imageSrc: "team-efecan.jpeg",
@@ -95,7 +94,7 @@ const TeamSlider = () => {
   ];
 
   return (
-    <div className="flex flex-col md:flex-row items-center justify-center gap-4 flex-wrap w-full">
+    <div className="flex flex-col md:flex-row items-center justify-center gap-8 flex-wrap w-full">
       {teamMembers.map((member, index) => (
         <TeamMemberCard key={index} member={member} />
       ))}
