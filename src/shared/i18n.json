@@ -165,66 +165,202 @@
   }
 },
   "LandingPage": {
-  "wcl":"Why choose Learngraph",
-"uspBlocks": {
-    "reduceDropoutHeadline": "Reduce Dropout. Embrace Every Path.",
-    "reduceDropoutText": "LearnGraph helps your students stay on track with personalized learning paths, peer coaching, and emotional reflection — all built into a platform that works alongside your existing systems.",
-    "reduceDropoutCTA": "Explore Your Route",
+    "wcl":"Why choose Learngraph",
+    "uspBlocks": {
+      "reduceDropoutHeadline": "Reduce Dropout. Embrace Every Path.",
+      "reduceDropoutText": "LearnGraph helps your students stay on track with personalized learning paths, peer coaching, and emotional reflection — all built into a platform that works alongside your existing systems.",
+      "reduceDropoutCTA": "Explore Your Route",
 
-    "yourWayHeadline": "Forge Your Own Journey.",
-    "yourWayText": "Tired of one-size-fits-all learning? LearnGraph shows you exactly where you are, where you want to go, and how to get there — with smart guidance, real resources, and peer support.",
-    "yourWayCTA": "Begin Your Journey",
+      "yourWayHeadline": "Forge Your Own Journey.",
+      "yourWayText": "Tired of one-size-fits-all learning? LearnGraph shows you exactly where you are, where you want to go, and how to get there — with smart guidance, real resources, and peer support.",
+      "yourWayCTA": "Begin Your Journey",
 
-    "upskillHeadline": "Upskill, Step by Step.",
-    "upskillText": "Every new skill is a step toward your success. It’s soft skills or digital tools, LearnGraph guides learners step-by-step with peer support and real-world relevance.",
-    "upskillCTA": "Take the First Step",
+      "upskillHeadline": "Upskill, Step by Step.",
+      "upskillText": "Every new skill is a step toward your success. It’s soft skills or digital tools, LearnGraph guides learners step-by-step with peer support and real-world relevance.",
+      "upskillCTA": "Take the First Step",
 
-    "openSourceHeadline": "Open-Source, Mission-First, Impact-Obsessed.",
-    "openSourceText": "We don’t chase profit. We chase purpose. Your support goes directly into scaling impact across the Global South.",
-    "openSourceCTA": "Become a Wayfarer",
+      "openSourceHeadline": "Open-Source, Mission-First, Impact-Obsessed.",
+      "openSourceText": "We don’t chase profit. We chase purpose. Your support goes directly into scaling impact across the Global South.",
+      "openSourceCTA": "Become a Wayfarer",
 
-    "finalCTAHeadline": "Experience the Future of Education",
-    "finalCTAText": "Experience how LearnGraph transforms uncertainty into a clear, navigable journey — one decisive step at a time.",
-    "finalCTACTA": "Step into your Future now!"
+      "finalCTAHeadline": "Experience the Future of Education",
+      "finalCTAText": "Experience how LearnGraph transforms uncertainty into a clear, navigable journey — one decisive step at a time.",
+      "finalCTACTA": "Step into your Future now!"
+    },
+    "infoBlocks": {
+      "companiesTarget": "Companies & Adult Learners",
+      "companiesHeadline": "Reskill, upskill, or just grow — without losing your mind.",
+      "companiesKeywords": [
+        "upskilling",
+        "resilience",
+        "soft skills",
+        "real-world impact",
+        "career alignment",
+        "flexible learning",
+        "peer mentorship"
+      ],
+      "independentTarget": "Independent Learners",
+      "independentHeadline": "No more guessing. You now have a GPS for your learning journey.",
+      "independentKeywords": [
+        "personalized",
+        "goal-driven",
+        "peer support",
+        "learning map",
+        "self-paced",
+        "meaningful growth",
+        "open access",
+        "certification-ready"
+      ],
+      "fundersTarget": "Funders & Foundations",
+      "fundersHeadline": "Invest in an education system that doesn’t just teach — it transforms.",
+      "fundersKeywords": [
+        "open-source",
+        "inclusive",
+        "transformational",
+        "inner development",
+        "tech-for-good",
+        "high impact",
+        "grassroots-led",
+        "sustainable"
+      ]
+    }
   },
-
-  "infoBlocks": {
-    "companiesTarget": "Companies & Adult Learners",
-    "companiesHeadline": "Reskill, upskill, or just grow — without losing your mind.",
-    "companiesKeywords": [
-      "upskilling",
-      "resilience",
-      "soft skills",
-      "real-world impact",
-      "career alignment",
-      "flexible learning",
-      "peer mentorship"
-    ],
-    "independentTarget": "Independent Learners",
-    "independentHeadline": "No more guessing. You now have a GPS for your learning journey.",
-    "independentKeywords": [
-      "personalized",
-      "goal-driven",
-      "peer support",
-      "learning map",
-      "self-paced",
-      "meaningful growth",
-      "open access",
-      "certification-ready"
-    ],
-    "fundersTarget": "Funders & Foundations",
-    "fundersHeadline": "Invest in an education system that doesn’t just teach — it transforms.",
-    "fundersKeywords": [
-      "open-source",
-      "inclusive",
-      "transformational",
-      "inner development",
-      "tech-for-good",
-      "high impact",
-      "grassroots-led",
-      "sustainable"
-    ]
+  "impact": {
+    "hero": {
+      "title": "From Chaos to Connection",
+      "subtitle": "We build the seeds, pathways, and ecosystems that let resilience, collaboration, and love emerge."
+    },
+    "sections": {
+      "hero": {
+        "title": "From Chaos to Connection",
+        "content": {
+          "paragraph1": "In a world overwhelmed by fragmentation and noise, something new is emerging. Across the chaos, communities of learners are building bridges, weaving new pathways of knowledge, resilience, and hope.",
+          "paragraph2": "LearnGraph supports this emergence — offering the digital soil where local hubs of learning, healing, and collaboration can take root and thrive."
+        }
+      },
+      "metaCrisis": {
+        "title": "The Meta-Crisis We Face",
+        "content": {
+          "paragraph1": "We live amidst ecological collapse, political instability, fractured education systems, and a widespread crisis of meaning. Old structures can no longer meet the needs of a rapidly changing, interconnected world.",
+          "paragraph2": "Education, as it stands, is insufficient: disconnected from real-world complexity, rigid in structure, and neglectful of emotional resilience and relational skills."
+        }
+      },
+      "need": {
+        "title": "What the Future Demands",
+        "list": [
+          {
+            "strong": "Whole-person development:",
+            "text": "Integrating intellect, emotion, and practical action."
+          },
+          {
+            "strong": "Self-governed learning:",
+            "text": "Learners shaping their own journeys, not institutions dictating them."
+          },
+          {
+            "strong": "Dynamic knowledge maps:",
+            "text": "Continuously evolving, adaptable learning structures."
+          },
+          {
+            "strong": "Community-centered education:",
+            "text": "Real transformation happens together, not alone."
+          }
+        ]
+      },
+      "solution": {
+        "title": "The LearnGraph Solution",
+        "content": {
+          "paragraph1": "LearnGraph is a living, open-source map of global knowledge, refined through community contributions. But it's more than that: it supports the formation of learning containers — self-organized groups where whole-person learning can happen.",
+          "paragraph2": "Powered by dynamic learning paths, relational practices, and local action, LearnGraph transforms education into an emergent, regenerative force."
+        }
+      },
+      "emergence": {
+        "title": "From Containers to Hubs",
+        "content": {
+          "paragraph1": "Across campuses, cities, and villages, small learning containers become vibrant hubs — centers of co-creation, resilience, and transformation.",
+          "paragraph2": "Each hub is unique. Each is self-governed. Together, they form a decentralized, living network of education for a new era."
+        }
+      },
+      "impactMetrics": {
+        "title": "Impact You Can Measure",
+        "stats": [
+          {
+            "title": "85%",
+            "description": "Employers say soft skills matter most — yet current education fails to teach them."
+          },
+          {
+            "title": "70%",
+            "description": "Students globally feel their education doesn't meet their individual needs."
+          },
+          {
+            "title": "60%+",
+            "description": "Retention improvement in learner-driven, peer-supported education models."
+          }
+        ]
+      },
+      "join": {
+        "title": "Your Invitation",
+        "intro": "Whether you are a learner, mentor, community builder, or institution — you can help weave the future of education.",
+        "list": [
+          {
+            "strong": "Start your journey:",
+            "text": "Follow a learning path. Form a container."
+          },
+          {
+            "strong": "Host a hub:",
+            "text": "Bring LearnGraph to your campus, community, or organization."
+          },
+          {
+            "strong": "Contribute knowledge:",
+            "text": "Help refine the global map of learning."
+          }
+        ]
+      },
+      "impactInvestors": {
+        "title": "Partner With Us: Impact at Scale",
+        "content": {
+          "paragraph1": "Strategic investment in LearnGraph isn't just funding a platform — it's nurturing a global movement of self-directed education, resilience, and community transformation.",
+          "list": [
+            {
+              "strong": "Scalable Model:",
+              "text": "Each local hub seeds further growth — one container can blossom into many."
+            },
+            {
+              "strong": "Open Infrastructure:",
+              "text": "Global access, modular expansion, and rapid community-driven evolution."
+            },
+            {
+              "strong": "Systems-Level Leverage:",
+              "text": "By shifting how education emerges, we catalyze change across workforce, governance, climate resilience, and wellbeing sectors."
+            },
+            {
+              "strong": "Radical Efficiency:",
+              "text": "Micro-grants, lightweight tech, and community ownership deliver disproportionate impact per dollar."
+            },
+            {
+              "strong": "Measurable Outcomes:",
+              "text": "Learner progression, hub proliferation, cross-sector collaborations, and verified skills acquisition."
+            }
+          ],
+          "paragraph2": "Your investment plants seeds that regenerate the very fabric of education, community, and planetary resilience."
+        }
+      },
+      "finalVision": {
+        "title": "Where We Are Going",
+        "content": {
+          "paragraph1": "From scattered chaos, new gardens of learning are sprouting — LearnGraph Hubs of collaboration, love, and purpose.",
+          "paragraph2": "Wherever there is curiosity, there can be a hub. Wherever there is care, there can be a future."
+        }
+      }
+    },
+    "cta": {
+      "title": "Ready to Be Part of the Emergence?",
+      "subtitle": "Help build the hubs of tomorrow. Shape the ecosystems of resilience today.",
+      "buttons": {
+        "getInvolved": "Get Involved",
+        "investInImpact": "Invest in Impact",
+        "readWhitepaper": "Read Our Whitepaper"
+      },
+      "footer": "Our whitepaper outlines our global impact vision, learning infrastructure models, and technical foundations."
+    }
   }
-}
-
 }
