@@ -2,60 +2,60 @@ import { Trans, useTranslation } from "react-i18next";
 import { NavigationWithContent } from "./Navigation";
 import { Handshake } from "@mui/icons-material";
 import TeamSlider from "./MemberCard";
-import { useNavigate } from "react-router-dom";
-import { USPFeatureCard } from "./LandingPage/CTABlock";
+//import { useNavigate } from "react-router-dom";
+//import { USPFeatureCard } from "./LandingPage/CTABlock";
 import YoutubeVideo from "./LandingPage/Video";
 
-const WhatAreWeDoingThisFor: React.FC = () => {
-  const navigate = useNavigate();
-  const cards: USPFeatureCard[] = [
-    {
-      symbol: "🎓",
-      headline: "Personalized & Dynamic Learning",
-      text: "LearnGraph redefines education like a 'Google Maps for Education' by offering personalized learning journeys, reducing dropout rates, and bridging the gap between academic paths and real-world employment.",
-      cta: "Learn More About Education",
-      onClick: () => navigate("/contact"),
-    },
-    {
-      symbol: "🌍",
-      headline: "Lifelong Learning & Inclusion",
-      text: "Beyond the classroom, LearnGraph supports lifelong learning and workforce reintegration, empowering marginalized communities with adaptive, affordable education and community-driven growth.",
-      cta: "Explore Societal Benefits",
-      onClick: () => navigate("/contact"),
-    },
-    {
-      symbol: "🧘",
-      headline: "Whole-Person Education",
-      text: "Integrating mindful, human-centered practices with flexible, modular design, LearnGraph nurtures intellectual, emotional, and practical growth while respecting diverse cultures and learning traditions.",
-      cta: "Get in Touch",
-      onClick: () => navigate("/contact"),
-    },
-    {
-      symbol: "👾",
-      headline: "AI-Driven Knowledge Mapping",
-      text: "Leveraging an evolving ontology and advanced AI-driven clustering, LearnGraph creates interconnected skill graphs and automates quality assurance, linking to systems like OpenCreds and micro-credentials.",
-      cta: "See Tech Innovations",
-      onClick: () => navigate("/contact"),
-    },
-  ];
-  return (
-    <div className="mx-auto px-4 py-8">
-      <div className="flex flex-wrap justify-center gap-6 p-1">
-        {cards.map((card, index) => (
-          <div
-            key={index}
-            className="flex flex-col items-start p-6 border rounded-lg shadow hover:shadow-lg transition duration-200  backdrop-blur-2xl max-w-sm sm:w-[calc(50%-1.5rem)] lg:w-[calc(33%-1.5rem)] xl:w-[calc(25%-1.5rem)] hover:scale-105 bg-white/20"
-          >
-            <h3 className="mt-4 text-2xl font-bold text-white">
-              {card.symbol} {card.headline}
-            </h3>
-            <p className="mt-2 text-gray-200">{card.text}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
+//const WhatAreWeDoingThisFor: React.FC = () => {
+//  const navigate = useNavigate();
+//  const cards: USPFeatureCard[] = [
+//    {
+//      symbol: "🎓",
+//      headline: "Personalized & Dynamic Learning",
+//      text: "LearnGraph redefines education like a 'Google Maps for Education' by offering personalized learning journeys, reducing dropout rates, and bridging the gap between academic paths and real-world employment.",
+//      cta: "Learn More About Education",
+//      onClick: () => navigate("/contact"),
+//    },
+//    {
+//      symbol: "🌍",
+//      headline: "Lifelong Learning & Inclusion",
+//      text: "Beyond the classroom, LearnGraph supports lifelong learning and workforce reintegration, empowering marginalized communities with adaptive, affordable education and community-driven growth.",
+//      cta: "Explore Societal Benefits",
+//      onClick: () => navigate("/contact"),
+//    },
+//    {
+//      symbol: "🧘",
+//      headline: "Whole-Person Education",
+//      text: "Integrating mindful, human-centered practices with flexible, modular design, LearnGraph nurtures intellectual, emotional, and practical growth while respecting diverse cultures and learning traditions.",
+//      cta: "Get in Touch",
+//      onClick: () => navigate("/contact"),
+//    },
+//    {
+//      symbol: "👾",
+//      headline: "AI-Driven Knowledge Mapping",
+//      text: "Leveraging an evolving ontology and advanced AI-driven clustering, LearnGraph creates interconnected skill graphs and automates quality assurance, linking to systems like OpenCreds and micro-credentials.",
+//      cta: "See Tech Innovations",
+//      onClick: () => navigate("/contact"),
+//    },
+//  ];
+//  return (
+//    <div className="mx-auto px-4 py-8">
+//      <div className="flex flex-wrap justify-center gap-6 p-1">
+//        {cards.map((card, index) => (
+//          <div
+//            key={index}
+//            className="flex flex-col items-start p-6 border rounded-lg shadow hover:shadow-lg transition duration-200  backdrop-blur-2xl max-w-sm sm:w-[calc(50%-1.5rem)] lg:w-[calc(33%-1.5rem)] xl:w-[calc(25%-1.5rem)] hover:scale-105 bg-white/20"
+//          >
+//            <h3 className="mt-4 text-2xl font-bold text-white">
+//              {card.symbol} {card.headline}
+//            </h3>
+//            <p className="mt-2 text-gray-200">{card.text}</p>
+//          </div>
+//        ))}
+//      </div>
+//    </div>
+//  );
+//};
 
 const LongTermVision: React.FC = () => {
   return (
