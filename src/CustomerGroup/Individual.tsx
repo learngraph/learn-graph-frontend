@@ -46,34 +46,34 @@ const InsightStat: FC<InsightStatProps> = ({ insight }) => {
 
   return (
     <div
-    className={`relative flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-300 bg-blue-700 text-white ${
-      isExpanded ? "w-64 h-64 rounded-2xl p-4" : "w-50 h-50 rounded-full"
-    }`}
-    onMouseEnter={() => setIsExpanded(true)}
-    onMouseLeave={() => setIsExpanded(false)}
-    onClick={() => setIsExpanded((prev) => !prev)}
-  >
-    <div className="flex flex-col items-center justify-center text-center h-full w-full">
-      <div className="text-lg font-bold transition-all duration-300">
-        {insight.title}
-      </div>
-      <div
-        className={`text-sm text-center transition-opacity duration-300 mt-2 ${
-          isExpanded ? "opacity-100" : "opacity-0 h-0 overflow-hidden"
-        }`}
-      >
-        <p>{insight.description}</p>
-        <a
-          href={insight.link}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-blue-200 underline mt-2 block"
+      className={`relative flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-300 bg-blue-700 text-white ${
+        isExpanded ? "w-64 h-64 rounded-2xl p-4" : "w-50 h-50 rounded-full"
+      }`}
+      onMouseEnter={() => setIsExpanded(true)}
+      onMouseLeave={() => setIsExpanded(false)}
+      onClick={() => setIsExpanded((prev) => !prev)}
+    >
+      <div className="flex flex-col items-center justify-center text-center h-full w-full">
+        <div className="text-lg font-bold transition-all duration-300">
+          {insight.title}
+        </div>
+        <div
+          className={`text-sm text-center transition-opacity duration-300 mt-2 ${
+            isExpanded ? "opacity-100" : "opacity-0 h-0 overflow-hidden"
+          }`}
         >
-          {t("institutions.lm")}
-        </a>
+          <p>{insight.description}</p>
+          <a
+            href={insight.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-200 underline mt-2 block"
+          >
+            {t("institutions.lm")}
+          </a>
+        </div>
       </div>
     </div>
-  </div>
   );
 };
 

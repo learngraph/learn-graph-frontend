@@ -75,7 +75,6 @@ const InsightStat: FC<InsightStatProps> = ({ insight }) => {
       </div>
     </div>
   );
-  
 };
 
 // Main component
