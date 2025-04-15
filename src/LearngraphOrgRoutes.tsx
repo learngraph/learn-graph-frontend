@@ -8,8 +8,9 @@ import {
   PartnerSuccessStory as UniversityPartnerSuccessStory,
 } from "./CustomerGroup/University";
 import ComingSoon from "./CustomerGroup/ComingSoon";
+//import { NationPolicyJourney } from "./CustomerGroup/NationPolicy";
+//import { Industry } from "./CustomerGroup/Industry";
 import ContactUs from "./ContactUs";
-import { NationPolicyJourney } from "./CustomerGroup/NationPolicy";
 
 export const LearngraphOrgRoutes = () => {
   return (
@@ -22,7 +23,7 @@ export const LearngraphOrgRoutes = () => {
         path="/university/success-story/:partnerName"
         element={<UniversityPartnerSuccessStory />}
       />
-      <Route path="/nations" Component={NationPolicyJourney} />
+      <Route path="/nations" Component={ComingSoon} />
       <Route path="/industry" Component={ComingSoon} />
       <Route path="/ecosystem" Component={ComingSoon} />
       <Route path="/k-12" Component={ComingSoon} />

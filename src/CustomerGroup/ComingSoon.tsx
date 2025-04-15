@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 const ComingSoonComponent: React.FC = () => {
   const { t } = useTranslation();
 
-  const targetDate = new Date("2025-04-24T12:00:00+01:00").getTime();
+  const targetDate = new Date("2025-05-14T12:00:00+01:00").getTime();
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
     hours: 0,
