@@ -2,6 +2,8 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { About } from "./About";
 import { Imprint, TermsOfUse, PrivacyPolicy } from "./Imprint";
 import { LandingPage } from "./LandingPage";
+import { Individuals } from "./CustomerGroup/Individual";
+import { Institutions } from "./CustomerGroup/Institution";
 import { Impact } from "./Impact";
 import {
   University,
@@ -29,6 +31,8 @@ export const LearngraphOrgRoutes = () => {
       <Route path="/k-12" Component={ComingSoon} />
       <Route path="/contact" Component={ContactUs} />
       <Route path="/contact-us" Component={ContactUs} />
+      <Route path="/individual" Component={Individuals} />
+      <Route path="/institution" Component={Institutions} />
 
       {/* About Us */}
       <Route path="/impact" Component={Impact} />

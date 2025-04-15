@@ -164,6 +164,177 @@
     "cta": "Request a Demo"
   }
 },
+"individual": {
+  "lm": "Learn More",
+  "heroHeadline": "Your Personal Guide to Master Anything",
+  "heroText": "Say goodbye to one-size-fits-all courses. LearnGraph helps you chart your own learning journey with guidance, real-world relevance, and personal feedback.",
+  "heroImageAlt": "Personalized Learning Ecosystem",
+
+  "challengesTitle": "Why Traditional Learning Doesn’t Work",
+  "challenge1": {
+    "headline": "Too Generic",
+    "text": "Most platforms offer one path for everyone. But you’re not everyone. Your goals, pace, and style deserve a unique map."
+  },
+  "challenge2": {
+    "headline": "Hard to Stay Motivated",
+    "text": "Without real-world relevance or a sense of progress, even the best learners lose steam. It’s not your fault — the system wasn’t built for you."
+  },
+  "challenge3": {
+    "headline": "Information Overload",
+    "text": "So many courses. So little clarity. What should you learn next? What actually helps your career or curiosity?"
+  },
+  "challenge4": {
+    "headline": "Learning Alone",
+    "text": "Learning without community or support is hard. We’re wired to grow with others — not in isolation."
+  },
+
+  "insightsTitle": "What Makes Learning Stick?",
+  "insight1": {
+    "title": "80% forget most content within a week",
+    "description": "Studies show that without active strategies, learners forget up to 80% of material in just 7 days."
+  },
+  "insight2": {
+    "title": "Personalized learning boosts outcomes by 30%",
+    "description": "Learners following personalized paths report significantly higher retention and satisfaction."
+  },
+  "insight3": {
+    "title": "Peer learning increases motivation",
+    "description": "Learning alongside others — through coaching or community — can double your engagement levels."
+  },
+  "insight4": {
+    "title": "Real-world projects > theory",
+    "description": "Hands-on, relevant projects lead to deeper learning and skill application than theory-heavy content alone."
+  },
+  "insightsSummary": "You deserve a learning platform that works with your brain, not against it. That’s where LearnGraph comes in.",
+
+  "solutionsTitle": "How LearnGraph Helps You Thrive",
+  "solution1": {
+    "target": "Personalized Pathways",
+    "headline": "A Map Just for You",
+    "text": "No more guesswork. We help you see where you are, where you want to go, and how to get there — backed by your learning style and personal goals.",
+    "keywords": [
+      "Goal-Based Navigation",
+      "Skill Mapping",
+      "Adaptive Recommendations",
+      "Learning Autonomy"
+    ]
+  },
+  "solution2": {
+    "target": "Peer Support & Coaching",
+    "headline": "You’re Not Alone",
+    "text": "LearnGraph includes built-in mentorship and coaching features to keep you supported, connected, and progressing.",
+    "keywords": [
+      "Motivational Boost",
+      "Peer Mentorship",
+      "Social Learning",
+      "Accountability Circles"
+    ]
+  },
+  "solution3": {
+    "target": "Real-World Learning",
+    "headline": "Learn What Matters",
+    "text": "From soft skills to tech stacks, our learning paths are designed with industry input so you build things that actually make sense in the real world.",
+    "keywords": [
+      "Project-Based",
+      "Career Aligned",
+      "Industry Integrated",
+      "Feedback Loops"
+    ]
+  },
+
+  "cta": {
+    "headline": "Join the Movement. Shape the Future.",
+    "text": "Be part of something different. Try our prototype, join our Discord, or help us bring learning to life through community and crowdfunding.",
+    "cta": "Try the Prototype"
+  }
+},
+
+"institutions": {
+  "lm": "Learn More",
+  "heroHeadline": "Supercharge Workforce Training with LearnGraph",
+  "heroText": "Your team deserves better than outdated PDFs and passive videos. LearnGraph helps you deliver personalized, high-impact training — and measure what truly works.",
+  "heroImageAlt": "Smart Upskilling Platform",
+
+  "challengesTitle": "Common Challenges in Employee Training",
+  "challenge1": {
+    "headline": "One-Size Training Doesn’t Fit",
+    "text": "Traditional training is static and generic. Every employee learns differently — your upskilling shouldn’t feel like a lecture."
+  },
+  "challenge2": {
+    "headline": "Low Engagement, High Drop-off",
+    "text": "If training feels disconnected from real work or personal goals, employees tune out. Engagement drops — and so does impact."
+  },
+  "challenge3": {
+    "headline": "Hard to Track ROI",
+    "text": "You invest in learning. But what’s working? LearnGraph helps you link training to real results through insights and progress data."
+  },
+  "challenge4": {
+    "headline": "Too Much Setup. Not Enough Value.",
+    "text": "Complex platforms create more friction than flow. LearnGraph plugs into your workflow with minimal setup and maximum clarity."
+  },
+
+  "insightsTitle": "Why Smarter Training Wins",
+  "insight1": {
+    "title": "Personalized paths = better retention",
+    "description": "Employees who follow tailored training routes retain knowledge better and apply skills faster on the job."
+  },
+  "insight2": {
+    "title": "Real-world practice boosts results",
+    "description": "Training linked to actual tasks (like ERP or cybersecurity workflows) leads to faster adaptation and fewer errors."
+  },
+  "insight3": {
+    "title": "Engagement matters",
+    "description": "Interactive, meaningful learning doubles completion rates and boosts team morale."
+  },
+  "insight4": {
+    "title": "Actionable data unlocks ROI",
+    "description": "LearnGraph connects learning outcomes with KPIs so you can track what drives impact — not just clicks."
+  },
+  "insightsSummary": "Better training isn’t just content — it’s connection, clarity, and feedback. LearnGraph helps you deliver all three.",
+
+  "solutionsTitle": "Built for Modern Organizations",
+  "solution1": {
+    "target": "Skill-GPS",
+    "headline": "GPS for Skill Development",
+    "text": "Like Google Maps for learning. Employees see where they are, what skills they need, and how to reach their goals efficiently.",
+    "keywords": [
+      "Skill Mapping",
+      "Progress Visibility",
+      "Goal-Oriented Paths",
+      "Smart Recommendations"
+    ]
+  },
+  "solution2": {
+    "target": "Plug & Play Analytics",
+    "headline": "Plug & Play Insights",
+    "text": "Our dashboards surface what’s working — and what’s not — across departments, teams, and individuals. No PhD in analytics required.",
+    "keywords": [
+      "Training ROI",
+      "Real-Time Dashboards",
+      "HR-Friendly Reports",
+      "Custom Feedback"
+    ]
+  },
+  "solution3": {
+    "target": "Personalized Microlearning",
+    "headline": "Training That Sticks",
+    "text": "Employees get what they need, when they need it — with interactive modules tied to real tools like ERP, cybersecurity, and more.",
+    "keywords": [
+      "Just-in-Time Learning",
+      "Industry-Relevant Content",
+      "Modular Integration",
+      "Task-Based Scenarios"
+    ]
+  },
+
+  "cta": {
+    "headline": "Let’s Build Smarter Training Together",
+    "text": "Ready to amplify your impact? Schedule a free call to explore how LearnGraph can integrate with your existing training efforts.",
+    "cta": "Schedule a Call"
+  }
+},
+
+
   "LandingPage": {
     "wcl":"Why choose Learngraph",
     "uspBlocks": {
