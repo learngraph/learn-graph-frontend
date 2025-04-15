@@ -463,12 +463,16 @@ const UnifyingVision: React.FC = () => {
       <div className="w-full py-12 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-center">
         <div className="max-w-3xl mx-auto px-4">
           <h2 className="text-3xl sm:text-5xl font-bold mb-4">
-            LearnGraph: Connecting Intentions, Shaping Futures
+            Open Infrastructure for a Learning Planet
           </h2>
           <p className="text-lg sm:text-xl">
             Join us in creating an educational future where every intention
             sparks a journey, every path leads to real-world impact, and every
             connection builds a stronger nation.
+            <p />
+            Empowering nations to build inclusive, adaptive, and skill-driven
+            education systems — from basic literacy to workforce readiness.
+            Open, scalable, and aligned with the Sustainable Development Goals.
           </p>
         </div>
         <CTASection
@@ -484,7 +488,14 @@ const UnifyingVision: React.FC = () => {
 
 // --- Main Journey Page Component ---
 export const NationPolicyJourney: React.FC = () => {
-  return <NavigationWithContent content={<NationPolicyJourneyPage />} />;
+  const useJourney = true;
+  if (useJourney) {
+    return <NavigationWithContent content={<NationPolicyJourneyPage />} />;
+  } else {
+    return (
+      <NavigationWithContent content={<InfrastructureCapacityBuilding />} />
+    );
+  }
 };
 
 const NationPolicyJourneyPage: React.FC = () => {
@@ -543,3 +554,190 @@ const NationPolicyJourneyPage: React.FC = () => {
     </div>
   );
 };
+
+function InfrastructureCapacityBuilding() {
+  return (
+    <div
+      className="text-gray-900 font-sans bg-[url('/LGBG-light.webp')] bg-no-repeat bg-cover bg-fixed bg-center min-h-screen"
+      style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+    >
+      {/* Hero Section */}
+      <div className="backdrop-blur-2xl rounded-2xl mt-12">
+        <section className="px-6 py-16 text-center max-w-4xl mx-auto">
+          <h1 className="text-4xl font-bold mb-4">
+            LearnGraph: Infrastructure for Capacity Building
+          </h1>
+          <p className="text-lg">
+            Empowering nations to build inclusive, adaptive, and skill-driven
+            education systems. Seamlessly aligned with national development
+            goals and global Sustainable Development Goals (SDGs).
+          </p>
+        </section>
+      </div>
+
+      {/* Why Education Infrastructure Matters */}
+      <div className="bg-gray-100 ">
+        <section className="py-12 px-6 max-w-4xl mx-auto">
+          <h2 className="text-2xl font-semibold mb-6">
+            Why Education Infrastructure Matters
+          </h2>
+          <ul className="list-disc list-inside space-y-2">
+            <li>
+              <strong>300+ million young people</strong> risk missing essential
+              skills for the future of work.
+            </li>
+            <li>
+              Traditional systems are often{" "}
+              <strong>fragmented, rigid, and inaccessible</strong> for rural and
+              underserved communities.
+            </li>
+            <li>
+              <strong>Global goals</strong> like SDG 4 (Quality Education) and
+              SDG 8 (Decent Work) call for{" "}
+              <strong>
+                flexible, scalable, and inclusive education solutions
+              </strong>
+              .
+            </li>
+          </ul>
+          <p className="mt-4">
+            LearnGraph bridges this critical gap — offering an open, adaptive
+            digital foundation for national education and workforce strategies.
+          </p>
+        </section>
+      </div>
+
+      {/* Our Role */}
+      <section className="py-12 px-6 max-w-4xl mx-auto">
+        <div className="backdrop-blur-2xl rounded-2xl p-12">
+          <h2 className="text-2xl font-semibold mb-6">
+            Our Role: Backbone for National Development
+          </h2>
+          <ul className="list-disc list-inside space-y-2">
+            <li>Expand access to quality education in underserved regions</li>
+            <li>Support lifelong learning and workforce reintegration</li>
+            <li>
+              Reduce the cost and complexity of scaling educational access
+            </li>
+            <li>Deliver skill-aligned, personalized learning paths</li>
+            <li>Strengthen national SDG reporting and impact measurement</li>
+          </ul>
+          <blockquote className="mt-6 italic border-l-4 border-blue-500 pl-4">
+            “From literacy programs to AI skills training, LearnGraph enables
+            flexible, localized solutions that accelerate national progress.”
+          </blockquote>
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <div className="bg-gray-100 ">
+        <section className="py-12 px-6 max-w-4xl mx-auto text-center">
+          <h2 className="text-2xl font-semibold mb-6">How LearnGraph Works</h2>
+          <div className="space-y-4">
+            <p>
+              <strong>Inputs:</strong>
+              <p />
+              - Government Policy
+              <br />
+              - NGO Initiatives
+              <br />
+              - Open Educational Resources (OER)
+              <br />
+            </p>
+            <div className="animate-bounce text-2xl">↓</div>
+            <p>
+              <strong>LearnGraph Layer:</strong>
+              <br />
+              - Dynamic Knowledge Ontology
+              <br />
+              - Personalized Learning Pathways
+              <br />
+              - Skill Mapping (aligned with ESCO, ELM frameworks)
+              <br />- Offline-first access options
+            </p>
+            <div className="animate-bounce text-2xl">↓</div>
+            <p>
+              <strong>Outputs:</strong>
+              <br />
+              - Increased Workforce Readiness
+              <br />
+              - Improved Educational Access Metrics
+              <br />
+              - Accelerated Rural Inclusion
+              <br />- Enhanced SDG Goal Reporting
+            </p>
+          </div>
+        </section>
+      </div>
+
+      {/* Designed for Impact */}
+      <section className="py-12 px-6 max-w-4xl mx-auto">
+        <div className="rounded-2xl backdrop-blur-2xl p-12">
+          <h2 className="text-2xl font-semibold mb-6">
+            Designed for Impact, Built for Scale
+          </h2>
+          <div className="grid gap-6 md:grid-cols-2">
+            <div>
+              <h3 className="text-xl font-bold mb-2">
+                Open-Source, Transparent, Modular
+              </h3>
+              <ul className="list-disc list-inside">
+                <li>Fully customizable for national and local needs</li>
+                <li>Freely extensible with open governance principles</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-xl font-bold mb-2">
+                Aligned with Global Frameworks
+              </h3>
+              <ul className="list-disc list-inside">
+                <li>ESCO, ELM, SDG 4, 8, 10, 17 indicators</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-xl font-bold mb-2">Proven Flexibility</h3>
+              <ul className="list-disc list-inside">
+                <li>
+                  Usable in universities, rural hubs, refugee contexts, and
+                  workforce programs
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Call to Action */}
+      <section className="bg-blue-50 py-12 px-6 text-center max-w-4xl mx-auto">
+        <h2 className="text-2xl font-semibold mb-4">Our Invitation</h2>
+        <p className="mb-4">
+          LearnGraph is ready to power your education and workforce initiatives.
+        </p>
+        <ul className="list-none mb-6">
+          <li>Governments building national skills infrastructures</li>
+          <li>NGOs scaling rural education initiatives</li>
+          <li>Development agencies accelerating SDG impact</li>
+        </ul>
+        <p className="mb-6">
+          Let's build resilient, inclusive learning ecosystems — together.
+        </p>
+        <div className="flex flex-col md:flex-row justify-center gap-4">
+          <button className="bg-blue-600 text-white px-6 py-2 rounded-full shadow hover:bg-blue-700">
+            Request a Partnership Brief
+          </button>
+          <button className="bg-white border border-blue-600 text-blue-600 px-6 py-2 rounded-full hover:bg-blue-100">
+            Download Full Whitepaper
+          </button>
+          <button className="bg-white border border-blue-600 text-blue-600 px-6 py-2 rounded-full hover:bg-blue-100">
+            Contact Our Development Team
+          </button>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-8 text-center text-sm text-gray-500">
+        LearnGraph.org | Open Infrastructure for a Learning Planet
+      </footer>
+    </div>
+  );
+}
