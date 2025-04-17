@@ -92,7 +92,7 @@ export const ChallengesSection: FC<ChallengesSectionProps> = ({
   challengeBlocks,
 }): JSX.Element => {
   return (
-    <section className="py-12 bg-black/10">
+    <section className="py-12 bg-black/10 backdrop-blur-xs">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold text-center mb-8 text-blue-800">
           Challenges
@@ -126,11 +126,6 @@ export interface InsightStatProps {
 export const InsightStat: FC<InsightStatProps> = ({ insight }): JSX.Element => {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const { t } = useTranslation();
-
-  //<div className="relative p-[2px] bg-gradient-to-r from-indigo-700 to-purple-700 rounded">
-  //  <div className="flex flex-col items-center cursor-pointer transition-all bg-white text-black rounded">
-  //    </div>
-  //  </div>
   return (
     <div
       className={`p-[4px] bg-gradient-to-l from-indigo-700 to-purple-700 ${
@@ -185,7 +180,7 @@ export const InsightsSection: FC<InsightsSectionProps> = ({
   summary,
 }): JSX.Element => {
   return (
-    <section className="py-12 bg-white/40">
+    <section className="py-12">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold text-center mb-8 text-blue-800">
           {title}
@@ -216,7 +211,7 @@ export const SolutionsSection: FC<SolutionsSectionProps> = ({
   solutionBlocks,
 }): JSX.Element => {
   return (
-    <section className="py-12 bg-black/10">
+    <section className="py-12 bg-black/10 backdrop-blur-xs">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold text-center mb-8 text-blue-800">
           {title}
