@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import { NavigationWithContent } from "@src/Navigation";
 import { useTranslation } from "react-i18next";
 import {
@@ -7,6 +7,8 @@ import {
   CTA,
   CTASection,
   HeroSection,
+  Hotspot,
+  HotspotImageOverlay,
   Insight,
   InsightsSection,
   SolutionBlock,
@@ -382,12 +384,9 @@ export const PartnerSuccessStory: FC = () => {
   );
 };
 
-const LearningNavigatorSection: FC = () => {
+export const LearningNavigatorSection: FC = () => {
   const { t } = useTranslation();
-  const [activeHotspot, setActiveHotspot] = useState<number | null>(null);
-
-  // Define your hotspots (percentages or px based on your design)
-  const hotspots = [
+  const hotspots: Hotspot[] = [
     {
       id: 1,
       label: t("university.navigator.enterGoal"),
@@ -397,8 +396,8 @@ const LearningNavigatorSection: FC = () => {
     {
       id: 2,
       label: t("university.navigator.findYourself"),
-      top: "90%",
-      right: "40%",
+      top: "85%",
+      right: "41%",
     },
     {
       id: 3,
@@ -421,100 +420,11 @@ const LearningNavigatorSection: FC = () => {
   ];
 
   return (
-    <section className="py-12 px-4  backdrop-blur-xs bg-black/10">
-      <h2 className="text-3xl font-bold mb-6 text-center text-blue-800">
-        {t("university.learningNavigatorTitle")}
-      </h2>
-
-      <div className="relative mx-auto max-w-4xl">
-        {/* Screenshot */}
-        <img
-          src="/screenshot-all-in-one.png"
-          alt={t(
-            "university.navigator.imageAlt",
-            "Learning Path Navigator screenshot",
-          )}
-          className="w-full rounded-2xl shadow-2xl shadow-black"
-        />
-
-        {/* Desktop arrows + labels */}
-        <div className="hidden md:block">
-          {hotspots.map((spot) => (
-            <div
-              key={spot.id}
-              className="absolute flex items-center space-x-2"
-              style={{
-                top: spot.top,
-                bottom: spot.bottom,
-                left: spot.left,
-                right: spot.right,
-              }}
-            >
-              {/* Upward‑pointing arrow */}
-              <svg
-                className="w-6 h-6 mx-auto"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                {/* This path draws an arrow pointing up */}
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 19V5m0 0l-7 7m7-7l7 7"
-                />
-              </svg>
-
-              {/* Label beneath the arrow */}
-              <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-[200px] text-center backdrop-blur-2xl bg-blue-600 text-white text-lg px-3 py-1 rounded-2xl shadow-2xl">
-                {spot.label}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Mobile hotspots */}
-        <div className="md:hidden">
-          {hotspots.map((spot) => (
-            <button
-              key={spot.id}
-              className="absolute bg-blue-600 text-xl border-2 border-black/20 text-white rounded-full w-10 h-10 flex items-center justify-center"
-              style={{
-                top: spot.top,
-                bottom: spot.bottom,
-                left: spot.left,
-                right: spot.right,
-              }}
-              onClick={() => setActiveHotspot(spot.id)}
-            >
-              ?
-            </button>
-          ))}
-
-          {/* Fullscreen modal */}
-          {activeHotspot && (
-            <div
-              className="fixed inset-0 backdrop-blur-xs flex items-center justify-center z-50"
-              onClick={() => setActiveHotspot(null)}
-            >
-              <div className="bg-blue-600 text-white rounded-2xl overflow-hidden max-w-prose mx-auto">
-                <div className="p-4">
-                  <p className="text-lg font-semibold">
-                    {hotspots.find((h) => h.id === activeHotspot)?.label}
-                  </p>
-                  <img
-                    src="/navigator-screenshot.png"
-                    alt=""
-                    className="w-full"
-                  />
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-    </section>
+    <HotspotImageOverlay
+      imageSrc="/screenshot-all-in-one.png"
+      imageAlt={t("university.navigator.imageAlt")}
+      title={t("university.learningNavigatorTitle")}
+      hotspots={hotspots}
+    />
   );
 };

@@ -166,9 +166,10 @@
 
   "learningNavigatorTitle": "Learning Path Navigator",
   "navigator": {
+    "imageAlt": "Learning Path Navigator screenshot",
     "enterGoal": "Any goal is in reach!",
-    "findYourself": "All the knowledge you have aquired thus far!",
-    "guidanceEveryStep": "We guide you, no matter how ambititous the route.",
+    "findYourself": "Personalized to all the knowledge you have aquired thus far!",
+    "guidanceEveryStep": "We guide you, no matter how ambititous the route you choose.",
     "findPeers": "You can always find peers on your journey - or travel solo!",
     "travelSpeed": "You choose when to arrive!"
   }

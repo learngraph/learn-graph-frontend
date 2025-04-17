@@ -293,3 +293,132 @@ export const CTASection: FC<CTASectionProps> = ({
     </section>
   );
 };
+
+export interface Hotspot {
+  id: number;
+  label: string;
+  top?: string;
+  bottom?: string;
+  left?: string;
+  right?: string;
+}
+
+export interface HotspotImageOverlayProps {
+  imageSrc: string;
+  imageAlt: string;
+  title: string;
+  hotspots: Hotspot[];
+}
+
+export const HotspotImageOverlay: FC<HotspotImageOverlayProps> = ({
+  imageSrc,
+  imageAlt,
+  title,
+  hotspots,
+}) => {
+  const [activeHotspot, setActiveHotspot] = useState<number | null>(null);
+
+  return (
+    <section className="py-12 px-4 backdrop-blur-xs bg-black/10">
+      <h2 className="text-3xl font-bold mb-6 text-center text-blue-800">
+        {title}
+      </h2>
+
+      <div className="relative mx-auto md:max-w-[84%] lg:max-w-4xl max-w-4xl">
+        {/* Screenshot */}
+        <img
+          src={imageSrc}
+          alt={imageAlt}
+          className="w-full rounded-2xl shadow-2xl shadow-black"
+        />
+
+        {/* Desktop arrows + labels */}
+        <div className="hidden md:block">
+          {hotspots.map((spot) => (
+            <div
+              key={spot.id}
+              className="absolute"
+              style={{
+                top: spot.top,
+                bottom: spot.bottom,
+                left: spot.left,
+                right: spot.right,
+              }}
+            >
+              {/* Up‑pointing arrow */}
+              <svg
+                className="w-6 h-6 mx-auto"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 19V5m0 0l-7 7m7-7l7 7"
+                />
+              </svg>
+
+              {/* Label below arrow */}
+              <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-[200px] text-center bg-blue-800 text-white text-lg px-3 py-1 rounded-2xl shadow-2xl">
+                {spot.label}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Mobile hotspots */}
+        <div className="md:hidden">
+          {hotspots.map((spot) => (
+            <div
+              key={spot.id}
+              className="absolute"
+              style={{
+                top: spot.top,
+                bottom: spot.bottom,
+                left: spot.left,
+                right: spot.right,
+              }}
+            >
+              <button
+                className="group bg-blue-800 text-xl border-2 border-black/20 text-white rounded-full w-10 h-10 flex items-center justify-center animate-bounce relative"
+                onClick={() => setActiveHotspot(spot.id)}
+              >
+                ?{/* Hover tooltip */}
+                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:block w-[200px] text-center bg-blue-800 text-white text-sm px-2 py-1 rounded shadow-lg">
+                  {spot.label}
+                </div>
+              </button>
+            </div>
+          ))}
+
+          {/* Fullscreen modal */}
+          {activeHotspot !== null && (
+            <div
+              className="fixed inset-0 backdrop-blur-xs flex items-center justify-center z-50 gap-2"
+              onClick={() => setActiveHotspot(null)}
+            >
+              <div className="relative bg-blue-800 text-white rounded-2xl overflow-hidden max-w-prose text-center">
+                <div className="p-4">
+                  <p className="text-lg font-semibold">
+                    {hotspots.find((h) => h.id === activeHotspot)?.label}
+                  </p>
+                </div>
+              </div>
+
+              {/* Red “X” close button */}
+              <button
+                className="text-xl py-2 px-4 rounded-2xl bg-red-600/80 hover:bg-red-600/90 transition-colors text-white"
+                onClick={() => setActiveHotspot(null)}
+              >
+                X
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+};
