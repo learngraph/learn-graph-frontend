@@ -39,14 +39,22 @@ def translate_content(content, target_language, client):
     prompt = (
         f"Translate the following JSON into {target_language} language. "
         "Ensure that the output is valid JSON with exactly the same structure as the input, "
-        "and do not include any markdown formatting or code block markers.\n\n"
-        f"JSON:\n{json.dumps(content, ensure_ascii=False)}"
+        "and do not include any markdown formatting or code block markers.\n"
+        "The json structure is a single object like this, with potentially nested objects & lists:\n"
+        "{\n"
+        "   \"key\": \"value\",\n"
+        "   \"key2\": {\n"
+        "       \"potentially multiple nested objects\": \"value\"\n"
+        "   }\n"
+        "}\n\n"
+        f"JSON input:\n```\n{json.dumps(content, ensure_ascii=False)}\n```\n"
     )
     
     try:
         response = client.models.generate_content(
-            model="gemini-2.0-flash",
-            contents=prompt
+            model="gemini-2.5-flash-preview-04-17",
+            #model="gemini-2.0-flash",
+            contents=prompt,
         )
     except Exception as e:
         raise Exception(f"API call failed for {target_language}: {str(e)}")
@@ -76,12 +84,12 @@ def main():
     
     path = "./src/shared"
     # Mapping target languages to their output files (based on i18n.ts)
-    TARGET_LANGUAGES = {
-        "de": {"language": "German", "output_file": f"{path}/i18n/German.json"},
-        "es": {"language": "Spanish", "output_file": f"{path}/i18n/Spanish.json"},
-        "it": {"language": "Italian", "output_file": f"{path}/i18n/Italian.json"},
-        "zh": {"language": "Chinese Traditional", "output_file": f"{path}/i18n/Chinese Traditional.json"},
-    }
+    TARGET_LANGUAGES = [
+        ["de", {"language": "German", "output_file": f"{path}/i18n/German.json"}],
+        ["zh", {"language": "Chinese Traditional", "output_file": f"{path}/i18n/Chinese Traditional.json"}],
+        ["es", {"language": "Spanish", "output_file": f"{path}/i18n/Spanish.json"}],
+        ["it", {"language": "Italian", "output_file": f"{path}/i18n/Italian.json"}],
+    ]
     
     # Load the source i18n.json file (see :contentReference[oaicite:2]{index=2})
     try:
@@ -92,7 +100,7 @@ def main():
         sys.exit(1)
     
     # Process translation for each target language
-    for lang_code, details in TARGET_LANGUAGES.items():
+    for lang_code, details in TARGET_LANGUAGES:
         print(f"Translating content to {details['language']}...")
         try:
             translated_content = translate_content(source_data, details["language"], client)

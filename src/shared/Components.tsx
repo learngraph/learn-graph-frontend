@@ -126,6 +126,7 @@ export interface InsightStatProps {
 export const InsightStat: FC<InsightStatProps> = ({ insight }): JSX.Element => {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const { t } = useTranslation();
+
   return (
     <div
       className={`p-[4px] bg-gradient-to-l from-indigo-700 to-purple-700 ${
@@ -133,28 +134,37 @@ export const InsightStat: FC<InsightStatProps> = ({ insight }): JSX.Element => {
       }`}
     >
       <div
-        className={`relative flex flex-col items-center cursor-pointer transition-all bg-white text-black ${
+        className={`relative flex items-center justify-center cursor-pointer transition-all bg-white text-black ${
           isExpanded ? "w-64 h-64 rounded-2xl p-4" : "w-64 h-64 rounded-full"
         }`}
-        onMouseEnter={(): void => setIsExpanded(true)}
-        onMouseLeave={(): void => setIsExpanded(false)}
-        onClick={(): void => setIsExpanded((prev: boolean): boolean => !prev)}
+        onMouseEnter={() => setIsExpanded(true)}
+        onMouseLeave={() => setIsExpanded(false)}
+        onClick={() => setIsExpanded((prev) => !prev)}
       >
-        <div className="flex flex-col items-center justify-center text-center h-full">
+        <div className="relative w-full h-full">
+          {/* Centered Title */}
           <div
-            className={`text-2xl font-bold transition-all ${isExpanded ? "mb-2" : "mt-34"}`}
+            className={`absolute inset-0 flex items-center justify-center text-center transition-all duration-300 ${
+              isExpanded
+                ? "translate-y-[-80px] opacity-100"
+                : "translate-y-0 opacity-100"
+            }`}
           >
-            {insight.title}
+            <div className="text-lg font-semibold">{insight.title}</div>
           </div>
+
+          {/* Hidden/Shown Description */}
           <div
-            className={`text-sm transition-opacity ${isExpanded ? "opacity-100" : "opacity-0"}`}
+            className={`absolute top-5 left-0 w-full h-full flex flex-col items-center justify-center text-center p-4 transition-opacity ${
+              isExpanded ? "opacity-100" : "opacity-0 pointer-events-none"
+            }`}
           >
-            <p>{insight.description}</p>
+            <p className="text-sm">{insight.description}</p>
             <a
               href={insight.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-700 underline mt-2 block"
+              className="text-blue-700 underline mt-2 block text-sm"
             >
               {t("university.lm")}
             </a>
