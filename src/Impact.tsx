@@ -52,6 +52,7 @@ export const ImpactPage: React.FC = () => {
       title: t("impact.sections.need.title"),
       content: (
         <ul className="list-disc ml-5 space-y-2">
+          {/* @ts-expect-error: the translation returns a list of objects */}
           {t("impact.sections.need.list", { returnObjects: true }).map(
             (item: { strong: string; text: string }, index: number) => (
               <li key={index}>
@@ -93,6 +94,7 @@ export const ImpactPage: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {t("impact.sections.impactMetrics.stats", {
             returnObjects: true,
+            // @ts-expect-error: the translation returns a list of objects
           }).map(
             (stat: { title: string; description: string }, index: number) => (
               <ImpactStatBox
@@ -112,6 +114,7 @@ export const ImpactPage: React.FC = () => {
         <div>
           <p className="mb-4">{t("impact.sections.join.intro")}</p>
           <ul className="list-disc ml-5 space-y-2">
+            {/* @ts-expect-error: the translation returns a list of objects */}
             {t("impact.sections.join.list", { returnObjects: true }).map(
               (item: { strong: string; text: string }, index: number) => (
                 <li key={index}>
@@ -134,6 +137,7 @@ export const ImpactPage: React.FC = () => {
           <ul className="list-disc ml-5 space-y-2">
             {t("impact.sections.impactInvestors.content.list", {
               returnObjects: true,
+              // @ts-expect-error: the translation returns a list of objects
             }).map((item: { strong: string; text: string }, index: number) => (
               <li key={index}>
                 <strong>{item.strong}</strong> {item.text}
