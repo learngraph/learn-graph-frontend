@@ -1,6 +1,5 @@
-import { useState, FC } from "react";
+import { FC } from "react";
 import { NavigationWithContent } from "@src/Navigation";
-import { GetADemoCTA } from "@src/LandingPage";
 import { useTranslation } from "react-i18next";
 import {
   ChallengeBlock,
