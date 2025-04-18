@@ -162,6 +162,16 @@
     "headline": "Take the first step into the Future",
     "text": "Discover how our innovative, data-driven platform transforms insights into actionable strategies that enhance student success and institutional growth.",
     "cta": "Request a Demo"
+  },
+
+  "learningNavigatorTitle": "Learning Path Navigator",
+  "navigator": {
+    "imageAlt": "Learning Path Navigator screenshot",
+    "enterGoal": "Any goal is in reach!",
+    "findYourself": "Personalized to all the knowledge you have aquired thus far!",
+    "guidanceEveryStep": "We guide you, no matter how ambititous the route you choose.",
+    "findPeers": "You can always find peers on your journey - or travel solo!",
+    "travelSpeed": "You choose when to arrive!"
   }
 },
 "individual": {
