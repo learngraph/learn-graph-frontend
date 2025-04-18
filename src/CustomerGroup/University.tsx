@@ -7,6 +7,8 @@ import {
   CTA,
   CTASection,
   HeroSection,
+  Hotspot,
+  HotspotImageOverlay,
   Insight,
   InsightsSection,
   SolutionBlock,
@@ -126,6 +128,7 @@ const CGUniversityContent: FC = () => {
         insights={researchInsights}
         summary={t("university.insightsSummary")}
       />
+      <LearningNavigatorSection />
       <SolutionsSection
         title={t("university.solutionsTitle")}
         solutionBlocks={solutionBlocks}
@@ -162,7 +165,7 @@ export interface Partner {
   learngraphRole: string;
 }
 
-export const partners: Partner[] = [
+const partners: Partner[] = [
   {
     id: 1,
     name: "Universitatea Nationala de Stiinta si Tehnologie POLITEHNICA Bucuresti",
@@ -225,7 +228,7 @@ export const partners: Partner[] = [
   },
 ];
 
-export const PartnersSection: FC = () => {
+const PartnersSection: FC = () => {
   const navigate = useNavigate();
 
   const handleClick = (partnerName: string): void => {
@@ -286,7 +289,7 @@ export interface PartnerSuccessData {
   learngraphRole: string;
 }
 
-export const partnerSuccessStories: PartnerSuccessData[] = [
+const partnerSuccessStories: PartnerSuccessData[] = [
   {
     name: "Universitatea Nationala de Stiinta si Tehnologie POLITEHNICA Bucuresti",
     logoUrl: "/partner/logo-upb.jpeg",
@@ -378,5 +381,50 @@ export const PartnerSuccessStory: FC = () => {
         </p>
       </div>
     </div>
+  );
+};
+
+export const LearningNavigatorSection: FC = () => {
+  const { t } = useTranslation();
+  const hotspots: Hotspot[] = [
+    {
+      id: 1,
+      label: t("university.navigator.enterGoal"),
+      top: "21%",
+      left: "2.5%",
+    },
+    {
+      id: 2,
+      label: t("university.navigator.findYourself"),
+      top: "85%",
+      right: "41%",
+    },
+    {
+      id: 3,
+      label: t("university.navigator.guidanceEveryStep"),
+      bottom: "20%",
+      left: "27%",
+    },
+    {
+      id: 4,
+      label: t("university.navigator.findPeers"),
+      bottom: "25%",
+      right: "10%",
+    },
+    {
+      id: 5,
+      label: t("university.navigator.travelSpeed"),
+      bottom: "54%",
+      right: "5.5%",
+    },
+  ];
+
+  return (
+    <HotspotImageOverlay
+      imageSrc="/screenshot-all-in-one.png"
+      imageAlt={t("university.navigator.imageAlt")}
+      title={t("university.learningNavigatorTitle")}
+      hotspots={hotspots}
+    />
   );
 };
