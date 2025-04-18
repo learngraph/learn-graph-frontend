@@ -2,82 +2,17 @@ import { useState, FC } from "react";
 import { NavigationWithContent } from "@src/Navigation";
 import { GetADemoCTA } from "@src/LandingPage";
 import { useTranslation } from "react-i18next";
-
-// --- Type Declarations ---
-interface ChallengeBlock {
-  icon: string;
-  headline: string;
-  text: string;
-}
-
-interface Insight {
-  id: number;
-  title: string;
-  description: string;
-  link: string;
-}
-
-interface SolutionBlock {
-  target: string;
-  headline: string;
-  imageUrl: string;
-  keywords: string[];
-  text: string;
-  extraClass?: string;
-}
-
-interface CTA {
-  symbol: string;
-  headline: string;
-  text: string;
-  cta: string;
-  onClick: () => void;
-}
-
-interface InsightStatProps {
-  insight: Insight;
-}
-
-// --- Components ---
-// InsightStat component: Expands inline from a circle into a square on hover/tap, displaying additional text.
-const InsightStat: FC<InsightStatProps> = ({ insight }) => {
-  const [isExpanded, setIsExpanded] = useState<boolean>(false);
-  const { t } = useTranslation();
-
-  return (
-    <div
-      className={`relative flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-300 bg-blue-700 text-white ${
-        isExpanded ? "w-64 h-64 rounded-2xl p-4" : "w-50 h-50 rounded-full"
-      }`}
-      onMouseEnter={() => setIsExpanded(true)}
-      onMouseLeave={() => setIsExpanded(false)}
-      onClick={() => setIsExpanded((prev) => !prev)}
-    >
-      <div className="flex flex-col items-center justify-center text-center h-full w-full">
-        <div className="text-xl font-bold transition-all duration-300">
-          {insight.title}
-        </div>
-        <div
-          className={`text-sm text-center transition-opacity duration-300 mt-2 ${
-            isExpanded ? "opacity-100" : "opacity-0 h-0 overflow-hidden"
-          }`}
-        >
-          <p>{insight.description}</p>
-          <a
-            href={insight.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-200 underline mt-2 block"
-          >
-            {t("institutions.lm")}
-          </a>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// Main component
+import {
+  ChallengeBlock,
+  ChallengesSection,
+  HeroSection,
+  Insight,
+  CTA,
+  CTASection,
+  InsightsSection,
+  SolutionBlock,
+  SolutionsSection,
+} from "@src/shared/Components";
 
 export const Institutions: FC = () => {
   //inside cause translation hook can"t be called outside
@@ -175,104 +110,37 @@ export const Institutions: FC = () => {
   ];
 
   return (
-    <div className="bg-[linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)),url('/LGBG2.png')] bg-no-repeat bg-cover bg-fixed bg-center min-h-screen">
+    <div className="bg-[url('/LGBG-light.webp')] bg-no-repeat bg-cover bg-fixed bg-center min-h-screen">
       <NavigationWithContent
         content={
           <>
             {/* Hero Section */}
-            <section className="py-12 bg-gray-900/60 text-white text-center">
-              <div className="container mx-auto px-4">
-                <h1 className="text-4xl md:text-6xl font-bold mb-4">
-                  {t("institutions.heroHeadline")}
-                </h1>
-                <p className="text-xl mb-8">{t("institutions.heroText")}</p>
-                <img
-                  src="/institute3-min.png"
-                  alt={t("institutions.heroImageAlt")}
-                  className="mx-auto my-8 rounded-lg shadow-lg max-w-100"
-                />
-              </div>
-            </section>
+            <HeroSection
+              headline={t("institutions.heroHeadline")}
+              text={t("institutions.heroText")}
+              imageUrl="/institute3-min.png"
+              imageAlt={t("institutions.heroImageAlt")}
+            />
 
             {/* Challenges Section */}
-            <section className="py-12">
-              <div className="container mx-auto px-4">
-                <h2 className="text-3xl font-bold text-center mb-8 bg-white/85 rounded-2xl">
-                  {t("institutions.challengesTitle")}
-                </h2>
-                <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-                  {challengeBlocks.map((block, index) => (
-                    <div
-                      key={index}
-                      className="bg-gray-100 p-6 rounded-lg shadow-md text-center"
-                    >
-                      <div className="text-4xl mb-4">{block.icon}</div>
-                      <h3 className="text-xl font-semibold mb-2">
-                        {block.headline}
-                      </h3>
-                      <p>{block.text}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </section>
+            <ChallengesSection challengeBlocks={challengeBlocks} />
 
             {/* Insights Section */}
-            <section className="py-12">
-              <div className="container mx-auto px-4">
-                <h2 className="text-3xl font-bold text-center mb-8 bg-white/85 rounded-2xl">
-                  {t("institutions.insightsTitle")}
-                </h2>
-                <div className="flex flex-wrap justify-center gap-8 mb-4 bg-white/85 rounded-2xl p-4">
-                  {researchInsights.map((insight) => (
-                    <InsightStat key={insight.id} insight={insight} />
-                  ))}
-                </div>
-                <p className="text-center text-lg italic bg-white/85 rounded-2xl p-2">
-                  {t("institutions.insightsSummary")}
-                </p>
-              </div>
-            </section>
+            <InsightsSection
+              title={t("institutions.insightsTitle")}
+              insights={researchInsights}
+              summary={t("institutions.insightsSummary")}
+            />
 
             {/* Solutions Section */}
-            <section className="py-12">
-              <div className="container mx-auto px-4">
-                <h2 className="text-xl font-bold text-center mb-8 bg-white/85 rounded-2xl">
-                  {t("institutions.solutionsTitle")}
-                </h2>
-                <div className="grid gap-8 md:grid-cols-1 lg:grid-cols-3">
-                  {solutionBlocks.map((block, index) => (
-                    <div
-                      key={index}
-                      className="bg-white p-6 rounded-lg shadow-md"
-                    >
-                      <img
-                        src={block.imageUrl}
-                        alt={block.target}
-                        className={`w-full h-90 object-cover mb-4 rounded ${block.extraClass}`}
-                      />
-                      <h3 className="text-xl font-semibold mb-2">
-                        {block.headline}
-                      </h3>
-                      <p className="mb-4">{block.text}</p>
-                      <div className="flex flex-wrap gap-2">
-                        {block.keywords.map((keyword, idx) => (
-                          <span
-                            key={idx}
-                            className="bg-blue-100 text-blue-800 text-sm px-2 py-1 rounded"
-                          >
-                            {keyword}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </section>
+
+            <SolutionsSection
+              title={t("institutions.solutionsTitle")}
+              solutionBlocks={solutionBlocks}
+            />
 
             {/* CTA Section */}
-            <GetADemoCTA blocks={ctaBlocks} />
+            <CTASection ctaBlocks={ctaBlocks} />
           </>
         }
       />
