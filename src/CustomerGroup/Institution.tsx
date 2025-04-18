@@ -25,7 +25,7 @@ export const Institutions: FC = () => {
     },
     {
       icon: "📉", // Low engagement, high dropout
-      headline: t("institututions.challenge2.headline"),
+      headline: t("institutions.challenge2.headline"),
       text: t("institutions.challenge2.text"),
     },
     {
