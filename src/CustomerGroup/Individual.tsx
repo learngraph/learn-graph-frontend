@@ -6,6 +6,8 @@ import {
   ChallengeBlock,
   ChallengesSection,
   HeroSection,
+  Hotspot,
+  HotspotImageOverlay,
   Insight,
   InsightsSection,
   SolutionBlock,
@@ -131,7 +133,7 @@ export const Individuals: FC = () => {
             />
 
             {/* Solutions Section */}
-
+            <LearningNavigatorIndividualLearnerSection />
             <SolutionsSection
               title={t("individual.solutionsTitle")}
               solutionBlocks={solutionBlocks}
@@ -142,5 +144,50 @@ export const Individuals: FC = () => {
         }
       />
     </div>
+  );
+};
+
+const LearningNavigatorIndividualLearnerSection: FC = () => {
+  const { t } = useTranslation();
+  const hotspots: Hotspot[] = [
+    {
+      id: 1,
+      label: t("individual.navigator.enterGoal"),
+      top: "21%",
+      left: "2.5%",
+    },
+    {
+      id: 2,
+      label: t("individual.navigator.findYourself"),
+      top: "85%",
+      right: "41%",
+    },
+    {
+      id: 3,
+      label: t("individual.navigator.guidanceEveryStep"),
+      bottom: "20%",
+      left: "27%",
+    },
+    {
+      id: 4,
+      label: t("individual.navigator.findPeers"),
+      bottom: "25%",
+      right: "10%",
+    },
+    {
+      id: 5,
+      label: t("individual.navigator.travelSpeed"),
+      bottom: "64%",
+      right: "5.5%",
+    },
+  ];
+
+  return (
+    <HotspotImageOverlay
+      imageSrc="/screenshot-all-in-one.png"
+      imageAlt={t("individual.navigator.imageAlt")}
+      title={t("individual.learningNavigatorTitle")}
+      hotspots={hotspots}
+    />
   );
 };

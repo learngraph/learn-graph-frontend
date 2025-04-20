@@ -10,9 +10,7 @@ import {
 } from "./CustomerGroup/University";
 import ComingSoon from "./CustomerGroup/ComingSoon";
 //import { NationPolicyJourney } from "./CustomerGroup/NationPolicy";
-// TODO: finish these two as one single site combining only the most important content
-//import { Industry } from "./CustomerGroup/Industry";
-//import { Institutions } from "./CustomerGroup/Institution";
+import { Industry } from "./CustomerGroup/Industry";
 import ContactUs from "./ContactUs";
 
 export const LearngraphOrgRoutes = () => {
@@ -27,8 +25,8 @@ export const LearngraphOrgRoutes = () => {
         element={<UniversityPartnerSuccessStory />}
       />
       <Route path="/nations" Component={ComingSoon} />
-      <Route path="/industry" Component={ComingSoon} />
-      <Route path="/institution" Component={ComingSoon} />
+      <Route path="/industry" Component={Industry} />
+      <Route path="/institution" Component={Industry} />
       <Route path="/ecosystem" Component={ComingSoon} />
       <Route path="/k-12" Component={ComingSoon} />
       <Route path="/contact" Component={ContactUs} />
