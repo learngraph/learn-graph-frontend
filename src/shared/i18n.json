@@ -243,6 +243,65 @@
     "cta": {
       "headline": "Join the Movement. Shape the Future.",
       "text": "Be part of something different. Try our prototype, join our Discord, or help us bring learning to life through community and crowdfunding."
+    },
+    "learningNavigatorTitle": "Your Personal Growth Map",
+    "navigator": {
+      "imageAlt": "Screenshot of your personalized learning journey",
+      "enterGoal": "Pick anything you want to learn — a dream job, skill, or vibe. We’ll show you the path.",
+      "findYourself": "Already know some stuff? We recognize it. Your journey starts from *you*.",
+      "guidanceEveryStep": "Every step is clear. No more confusion. Just progress that actually feels real.",
+      "findPeers": "Learn with friends, link up with others, or do your thing solo. Totally your call.",
+      "travelSpeed": "Go full speed or take detours. This is your path — we just help you walk it."
+    }
+  },
+  "industry": {
+    "header": "Real Skills, Real Results — at Scale.",
+    "subheader": "LearnGraph combines the personalization of consulting with the scalability of online learning — ensuring transfer, performance, and ROI.",
+    "challenge1": {
+      "headline": "Consulting Doesn’t Scale, Courses Don’t Stick",
+      "text": "Consultants leave, courses don’t transfer—scaling learning beyond HQ remains unsolved."
+    },
+    "challenge2": {
+      "headline": "The 80% Completion Problem",
+      "text": "Most employees don’t finish online courses—and even fewer apply what they learn on the job."
+    },
+    "challenge3": {
+      "headline": "Your Org Forgets What Works",
+      "text": "When top performers leave, their learning paths vanish too. There’s no shared roadmap."
+    },
+    "challenge4": {
+      "headline": "No Clear ROI from L&D",
+      "text": "Clicks and course completions aren’t outcomes. Transfer is hard."
+    },
+    "challenge5": {
+      "headline": "Learning is Solo, Work is Collaborative",
+      "text": "Training is individual, but work is done in teams. There’s no bridge between the two."
+    },
+    "challenge6": {
+      "headline": "No Live Map of Skills",
+      "text": "Without visibility into current skills, companies can’t plan, track, or accelerate upskilling."
+    },
+    "challenge7": {
+      "headline": "Growth Paths Are Invisible",
+      "text": "Employees leave when they can’t see progress. Managers lack tools to guide skill-based mobility."
+    },
+    "learningNavigatorTitle": "Your Learning Path Finder",
+    "navigator": {
+      "imageAlt": "Learning Path Navigator screenshot",
+      "enterGoal": "Set any role, skill, or outcome—then map the fastest path to it.",
+      "findYourself": "We start where you are. Prior skills are recognized, not repeated.",
+      "guidanceEveryStep": "Live progress. Actionable steps. No guesswork between here and impact.",
+      "findPeers": "Work through challenges with others—or go solo. You choose the mode.",
+      "travelSpeed": "Upskill fast or fit it into your flow. Learning moves at your speed."
+    },
+    "trust": {
+      "header": "Trusted by leading universities, industry leaders, and European innovation programs."
+    },
+    "pilot": {
+      "header": "Close Collaboration, Zero Setup Effort",
+      "description": "Our pilot program delivers a tailor-made experience over 6–8 weeks.  Experience seamless integration with minimal effort and immediate skill transfer.",
+      "applynow": "Start your Pilot-Journey now",
+      "imgAltTimeline": "Pilot program timeline: 6-8 weeks"
     }
   },
   "institutions": {
@@ -287,36 +346,36 @@
     "insightsSummary": "Better training isn’t just content — it’s connection, clarity, and feedback. LearnGraph helps you deliver all three.",
     "solutionsTitle": "Built for Modern Organizations",
     "solution1": {
-      "target": "Skill-GPS",
+      "target": "Live Learning Map",
       "headline": "GPS for Skill Development",
-      "text": "Like Google Maps for learning. Employees see where they are, what skills they need, and how to reach their goals efficiently.",
+      "text": "Learners see exactly what to learn, in what order, and how it connects to real work. Built for speed, clarity, and flexibility.",
       "keywords": [
-        "Skill Mapping",
-        "Progress Visibility",
-        "Goal-Oriented Paths",
-        "Smart Recommendations"
+        "Personalized Learning Routes",
+        "Skill Progress Tracking",
+        "Peer Benchmarks",
+        "Self-Directed Journeys"
       ]
     },
     "solution2": {
-      "target": "Plug & Play Analytics",
-      "headline": "Plug & Play Insights",
-      "text": "Our dashboards surface what’s working — and what’s not — across departments, teams, and individuals. No PhD in analytics required.",
+      "target": "Plug & Play Insights",
+      "headline": "Make Learning Measurable",
+      "text": "Real-time dashboards link training to outcomes. Spot what drives growth — and what doesn’t — in minutes, not quarters.",
       "keywords": [
-        "Training ROI",
-        "Real-Time Dashboards",
-        "HR-Friendly Reports",
-        "Custom Feedback"
+        "Live Training ROI",
+        "Team-Level Insights",
+        "Skill Gap Detection",
+        "Actionable Alerts"
       ]
     },
     "solution3": {
-      "target": "Personalized Microlearning",
-      "headline": "Training That Sticks",
-      "text": "Employees get what they need, when they need it — with interactive modules tied to real tools like ERP, cybersecurity, and more.",
+      "target": "Contextual Learning in Action",
+      "headline": "Learning That Moves With Work",
+      "text": "Employees learn in context — within workflows, with peers, and in time to solve real problems. No fluff, no drop-off.",
       "keywords": [
-        "Just-in-Time Learning",
-        "Industry-Relevant Content",
-        "Modular Integration",
-        "Task-Based Scenarios"
+        "Just-in-Time Modules",
+        "Peer-Based Practice",
+        "Integrated Into Tools",
+        "Retention by Doing"
       ]
     },
     "cta": {

@@ -3,118 +3,134 @@ import os
 import json
 import re
 import sys
+import time
+import logging
+from typing import Dict, Any, List, Tuple
 from google import genai
 
-# Function to load the GEMINI_API_KEY from a .env file
-def load_api_key_from_dotenv(filepath):
+# Custom exception for JSON parsing failures after retries
+class JSONTranslationError(Exception):
+    """Raised when translation result cannot be parsed into JSON after retries.""" 
+    pass
+
+# Configure logging
+def setup_logging(level=logging.INFO):
+    logging.basicConfig(level=level)
+    return logging.getLogger(__name__)
+
+# Load GEMINI_API_KEY from .env file
+def get_api_key(env_path: str = ".env") -> str:
     try:
-        with open(filepath, "r", encoding="utf-8") as f:
+        with open(env_path, "r", encoding="utf-8") as f:
             for line in f:
-                line = line.strip()
-                # Skip empty or comment lines
-                if not line or line.startswith("#"):
-                    continue
-                if line.startswith("GEMINI_API_KEY="):
-                    key = line.split("=", 1)[1].strip()
-                    # Remove surrounding quotes if present
-                    if key.startswith('"') and key.endswith('"'):
-                        key = key[1:-1]
+                if line.strip().startswith("GEMINI_API_KEY="):
+                    key = line.split("=", 1)[1].strip().strip('"')
                     return key
     except Exception as e:
-        raise Exception(f"Error reading {filepath}: {str(e)}")
-    return None
+        raise Exception(f"Error reading {env_path}: {e}")
+    raise Exception("GEMINI_API_KEY not found in .env file.")
 
-def strip_code_blocks(text):
-    """
-    Remove any triple-backtick code block markers from the text.
-    """
+# Remove triple-backtick markers from API response
+def strip_code_blocks(text: str) -> str:
     return re.sub(r"```", "", text).lstrip("json\n ").strip()
 
-def translate_content(content, target_language, client):
-    """
-    Build a translation prompt for the given content and target language, and call the Gemini API.
-    Expects the response (with any code block markers removed) to be valid JSON.
-    """
-    # Construct a prompt asking the model to translate the JSON content
+# Call Gemini API and parse JSON with retry
+def translate_chunk(
+    data: Dict[str, Any], language: str, client: Any, chunkIndex: int, retries: int = 2
+) -> Dict[str, Any]:
     prompt = (
-        f"Translate the following JSON into {target_language} language. "
-        "Ensure that the output is valid JSON with exactly the same structure as the input, "
-        "and do not include any markdown formatting or code block markers.\n"
-        "The json structure is a single object like this, with potentially nested objects & lists:\n"
-        "{\n"
-        "   \"key\": \"value\",\n"
-        "   \"key2\": {\n"
-        "       \"potentially multiple nested objects\": \"value\"\n"
-        "   }\n"
-        "}\n\n"
-        f"JSON input:\n```\n{json.dumps(content, ensure_ascii=False)}\n```\n"
+        f"Translate the following JSON into {language}. "
+        "Output must be valid JSON matching the input structure, with no markdown or code fences.\n"
+        f"JSON input:\n```\n{json.dumps(data, ensure_ascii=False)}\n```\n"
     )
-    
-    try:
-        response = client.models.generate_content(
-            model="gemini-2.5-flash-preview-04-17",
-            #model="gemini-2.0-flash",
-            contents=prompt,
-        )
-    except Exception as e:
-        raise Exception(f"API call failed for {target_language}: {str(e)}")
-    
-    # Remove any code block markers from the response text
-    cleaned_response = strip_code_blocks(response.text)
-    
-    try:
-        translated_json = json.loads(cleaned_response)
-    except json.JSONDecodeError as e:
-        raise Exception(
-            f"JSON decoding error for '{target_language}': {str(e)}. "
-            f"Response received: {cleaned_response}"
-        )
-    
-    return translated_json
 
+    for attempt in range(retries + 1):
+        try:
+            logger.info(f"Translating {language} (chunk {chunkIndex} attempt {attempt+1}/{retries+1})")
+            resp = client.models.generate_content(
+                #model="gemini-2.5-flash-preview-04-17",
+                model="gemini-2.0-flash",
+                contents=prompt,
+            )
+            cleaned = strip_code_blocks(resp.text)
+            return json.loads(cleaned)
+
+        except json.JSONDecodeError as e:
+            logger.warning(
+                f"JSON decode error for {language}, attempt {attempt+1}: {e}" 
+                f"\nResponse: {cleaned}"
+            )
+            if attempt < retries:
+                time.sleep(2 ** attempt)
+            else:
+                raise JSONTranslationError(
+                    f"Could not parse JSON for {language} after {retries+1} attempts"
+                )
+
+# Split top-level keys into chunks
+def split_keys(data: Dict[str, Any], chunk_size: int) -> List[List[str]]:
+    keys = list(data.keys())
+    return [keys[i:i + chunk_size] for i in range(0, len(keys), chunk_size)]
+
+# Process translation for one language
+def translate_language(
+    source: Dict[str, Any], language: str, output_path: str,
+    client: Any, chunk_size: int
+) -> None:
+    combined: Dict[str, Any] = {}
+    chunks = split_keys(source, chunk_size)
+    if len(chunks) > 1:
+        logger.info(f"Translating in {len(chunks)} chunks of up to {chunk_size} keys")
+    for idx, key_list in enumerate(chunks, 1):
+        chunk_data = {k: source[k] for k in key_list}
+        translated = translate_chunk(chunk_data, language, client, idx)
+        combined.update(translated)
+        if len(chunks) > 1:
+            logger.info(f"Completed chunk {idx}/{len(chunks)} for {language}")
+
+    tmp_file = output_path + ".tmp"
+    with open(tmp_file, "w", encoding="utf-8") as f:
+        json.dump(combined, f, ensure_ascii=False, indent=2)
+    os.replace(tmp_file, output_path)
+    logger.info(f"Wrote translated file to {output_path}")
+
+# Entry point
 def main():
-    # Load the GEMINI_API_KEY from .env
-    api_key = load_api_key_from_dotenv(".env")
-    if not api_key:
-        print("Error: GEMINI_API_KEY not found in .env file.")
-        sys.exit(1)
+    global logger
+    logger = setup_logging()
 
-    # Initialize the GenAI client with the API key
+    api_key = get_api_key()
     client = genai.Client(api_key=api_key)
-    
+
     path = "./src/shared"
-    # Mapping target languages to their output files (based on i18n.ts)
-    TARGET_LANGUAGES = [
-        ["de", {"language": "German", "output_file": f"{path}/i18n/German.json"}],
-        ["zh", {"language": "Chinese Traditional", "output_file": f"{path}/i18n/Chinese Traditional.json"}],
-        ["es", {"language": "Spanish", "output_file": f"{path}/i18n/Spanish.json"}],
-        ["it", {"language": "Italian", "output_file": f"{path}/i18n/Italian.json"}],
+    chunk_size = int(os.getenv("JSON_CHUNK_SIZE", 10))
+    i18n_file = os.path.join(path, "i18n.json")
+
+    languages: List[Tuple[str, Dict[str, str]]] = [
+        ("de", {"name": "German", "path": f"{path}/i18n/German.json"}),
+        ("zh", {"name": "Chinese Traditional", "path": f"{path}/i18n/Chinese Traditional.json"}),
+        ("es", {"name": "Spanish", "path": f"{path}/i18n/Spanish.json"}),
+        ("it", {"name": "Italian", "path": f"{path}/i18n/Italian.json"}),
     ]
-    
-    # Load the source i18n.json file (see :contentReference[oaicite:2]{index=2})
+
     try:
-        with open(f"{path}/i18n.json", "r", encoding="utf-8") as f:
+        with open(i18n_file, "r", encoding="utf-8") as f:
             source_data = json.load(f)
     except Exception as e:
-        print(f"Error reading i18n.json: {str(e)}")
+        logger.error(f"Failed to read source JSON: {e}")
         sys.exit(1)
-    
-    # Process translation for each target language
-    for lang_code, details in TARGET_LANGUAGES:
-        print(f"Translating content to {details['language']}...")
+
+    for code, info in languages:
         try:
-            translated_content = translate_content(source_data, details["language"], client)
-        except Exception as e:
-            print(f"Translation failed for {details['language']}: {str(e)}")
+            logger.info(f"Starting translation to {info['name']}")
+            translate_language(
+                source_data, info['name'], info['path'], client, chunk_size
+            )
+        except JSONTranslationError as e:
+            logger.error(e)
             sys.exit(1)
-        
-        # Validate the translated JSON and write it to the respective file
-        try:
-            with open(details["output_file"], "w", encoding="utf-8") as out_file:
-                json.dump(translated_content, out_file, ensure_ascii=False, indent=2)
-            print(f"Translation for {details['language']} written successfully to {details['output_file']}")
         except Exception as e:
-            print(f"Error writing file {details['output_file']}: {str(e)}")
+            logger.error(f"Error translating {info['name']}: {e}")
             sys.exit(1)
 
 if __name__ == "__main__":

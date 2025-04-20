@@ -429,6 +429,7 @@ export const HotspotImageOverlay: FC<HotspotImageOverlayProps> = ({
           )}
         </div>
       </div>
+      <div className="mb-12"></div>
     </section>
   );
 };
