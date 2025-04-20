@@ -9,13 +9,13 @@ import {
   SolutionBlock,
   SolutionsSection,
 } from "@src/shared/Components";
-import { t } from "i18next";
 import React, { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 const HeroSection: React.FC = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   return (
     <section className="flex flex-col items-center text-center py-16 mt-5">
       <h1 className="text-4xl font-bold text-gray-800 mb-4">
@@ -34,19 +34,19 @@ const HeroSection: React.FC = () => {
         onClick={() => navigate("/contact")}
         className="bg-blue-600 text-white px-6 py-3 rounded-md shadow hover:bg-blue-700"
       >
-        Start Your Pilot Journey
+        {t("industry.pilot.applynow")}
       </button>
     </section>
   );
 };
 
 const TrustSection: React.FC = () => {
+  const { t } = useTranslation();
   return (
     <section className="py-12 bg-gray-50">
       <div className="container mx-auto px-4 text-center">
         <p className="text-lg text-gray-700 mb-4 font-medium">
-          Trusted by leading universities, industry leaders, and European
-          innovation programs.
+          {t("industry.trust.header")}
         </p>
         {/* Logos carousel can be a flex row of image placeholders */}
         <div className="flex justify-center items-center space-x-8">
@@ -73,28 +73,27 @@ const TrustSection: React.FC = () => {
 
 const PilotSection: React.FC = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   return (
     <section className="py-16 bg-gray-50">
       <div className="container mx-auto px-4 text-center">
         <h2 className="text-3xl font-bold text-gray-800 mb-4">
-          Close Collaboration, Zero Setup Effort
+          {t("industry.pilot.header")}
         </h2>
         <p className="text-lg text-gray-600 mb-8 max-w-xl mx-auto">
-          Our pilot program delivers a tailor-made experience over 6–8 weeks.
-          Experience seamless integration with minimal effort and immediate
-          skill transfer.
+          {t("industry.pilot.description")}
         </p>
         {/* Placeholder timeline visual */}
         <img
           src="placeholder-timeline.jpg"
-          alt="Pilot program timeline: 6-8 weeks"
+          alt={t("industry.pilot.imgAltTimeline")}
           className="w-full max-w-md mx-auto mb-8"
         />
         <button
           onClick={() => navigate("/contact")}
           className="bg-blue-600 text-white px-6 py-3 rounded-md shadow hover:bg-blue-700"
         >
-          Apply for a Pilot
+          {t("industry.pilot.applynow")}
         </button>
       </div>
     </section>
@@ -143,6 +142,7 @@ const PilotSection: React.FC = () => {
 //};
 
 export const IndustryPage: React.FC = () => {
+  const { t } = useTranslation();
   const challengeBlocks: ChallengeBlock[] = [
     {
       icon: "⚠️",

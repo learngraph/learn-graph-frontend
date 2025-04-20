@@ -293,6 +293,15 @@
       "guidanceEveryStep": "Live progress. Actionable steps. No guesswork between here and impact.",
       "findPeers": "Work through challenges with others—or go solo. You choose the mode.",
       "travelSpeed": "Upskill fast or fit it into your flow. Learning moves at your speed."
+    },
+    "trust": {
+      "header": "Trusted by leading universities, industry leaders, and European innovation programs."
+    },
+    "pilot": {
+      "header": "Close Collaboration, Zero Setup Effort",
+      "description": "Our pilot program delivers a tailor-made experience over 6–8 weeks.  Experience seamless integration with minimal effort and immediate skill transfer.",
+      "applynow": "Start your Pilot-Journey now",
+      "imgAltTimeline": "Pilot program timeline: 6-8 weeks"
     }
   },
   "institutions": {
