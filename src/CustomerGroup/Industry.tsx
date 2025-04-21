@@ -51,20 +51,17 @@ const TrustSection: React.FC = () => {
         {/* Logos carousel can be a flex row of image placeholders */}
         <div className="flex justify-center items-center space-x-8">
           <img
-            src="placeholder-logo1.jpg"
-            alt="Partner 1 Logo"
+            src="/partner/logo-egina.jpeg"
+            alt="EGINA Logo"
             className="h-12"
           />
           <img
-            src="placeholder-logo2.jpg"
-            alt="Partner 2 Logo"
+            src="/partner/logo-fetico.png"
+            alt="FETICO Logo"
             className="h-12"
           />
-          <img
-            src="placeholder-logo3.jpg"
-            alt="Partner 3 Logo"
-            className="h-12"
-          />
+          <img src="/partner/logo-upb.jpeg" alt="UPB Logo" className="h-12" />
+          <img src="/partner/logo-iadt.png" alt="IADT Logo" className="h-12" />
         </div>
       </div>
     </section>
@@ -76,25 +73,33 @@ const PilotSection: React.FC = () => {
   const { t } = useTranslation();
   return (
     <section className="py-16 bg-gray-50">
-      <div className="container mx-auto px-4 text-center">
-        <h2 className="text-3xl font-bold text-gray-800 mb-4">
-          {t("industry.pilot.header")}
-        </h2>
-        <p className="text-lg text-gray-600 mb-8 max-w-xl mx-auto">
-          {t("industry.pilot.description")}
-        </p>
-        {/* Placeholder timeline visual */}
-        <img
-          src="placeholder-timeline.jpg"
-          alt={t("industry.pilot.imgAltTimeline")}
-          className="w-full max-w-md mx-auto mb-8"
-        />
-        <button
-          onClick={() => navigate("/contact")}
-          className="bg-blue-600 text-white px-6 py-3 rounded-md shadow hover:bg-blue-700"
-        >
-          {t("industry.pilot.applynow")}
-        </button>
+      <div className="container mx-auto lg:px-30 px-4">
+        <div className="flex flex-col items-center text-center lg:flex-row lg:items-start lg:text-left">
+          {/* Text block */}
+          <div className="lg:w-1/2 lg:pr-8">
+            <h2 className="text-3xl font-bold text-gray-800 mb-4">
+              {t("industry.pilot.header")}
+            </h2>
+            <p className="text-lg text-gray-600 mb-8 max-w-lg mx-auto lg:mx-0">
+              {t("industry.pilot.description")}
+            </p>
+            <button
+              onClick={() => navigate("/contact")}
+              className="bg-blue-600 text-white px-6 py-3 rounded-md shadow hover:bg-blue-700"
+            >
+              {t("industry.pilot.applynow")}
+            </button>
+          </div>
+
+          {/* Image block */}
+          <div className="lg:w-1/2 mt-8 lg:mt-0">
+            <img
+              src="pilot-timeline.webp"
+              alt={t("industry.pilot.imgAltTimeline")}
+              className="w-full max-w-md mx-auto rounded-2xl"
+            />
+          </div>
+        </div>
       </div>
     </section>
   );
