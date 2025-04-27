@@ -17,6 +17,7 @@
     "podcastAlternative": "Prefer listening? Try our podcast alternative and embark on an audio journey with us!"
   },
   "navigation": {
+    "link-to-impact-page": "Impact",
     "link-to-landing-page": "Welcome",
     "link-to-about-page": "About",
     "link-to-imprint-page": "Imprint",
@@ -443,16 +444,59 @@
   },
   "impact": {
     "hero": {
-      "title": "From Chaos to Connection",
-      "subtitle": "We build the seeds, pathways, and ecosystems that let resilience, collaboration, and love emerge."
+      "title": "Two Paths, One Mission: Empowering Choice",
+      "subtitle": "We give away knowledge freely; institutions buy innovation. Together, we drive lasting impact."
     },
+    "product-sustainability": "Product‑Powered Sustainability",
+    "built-saas": "Built a SaaS for institutions to embed private knowledge—free for individuals",
+    "profits-reinvested": "100% of profits reinvested into our impact projects",
+    "no-paywalls": "No paywalls gatekeeping quality education",
+    "free-forever": "Free Forever & Open Source",
+    "no-logins": "No log-ins, no ads, no paywalls—ever",
+    "production-grade": "Production-grade code anyone can use and extend",
+    "trusted-communities": "Trusted by communities and educators worldwide",
+    "fueling-mission": "Fueling Our Mission",
+    "sustain-project": "To sustain this project, we offer a specialized SaaS product for institutions and companies. This private embedding service is always free for individual users, ensuring broad access while driving revenue to fund our open-source work.",
+    "sell-platform": "We sell our platform to institutions wanting custom knowledge embedding solutions.",
+    "free-for-individuals": "Individual learners and small teams always use it for free—no exceptions.",
+    "profit-into-impact": "Every dollar of profit is poured back into our impact projects.",
+    "open-access": "Open Access for All",
+    "infrastructure-hosted": "Our core infrastructure runs on servers we maintain—hosted at our cost, without any user fees. Soon, this page will link to a live dashboard detailing our operational expenses and maintenance hours.",
+    "handle-hosting": "We handle hosting, uptime, and security so you don’t have to budget or register.",
+    "features-free": "All features remain free: explore, deploy, and integrate without barriers.",
+    "see-for-profit": "See the For‑Profit side for how we sustainably fund and grow this offering.",
     "sections": {
       "hero": {
-        "title": "From Chaos to Connection",
+        "title": "Building the Infrastructure of Global Intention",
         "content": {
-          "paragraph1": "In a world overwhelmed by fragmentation and noise, something new is emerging. Across the chaos, communities of learners are building bridges, weaving new pathways of knowledge, resilience, and hope.",
-          "paragraph2": "LearnGraph supports this emergence — offering the digital soil where local hubs of learning, healing, and collaboration can take root and thrive."
+          "paragraph1": "What if we could make our shared desire to end war and fight climate change visible? Imagine a living map of everyone learning, working, and striving toward these goals — their energy not scattered, but connected, inspiring, and strengthening each other. What if we could visualize this global movement in real time, creating a network where each effort builds momentum for the next?",
+          "paragraph2": "Now imagine if we could also reveal the paths they took — the skills they learned, the steps they followed — and make it easy for anyone to follow in their footsteps, almost like simply walking up a staircase. That is the infrastructure we are building: a bridge between aspiration and action, a way to make every learner, every worker, part of a collective force for good."
         }
+      },
+      "psp": {
+        "title": "Problem • Solution • Proof",
+        "steps": [
+          {
+            "title": "The Problem",
+            "description": "70% of learners report feeling disengaged in traditional settings."
+          },
+          {
+            "title": "Our Solution",
+            "description": "LearnGraph’s experiential learning containers bridge head, heart, and hand to re-engage learners."
+          },
+          {
+            "title": "Early Proof",
+            "description": "Pilot with Claudius Akademie saw a 15% retention uplift in 6 months."
+          }
+        ]
+      },
+      "alignment": {
+        "title": "Alignment with Global Frameworks",
+        "list": [
+          "We implement UNESCO’s call for whole-person, experiential learning containers.",
+          "LearnGraph is the foundation for the ‘new social contract for education’ highlighted by UNESCO’s International Commission.",
+          "We provide complete agency—granting learners full freedom to realize their potential, fulfilling UNDP’s charge."
+        ]
       },
       "metaCrisis": {
         "title": "The Meta-Crisis We Face",
@@ -513,24 +557,6 @@
           }
         ]
       },
-      "join": {
-        "title": "Your Invitation",
-        "intro": "Whether you are a learner, mentor, community builder, or institution — you can help weave the future of education.",
-        "list": [
-          {
-            "strong": "Start your journey:",
-            "text": "Follow a learning path. Form a container."
-          },
-          {
-            "strong": "Host a hub:",
-            "text": "Bring LearnGraph to your campus, community, or organization."
-          },
-          {
-            "strong": "Contribute knowledge:",
-            "text": "Help refine the global map of learning."
-          }
-        ]
-      },
       "impactInvestors": {
         "title": "Partner With Us: Impact at Scale",
         "content": {
@@ -563,14 +589,14 @@
       "finalVision": {
         "title": "Where We Are Going",
         "content": {
-          "paragraph1": "From scattered chaos, new gardens of learning are sprouting — LearnGraph Hubs of collaboration, love, and purpose.",
+          "paragraph1": "From scattered chaos, new gardens of learning are sprouting — LearnGraph Hubs of collaboration and purpose.",
           "paragraph2": "Wherever there is curiosity, there can be a hub. Wherever there is care, there can be a future."
         }
       }
     },
     "cta": {
-      "title": "Ready to Be Part of the Emergence?",
-      "subtitle": "Help build the hubs of tomorrow. Shape the ecosystems of resilience today.",
+      "title": "Ready to Be Part of this Journey?",
+      "subtitle": "Shape the ecosystems of resilience today.",
       "buttons": {
         "getInvolved": "Get Involved",
         "investInImpact": "Invest in Impact",

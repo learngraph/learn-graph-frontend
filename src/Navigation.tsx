@@ -84,7 +84,7 @@ export const NavigationWithContent = ({
         </div>
 
         <Link to="/impact" className={linkClassesDesktop}>
-          Impact
+          {t("navigation.link-to-impact-page")}
         </Link>
 
         <Link to="/about" className={linkClassesDesktop}>
@@ -126,6 +126,14 @@ export const NavigationWithContent = ({
           >
             {t("navigation.solutions")}
           </button>
+
+          <Link
+            to="/impact"
+            className={linkClassesMobile}
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            {t("navigation.link-to-impact-page")}
+          </Link>
 
           <Link
             to="/about"

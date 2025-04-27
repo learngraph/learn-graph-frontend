@@ -2,12 +2,88 @@ import React from "react";
 import { NavigationWithContent } from "./Navigation";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { SplitScreen } from "./shared/Components";
 
 interface ImpactSection {
   id: string;
   title: string;
   content: React.ReactNode;
 }
+
+const ImgSustainableImpact = () => (<img
+  src="/sustainable-impact.png"
+  alt="Product & Revenue"
+  className="w-32 h-32 object-cover rounded-2xl"
+/>);
+
+const ImgFreeForever = () => (<img
+  src="/free-forver.png"
+  alt="Open-Source & Free"
+  className="w-32 h-32 object-cover rounded-2xl"
+/>);
+
+const ImpactSplitProfitVSNonProfit: React.FC = () => {
+  const { t } = useTranslation();
+
+  const splitScreenProps = {
+    left: (
+      <div className="flex flex-col items-center text-center space-y-4 backdrop-blur-2xl rounded-2xl p-6">
+        <ImgSustainableImpact />
+        <h2 className="text-2xl font-bold">{t('impact.product-sustainability')}</h2>
+        <ul className="list-disc list-inside text-left space-y-2">
+          <li>{t('impact.built-saas')}</li>
+          <li>{t('impact.profits-reinvested')}</li>
+          <li>{t('impact.no-paywalls')}</li>
+        </ul>
+      </div>
+    ),
+
+    right: (
+      <div className="flex flex-col items-center text-center space-y-4 backdrop-blur-2xl rounded-2xl p-6">
+        <ImgFreeForever />
+        <h2 className="text-2xl font-bold">{t('impact.free-forever')}</h2>
+        <ul className="list-disc list-inside text-left space-y-2">
+          <li>{t('impact.no-logins')}</li>
+          <li>{t('impact.production-grade')}</li>
+          <li>{t('impact.trusted-communities')}</li>
+        </ul>
+      </div>
+    ),
+
+    leftExpanded: (
+      <div className="space-y-6 max-w-prose rounded-2xl backdrop-blur-2xl p-6">
+        <div className="flex flex-col items-center text-center">
+          <ImgSustainableImpact />
+        </div>
+        <h2 className="text-3xl font-bold">{t('impact.fueling-mission')}</h2>
+        <p>{t('impact.sustain-project')}</p>
+        <ul className="list-disc list-inside space-y-2">
+          <li>{t('impact.sell-platform')}</li>
+          <li>{t('impact.free-for-individuals')}</li>
+          <li>{t('impact.profit-into-impact')}</li>
+        </ul>
+      </div>
+    ),
+
+    rightExpanded: (
+      <div className="space-y-6 max-w-prose rounded-2xl backdrop-blur-2xl p-6">
+        <div className="flex flex-col items-center text-center">
+          <ImgFreeForever />
+        </div>
+        <h2 className="text-3xl font-bold">{t('impact.open-access')}</h2>
+        <p>{t('impact.infrastructure-hosted')}</p>
+        <ul className="list-disc list-inside space-y-2">
+          <li>{t('impact.handle-hosting')}</li>
+          <li>{t('impact.features-free')}</li>
+          <li>{t('impact.see-for-profit')}</li>
+        </ul>
+      </div>
+    ),
+  };
+
+  return <SplitScreen {...splitScreenProps} />;
+};
+
 
 const ImpactStatBox: React.FC<{ title: string; description: string }> = ({
   title,
@@ -36,15 +112,17 @@ export const ImpactPage: React.FC = () => {
       ),
     },
     {
-      id: "meta-crisis",
-      title: t("impact.sections.metaCrisis.title"),
+      id: "alignment",
+      title: t("impact.sections.alignment.title"),
       content: (
-        <>
-          <p className="mb-4">
-            {t("impact.sections.metaCrisis.content.paragraph1")}
-          </p>
-          <p>{t("impact.sections.metaCrisis.content.paragraph2")}</p>
-        </>
+        <ul className="list-disc ml-5 space-y-2">
+          {/** @ts-expect-error: object is an array */}
+          {t("impact.sections.alignment.list", { returnObjects: true }).map(
+            (item: string, idx: number) => (
+              <li key={idx}>{item}</li>
+            ),
+          )}
+        </ul>
       ),
     },
     {
@@ -108,25 +186,6 @@ export const ImpactPage: React.FC = () => {
       ),
     },
     {
-      id: "join",
-      title: t("impact.sections.join.title"),
-      content: (
-        <div>
-          <p className="mb-4">{t("impact.sections.join.intro")}</p>
-          <ul className="list-disc ml-5 space-y-2">
-            {/* @ts-expect-error: the translation returns a list of objects */}
-            {t("impact.sections.join.list", { returnObjects: true }).map(
-              (item: { strong: string; text: string }, index: number) => (
-                <li key={index}>
-                  <strong>{item.strong}</strong> {item.text}
-                </li>
-              ),
-            )}
-          </ul>
-        </div>
-      ),
-    },
-    {
       id: "impact-investors",
       title: t("impact.sections.impactInvestors.title"),
       content: (
@@ -177,6 +236,7 @@ export const ImpactPage: React.FC = () => {
           <p className="text-2xl">{t("impact.hero.subtitle")}</p>
         </div>
       </section>
+      <ImpactSplitProfitVSNonProfit />
 
       {/* Dynamic sections */}
       {sections.map((section) => (
