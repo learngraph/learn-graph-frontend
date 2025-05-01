@@ -4,6 +4,7 @@ import { Imprint, TermsOfUse, PrivacyPolicy } from "./Imprint";
 import { LandingPage } from "./LandingPage";
 import { Individuals } from "./CustomerGroup/Individual";
 import { Impact } from "./Impact";
+import { NonProfit } from "./CustomerGroup/NonProfit";
 import {
   University,
   PartnerSuccessStory as UniversityPartnerSuccessStory,
@@ -32,6 +33,7 @@ export const LearngraphOrgRoutes = () => {
       <Route path="/contact" Component={ContactUs} />
       <Route path="/contact-us" Component={ContactUs} />
       <Route path="/individual" Component={Individuals} />
+      <Route path="/Nonprofit" Component={NonProfit} />
 
       {/* About Us */}
       <Route path="/impact" Component={Impact} />

@@ -1,6 +1,11 @@
 // Components/All.tsx
 import { useState, FC, AnchorHTMLAttributes, useEffect } from "react";
-import { ChevronLeft, ChevronRight, ChevronUp, ChevronDown } from 'lucide-react';
+import {
+  ChevronLeft,
+  ChevronRight,
+  ChevronUp,
+  ChevronDown,
+} from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 export interface HrefProps extends AnchorHTMLAttributes<HTMLAnchorElement> {}
@@ -449,14 +454,14 @@ export interface SplitScreenProps {
 // Hook to detect screen width against a breakpoint (default 768px)
 const useIsWide = (breakpoint: number = 768): boolean => {
   const [isWide, setIsWide] = useState(
-    () => typeof window !== 'undefined' && window.innerWidth >= breakpoint
+    () => typeof window !== "undefined" && window.innerWidth >= breakpoint,
   );
 
   useEffect(() => {
     const mediaQuery = window.matchMedia(`(min-width: ${breakpoint}px)`);
     const handler = (e: MediaQueryListEvent) => setIsWide(e.matches);
-    mediaQuery.addEventListener('change', handler);
-    return () => mediaQuery.removeEventListener('change', handler);
+    mediaQuery.addEventListener("change", handler);
+    return () => mediaQuery.removeEventListener("change", handler);
   }, [breakpoint]);
 
   return isWide;
@@ -469,12 +474,12 @@ export const SplitScreen: React.FC<SplitScreenProps> = ({
   rightExpanded,
 }) => {
   // 'split' | 'left' (expanded) | 'right' (expanded)
-  const [view, setView] = useState<'split' | 'left' | 'right'>('split');
+  const [view, setView] = useState<"split" | "left" | "right">("split");
   const isWide = useIsWide();
 
   // Render each side in split view
-  const renderSide = (side: 'left' | 'right') => {
-    const content = side === 'left' ? left : right;
+  const renderSide = (side: "left" | "right") => {
+    const content = side === "left" ? left : right;
     return (
       <div
         key={side}
@@ -496,37 +501,44 @@ export const SplitScreen: React.FC<SplitScreenProps> = ({
   };
 
   // Render expanded view of one side (centered)
-  const renderExpanded = (side: 'left' | 'right') => {
-    const content = side === 'left' ? leftExpanded : rightExpanded;
+  const renderExpanded = (side: "left" | "right") => {
+    const content = side === "left" ? leftExpanded : rightExpanded;
     return (
-      <div key={side} className="relative flex-1 p-8 overflow-auto flex items-center justify-center">
+      <div
+        key={side}
+        className="relative flex-1 p-8 overflow-auto flex items-center justify-center"
+      >
         <div className="w-full">{content}</div>
       </div>
     );
   };
 
   // Render collapsed strip to allow returning to split
-  const renderCollapsed = (side: 'left' | 'right') => {
+  const renderCollapsed = (side: "left" | "right") => {
     // 30% on desktop, 20% on mobile, with fixed mobile positioning
-    const baseSize = isWide ? 'w-[30%] h-full' : 'h-[20%] w-full';
-    const positionClass = isWide ? '' : 'fixed bottom-0 left-0 w-full z-50';
+    const baseSize = isWide ? "w-[30%] h-full" : "h-[20%] w-full";
+    const positionClass = isWide ? "" : "fixed bottom-0 left-0 w-full z-50";
 
-    const arrow = isWide
-      ? side === 'right'
-        ? <ChevronLeft size={48} />
-        : <ChevronRight size={48} />
-      : side === 'right'
-      ? <ChevronUp size={48} />
-      : <ChevronDown size={48} />;
+    const arrow = isWide ? (
+      side === "right" ? (
+        <ChevronLeft size={48} />
+      ) : (
+        <ChevronRight size={48} />
+      )
+    ) : side === "right" ? (
+      <ChevronUp size={48} />
+    ) : (
+      <ChevronDown size={48} />
+    );
 
     return (
       <div
         key={side}
         className={`relative flex-none ${baseSize} ${positionClass} cursor-pointer`}
-        onClick={() => setView('split')}
+        onClick={() => setView("split")}
       >
         {/* Underlying summary content */}
-        <div className="p-8">{side === 'left' ? left : right}</div>
+        <div className="p-8">{side === "left" ? left : right}</div>
         {/* Semi-transparent overlay */}
         <div className="absolute inset-0 bg-black/20 pointer-events-none" />
         {/* Centered arrow */}
@@ -537,7 +549,7 @@ export const SplitScreen: React.FC<SplitScreenProps> = ({
         {!isWide && (
           <button
             className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-white bg-opacity-90 px-3 py-1 rounded shadow"
-            onClick={() => setView('split')}
+            onClick={() => setView("split")}
           >
             Return
           </button>
@@ -547,30 +559,30 @@ export const SplitScreen: React.FC<SplitScreenProps> = ({
   };
 
   return (
-    <div className={`flex ${isWide ? 'flex-row' : 'flex-col'} overflow-auto`}>      
-      {view === 'split' && (
+    <div className={`flex ${isWide ? "flex-row" : "flex-col"} overflow-auto`}>
+      {view === "split" && (
         <>
-          {renderSide('left')}
+          {renderSide("left")}
           {/* Decorative gradient divider, always visible */}
           <div
             key="divider"
-            className={`${isWide ? 'w-2 h-full' : 'w-full h-2'} bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500 animate-pulse`}
+            className={`${isWide ? "w-2 h-full" : "w-full h-2"} bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500 animate-pulse`}
           />
-          {renderSide('right')}
+          {renderSide("right")}
         </>
       )}
 
-      {view === 'left' && (
+      {view === "left" && (
         <>
-          {renderExpanded('left')}
-          {renderCollapsed('right')}
+          {renderExpanded("left")}
+          {renderCollapsed("right")}
         </>
       )}
 
-      {view === 'right' && (
+      {view === "right" && (
         <>
-          {renderCollapsed('left')}
-          {renderExpanded('right')}
+          {renderCollapsed("left")}
+          {renderExpanded("right")}
         </>
       )}
     </div>
