@@ -255,6 +255,90 @@
       "travelSpeed": "Go full speed or take detours. This is your path — we just help you walk it."
     }
   },
+  "nonprofits": {
+  "lm": "Learn More",
+  "heroHeadline": "Partner for Impact: Transform Learning Where It Matters Most",
+  "heroText": "LearnGraph empowers underserved learners through scalable, personalized, and community-driven education — even where infrastructure is limited.",
+  "heroImageAlt": "EdTech Impact in Remote Regions",
+
+  "challengesTitle": "Challenges in Rural & Underserved Education",
+  "challenge1": {
+    "headline": "High Teacher-Student ratio",
+    "text": "High student-teacher ratios make it nearly impossible to give every learner the attention they need to succeed."
+  },
+  "challenge2": {
+    "headline": "No Internet, No Access",
+    "text": "Most EdTech solutions rely on high-speed internet. But in many regions, this simply isn’t an option — leaving learners behind."
+  },
+  "challenge3": {
+    "headline": "Volunteer Burnout",
+    "text": "Volunteers are doing their best — but they can’t be everywhere at once. They need smart tools to scale their efforts."
+  },
+  "challenge4": {
+    "headline": "No Way to Measure Impact",
+    "text": "Nonprofits struggle to show clear learning outcomes, making it harder to secure funding and grow their programs."
+  },
+
+  "insightsTitle": "What’s Possible with the Right Tools",
+  "insight1": {
+    "title": "Self-Learning Increases Retention",
+    "description": "Students given structured autonomy with LearnGraph show improved understanding — even without constant supervision."
+  },
+  "insight2": {
+    "title": "Offline Access = Lifeline",
+    "description": "With downloadable resources and AI-based tutors, students can continue learning even when the internet is down."
+  },
+  "insight3": {
+    "title": "AI Supports Human Educators",
+    "description": "LearnGraph’s assistant tools help volunteers give better guidance — and spend more time where it matters most."
+  },
+  "insight4": {
+    "title": "Impact You Can Measure",
+    "description": "Track progress at scale with data dashboards tailored for NGOs, donors, and educational partners."
+  },
+  "insightsSummary": "From remote villages to urban classrooms, LearnGraph supports equitable learning with personalized content, AI tools, and measurable outcomes.",
+
+  "solutionsTitle": "Built for Community, Powered by Technology",
+  "solution1": {
+    "target": "Personalized Learning Paths",
+    "headline": "Self-Paced, Guided Learning — Anywhere",
+    "text": "Whether offline or online, every student can follow a dynamic learning journey tailored to their pace, level, and goals.",
+    "keywords": [
+      "Self-Learning",
+      "Offline Mode",
+      "Mobile-Friendly",
+      "Low Bandwidth"
+    ]
+  },
+  "solution2": {
+    "target": "AI-Powered Tutoring",
+    "headline": "AI That Helps Humans Help Others",
+    "text": "AI tutors offer instant support and feedback — boosting learning in places where teachers or volunteers are stretched thin.",
+    "keywords": [
+      "AI Mentorship",
+      "Scalable Support",
+      "Language Adaptability",
+      "Low Supervision Needed"
+    ]
+  },
+  "solution3": {
+    "target": "Impact Measurement Toolkit",
+    "headline": "Measure What Matters",
+    "text": "Equip your organization with transparent learning metrics and reports that donors and partners actually care about.",
+    "keywords": [
+      "Outcome Reporting",
+      "Real-Time Dashboards",
+      "Donor Transparency",
+      "Open Impact Data"
+    ]
+  },
+
+  "cta": {
+    "headline": "Let’s Scale Impact Together",
+    "text": "Join forces to empower the next generation of learners. Partner with LearnGraph to extend access, measure success, and drive systemic change.",
+    "cta": "Become a Partner"
+  }
+},
   "industry": {
     "header": "Real Skills, Real Results — at Scale.",
     "subheader": "LearnGraph combines the personalization of consulting with the scalability of online learning — ensuring transfer, performance, and ROI.",

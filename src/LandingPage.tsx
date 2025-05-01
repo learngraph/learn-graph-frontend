@@ -38,7 +38,7 @@ export const LandingPage = () => {
       headline: t("LandingPage.uspBlocks.openSourceHeadline"),
       text: t("LandingPage.uspBlocks.openSourceText"),
       cta: t("LandingPage.uspBlocks.openSourceCTA"),
-      onClick: () => navigate("/impact"),
+      onClick: () => navigate("/Nonprofit"),
     },
   ];
 
