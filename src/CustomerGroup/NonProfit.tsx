@@ -1,4 +1,4 @@
-import { useState, FC } from "react";
+import { FC } from "react";
 import { NavigationWithContent } from "@src/Navigation";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
