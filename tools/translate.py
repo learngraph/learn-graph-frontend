@@ -123,7 +123,7 @@ def main():
 
     path = "./src/shared"
     # Desired number of bins for translation payload balance
-    num_bins = int(os.getenv("JSON_CHUNK_BINS", 4))
+    num_bins = int(os.getenv("JSON_CHUNK_BINS", 5))
     i18n_file = os.path.join(path, "i18n.json")
 
     languages: List[Tuple[str, Dict[str, str]]] = [

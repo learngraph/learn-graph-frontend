@@ -9,11 +9,11 @@
     "Individual": "Individuell"
   },
   "landing": {
-    "header": "All die Wege, die du nicht gegangen bist..",
+    "header": "All die Wege, die du nicht gegangen bist...",
     "headerAction": "Du kannst sie jetzt alle erkunden!",
-    "intro": "Wir bei LearnGraph glauben, dass jeder es verdient, seinen eigenen Weg zu gehen. Wir bauen eine interaktive, dynamische Wissenskarte – eine Art Google Maps für das Lernen – die dich befähigen soll, eine Welt endloser Möglichkeiten zu erkunden, die auf deine Leidenschaften zugeschnitten sind. Unsere Plattform befindet sich aktiv in der Entwicklung und wird durch die Zusammenarbeit der Community vorangetrieben. Tritt unserer <linktodiscord>Community of Practice</linktodiscord> auf Discord bei und hilf mit, die Zukunft der Bildung zu gestalten!",
+    "intro": "Wir bei LearnGraph glauben, dass jeder es verdient, seinen eigenen Weg zu gehen. Wir bauen eine interaktive, dynamische Wissenskarte – eine Art Google Maps fürs Lernen – die dich befähigen soll, dich in einer Welt endloser Möglichkeiten zu orientieren, die auf deine Leidenschaften zugeschnitten sind. Unsere Plattform befindet sich aktiv in der Entwicklung und wird durch die Zusammenarbeit der Community vorangetrieben. Tritt unserer <linktodiscord>Community of Practice</linktodiscord> auf Discord bei und hilf mit, die Zukunft der Bildung zu gestalten!",
     "missionStatementHeader": "Unsere Mission",
-    "missionStatementText": "Wir gestalten gemeinsam die Zukunft der Bildung - kostenlos für alle.\nWir ermöglichen es Menschen zu lernen, <strong>unabhängig von ihrer Lebenssituation</strong> und den ihnen zur Verfügung stehenden Ressourcen.\n<linktowhitepaper>Lies hier unser Whitepaper</linktowhitepaper>.",
+    "missionStatementText": "Die Zukunft der Bildung gemeinsam gestalten - kostenlos für alle.\nWir ermöglichen es Menschen zu lernen, <strong>unabhängig von ihrer Lebenssituation</strong> und den ihnen zur Verfügung stehenden Ressourcen.\n<linktowhitepaper>Lies unser Whitepaper hier</linktowhitepaper>.",
     "podcastAlternative": "Hörst du lieber zu? Probiere unsere Podcast-Alternative aus und begib dich mit uns auf eine Audio-Reise!"
   },
   "navigation": {
@@ -31,18 +31,34 @@
     "Our-Team-text": "Wir bauen nicht nur eine Plattform – wir leben die Praxis.",
     "team-Laurin": "CEO",
     "team-Nawa": "Global Partnership Director",
-    "team-Efecan": "Leiter für Bildungsstrategie und Innovation",
-    "team-Talal": "Entwicklungsingenieur",
-    "team-Jamileh": "Spezialistin für maschinelles Lernen",
-    "team-Jamal": "Senior Consultant und Sales Manager",
-    "quote-Laurin": "Die besten Ideen kommen aus der Stille. LearnGraph wurde nicht gebaut, um etwas zu stören – es wurde gebaut, um zuzuhören, zu leiten und mit denen zu wachsen, die bereit sind zuzuhören.",
-    "quote-Nawa": "Die Welt ist ein wirklich großer Ort, und es gibt Menschen, die mit Ressourcen privilegiert wurden. Es ist die Pflicht dieser Menschen, denen zu helfen, die keine haben.",
-    "quote-Efecan": "Bildung ist nicht das Füllen eines Gefäßes, sondern das Entzünden einer Flamme - und ich beabsichtige, das ganze System in Brand zu setzen.",
-    "quote-Talal": "Es ist beängstigend da draußen, aber wir waren nie dazu bestimmt, allein zu sein. Was wichtig ist, ist nicht, was ich für mich tun kann, sondern was jeder für die Menschheit tun kann",
-    "quote-Jamileh": "Ich habe gesehen, was es bedeutet, wenn Bildung verweigert wird – wenn brillante Köpfe abgewiesen werden, weil sie von wo sie kommen oder wer sie sind. LearnGraph gibt diese Würde zurück. Wenn du die Fähigkeiten hast, verdienst du die Anerkennung. Keine Grenzen. Keine Ausnahmen.",
-    "quote-Jamal": "In der arabischen Welt und darüber hinaus träumen die Menschen von einer neuen Art von Bildung – einer, die befähigt, aufrichtet und transformiert. Bei LearnGraph bin ich hier, um diese Vision Wirklichkeit werden zu lassen.",
+    "team-Efecan": "Head of Educational Strategy and Innovation",
+    "team-Talal": "Development Engineer",
+    "team-Jamileh": "Machine Learning Specialist",
+    "team-Jamal": "Senior Consultant and Sales Manager",
+    "quote-Laurin": "Die besten Ideen kommen aus der Stille. LearnGraph wurde nicht gebaut, um zu stören – es wurde gebaut, um zuzuhören, zu leiten und mit denen zu wachsen, die bereit sind zuzuhören.",
+    "quote-Nawa": "Die Welt ist ein wirklich großer Ort, und es gibt Menschen, die mit Ressourcen privilegiert sind. Es ist die Pflicht dieser Menschen, denen ohne zu helfen.",
+    "quote-Efecan": "Bildung bedeutet nicht, ein Gefäß zu füllen, sondern eine Flamme zu entzünden – und ich beabsichtige, das ganze System in Brand zu setzen.",
+    "quote-Talal": "Da draußen ist es beängstigend, aber wir waren nie dazu bestimmt, allein zu sein. Wichtig ist nicht, was ich für mich tun kann, sondern was jeder für die Menschheit tun kann.",
+    "quote-Jamileh": "Ich habe gesehen, was es bedeutet, wenn Bildung verweigert wird – wenn brillante Köpfe abgewiesen werden, weil sie herkommen oder wer sie sind. LearnGraph gibt diese Würde zurück. Wenn du das Können hast, verdienst du die Anerkennung. Keine Grenzen. Keine Ausnahmen.",
+    "quote-Jamal": "In der arabischen Welt und darüber hinaus träumen die Menschen von einer neuen Art von Bildung – einer, die befähigt, aufwertet und transformiert. Bei LearnGraph bin ich hier, um diese Vision Wirklichkeit werden zu lassen.",
     "headline-travel-group": "Wohin führt deine Reise?",
-    "team-placeholder-description": "Wir sind immer auf der Suche nach neugierigen Köpfen, die sich uns anschließen. Egal, ob du programmierst, dich für das Lernen interessierst oder einfach nur eine verrückte Idee hast – komm und sag hallo. <discord>Tritt unserem Discord bei</discord>, oder schick uns eine Nachricht an <email>jobs@learngraph.org</email>!"
+    "team-placeholder-description": "Wir sind immer auf der Suche nach neugierigen Köpfen, die sich uns anschließen. Ob du programmierst, dich für das Lernen interessierst oder einfach nur eine verrückte Idee hast – komm und sag hallo. <discord>Tritt unserem Discord bei</discord> oder sende uns eine Nachricht an <email>jobs@learngraph.org</email>!",
+    "longTermVision": {
+      "header": "🌱 Wohin wir gehen",
+      "vision1": {
+        "title": "Ein sich selbst tragendes Bildungsökosystem:",
+        "description": "LearnGraph möchte ein sich selbst entwickelndes globales Bildungsnetzwerk werden, das Wissen, Wege und Fähigkeiten dynamisch an die Veränderungen der Welt anpasst."
+      },
+      "vision2": {
+        "title": "Globale Zugänglichkeit:",
+        "description": "Mit einem Mobile-First-Ansatz, Offline-Fähigkeit und Open-Source-Technologie gewährleistet LearnGraph eine globale Reichweite – insbesondere in unterversorgten Gebieten."
+      },
+      "vision3": {
+        "title": "Katalysator für Reformen der Bildungspolitik:",
+        "description": "Durch die Generierung datengestützter Erkenntnisse über Lernpfade und Kompetenzlücken könnte LearnGraph die nationale und internationale Bildungspolitik beeinflussen."
+      },
+      "quote": "„Wir wollen, dass es zu einem globalen Bildungssystem wird, das tief mit Nachhaltigkeit und den sozialen Realitäten der Menschen überall verbunden ist. Das ist das Ökosystem, zu dem ich es machen möchte.“"
+    }
   },
   "choices": {
     "headline-Choices": "Personalisiere deine Erfahrung",
@@ -56,16 +72,16 @@
   "footer": {
     "copy": "© {{year}} LearnGraph gUG (Haftungsbeschränkt). Alle Rechte vorbehalten.",
     "imprint": "Impressum",
-    "privacyPolicy": "Datenschutzerklärung",
+    "privacyPolicy": "Datenschutzbestimmungen",
     "termsOfUse": "Nutzungsbedingungen"
   },
   "soon": {
     "logoAlt": "Spannende Vorschau",
     "comingSoon": "Kommt bald",
-    "launchingIn": "Startet in {{days}}T {{hours}}S {{minutes}}M {{seconds}}S",
+    "launchingIn": "Start in {{days}}d {{hours}}h {{minutes}}m {{seconds}}s",
     "stayConnected": "Bleib in Verbindung",
-    "getInTouch": "Kontakt aufnehmen",
-    "emailText": "Schreib uns an",
+    "getInTouch": "Kontaktiere uns",
+    "emailText": "Sende uns eine E-Mail an",
     "orVisit": "oder besuche unsere",
     "aboutPage": "Über uns",
     "exploreMore": "Mehr entdecken",
@@ -76,56 +92,56 @@
     "visualPrototype1": "Visueller Prototyp 1",
     "visualPrototype2": "Visueller Prototyp 2",
     "spreadSupport": "Verbreite die Nachricht & unterstütze die Sache",
-    "productSoon": "Unser Produkt ist bald für eine Demo bereit und wir starten eine gemeinnützige Initiative in Afrika mit",
+    "productSoon": "Unser Produkt ist bald für die Demo bereit und wir starten eine gemeinnützige Initiative in Afrika mit",
     "joinDiscord": "Tritt unserem",
     "discordChannel": "Discord-Kanal",
     "joinDiscordButton": "Discord beitreten"
   },
   "university": {
     "lm": "Mehr erfahren",
-    "heroHeadline": "Stärken Sie Ihre Einrichtung",
+    "heroHeadline": "Stärken Sie Ihre Institution",
     "heroText": "Transformieren Sie Ihr Bildungsökosystem mit personalisierten Analysen, hybriden Lernlösungen und nahtloser Interoperabilität.",
     "heroImageAlt": "Digitales Ökosystem für Bildung",
     "challengesTitle": "Institutionelle Herausforderungen",
     "challenge1": {
       "headline": "Verbesserte Bindung",
-      "text": "Unterstützen Sie Studierende, bevor es zu schleichendem Desinteresse kommt, indem Sie frühzeitig Warnzeichen proaktiv angehen. Optimieren Sie die Unterstützung, um die Bindung zu stärken, ohne Schuldzuweisungen."
+      "text": "Unterstützen Sie Studierende, bevor es zu subtilen Desengagement kommt, indem Sie proaktiv auf frühe Warnzeichen eingehen. Optimieren Sie die Unterstützung, um die Bindung zu stärken, ohne Schuldzuweisungen."
     },
     "challenge2": {
-      "headline": "Integrierte Pfade",
+      "headline": "Integrierte Wege",
       "text": "Bauen Sie Silos in Ihrem Curriculum ab, um interdisziplinäre Kurse zu verbinden. Ermöglichen Sie reibungslosere Übergänge und eine verbesserte akademische Mobilität zwischen den Fachbereichen."
     },
     "challenge3": {
-      "headline": "Daten in Aktion",
+      "headline": "Daten in Handlungen umwandeln",
       "text": "Wandeln Sie Ihre vorhandenen Daten in umsetzbare Strategien um. Wandeln Sie Erkenntnisse in gezielte Interventionen um, die den Erfolg der Studierenden unterstützen."
     },
     "challenge4": {
       "headline": "Nahtlose Interoperabilität",
-      "text": "Richten Sie Ihre Systeme an europäischen Standards aus, um ein einheitliches Ökosystem zu schaffen, das Lernleistungen über Grenzen hinweg anerkennt."
+      "text": "Richten Sie Ihre Systeme an europäischen Standards aus, um ein einheitliches Ökosystem zu schaffen, das Lernleistungen grenzüberschreitend anerkennt."
     },
-    "insightsTitle": "Erkenntnisse in Aktion umsetzen",
+    "insightsTitle": "Erkenntnisse in Handlungen umwandeln",
     "insight1": {
-      "title": "23% Steigerung des Studienabschlusses",
-      "description": "Die Georgia State University nutzte prädiktive Analysen, um gefährdete Studierende gezielt zu fördern, was zu einer Steigerung der Studienabschlussquote um 23 % und einer Verringerung der Leistungslücke um 5 % führte."
+      "title": "23 % Steigerung des Studienabschlusses",
+      "description": "Die Georgia State University nutzte prädiktive Analysen, um gefährdete Studierende gezielt anzusprechen, was zu einer Steigerung der Studienabschlussrate um 23 % und einer Verringerung der Leistungslücke um 5 % führte."
     },
     "insight2": {
-      "title": "5% Verringerung der Leistungslücke",
-      "description": "Die personalisierten Interventionen der University of Arizona, die auf prädiktiven Analysen basieren, führten zu einer Erhöhung der Bindungsrate um 7 % und einer Steigerung der Studienabschlussquote um 10 %."
+      "title": "5 % geringere Leistungsunterschiede",
+      "description": "Die personalisierten Interventionen der University of Arizona, die auf prädiktiven Analysen basieren, führten zu einer Erhöhung der Bindungsraten um 7 % und einer Steigerung der Studienabschlussraten um 10 %."
     },
     "insight3": {
-      "title": "30% Verbesserung der Bindung",
-      "description": "Studien deuten darauf hin, dass ausgefeilte Lernanalysen die Studierendenbindung um bis zu 30 % verbessern können, was die Leistungsfähigkeit von Technologie in der Bildung demonstriert."
+      "title": "30 % Verbesserung der Bindung",
+      "description": "Studien deuten darauf hin, dass hochentwickelte Lernanalysen die Bindung der Studierenden um bis zu 30 % verbessern können, was die Leistungsfähigkeit der Technologie im Bildungsbereich demonstriert."
     },
     "insight4": {
-      "title": "11% Reduzierte Ausfallraten",
-      "description": "Eine Meta-Analyse zeigt, dass aktives Lernen die Ausfallraten von 32 % auf 21 % reduziert und die Prüfungsleistungen deutlich verbessert, was seine Vorteile in MINT-Fächern unterstreicht."
+      "title": "11 % Reduzierung der Durchfallquoten",
+      "description": "Eine Meta-Analyse zeigt, dass aktives Lernen die Durchfallquoten von 32 % auf 21 % reduziert und die Prüfungsleistungen deutlich verbessert, was seine Vorteile in STEM-Kursen unterstreicht."
     },
-    "insightsSummary": "Datengesteuerte Interventionen und aktive Lernstrategien können die Studierendenbindung deutlich verbessern, die Ausfallraten senken und die Studienabschlüsse steigern.",
+    "insightsSummary": "Datengestützte Interventionen und aktive Lernstrategien können die Bindung der Studierenden deutlich verbessern, die Durchfallquoten senken und die Studienabschlussraten erhöhen.",
     "solutionsTitle": "Was LearnGraph bietet",
     "solution1": {
-      "target": "Hybride Lerncontainer",
-      "headline": "Hybride Lerncontainer",
-      "text": "Unsere Plattform schafft flexible, lernerzentrierte Räume, die digitale und physische Erfahrungen verbinden. Diese Container sind selbstgesteuerte Brutstätten für Lernen und persönliches Wachstum. Mit praktischen Projekten begibt sich jeder auf seine persönliche Reise; lernt und arbeitet aber gemeinsam auf ein Ziel hin.",
+      "target": "Hybride Lernumgebungen",
+      "headline": "Hybride Lernumgebungen",
+      "text": "Unsere Plattform schafft flexible, lernerzentrierte Räume, die digitale und physische Erfahrungen verbinden. Diese Umgebungen sind selbstgesteuerte Inkubatoren für Lernen und persönliches Wachstum. Mit praktischen Projekten begibt sich jeder auf seine persönliche Reise; doch gemeinsam lernen und arbeiten wir auf ein Ziel hin.",
       "keywords": [
         "Adaptive Räume",
         "Digitale & physische Integration",
@@ -137,18 +153,18 @@
     "solution2": {
       "target": "Peer-Coaching & Mentoring",
       "headline": "Peer-Coaching & Mentoring",
-      "text": "Wir fördern robuste Netzwerke von Peer-Coaches und Mentoren, die persönliche Unterstützung bieten. Dieser gemeinschaftsbasierte Ansatz stärkt das Selbstvertrauen und verbessert die akademischen Ergebnisse. Coaching und gecoacht werden sind beides unglaubliche Gelegenheiten zu lernen.",
+      "text": "Wir fördern robuste Netzwerke von Peer-Coaches und Mentoren, die persönliche Unterstützung bieten. Dieser gemeinschaftsbasierte Ansatz baut Selbstvertrauen auf und verbessert die akademischen Ergebnisse. Sowohl das Coaching als auch das Gecoachtwerden sind unglaubliche Möglichkeiten zum Lernen.",
       "keywords": [
         "Kollaboratives Lernen",
-        "Persönliche Beratung",
+        "Personalisierte Anleitung",
         "Mentoring-Netzwerke",
-        "Community-Engagement"
+        "Gemeinschaftliches Engagement"
       ]
     },
     "solution3": {
       "target": "Interoperabilität & Open-Source",
       "headline": "Interoperabilität & Open-Source-Infrastruktur",
-      "text": "LearnGraph richtet sich nach dem European Learning Model (ELM) und den ESCO Skills & Competencies, wodurch die nahtlose Anerkennung von akademischen Fortschritten über Institutionen hinweg mit einem skalierbaren Open-Source-Framework ermöglicht wird. Wir entwickeln unser internes Dataset kontinuierlich weiter, um es sogar globalen offenen Standards wie OpenCreds und Durable Skills zuzuordnen.",
+      "text": "LearnGraph richtet sich nach dem European Learning Model (ELM) und den ESCO-Fähigkeiten und -Kompetenzen und ermöglicht so die nahtlose Anerkennung von akademischen Fortschritten über Institutionen hinweg mit einem skalierbaren Open-Source-Framework. Gleichzeitig entwickeln wir unser internes Datenset kontinuierlich weiter, um es auch globalen offenen Standards wie OpenCreds und Durable Skills zuzuordnen.",
       "keywords": [
         "Europäische Standards",
         "Nahtlose Integration",
@@ -158,7 +174,7 @@
     },
     "cta": {
       "headline": "Machen Sie den ersten Schritt in die Zukunft",
-      "text": "Entdecken Sie, wie unsere innovative, datengesteuerte Plattform Erkenntnisse in umsetzbare Strategien verwandelt, die den Erfolg der Studierenden und das institutionelle Wachstum fördern.",
+      "text": "Entdecken Sie, wie unsere innovative, datengestützte Plattform Erkenntnisse in umsetzbare Strategien umwandelt, die den Erfolg der Studierenden und das institutionelle Wachstum fördern.",
       "cta": "Demo anfordern"
     },
     "learningNavigatorTitle": "Lernpfad-Navigator",
@@ -166,7 +182,7 @@
       "imageAlt": "Screenshot des Lernpfad-Navigators",
       "enterGoal": "Jedes Ziel ist erreichbar!",
       "findYourself": "Personalisiert auf all das Wissen, das Sie bisher erworben haben!",
-      "guidanceEveryStep": "Wir begleiten Sie, egal wie ambitioniert die von Ihnen gewählte Route ist.",
+      "guidanceEveryStep": "Wir leiten Sie an, egal wie ehrgeizig die Route ist, die Sie wählen.",
       "findPeers": "Sie können auf Ihrer Reise immer Gleichgesinnte finden - oder alleine reisen!",
       "travelSpeed": "Sie wählen, wann Sie ankommen!"
     }
@@ -179,23 +195,23 @@
     "challengesTitle": "Warum traditionelles Lernen nicht funktioniert",
     "challenge1": {
       "headline": "Zu allgemein",
-      "text": "Die meisten Plattformen bieten einen einzigen Weg für alle. Aber du bist nicht jeder. Deine Ziele, dein Tempo und dein Stil verdienen eine einzigartige Karte."
+      "text": "Die meisten Plattformen bieten einen Weg für alle. Aber du bist nicht jeder. Deine Ziele, dein Tempo und dein Stil verdienen eine einzigartige Karte."
     },
     "challenge2": {
-      "headline": "Schwer motiviert zu bleiben",
-      "text": "Ohne Praxisbezug oder ein Gefühl des Fortschritts verlieren selbst die besten Lernenden den Elan. Es ist nicht deine Schuld – das System wurde nicht für dich entwickelt."
+      "headline": "Schwer, motiviert zu bleiben",
+      "text": "Ohne Praxisbezug oder ein Gefühl des Fortschritts verlieren selbst die besten Lernenden den Schwung. Es ist nicht deine Schuld – das System wurde nicht für dich gebaut."
     },
     "challenge3": {
-      "headline": "Informationsüberflutung",
-      "text": "So viele Kurse. So wenig Klarheit. Was solltest du als Nächstes lernen? Was hilft wirklich deiner Karriere oder Neugier?"
+      "headline": "Informationsüberlastung",
+      "text": "So viele Kurse. So wenig Klarheit. Was solltest du als Nächstes lernen? Was hilft deiner Karriere oder Neugier wirklich?"
     },
     "challenge4": {
-      "headline": "Allein lernen",
+      "headline": "Alleine lernen",
       "text": "Lernen ohne Gemeinschaft oder Unterstützung ist schwer. Wir sind darauf ausgelegt, mit anderen zu wachsen – nicht in Isolation."
     },
-    "insightsTitle": "Was bewirkt, dass Lernen haften bleibt?",
+    "insightsTitle": "Was sorgt dafür, dass Lernen haften bleibt?",
     "insight1": {
-      "title": "80 % vergessen den größten Teil des Inhalts innerhalb einer Woche",
+      "title": "80 % vergessen den grössten Teil des Inhalts innerhalb einer Woche",
       "description": "Studien zeigen, dass Lernende ohne aktive Strategien bis zu 80 % des Materials in nur 7 Tagen vergessen."
     },
     "insight2": {
@@ -203,22 +219,22 @@
       "description": "Lernende, die personalisierten Pfaden folgen, berichten von deutlich höherer Behaltensleistung und Zufriedenheit."
     },
     "insight3": {
-      "title": "Peer-Learning steigert die Motivation",
+      "title": "Peer-Learning erhöht die Motivation",
       "description": "Das Lernen mit anderen – durch Coaching oder Community – kann dein Engagement verdoppeln."
     },
     "insight4": {
-      "title": "Realitätsnahe Projekte > Theorie",
-      "description": "Praktische, relevante Projekte führen zu tieferem Lernen und Fertigkeitsanwendung als theoriebasierte Inhalte allein."
+      "title": "Projekte aus der realen Welt > Theorie",
+      "description": "Praxisorientierte, relevante Projekte führen zu tiefergehendem Lernen und Fertigkeitsanwendung als theoriegeladene Inhalte allein."
     },
     "insightsSummary": "Du verdienst eine Lernplattform, die mit deinem Gehirn arbeitet, nicht dagegen. Hier kommt LearnGraph ins Spiel.",
     "solutionsTitle": "Wie LearnGraph dir hilft, erfolgreich zu sein",
     "solution1": {
       "target": "Personalisierte Lernpfade",
       "headline": "Eine Karte nur für dich",
-      "text": "Kein Rätselraten mehr. Wir helfen dir zu sehen, wo du bist, wohin du willst und wie du dorthin kommst – unterstützt durch deinen Lernstil und deine persönlichen Ziele.",
+      "text": "Kein Rätselraten mehr. Wir helfen dir zu sehen, wo du bist, wo du hin willst und wie du dorthin kommst – unterstützt durch deinen Lernstil und deine persönlichen Ziele.",
       "keywords": [
         "Zielorientierte Navigation",
-        "Skill-Mapping",
+        "Skill Mapping",
         "Adaptive Empfehlungen",
         "Lernautonomie"
       ]
@@ -226,18 +242,18 @@
     "solution2": {
       "target": "Peer Support & Coaching",
       "headline": "Du bist nicht allein",
-      "text": "LearnGraph beinhaltet integrierte Mentoring- und Coaching-Funktionen, um dich unterstützt, verbunden und im Fortschritt zu halten.",
+      "text": "LearnGraph enthält integrierte Mentoring- und Coaching-Funktionen, um dich unterstützt, vernetzt und fortschrittlich zu halten.",
       "keywords": [
         "Motivationsschub",
-        "Peer-Mentoring",
+        "Peer Mentorship",
         "Soziales Lernen",
-        "Rechenschaftspflicht-Kreise"
+        "Verantwortungskreise"
       ]
     },
     "solution3": {
-      "target": "Realitätsnahes Lernen",
+      "target": "Praxisbezogenes Lernen",
       "headline": "Lerne, was zählt",
-      "text": "Von Soft Skills bis hin zu Tech Stacks sind unsere Lernpfade mit Branchen-Input konzipiert, damit du Dinge aufbaust, die in der realen Welt tatsächlich Sinn machen.",
+      "text": "Von Soft Skills bis hin zu Tech-Stacks sind unsere Lernpfade mit Branchenbeiträgen konzipiert, sodass du Dinge entwickelst, die in der realen Welt tatsächlich sinnvoll sind.",
       "keywords": [
         "Projektbasiert",
         "Karriereorientiert",
@@ -247,144 +263,144 @@
     },
     "cta": {
       "headline": "Werde Teil der Bewegung. Gestalte die Zukunft.",
-      "text": "Sei Teil von etwas Anderem. Probiere unseren Prototyp aus, tritt unserem Discord bei oder hilf uns, das Lernen durch Community und Crowdfunding zum Leben zu erwecken."
+      "text": "Sei Teil von etwas anderem. Probiere unseren Prototyp aus, trete unserem Discord bei oder hilf uns, das Lernen durch Community und Crowdfunding zum Leben zu erwecken."
     },
     "learningNavigatorTitle": "Deine persönliche Wachstums-Karte",
     "navigator": {
       "imageAlt": "Screenshot deiner personalisierten Lernreise",
       "enterGoal": "Wähle alles, was du lernen möchtest – einen Traumjob, eine Fähigkeit oder eine Stimmung. Wir zeigen dir den Weg.",
-      "findYourself": "Weißt du schon etwas? Wir erkennen es. Deine Reise beginnt bei *dir*.",
-      "guidanceEveryStep": "Jeder Schritt ist klar. Keine Verwirrung mehr. Nur Fortschritt, der sich tatsächlich real anfühlt.",
-      "findPeers": "Lerne mit Freunden, verbinde dich mit anderen oder mach dein Ding solo. Ganz deine Entscheidung.",
-      "travelSpeed": "Gib Vollgas oder nimm Umwege. Dies ist dein Weg – wir helfen dir nur, ihn zu gehen."
+      "findYourself": "Weisst du schon etwas? Wir erkennen es. Deine Reise beginnt bei *dir*.",
+      "guidanceEveryStep": "Jeder Schritt ist klar. Keine Verwirrung mehr. Nur Fortschritt, der sich wirklich echt anfühlt.",
+      "findPeers": "Lerne mit Freunden, schliesse dich mit anderen zusammen oder mache dein eigenes Ding. Ganz wie du willst.",
+      "travelSpeed": "Gib Vollgas oder mache Umwege. Das ist dein Weg – wir helfen dir nur, ihn zu gehen."
     }
   },
   "industry": {
-    "header": "Echte Fähigkeiten, echte Ergebnisse – in großem Maßstab.",
-    "subheader": "LearnGraph kombiniert die Personalisierung von Beratung mit der Skalierbarkeit von Online-Lernen – und sorgt so für Transfer, Leistung und ROI.",
+    "header": "Echte Fähigkeiten, echte Ergebnisse – in grossem Umfang.",
+    "subheader": "LearnGraph kombiniert die Personalisierung der Beratung mit der Skalierbarkeit des Online-Lernens – und gewährleistet so Transfer, Leistung und ROI.",
     "challenge1": {
       "headline": "Beratung skaliert nicht, Kurse bleiben nicht haften",
-      "text": "Berater gehen, Kurse werden nicht übertragen – die Skalierung des Lernens über die Zentrale hinaus bleibt ungelöst."
+      "text": "Berater gehen, Kurse werden nicht übertragen – die Skalierung des Lernens über den Hauptsitz hinaus bleibt ungelöst."
     },
     "challenge2": {
       "headline": "Das 80%-Abschluss-Problem",
-      "text": "Die meisten Mitarbeiter schließen Online-Kurse nicht ab – und noch weniger wenden das Gelernte im Job an."
+      "text": "Die meisten Mitarbeiter beenden Online-Kurse nicht – und noch weniger wenden das Gelernte im Job an."
     },
     "challenge3": {
-      "headline": "Deine Organisation vergisst, was funktioniert",
+      "headline": "Ihre Organisation vergisst, was funktioniert",
       "text": "Wenn Top-Performer gehen, verschwinden auch ihre Lernpfade. Es gibt keine gemeinsame Roadmap."
     },
     "challenge4": {
       "headline": "Kein klarer ROI von L&D",
-      "text": "Klicks und Kursabschlüsse sind keine Ergebnisse. Transfer ist schwer."
+      "text": "Klicks und Kursabschlüsse sind keine Ergebnisse. Transfer ist schwierig."
     },
     "challenge5": {
       "headline": "Lernen ist Solo, Arbeit ist kollaborativ",
-      "text": "Training ist individuell, aber die Arbeit wird in Teams erledigt. Es gibt keine Brücke zwischen den beiden."
+      "text": "Training ist individuell, aber Arbeit wird in Teams erledigt. Es gibt keine Brücke zwischen den beiden."
     },
     "challenge6": {
       "headline": "Keine Live-Karte der Fähigkeiten",
-      "text": "Ohne Einblick in die aktuellen Fähigkeiten können Unternehmen Umschulungen nicht planen, verfolgen oder beschleunigen."
+      "text": "Ohne Einblick in die aktuellen Fähigkeiten können Unternehmen die Höherqualifizierung nicht planen, verfolgen oder beschleunigen."
     },
     "challenge7": {
       "headline": "Wachstumspfade sind unsichtbar",
-      "text": "Mitarbeiter gehen, wenn sie keinen Fortschritt sehen können. Managern fehlen die Werkzeuge, um die fähigkeitsbasierte Mobilität zu lenken."
+      "text": "Mitarbeiter gehen, wenn sie keinen Fortschritt sehen können. Managern fehlen die Werkzeuge, um die fähigkeitsbasierte Mobilität zu steuern."
     },
-    "learningNavigatorTitle": "Dein Lernpfad-Finder",
+    "learningNavigatorTitle": "Dein Lernpfadfinder",
     "navigator": {
       "imageAlt": "Learning Path Navigator Screenshot",
       "enterGoal": "Lege eine beliebige Rolle, Fähigkeit oder ein beliebiges Ergebnis fest – und kartiere dann den schnellsten Weg dorthin.",
-      "findYourself": "Wir beginnen dort, wo du bist. Vorherige Fähigkeiten werden erkannt, nicht wiederholt.",
+      "findYourself": "Wir fangen dort an, wo du bist. Vorherige Fähigkeiten werden erkannt, nicht wiederholt.",
       "guidanceEveryStep": "Live-Fortschritt. Umsetzbare Schritte. Kein Rätselraten zwischen hier und Wirkung.",
-      "findPeers": "Arbeite Herausforderungen mit anderen durch – oder geh solo. Du wählst den Modus.",
-      "travelSpeed": "Schule schnell um oder integriere es in deinen Ablauf. Das Lernen bewegt sich in deinem Tempo."
+      "findPeers": "Arbeite Herausforderungen mit anderen durch – oder gehe solo. Du wählst den Modus.",
+      "travelSpeed": "Qualifiziere dich schnell oder passe es in deinen Arbeitsablauf ein. Das Lernen bewegt sich in deinem Tempo."
     },
     "trust": {
-      "header": "Das Vertrauen führender Universitäten, Branchenführer und europäischer Innovationsprogramme."
-    },
-    "pilot": {
-      "header": "Enge Zusammenarbeit, null Einrichtungsaufwand",
-      "description": "Unser Pilotprogramm bietet eine maßgeschneiderte Erfahrung über 6–8 Wochen. Erlebe eine nahtlose Integration mit minimalem Aufwand und sofortigem Fähigkeitstransfer.",
-      "applynow": "Starte jetzt deine Pilot-Reise",
-      "imgAltTimeline": "Pilotprogramm-Timeline: 6-8 Wochen"
+      "header": "Vertrauen von führenden Universitäten, Branchenführern und europäischen Innovationsprogrammen.",
+      "pilot": {
+        "header": "Enge Zusammenarbeit, null Einrichtungsaufwand",
+        "description": "Unser Pilotprogramm bietet eine massgeschneiderte Erfahrung über 6–8 Wochen. Erlebe eine nahtlose Integration mit minimalem Aufwand und sofortigem Fähigkeitstransfer.",
+        "applynow": "Starte jetzt deine Pilot-Reise",
+        "imgAltTimeline": "Pilotprogramm-Timeline: 6-8 Wochen"
+      }
     }
   },
   "institutions": {
     "lm": "Mehr erfahren",
-    "heroHeadline": "Beschleunigen Sie die Weiterbildung Ihrer Mitarbeiter mit LearnGraph",
+    "heroHeadline": "Verbessern Sie die Mitarbeiterschulung mit LearnGraph",
     "heroText": "Ihr Team verdient Besseres als veraltete PDFs und passive Videos. LearnGraph hilft Ihnen, personalisierte, hochwirksame Schulungen anzubieten – und zu messen, was wirklich funktioniert.",
     "heroImageAlt": "Intelligente Upskilling-Plattform",
     "challengesTitle": "Häufige Herausforderungen in der Mitarbeiterschulung",
     "challenge1": {
-      "headline": "Einheitsschulung passt nicht für alle",
-      "text": "Traditionelle Schulungen sind statisch und generisch. Jeder Mitarbeiter lernt anders – Ihre Weiterbildung sollte sich nicht wie eine Vorlesung anfühlen."
+      "headline": "Einheits-Schulung passt nicht",
+      "text": "Traditionelle Schulungen sind statisch und generisch. Jeder Mitarbeiter lernt anders – Ihr Upskilling sollte sich nicht wie eine Vorlesung anfühlen."
     },
     "challenge2": {
       "headline": "Geringes Engagement, hohe Abbruchrate",
-      "text": "Wenn sich Schulungen von der eigentlichen Arbeit oder persönlichen Zielen entkoppelt anfühlen, schalten Mitarbeiter ab. Das Engagement sinkt – und damit auch die Wirkung."
+      "text": "Wenn sich die Schulung von der eigentlichen Arbeit oder den persönlichen Zielen entkoppelt anfühlt, schalten die Mitarbeiter ab. Das Engagement sinkt – und damit auch die Wirkung."
     },
     "challenge3": {
       "headline": "Schwer zu verfolgender ROI",
-      "text": "Sie investieren in Lernen. Aber was funktioniert? LearnGraph hilft Ihnen, Schulungen durch Erkenntnisse und Fortschrittsdaten mit realen Ergebnissen zu verknüpfen."
+      "text": "Sie investieren in Lernen. Aber was funktioniert? LearnGraph hilft Ihnen, Schulungen durch Einblicke und Fortschrittsdaten mit realen Ergebnissen zu verknüpfen."
     },
     "challenge4": {
-      "headline": "Zu viel Einrichtung. Zu wenig Wert.",
-      "text": "Komplexe Plattformen erzeugen mehr Reibung als Fluss. LearnGraph lässt sich mit minimalem Aufwand und maximaler Klarheit in Ihren Workflow integrieren."
+      "headline": "Zu viel Setup. Zu wenig Wert.",
+      "text": "Komplexe Plattformen erzeugen mehr Reibung als Fluss. LearnGraph lässt sich mit minimalem Setup und maximaler Klarheit in Ihren Workflow integrieren."
     },
     "insightsTitle": "Warum intelligenteres Training gewinnt",
     "insight1": {
-      "title": "Personalisierte Pfade = bessere Beibehaltung",
-      "description": "Mitarbeiter, die maßgeschneiderte Schulungsrouten befolgen, behalten Wissen besser und wenden Fähigkeiten schneller am Arbeitsplatz an."
+      "title": "Personalisierte Wege = bessere Behaltensleistung",
+      "description": "Mitarbeiter, die maßgeschneiderte Schulungswege verfolgen, behalten Wissen besser und wenden Fähigkeiten schneller im Beruf an."
     },
     "insight2": {
       "title": "Praxisbezug steigert die Ergebnisse",
-      "description": "Schulungen, die mit tatsächlichen Aufgaben (wie ERP- oder Cybersicherheits-Workflows) verknüpft sind, führen zu einer schnelleren Anpassung und weniger Fehlern."
+      "description": "Schulungen, die mit tatsächlichen Aufgaben (wie ERP- oder Cybersecurity-Workflows) verknüpft sind, führen zu schnellerer Anpassung und weniger Fehlern."
     },
     "insight3": {
       "title": "Engagement ist wichtig",
-      "description": "Interaktives, sinnvolles Lernen verdoppelt die Abschlussquoten und verbessert die Teamstimmung."
+      "description": "Interaktives, sinnvolles Lernen verdoppelt die Abschlussquoten und stärkt die Team-Moral."
     },
     "insight4": {
       "title": "Umsetzbare Daten erschließen den ROI",
       "description": "LearnGraph verbindet Lernergebnisse mit KPIs, sodass Sie verfolgen können, was die Wirkung antreibt – nicht nur Klicks."
     },
     "insightsSummary": "Besseres Training ist nicht nur Inhalt – es ist Verbindung, Klarheit und Feedback. LearnGraph hilft Ihnen, alle drei zu liefern.",
-    "solutionsTitle": "Entwickelt für moderne Organisationen",
+    "solutionsTitle": "Entwickelt für moderne Unternehmen",
     "solution1": {
       "target": "Live Learning Map",
       "headline": "GPS für die Kompetenzentwicklung",
-      "text": "Lernende sehen genau, was sie in welcher Reihenfolge lernen sollen und wie es mit der realen Arbeit zusammenhängt. Entwickelt für Geschwindigkeit, Klarheit und Flexibilität.",
+      "text": "Lernende sehen genau, was sie in welcher Reihenfolge lernen sollen und wie es mit der eigentlichen Arbeit zusammenhängt. Entwickelt für Geschwindigkeit, Klarheit und Flexibilität.",
       "keywords": [
-        "Personalisierte Lernrouten",
+        "Personalisierte Lernpfade",
         "Verfolgung des Kompetenzfortschritts",
-        "Peer-Benchmarks",
+        "Peer Benchmarks",
         "Selbstgesteuerte Reisen"
       ]
     },
     "solution2": {
-      "target": "Plug & Play Insights",
+      "target": "Plug & Play Einblicke",
       "headline": "Machen Sie Lernen messbar",
       "text": "Echtzeit-Dashboards verknüpfen Schulungen mit Ergebnissen. Erkennen Sie in wenigen Minuten, nicht in Quartalen, was das Wachstum antreibt – und was nicht.",
       "keywords": [
         "Live-Training-ROI",
-        "Team-Level-Einblicke",
-        "Erkennung von Qualifikationslücken",
-        "Umsetzbare Warnungen"
+        "Einblicke auf Teamebene",
+        "Erkennung von Kompetenzlücken",
+        "Umsetzbare Warnmeldungen"
       ]
     },
     "solution3": {
-      "target": "Kontextuelles Lernen in Aktion",
+      "target": "Kontextbezogenes Lernen in Aktion",
       "headline": "Lernen, das sich mit der Arbeit bewegt",
-      "text": "Mitarbeiter lernen im Kontext – innerhalb von Workflows, mit Kollegen und rechtzeitig, um reale Probleme zu lösen. Kein Füllmaterial, keine Abbrüche.",
+      "text": "Mitarbeiter lernen im Kontext – innerhalb von Workflows, mit Kollegen und rechtzeitig, um echte Probleme zu lösen. Keine Floskeln, kein Abbruch.",
       "keywords": [
         "Just-in-Time-Module",
         "Peer-basierte Übung",
         "In Tools integriert",
-        "Beibehaltung durch Handeln"
+        "Behaltensleistung durch Tun"
       ]
     },
     "cta": {
-      "headline": "Lassen Sie uns gemeinsam intelligenteres Training aufbauen",
+      "headline": "Lasst uns gemeinsam intelligenteres Training entwickeln",
       "text": "Sind Sie bereit, Ihre Wirkung zu verstärken? Vereinbaren Sie ein kostenloses Gespräch, um zu erfahren, wie LearnGraph in Ihre bestehenden Schulungsbemühungen integriert werden kann.",
       "cta": "Gespräch vereinbaren"
     }
@@ -393,29 +409,29 @@
     "wcl": "Warum Learngraph wählen",
     "uspBlocks": {
       "reduceDropoutHeadline": "Reduzieren Sie Ausfälle. Gehen Sie jeden Weg.",
-      "reduceDropoutText": "LearnGraph hilft Ihren Schülern, mit personalisierten Lernpfaden, Peer-Coaching und emotionaler Reflexion auf dem richtigen Weg zu bleiben – alles in einer Plattform, die mit Ihren bestehenden Systemen zusammenarbeitet.",
-      "reduceDropoutCTA": "Erkunden Sie Ihre Route",
+      "reduceDropoutText": "LearnGraph hilft Ihren Schülern, mit personalisierten Lernpfaden, Peer-Coaching und emotionaler Reflexion auf dem Laufenden zu bleiben – alles in eine Plattform integriert, die mit Ihren bestehenden Systemen zusammenarbeitet.",
+      "reduceDropoutCTA": "Entdecken Sie Ihre Route",
       "yourWayHeadline": "Gestalten Sie Ihre eigene Reise.",
-      "yourWayText": "Sind Sie das Einheitslernen leid? LearnGraph zeigt Ihnen genau, wo Sie sich befinden, wohin Sie wollen und wie Sie dorthin gelangen – mit intelligenter Anleitung, echten Ressourcen und Peer-Support.",
+      "yourWayText": "Sind Sie es leid, dass das Lernen von der Stange ist? LearnGraph zeigt Ihnen genau, wo Sie sich befinden, wohin Sie wollen und wie Sie dorthin gelangen – mit intelligenter Führung, echten Ressourcen und Peer-Support.",
       "yourWayCTA": "Beginnen Sie Ihre Reise",
-      "upskillHeadline": "Schritt für Schritt weiterbilden.",
-      "upskillText": "Jede neue Fähigkeit ist ein Schritt zu Ihrem Erfolg. Ob Soft Skills oder digitale Tools, LearnGraph führt Lernende Schritt für Schritt mit Peer-Unterstützung und Bezug zur realen Welt.",
+      "upskillHeadline": "Qualifizieren Sie sich Schritt für Schritt.",
+      "upskillText": "Jede neue Fähigkeit ist ein Schritt zu Ihrem Erfolg. Ob Soft Skills oder digitale Tools, LearnGraph leitet die Lernenden Schritt für Schritt mit Peer-Unterstützung und realitätsnaher Relevanz an.",
       "upskillCTA": "Machen Sie den ersten Schritt",
-      "openSourceHeadline": "Open-Source, Mission-First, Impact-Obsessed.",
-      "openSourceText": "Wir jagen nicht dem Profit hinterher. Wir verfolgen einen Zweck. Ihre Unterstützung fließt direkt in die Skalierung der Wirkung im globalen Süden.",
+      "openSourceHeadline": "Open-Source, missionsorientiert, wirkungsorientiert.",
+      "openSourceText": "Wir jagen nicht dem Profit hinterher. Wir verfolgen einen Zweck. Ihre Unterstützung fließt direkt in die Ausweitung der Wirkung im globalen Süden.",
       "openSourceCTA": "Werden Sie ein Wayfarer",
       "finalCTAHeadline": "Erleben Sie die Zukunft der Bildung",
-      "finalCTAText": "Erleben Sie, wie LearnGraph Unsicherheit in eine klare, begehbare Reise verwandelt – einen entscheidenden Schritt nach dem anderen.",
+      "finalCTAText": "Erleben Sie, wie LearnGraph Unsicherheit in eine klare, navigierbare Reise verwandelt – einen entscheidenden Schritt nach dem anderen.",
       "finalCTACTA": "Treten Sie jetzt in Ihre Zukunft ein!"
     },
     "infoBlocks": {
-      "companiesTarget": "Unternehmen & Erwachsene Lernende",
+      "companiesTarget": "Unternehmen & Erwachsene Lerner",
       "companiesHeadline": "Umschulen, weiterbilden oder einfach nur wachsen – ohne den Verstand zu verlieren.",
       "companiesKeywords": [
-        "Weiterbildung",
+        "Upskilling",
         "Resilienz",
         "Soft Skills",
-        "reale Wirkung",
+        "reale Auswirkungen",
         "Karriereausrichtung",
         "flexibles Lernen",
         "Peer-Mentoring"
@@ -425,19 +441,19 @@
       "independentKeywords": [
         "personalisiert",
         "zielorientiert",
-        "Peer-Support",
+        "Peer-Unterstützung",
         "Lernkarte",
-        "individuell",
+        "selbstgesteuert",
         "sinnvolles Wachstum",
         "offener Zugang",
-        "Zertifizierungsbereit"
+        "zertifizierungsreif"
       ],
-      "fundersTarget": "Finanzierer & Stiftungen",
+      "fundersTarget": "Förderer & Stiftungen",
       "fundersHeadline": "Investieren Sie in ein Bildungssystem, das nicht nur lehrt – es transformiert.",
       "fundersKeywords": [
         "Open-Source",
         "inklusiv",
-        "transformierend",
+        "transformatorisch",
         "innere Entwicklung",
         "Tech-for-Good",
         "hohe Wirkung",
@@ -453,28 +469,28 @@
     },
     "product-sustainability": "Produktgestützte Nachhaltigkeit",
     "built-saas": "Eine SaaS für Institutionen entwickelt, um privates Wissen einzubetten – kostenlos für Einzelpersonen",
-    "profits-reinvested": "100 % der Gewinne werden in unsere Impact-Projekte reinvestiert",
-    "no-paywalls": "Keine Paywalls, die hochwertige Bildung verhindern",
+    "profits-reinvested": "100 % der Gewinne werden in unsere Wirkungsprojekte reinvestiert",
+    "no-paywalls": "Keine Bezahlschranken, die hochwertige Bildung verhindern",
     "free-forever": "Für immer kostenlos und Open Source",
-    "no-logins": "Keine Log-ins, keine Werbung, keine Paywalls – niemals",
+    "no-logins": "Keine Logins, keine Werbung, keine Bezahlschranken – niemals",
     "production-grade": "Produktionsreifer Code, den jeder nutzen und erweitern kann",
-    "trusted-communities": "Weltweit von Communities und Pädagogen geschätzt",
+    "trusted-communities": "Vertraut von Gemeinschaften und Pädagogen weltweit",
     "fueling-mission": "Unsere Mission vorantreiben",
-    "sustain-project": "Um dieses Projekt zu unterstützen, bieten wir ein spezialisiertes SaaS-Produkt für Institutionen und Unternehmen an. Dieser private Einbettungsdienst ist für Einzelpersonen immer kostenlos, um einen breiten Zugang zu gewährleisten und gleichzeitig Einnahmen zur Finanzierung unserer Open-Source-Arbeit zu erzielen.",
-    "sell-platform": "Wir verkaufen unsere Plattform an Institutionen, die individuelle Wissenseinbettungslösungen wünschen.",
-    "free-for-individuals": "Einzelne Lernende und kleine Teams nutzen es immer kostenlos – keine Ausnahmen.",
-    "profit-into-impact": "Jeder Dollar Gewinn fließt zurück in unsere Impact-Projekte.",
+    "sustain-project": "Um dieses Projekt zu erhalten, bieten wir ein spezielles SaaS-Produkt für Institutionen und Unternehmen an. Dieser private Einbettungsdienst ist für einzelne Benutzer immer kostenlos, wodurch ein breiter Zugang gewährleistet und gleichzeitig Einnahmen zur Finanzierung unserer Open-Source-Arbeit erzielt werden.",
+    "sell-platform": "Wir verkaufen unsere Plattform an Institutionen, die kundenspezifische Wissenseinbettungslösungen wünschen.",
+    "free-for-individuals": "Einzelne Lernende und kleine Teams nutzen sie immer kostenlos – keine Ausnahmen.",
+    "profit-into-impact": "Jeder Dollar Gewinn fließt zurück in unsere Wirkungsprojekte.",
     "open-access": "Offener Zugang für alle",
-    "infrastructure-hosted": "Unsere Kerninfrastruktur läuft auf Servern, die wir warten – gehostet auf unsere Kosten, ohne Benutzergebühren. In Kürze wird diese Seite zu einem Live-Dashboard verlinken, das unsere Betriebskosten und Wartungsstunden detailliert darstellt.",
-    "handle-hosting": "Wir kümmern uns um Hosting, Verfügbarkeit und Sicherheit, sodass Sie keine Budgetierung oder Registrierung vornehmen müssen.",
-    "features-free": "Alle Funktionen bleiben kostenlos: Erkunden, Bereitstellen und Integrieren ohne Barrieren.",
-    "see-for-profit": "Auf der Seite „For-Profit“ erfahren Sie, wie wir dieses Angebot nachhaltig finanzieren und ausbauen.",
+    "infrastructure-hosted": "Unsere Kerninfrastruktur läuft auf Servern, die wir warten – gehostet auf unsere Kosten, ohne Benutzergebühren. In Kürze wird diese Seite zu einem Live-Dashboard verlinken, das unsere Betriebskosten und Wartungsstunden detailliert aufschlüsselt.",
+    "handle-hosting": "Wir kümmern uns um Hosting, Betriebszeit und Sicherheit, sodass Sie keine Kosten einplanen oder sich registrieren müssen.",
+    "features-free": "Alle Funktionen bleiben kostenlos: Entdecken, bereitstellen und integrieren Sie ohne Barrieren.",
+    "see-for-profit": "Auf der For-Profit-Seite erfahren Sie, wie wir dieses Angebot nachhaltig finanzieren und ausbauen.",
     "sections": {
       "hero": {
-        "title": "Aufbau der Infrastruktur globaler Absicht",
+        "title": "Aufbau der Infrastruktur globaler Absichten",
         "content": {
-          "paragraph1": "Was wäre, wenn wir unseren gemeinsamen Wunsch, Krieg zu beenden und den Klimawandel zu bekämpfen, sichtbar machen könnten? Stellen Sie sich eine lebendige Karte von allen vor, die lernen, arbeiten und nach diesen Zielen streben – ihre Energie nicht verstreut, sondern verbunden, inspirierend und sich gegenseitig stärkend. Was wäre, wenn wir diese globale Bewegung in Echtzeit visualisieren und ein Netzwerk schaffen könnten, in dem jede Anstrengung die Dynamik für die nächste aufbaut?",
-          "paragraph2": "Stellen Sie sich nun vor, wir könnten auch die Wege aufzeigen, die sie gegangen sind – die Fähigkeiten, die sie erlernt haben, die Schritte, die sie befolgt haben – und es jedem leicht machen, in ihre Fußstapfen zu treten, fast so, als würde man einfach eine Treppe hinaufgehen. Das ist die Infrastruktur, die wir aufbauen: eine Brücke zwischen Anspruch und Handlung, ein Weg, um jeden Lernenden, jeden Arbeiter zu einem Teil einer kollektiven Kraft für das Gute zu machen."
+          "paragraph1": "Was wäre, wenn wir unseren gemeinsamen Wunsch, Krieg zu beenden und den Klimawandel zu bekämpfen, sichtbar machen könnten? Stellen Sie sich eine lebendige Karte von allen vor, die lernen, arbeiten und sich diesen Zielen zuwenden – ihre Energie nicht verstreut, sondern verbunden, inspirierend und gegenseitig stärkend. Was wäre, wenn wir diese globale Bewegung in Echtzeit visualisieren und ein Netzwerk schaffen könnten, in dem jede Anstrengung die Dynamik für die nächste aufbaut?",
+          "paragraph2": "Stellen Sie sich nun vor, wir könnten auch die Wege aufzeigen, die sie gegangen sind – die Fähigkeiten, die sie erlernt haben, die Schritte, die sie befolgt haben – und es jedem leicht machen, in ihre Fußstapfen zu treten, fast so, als würde man einfach eine Treppe hinaufgehen. Das ist die Infrastruktur, die wir aufbauen: eine Brücke zwischen Anspruch und Handlung, ein Weg, um jeden Lernenden, jeden Arbeiter, zu einem Teil einer kollektiven Kraft zum Guten zu machen."
         }
       },
       "psp": {
@@ -486,34 +502,34 @@
           },
           {
             "title": "Unsere Lösung",
-            "description": "Die erfahrungsbasierten Lerncontainer von LearnGraph verbinden Kopf, Herz und Hand, um Lernende neu zu aktivieren."
+            "description": "Die erfahrungsbasierten Lerncontainer von LearnGraph schlagen eine Brücke zwischen Kopf, Herz und Hand, um Lernende wieder einzubeziehen."
           },
           {
             "title": "Früher Beweis",
-            "description": "Der Pilotversuch mit der Claudius Akademie ergab innerhalb von 6 Monaten eine Steigerung der Kundenbindung um 15 %."
+            "description": "Pilotprojekt mit der Claudius Akademie zeigte eine Retentionssteigerung von 15 % in 6 Monaten."
           }
         ]
       },
       "alignment": {
-        "title": "Übereinstimmung mit globalen Rahmenwerken",
+        "title": "Ausrichtung auf globale Rahmenwerke",
         "list": [
-          "Wir setzen den Aufruf der UNESCO nach ganzheitlichen, erfahrungsbasierten Lerncontainern um.",
+          "Wir setzen den UNESCO-Aufruf nach ganzheitlichen, erfahrungsbasierten Lerncontainern um.",
           "LearnGraph ist die Grundlage für den „neuen Gesellschaftsvertrag für Bildung“, der von der Internationalen Kommission der UNESCO hervorgehoben wird.",
-          "Wir bieten vollständige Selbstbestimmung – und geben den Lernenden die volle Freiheit, ihr Potenzial auszuschöpfen, und erfüllen damit den Auftrag des UNDP."
+          "Wir bieten vollständige Handlungsfähigkeit – und geben den Lernenden die volle Freiheit, ihr Potenzial zu verwirklichen, und erfüllen so den Auftrag des UNDP."
         ]
       },
       "metaCrisis": {
         "title": "Die Meta-Krise, vor der wir stehen",
         "content": {
-          "paragraph1": "Wir leben inmitten eines ökologischen Zusammenbruchs, politischer Instabilität, fragmentierter Bildungssysteme und einer weit verbreiteten Sinnkrise. Alte Strukturen können die Bedürfnisse einer sich schnell verändernden, vernetzten Welt nicht mehr erfüllen.",
-          "paragraph2": "Die Bildung, wie sie derzeit ist, ist unzureichend: losgelöst von der Komplexität der realen Welt, starr in ihrer Struktur und vernachlässigt emotionale Belastbarkeit und Beziehungsfähigkeiten."
+          "paragraph1": "Wir leben inmitten eines ökologischen Zusammenbruchs, politischer Instabilität, zerrütteter Bildungssysteme und einer weit verbreiteten Sinnkrise. Alte Strukturen können die Bedürfnisse einer sich schnell verändernden, vernetzten Welt nicht mehr erfüllen.",
+          "paragraph2": "Bildung, so wie sie ist, ist unzureichend: losgelöst von der Komplexität der realen Welt, starr in der Struktur und vernachlässigt emotionale Resilienz und relationale Fähigkeiten."
         }
       },
       "need": {
-        "title": "Was die Zukunft erfordert",
+        "title": "Was die Zukunft verlangt",
         "list": [
           {
-            "strong": "Ganzheitliche Entwicklung:",
+            "strong": "Ganzheitliche Persönlichkeitsentwicklung:",
             "text": "Integration von Intellekt, Emotion und praktischem Handeln."
           },
           {
@@ -522,10 +538,10 @@
           },
           {
             "strong": "Dynamische Wissenslandkarten:",
-            "text": "Sich ständig weiterentwickelnde, anpassungsfähige Lernstrukturen."
+            "text": "Sich kontinuierlich entwickelnde, anpassungsfähige Lernstrukturen."
           },
           {
-            "strong": "Community-zentrierte Bildung:",
+            "strong": "Gemeinschaftszentrierte Bildung:",
             "text": "Echte Transformation geschieht gemeinsam, nicht allein."
           }
         ]
@@ -533,14 +549,14 @@
       "solution": {
         "title": "Die LearnGraph-Lösung",
         "content": {
-          "paragraph1": "LearnGraph ist eine lebendige Open-Source-Karte des globalen Wissens, die durch Community-Beiträge verfeinert wird. Aber es ist mehr als das: Es unterstützt die Bildung von Lerncontainern – selbstorganisierten Gruppen, in denen ganzheitliches Lernen stattfinden kann.",
-          "paragraph2": "Angetrieben von dynamischen Lernpfaden, relationalen Praktiken und lokalen Aktionen verwandelt LearnGraph Bildung in eine aufkommende, regenerative Kraft."
+          "paragraph1": "LearnGraph ist eine lebendige, Open-Source-Karte des globalen Wissens, die durch Beiträge der Community verfeinert wird. Aber es ist mehr als das: Es unterstützt die Bildung von Lerncontainern – selbstorganisierten Gruppen, in denen ganzheitliches Lernen stattfinden kann.",
+          "paragraph2": "Angetrieben von dynamischen Lernpfaden, relationalen Praktiken und lokalem Handeln verwandelt LearnGraph die Bildung in eine aufkommende, regenerative Kraft."
         }
       },
       "emergence": {
         "title": "Von Containern zu Hubs",
         "content": {
-          "paragraph1": "Auf Campusgeländen, in Städten und Dörfern werden kleine Lerncontainer zu lebendigen Hubs – Zentren der Co-Creation, Resilienz und Transformation.",
+          "paragraph1": "Auf Campussen, in Städten und Dörfern werden kleine Lerncontainer zu lebendigen Hubs – Zentren der Co-Kreation, Resilienz und Transformation.",
           "paragraph2": "Jeder Hub ist einzigartig. Jeder ist selbstverwaltet. Zusammen bilden sie ein dezentrales, lebendiges Netzwerk der Bildung für eine neue Ära."
         }
       },
@@ -548,43 +564,43 @@
         "title": "Wirkung, die Sie messen können",
         "stats": [
           {
-            "title": "85 %",
-            "description": "Arbeitgeber sagen, dass Soft Skills am wichtigsten sind – dennoch versäumt es die derzeitige Bildung, diese zu vermitteln."
+            "title": "85%",
+            "description": "Arbeitgeber sagen, dass Soft Skills am wichtigsten sind – doch die aktuelle Bildung versäumt es, sie zu vermitteln."
           },
           {
-            "title": "70 %",
-            "description": "Studenten weltweit haben das Gefühl, dass ihre Ausbildung nicht ihren individuellen Bedürfnissen entspricht."
+            "title": "70%",
+            "description": "Studenten weltweit haben das Gefühl, dass ihre Ausbildung ihre individuellen Bedürfnisse nicht erfüllt."
           },
           {
-            "title": "60 %+",
-            "description": "Verbesserung der Kundenbindung in lerngesteuerten, von Gleichaltrigen unterstützten Bildungsmodellen."
+            "title": "60%+",
+            "description": "Verbesserung der Retention in lernergesteuerten, von Gleichaltrigen unterstützten Bildungsmodellen."
           }
         ]
       },
       "impactInvestors": {
         "title": "Werden Sie unser Partner: Wirkung in großem Maßstab",
         "content": {
-          "paragraph1": "Strategische Investitionen in LearnGraph finanzieren nicht nur eine Plattform – sie fördern eine globale Bewegung der selbstgesteuerten Bildung, Resilienz und Community-Transformation.",
+          "paragraph1": "Strategische Investitionen in LearnGraph sind nicht nur die Finanzierung einer Plattform – sie fördern eine globale Bewegung der selbstgesteuerten Bildung, Resilienz und gemeinschaftlichen Transformation.",
           "list": [
             {
               "strong": "Skalierbares Modell:",
-              "text": "Jeder lokale Hub sät weiteres Wachstum – aus einem Container können viele werden."
+              "text": "Jeder lokale Hub sät weiteres Wachstum – aus einem Container können viele entstehen."
             },
             {
               "strong": "Offene Infrastruktur:",
-              "text": "Globaler Zugang, modulare Erweiterung und schnelle, Community-gesteuerte Entwicklung."
+              "text": "Globaler Zugang, modulare Erweiterung und schnelle, von der Community getragene Entwicklung."
             },
             {
-              "strong": "System-Level-Hebelwirkung:",
-              "text": "Indem wir die Entstehung von Bildung verändern, katalysieren wir Veränderungen in den Bereichen Arbeitskräfte, Governance, Klimaresilienz und Wohlbefinden."
+              "strong": "Systemebenen-Hebelwirkung:",
+              "text": "Indem wir verändern, wie Bildung entsteht, katalysieren wir Veränderungen in den Bereichen Arbeitskräfte, Governance, Klimaresilienz und Wohlbefinden."
             },
             {
               "strong": "Radikale Effizienz:",
-              "text": "Mikro-Zuschüsse, leichtgewichtige Technologie und Community-Eigentum liefern eine überproportionale Wirkung pro Dollar."
+              "text": "Mikro-Zuschüsse, leichtgewichtige Technologie und gemeinschaftliches Eigentum liefern eine überproportionale Wirkung pro Dollar."
             },
             {
               "strong": "Messbare Ergebnisse:",
-              "text": "Lernfortschritt, Hub-Vermehrung, sektorübergreifende Zusammenarbeit und verifizierter Kompetenzerwerb."
+              "text": "Fortschritt der Lernenden, Ausbreitung von Hubs, sektorübergreifende Zusammenarbeit und überprüfter Kompetenzerwerb."
             }
           ],
           "paragraph2": "Ihre Investition pflanzt Samen, die das Gefüge von Bildung, Gemeinschaft und planetarischer Resilienz regenerieren."
@@ -593,20 +609,20 @@
       "finalVision": {
         "title": "Wohin wir gehen",
         "content": {
-          "paragraph1": "Aus verstreutem Chaos sprießen neue Lerngärten – LearnGraph-Hubs der Zusammenarbeit und des Zwecks.",
-          "paragraph2": "Wo immer Neugier herrscht, kann es einen Hub geben. Wo immer Fürsorge herrscht, kann es eine Zukunft geben."
+          "paragraph1": "Aus verstreutem Chaos sprießen neue Gärten des Lernens – LearnGraph Hubs der Zusammenarbeit und des Ziels.",
+          "paragraph2": "Wo immer Neugierde ist, kann es einen Hub geben. Wo immer es Fürsorge gibt, kann es eine Zukunft geben."
         }
       }
     },
     "cta": {
       "title": "Sind Sie bereit, Teil dieser Reise zu sein?",
-      "subtitle": "Gestalten Sie noch heute die Ökosysteme der Resilienz.",
+      "subtitle": "Gestalten Sie die Ökosysteme der Resilienz noch heute.",
       "buttons": {
         "getInvolved": "Mitmachen",
         "investInImpact": "In Wirkung investieren",
         "readWhitepaper": "Lesen Sie unser Whitepaper"
       },
-      "footer": "Unser Whitepaper umreißt unsere globale Wirkungsvision, unsere Modelle für die Lerninfrastruktur und unsere technischen Grundlagen."
+      "footer": "Unser Whitepaper umreißt unsere globale Wirkungsvision, Lerninfrastrukturmodelle und technischen Grundlagen."
     }
   }
 }

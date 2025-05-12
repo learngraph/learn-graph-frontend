@@ -58,38 +58,36 @@ import YoutubeVideo from "./LandingPage/Video";
 //};
 
 const LongTermVision: React.FC = () => {
+  const { t } = useTranslation();
+
   return (
     <div className="container mx-auto px-4 py-8 max-w-prose">
       <div className="relative p-8 bg-gradient-to-r from-green-700 to-green-900 text-white rounded-2xl shadow-lg border-l-8 border-r-8 border-green-500">
-        <h2 className="text-3xl font-bold mb-4">🌱 Where We’re Headed</h2>
+        <h2 className="text-3xl font-bold mb-4">
+          {t("about.longTermVision.header")}
+        </h2>
         <div className="space-y-4">
           <p className="text-lg">
             <span className="font-semibold">
-              A Self-Sustaining Educational Ecosystem:
+              {t("about.longTermVision.vision1.title")}
             </span>{" "}
-            LearnGraph wants to become a self-evolving global education network,
-            dynamically updating knowledge, pathways, and skills as the world
-            changes.
-          </p>
-          <p className="text-lg">
-            <span className="font-semibold">Global Accessibility:</span> With a
-            mobile-first approach, offline-capabililty and open-source
-            technology, LearnGraph ensures global reach—especially in
-            underserved areas.
+            {t("about.longTermVision.vision1.description")}
           </p>
           <p className="text-lg">
             <span className="font-semibold">
-              Catalyst for Educational Policy Reform:
+              {t("about.longTermVision.vision2.title")}
             </span>{" "}
-            By generating data-driven insights on learning paths and skill gaps,
-            LearnGraph could influence national and international educational
-            policies.
+            {t("about.longTermVision.vision2.description")}
+          </p>
+          <p className="text-lg">
+            <span className="font-semibold">
+              {t("about.longTermVision.vision3.title")}
+            </span>{" "}
+            {t("about.longTermVision.vision3.description")}
           </p>
         </div>
         <blockquote className="mt-6 border-l-4 border-r-4 border-green-400 rounded-2xl pl-4 italic text-lg">
-          "We want it to become that global education system connected deeply
-          with sustainability and with the social realities of the people
-          everywhere. That's the ecosystem I want it to become."
+          {t("about.longTermVision.quote")}
         </blockquote>
       </div>
     </div>
@@ -127,8 +125,6 @@ const OriginStory = () => {
 };
 
 export const About = () => {
-  const { t } = useTranslation();
-
   return (
     <div>
       <NavigationWithContent

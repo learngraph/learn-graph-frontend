@@ -42,7 +42,23 @@
     "quote-Jamileh": "I’ve seen what it means when education is denied—when brilliant minds are turned away because of where they come from or who they are. LearnGraph gives that dignity back. If you have the skill, you deserve the recognition. No borders. No exceptions.",
     "quote-Jamal": "Across the Arab world and beyond, people are dreaming of a new kind of education — one that empowers, uplifts, and transforms. At LearnGraph, I’m here to help turn that vision into reality.",
     "headline-travel-group": "Where does your journey lead?",
-    "team-placeholder-description": "We’re always looking for curious minds to join us. Whether you code, care about learning, or just have a wild idea—come say hi. <discord>Join our Discord</discord>, or send us a message to <email>jobs@learngraph.org</email>!"
+    "team-placeholder-description": "We’re always looking for curious minds to join us. Whether you code, care about learning, or just have a wild idea—come say hi. <discord>Join our Discord</discord>, or send us a message to <email>jobs@learngraph.org</email>!",
+    "longTermVision": {
+      "header": "🌱 Where We’re Headed",
+      "vision1": {
+        "title": "A Self-Sustaining Educational Ecosystem:",
+        "description": "LearnGraph wants to become a self-evolving global education network, dynamically updating knowledge, pathways, and skills as the world changes."
+      },
+      "vision2": {
+        "title": "Global Accessibility:",
+        "description": "With a mobile-first approach, offline-capability and open-source technology, LearnGraph ensures global reach—especially in underserved areas."
+      },
+      "vision3": {
+        "title": "Catalyst for Educational Policy Reform:",
+        "description": "By generating data-driven insights on learning paths and skill gaps, LearnGraph could influence national and international educational policies."
+      },
+      "quote": "“We want it to become that global education system connected deeply with sustainability and with the social realities of the people everywhere. That's the ecosystem I want it to become.”"
+    }
   },
   "choices": {
     "headline-Choices": "Personalize Your Experience",

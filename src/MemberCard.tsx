@@ -74,7 +74,7 @@ const TeamSlider = () => {
       linkedInUrl: "https://www.linkedin.com/in/nawa-sakanga-98374a58/",
     },
     {
-      imageSrc: "team-jamal.webp",
+      imageSrc: "team-jamal.png",
       name: "Jamal Daho",
       description: t("about.team-Jamal"),
       email: "j.daho@learngraph.org",
