@@ -10,17 +10,21 @@ interface ImpactSection {
   content: React.ReactNode;
 }
 
-const ImgSustainableImpact = () => (<img
-  src="/sustainable-impact.png"
-  alt="Product & Revenue"
-  className="w-32 h-32 object-cover rounded-2xl"
-/>);
+const ImgSustainableImpact = () => (
+  <img
+    src="/sustainable-impact.png"
+    alt="Product & Revenue"
+    className="w-32 h-32 object-cover rounded-2xl"
+  />
+);
 
-const ImgFreeForever = () => (<img
-  src="/free-forver.png"
-  alt="Open-Source & Free"
-  className="w-32 h-32 object-cover rounded-2xl"
-/>);
+const ImgFreeForever = () => (
+  <img
+    src="/free-forver.png"
+    alt="Open-Source & Free"
+    className="w-32 h-32 object-cover rounded-2xl"
+  />
+);
 
 const ImpactSplitProfitVSNonProfit: React.FC = () => {
   const { t } = useTranslation();
@@ -29,11 +33,13 @@ const ImpactSplitProfitVSNonProfit: React.FC = () => {
     left: (
       <div className="flex flex-col items-center text-center space-y-4 backdrop-blur-2xl rounded-2xl p-6">
         <ImgSustainableImpact />
-        <h2 className="text-2xl font-bold">{t('impact.product-sustainability')}</h2>
+        <h2 className="text-2xl font-bold">
+          {t("impact.product-sustainability")}
+        </h2>
         <ul className="list-disc list-inside text-left space-y-2">
-          <li>{t('impact.built-saas')}</li>
-          <li>{t('impact.profits-reinvested')}</li>
-          <li>{t('impact.no-paywalls')}</li>
+          <li>{t("impact.built-saas")}</li>
+          <li>{t("impact.profits-reinvested")}</li>
+          <li>{t("impact.no-paywalls")}</li>
         </ul>
       </div>
     ),
@@ -41,11 +47,11 @@ const ImpactSplitProfitVSNonProfit: React.FC = () => {
     right: (
       <div className="flex flex-col items-center text-center space-y-4 backdrop-blur-2xl rounded-2xl p-6">
         <ImgFreeForever />
-        <h2 className="text-2xl font-bold">{t('impact.free-forever')}</h2>
+        <h2 className="text-2xl font-bold">{t("impact.free-forever")}</h2>
         <ul className="list-disc list-inside text-left space-y-2">
-          <li>{t('impact.no-logins')}</li>
-          <li>{t('impact.production-grade')}</li>
-          <li>{t('impact.trusted-communities')}</li>
+          <li>{t("impact.no-logins")}</li>
+          <li>{t("impact.production-grade")}</li>
+          <li>{t("impact.trusted-communities")}</li>
         </ul>
       </div>
     ),
@@ -55,12 +61,12 @@ const ImpactSplitProfitVSNonProfit: React.FC = () => {
         <div className="flex flex-col items-center text-center">
           <ImgSustainableImpact />
         </div>
-        <h2 className="text-3xl font-bold">{t('impact.fueling-mission')}</h2>
-        <p>{t('impact.sustain-project')}</p>
+        <h2 className="text-3xl font-bold">{t("impact.fueling-mission")}</h2>
+        <p>{t("impact.sustain-project")}</p>
         <ul className="list-disc list-inside space-y-2">
-          <li>{t('impact.sell-platform')}</li>
-          <li>{t('impact.free-for-individuals')}</li>
-          <li>{t('impact.profit-into-impact')}</li>
+          <li>{t("impact.sell-platform")}</li>
+          <li>{t("impact.free-for-individuals")}</li>
+          <li>{t("impact.profit-into-impact")}</li>
         </ul>
       </div>
     ),
@@ -70,12 +76,12 @@ const ImpactSplitProfitVSNonProfit: React.FC = () => {
         <div className="flex flex-col items-center text-center">
           <ImgFreeForever />
         </div>
-        <h2 className="text-3xl font-bold">{t('impact.open-access')}</h2>
-        <p>{t('impact.infrastructure-hosted')}</p>
+        <h2 className="text-3xl font-bold">{t("impact.open-access")}</h2>
+        <p>{t("impact.infrastructure-hosted")}</p>
         <ul className="list-disc list-inside space-y-2">
-          <li>{t('impact.handle-hosting')}</li>
-          <li>{t('impact.features-free')}</li>
-          <li>{t('impact.see-for-profit')}</li>
+          <li>{t("impact.handle-hosting")}</li>
+          <li>{t("impact.features-free")}</li>
+          <li>{t("impact.see-for-profit")}</li>
         </ul>
       </div>
     ),
@@ -83,7 +89,6 @@ const ImpactSplitProfitVSNonProfit: React.FC = () => {
 
   return <SplitScreen {...splitScreenProps} />;
 };
-
 
 const ImpactStatBox: React.FC<{ title: string; description: string }> = ({
   title,

@@ -65,13 +65,22 @@ const TeamSlider = () => {
       linkedInUrl: "https://www.linkedin.com/in/laurin-hagemann/",
     },
     {
-      imageSrc: "team-nawa.jpeg",
+      imageSrc: "team-nawa.png",
       name: "Nawa Sakanga",
       description: t("about.team-Nawa"),
       email: "nawa@learngraph.org",
       phoneNumber: "",
       quote: t("about.quote-Nawa"),
       linkedInUrl: "https://www.linkedin.com/in/nawa-sakanga-98374a58/",
+    },
+    {
+      imageSrc: "team-jamal.png",
+      name: "Jamal Daho",
+      description: t("about.team-Jamal"),
+      email: "j.daho@learngraph.org",
+      phoneNumber: "+491729121031",
+      quote: t("about.quote-Jamal"),
+      linkedInUrl: "https://www.linkedin.com/in/jamaldaho/",
     },
     {
       imageSrc: "team-efecan.jpeg",
@@ -90,6 +99,15 @@ const TeamSlider = () => {
       phoneNumber: "+491638692006",
       quote: t("about.quote-Talal"),
       linkedInUrl: "https://www.linkedin.com/in/muhammad-talal-02392b230/",
+    },
+    {
+      imageSrc: "team-jamileh.jpg",
+      name: "Jamileh Montazer",
+      description: t("about.team-Jamileh"),
+      email: "J.montazery@gmail.com", //"jamileh@learngraph.org",
+      phoneNumber: "",
+      quote: t("about.quote-Jamileh"),
+      linkedInUrl: "https://www.linkedin.com/in/jamileh-montazer-torbati/",
     },
   ];
 

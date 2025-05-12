@@ -58,38 +58,36 @@ import YoutubeVideo from "./LandingPage/Video";
 //};
 
 const LongTermVision: React.FC = () => {
+  const { t } = useTranslation();
+
   return (
     <div className="container mx-auto px-4 py-8 max-w-prose">
       <div className="relative p-8 bg-gradient-to-r from-green-700 to-green-900 text-white rounded-2xl shadow-lg border-l-8 border-r-8 border-green-500">
-        <h2 className="text-3xl font-bold mb-4">🌱 Where We’re Headed</h2>
+        <h2 className="text-3xl font-bold mb-4">
+          {t("about.longTermVision.header")}
+        </h2>
         <div className="space-y-4">
           <p className="text-lg">
             <span className="font-semibold">
-              A Self-Sustaining Educational Ecosystem:
+              {t("about.longTermVision.vision1.title")}
             </span>{" "}
-            LearnGraph wants to become a self-evolving global education network,
-            dynamically updating knowledge, pathways, and skills as the world
-            changes.
-          </p>
-          <p className="text-lg">
-            <span className="font-semibold">Global Accessibility:</span> With a
-            mobile-first approach, offline-capabililty and open-source
-            technology, LearnGraph ensures global reach—especially in
-            underserved areas.
+            {t("about.longTermVision.vision1.description")}
           </p>
           <p className="text-lg">
             <span className="font-semibold">
-              Catalyst for Educational Policy Reform:
+              {t("about.longTermVision.vision2.title")}
             </span>{" "}
-            By generating data-driven insights on learning paths and skill gaps,
-            LearnGraph could influence national and international educational
-            policies.
+            {t("about.longTermVision.vision2.description")}
+          </p>
+          <p className="text-lg">
+            <span className="font-semibold">
+              {t("about.longTermVision.vision3.title")}
+            </span>{" "}
+            {t("about.longTermVision.vision3.description")}
           </p>
         </div>
         <blockquote className="mt-6 border-l-4 border-r-4 border-green-400 rounded-2xl pl-4 italic text-lg">
-          "We want it to become that global education system connected deeply
-          with sustainability and with the social realities of the people
-          everywhere. That's the ecosystem I want it to become."
+          {t("about.longTermVision.quote")}
         </blockquote>
       </div>
     </div>
@@ -127,8 +125,6 @@ const OriginStory = () => {
 };
 
 export const About = () => {
-  const { t } = useTranslation();
-
   return (
     <div>
       <NavigationWithContent
@@ -141,80 +137,87 @@ export const About = () => {
             }}
           >
             <div className="mt-18"></div>
-
             <OriginStory />
             <YoutubeVideo videoID="LMtT8bnv8cA" />
+            {/*<WhatAreWeDoingThisFor />*/}
             <LongTermVision />
-            {/*<WhatAreWeDoingThisFor />*}
-
-            {/* Team Presentation */}
-            <section className="flex flex-col items-center px-4">
-              <SectionHeader>
-                <h2
-                  className="text-3xl font-bold text-white text-center"
-                  id="travelgroup"
-                >
-                  {t("about.Our-Team")}
-                </h2>
-                <p className="text-white text-center font-semibold">
-                  {t("about.Our-Team-text")}
-                </p>
-              </SectionHeader>
-
-              <TeamSlider />
-            </section>
-
-            <section className="flex flex-col items-center my-16 px-4">
-              <SectionHeader>
-                <h2
-                  className="text-3xl font-bold text-white text-center"
-                  id="travelgroup"
-                >
-                  {t("about.headline-travel-group")}
-                </h2>
-              </SectionHeader>
-
-              <div className="max-w-[550px] bg-gradient-to-b from-gray-300/40 to-gray-400/30 p-5 my-8 mx-auto border-t-4 border-blue-500 rounded-2xl text-center relative backdrop-blur-lg">
-                <img
-                  src="team-placeholder.png"
-                  alt="Team Placeholder"
-                  className="absolute -top-20 left-1/2 -translate-x-1/2 w-40 h-40 rounded-full object-cover border-4 border-white shadow-md"
-                />
-
-                <div className="mt-20">
-                  <a
-                    href="mailto:jobs@learngraph.org"
-                    className="inline-flex items-center justify-center"
-                  >
-                    <Handshake className="text-white scale-170 hover:scale-300" />
-                  </a>
-                  <p className="text-white italic mt-4 text-justify">
-                    <Trans
-                      i18nKey="about.team-placeholder-description"
-                      components={{
-                        discord: (
-                          <a
-                            href="https://discord.gg/DatEV4kNp6"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="underline"
-                          />
-                        ),
-                        email: (
-                          <a
-                            href="mailto:jobs@learngraph.org"
-                            className="underline"
-                          />
-                        ),
-                      }}
-                    />
-                  </p>
-                </div>
-              </div>
-            </section>
+            <TeamSection />
+            <JoinUsSection />
           </main>
         }
       />
     </div>
+  );
+};
+
+const JoinUsSection = () => {
+  const { t } = useTranslation();
+  return (
+    <section className="flex flex-col items-center my-16 px-4">
+      <SectionHeader>
+        <h2
+          className="text-3xl font-bold text-white text-center"
+          id="travelgroup"
+        >
+          {t("about.headline-travel-group")}
+        </h2>
+      </SectionHeader>
+
+      <div className="max-w-[550px] bg-gradient-to-b from-gray-300/40 to-gray-400/30 p-5 my-8 mx-auto border-t-4 border-blue-500 rounded-2xl text-center relative backdrop-blur-lg">
+        <img
+          src="team-placeholder.png"
+          alt="Team Placeholder"
+          className="absolute -top-20 left-1/2 -translate-x-1/2 w-40 h-40 rounded-full object-cover border-4 border-white shadow-md"
+        />
+
+        <div className="mt-20">
+          <a
+            href="mailto:jobs@learngraph.org"
+            className="inline-flex items-center justify-center"
+          >
+            <Handshake className="text-white scale-170 hover:scale-300" />
+          </a>
+          <p className="text-white italic mt-4 text-justify">
+            <Trans
+              i18nKey="about.team-placeholder-description"
+              components={{
+                discord: (
+                  <a
+                    href="https://discord.gg/DatEV4kNp6"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline"
+                  />
+                ),
+                email: (
+                  <a href="mailto:jobs@learngraph.org" className="underline" />
+                ),
+              }}
+            />
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const TeamSection = () => {
+  const { t } = useTranslation();
+  return (
+    <section className="flex flex-col items-center px-4">
+      <SectionHeader>
+        <h2
+          className="text-3xl font-bold text-white text-center"
+          id="travelgroup"
+        >
+          {t("about.Our-Team")}
+        </h2>
+        <p className="text-white text-center font-semibold">
+          {t("about.Our-Team-text")}
+        </p>
+      </SectionHeader>
+
+      <TeamSlider />
+    </section>
   );
 };
