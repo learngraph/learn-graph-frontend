@@ -41,6 +41,11 @@ const languageDict: { [language: string]: LanguageDictEntry } = {
     displayIcon: "🇹🇼",
     localeString: "zhTW",
   },
+  ar: {
+    displayText: "العربية",
+    displayIcon: "🇦🇪",
+    localeString: "arAR",
+  },
 };
 
 export default function LocaleManager() {
