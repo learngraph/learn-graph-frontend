@@ -127,10 +127,10 @@ def main():
     i18n_file = os.path.join(path, "i18n.json")
 
     languages: List[Tuple[str, Dict[str, str]]] = [
-        ("de", {"name": "German", "path": f"{path}/i18n/German.json"}),
-        ("zh", {"name": "Chinese Traditional", "path": f"{path}/i18n/Chinese Traditional.json"}),
-        ("es", {"name": "Spanish", "path": f"{path}/i18n/Spanish.json"}),
-        ("it", {"name": "Italian", "path": f"{path}/i18n/Italian.json"}),
+        #("de", {"name": "German", "path": f"{path}/i18n/German.json"}),
+        #("zh", {"name": "Chinese Traditional", "path": f"{path}/i18n/Chinese Traditional.json"}),
+        #("es", {"name": "Spanish", "path": f"{path}/i18n/Spanish.json"}),
+        #("it", {"name": "Italian", "path": f"{path}/i18n/Italian.json"}),
         ("ar", {"name": "Arabic", "path": f"{path}/i18n/Arabic.json"}),
     ]
 

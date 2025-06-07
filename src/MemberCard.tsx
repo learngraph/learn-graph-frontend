@@ -119,6 +119,15 @@ const TeamSlider = () => {
       linkedInUrl: "https://www.xing.com/profile/Ralf_Waldvogel3",
     },
     {
+      imageSrc: "team-malin.jpeg",
+      name: "Malin Rebke",
+      description: t("about.team-Malin"),
+      email: "malin.rebke@gmail.com",
+      phoneNumber: "",
+      quote: t("about.quote-Malin"),
+      linkedInUrl: "https://www.linkedin.com/in/malinrebke",
+    },
+    {
       imageSrc: "team-nawa.png",
       name: "Nawa Sakanga",
       description: t("about.team-Nawa"),
