@@ -136,6 +136,15 @@ const TeamSlider = () => {
       quote: t("about.quote-Nawa"),
       linkedInUrl: "https://www.linkedin.com/in/nawa-sakanga-98374a58/",
     },
+    {
+      imageSrc: "team-joyce.png",
+      name: "Joyce Chen",
+      description: t("about.team-Joyce"),
+      email: "seed0503@ssseed.org",
+      phoneNumber: "",
+      quote: t("about.quote-Joyce"),
+      linkedInUrl: "https://www.ssseed.org/blank-1",
+    },
   ];
 
   return (

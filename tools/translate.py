@@ -1,11 +1,12 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import os
 import json
 import re
 import sys
 import time
 import logging
-from typing import Dict, Any, List, Tuple
+import subprocess
+from typing import Dict, Any, List, Tuple, Optional
 from google import genai
 
 # Custom exception for JSON parsing failures after retries
@@ -90,22 +91,82 @@ def split_keys_by_size(data: Dict[str, Any], num_bins: int) -> List[List[str]]:
 
     return chunks
 
+# ----------------------- Git-diff helpers -----------------------
+
+def load_json_at_revision(file_path: str, revision: str = "HEAD~1") -> Dict[str, Any]:
+    """Return the JSON dict for `file_path` at the given git `revision`.
+    If the git command fails (e.g. first commit) an empty dict is returned so the caller
+    can fall back to translating the entire file.
+    """
+    try:
+        # Git paths are repository-relative and must not include leading "./"
+        repo_path = os.path.normpath(file_path).lstrip("./")
+        output = subprocess.check_output(["git", "show", f"{revision}:{repo_path}"], stderr=subprocess.STDOUT)
+        return json.loads(output.decode("utf-8"))
+    except Exception as e:
+        logger.warning(f"Unable to load previous JSON from git ({revision}). {e}")
+        return {}
+
+
+def diff_keys(current: Dict[str, Any], previous: Dict[str, Any]) -> List[str]:
+    """Return a list of keys whose values are new or changed compared with `previous`."""
+    return [k for k, v in current.items() if previous.get(k) != v]
+
 # Process translation for one language using size-based chunks
 def translate_language(
-    source: Dict[str, Any], language: str, output_path: str,
-    client: Any, num_bins: int
+    source: Dict[str, Any],
+    language: str,
+    output_path: str,
+    client: Any,
+    num_bins: int,
+    keys_to_translate: Optional[List[str]] = None,
 ) -> None:
-    combined: Dict[str, Any] = {}
-    chunks = split_keys_by_size(source, num_bins)
+    """Translate only `keys_to_translate` (plus any keys missing in the target file).
+
+    Existing translations are preserved so we do not re-translate unchanged content.
+    """
+
+    # Load existing translations if they already exist on disk
+    if os.path.exists(output_path):
+        try:
+            with open(output_path, "r", encoding="utf-8") as f:
+                combined: Dict[str, Any] = json.load(f)
+        except Exception:
+            combined = {}
+    else:
+        combined = {}
+
+    # Determine which keys should be translated this run
+    if keys_to_translate is None:
+        keys_to_translate = list(source.keys())
+
+    missing_in_target = [k for k in source if k not in combined]
+    keys_needed = list(set(keys_to_translate) | set(missing_in_target))
+
+    if not keys_needed:
+        logger.info(f"No changes detected for {language}, skipping translation.")
+        return
+
+    subset_data = {k: source[k] for k in keys_needed}
+
+    chunks = split_keys_by_size(subset_data, num_bins)
     if len(chunks) > 1:
-        logger.info(f"Translating in {len(chunks)} size-based bins (target {num_bins})")
+        logger.info(
+            f"Translating {language} in {len(chunks)} size-based bins (target {num_bins})"
+        )
 
     for idx, key_list in enumerate(chunks, 1):
-        chunk_data = {k: source[k] for k in key_list}
+        chunk_data = {k: subset_data[k] for k in key_list}
         translated = translate_chunk(chunk_data, language, client, idx)
         combined.update(translated)
         if len(chunks) > 1:
             logger.info(f"Completed bin {idx}/{len(chunks)} for {language}")
+
+    # Remove any keys that no longer exist in the source
+    combined = {k: v for k, v in combined.items() if k in source}
+
+    # Ensure the output directory exists
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
     tmp_file = output_path + ".tmp"
     with open(tmp_file, "w", encoding="utf-8") as f:
@@ -127,10 +188,10 @@ def main():
     i18n_file = os.path.join(path, "i18n.json")
 
     languages: List[Tuple[str, Dict[str, str]]] = [
-        #("de", {"name": "German", "path": f"{path}/i18n/German.json"}),
-        #("zh", {"name": "Chinese Traditional", "path": f"{path}/i18n/Chinese Traditional.json"}),
-        #("es", {"name": "Spanish", "path": f"{path}/i18n/Spanish.json"}),
-        #("it", {"name": "Italian", "path": f"{path}/i18n/Italian.json"}),
+        ("de", {"name": "German", "path": f"{path}/i18n/German.json"}),
+        ("zh", {"name": "Chinese Traditional", "path": f"{path}/i18n/Chinese Traditional.json"}),
+        ("es", {"name": "Spanish", "path": f"{path}/i18n/Spanish.json"}),
+        ("it", {"name": "Italian", "path": f"{path}/i18n/Italian.json"}),
         ("ar", {"name": "Arabic", "path": f"{path}/i18n/Arabic.json"}),
     ]
 
@@ -141,11 +202,21 @@ def main():
         logger.error(f"Failed to read source JSON: {e}")
         sys.exit(1)
 
+    # Identify changed keys since the previous commit (or translate all if unavailable)
+    previous_data = load_json_at_revision(i18n_file, "HEAD~1")
+    changed_keys = diff_keys(source_data, previous_data)
+    logger.info(f"Detected {len(changed_keys)} changed keys in source JSON.")
+
     for code, info in languages:
         try:
             logger.info(f"Starting translation to {info['name']}")
             translate_language(
-                source_data, info['name'], info['path'], client, num_bins
+                source_data,
+                info['name'],
+                info['path'],
+                client,
+                num_bins,
+                changed_keys,
             )
         except JSONTranslationError as e:
             logger.error(e)
