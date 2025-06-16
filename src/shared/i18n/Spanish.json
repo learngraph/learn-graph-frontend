@@ -26,11 +26,11 @@
   },
   "about": {
     "Storyh": "¿Cómo empezó todo?",
-    "Storyp": "Después de vivir en un templo budista, Laurin regresó sin una agenda, solo con presencia. Escuchó. Un día, un amigo dijo: \"¿No sería genial que el aprendizaje funcionara como Google Maps?\" La idea se quedó en el espacio entre ellos, esperando. Laurin la recogió. Pronto, otros se unieron. Así es como LearnGraph comenzó silenciosamente.",
+    "Storyp": "Después de vivir en un templo budista, Laurin regresó sin una agenda, solo con presencia. Escuchó. Un día, un amigo dijo: “¿No sería genial que el aprendizaje funcionara como Google Maps?” La idea se quedó en el espacio entre ellos, esperando. Laurin la retomó. Pronto, otros se unieron. Así comenzó LearnGraph silenciosamente.",
     "Our-Team": "El Equipo",
     "Our-Team-text": "No solo estamos construyendo una plataforma, estamos viviendo la práctica.",
     "team-Laurin": "CEO",
-    "team-Nawa": "Gerente de Asociaciones: África",
+    "team-Nawa": "Gerente de Asociaciones África",
     "team-Efecan": "Director de Estrategia e Innovación Educativa",
     "team-Talal": "Ingeniero de Desarrollo",
     "team-Jamileh": "Especialista en Aprendizaje Automático",
@@ -38,32 +38,34 @@
     "team-Arsham": "Asesor de Capital y Cultura",
     "team-Ralf": "Ingeniero de Producto de Software",
     "team-Malin": "Líder de Diseño de Servicios y UX",
+    "team-Joyce": "Líder de Ciencias Sociales de Taiwán",
     "quote-Laurin": "Las mejores ideas provienen de la quietud. LearnGraph no fue construido para interrumpir, fue construido para escuchar, para guiar y para crecer con aquellos que están listos para escuchar.",
     "quote-Nawa": "El mundo es un lugar realmente grande y hay personas que han sido privilegiadas con recursos, es el deber de esas personas ayudar a las que no los tienen",
-    "quote-Efecan": "La educación no se trata de llenar un vaso, sino de encender una llama, y ​​tengo la intención de incendiar todo el sistema.",
-    "quote-Talal": "Da miedo ahí fuera, pero nunca estuvimos destinados a estar solos. Lo importante no es lo que yo puedo hacer por mí, es lo que todos podemos hacer por la raza humana.",
-    "quote-Jamileh": "He visto lo que significa cuando se niega la educación, cuando se rechaza a mentes brillantes por su origen o por quienes son. LearnGraph devuelve esa dignidad. Si tienes la habilidad, mereces el reconocimiento. Sin fronteras. Sin excepciones.",
+    "quote-Efecan": "La educación no se trata de llenar un recipiente, sino de encender una llama, y ​​tengo la intención de incendiar todo el sistema.",
+    "quote-Talal": "Da miedo ahí afuera, pero nunca fuimos destinados a estar solos. Lo importante no es lo que puedo hacer por mí, es lo que todos pueden hacer por la raza humana",
+    "quote-Jamileh": "He visto lo que significa cuando se niega la educación, cuando mentes brillantes son rechazadas por su origen o por quiénes son. LearnGraph devuelve esa dignidad. Si tienes la habilidad, mereces el reconocimiento. Sin fronteras. Sin excepciones.",
     "quote-Jamal": "En todo el mundo árabe y más allá, la gente sueña con un nuevo tipo de educación: una que empodere, eleve y transforme. En LearnGraph, estoy aquí para ayudar a convertir esa visión en realidad.",
-    "quote-Arsham": "Me apasionan las oportunidades iguales para todos, independientemente de sus antecedentes, circunstancias o neurodiversidad. Durante demasiado tiempo, las barreras sistémicas han frenado a la gente. Con Learngraph, creo sinceramente que estamos dando un paso significativo para cambiar eso.",
+    "quote-Arsham": "Me apasionan las oportunidades equitativas para todos, independientemente de sus antecedentes, circunstancias o neurodiversidad. Durante demasiado tiempo, las barreras sistémicas han frenado a las personas. Con Learngraph, realmente creo que estamos dando un paso significativo para cambiar eso.",
     "quote-Ralf": "Estoy aquí porque el desafío de la ingeniería es real. Estamos construyendo algo que no se ha construido antes, y hacerlo bien requiere concentración: en la usabilidad, en la fiabilidad y en las personas que lo utilizan. Mi trabajo es asegurarme de que el producto no solo funcione, sino que funcione bien, siempre. Eso es lo que importa.",
-    "quote-Malin": "La educación, como cualquier sistema vivo, necesita cuidado, contexto y evolución constante. En LearnGraph, estoy aquí para entrelazar esa visión sistémica en cómo construimos, diseñando con, no solo para, las personas a las que servimos. Cuando co-creamos desde un lugar de profundidad e inclusión, el aprendizaje se vuelve no solo escalable, sino verdaderamente regenerativo.",
+    "quote-Malin": "La educación, como cualquier sistema vivo, necesita cuidado, contexto y evolución constante. En LearnGraph, estoy aquí para entretejer esa visión sistémica en cómo construimos: diseñando con, no solo para, las personas a las que servimos. Cuando co-creamos desde un lugar de profundidad e inclusión, el aprendizaje se vuelve no solo escalable, sino verdaderamente regenerativo.",
+    "quote-Joyce": "Ver la vida como el viaje a través de paisajes caleidoscópicos que siguen sumergiéndose en lo desconocido, y el learngraph podría ser el registro de estos ۹(๑•̀ω•́ ๑)۶",
     "headline-travel-group": "¿Adónde te lleva tu viaje?",
-    "team-placeholder-description": "Siempre estamos buscando mentes curiosas que se unan a nosotros. Ya sea que codifiques, te preocupes por el aprendizaje o simplemente tengas una idea descabellada, ven a saludar. <discord>Únete a nuestro Discord</discord>, o envíanos un mensaje a <email>jobs@learngraph.org</email>!",
+    "team-placeholder-description": "Siempre estamos buscando mentes curiosas que se unan a nosotros. Ya sea que codifiques, te preocupe el aprendizaje o simplemente tengas una idea descabellada, ven a saludarnos. <discord>Únete a nuestro Discord</discord>, o envíanos un mensaje a <email>jobs@learngraph.org</email>!",
     "longTermVision": {
       "header": "🌱 Hacia dónde nos dirigimos",
       "vision1": {
-        "title": "Un Ecosistema Educativo Autosostenible:",
-        "description": "LearnGraph quiere convertirse en una red educativa global autoevolutiva, actualizando dinámicamente el conocimiento, los caminos y las habilidades a medida que el mundo cambia."
+        "title": "Un ecosistema educativo autosostenible:",
+        "description": "LearnGraph quiere convertirse en una red educativa global autoevolutiva, que actualice dinámicamente el conocimiento, los caminos y las habilidades a medida que el mundo cambia."
       },
       "vision2": {
-        "title": "Accesibilidad Global:",
-        "description": "Con un enfoque móvil, capacidad sin conexión y tecnología de código abierto, LearnGraph asegura un alcance global, especialmente en áreas desatendidas."
+        "title": "Accesibilidad global:",
+        "description": "Con un enfoque móvil primero, capacidad sin conexión y tecnología de código abierto, LearnGraph garantiza un alcance global, especialmente en áreas desatendidas."
       },
       "vision3": {
-        "title": "Catalizador para la Reforma de la Política Educativa:",
+        "title": "Catalizador para la reforma de la política educativa:",
         "description": "Al generar información basada en datos sobre las rutas de aprendizaje y las carencias de habilidades, LearnGraph podría influir en las políticas educativas nacionales e internacionales."
       },
-      "quote": "\"Queremos que se convierta en ese sistema educativo global conectado profundamente con la sostenibilidad y con las realidades sociales de las personas en todas partes. Ese es el ecosistema en el que quiero que se convierta.\""
+      "quote": "“Queremos que se convierta en ese sistema educativo global conectado profundamente con la sostenibilidad y con las realidades sociales de las personas en todas partes. Ese es el ecosistema en el que quiero que se convierta.”"
     }
   },
   "choices": {
