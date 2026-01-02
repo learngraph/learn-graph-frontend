@@ -2,7 +2,6 @@
   "name": "learn-graph-frontend-vite",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
   "scripts": {
     "dev": "vite",
     "devPublic": "vite --host",
@@ -24,7 +23,6 @@
     "@lexical/react": "^0.13.1",
     "@mui/icons-material": "^5.16.13",
     "@mui/material": "^5.15.10",
-    "@tailwindcss/vite": "^4.1.0",
     "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/react": "^14.2.1",
     "@testing-library/user-event": "^14.5.2",
@@ -35,6 +33,7 @@
     "@types/react-dom": "^18.2.19",
     "@vitejs/plugin-react": "^4.2.1",
     "cross-fetch": "^4.0.0",
+    "framer-motion": "^12.23.26",
     "i18next": "^23.8.2",
     "identity-obj-proxy": "^3.0.0",
     "jest-environment-jsdom": "^29.7.0",
@@ -48,22 +47,23 @@
     "react-i18next": "^14.0.5",
     "react-icons": "^5.4.0",
     "react-router-dom": "^6.22.0",
-    "tailwindcss": "^4.0.17",
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3",
     "vite": ">=5.1.7",
-    "vite-plugin-sitemap": "^0.7.1",
     "vitest": "^3.0.9",
     "web-vitals": "^3.5.2"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
+    "autoprefixer": "^10.4.23",
     "eslint": "^8.56.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
-    "prettier": "^3.2.5"
+    "postcss": "^8.5.6",
+    "prettier": "^3.2.5",
+    "tailwindcss": "^3.4.19"
   },
   "proxy": "http://backend:8080"
 }
