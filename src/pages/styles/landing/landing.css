@@ -1,33 +1,11 @@
 /* =========================
-   THEME VARIABLES
-   ========================= */
-
-:root {
-  --color-section-bg: #0b0b0b;
-
-  --color-text-primary: #eaeaea;
-  --color-text-muted: #a9a9a9;
-
-  --color-tile-hover: rgba(255, 255, 255, 0.04);
-  --color-tile-border: rgba(255, 255, 255, 0.18);
-
-  --color-accent: #c6ff3d;
-  --color-accent-hover: #b6ef2f;
-  --color-text-invert: #000;
-
-  --radius-card: 16px;
-  --nav-height: 72px;
-}
-
-
-/* =========================
    LANDING BASE
    ========================= */
 
 .landing {
   position: relative;
   background: #0b0b0b;
-  color: var(--color-text-primary);
+  color: #eaeaea;
 }
 
 
@@ -41,7 +19,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  scroll-margin-top: var(--nav-height);
+  scroll-margin-top: 72px;
 }
 
 
@@ -55,26 +33,19 @@
 
 #signals { background: #0e0e0e; }
 #concepts { background: #0b0b0b; }
+#entry { background: #0b0b0b; }
 #interruption { background: #090909; }
 #team { background: #0c0c0c; }
-#entry { background: #0b0b0b; }
 
 
 /* =========================
-   TILES SECTION FIX
+   TILES
    ========================= */
 
 #tiles {
   min-height: auto;
   align-items: flex-start;
-  position: relative;
-  z-index: 1;
 }
-
-
-/* =========================
-   TILE BASE
-   ========================= */
 
 .tile-base {
   background:
@@ -84,7 +55,7 @@
       rgba(0,0,0,0.25)
     );
   border: 1px solid rgba(255,255,255,0.22);
-  border-radius: var(--radius-card);
+  border-radius: 16px;
   box-shadow:
     0 10px 30px rgba(0,0,0,0.55),
     inset 0 1px 0 rgba(255,255,255,0.05);
@@ -106,83 +77,24 @@
 
 
 /* =========================
-   LANDING AMBIENT LIGHT
-   ========================= */
-
-.landing::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(
-      50% 30% at 50% 0%,
-      rgba(198, 255, 61, 0.06),
-      transparent 65%
-    );
-  z-index: 0;
-}
-
-.landing::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    linear-gradient(
-      to bottom,
-      rgba(198, 255, 61, 0.06) 0%,
-      rgba(0, 0, 0, 0.0) 35%
-    );
-  z-index: 0;
-}
-
-
-/* =========================
-   STATS BAR
-   ========================= */
-
-.stats-bar {
-  background:
-    linear-gradient(
-      to bottom,
-      rgba(198,255,61,0.08),
-      rgba(0,0,0,0.0) 60%
-    );
-}
-
-.stats-value {
-  text-shadow: 0 0 12px rgba(198,255,61,0.35);
-}
-
-
-/* =========================================================
    HERO — DIGITAL MYCELIUM
-   ========================================================= */
+   ========================= */
 
 .hero-mycelium {
   position: relative;
   min-height: 100vh;
-
-  /* PLAYGROUND — keep both */
-  background: #000789;   /* let's play around */
-  /* background: #050505;   */
-
+  background: #000789;
   overflow: hidden;
   display: grid;
   place-items: center;
   color: #ffffff;
 }
 
-
-/* Canvas layer */
-
 .hero-mycelium canvas {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  z-index: 0;
   opacity: 0.75;
 }
 
@@ -193,7 +105,6 @@
 
 .hero-copy {
   position: relative;
-  z-index: 2;
   max-width: 860px;
   padding: 2rem;
   text-align: center;
@@ -209,15 +120,11 @@
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-
   font-size: clamp(2.8rem, 6vw, 5rem);
   letter-spacing: 0.45em;
   text-transform: uppercase;
   font-weight: 700;
-
   color: rgba(255,255,255,0.08);
-
-  z-index: 0;
   pointer-events: none;
 }
 
@@ -254,7 +161,7 @@
 
 
 /* =========================
-   CTA — 2025 BUTTON
+   CTA
    ========================= */
 
 .hero-copy button {
@@ -278,7 +185,7 @@
 
 
 /* =========================
-   SOFT VIGNETTE
+   VIGNETTE
    ========================= */
 
 .hero-mycelium::after {
@@ -289,8 +196,7 @@
   background:
     radial-gradient(
       120% 80% at 50% 50%,
-      rgba(0,0,0,0.0),
+      rgba(0,0,0,0),
       rgba(0,0,0,0.55)
     );
-  z-index: 1;
 }

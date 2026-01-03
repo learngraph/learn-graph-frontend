@@ -1,0 +1,110 @@
+{
+
+    "landing": {
+
+    "TileContentProject": {
+      "forge": {
+        "title": "Forja tu propio camino",
+        "intro": "LearnGraph te ayuda a crear un mapa personal de aprendizaje — dónde estás, a dónde vas y cómo llegar.",
+        "points": {
+          "generic": {
+            "label": "Demasiado genérico",
+            "desc": "LearnGraph se adapta a tus metas, ritmo y curiosidad."
+          },
+          "overload": {
+            "label": "Sobrecarga de información",
+            "desc": "La claridad reemplaza el caos con rutas significativas."
+          },
+          "alone": {
+            "label": "Aprendizaje en solitario",
+            "desc": "El acompañamiento y mentoría te mantienen motivado."
+          },
+          "relevance": {
+            "label": "Relevancia real",
+            "desc": "Aprendes haciendo — proyectos, retroalimentación y progreso auténtico."
+          }
+        },
+        "closing": "Tu camino de aprendizaje se convierte en un mapa vivo que crece con tu curiosidad, impulsado por personas reales."
+      },
+      "institutions": {
+        "title": "Sistemas que aprenden",
+        "intro": "Cuando las instituciones aprenden como sus alumnos, la educación vuelve a cobrar vida.",
+        "points": {
+          "awareness": {
+            "label": "Conciencia",
+            "desc": "Reconocer los patrones invisibles que moldean el aprendizaje."
+          },
+          "adaptation": {
+            "label": "Adaptación",
+            "desc": "Permitir que los sistemas evolucionen con sus comunidades."
+          },
+          "empathy": {
+            "label": "Empatía",
+            "desc": "Diseñar no por eficiencia, sino por crecimiento y equilibrio."
+          }
+        },
+        "closing": "LearnGraph no es solo software — es una práctica de conciencia y evolución compartida."
+      },
+      "mission": {
+        "title": "Código abierto, misión primero, con impacto",
+        "intro": "No perseguimos ganancias — perseguimos propósito. Cada línea de código y colaboración contribuye a una visión mayor.",
+        "points": {
+          "sustainability": {
+            "label": "Sostenibilidad impulsada por el producto",
+            "desc": "SaaS para instituciones, gratuito para individuos; las ganancias se reinvierten en proyectos de impacto."
+          },
+          "access": {
+            "label": "Acceso abierto para todos",
+            "desc": "Sin inicios de sesión, sin anuncios, sin muros de pago — código libre para educadores y comunidades."
+          },
+          "alignment": {
+            "label": "Alineación de marcos globales",
+            "desc": "Inspirado en las visiones de UNESCO y UNDP para un aprendizaje autónomo e integral."
+          }
+        },
+        "closing": "LearnGraph construye infraestructura para la intención global — conectando curiosidad, cuidado e inteligencia colectiva."
+      },
+      "upskill": {
+        "title": "Habilidades reales y resultados reales",
+        "intro": "LearnGraph une la consultoría con el aprendizaje escalable — personalización, medición e impacto real.",
+        "points": {
+          "smarter": {
+            "label": "Aprendizaje inteligente",
+            "desc": "Convierte los datos en orientación y aplicación más rápida."
+          },
+          "collaborative": {
+            "label": "Crecimiento colaborativo",
+            "desc": "Conecta a los alumnos mediante retos y mentoría en tiempo real."
+          },
+          "transfer": {
+            "label": "Transferencia de habilidades",
+            "desc": "El aprendizaje se traduce en práctica y resultados medibles."
+          },
+          "impact": {
+            "label": "Impacto medible",
+            "desc": "Cada paso contribuye al rendimiento y metas del equipo."
+          }
+        },
+        "closing": "Aprende a tu propio ritmo. Construye hábitos duraderos. El aprendizaje se convierte en cultura."
+      }
+    }
+  },
+
+
+
+ 
+
+  "cookie": {
+    "consentLabel": "Consentimiento de cookies",
+    "description1": "Usamos cookies y tecnologías similares para funciones esenciales (por ejemplo, autenticación) y, con tu permiso, para análisis.",
+    "description2": "Las cookies estrictamente necesarias siempre están activas. Puedes aceptar o rechazar las opcionales.",
+    "settings": "Configuración",
+    "rejectAll": "Rechazar todas",
+    "acceptAll": "Aceptar todas",
+    "privacySettings": "Configuración de privacidad",
+    "strictlyNecessaryTitle": "Estrictamente necesarias",
+    "strictlyNecessaryDesc": "Requeridas para un inicio de sesión seguro (Keycloak). Siempre activas.",
+    "analyticsTitle": "Analítica (PostHog)",
+    "analyticsDesc": "Nos ayuda a entender el uso y mejorar el producto. Opcional."
+  }
+}

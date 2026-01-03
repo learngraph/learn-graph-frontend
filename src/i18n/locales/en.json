@@ -1,0 +1,136 @@
+{
+
+  "nav": {
+
+  },
+
+  "landing": {
+
+
+    "TileSection": {
+      "tiles": {
+        "institutions": {
+          "title": "Empower with LearnGraph",
+          "text": "Transform educational ecosystems through openness and collective insight"
+        },
+        "forge": {
+          "title": "Forge Your Own Journey",
+          "text": "No one-size-fits-all learning. LearnGraph adapts to you — your goals, your pace, your way"
+        },
+        "upskill": {
+          "title": "Upskill with Precision",
+          "text": "Every new skill is a step toward mastery. LearnGraph turns progress into a guided journey"
+        },
+        "mission": {
+          "title": "Open-Source, Mission-First",
+          "text": "We chase purpose. Every contribution fuels impact projects and keeps learning free for all"
+        }
+      }
+    },
+    "TileContentProject": {
+      "forge": {
+        "title": "Forge Your Own Journey",
+        "intro": "LearnGraph helps you chart a personal map of learning — where you are, where you're going, and how to get there. No one-size-fits-all courses, no blind progress bars. Just your path, your pace, and real guidance along the way.",
+        "points": {
+          "generic": {
+            "label": "Too Generic",
+            "desc": "Most platforms treat everyone the same. LearnGraph adapts to your goals, pace, and curiosity."
+          },
+          "overload": {
+            "label": "Information Overload",
+            "desc": "Clarity replaces chaos with curated, meaningful paths."
+          },
+          "alone": {
+            "label": "Learning Alone",
+            "desc": "Built-in mentorship and peer support keep you connected and motivated."
+          },
+          "relevance": {
+            "label": "Real-World Relevance",
+            "desc": "You learn by doing — projects, feedback, and growth that actually stick."
+          }
+        },
+        "closing": "With LearnGraph, your learning path becomes a living map — one that grows with your curiosity, powered by real insights and real people."
+      },
+      "institutions": {
+        "title": "Systems that Learn",
+        "intro": "When institutions begin to learn as their learners do, education becomes alive again. Data stops being static — it breathes, it guides, it adapts.",
+        "points": {
+          "awareness": {
+            "label": "Awareness",
+            "desc": "Recognizing the invisible patterns that shape learning."
+          },
+          "adaptation": {
+            "label": "Adaptation",
+            "desc": "Allowing systems to evolve with their communities."
+          },
+          "empathy": {
+            "label": "Empathy",
+            "desc": "Designing not for efficiency, but for growth and balance."
+          }
+        },
+        "closing": "LearnGraph isn’t just software. It’s a practice of awareness — of seeing, understanding, and consciously evolving alongside the learners it serves."
+      },
+      "mission": {
+        "title": "Open-Source, Mission-First, Impact-Obsessed",
+        "intro": "We don’t chase profit — we chase purpose. Every line of code, every dataset, and every collaboration feeds into a larger vision: accessible education, planetary resilience, and shared human progress.",
+        "points": {
+          "sustainability": {
+            "label": "Product-Powered Sustainability",
+            "desc": "SaaS for institutions, free for individuals; all profits reinvested into impact projects."
+          },
+          "access": {
+            "label": "Open Access for All",
+            "desc": "No logins, no ads, no paywalls. Free, production-grade code for communities and educators worldwide."
+          },
+          "alignment": {
+            "label": "Global Framework Alignment",
+            "desc": "Inspired by UNESCO and UNDP visions for self-governed, whole-person learning ecosystems."
+          }
+        },
+        "closing": "LearnGraph builds infrastructure for global intention — connecting curiosity, care, and collective intelligence into a regenerative network of learning hubs worldwide."
+      },
+      "upskill": {
+        "title": "Real Skills & Real Results at Scale",
+        "intro": "LearnGraph bridges the gap between consulting and scalable learning — blending personalization, measurable performance, and real-world transfer.",
+        "points": {
+          "smarter": {
+            "label": "Smarter Learning",
+            "desc": "Turns data into guidance and helps people apply what they learn faster."
+          },
+          "collaborative": {
+            "label": "Collaborative Growth",
+            "desc": "Connects learners through peer challenges and real-time mentorship."
+          },
+          "transfer": {
+            "label": "Skill Transfer",
+            "desc": "Learning moves seamlessly into daily work, measurable through outcomes."
+          },
+          "impact": {
+            "label": "ROI-Driven Impact",
+            "desc": "Every learning step contributes to team performance and business goals."
+          }
+        },
+        "closing": "Upskill at your own pace. Build habits that last. With LearnGraph, training becomes an evolving ecosystem — not a course, but a culture."
+      }
+    }
+  },
+
+
+
+
+  
+
+  "cookie": {
+    "consentLabel": "Cookie consent",
+    "description1": "We use cookies and similar technologies to operate essential site functions (e.g., authentication) and, with your permission, to enable analytics.",
+    "description2": "Strictly necessary cookies are always on. You can accept or reject non-essential cookies, or review settings.",
+    "settings": "Settings",
+    "rejectAll": "Reject All",
+    "acceptAll": "Accept All",
+    "privacySettings": "Privacy Settings",
+    "strictlyNecessaryTitle": "Strictly Necessary",
+    "strictlyNecessaryDesc": "Required to provide the service, like secure login (Keycloak). Always active.",
+    "analyticsTitle": "Analytics (PostHog)",
+    "analyticsDesc": "Helps us understand usage and improve the product. Optional."
+  }
+}

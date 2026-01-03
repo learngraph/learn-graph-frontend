@@ -2,3 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Theme tokens */
+@import "./styles/theme.css";
+
+/* Global base — neutral, non-invasive */
+html,
+body {
+  background-color: var(--bg-root);
+  color: var(--text-primary);
+}

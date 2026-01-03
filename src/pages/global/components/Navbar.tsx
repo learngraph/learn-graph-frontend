@@ -1,5 +1,6 @@
-import "../../styles/navbar/Navbar.css";
-
+import "../../styles/navbar/navbar.css";
+import "../../styles/languageswitcher/languageswitcher.css";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 export function Navbar() {
   return (
@@ -18,7 +19,11 @@ export function Navbar() {
       </ul>
 
       <div className="nav-right">
+        
         <button className="nav-cta">Launch App</button>
+        <div className="lang-switcher">
+        <LanguageSwitcher />
+      </div>
       </div>
     </nav>
   );

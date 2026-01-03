@@ -1,0 +1,135 @@
+{
+
+
+  "nav": {
+
+  },
+
+  "landing": {
+
+    "TileSection": {
+      "tiles": {
+        "institutions": {
+          "title": "Stärke mit LearnGraph",
+          "text": "Verwandle Bildungssysteme durch Offenheit und gemeinsames Wissen."
+        },
+        "forge": {
+          "title": "Schmiede deinen eigenen Weg",
+          "text": "Kein Einheitsmodell. LearnGraph passt sich deinen Zielen, deinem Tempo und deinem Stil an."
+        },
+        "upskill": {
+          "title": "Gezielte Weiterentwicklung",
+          "text": "Jede neue Fähigkeit ist ein Schritt zur Meisterschaft – LearnGraph führt dich auf deinem Weg."
+        },
+        "mission": {
+          "title": "Open Source. Zielorientiert.",
+          "text": "Wir jagen keinen Profit – wir verfolgen eine Mission. Jede Zeile Code zählt."
+        }
+      }
+    },
+
+
+    "TileContentProject": {
+      "forge": {
+        "title": "Schmiede deinen eigenen Weg",
+        "intro": "LearnGraph hilft dir, eine persönliche Lernkarte zu erstellen – wo du bist, wohin du gehst und wie du dorthin kommst.",
+        "points": {
+          "generic": {
+            "label": "Zu generisch",
+            "desc": "LearnGraph passt sich deinen Zielen, deinem Tempo und deiner Neugier an."
+          },
+          "overload": {
+            "label": "Informationsflut",
+            "desc": "Klarheit ersetzt Chaos durch kuratierte, sinnvolle Lernpfade."
+          },
+          "alone": {
+            "label": "Allein lernen",
+            "desc": "Mentoring und Peer-Support halten dich verbunden und motiviert."
+          },
+          "relevance": {
+            "label": "Praxisrelevanz",
+            "desc": "Du lernst durch Projekte, Feedback und echte Erfahrungen."
+          }
+        },
+        "closing": "Dein Lernpfad wird zu einer lebenden Karte – sie wächst mit deiner Neugier und wird von echten Erkenntnissen getragen."
+      },
+      "institutions": {
+        "title": "Systeme, die lernen",
+        "intro": "Wenn Institutionen lernen wie ihre Lernenden, wird Bildung wieder lebendig.",
+        "points": {
+          "awareness": {
+            "label": "Bewusstsein",
+            "desc": "Erkennen der unsichtbaren Muster, die Lernen formen."
+          },
+          "adaptation": {
+            "label": "Anpassung",
+            "desc": "Systeme entwickeln sich mit ihren Gemeinschaften weiter."
+          },
+          "empathy": {
+            "label": "Empathie",
+            "desc": "Gestalten für Wachstum und Balance statt für Effizienz."
+          }
+        },
+        "closing": "LearnGraph ist mehr als Software – es ist eine Praxis bewussten Lernens und gemeinsamen Wachstums."
+      },
+      "mission": {
+        "title": "Open Source, Zielorientiert, Impact-getrieben",
+        "intro": "Wir jagen keinen Profit – wir verfolgen Sinn. Jeder Datensatz und jede Kooperation dient einer größeren Vision.",
+        "points": {
+          "sustainability": {
+            "label": "Nachhaltigkeit durch Produkte",
+            "desc": "SaaS für Institutionen, kostenlos für Einzelpersonen – Gewinne fließen in Projekte zurück."
+          },
+          "access": {
+            "label": "Offener Zugang für alle",
+            "desc": "Keine Logins, keine Werbung, keine Paywalls – freier Code für Bildung weltweit."
+          },
+          "alignment": {
+            "label": "Globale Rahmenabstimmung",
+            "desc": "Inspiriert von UNESCO- und UNDP-Visionen für selbstbestimmtes Lernen."
+          }
+        },
+        "closing": "LearnGraph baut Infrastruktur für globale Absicht – verbindet Neugier, Fürsorge und kollektive Intelligenz."
+      },
+      "upskill": {
+        "title": "Reale Fähigkeiten, reale Ergebnisse",
+        "intro": "LearnGraph überbrückt die Lücke zwischen Beratung und skalierbarem Lernen – personalisiert und messbar.",
+        "points": {
+          "smarter": {
+            "label": "Intelligenteres Lernen",
+            "desc": "Daten werden zu Orientierung und beschleunigen Anwendung."
+          },
+          "collaborative": {
+            "label": "Gemeinsames Wachstum",
+            "desc": "Peer-Challenges und Mentoring fördern Zusammenarbeit."
+          },
+          "transfer": {
+            "label": "Kompetenztransfer",
+            "desc": "Lernen fließt direkt in die Praxis und messbare Ergebnisse ein."
+          },
+          "impact": {
+            "label": "Wirkungsorientierter Nutzen",
+            "desc": "Jeder Schritt stärkt Leistung und Teamziele."
+          }
+        },
+        "closing": "Lerne in deinem Tempo. Baue bleibende Gewohnheiten. Lernen wird zu Kultur."
+      }
+    }
+  },
+
+
+
+  "cookie": {
+    "consentLabel": "Cookie-Zustimmung",
+    "description1": "Wir verwenden Cookies und ähnliche Technologien für grundlegende Funktionen (z. B. Authentifizierung) und – mit deiner Zustimmung – für Analysen.",
+    "description2": "Unbedingt erforderliche Cookies sind immer aktiv. Du kannst optionale Cookies akzeptieren oder ablehnen.",
+    "settings": "Einstellungen",
+    "rejectAll": "Alle ablehnen",
+    "acceptAll": "Alle akzeptieren",
+    "privacySettings": "Datenschutzeinstellungen",
+    "strictlyNecessaryTitle": "Unbedingt erforderlich",
+    "strictlyNecessaryDesc": "Erforderlich für sichere Anmeldung (Keycloak). Immer aktiv.",
+    "analyticsTitle": "Analysen (PostHog)",
+    "analyticsDesc": "Hilft uns, Nutzung zu verstehen und das Produkt zu verbessern. Optional."
+  }
+}

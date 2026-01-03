@@ -1,5 +1,5 @@
-// import { useI18n } from "@/i18n/i18n";
-import { useI18n } from "../../../i18n/useI18nStub";
+import { useI18n } from "@/i18n/i18n";
+
 
 import TileCinematic from "../components/TileCinematic";
 import TileContentInstitutions from "../components/TileContent/TileContentInstitutions";

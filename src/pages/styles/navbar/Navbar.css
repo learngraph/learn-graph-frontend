@@ -119,6 +119,9 @@
 /* RIGHT CTA (you already nailed this) */
 .nav-right {
   justify-content: flex-end;
+  display: flex;
+  align-items: center;
+  gap: 12px; 
 }
 
 .nav-cta {

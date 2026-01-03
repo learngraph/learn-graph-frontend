@@ -1,6 +1,6 @@
 import { TrendingUp, Brain, Users, BarChart3 } from "lucide-react";
-// import { useI18n } from "@/i18n/i18n";
-import { useI18n } from "@/i18n/useI18nStub";
+import { useI18n } from "../../../../i18n/i18n";
+
 
 export default function TileContentUpskill() {
   const { t } = useI18n();

@@ -6,6 +6,7 @@
     "module": "esnext",
     "skipLibCheck": true,
     "allowJs": true,
+    
 
     /* Bundler mode */
     "esModuleInterop": true,
