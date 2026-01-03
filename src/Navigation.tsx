@@ -20,7 +20,7 @@ export const NavigationWithContent = ({
   // Define the solution links
   const SOLUTION_LINKS = [
     { label: t("Navigation.Universities"), path: "/university" },
-    { label: t("Navigation.Industry"), path: "/industry" },
+    { label: t("Navigation.Enterprise"), path: "/enterprise" },
     { label: t("Navigation.Individual"), path: "/individual" },
     //{ label: t("Navigation.Ecosystem"), path: "/ecosystem" },
     //{ label: t("Navigation.nations"), path: "/nations" },

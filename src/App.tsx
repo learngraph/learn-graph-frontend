@@ -1,16 +1,9 @@
-import { BrowserRouter, Routes, Route /*, useLocation */ } from "react-router-dom";
-// import { useEffect } from "react";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
-import { PostHogProvider } from "posthog-js/react";
-import { POSTHOG_API_KEY, POSTHOG_HOST } from "./constants";
-// import { UserDataContextProvider } from "./Context/UserDataContext";
-
-import Navbar from "./pages/global/components/Navbar";
-import Footer from "./pages/global/components/Footer";
 import LandingPage from "./pages/landing/landing";
-
-import "./pages/styles/navbar/Navbar.css";
-import "./pages/styles/footer/footer.css";
+import UniversityPage from "./pages/customerGroups/UniversityPage";
+import IndividualPage from "./pages/customerGroups/IndividualPage";
+import EnterprisePage from "./pages/customerGroups/EnterprisePage";
 
 /*
 // Enable later if/when multiple routes exist
@@ -25,7 +18,17 @@ const ScrollToTop = (): null => {
 
 
 export default function App() {
-  return <LandingPage />;
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/university" element={<UniversityPage />} />
+        <Route path="/individual" element={<IndividualPage />} />
+        <Route path="/enterprise" element={<EnterprisePage />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 

@@ -6,7 +6,7 @@ import {
   ChevronUp,
   ChevronDown,
 } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { useI18n } from "../i18n/useI18nStub";
 
 export interface HrefProps extends AnchorHTMLAttributes<HTMLAnchorElement> {}
 
@@ -97,11 +97,12 @@ export interface ChallengesSectionProps {
 export const ChallengesSection: FC<ChallengesSectionProps> = ({
   challengeBlocks,
 }): JSX.Element => {
+  const { t } = useI18n();
   return (
     <section className="py-12 bg-black/10 backdrop-blur-xs">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold text-center mb-8 text-blue-800">
-          Challenges
+          {t("shared.ChallengesSection.title")}
         </h2>
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           {challengeBlocks.map((block, index) => (
@@ -131,7 +132,7 @@ export interface InsightStatProps {
 
 export const InsightStat: FC<InsightStatProps> = ({ insight }): JSX.Element => {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
-  const { t } = useTranslation();
+  const { t } = useI18n();
 
   return (
     <div
