@@ -10,7 +10,7 @@ grep -o '"/[^"]*"' src/LearngraphOrgRoutes.tsx| sed -e 's,.*"/\([^"]*\)".*,\t"/\
 const sites = [
   "/university",
   "/nations",
-  "/industry",
+  "/enterprise",
   "/ecosystem",
   "/k-12",
   "/contact",
@@ -33,6 +33,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": "/src",
+      "@src": "/src",
     },
   },
   server: {

@@ -3,9 +3,9 @@ import LandingMyceliumPreview from "./components/LandingMyceliumPreview";
 import LandingSustainability from "./components/LandingSustainability";
 import TilesSection from "./components/TilesSection";
 import LandingWhyItBreaks from "./components/LandingWhyItBreaks";
-import StatsBar from "./components/StatsBar";
 import HeroMycelium from "./components/HeroMycelium";
 import { Navbar } from "../global/components/Navbar";
+import CustomerGroupSpotlightSection from "./components/CustomerGroupSpotlightSection";
 
 
 
@@ -14,8 +14,8 @@ export default function LandingPage() {
     <main className="landing">
       <Navbar />
       <HeroMycelium/>
+      <CustomerGroupSpotlightSection />
       <TilesSection />
-      <StatsBar />
       <LandingWhyItBreaks />
       <LandingSustainability />
       <LandingMyceliumPreview />

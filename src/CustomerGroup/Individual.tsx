@@ -1,7 +1,5 @@
 import { FC } from "react";
-import { NavigationWithContent } from "@src/Navigation";
 import USPCTASectionWithIcons from "@src/LandingPage/CTABlock2";
-import { useTranslation } from "react-i18next";
 import {
   ChallengeBlock,
   ChallengesSection,
@@ -13,32 +11,40 @@ import {
   SolutionBlock,
   SolutionsSection,
 } from "@src/shared/Components";
+import { useI18n } from "../i18n/useI18nStub";
 
 // Main component
 
 export const Individuals: FC = () => {
-  //inside cause translation hook can"t be called outside
-  const { t } = useTranslation();
-  // --- Data Definitions ---
+  return (
+    <div className="bg-[url('/LGBG-light.webp')] bg-no-repeat bg-cover bg-fixed bg-center min-h-screen">
+      <IndividualsContent />
+    </div>
+  );
+};
+
+export const IndividualsContent: FC = () => {
+  const { t } = useI18n();
+
   const challengeBlocks: ChallengeBlock[] = [
     {
-      icon: "📦", // Feels like a one-size-fits-all box
-      headline: t("individual.challenge1.headline"), // "Too Generic"
+      icon: "📦",
+      headline: t("individual.challenge1.headline"),
       text: t("individual.challenge1.text"),
     },
     {
-      icon: "😩", // Represents fatigue, low motivation
-      headline: t("individual.challenge2.headline"), // "Hard to Stay Motivated"
+      icon: "😩",
+      headline: t("individual.challenge2.headline"),
       text: t("individual.challenge2.text"),
     },
     {
-      icon: "📚", // Piles of info — classic overload symbol
-      headline: t("individual.challenge3.headline"), // "Information Overload"
+      icon: "📚",
+      headline: t("individual.challenge3.headline"),
       text: t("individual.challenge3.text"),
     },
     {
-      icon: "🧍", // One person standing alone
-      headline: t("individual.challenge4.headline"), // "Learning Alone"
+      icon: "🧍",
+      headline: t("individual.challenge4.headline"),
       text: t("individual.challenge4.text"),
     },
   ];
@@ -76,18 +82,14 @@ export const Individuals: FC = () => {
       headline: t("individual.solution1.headline"),
       imageUrl: "/individual1-min.png",
       text: t("individual.solution1.text"),
-      keywords: t("individual.solution1.keywords", {
-        returnObjects: true,
-      }) as string[],
+      keywords: [t("individual.solution1.keywords")],
     },
     {
       target: t("individual.solution2.target"),
       headline: t("individual.solution2.headline"),
       imageUrl: "/individual5-min.png",
       text: t("individual.solution2.text"),
-      keywords: t("individual.solution2.keywords", {
-        returnObjects: true,
-      }) as string[],
+      keywords: [t("individual.solution2.keywords")],
       extraClass: "object-top",
     },
     {
@@ -95,9 +97,7 @@ export const Individuals: FC = () => {
       headline: t("individual.solution3.headline"),
       imageUrl: "/individual4-min.png",
       text: t("individual.solution3.text"),
-      keywords: t("individual.solution3.keywords", {
-        returnObjects: true,
-      }) as string[],
+      keywords: [t("individual.solution3.keywords")],
     },
   ];
 
@@ -110,45 +110,31 @@ export const Individuals: FC = () => {
   ];
 
   return (
-    <div className="bg-[url('/LGBG-light.webp')] bg-no-repeat bg-cover bg-fixed bg-center min-h-screen">
-      <NavigationWithContent
-        content={
-          <>
-            {/* Hero Section */}
-            <HeroSection
-              headline={t("individual.heroHeadline")}
-              text={t("individual.heroText")}
-              imageUrl="/individual2-min.png"
-              imageAlt={t("individual.heroImageAlt")}
-            />
-
-            {/* Challenges Section */}
-            <ChallengesSection challengeBlocks={challengeBlocks} />
-
-            {/* Insights Section */}
-            <InsightsSection
-              title={t("individual.insightsTitle")}
-              insights={researchInsights}
-              summary={t("individual.insightsSummary")}
-            />
-
-            {/* Solutions Section */}
-            <LearningNavigatorIndividualLearnerSection />
-            <SolutionsSection
-              title={t("individual.solutionsTitle")}
-              solutionBlocks={solutionBlocks}
-            />
-            {/* CTA Section */}
-            <USPCTASectionWithIcons blocks={ctaBlocksWithIcons} />
-          </>
-        }
+    <>
+      <HeroSection
+        headline={t("individual.heroHeadline")}
+        text={t("individual.heroText")}
+        imageUrl="/individual2-min.png"
+        imageAlt={t("individual.heroImageAlt")}
       />
-    </div>
+      <ChallengesSection challengeBlocks={challengeBlocks} />
+      <InsightsSection
+        title={t("individual.insightsTitle")}
+        insights={researchInsights}
+        summary={t("individual.insightsSummary")}
+      />
+      <LearningNavigatorIndividualLearnerSection />
+      <SolutionsSection
+        title={t("individual.solutionsTitle")}
+        solutionBlocks={solutionBlocks}
+      />
+      <USPCTASectionWithIcons blocks={ctaBlocksWithIcons} />
+    </>
   );
 };
 
 const LearningNavigatorIndividualLearnerSection: FC = () => {
-  const { t } = useTranslation();
+  const { t } = useI18n();
   const hotspots: Hotspot[] = [
     {
       id: 1,

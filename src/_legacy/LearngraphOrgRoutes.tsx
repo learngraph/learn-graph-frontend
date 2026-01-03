@@ -1,17 +1,17 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import { About } from "./About";
-import { Imprint, TermsOfUse, PrivacyPolicy } from "./Imprint";
-import { LandingPage } from "./LandingPage";
-import { Individuals } from "./CustomerGroup/Individual";
-import { Impact } from "./Impact";
+import { About } from "../About";
+import { Imprint, TermsOfUse, PrivacyPolicy } from "../Imprint";
+import { LandingPage } from "../LandingPage";
+import { Individuals } from "../CustomerGroup/Individual";
+import { Impact } from "../Impact";
 import {
   University,
   PartnerSuccessStory as UniversityPartnerSuccessStory,
-} from "./CustomerGroup/University";
-import ComingSoon from "./CustomerGroup/ComingSoon";
+} from "../CustomerGroup/University";
+import ComingSoon from "../CustomerGroup/ComingSoon";
 //import { NationPolicyJourney } from "./CustomerGroup/NationPolicy";
-import { Industry } from "./CustomerGroup/Industry";
-import ContactUs from "./ContactUs";
+import { Enterprise } from "../CustomerGroup/Enterprise";
+import ContactUs from "../ContactUs";
 
 export const LearngraphOrgRoutes = () => {
   return (
@@ -25,8 +25,8 @@ export const LearngraphOrgRoutes = () => {
         element={<UniversityPartnerSuccessStory />}
       />
       <Route path="/nations" Component={ComingSoon} />
-      <Route path="/industry" Component={Industry} />
-      <Route path="/institution" Component={Industry} />
+      <Route path="/enterprise" Component={Enterprise} />
+      <Route path="/institution" Component={Enterprise} />
       <Route path="/ecosystem" Component={ComingSoon} />
       <Route path="/k-12" Component={ComingSoon} />
       <Route path="/contact" Component={ContactUs} />
