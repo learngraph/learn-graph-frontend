@@ -217,16 +217,51 @@
 
   "cookie": {
     "consentLabel": "موافقة ملفات تعريف الارتباط",
-    "description1": "نستخدم ملفات تعريف الارتباط للوظائف الأساسية وبموافقتك للتحليلات",
-    "description2": "الملفات الضرورية مفعلة دائمًا",
+    "description1": "نستخدم ملفات تعريف الارتباط وتقنيات مماثلة للوظائف الأساسية (مثل المصادقة) ومع إذنك للتحليلات.",
+    "description2": "ملفات تعريف الارتباط الضرورية دائمًا مفعلة. يمكنك قبول أو رفض الملفات الاختيارية.",
     "settings": "الإعدادات",
     "rejectAll": "رفض الكل",
     "acceptAll": "قبول الكل",
     "privacySettings": "إعدادات الخصوصية",
-    "strictlyNecessaryTitle": "ضرورية فقط",
-    "strictlyNecessaryDesc": "مطلوبة لتسجيل الدخول الآمن (Keycloak)",
+    "strictlyNecessaryTitle": "ضرورية للغاية",
+    "strictlyNecessaryDesc": "مطلوبة لتسجيل دخول آمن (Keycloak). مفعّلة دائمًا.",
     "analyticsTitle": "التحليلات (PostHog)",
-    "analyticsDesc": "تساعدنا على تحسين المنتج. اختيارية."
+    "analyticsDesc": "تساعدنا على فهم الاستخدام وتحسين المنتج. اختيارية."
+  },
+
+  "common": {
+    "cancel": "إلغاء",
+    "save": "حفظ"
+  },
+
+  "footer": {
+    "tagline": "(c) {{year}} LearnGraph - مصنوع بشغف",
+    "imprint": "الإشعار القانوني",
+    "contact": "تواصل"
+  },
+
+  "legal": {
+    "placeholder": "[قيد الانتظار]",
+    "imprint": {
+      "title": "بيانات النشر",
+      "subtitle": "معلومات بموجب المادة 5 من قانون الإعلام الألماني (TMG)",
+      "companyLabel": "الشركة",
+      "addressLabel": "العنوان",
+      "managingDirectorLabel": "المدير التنفيذي",
+      "managingDirectorValue": "Laurin Hagemann",
+      "phoneLabel": "الهاتف",
+      "emailLabel": "البريد الإلكتروني",
+      "registerLabel": "السجل التجاري",
+      "registerValue": "محكمة Bochum، رقم السجل: {{hrb}}",
+      "vatIdLabel": "رقم تعريف ضريبة القيمة المضافة",
+      "taxNumberLabel": "الرقم الضريبي",
+      "companyNumberLabel": "رقم الشركة",
+      "responsibleTitle": "المسؤول عن المحتوى",
+      "disclaimerTitle": "إخلاء المسؤولية",
+      "disclaimerBody": "على الرغم من الرقابة الدقيقة على المحتوى، نحن لا نتحمل أي مسؤولية عن محتوى الروابط الخارجية. يتحمل مشغلو الصفحات المرتبطة المسؤولية الكاملة عن محتواها.",
+      "accuracyTitle": "دقة المعلومات",
+      "accuracyBody": "تم إنشاء محتوى هذا الموقع بأكبر قدر ممكن من العناية. ومع ذلك، لا نتحمل أي مسؤولية عن دقة أو اكتمال أو حداثة المعلومات المقدمة."
+    }
   },
 
   "enterprise": {

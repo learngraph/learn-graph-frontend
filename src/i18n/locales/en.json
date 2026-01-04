@@ -219,16 +219,51 @@
 
   "cookie": {
     "consentLabel": "Cookie consent",
-    "description1": "We use cookies to operate essential site functions and, with permission, enable analytics",
-    "description2": "Strictly necessary cookies are always active",
+    "description1": "We use cookies and similar technologies to operate essential site functions (e.g., authentication) and, with your permission, to enable analytics.",
+    "description2": "Strictly necessary cookies are always on. You can accept or reject non-essential cookies, or review settings.",
     "settings": "Settings",
     "rejectAll": "Reject all",
     "acceptAll": "Accept all",
     "privacySettings": "Privacy settings",
     "strictlyNecessaryTitle": "Strictly necessary",
-    "strictlyNecessaryDesc": "Required for secure login (Keycloak)",
+    "strictlyNecessaryDesc": "Required to provide the service, like secure login (Keycloak). Always active.",
     "analyticsTitle": "Analytics (PostHog)",
-    "analyticsDesc": "Helps us improve the product. Optional."
+    "analyticsDesc": "Helps us understand usage and improve the product. Optional."
+  },
+
+  "common": {
+    "cancel": "Cancel",
+    "save": "Save"
+  },
+
+  "footer": {
+    "tagline": "(c) {{year}} LearnGraph - Crafted with passion",
+    "imprint": "Imprint",
+    "contact": "Contact"
+  },
+
+  "legal": {
+    "placeholder": "[TBD]",
+    "imprint": {
+      "title": "Imprint",
+      "subtitle": "Information according to Section 5 TMG",
+      "companyLabel": "Company",
+      "addressLabel": "Address",
+      "managingDirectorLabel": "Managing Director",
+      "managingDirectorValue": "Laurin Hagemann",
+      "phoneLabel": "Phone",
+      "emailLabel": "Email",
+      "registerLabel": "Commercial register",
+      "registerValue": "Amtsgericht Bochum, HRB: {{hrb}}",
+      "vatIdLabel": "VAT-ID",
+      "taxNumberLabel": "Tax Number",
+      "companyNumberLabel": "Company Number",
+      "responsibleTitle": "Responsible for content",
+      "disclaimerTitle": "Disclaimer",
+      "disclaimerBody": "Despite careful content control, we assume no liability for the contents of external links. The operators of the linked pages are solely responsible for their content.",
+      "accuracyTitle": "Accuracy of information",
+      "accuracyBody": "The content of this site has been created with the greatest possible care. However, we assume no liability for the accuracy, completeness, or timeliness of the information provided."
+    }
   },
 
   "enterprise": {

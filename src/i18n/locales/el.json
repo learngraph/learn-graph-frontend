@@ -217,16 +217,51 @@
 
   "cookie": {
     "consentLabel": "Συναίνεση cookies",
-    "description1": "Χρησιμοποιούμε cookies για βασικές λειτουργίες και, με άδεια, για αναλυτικά δεδομένα",
-    "description2": "Τα απολύτως απαραίτητα cookies είναι πάντα ενεργά",
+    "description1": "Χρησιμοποιούμε cookies και παρόμοιες τεχνολογίες για βασικές λειτουργίες (όπως ταυτοποίηση) και, με την άδειά σου, για αναλύσεις.",
+    "description2": "Τα απολύτως απαραίτητα cookies είναι πάντα ενεργά. Μπορείς να αποδεχτείς ή να απορρίψεις τα προαιρετικά.",
     "settings": "Ρυθμίσεις",
     "rejectAll": "Απόρριψη όλων",
     "acceptAll": "Αποδοχή όλων",
     "privacySettings": "Ρυθμίσεις απορρήτου",
     "strictlyNecessaryTitle": "Απολύτως απαραίτητα",
-    "strictlyNecessaryDesc": "Απαιτούνται για ασφαλή σύνδεση (Keycloak)",
-    "analyticsTitle": "Αναλυτικά (PostHog)",
-    "analyticsDesc": "Βοηθούν στη βελτίωση του προϊόντος. Προαιρετικά."
+    "strictlyNecessaryDesc": "Απαιτούνται για ασφαλή σύνδεση (Keycloak). Πάντα ενεργά.",
+    "analyticsTitle": "Αναλύσεις (PostHog)",
+    "analyticsDesc": "Μας βοηθά να κατανοήσουμε τη χρήση και να βελτιώσουμε το προϊόν. Προαιρετικό."
+  },
+
+  "common": {
+    "cancel": "Ακύρωση",
+    "save": "Αποθήκευση"
+  },
+
+  "footer": {
+    "tagline": "(c) {{year}} LearnGraph - Δημιουργημένο με πάθος",
+    "imprint": "Νομικές πληροφορίες",
+    "contact": "Επικοινωνία"
+  },
+
+  "legal": {
+    "placeholder": "[ΕΚΚΡΕΜΕΙ]",
+    "imprint": {
+      "title": "Στοιχεία Επιχείρησης",
+      "subtitle": "Πληροφορίες σύμφωνα με το άρθρο 5 του TMG",
+      "companyLabel": "Εταιρεία",
+      "addressLabel": "Διεύθυνση",
+      "managingDirectorLabel": "Διευθύνων Σύμβουλος",
+      "managingDirectorValue": "Laurin Hagemann",
+      "phoneLabel": "Τηλέφωνο",
+      "emailLabel": "Email",
+      "registerLabel": "Εμπορικό Μητρώο",
+      "registerValue": "Amtsgericht Bochum, HRB: {{hrb}}",
+      "vatIdLabel": "ΑΦΜ (VAT-ID)",
+      "taxNumberLabel": "Φορολογικός Αριθμός",
+      "companyNumberLabel": "Αριθμός Εταιρείας",
+      "responsibleTitle": "Υπεύθυνος περιεχομένου",
+      "disclaimerTitle": "Αποποίηση ευθύνης",
+      "disclaimerBody": "Παρά τον προσεκτικό έλεγχο, δεν αναλαμβάνουμε καμία ευθύνη για το περιεχόμενο εξωτερικών συνδέσμων. Οι διαχειριστές των συνδεδεμένων σελίδων είναι αποκλειστικά υπεύθυνοι για το περιεχόμενό τους.",
+      "accuracyTitle": "Ακρίβεια πληροφοριών",
+      "accuracyBody": "Το περιεχόμενο αυτού του ιστότοπου δημιουργήθηκε με τη μεγαλύτερη δυνατή προσοχή. Ωστόσο, δεν αναλαμβάνουμε καμία ευθύνη για την ακρίβεια ή την επικαιρότητα των παρεχόμενων πληροφοριών."
+    }
   },
 
   "enterprise": {

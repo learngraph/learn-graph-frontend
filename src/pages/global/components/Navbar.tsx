@@ -2,6 +2,7 @@ import "../../styles/navbar/Navbar.css";
 import "../../styles/languageswitcher/languageswitcher.css";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useI18n } from "@/i18n/i18n";
+import { LaunchButton } from "./LaunchButton";
 
 export function Navbar() {
   const { t } = useI18n();
@@ -32,9 +33,8 @@ export function Navbar() {
 
       {/* Right */}
       <div className="nav-right">
-        <button className="nav-cta">
-          {t("nav.launch")}
-        </button>
+        <LaunchButton />
+        
 
         <div className="lang-switcher">
           <LanguageSwitcher />

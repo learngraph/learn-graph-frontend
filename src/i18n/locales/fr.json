@@ -229,6 +229,41 @@
     "analyticsDesc": "Aide à améliorer le produit. Optionnel."
   },
 
+  "common": {
+    "cancel": "Annuler",
+    "save": "Enregistrer"
+  },
+
+  "footer": {
+    "tagline": "(c) {{year}} LearnGraph - Conçu avec passion",
+    "imprint": "Mentions légales",
+    "contact": "Contact"
+  },
+
+  "legal": {
+    "placeholder": "[À définir]",
+    "imprint": {
+      "title": "Mentions légales",
+      "subtitle": "Informations conformément à l’article 5 TMG",
+      "companyLabel": "Société",
+      "addressLabel": "Adresse",
+      "managingDirectorLabel": "Directeur général",
+      "managingDirectorValue": "Laurin Hagemann",
+      "phoneLabel": "Téléphone",
+      "emailLabel": "E-mail",
+      "registerLabel": "Registre du commerce",
+      "registerValue": "Amtsgericht Bochum, HRB : {{hrb}}",
+      "vatIdLabel": "Numéro de TVA",
+      "taxNumberLabel": "Numéro fiscal",
+      "companyNumberLabel": "Numéro d’entreprise",
+      "responsibleTitle": "Responsable du contenu",
+      "disclaimerTitle": "Clause de non-responsabilité",
+      "disclaimerBody": "Malgré un contrôle attentif du contenu, nous n’assumons aucune responsabilité pour le contenu des liens externes. Les opérateurs des pages liées sont seuls responsables de leur contenu.",
+      "accuracyTitle": "Exactitude des informations",
+      "accuracyBody": "Le contenu de ce site a été créé avec le plus grand soin possible. Toutefois, nous n’assumons aucune responsabilité quant à l’exactitude, l’exhaustivité ou l’actualité des informations fournies."
+    }
+  },
+
   "enterprise": {
     "hero": {
       "highlight": "Déployer",

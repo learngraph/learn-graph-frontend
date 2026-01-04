@@ -217,16 +217,51 @@
 
   "cookie": {
     "consentLabel": "Consentimiento de cookies",
-    "description1": "Usamos cookies para funciones esenciales del sitio y, con permiso, para análisis",
-    "description2": "Las cookies estrictamente necesarias siempre están activas",
+    "description1": "Usamos cookies y tecnologías similares para funciones esenciales (por ejemplo, autenticación) y, con tu permiso, para análisis.",
+    "description2": "Las cookies estrictamente necesarias siempre están activas. Puedes aceptar o rechazar las opcionales.",
     "settings": "Configuración",
-    "rejectAll": "Rechazar todo",
-    "acceptAll": "Aceptar todo",
+    "rejectAll": "Rechazar todas",
+    "acceptAll": "Aceptar todas",
     "privacySettings": "Configuración de privacidad",
     "strictlyNecessaryTitle": "Estrictamente necesarias",
-    "strictlyNecessaryDesc": "Requeridas para inicio de sesión seguro (Keycloak)",
-    "analyticsTitle": "Analíticas (PostHog)",
-    "analyticsDesc": "Nos ayudan a mejorar el producto. Opcional."
+    "strictlyNecessaryDesc": "Requeridas para un inicio de sesión seguro (Keycloak). Siempre activas.",
+    "analyticsTitle": "Analítica (PostHog)",
+    "analyticsDesc": "Nos ayuda a entender el uso y mejorar el producto. Opcional."
+  },
+
+  "common": {
+    "cancel": "Cancelar",
+    "save": "Guardar"
+  },
+
+  "footer": {
+    "tagline": "(c) {{year}} LearnGraph - Hecho con pasion",
+    "imprint": "Aviso legal",
+    "contact": "Contacto"
+  },
+
+  "legal": {
+    "placeholder": "[PENDIENTE]",
+    "imprint": {
+      "title": "Aviso Legal",
+      "subtitle": "Información según la Sección 5 de la TMG",
+      "companyLabel": "Empresa",
+      "addressLabel": "Dirección",
+      "managingDirectorLabel": "Director General",
+      "managingDirectorValue": "Laurin Hagemann",
+      "phoneLabel": "Teléfono",
+      "emailLabel": "Correo electrónico",
+      "registerLabel": "Registro mercantil",
+      "registerValue": "Amtsgericht Bochum, HRB: {{hrb}}",
+      "vatIdLabel": "ID de IVA",
+      "taxNumberLabel": "Número de identificación fiscal",
+      "companyNumberLabel": "Número de empresa",
+      "responsibleTitle": "Responsable del contenido",
+      "disclaimerTitle": "Exención de responsabilidad",
+      "disclaimerBody": "A pesar de un control cuidadoso, no asumimos ninguna responsabilidad por el contenido de los enlaces externos. Los operadores de las páginas enlazadas son los únicos responsables de su contenido.",
+      "accuracyTitle": "Exactitud de la información",
+      "accuracyBody": "El contenido de este sitio ha sido creado con el mayor cuidado posible. Sin embargo, no garantizamos la exactitud o actualidad de la información proporcionada."
+    }
   },
 
   "enterprise": {

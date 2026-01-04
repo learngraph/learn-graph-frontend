@@ -4,6 +4,9 @@ import LandingPage from "./pages/landing/landing";
 import UniversityPage from "./pages/customerGroups/UniversityPage";
 import IndividualPage from "./pages/customerGroups/IndividualPage";
 import EnterprisePage from "./pages/customerGroups/EnterprisePage";
+import CookieBanner from "@/pages/global/components/CookieBanner";
+import Footer from "@/pages/global/components/Footer";
+import ImprintPage from "@/pages/legal/Imprint";
 
 /*
 // Enable later if/when multiple routes exist
@@ -21,13 +24,21 @@ export default function App() {
   return (
     <BrowserRouter>
      <DirectionController />
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/university" element={<UniversityPage />} />
-        <Route path="/individual" element={<IndividualPage />} />
-        <Route path="/enterprise" element={<EnterprisePage />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+      <div className="min-h-screen flex flex-col">
+        <div className="flex-1">
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/university" element={<UniversityPage />} />
+            <Route path="/individual" element={<IndividualPage />} />
+            <Route path="/enterprise" element={<EnterprisePage />} />
+            <Route path="/imprint" element={<ImprintPage />} />
+            <Route path="/impressum" element={<ImprintPage />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </div>
+        <Footer />
+      </div>
+      <CookieBanner />
     </BrowserRouter>
   );
 }

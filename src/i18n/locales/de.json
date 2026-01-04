@@ -220,16 +220,51 @@
 
   "cookie": {
     "consentLabel": "Cookie-Zustimmung",
-    "description1": "Wir verwenden Cookies und ähnliche Technologien für grundlegende Funktionen und – mit deiner Zustimmung – für Analysen.",
-    "description2": "Notwendige Cookies sind immer aktiv. Optionale Cookies kannst du akzeptieren oder ablehnen.",
+    "description1": "Wir verwenden Cookies und ähnliche Technologien für grundlegende Funktionen (z. B. Authentifizierung) und – mit deiner Zustimmung – für Analysen.",
+    "description2": "Unbedingt erforderliche Cookies sind immer aktiv. Du kannst optionale Cookies akzeptieren oder ablehnen.",
     "settings": "Einstellungen",
     "rejectAll": "Alle ablehnen",
     "acceptAll": "Alle akzeptieren",
     "privacySettings": "Datenschutzeinstellungen",
     "strictlyNecessaryTitle": "Unbedingt erforderlich",
-    "strictlyNecessaryDesc": "Erforderlich für den sicheren Betrieb (z. B. Login). Immer aktiv.",
-    "analyticsTitle": "Analysen",
-    "analyticsDesc": "Hilft uns, Nutzung zu verstehen und das Produkt zu verbessern."
+    "strictlyNecessaryDesc": "Erforderlich für sichere Anmeldung (Keycloak). Immer aktiv.",
+    "analyticsTitle": "Analysen (PostHog)",
+    "analyticsDesc": "Hilft uns, Nutzung zu verstehen und das Produkt zu verbessern. Optional."
+  },
+
+  "common": {
+    "cancel": "Abbrechen",
+    "save": "Speichern"
+  },
+
+  "footer": {
+    "tagline": "(c) {{year}} LearnGraph - Mit Leidenschaft gestaltet",
+    "imprint": "Impressum",
+    "contact": "Kontakt"
+  },
+
+  "legal": {
+    "placeholder": "[OFFEN]",
+    "imprint": {
+      "title": "Impressum",
+      "subtitle": "Angaben gemäß § 5 TMG",
+      "companyLabel": "Unternehmen",
+      "addressLabel": "Adresse",
+      "managingDirectorLabel": "Geschäftsführer",
+      "managingDirectorValue": "Laurin Hagemann",
+      "phoneLabel": "Telefon",
+      "emailLabel": "E-Mail",
+      "registerLabel": "Handelsregister",
+      "registerValue": "Amtsgericht Bochum, HRB: {{hrb}}",
+      "vatIdLabel": "USt-IdNr.",
+      "taxNumberLabel": "Steuernummer",
+      "companyNumberLabel": "Betriebsnummer",
+      "responsibleTitle": "Verantwortlich für den Inhalt",
+      "disclaimerTitle": "Haftungsausschluss",
+      "disclaimerBody": "Trotz sorgfältiger inhaltlicher Kontrolle übernehmen wir keine Haftung für die Inhalte externer Links. Für den Inhalt der verlinkten Seiten sind ausschließlich deren Betreiber verantwortlich.",
+      "accuracyTitle": "Richtigkeit der Informationen",
+      "accuracyBody": "Die Inhalte dieser Seite wurden mit größtmöglicher Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte übernehmen wir jedoch keine Gewähr."
+    }
   },
 
   "enterprise": {
