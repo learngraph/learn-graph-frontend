@@ -1,6 +1,5 @@
 import { useI18n } from "@/i18n/i18n";
 
-
 import TileCinematic from "../components/TileCinematic";
 import TileContentInstitutions from "../components/TileContent/TileContentInstitutions";
 import TileContentForge from "../components/TileContent/TileContentForge";
@@ -34,27 +33,57 @@ export default function TilesSection() {
   ];
 
   return (
-    <section
-      className="flex justify-center 
-                 bg-[var(--color-section-bg)] 
-                 text-[var(--color-text-primary)]
-                 py-32 md:py-40 transition-colors duration-500"
+    <section id="grow"
+      className="
+        bg-[var(--color-section-bg)]
+        text-[var(--color-text-primary)]
+        py-20 md:py-24
+      "
     >
-      <div
-        className="w-[90%] md:w-[80%] max-w-6xl 
-                   grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 
-                   gap-8 items-stretch justify-items-center md:justify-items-stretch mx-auto"
-      >
-        {tiles.map((tile, i) => (
-          <TileCinematic
-            key={i}
-            title={tile.title}
-            text={tile.text}
-            content={tile.content}
-          />
-        ))}
+      <div className="w-[90%] md:w-[80%] max-w-6xl mx-auto">
+
+        {/* Header */}
+        <div className="mb-24 max-w-5xl">
+          {/* Eyebrow */}
+          <div className="text-sm tracking-[0.45em] uppercase text-white mb-6">
+            How you
+          </div>
+
+          {/* Hero word */}
+          <h2
+            className="
+              text-7xl md:text-8xl font-bold tracking-tight
+              text-[rgba(212,255,57,0.9)]
+              mb-8
+            "
+          >
+            GROW
+          </h2>
+
+          {/* Subline */}
+          <p className="italic text-white text-lg leading-relaxed max-w-2xl">
+            Modular building blocks that scale from individual learning paths
+            to institutional systems.
+          </p>
+        </div>
+
+        {/* Tiles */}
+        <div
+          className="
+            grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4
+            gap-8 items-stretch
+          "
+        >
+          {tiles.map((tile, i) => (
+            <TileCinematic
+              key={i}
+              title={tile.title}
+              text={tile.text}
+              content={tile.content}
+            />
+          ))}
+        </div>
       </div>
     </section>
   );
 }
-

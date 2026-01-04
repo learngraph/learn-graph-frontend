@@ -23,13 +23,13 @@ export default function HeroMycelium() {
     resize();
     window.addEventListener("resize", resize);
 
-    const NODE_COUNT = 180;
-    const MAX_DIST = 120;
+    const NODE_COUNT = 55;
+    const MAX_DIST = 300;
 
     const nodes: Node[] = Array.from({ length: NODE_COUNT }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
-      vx: (Math.random() - 0.5) * 0.2,
+      vx: (Math.random() - 0.5) * 0.12,
       vy: (Math.random() - 0.5) * 0.2,
     }));
 
@@ -76,7 +76,7 @@ export default function HeroMycelium() {
         // node
         ctx.fillStyle = "#ffffff";
         ctx.beginPath();
-        ctx.arc(a.x, a.y, 1.2, 0, Math.PI * 2);
+        ctx.arc(a.x, a.y, 2.2, 0, Math.PI * 2);
         ctx.fill();
       }
 

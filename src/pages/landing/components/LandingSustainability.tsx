@@ -1,20 +1,31 @@
-export default function LandingSustainability() {
-  return (
-    <section className="py-40 px-6">
-      <h2 className="text-6xl font-serif mb-12">
-        Product-powered <span className="text-lime-400">sustainability</span>
-      </h2>
+import { useI18n } from "@/i18n/i18n";
 
-      <div className="max-w-3xl text-white/70 space-y-6">
-        <p>
-          LearnGraph is free for individuals. Institutions fund the infrastructure.
-        </p>
-        <p>
-          No ads. No paywalls. No extraction.
-        </p>
-        <p>
-          Open source by default.
-        </p>
+export default function LandingSustainability() {
+  const { t } = useI18n();
+
+  return (
+    <section className="px-6 py-10 landing-static">
+      <div className="max-w-4xl mx-auto">
+        <h2 className="text-6xl font-serif mb-10">
+          {t("landing.LandingSustainability.title.prefix")}{" "}
+          <span className="text-lime-400">
+            {t("landing.LandingSustainability.title.highlight")}
+          </span>
+        </h2>
+
+        <div className="flex flex-wrap gap-4">
+          <div className="px-5 py-2.5 rounded-full bg-lime-400 text-black text-sm font-medium">
+            {t("landing.LandingSustainability.items.free")}
+          </div>
+
+          <div className="px-5 py-2.5 rounded-full bg-lime-400 text-black text-sm font-medium">
+            {t("landing.LandingSustainability.items.noAds")}
+          </div>
+
+          <div className="px-5 py-2.5 rounded-full bg-lime-400 text-black text-sm font-medium">
+            {t("landing.LandingSustainability.items.openSource")}
+          </div>
+        </div>
       </div>
     </section>
   );

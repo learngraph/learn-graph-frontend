@@ -20,4 +20,18 @@
 
 /* Layout */
 --nav-height: 72px;
+
+
+/* Tiles */
+--tile-hover-bg: rgba(255, 255, 255, 0.04);
+--tile-hover-glow: rgba(61,140,242,0.25);
+--tiles-ambient-glow: rgba(61,140,242,0.25);
+
+/* Text */
+--text-primary: #eaeaea;
+--text-muted: #a9a9a9;
+
+
+--color-accent-soft: rgba(255, 0, 0, 0.2);
 }
+

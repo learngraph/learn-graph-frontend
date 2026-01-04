@@ -14,12 +14,18 @@
    ========================= */
 
 .landing section {
-  min-height: 100vh;
+    min-height: auto;
+  justify-content: flex-start;
   padding: clamp(4rem, 8vw, 10rem) 1.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
   scroll-margin-top: 72px;
+}
+
+.landing .landing-static {
+  min-height: auto;
+  justify-content: flex-start;
 }
 
 
@@ -45,7 +51,22 @@
 #tiles {
   min-height: auto;
   align-items: flex-start;
+  position: relative;
 }
+
+#tiles::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      50% 30% at 50% 0%,
+      var(--tiles-ambient-glow),
+      transparent 65%
+    );
+}
+
 
 .tile-base {
   background:
@@ -62,17 +83,18 @@
   transition: all 0.25s ease;
 }
 
+
+
 .tile-base:hover {
   background:
     linear-gradient(
       180deg,
-      rgba(198,255,61,0.08),
+      var(--tile-hover-bg),
       rgba(0,0,0,0.35)
     );
   box-shadow:
     0 18px 40px rgba(0,0,0,0.7),
-    0 0 24px rgba(198,255,61,0.25);
-  transform: translateY(-2px);
+    0 0 24px var(--tile-hover-glow);
 }
 
 
@@ -83,7 +105,7 @@
 .hero-mycelium {
   position: relative;
   min-height: 100vh;
-  background: #000789;
+  background: #021909;
   overflow: hidden;
   display: grid;
   place-items: center;
@@ -143,7 +165,7 @@
 .hero-copy h1 em {
   font-style: italic;
   font-weight: 600;
-  color: #b6ff3d;
+  color: var(--accent-main);
 }
 
 

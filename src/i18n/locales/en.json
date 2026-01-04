@@ -1,32 +1,134 @@
 {
 
   "nav": {
-
+    "begin": "Begin",
+    "compare": "Compare",
+    "grow": "Grow",
+    "people": "People",
+    "launch": "Launch App",
+    "university": "University",
+    "enterprise": "Enterprise",
+    "individual": "Individuals"
   },
 
   "landing": {
 
+  "CustomerGroupSpotlightSection": {
+    "builtFor": "Built for different",
+    "ways": "ways",
+    "ofLearning": "of learning"
+  },
+    
 
-    "TileSection": {
-      "tiles": {
-        "institutions": {
-          "title": "Empower with LearnGraph",
-          "text": "Transform educational ecosystems through openness and collective insight"
-        },
-        "forge": {
-          "title": "Forge Your Own Journey",
-          "text": "No one-size-fits-all learning. LearnGraph adapts to you — your goals, your pace, your way"
-        },
-        "upskill": {
-          "title": "Upskill with Precision",
-          "text": "Every new skill is a step toward mastery. LearnGraph turns progress into a guided journey"
-        },
-        "mission": {
-          "title": "Open-Source, Mission-First",
-          "text": "We chase purpose. Every contribution fuels impact projects and keeps learning free for all"
-        }
-      }
+"TargetGroupsSection": {
+  "tiles": {
+    "university": {
+      "title": "Universities & Education",
+      "text": "Learning graphs for curricula, research, and interdisciplinary study."
     },
+    "enterprise": {
+      "title": "Enterprise",
+      "text": "Structured knowledge systems for teams and organizations."
+    },
+    "individual": {
+      "title": "Individuals",
+      "text": "Personal learning paths that adapt and evolve."
+    }
+  }
+},
+
+"CustomerGroupStatsBar": {
+  "stats": {
+      "institutions": {
+        "value": "120+",
+        "label": "Institutions",
+        "desc": "Active learning systems worldwide"
+      },
+      "learners": {
+        "value": "35k",
+        "label": "Learners",
+        "desc": "Across disciplines and domains"
+      },
+      "countries": {
+        "value": "18",
+        "label": "Countries",
+        "desc": "Global collaboration network"
+      },
+      "paths": {
+        "value": "∞",
+        "label": "Paths",
+        "desc": "Continuously evolving journeys"
+      }
+    }
+},
+
+
+
+
+"TileSection": {
+  "header": {
+    "eyebrow": "How you",
+    "title": "GROW",
+    "subline": "Modular building blocks that scale from individual learning paths to institutional systems."
+  },
+  "tiles": {
+    "institutions": {
+      "title": "Empower with LearnGraph",
+      "text": "Transform educational ecosystems through openness and collective insight"
+    },
+    "forge": {
+      "title": "Forge Your Own Journey",
+      "text": "No one-size-fits-all learning. LearnGraph adapts to you — your goals, your pace, your way"
+    },
+    "upskill": {
+      "title": "Upskill with Precision",
+      "text": "Every new skill is a step toward mastery. LearnGraph turns progress into a guided journey"
+    },
+    "mission": {
+      "title": "Open-Source, Mission-First",
+      "text": "We chase purpose. Every contribution fuels impact projects and keeps learning free for all"
+    }
+  }
+},
+
+
+"LandingSustainability": {
+  "title": {
+    "prefix": "Product-powered",
+    "highlight": "sustainability"
+  },
+  "items": {
+    "free": "Free for individuals",
+    "noAds": "No ads · No paywalls · No extraction",
+    "openSource": "Open source by default"
+  }
+},
+
+
+"LandingTeamSection": {
+  "title": {
+    "prefix": "THE",
+    "main": "TEAM"
+  },
+  "roles": {
+    "laurin": "CEO",
+    "jamal": "Senior Consultant",
+    "efecan": "Head of Edu Strategy",
+    "ralf": "Software Product Engineer",
+    "malin": "Service Design & UX Lead",
+    "talal": "Development Engineer"
+  },
+  "quotes": {
+    "laurin": "The best ideas come from stillness. LearnGraph wasn’t built to disrupt — it was built to listen, to guide, and to grow with those who are ready to listen.",
+    "jamal": "Across the Arab world and beyond, people are dreaming of a new kind of education — one that empowers, uplifts, and transforms.",
+    "efecan": "Education is not about filling a vessel, but about kindling a flame — and I intend to set the whole system ablaze.",
+    "ralf": "My job is to make sure the product doesn’t just work, but works well — every time. That’s what matters.",
+    "malin": "When we co-create from a place of depth and inclusion, learning becomes not just scalable, but truly regenerative.",
+    "talal": "It’s scary out there, but we were never meant to be alone. What matters is what we can do for the human race."
+  }
+},
+
+
     "TileContentProject": {
       "forge": {
         "title": "Forge Your Own Journey",
@@ -116,8 +218,6 @@
   },
 
 
-
-
   
 
   "cookie": {
@@ -132,5 +232,13 @@
     "strictlyNecessaryDesc": "Required to provide the service, like secure login (Keycloak). Always active.",
     "analyticsTitle": "Analytics (PostHog)",
     "analyticsDesc": "Helps us understand usage and improve the product. Optional."
+},
+
+"enterprise": {
+    "hero": {
+      "highlight": "Scale",
+      "title": "Learning with impact",
+      "subtitle": "LearnGraph connects personalized guidance with scalable, measurable learning."
+    }
   }
 }

@@ -1,32 +1,36 @@
 import "../../styles/navbar/Navbar.css";
 import "../../styles/languageswitcher/languageswitcher.css";
 import LanguageSwitcher from "./LanguageSwitcher";
+import { useNavigate } from "react-router-dom";
 import { useI18n } from "@/i18n/i18n";
 
-export function Navbar() {
+export function CustomerNavbar() {
+  const navigate = useNavigate();
   const { t } = useI18n();
 
   return (
     <nav className="nav-cyber">
       {/* Left */}
       <div className="nav-left">
-        <span className="nav-logo">LEARNGRAPH</span>
+        <span
+          className="nav-logo cursor-pointer"
+          onClick={() => navigate("/")}
+        >
+          LEARNGRAPH
+        </span>
         <span className="nav-status">● LIVE</span>
       </div>
 
-      {/* Center – Landing anchors */}
+      {/* Center – customer navigation */}
       <ul className="nav-links">
-        <li>
-          <a href="#begin">{t("nav.begin")}</a>
+        <li onClick={() => navigate("/university")}>
+          {t("nav.university")}
         </li>
-        <li>
-          <a href="#compare">{t("nav.compare")}</a>
+        <li onClick={() => navigate("/enterprise")}>
+          {t("nav.enterprise")}
         </li>
-        <li>
-          <a href="#grow">{t("nav.grow")}</a>
-        </li>
-        <li>
-          <a href="#people">{t("nav.people")}</a>
+        <li onClick={() => navigate("/individual")}>
+          {t("nav.individual")}
         </li>
       </ul>
 
