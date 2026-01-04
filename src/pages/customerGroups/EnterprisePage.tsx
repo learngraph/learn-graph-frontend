@@ -1,6 +1,9 @@
+import { useI18n } from "@/i18n/i18n";
 import CustomerGroupPageShell from "./CustomerGroupPageShell";
 
-export default function IndividualPage() {
+export default function EnterprisePage() {
+  const { t } = useI18n();
+
   return (
     <CustomerGroupPageShell>
 
@@ -8,12 +11,15 @@ export default function IndividualPage() {
       <section id="begin" className="py-20">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-5xl md:text-6xl font-serif mb-6">
-            <span className="text-lime-400">Dein</span>{" "}
-            <span className="text-white">persönlicher Lernweg</span>
+            <span className="text-lime-400">
+              {t("enterprise.hero.highlight")}
+            </span>{" "}
+            <span className="text-white">
+              {t("enterprise.hero.title")}
+            </span>
           </h1>
           <p className="text-white/80 text-lg leading-relaxed">
-            Verabschiede dich von Einheitskursen. LearnGraph hilft dir,
-            deine eigene Lernreise mit Klarheit, Relevanz und Feedback zu gestalten.
+            {t("enterprise.hero.subtitle")}
           </p>
         </div>
       </section>
@@ -23,47 +29,53 @@ export default function IndividualPage() {
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {[
             {
-              title: "Zu allgemein",
-              text: "Ein Weg für alle funktioniert nicht. Deine Ziele brauchen eine eigene Karte.",
+              title: "enterprise.challenges.scaling.title",
+              text: "enterprise.challenges.scaling.text",
             },
             {
-              title: "Motivation verlieren",
-              text: "Ohne Relevanz fühlt sich Lernen leer an – selbst für starke Lernende.",
+              title: "enterprise.challenges.completion.title",
+              text: "enterprise.challenges.completion.text",
             },
             {
-              title: "Informationsflut",
-              text: "Zu viele Kurse, zu wenig Orientierung. Was ist wirklich wichtig?",
+              title: "enterprise.challenges.silo.title",
+              text: "enterprise.challenges.silo.text",
             },
             {
-              title: "Allein lernen",
-              text: "Ohne Austausch fehlt Halt, Perspektive und Wachstum.",
+              title: "enterprise.challenges.roi.title",
+              text: "enterprise.challenges.roi.text",
             },
           ].map((item, i) => (
             <div key={i} className="customer-card p-6">
-              <h3 className="text-xl font-semibold mb-3">{item.title}</h3>
+              <h3 className="text-xl font-semibold mb-3">
+                {t(item.title)}
+              </h3>
               <p className="text-white/70 text-sm leading-relaxed">
-                {item.text}
+                {t(item.text)}
               </p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* STATS */}
+      {/* STATS / PRINCIPLES */}
       <section id="grow" className="customer-section">
         <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           {[
-            { value: "80 %", label: "vergessen Inhalte nach einer Woche" },
-            { value: "+30 %", label: "bessere Ergebnisse durch Personalisierung" },
-            { value: "↑", label: "Motivation durch Peer-Learning" },
-            { value: "✓", label: "Projekte > Theorie" },
+            { value: t("enterprise.stats.retention.value"), label: t("enterprise.stats.retention.label") },
+            { value: t("enterprise.stats.practice.value"), label: t("enterprise.stats.practice.label") },
+            { value: t("enterprise.stats.engagement.value"), label: t("enterprise.stats.engagement.label") },
+            { value: t("enterprise.stats.roi.value"), label: t("enterprise.stats.roi.label") },
           ].map((stat, i) => (
             <div
               key={i}
               className="customer-stat flex flex-col items-center justify-center w-40 h-40 mx-auto"
             >
-              <div className="text-3xl font-bold mb-2">{stat.value}</div>
-              <div className="text-xs text-white/70 px-4">{stat.label}</div>
+              <div className="text-3xl font-bold mb-2">
+                {stat.value}
+              </div>
+              <div className="text-xs text-white/70 px-4">
+                {stat.label}
+              </div>
             </div>
           ))}
         </div>
@@ -74,21 +86,25 @@ export default function IndividualPage() {
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
           {[
             {
-              title: "Eine Karte nur für dich",
-              text: "Sieh, wo du stehst, wohin du willst und wie du dort hinkommst.",
+              title: "enterprise.offerings.paths.title",
+              text: "enterprise.offerings.paths.text",
             },
             {
-              title: "Du bist nicht allein",
-              text: "Mentoring, Peer-Learning und gemeinsame Verantwortung.",
+              title: "enterprise.offerings.measure.title",
+              text: "enterprise.offerings.measure.text",
             },
             {
-              title: "Lerne, was zählt",
-              text: "Praxisnah, relevant und mit echtem Transfer ins Leben.",
+              title: "enterprise.offerings.workflow.title",
+              text: "enterprise.offerings.workflow.text",
             },
           ].map((item, i) => (
             <div key={i} className="customer-card p-8">
-              <h3 className="text-2xl font-semibold mb-4">{item.title}</h3>
-              <p className="text-white/70 leading-relaxed">{item.text}</p>
+              <h3 className="text-2xl font-semibold mb-4">
+                {t(item.title)}
+              </h3>
+              <p className="text-white/70 leading-relaxed">
+                {t(item.text)}
+              </p>
             </div>
           ))}
         </div>

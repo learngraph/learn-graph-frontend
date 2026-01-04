@@ -46,7 +46,7 @@ export default function TilesSection() {
         <div className="mb-24 max-w-5xl">
           {/* Eyebrow */}
           <div className="text-sm tracking-[0.45em] uppercase text-white mb-6">
-            How you
+             {t("landing.TileSection.header.eyebrow")}
           </div>
 
           {/* Hero word */}
@@ -57,13 +57,12 @@ export default function TilesSection() {
               mb-8
             "
           >
-            GROW
+           {t("landing.TileSection.header.title")}
           </h2>
 
           {/* Subline */}
           <p className="italic text-white text-lg leading-relaxed max-w-2xl">
-            Modular building blocks that scale from individual learning paths
-            to institutional systems.
+            {t("landing.TileSection.header.subline")}
           </p>
         </div>
 

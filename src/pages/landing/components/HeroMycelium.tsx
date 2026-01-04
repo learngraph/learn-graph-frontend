@@ -1,5 +1,7 @@
 import { useEffect, useRef } from "react";
 
+import { useI18n } from "@/i18n/i18n";
+
 type Node = {
   x: number;
   y: number;
@@ -8,8 +10,9 @@ type Node = {
 };
 
 export default function HeroMycelium() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
 
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const { t } = useI18n();
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -97,16 +100,11 @@ export default function HeroMycelium() {
       <div className="hero-copy">
         <span className="eyebrow">DIGITAL MYCELIUM</span>
         <h1>
-          Learning that <em>connects</em>.
+         <h1>{t("hero.headline")}</h1>
         </h1>
         <span></span>
         <div></div>
-        {/* <p>
-          Not courses. Not content.
-          <br />
-          A living system you can grow inside.
-        </p> */}
-        <button>Initialize learning</button>
+        <button>{t("hero.cta")}</button>
       </div>
     </section>
   );

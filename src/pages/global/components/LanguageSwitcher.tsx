@@ -6,7 +6,7 @@ export default function LanguageSelector() {
   const { lang, setLang } = useI18n();
   const [open, setOpen] = useState(false);
 
-  const languages = ["EN", "DE", "EL", "ES", "AR"];
+  const languages = ["EN", "DE", "EL", "FR", "ES", "AR"];
 
   return (
     <div className="lang-switcher">

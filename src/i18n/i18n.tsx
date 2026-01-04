@@ -4,14 +4,15 @@ import type { ReactNode } from "react";
 import en from "./locales/en.json";
 import de from "./locales/de.json";
 import el from "./locales/el.json";
+import fr from "./locales/fr.json";
 import es from "./locales/es.json";
 import ar from "./locales/ar.json";
 
-export type Lang = "en" | "de" | "el" | "es" | "ar";
+export type Lang = "en" | "de" | "el" | "fr" |"es" | "ar";
 
 type Dict = Record<string, any>;
 
-const dictionaries: Record<Lang, Dict> = { en, de, el, es, ar };
+const dictionaries: Record<Lang, Dict> = { en, de, el, fr, es, ar };
 
 function getInitialLang(): Lang {
   const saved = (typeof window !== "undefined" &&
@@ -53,16 +54,11 @@ const I18nContext = createContext<I18nContextValue | undefined>(undefined);
 export function I18nProvider({ children }: { children: ReactNode }) {
   const [lang, setLangState] = useState<Lang>(getInitialLang());
 
-  useEffect(() => {
-    const isRtl = lang === "ar";
-    if (typeof document !== "undefined") {
-      document.documentElement.lang = lang;
-      document.documentElement.dir = isRtl ? "rtl" : "ltr";
-    }
-    try {
-      localStorage.setItem("lang", lang);
-    } catch {}
-  }, [lang]);
+    useEffect(() => {
+      try {
+        localStorage.setItem("lang", lang);
+      } catch {}
+    }, [lang]);
 
   const t = useMemo(() => {
     const dict = dictionaries[lang] || dictionaries.en;

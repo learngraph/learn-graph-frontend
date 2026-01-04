@@ -1,5 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-
+import DirectionController from "@/i18n/DirectionController";
 import LandingPage from "./pages/landing/landing";
 import UniversityPage from "./pages/customerGroups/UniversityPage";
 import IndividualPage from "./pages/customerGroups/IndividualPage";
@@ -20,6 +20,7 @@ const ScrollToTop = (): null => {
 export default function App() {
   return (
     <BrowserRouter>
+     <DirectionController />
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/university" element={<UniversityPage />} />
