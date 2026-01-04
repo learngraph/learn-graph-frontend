@@ -33,9 +33,6 @@ export function Navbar() {
 
       {/* Right */}
       <div className="nav-right">
-        <LaunchButton />
-        
-
         <div className="lang-switcher">
           <LanguageSwitcher />
         </div>

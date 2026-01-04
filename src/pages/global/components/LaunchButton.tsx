@@ -10,7 +10,7 @@ export function LaunchButton() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          {t("nav.launch")}
+          {t("hero.cta")}
         </a>
   );
 }

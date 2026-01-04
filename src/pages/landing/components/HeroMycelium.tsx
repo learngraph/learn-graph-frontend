@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 
 import { useI18n } from "@/i18n/i18n";
+import { LaunchButton } from "@/pages/global/components/LaunchButton";
 
 type Node = {
   x: number;
@@ -104,7 +105,7 @@ export default function HeroMycelium() {
         </h1>
         <span></span>
         <div></div>
-        <button>{t("hero.cta")}</button>
+        <LaunchButton />
       </div>
     </section>
   );
