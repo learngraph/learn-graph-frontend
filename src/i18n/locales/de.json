@@ -267,6 +267,14 @@
     }
   },
 
+
+  "customers": {
+    "general": {
+      "for": "FÜR"
+    }
+  },
+
+
   "enterprise": {
     "hero": {
       "highlight": "Skalieren",

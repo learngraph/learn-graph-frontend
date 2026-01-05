@@ -266,6 +266,14 @@
     }
   },
 
+
+  "customers": {
+    "general": {
+      "for": "FOR"
+    }
+  },
+
+
   "enterprise": {
     "hero": {
       "highlight": "Scale",

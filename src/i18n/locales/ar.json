@@ -264,6 +264,12 @@
     }
   },
 
+  "customers": {
+    "general": {
+      "for": "لِـ"
+    }
+  },
+
   "enterprise": {
     "hero": {
       "highlight": "توسّع",

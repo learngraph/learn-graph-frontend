@@ -5,7 +5,7 @@ export default function EnterprisePage() {
   const { t } = useI18n();
 
   return (
-    <CustomerGroupPageShell>
+    <CustomerGroupPageShell currentGroup="enterprise">
 
       {/* HERO */}
       <section id="begin" className="py-20">

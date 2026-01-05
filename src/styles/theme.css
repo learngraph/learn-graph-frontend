@@ -11,6 +11,15 @@
 --text-primary: #eaeaea;
 --text-muted: #a9a9a9;
 
+
+/* Green theme */
+/* primary theme (active choice) */
+--theme-green-primary: #a3e635;
+/* alternative theme (warmer / organic) */
+--theme-green-organic: #c0e734;
+/* single switch */
+--theme-green: var(--theme-green-primary);
+
 /* Borders */
 --border-soft: rgba(255,255,255,0.18);
 --border-strong: rgba(255,255,255,0.35);
@@ -24,8 +33,9 @@
 
 /* Tiles */
 --tile-hover-bg: rgba(255, 255, 255, 0.04);
---tile-hover-glow: rgba(61,140,242,0.25);
---tiles-ambient-glow: rgba(61,140,242,0.25);
+--tile-hover-glow: rgba(163, 230, 53, 0.25);   /* theme green */
+--tiles-ambient-glow: rgba(163, 230, 53, 0.25);
+
 
 /* Text */
 --text-primary: #eaeaea;

@@ -264,6 +264,12 @@
     }
   },
 
+    "customers": {
+    "general": {
+      "for": "ΓΙΑ"
+    }
+  },
+
   "enterprise": {
     "hero": {
       "highlight": "Κλιμάκωση",

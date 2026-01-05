@@ -22,6 +22,7 @@ export function CustomerNavbar() {
       </div>
 
       {/* Center – customer navigation */}
+      
       <ul className="nav-links">
         <li onClick={() => navigate("/university")}>
           {t("nav.university")}
@@ -36,9 +37,9 @@ export function CustomerNavbar() {
 
       {/* Right */}
       <div className="nav-right">
-        <button className="nav-cta">
+        {/* <button className="nav-cta">
           {t("nav.launch")}
-        </button>
+        </button> */}
 
         <div className="lang-switcher">
           <LanguageSwitcher />

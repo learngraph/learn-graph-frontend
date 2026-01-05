@@ -141,3 +141,51 @@
   transform: translateY(-2px);
   transition: transform 0.25s ease;
 }
+
+
+/* =========================
+   CUSTOMER GROUP SWITCH TILES
+   ========================= */
+
+.customer-group-tiles {
+  padding: 6rem 0 3rem;
+}
+
+.customer-group-tiles .tiles-grid {
+  max-width: 900px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2rem;
+}
+
+.customer-tile {
+  padding: 2.5rem 2rem;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: white;
+  font-size: 1.1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.customer-tile:hover {
+  transform: translateY(-2px);
+  border-color: rgba(173, 255, 47, 0.65);
+}
+
+/* =========================
+   BACK TO BASE
+   ========================= */
+
+.customer-back-to-base {
+  padding: 4rem 0 6rem;
+  text-align: center;
+}
+
+.customer-tile.back {
+  max-width: 320px;
+  margin: 0 auto;
+}

@@ -15,7 +15,8 @@ export function Navbar() {
       </div>
 
       {/* Center – Landing anchors */}
-      <ul className="nav-links">
+      <div className="nav-spacer" />
+      {/* <ul className="nav-links">
         <li>
           <a href="#begin">{t("nav.begin")}</a>
         </li>
@@ -28,7 +29,7 @@ export function Navbar() {
         <li>
           <a href="#people">{t("nav.people")}</a>
         </li>
-      </ul>
+      </ul> */}
 
       {/* Right */}
       <div className="nav-right">

@@ -264,6 +264,14 @@
     }
   },
 
+
+  "customers": {
+    "general": {
+      "for": "POUR"
+    }
+  },
+
+
   "enterprise": {
     "hero": {
       "highlight": "Déployer",

@@ -264,6 +264,12 @@
     }
   },
 
+    "customers": {
+    "general": {
+      "for": "PARA"
+    }
+  },
+
   "enterprise": {
     "hero": {
       "highlight": "Escala",

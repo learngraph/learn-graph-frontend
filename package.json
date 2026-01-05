@@ -41,7 +41,7 @@
     "lexical": "^0.13.1",
     "lucide-react": "^0.503.0",
     "mui-image": "^1.0.7",
-    "posthog-js": "^1.232.7",
+    "posthog-js": "^1.313.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-draggable": "^4.4.6",
