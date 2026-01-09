@@ -2,7 +2,8 @@
 
   "hero": {
     "headline": "Lernen, das verbindet",
-    "cta": "Lernen starten"
+    "cta": "Lernen starten",
+    "temporary": "Demnächst verfügbar"
   },
 
   "nav": {
@@ -270,7 +271,8 @@
 
   "customers": {
     "general": {
-      "for": "FÜR"
+      "for": "FÜR",
+      "backToBase": "Zurück zur Basis"
     }
   },
 

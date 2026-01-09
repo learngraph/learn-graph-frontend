@@ -148,7 +148,7 @@
    ========================= */
 
 .customer-group-tiles {
-  padding: 6rem 0 3rem;
+  padding: 1.5rem 0 2rem;
 }
 
 .customer-group-tiles .tiles-grid {
@@ -160,7 +160,7 @@
 }
 
 .customer-tile {
-  padding: 2.5rem 2rem;
+  padding: 3.5rem 2rem;
   background: rgba(0, 0, 0, 0.45);
   border: 1px solid rgba(255, 255, 255, 0.12);
   color: white;
@@ -181,7 +181,7 @@
    ========================= */
 
 .customer-back-to-base {
-  padding: 4rem 0 6rem;
+  padding: 6rem 0 4rem;
   text-align: center;
 }
 

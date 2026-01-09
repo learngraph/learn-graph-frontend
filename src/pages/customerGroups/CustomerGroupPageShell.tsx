@@ -30,7 +30,7 @@ export default function CustomerGroupPageShell({
       <Navbar />
 
       {/* CURRENT GROUP MARKER */}
-      <div className="pt-32 pb-16 text-center ">
+      <div className="pt-24 pb-16 text-center ">
         <div className="customer-eyebrow text-white mb-4">
            {t("customers.general.for")}
         </div>
@@ -43,11 +43,12 @@ export default function CustomerGroupPageShell({
       </div>
 
       {/* PAGE CONTENT – UNTOUCHED */}
-      <div className="pb-24">
+      <div className="pb-16">
         {children}
       </div>
 
       {/* SWITCH GROUPS */}
+
       <CustomerGroupTiles current={currentGroup} />
 
       {/* BACK TO BASE */}
@@ -56,7 +57,7 @@ export default function CustomerGroupPageShell({
           className="customer-tile back"
           onClick={() => navigate("/")}
         >
-          ← Back to base
+          ← {t("customers.general.backToBase")}
         </button>
       </div>
     </main>

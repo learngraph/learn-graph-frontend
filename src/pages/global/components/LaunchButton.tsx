@@ -6,11 +6,12 @@ export function LaunchButton() {
   return (
         <a
           className="nav-cta"
-          href="https://app.learngraph.org"
+          // href="https://app.learngraph.org"
           target="_blank"
           rel="noopener noreferrer"
         >
-          {t("hero.cta")}
+          {/* {t("hero.cta")} */}
+          {t("hero.temporary")}
         </a>
   );
 }

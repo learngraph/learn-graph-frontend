@@ -1,12 +1,15 @@
 import "../styles/landing/landing.css";
 import LandingSustainability from "./components/LandingSustainability";
 import TilesSection from "./components/TilesSection";
-import HeroMycelium from "./components/HeroMycelium";
 import { Navbar } from "../global/components/Navbar";
 import NavWaypoints from "../global/components/NavWaypoints";
 import CustomerGroupSpotlightSection from "./components/CustomerGroupSpotlightSection";
 import LandingStatsBar from "./components/LandingStatsBar";
 import LandingTeamSection from "./components/LandingTeamSection";
+import HeroSphere from "./components/HeroSphere";
+
+
+
 
 
 
@@ -16,13 +19,27 @@ export default function LandingPage() {
     <main className="landing">
       <Navbar />
       <NavWaypoints />
-      <HeroMycelium/>
+
+    {/* breathing sphere */}
+    <section className="relative h-[80vh] w-full overflow-hidden">
+      <HeroSphere />
+    </section>
+
       <CustomerGroupSpotlightSection />
       <LandingStatsBar />
       <TilesSection />
       <LandingSustainability />
       <LandingTeamSection />
+    {/* one with little graphs flyiing around */}
 
     </main>
   );
 }
+
+
+    {/* one with little graphs flyiing around */}
+      {/* <HeroMycelium/> */}
+
+
+            {/* looks like a little green planet */}
+  {/* <HeroGraphCore onActivate={() => {}} />  */}

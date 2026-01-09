@@ -27,7 +27,9 @@
 }
 
 .nav-left {
-  gap: 12px;
+  background: none;
+  border: none;
+  padding: 0;
 }
 
 .nav-logo {

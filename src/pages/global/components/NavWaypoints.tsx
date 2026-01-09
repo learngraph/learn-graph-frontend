@@ -1,15 +1,18 @@
 import "../../styles/navbar/nav-waypoints.css";
 import { useEffect, useState } from "react";
+import { useI18n } from "@/i18n/i18n";
 
 
 const SECTIONS = [
-  { id: "begin", label: "Begin" },
-  { id: "compare", label: "Compare" },
-  { id: "grow", label: "Grow" },
-  { id: "people", label: "People" },
+  
+  { id: "begin", label: "nav.begin" },
+  { id: "compare", label: "nav.compare" },
+  { id: "grow", label: "nav.grow" },
+  { id: "people", label: "nav.people" },
 ];
 
 export default function NavWaypoints() {
+  const { t } = useI18n();;
   const [active, setActive] = useState<string | null>(null);
 
   useEffect(() => {
@@ -33,25 +36,26 @@ export default function NavWaypoints() {
   }, []);
 
   return (
-    <nav className="nav-waypoints" aria-label="Page sections">
-      {SECTIONS.map(section => {
-        const isActive = active === section.id;
+  <nav className="nav-waypoints" aria-label="Page sections">
+    {SECTIONS.map(section => {
+      const isActive = active === section.id;
 
-        return (
-          <button
-            key={section.id}
-            className={`waypoint ${isActive ? "active" : ""}`}
-            onClick={() =>
-              document
-                .getElementById(section.id)
-                ?.scrollIntoView({ behavior: "smooth" })
-            }
-          >
-            <span className="label">{section.label}</span>
-            <span className="diamond" />
-          </button>
-        );
-      })}
-    </nav>
-  );
+      return (
+        <button
+          key={section.id}
+          className={`waypoint ${isActive ? "active" : ""}`}
+          onClick={() =>
+            document
+              .getElementById(section.id)
+              ?.scrollIntoView({ behavior: "smooth" })
+          }
+        >
+          {/* 👇 THIS WAS THE MISSING PIECE */}
+          <span className="label">{t(section.label)}</span>
+          <span className="diamond" />
+        </button>
+      );
+    })}
+  </nav>
+);
 }

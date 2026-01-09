@@ -1,7 +1,8 @@
 {
   "hero": {
     "headline": "Aprendizaje que conecta.",
-    "cta": "Iniciar aprendizaje"
+    "cta": "Iniciar aprendizaje",
+    "temporary": "Próximamente"
   },
 
   "nav": {
@@ -266,7 +267,8 @@
 
     "customers": {
     "general": {
-      "for": "PARA"
+      "for": "PARA",
+      "backToBase": "Volver a la base"
     }
   },
 

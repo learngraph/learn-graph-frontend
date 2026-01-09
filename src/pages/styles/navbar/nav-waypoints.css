@@ -1,20 +1,20 @@
 .nav-waypoints {
   position: fixed;
-  right: 40px;
+  right: 2.5rem;          /* was 40px */
   top: 50%;
   transform: translateY(-50%);
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 1.125rem;          /* was 18px */
   z-index: 50;
 }
 
 .waypoint {
   display: grid;
-  grid-template-columns: auto 14px; 
+  grid-template-columns: auto 0.875rem; /* was 14px */
   align-items: center;
-  column-gap: 12px;
-  gap: 10px;
+  column-gap: 0.75rem;    /* was 12px */
+  gap: 0.625rem;          /* was 10px */
   background: none;
   border: none;
   padding: 0;
@@ -22,15 +22,16 @@
 }
 
 .label {
-  font-size: 13px;
-  letter-spacing: 0.04em;
+  font-size: 0.8125rem;   /* 13px */
+  letter-spacing: 0.04em; /* keep em here (correct) */
   white-space: nowrap;
   color: rgba(255, 255, 255, 0.45);
+  text-align: right;      /* 👈 subtle polish for right alignment */
 }
 
 .diamond {
-  width: 12px;
-  height: 12px;
+  width: 0.75rem;         /* 12px */
+  height: 0.75rem;
   background: rgba(255, 255, 255, 0.25);
   transform: rotate(45deg);
 }
@@ -43,15 +44,16 @@
   background: var(--theme-green);
 }
 
+/* ---------- Other nav bits (unchanged semantics) ---------- */
+
 .nav-cyber {
   display: flex;
-  grid-template-columns: auto 1fr auto;
   align-items: center;
 }
 
 .nav-left {
   display: flex;
-  gap: 8px;
+  gap: 0.5rem;            /* 8px */
 }
 
 .nav-spacer {
@@ -63,7 +65,7 @@
   justify-content: flex-end;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 48rem) { /* 768px */
   .nav-waypoints {
     display: none;
   }

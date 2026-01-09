@@ -1,7 +1,8 @@
 {
   "hero": {
     "headline": "Un apprentissage qui relie",
-    "cta": "Initialiser l’apprentissage"
+    "cta": "Initialiser l’apprentissage",
+    "temporary": "Bientôt disponible"
   },
 
   "nav": {
@@ -267,7 +268,8 @@
 
   "customers": {
     "general": {
-      "for": "POUR"
+      "for": "POUR",
+      "backToBase": "Retour à la base"
     }
   },
 

@@ -2,7 +2,8 @@
 
   "hero": {
     "headline": "Learning that connects",
-    "cta": "Initialize learning"
+    "cta": "Initialize learning",
+    "temporary": "Coming Soon"
   },
 
   "nav": {
@@ -269,7 +270,8 @@
 
   "customers": {
     "general": {
-      "for": "FOR"
+      "for": "FOR",
+      "backToBase": "Back to base"
     }
   },
 
