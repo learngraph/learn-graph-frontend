@@ -42,17 +42,17 @@
     "CustomerGroupStatsBar": {
       "stats": {
         "institutions": {
-          "value": "120+",
+          "value": "20",
           "label": "Ιδρύματα",
           "desc": "Ενεργά μαθησιακά συστήματα παγκοσμίως"
         },
         "learners": {
-          "value": "35k",
+          "value": "200",
           "label": "Μαθητευόμενοι",
           "desc": "Σε πολλούς τομείς και κλάδους"
         },
         "countries": {
-          "value": "18",
+          "value": "8",
           "label": "Χώρες",
           "desc": "Παγκόσμιο δίκτυο συνεργασίας"
         },

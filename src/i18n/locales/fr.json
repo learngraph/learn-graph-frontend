@@ -42,17 +42,17 @@
     "CustomerGroupStatsBar": {
       "stats": {
         "institutions": {
-          "value": "120+",
+          "value": "20",
           "label": "Institutions",
           "desc": "Systèmes d’apprentissage actifs dans le monde"
         },
         "learners": {
-          "value": "35k",
+          "value": "200",
           "label": "Apprenants",
           "desc": "Tous domaines confondus"
         },
         "countries": {
-          "value": "18",
+          "value": "8",
           "label": "Pays",
           "desc": "Réseau mondial de collaboration"
         },

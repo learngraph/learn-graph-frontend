@@ -44,17 +44,17 @@
     "CustomerGroupStatsBar": {
       "stats": {
         "institutions": {
-          "value": "120+",
+          "value": "20",
           "label": "Institutions",
           "desc": "Active learning systems worldwide"
         },
         "learners": {
-          "value": "35k",
+          "value": "200",
           "label": "Learners",
           "desc": "Across disciplines and domains"
         },
         "countries": {
-          "value": "18",
+          "value": "8",
           "label": "Countries",
           "desc": "Global collaboration network"
         },
