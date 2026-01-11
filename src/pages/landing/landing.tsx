@@ -30,16 +30,8 @@ export default function LandingPage() {
       <TilesSection />
       <LandingSustainability />
       <LandingTeamSection />
-    {/* one with little graphs flyiing around */}
+
 
     </main>
   );
 }
-
-
-    {/* one with little graphs flyiing around */}
-      {/* <HeroMycelium/> */}
-
-
-            {/* looks like a little green planet */}
-  {/* <HeroGraphCore onActivate={() => {}} />  */}

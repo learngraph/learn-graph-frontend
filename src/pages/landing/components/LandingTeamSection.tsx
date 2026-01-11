@@ -6,7 +6,7 @@ const TEAM = [
   { id: "jamal", name: "Jamal Daho" },
   { id: "efecan", name: "Efecan Köse" },
   { id: "ralf", name: "Ralf Waldvogel" },
-  { id: "malin", name: "Malin Rebke" },
+  { id: "arsham", name: "Arsham Delvarani" },
   { id: "talal", name: "Muhammad Talal" },
 ];
 

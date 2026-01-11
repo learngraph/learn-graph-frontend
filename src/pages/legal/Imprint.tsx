@@ -1,5 +1,5 @@
-import { CustomerNavbar } from "@/pages/global/components/CustomerNavbar";
 import { useI18n } from "@/i18n/i18n";
+import { Navbar } from "../global/components/Navbar";
 
 export default function ImprintPage() {
   const { t } = useI18n();
@@ -31,7 +31,7 @@ export default function ImprintPage() {
 
   return (
     <>
-      <CustomerNavbar />
+      <Navbar />
       <main className="min-h-screen bg-[var(--color-page-bg)] text-[var(--color-text-primary)] pb-24 pt-24">
         <header className="max-w-4xl mx-auto px-6 pt-12 pb-12 border-b border-white/5">
           <p className="text-sm uppercase tracking-widest text-blue-400 font-bold mb-4">

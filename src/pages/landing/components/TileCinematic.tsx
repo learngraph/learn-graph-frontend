@@ -16,8 +16,6 @@ export default function TileCinematic({ title, text, content }: TileProps) {
       {/* ───────── Compact Tile ───────── */}
       <motion.div
         onClick={() => setOpen(true)}
-        whileHover={{ y: -4 }}
-        transition={{ duration: 0.25, ease: "easeOut" }}
         className="
           tile-base
           flex flex-col
@@ -68,12 +66,11 @@ export default function TileCinematic({ title, text, content }: TileProps) {
             >
               <motion.div
                 className="
+                  tile-base tile-open
                   relative w-full max-w-4xl
-                  bg-[var(--color-section-bg)]
-                  border border-white/10
                   rounded-xl
                   p-12
-                "
+                  "
                 initial={{ scale: 0.85, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.85, opacity: 0 }}

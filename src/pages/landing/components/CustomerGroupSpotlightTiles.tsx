@@ -37,15 +37,11 @@ export default function CustomerGroupSpotlightTiles() {
           key={tile.path}
           type="button"
           onClick={() => navigate(tile.path)}
-          whileHover={{ y: -3 }}
-          transition={{ duration: 0.2, ease: "easeOut" }}
           className="
             tile-base
             p-10
             text-left
             outline-none
-            bg-transparent
-            border-none
             cursor-pointer
           "
         >

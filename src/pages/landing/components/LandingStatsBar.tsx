@@ -29,10 +29,10 @@ export default function LandingStatsBar() {
   return (
   <section id="compare" className="...">
     <div className="w-full
-                    border-y border-white/15
+                    border-y border-white/55
                     bg-black/30">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
-        <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-white/10">
+        <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-white/55">
           {STATS.map((stat, i) => (
             <div
               key={i}
@@ -44,7 +44,7 @@ export default function LandingStatsBar() {
               <div className="text-xl font-mono uppercase tracking-widest mb-2 text-[rgba(212,255,57,0.9)]">
                 {t(stat.labelKey)}
               </div>
-              <p className="text-sm text-gray-500 leading-tight max-w-[120px] mx-auto hidden md:block">
+              <p className="text-sm text-white/90 leading-tight max-w-[120px] mx-auto hidden md:block">
                 {t(stat.descKey)}
               </p>
             </div>
