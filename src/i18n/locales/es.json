@@ -121,7 +121,11 @@
         "efecan": "Director de Estrategia Educativa",
         "ralf": "Ingeniero de Producto de Software",
         "arsham": "Asesor de Marketing y Cultura",
-        "talal": "Ingeniero de Desarrollo"
+        "talal": "Ingeniero de Desarrollo",
+        "jamileh": "Especialista en Machine Learning",
+        "lea": "Diseño y Sistemas Visuales",
+        "phil": "Ingeniería Backend",
+        "joyce": "Líder en Ciencias Sociales"
       },
       "quotes": {
         "laurin": "Las mejores ideas nacen de la quietud. LearnGraph no fue creado para interrumpir, sino para escuchar, guiar y crecer con quienes están listos para escuchar",
@@ -129,7 +133,11 @@
         "efecan": "La educación no consiste en llenar un recipiente, sino en encender una llama - y pienso encender todo el sistema",
         "ralf": "Mi trabajo es asegurar que el producto no solo funcione, sino que funcione bien, siempre",
         "arsham": "Me apasionan las oportunidades iguales para todas las personas, independientemente de su origen, circunstancias o neurodiversidad",
-        "talal": "Es un mundo desafiante, pero nunca estuvimos destinados a afrontarlo solos. Lo que importa es lo que hacemos por la humanidad"
+        "talal": "Es un mundo desafiante, pero nunca estuvimos destinados a afrontarlo solos. Lo que importa es lo que hacemos por la humanidad",
+        "jamileh": "He visto lo que significa cuando se niega la educación—cuando mentes brillantes son rechazadas por su origen o identidad",
+        "lea": "Una creadora que puede llevar una idea de la visión estética a la realidad técnica",
+        "phil": "Construir infraestructura significativa sin perder de vista a los humanos a los que sirve",
+        "joyce": "Una voz vital para la perspectiva local y la realidad social—no se puede construir para el mundo sin escucharlo"
       }
     },
 

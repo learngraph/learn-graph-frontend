@@ -123,15 +123,23 @@
         "efecan": "Head of Education Strategy",
         "ralf": "Software Product Engineer",
         "arsham": "Marketing & Culture Advisor",
-        "talal": "Development Engineer"
+        "talal": "Development Engineer",
+        "jamileh": "Machine Learning Specialist",
+        "lea": "Design & Visual Systems",
+        "phil": "Backend Engineering",
+        "joyce": "Social Science Lead"
       },
       "quotes": {
-        "laurin": "The best ideas come from stillness. LearnGraph wasn’t built to disrupt - it was built to listen, guide, and grow with those ready to listen",
+        "laurin": "The best ideas come from stillness. LearnGraph wasn't built to disrupt - it was built to listen, guide, and grow with those ready to listen",
         "jamal": "Across the Arab world and beyond, people are dreaming of a new kind of education - one that empowers, uplifts, and transforms",
         "efecan": "Education is not about filling a vessel, but about kindling a flame - and I intend to ignite the system",
-        "ralf": "My job is to make sure the product doesn’t just work, but works well - every time",
-        "arsham": "I’m passionate about equal opportunities for everyone - regardless of background, circumstances, or neurodiversity",
-        "talal": "It’s a challenging world, but we were never meant to face it alone. What matters is what we do for humanity"
+        "ralf": "My job is to make sure the product doesn't just work, but works well - every time",
+        "arsham": "I'm passionate about equal opportunities for everyone - regardless of background, circumstances, or neurodiversity",
+        "talal": "It's a challenging world, but we were never meant to face it alone. What matters is what we do for humanity",
+        "jamileh": "I've seen what it means when education is denied—when brilliant minds are turned away because of where they come from or who they are",
+        "lea": "A builder who can carry an idea from aesthetic vision to technical reality",
+        "phil": "Build meaningful infrastructure without losing sight of the humans it serves",
+        "joyce": "A vital voice for local perspective and social reality—no building for the world without listening to it"
       }
     },
 

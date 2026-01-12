@@ -202,6 +202,24 @@
   max-width: 900px;
   margin: 1rem auto 1rem;
   align-items: center;
+  overflow-x: hidden;
+  width: 100%;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+
+/* Mobile: stack vertically */
+@media (max-width: 768px) {
+  .group-selector {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 0 1rem;
+  }
+  
+  .group-tile {
+    padding: 1.5rem 1rem;
+    font-size: 0.95rem;
+  }
 }
 
 .group-tile {

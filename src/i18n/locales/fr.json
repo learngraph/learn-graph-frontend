@@ -121,15 +121,23 @@
         "efecan": "Responsable stratégie éducative",
         "ralf": "Ingénieur produit logiciel",
         "arsham": "Conseiller Marketing & Culture",
-        "talal": "Ingénieur développement"
+        "talal": "Ingénieur développement",
+        "jamileh": "Spécialiste Machine Learning",
+        "lea": "Design & Systèmes Visuels",
+        "phil": "Ingénierie Backend",
+        "joyce": "Responsable Sciences Sociales"
       },
       "quotes": {
-        "laurin": "Les meilleures idées naissent dans le silence. LearnGraph n’a pas été conçu pour perturber, mais pour écouter, guider et évoluer",
-        "jamal": "À travers le monde arabe et au-delà, de nouvelles visions de l’éducation émergent",
-        "efecan": "L’éducation ne consiste pas à remplir un vase, mais à allumer une flamme",
-        "ralf": "Mon rôle est de m’assurer que le produit fonctionne - parfaitement, à chaque fois",
-        "arsham": "Je suis passionné par l’égalité des chances pour toutes et tous, quels que soient le parcours, les circonstances ou la neurodiversité",
-        "talal": "Le monde est exigeant, mais nous n’avons jamais été faits pour l’affronter seuls"
+        "laurin": "Les meilleures idées naissent dans le silence. LearnGraph n'a pas été conçu pour perturber, mais pour écouter, guider et évoluer",
+        "jamal": "À travers le monde arabe et au-delà, de nouvelles visions de l'éducation émergent",
+        "efecan": "L'éducation ne consiste pas à remplir un vase, mais à allumer une flamme",
+        "ralf": "Mon rôle est de m'assurer que le produit fonctionne - parfaitement, à chaque fois",
+        "arsham": "Je suis passionné par l'égalité des chances pour toutes et tous, quels que soient le parcours, les circonstances ou la neurodiversité",
+        "talal": "Le monde est exigeant, mais nous n'avons jamais été faits pour l'affronter seuls",
+        "jamileh": "J'ai vu ce que signifie le refus d'éducation—quand des esprits brillants sont rejetés à cause de leur origine ou de leur identité",
+        "lea": "Une créatrice qui peut porter une idée de la vision esthétique à la réalité technique",
+        "phil": "Construire une infrastructure significative sans perdre de vue les humains qu'elle sert",
+        "joyce": "Une voix essentielle pour la perspective locale et la réalité sociale—pas de construction pour le monde sans l'écouter"
       }
     },
 
