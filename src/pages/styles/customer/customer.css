@@ -202,10 +202,11 @@
   max-width: 900px;
   margin: 1rem auto 1rem;
   align-items: center;
-  overflow-x: hidden;
+  overflow: hidden;
   width: 100%;
   padding: 0 1rem;
   box-sizing: border-box;
+  touch-action: pan-y;
 }
 
 /* Mobile: stack vertically */
