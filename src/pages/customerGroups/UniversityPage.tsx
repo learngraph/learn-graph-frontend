@@ -10,7 +10,7 @@ export default function UniversityPage() {
 
       {/* HERO */}
       <section id="begin" className="py-20">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-4xl mx-auto px-6">
           <h1 className="text-5xl md:text-6xl font-serif mb-6">
             <span className="text-lime-400">
               {t("university.hero.highlight")}
