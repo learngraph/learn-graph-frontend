@@ -1,6 +1,4 @@
 import { FC } from "react";
-import { NavigationWithContent } from "@src/Navigation";
-import { useTranslation } from "react-i18next";
 import {
   ChallengeBlock,
   ChallengesSection,
@@ -15,11 +13,12 @@ import {
   SolutionsSection,
 } from "@src/shared/Components";
 import { useNavigate, useParams } from "react-router-dom";
+import { useI18n } from "../i18n/useI18nStub";
 
 // --- Components ---
 
-const CGUniversityContent: FC = () => {
-  const { t } = useTranslation();
+export const CGUniversityContent: FC = () => {
+  const { t } = useI18n();
   const navigate = useNavigate();
 
   // --- Data Definitions ---
@@ -79,18 +78,14 @@ const CGUniversityContent: FC = () => {
       headline: t("university.solution1.headline"),
       imageUrl: "/learning-containers-static-w-plants.webp",
       text: t("university.solution1.text"),
-      keywords: t("university.solution1.keywords", {
-        returnObjects: true,
-      }) as string[],
+      keywords: [t("university.solution1.keywords")],
     },
     {
       target: t("university.solution2.target"),
       headline: t("university.solution2.headline"),
       imageUrl: "/coaching-circle-happy-faces.webp",
       text: t("university.solution2.text"),
-      keywords: t("university.solution2.keywords", {
-        returnObjects: true,
-      }) as string[],
+      keywords: [t("university.solution2.keywords")],
       extraClass: "object-top",
     },
     {
@@ -98,9 +93,7 @@ const CGUniversityContent: FC = () => {
       headline: t("university.solution3.headline"),
       imageUrl: "/university-standards-mobility-innovation-seamless.webp",
       text: t("university.solution3.text"),
-      keywords: t("university.solution3.keywords", {
-        returnObjects: true,
-      }) as string[],
+      keywords: [t("university.solution3.keywords")],
     },
   ];
 
@@ -140,12 +133,9 @@ const CGUniversityContent: FC = () => {
 };
 
 export const University = () => {
-  // inside the bg-[...]
-  // linear-gradient(rgba(0,0,0,0.9),rgba(0,0,0,0.1)),
   return (
     <div className="bg-[url('/LGBG-light.webp')] bg-no-repeat bg-cover bg-fixed bg-center min-h-screen">
-      {/*<div className="bg-gradient-to-br from-gray-200 to-gray-100 min-h-screen">*/}
-      <NavigationWithContent content={<CGUniversityContent />} />
+      <CGUniversityContent />
     </div>
   );
 };
@@ -165,7 +155,7 @@ export interface Partner {
   learngraphRole: string;
 }
 
-const partners: Partner[] = [
+export const partners: Partner[] = [
   {
     id: 1,
     name: "Universitatea Nationala de Stiinta si Tehnologie POLITEHNICA Bucuresti",
@@ -385,7 +375,7 @@ export const PartnerSuccessStory: FC = () => {
 };
 
 export const LearningNavigatorSection: FC = () => {
-  const { t } = useTranslation();
+  const { t } = useI18n();
   const hotspots: Hotspot[] = [
     {
       id: 1,

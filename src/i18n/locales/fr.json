@@ -1,0 +1,461 @@
+{
+  "hero": {
+    "headline": "Un apprentissage qui relie",
+    "cta": "Initialiser l’apprentissage",
+    "temporary": "Bientôt disponible"
+  },
+
+  "nav": {
+    "begin": "Début",
+    "compare": "Comparer",
+    "grow": "Évoluer",
+    "partners": "Partenaires",
+    "people": "Personnes",
+    "launch": "Lancer l'application",
+    "university": "Universités",
+    "enterprise": "Entreprises",
+    "individual": "Individus"
+  },
+
+  "landing": {
+    "TargetGroupsSection": {
+      "headline": {
+        "primary": "CHEMINS",
+        "secondary": "de",
+        "third": "l’apprentissage"
+      },
+      "tiles": {
+        "university": {
+          "title": "Universités & Éducation",
+          "text": "Graphes d’apprentissage pour les cursus, la recherche et les études interdisciplinaires"
+        },
+        "enterprise": {
+          "title": "Entreprises",
+          "text": "Systèmes de connaissance structurés pour les équipes et les organisations"
+        },
+        "individual": {
+          "title": "Individus",
+          "text": "Parcours d’apprentissage personnels qui s’adaptent et évoluent"
+        }
+      }
+    },
+
+    "CustomerGroupStatsBar": {
+      "stats": {
+        "institutions": {
+          "value": "20",
+          "label": "Institutions",
+          "desc": "Systèmes d’apprentissage actifs dans le monde"
+        },
+        "learners": {
+          "value": "200",
+          "label": "Apprenants",
+          "desc": "Tous domaines confondus"
+        },
+        "countries": {
+          "value": "8",
+          "label": "Pays",
+          "desc": "Réseau mondial de collaboration"
+        },
+        "paths": {
+          "value": "∞",
+          "label": "Parcours",
+          "desc": "Trajectoires en évolution constante"
+        }
+      }
+    },
+
+    "TileSection": {
+      "header": {
+        "eyebrow": "Comment vous",
+        "title": "ÉVOLUEZ",
+        "subline": "Des briques modulaires — du parcours individuel aux systèmes institutionnels"
+      },
+      "tiles": {
+        "institutions": {
+          "title": "Renforcer avec LearnGraph",
+          "text": "Transformer les écosystèmes éducatifs par l’ouverture et l’intelligence collective"
+        },
+        "forge": {
+          "title": "Forgez votre propre parcours",
+          "text": "Pas de modèle unique. LearnGraph s’adapte à vos objectifs, votre rythme, votre manière d’apprendre"
+        },
+        "upskill": {
+          "title": "Développez vos compétences avec précision",
+          "text": "Chaque compétence est une étape vers la maîtrise"
+        },
+        "mission": {
+          "title": "Open source, guidé par la mission",
+          "text": "Nous ne poursuivons pas le profit — nous poursuivons le sens"
+        }
+      }
+    },
+
+    "LandingSustainability": {
+      "title": {
+        "prefix": "Durabilité",
+        "highlight": "portée par le produit"
+      },
+      "items": {
+        "free": "Gratuit pour les individus",
+        "noAds": "Sans publicité · sans paywalls · sans extraction de données",
+        "openSource": "Open source par défaut"
+      }
+    },
+
+    "LandingPartnersSection": {
+      "title": {
+        "prefix": "NOS",
+        "main": "PARTENAIRES"
+      }
+    },
+
+    "LandingTeamSection": {
+      "title": {
+        "prefix": "L'",
+        "main": "ÉQUIPE"
+      },
+      "roles": {
+        "laurin": "Directeur général",
+        "jamal": "Consultant senior",
+        "efecan": "Responsable stratégie éducative",
+        "ralf": "Ingénieur produit logiciel",
+        "arsham": "Conseiller Marketing & Culture",
+        "talal": "Ingénieur développement",
+        "jamileh": "Spécialiste Machine Learning",
+        "lea": "Design & Systèmes Visuels",
+        "phil": "Ingénierie Backend",
+        "joyce": "Responsable Sciences Sociales"
+      },
+      "quotes": {
+        "laurin": "Les meilleures idées naissent dans le silence. LearnGraph n'a pas été conçu pour perturber, mais pour écouter, guider et évoluer",
+        "jamal": "À travers le monde arabe et au-delà, de nouvelles visions de l'éducation émergent",
+        "efecan": "L'éducation ne consiste pas à remplir un vase, mais à allumer une flamme",
+        "ralf": "Mon rôle est de m'assurer que le produit fonctionne - parfaitement, à chaque fois",
+        "arsham": "Je suis passionné par l'égalité des chances pour toutes et tous, quels que soient le parcours, les circonstances ou la neurodiversité",
+        "talal": "Le monde est exigeant, mais nous n'avons jamais été faits pour l'affronter seuls",
+        "jamileh": "J'ai vu ce que signifie le refus d'éducation—quand des esprits brillants sont rejetés à cause de leur origine ou de leur identité",
+        "lea": "Une créatrice qui peut porter une idée de la vision esthétique à la réalité technique",
+        "phil": "Construire une infrastructure significative sans perdre de vue les humains qu'elle sert",
+        "joyce": "Une voix essentielle pour la perspective locale et la réalité sociale—pas de construction pour le monde sans l'écouter"
+      }
+    },
+
+    "TileContentProject": {
+      "forge": {
+        "title": "Forgez votre propre parcours",
+        "intro": "LearnGraph vous aide à cartographier votre apprentissage — où vous êtes, où vous allez et comment y parvenir",
+        "points": {
+          "generic": {
+            "label": "Trop générique",
+            "desc": "La plupart des plateformes traitent tout le monde de la même façon"
+          },
+          "overload": {
+            "label": "Surcharge d’information",
+            "desc": "La clarté remplace le chaos"
+          },
+          "alone": {
+            "label": "Apprendre seul",
+            "desc": "Mentorat et soutien intégrés"
+          },
+          "relevance": {
+            "label": "Pertinence réelle",
+            "desc": "Apprendre en faisant"
+          }
+        },
+        "closing": "Votre parcours devient une carte vivante"
+      },
+
+      "institutions": {
+        "title": "Des systèmes qui apprennent",
+        "intro": "Lorsque les institutions apprennent comme leurs apprenants, l’éducation reprend vie",
+        "points": {
+          "awareness": {
+            "label": "Conscience",
+            "desc": "Identifier les schémas invisibles"
+          },
+          "adaptation": {
+            "label": "Adaptation",
+            "desc": "Évoluer avec les communautés"
+          },
+          "empathy": {
+            "label": "Empathie",
+            "desc": "Concevoir pour l’équilibre et la croissance"
+          }
+        },
+        "closing": "LearnGraph n’est pas qu’un logiciel — c’est une pratique"
+      },
+
+      "mission": {
+        "title": "Open source, guidé par la mission",
+        "intro": "Nous ne poursuivons pas le profit — nous poursuivons le sens",
+        "points": {
+          "sustainability": {
+            "label": "Durabilité par le produit",
+            "desc": "SaaS pour les institutions, gratuit pour les individus"
+          },
+          "access": {
+            "label": "Accès ouvert pour tous",
+            "desc": "Sans connexion, sans publicité, sans paywalls"
+          },
+          "alignment": {
+            "label": "Alignement mondial",
+            "desc": "Inspiré par l’UNESCO et le PNUD"
+          }
+        },
+        "closing": "LearnGraph construit une infrastructure pour l’intention collective"
+      },
+
+      "upskill": {
+        "title": "Compétences réelles, résultats réels",
+        "intro": "LearnGraph relie le conseil à l’apprentissage évolutif",
+        "points": {
+          "smarter": {
+            "label": "Apprentissage plus intelligent",
+            "desc": "Les données deviennent orientation"
+          },
+          "collaborative": {
+            "label": "Croissance collaborative",
+            "desc": "Défis entre pairs et mentorat en temps réel"
+          },
+          "transfer": {
+            "label": "Transfert de compétences",
+            "desc": "L’apprentissage passe directement à la pratique"
+          },
+          "impact": {
+            "label": "Impact mesurable",
+            "desc": "Chaque étape renforce la performance des équipes"
+          }
+        },
+        "closing": "La formation devient une culture — pas un cours"
+      }
+    }
+  },
+
+  "cookie": {
+    "consentLabel": "Consentement aux cookies",
+    "description1": "Nous utilisons des cookies pour les fonctions essentielles et, avec autorisation, pour l’analyse",
+    "description2": "Les cookies strictement nécessaires sont toujours actifs",
+    "settings": "Paramètres",
+    "rejectAll": "Tout refuser",
+    "acceptAll": "Tout accepter",
+    "privacySettings": "Paramètres de confidentialité",
+    "strictlyNecessaryTitle": "Strictement nécessaires",
+    "strictlyNecessaryDesc": "Requis pour une connexion sécurisée (Keycloak)",
+    "analyticsTitle": "Analytique (PostHog)",
+    "analyticsDesc": "Aide à améliorer le produit. Optionnel."
+  },
+
+  "common": {
+    "cancel": "Annuler",
+    "save": "Enregistrer"
+  },
+
+  "footer": {
+    "tagline": "(c) {{year}} LearnGraph - Conçu avec passion",
+    "imprint": "Mentions légales",
+    "contact": "Contact"
+  },
+
+  "legal": {
+    "placeholder": "[À définir]",
+    "imprint": {
+      "title": "Mentions légales",
+      "subtitle": "Informations conformément à l’article 5 TMG",
+      "companyLabel": "Société",
+      "addressLabel": "Adresse",
+      "managingDirectorLabel": "Directeur général",
+      "managingDirectorValue": "Laurin Hagemann",
+      "phoneLabel": "Téléphone",
+      "emailLabel": "E-mail",
+      "registerLabel": "Registre du commerce",
+      "registerValue": "Amtsgericht Bochum, HRB : {{hrb}}",
+      "vatIdLabel": "Numéro de TVA",
+      "taxNumberLabel": "Numéro fiscal",
+      "companyNumberLabel": "Numéro d’entreprise",
+      "responsibleTitle": "Responsable du contenu",
+      "disclaimerTitle": "Clause de non-responsabilité",
+      "disclaimerBody": "Malgré un contrôle attentif du contenu, nous n’assumons aucune responsabilité pour le contenu des liens externes. Les opérateurs des pages liées sont seuls responsables de leur contenu.",
+      "accuracyTitle": "Exactitude des informations",
+      "accuracyBody": "Le contenu de ce site a été créé avec le plus grand soin possible. Toutefois, nous n’assumons aucune responsabilité quant à l’exactitude, l’exhaustivité ou l’actualité des informations fournies."
+    }
+  },
+
+
+  "customers": {
+    "general": {
+      "for": "POUR",
+      "backToBase": "Retour à la base"
+    }
+  },
+
+
+  "enterprise": {
+    "hero": {
+      "highlight": "Déployer",
+      "title": "l’apprentissage à impact",
+      "subtitle": "LearnGraph relie l’accompagnement personnalisé à un apprentissage mesurable et évolutif."
+    }
+  },
+
+  "individual": {
+  "hero": {
+    "highlight": "Votre",
+    "title": "parcours d’apprentissage personnel",
+    "subtitle": "Dites adieu aux formations standardisées. LearnGraph vous aide à façonner votre propre parcours d’apprentissage avec clarté, pertinence et feedback."
+  },
+
+  "challenges": {
+    "generic": {
+      "title": "Trop générique",
+      "text": "Un chemin unique ne fonctionne pas pour tous. Vos objectifs méritent leur propre carte."
+    },
+    "motivation": {
+      "title": "Perte de motivation",
+      "text": "Sans pertinence, l’apprentissage devient vide — même pour les apprenants avancés."
+    },
+    "overload": {
+      "title": "Surcharge d’information",
+      "text": "Trop de cours, pas assez d’orientation. Qu’est-ce qui compte vraiment ?"
+    },
+    "alone": {
+      "title": "Apprendre seul",
+      "text": "Sans échange, soutien et perspective, la progression stagne."
+    }
+  },
+
+  "stats": {
+    "forget": { "value": "80 %", "label": "oublient le contenu après une semaine" },
+    "personalized": { "value": "+30 %", "label": "meilleurs résultats grâce à la personnalisation" },
+    "peer": { "value": "↑", "label": "motivation par l’apprentissage entre pairs" },
+    "practice": { "value": "✓", "label": "projets plutôt que théorie" }
+  },
+
+  "offerings": {
+    "map": {
+      "title": "Une carte faite pour vous",
+      "text": "Visualisez où vous êtes, où vous voulez aller et comment y parvenir."
+    },
+    "support": {
+      "title": "Vous n’êtes pas seul",
+      "text": "Mentorat, apprentissage entre pairs et responsabilité partagée."
+    },
+    "relevance": {
+      "title": "Apprenez ce qui compte",
+      "text": "Pratique, pertinent et applicable à la vie réelle."
+    }
+  }
+},
+
+"university": {
+  "hero": {
+    "highlight": "Renforcez",
+    "title": "votre institution",
+    "subtitle": "Transformez votre écosystème éducatif grâce à des analyses personnalisées, des modèles hybrides et une interopérabilité fluide."
+  },
+
+  "challenges": {
+    "engagement": {
+      "title": "Engagement renforcé",
+      "text": "Favorisez l’engagement à long terme grâce à des parcours transparents et adaptatifs."
+    },
+    "integration": {
+      "title": "Parcours intégrés",
+      "text": "Reliez programmes formels, apprentissage informel et recherche dans un système cohérent."
+    },
+    "data": {
+      "title": "Des données à l’action",
+      "text": "Transformez les données d’apprentissage en décisions concrètes."
+    },
+    "interop": {
+      "title": "Interopérabilité fluide",
+      "text": "Intégrez les systèmes existants sans verrouillage fournisseur."
+    }
+  },
+
+  "stats": {
+    "completion": { "value": "23 %", "label": "augmentation des diplômes" },
+    "gaps": { "value": "5 %", "label": "réduction des écarts de performance" },
+    "retention": { "value": "30 %", "label": "engagement amélioré" },
+    "dropout": { "value": "11 %", "label": "baisse du décrochage" }
+  },
+
+  "offerings": {
+    "hybrid": {
+      "title": "Conteneurs d’apprentissage hybrides",
+      "text": "Espaces flexibles combinant présentiel, numérique et auto-apprentissage."
+    },
+    "peer": {
+      "title": "Coaching & mentorat entre pairs",
+      "text": "Soutien évolutif via des réseaux collaboratifs."
+    },
+    "open": {
+      "title": "Interopérabilité & open source",
+      "text": "Infrastructure ouverte pour une innovation durable."
+    }
+  }
+},
+
+"enterprise": {
+    "hero": {
+      "highlight": "De vraies compétences,",
+      "title": "de vrais résultats à grande échelle",
+      "subtitle": "LearnGraph combine accompagnement personnalisé et apprentissage en ligne scalable — pour un transfert réel, de la performance et du ROI."
+    },
+
+    "challenges": {
+      "scaling": {
+        "title": "Le conseil ne passe pas à l’échelle",
+        "text": "Les experts partent, le savoir disparaît. L’apprentissage reste bloqué dans des ateliers."
+      },
+      "completion": {
+        "title": "Le problème des 80 %",
+        "text": "La majorité des employés ne termine pas les formations en ligne — encore moins les applique."
+      },
+      "silo": {
+        "title": "Apprendre seul, travailler ensemble",
+        "text": "La formation est individuelle, le travail est collaboratif. Le lien manque."
+      },
+      "roi": {
+        "title": "Aucun ROI clair pour le L&D",
+        "text": "Les clics et certificats ne sont pas des résultats. L’impact reste difficile à mesurer."
+      }
+    },
+
+    "stats": {
+      "retention": {
+        "value": "+40%",
+        "label": "Meilleure rétention grâce aux parcours personnalisés"
+      },
+      "practice": {
+        "value": "2×",
+        "label": "Meilleurs résultats grâce à la pratique réelle"
+      },
+      "engagement": {
+        "value": "↑",
+        "label": "L’engagement augmente avec la pertinence"
+      },
+      "roi": {
+        "value": "✓",
+        "label": "Des données exploitables révèlent le ROI"
+      }
+    },
+
+    "offerings": {
+      "paths": {
+        "title": "Parcours de compétences guidés",
+        "text": "Les employés savent quoi apprendre, dans quel ordre et pourquoi."
+      },
+      "measure": {
+        "title": "Rendre l’apprentissage mesurable",
+        "text": "Des tableaux de bord en temps réel relient formation et résultats."
+      },
+      "workflow": {
+        "title": "Apprendre dans le flux de travail",
+        "text": "L’apprentissage se fait dans le contexte — avec les équipes, au bon moment."
+      }
+    }
+  }
+
+
+}

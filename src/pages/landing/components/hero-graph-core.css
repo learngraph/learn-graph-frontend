@@ -1,0 +1,120 @@
+.hero-core-wrapper {
+  position: relative;
+  height: 80vh;
+  min-height: 520px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* -------------------------
+   Ambient node field
+-------------------------- */
+
+.hero-core-field {
+  position: absolute;
+  inset: -20%;
+  background:
+    radial-gradient(
+      circle at 50% 50%,
+      rgba(163, 230, 53, 0.06),
+      transparent 60%
+    );
+  opacity: 0.6;
+  transition: opacity 1.5s ease;
+}
+
+.hero-core-wrapper.active .hero-core-field {
+  opacity: 1;
+}
+
+/* -------------------------
+   Central core
+-------------------------- */
+
+.hero-core {
+  position: relative;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle at 30% 30%,
+      rgba(255,255,255,0.18),
+      rgba(0,0,0,0.9) 65%
+    );
+  box-shadow:
+    0 0 40px rgba(163,230,53,0.15),
+    inset 0 0 30px rgba(163,230,53,0.25);
+  transition:
+    box-shadow 1.4s ease,
+    transform 1.8s ease;
+}
+
+.hero-core::after {
+  content: "";
+  position: absolute;
+  inset: -30px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(163,230,53,0.25),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 1.6s ease;
+}
+
+/* Breathing */
+.core-inner {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  animation: core-breathe 6s ease-in-out infinite;
+}
+
+@keyframes core-breathe {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.04); opacity: 1; }
+}
+
+/* Activated state */
+.hero-core-wrapper.active .hero-core {
+  transform: scale(1.08);
+  box-shadow:
+    0 0 80px rgba(163,230,53,0.45),
+    inset 0 0 40px rgba(163,230,53,0.45);
+}
+
+.hero-core-wrapper.active .hero-core::after {
+  opacity: 1;
+}
+
+/* -------------------------
+   CTA
+-------------------------- */
+
+.hero-core-cta {
+  margin-top: 48px;
+  padding: 14px 42px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.25);
+  color: white;
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    border-color 0.6s ease,
+    box-shadow 0.6s ease,
+    transform 0.4s ease;
+}
+
+.hero-core-cta:hover {
+  border-color: var(--theme-green);
+  box-shadow:
+    0 0 20px rgba(163,230,53,0.35);
+  transform: translateY(-1px);
+}

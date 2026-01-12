@@ -1,0 +1,466 @@
+{
+
+  "hero": {
+    "headline": "Learning that connects",
+    "cta": "Initialize learning",
+    "temporary": "Coming Soon"
+  },
+
+  "nav": {
+    "begin": "Begin",
+    "compare": "Compare",
+    "grow": "Grow",
+    "partners": "Partners",
+    "people": "People",
+    "launch": "Launch App",
+    "university": "University",
+    "enterprise": "Enterprise",
+    "individual": "Individuals"
+  },
+
+  "landing": {
+
+    "TargetGroupsSection": {
+      "headline": {
+      "primary": "WAYS",
+      "secondary": "of",
+      "third": "learning"
+      },
+      "tiles": {
+        "university": {
+          "title": "Universities & Education",
+          "text": "Learning graphs for curricula, research, and interdisciplinary study"
+        },
+        "enterprise": {
+          "title": "Enterprise",
+          "text": "Structured knowledge systems for teams and organizations"
+        },
+        "individual": {
+          "title": "Individuals",
+          "text": "Personal learning paths that adapt and evolve"
+        }
+      }
+    },
+
+    "CustomerGroupStatsBar": {
+      "stats": {
+        "institutions": {
+          "value": "20",
+          "label": "Institutions",
+          "desc": "Active learning systems worldwide"
+        },
+        "learners": {
+          "value": "200",
+          "label": "Learners",
+          "desc": "Across disciplines and domains"
+        },
+        "countries": {
+          "value": "8",
+          "label": "Countries",
+          "desc": "Global collaboration network"
+        },
+        "paths": {
+          "value": "∞",
+          "label": "Paths",
+          "desc": "Continuously evolving journeys"
+        }
+      }
+    },
+
+    "TileSection": {
+      "header": {
+        "eyebrow": "How you",
+        "title": "GROW",
+        "subline": "Modular building blocks that scale from individual learning paths to institutional systems"
+      },
+      "tiles": {
+        "institutions": {
+          "title": "Empower with LearnGraph",
+          "text": "Transform educational ecosystems through openness and collective insight"
+        },
+        "forge": {
+          "title": "Forge Your Own Journey",
+          "text": "No one-size-fits-all learning. LearnGraph adapts to your goals, your pace, your way"
+        },
+        "upskill": {
+          "title": "Upskill with Precision",
+          "text": "Every new skill is a step toward mastery. LearnGraph turns progress into a guided journey"
+        },
+        "mission": {
+          "title": "Open-Source, Mission-First",
+          "text": "We chase purpose. Every contribution fuels impact projects and keeps learning free for all."
+        }
+      }
+    },
+
+    "LandingSustainability": {
+      "title": {
+        "prefix": "Product-powered",
+        "highlight": "sustainability"
+      },
+      "items": {
+        "free": "Free for individuals",
+        "noAds": "No ads · No paywalls · No extraction",
+        "openSource": "Open source by default"
+      }
+    },
+
+    "LandingPartnersSection": {
+      "title": {
+        "prefix": "OUR",
+        "main": "PARTNERS"
+      }
+    },
+
+    "LandingTeamSection": {
+      "title": {
+        "prefix": "THE",
+        "main": "TEAM"
+      },
+      "roles": {
+        "laurin": "CEO",
+        "jamal": "Senior Consultant",
+        "efecan": "Head of Education Strategy",
+        "ralf": "Software Product Engineer",
+        "arsham": "Marketing & Culture Advisor",
+        "talal": "Development Engineer",
+        "jamileh": "Machine Learning Specialist",
+        "lea": "Design & Visual Systems",
+        "phil": "Backend Engineering",
+        "joyce": "Social Science Lead"
+      },
+      "quotes": {
+        "laurin": "The best ideas come from stillness. LearnGraph wasn't built to disrupt - it was built to listen, guide, and grow with those ready to listen",
+        "jamal": "Across the Arab world and beyond, people are dreaming of a new kind of education - one that empowers, uplifts, and transforms",
+        "efecan": "Education is not about filling a vessel, but about kindling a flame - and I intend to ignite the system",
+        "ralf": "My job is to make sure the product doesn't just work, but works well - every time",
+        "arsham": "I'm passionate about equal opportunities for everyone - regardless of background, circumstances, or neurodiversity",
+        "talal": "It's a challenging world, but we were never meant to face it alone. What matters is what we do for humanity",
+        "jamileh": "I've seen what it means when education is denied—when brilliant minds are turned away because of where they come from or who they are",
+        "lea": "A builder who can carry an idea from aesthetic vision to technical reality",
+        "phil": "Build meaningful infrastructure without losing sight of the humans it serves",
+        "joyce": "A vital voice for local perspective and social reality—no building for the world without listening to it"
+      }
+    },
+
+    "TileContentProject": {
+      "forge": {
+        "title": "Forge Your Own Journey",
+        "intro": "LearnGraph helps you chart a personal learning map — where you are, where you're going, and how to get there",
+        "points": {
+          "generic": {
+            "label": "Too Generic",
+            "desc": "Most platforms treat everyone the same. LearnGraph adapts to your goals, pace, and curiosity"
+          },
+          "overload": {
+            "label": "Information Overload",
+            "desc": "Clarity replaces chaos with curated, meaningful paths"
+          },
+          "alone": {
+            "label": "Learning Alone",
+            "desc": "Built-in mentorship and peer support keep you connected and motivated"
+          },
+          "relevance": {
+            "label": "Real-World Relevance",
+            "desc": "You learn by doing — projects, feedback, and growth that actually stick"
+          }
+        },
+        "closing": "Your learning path becomes a living map — growing with curiosity and powered by real insight"
+      },
+
+      "institutions": {
+        "title": "Systems That Learn",
+        "intro": "When institutions learn as their learners do, education comes alive again",
+        "points": {
+          "awareness": {
+            "label": "Awareness",
+            "desc": "Recognizing invisible patterns that shape learning"
+          },
+          "adaptation": {
+            "label": "Adaptation",
+            "desc": "Allowing systems to evolve with their communities"
+          },
+          "empathy": {
+            "label": "Empathy",
+            "desc": "Designing for growth and balance, not efficiency alone"
+          }
+        },
+        "closing": "LearnGraph is not just software — it’s a practice of conscious learning"
+      },
+
+      "mission": {
+        "title": "Open-Source, Mission-First, Impact-Driven",
+        "intro": "We don’t chase profit — we chase purpose",
+        "points": {
+          "sustainability": {
+            "label": "Product-Powered Sustainability",
+            "desc": "SaaS for institutions, free for individuals. Profits reinvested into impact projects"
+          },
+          "access": {
+            "label": "Open Access for All",
+            "desc": "No logins, no ads, no paywalls. Free, production-grade code"
+          },
+          "alignment": {
+            "label": "Global Framework Alignment",
+            "desc": "Inspired by UNESCO and UNDP visions for self-governed learning"
+          }
+        },
+        "closing": "LearnGraph builds infrastructure for global intention"
+      },
+
+      "upskill": {
+        "title": "Real Skills, Real Results",
+        "intro": "LearnGraph bridges consulting and scalable learning",
+        "points": {
+          "smarter": {
+            "label": "Smarter Learning",
+            "desc": "Turns data into guidance and accelerates application"
+          },
+          "collaborative": {
+            "label": "Collaborative Growth",
+            "desc": "Peer challenges and real-time mentorship"
+          },
+          "transfer": {
+            "label": "Skill Transfer",
+            "desc": "Learning flows directly into daily work"
+          },
+          "impact": {
+            "label": "ROI-Driven Impact",
+            "desc": "Every learning step strengthens team performance"
+          }
+        },
+        "closing": "Training becomes culture — not a course"
+      }
+    }
+  },
+
+  "cookie": {
+    "consentLabel": "Cookie consent",
+    "description1": "We use cookies and similar technologies to operate essential site functions (e.g., authentication) and, with your permission, to enable analytics.",
+    "description2": "Strictly necessary cookies are always on. You can accept or reject non-essential cookies, or review settings.",
+    "settings": "Settings",
+    "rejectAll": "Reject all",
+    "acceptAll": "Accept all",
+    "privacySettings": "Privacy settings",
+    "strictlyNecessaryTitle": "Strictly necessary",
+    "strictlyNecessaryDesc": "Required to provide the service, like secure login (Keycloak). Always active.",
+    "analyticsTitle": "Analytics (PostHog)",
+    "analyticsDesc": "Helps us understand usage and improve the product. Optional."
+  },
+
+  "common": {
+    "cancel": "Cancel",
+    "save": "Save"
+  },
+
+  "footer": {
+    "tagline": "(c) {{year}} LearnGraph - Crafted with passion",
+    "imprint": "Imprint",
+    "contact": "Contact"
+  },
+
+  "legal": {
+    "placeholder": "[TBD]",
+    "imprint": {
+      "title": "Imprint",
+      "subtitle": "Information according to Section 5 TMG",
+      "companyLabel": "Company",
+      "addressLabel": "Address",
+      "managingDirectorLabel": "Managing Director",
+      "managingDirectorValue": "Laurin Hagemann",
+      "phoneLabel": "Phone",
+      "emailLabel": "Email",
+      "registerLabel": "Commercial register",
+      "registerValue": "Amtsgericht Bochum, HRB: {{hrb}}",
+      "vatIdLabel": "VAT-ID",
+      "taxNumberLabel": "Tax Number",
+      "companyNumberLabel": "Company Number",
+      "responsibleTitle": "Responsible for content",
+      "disclaimerTitle": "Disclaimer",
+      "disclaimerBody": "Despite careful content control, we assume no liability for the contents of external links. The operators of the linked pages are solely responsible for their content.",
+      "accuracyTitle": "Accuracy of information",
+      "accuracyBody": "The content of this site has been created with the greatest possible care. However, we assume no liability for the accuracy, completeness, or timeliness of the information provided."
+    }
+  },
+
+
+  "customers": {
+    "general": {
+      "for": "FOR",
+      "backToBase": "Back to base"
+    }
+  },
+
+
+  "enterprise": {
+    "hero": {
+      "highlight": "Scale",
+      "title": "learning with impact",
+      "subtitle": "LearnGraph connects personalized guidance with scalable, measurable learning."
+    }
+  },
+
+
+
+
+  "individual": {
+  "hero": {
+    "highlight": "Your",
+    "title": "personal learning path",
+    "subtitle": "Leave one-size-fits-all courses behind. LearnGraph helps you shape your own learning journey with clarity, relevance, and feedback."
+  },
+
+  "challenges": {
+    "generic": {
+      "title": "Too generic",
+      "text": "One path for everyone doesn’t work. Your goals need their own map."
+    },
+    "motivation": {
+      "title": "Losing motivation",
+      "text": "Without relevance, learning feels empty — even for strong learners."
+    },
+    "overload": {
+      "title": "Information overload",
+      "text": "Too many courses, too little orientation. What actually matters?"
+    },
+    "alone": {
+      "title": "Learning alone",
+      "text": "Without exchange, support, and perspective, growth stalls."
+    }
+  },
+
+  "stats": {
+    "forget": { "value": "80%", "label": "forget content after one week" },
+    "personalized": { "value": "+30%", "label": "better results through personalization" },
+    "peer": { "value": "↑", "label": "motivation through peer learning" },
+    "practice": { "value": "✓", "label": "projects over theory" }
+  },
+
+  "offerings": {
+    "map": {
+      "title": "A map made for you",
+      "text": "See where you are, where you want to go, and how to get there."
+    },
+    "support": {
+      "title": "You are not alone",
+      "text": "Mentoring, peer learning, and shared responsibility."
+    },
+    "relevance": {
+      "title": "Learn what matters",
+      "text": "Practical, relevant, and transferable to real life."
+    }
+  }
+},
+
+"university": {
+  "hero": {
+    "highlight": "Empower",
+    "title": "your institution",
+    "subtitle": "Transform your educational ecosystem with personalized analytics, hybrid learning models, and seamless interoperability."
+  },
+
+  "challenges": {
+    "engagement": {
+      "title": "Stronger Engagement",
+      "text": "Foster long-term commitment through transparent learning paths and adaptive support."
+    },
+    "integration": {
+      "title": "Integrated Pathways",
+      "text": "Connect formal curricula, informal learning, and research into a coherent system."
+    },
+    "data": {
+      "title": "From Data to Action",
+      "text": "Turn learning data into concrete, traceable decisions."
+    },
+    "interop": {
+      "title": "Seamless Interoperability",
+      "text": "Integrate existing systems without vendor lock-in or media disruption."
+    }
+  },
+
+  "stats": {
+    "completion": { "value": "23 %", "label": "higher graduation rates" },
+    "gaps": { "value": "5 %", "label": "reduced performance gaps" },
+    "retention": { "value": "30 %", "label": "improved engagement" },
+    "dropout": { "value": "11 %", "label": "lower dropout rates" }
+  },
+
+  "offerings": {
+    "hybrid": {
+      "title": "Hybrid Learning Containers",
+      "text": "Flexible learning spaces combining in-person, online, and self-directed learning."
+    },
+    "peer": {
+      "title": "Peer Coaching & Mentoring",
+      "text": "Scalable support through peer networks and guided learning processes."
+    },
+    "open": {
+      "title": "Interoperability & Open Source",
+      "text": "Open infrastructure for long-term independence and sustainable innovation."
+    }
+  }
+},
+
+"enterprise": {
+    "hero": {
+      "highlight": "Real skills,",
+      "title": "real results at scale",
+      "subtitle": "LearnGraph combines personalized consulting with scalable online learning — delivering transfer, performance, and ROI."
+    },
+
+    "challenges": {
+      "scaling": {
+        "title": "Consulting doesn’t scale",
+        "text": "Experts leave, knowledge disappears. Learning remains trapped in workshops instead of spreading across the organization."
+      },
+      "completion": {
+        "title": "The 80% completion problem",
+        "text": "Most employees don’t finish online courses — and even fewer apply what they learned at work."
+      },
+      "silo": {
+        "title": "Learning is solo, work is collaborative",
+        "text": "Training happens individually, but work is done in teams. There’s no bridge between the two."
+      },
+      "roi": {
+        "title": "No clear ROI for L&D",
+        "text": "Clicks and certificates aren’t outcomes. Transfer and impact remain hard to measure."
+      }
+    },
+
+    "stats": {
+      "retention": {
+        "value": "+40%",
+        "label": "Higher retention through personalized paths"
+      },
+      "practice": {
+        "value": "2×",
+        "label": "Better outcomes through real-world practice"
+      },
+      "engagement": {
+        "value": "↑",
+        "label": "Engagement grows with relevance"
+      },
+      "roi": {
+        "value": "✓",
+        "label": "Actionable data unlocks ROI"
+      }
+    },
+
+    "offerings": {
+      "paths": {
+        "title": "Skill paths that guide",
+        "text": "Employees see exactly what to learn, in which order, and how it connects to real work."
+      },
+      "measure": {
+        "title": "Make learning measurable",
+        "text": "Live dashboards connect training to outcomes — in minutes, not quarters."
+      },
+      "workflow": {
+        "title": "Learning that moves with work",
+        "text": "Learning happens in context — inside workflows, with peers, and at the right moment."
+      }
+    }
+  }
+
+
+}

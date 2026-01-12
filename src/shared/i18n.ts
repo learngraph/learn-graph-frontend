@@ -1,27 +1,20 @@
-import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
-import en from "./i18n.json";
-import de from "./i18n/German.json";
-import es from "./i18n/Spanish.json";
-import it from "./i18n/Italian.json";
-import zh from "./i18n/Chinese Traditional.json";
-import ar from "./i18n/Arabic.json";
+// Minimal i18n stub for legacy components still expecting an i18next-like instance.
+// This keeps the app runnable until real translation resources are restored.
 
-const resources = {
-  en: { translation: en },
-  de: { translation: de },
-  zh: { translation: zh },
-  es: { translation: es },
-  it: { translation: it },
-  ar: { translation: ar },
+type I18nLike = {
+  language?: string;
+  t: (key: string, _options?: unknown) => string;
+  changeLanguage: (lng: string) => void;
 };
 
-i18n.use(initReactI18next).init({
-  resources,
-  fallbackLng: "en",
-  interpolation: {
-    escapeValue: false,
+const i18n: I18nLike = {
+  language: "en",
+  t: (key: string) => key,
+  changeLanguage: (lng: string) => {
+    i18n.language = lng;
   },
-});
+};
 
 export default i18n;
+
+

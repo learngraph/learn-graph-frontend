@@ -1,4 +1,3 @@
-import { NavigationWithContent } from "@src/Navigation";
 import {
   ChallengeBlock,
   ChallengesSection,
@@ -10,12 +9,12 @@ import {
   SolutionsSection,
 } from "@src/shared/Components";
 import React, { FC } from "react";
-import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { useI18n } from "../i18n/useI18nStub";
 
 const HeroSection: React.FC = () => {
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t } = useI18n();
   return (
     <section className="flex flex-col items-center text-center py-16 mt-5">
       <h1 className="text-4xl font-bold text-gray-800 mb-4">
@@ -24,7 +23,6 @@ const HeroSection: React.FC = () => {
       <p className="text-xl text-gray-600 mb-8 max-w-2xl">
         {t("industry.subheader")}
       </p>
-      {/* Placeholder for the market positioning image */}
       <img
         src="/institute3-min.png"
         alt="LearnGraph market positioning: between scalable online courses and personal consulting"
@@ -41,25 +39,16 @@ const HeroSection: React.FC = () => {
 };
 
 const TrustSection: React.FC = () => {
-  const { t } = useTranslation();
+  const { t } = useI18n();
   return (
     <section className="py-12 bg-gray-50">
       <div className="container mx-auto px-4 text-center">
         <p className="text-lg text-gray-700 mb-4 font-medium">
           {t("industry.trust.header")}
         </p>
-        {/* Logos carousel can be a flex row of image placeholders */}
         <div className="flex justify-center items-center space-x-8">
-          <img
-            src="/partner/logo-egina.jpeg"
-            alt="EGINA Logo"
-            className="h-12"
-          />
-          <img
-            src="/partner/logo-fetico.png"
-            alt="FETICO Logo"
-            className="h-12"
-          />
+          <img src="/partner/logo-egina.jpeg" alt="EGINA Logo" className="h-12" />
+          <img src="/partner/logo-fetico.png" alt="FETICO Logo" className="h-12" />
           <img src="/partner/logo-upb.jpeg" alt="UPB Logo" className="h-12" />
           <img src="/partner/logo-iadt.png" alt="IADT Logo" className="h-12" />
         </div>
@@ -70,12 +59,11 @@ const TrustSection: React.FC = () => {
 
 const PilotSection: React.FC = () => {
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t } = useI18n();
   return (
     <section className="py-16 bg-gray-50">
       <div className="container mx-auto lg:px-30 px-4">
         <div className="flex flex-col items-center text-center lg:flex-row lg:items-start lg:text-left">
-          {/* Text block */}
           <div className="lg:w-1/2 lg:pr-8">
             <h2 className="text-3xl font-bold text-gray-800 mb-4">
               {t("industry.pilot.header")}
@@ -91,7 +79,6 @@ const PilotSection: React.FC = () => {
             </button>
           </div>
 
-          {/* Image block */}
           <div className="lg:w-1/2 mt-8 lg:mt-0">
             <img
               src="pilot-timeline.webp"
@@ -105,49 +92,8 @@ const PilotSection: React.FC = () => {
   );
 };
 
-//const CaseStudySection: React.FC = () => {
-//  return (
-//    <section className="py-16 bg-white">
-//      <div className="container mx-auto px-4">
-//        <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
-//          Case Study: Empowering Tech Adoption at Acme Manufacturing
-//        </h2>
-//        <div className="max-w-4xl mx-auto border rounded-lg p-8 shadow">
-//          <h3 className="text-xl font-semibold mb-2 text-gray-800">
-//            The Challenge
-//          </h3>
-//          <p className="text-gray-600 mb-4">
-//            Acme Manufacturing struggled with low adoption of internal digital
-//            tools despite extensive training programs.
-//          </p>
-//          <h3 className="text-xl font-semibold mb-2 text-gray-800">
-//            The Solution
-//          </h3>
-//          <p className="text-gray-600 mb-4">
-//            They piloted LearnGraph, which provided personalized learning paths
-//            and project-based learning containers that integrated directly into
-//            employees’ daily routines.
-//          </p>
-//          <h3 className="text-xl font-semibold mb-2 text-gray-800">
-//            The Outcome
-//          </h3>
-//          <ul className="list-disc list-inside text-gray-600">
-//            <li>82% tool adoption across teams</li>
-//            <li>17% increase in team collaboration scores</li>
-//            <li>2× faster onboarding for new employees</li>
-//          </ul>
-//          <p className="text-gray-600 mt-4">
-//            Following the pilot, Acme Manufacturing extended LearnGraph
-//            deployment company-wide.
-//          </p>
-//        </div>
-//      </div>
-//    </section>
-//  );
-//};
-
-export const IndustryPage: React.FC = () => {
-  const { t } = useTranslation();
+export const EnterpriseContent: React.FC = () => {
+  const { t } = useI18n();
   const challengeBlocks: ChallengeBlock[] = [
     {
       icon: "⚠️",
@@ -176,18 +122,14 @@ export const IndustryPage: React.FC = () => {
       headline: t("institutions.solution1.headline"),
       imageUrl: "/institute4-min.png",
       text: t("institutions.solution1.text"),
-      keywords: t("institutions.solution1.keywords", {
-        returnObjects: true,
-      }) as string[],
+      keywords: [t("institutions.solution1.keywords")],
     },
     {
       target: t("institutions.solution2.target"),
       headline: t("institutions.solution2.headline"),
       imageUrl: "/intitute1-min.png",
       text: t("institutions.solution2.text"),
-      keywords: t("institutions.solution2.keywords", {
-        returnObjects: true,
-      }) as string[],
+      keywords: [t("institutions.solution2.keywords")],
       extraClass: "object-top",
     },
     {
@@ -195,9 +137,7 @@ export const IndustryPage: React.FC = () => {
       headline: t("institutions.solution3.headline"),
       imageUrl: "/institute2-min.png",
       text: t("institutions.solution3.text"),
-      keywords: t("institutions.solution3.keywords", {
-        returnObjects: true,
-      }) as string[],
+      keywords: [t("institutions.solution3.keywords")],
     },
   ];
   const researchInsights: Insight[] = [
@@ -235,28 +175,27 @@ export const IndustryPage: React.FC = () => {
         insights={researchInsights}
         summary={t("institutions.insightsSummary")}
       />
-      <LearningNavigatorIndustrySection />
+      <LearningNavigatorEnterpriseSection />
       <SolutionsSection
         title={t("institutions.solutionsTitle")}
         solutionBlocks={solutionBlocks}
       />
       <TrustSection />
       <PilotSection />
-      {/*<CaseStudySection />*/}
     </div>
   );
 };
 
-export const Industry = () => {
+export const Enterprise = () => {
   return (
     <div className="bg-[url('/LGBG-light.webp')] bg-no-repeat bg-cover bg-fixed bg-center min-h-screen">
-      <NavigationWithContent content={<IndustryPage />} />
+      <EnterpriseContent />
     </div>
   );
 };
 
-const LearningNavigatorIndustrySection: FC = () => {
-  const { t } = useTranslation();
+const LearningNavigatorEnterpriseSection: FC = () => {
+  const { t } = useI18n();
   const hotspots: Hotspot[] = [
     {
       id: 1,
@@ -299,3 +238,5 @@ const LearningNavigatorIndustrySection: FC = () => {
     />
   );
 };
+
+

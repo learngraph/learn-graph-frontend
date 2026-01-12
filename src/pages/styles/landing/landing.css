@@ -1,0 +1,258 @@
+/* =========================
+   LANDING BASE
+   ========================= */
+
+.landing {
+  position: relative;
+  background: #0b0b0b;
+  color: #eaeaea;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
+}
+
+
+/* =========================
+   GLOBAL SECTION BEHAVIOR
+   ========================= */
+
+.landing section {
+    min-height: auto;
+  justify-content: flex-start;
+  padding: clamp(4rem, 8vw, 10rem) 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  scroll-margin-top: 72px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+.landing .landing-static {
+  min-height: auto;
+  justify-content: flex-start;
+}
+
+
+/* =========================
+   SECTION TONES
+   ========================= */
+
+#graph {
+  background: radial-gradient(circle at center, #111 0%, #0b0b0b 70%);
+}
+
+#signals { background: #0e0e0e; }
+#concepts { background: #0b0b0b; }
+#entry { background: #0b0b0b; }
+#interruption { background: #090909; }
+#team { background: #0c0c0c; }
+
+
+/* =========================
+   TILES
+   ========================= */
+
+#tiles {
+  min-height: auto;
+  align-items: flex-start;
+  position: relative;
+}
+
+#tiles::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      50% 30% at 50% 0%,
+      var(--tiles-ambient-glow),
+      transparent 65%
+    );
+}
+
+
+.tile-base {
+  /* background:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,0.08),
+      rgba(0,0,0,0.25)
+    ); */
+  background: rgba(255, 255, 255, 0.02); 
+  border: 1px solid rgba(255,255,255,0.48);
+  color: rgba(255,255,255,0.85);
+  border-radius: 16px;
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.55),
+    inset 0 1px 0 rgba(255,255,255,0.5);
+  transition: all 0.25s ease;
+}
+
+
+
+.tile-base:hover {
+  border-color: rgba(173,255,47,0.9);
+  background: rgba(255,255,255,0.04);
+  /* background:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,0.14),  
+      rgba(0,0,0,0.20)         
+    ); */
+  box-shadow:
+    0 0 0 1px rgba(173,255,47,0.6),
+    0 0 36px rgba(173,255,47,0.45),
+    0 18px 40px rgba(0,0,0,0.75);
+
+}
+
+
+/* OPEN / POPUP STATE */
+.tile-base.tile-open {
+  background: linear-gradient(
+    180deg,
+    rgba(255,255,255,0.02),
+    rgba(0,0,0,0.55)
+  );
+
+  border-color: rgba(173,255,47,0.95);
+
+  box-shadow:
+    0 0 0 1px rgba(173,255,47,0.6),
+    0 0 36px rgba(173,255,47,0.35),
+    0 20px 40px rgba(0,0,0,0.75);
+}
+
+
+
+
+/* =========================
+   HERO — DIGITAL MYCELIUM
+   ========================= */
+
+.hero-mycelium {
+  position: relative;
+  min-height: 100vh;
+  background: #021909;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  color: #ffffff;
+}
+
+.hero-mycelium canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.75;
+}
+
+
+/* =========================
+   HERO COPY
+   ========================= */
+
+.hero-copy {
+  position: relative;
+  max-width: 860px;
+  padding: 2rem;
+  text-align: center;
+}
+
+
+/* =========================
+   GHOST EYEBROW
+   ========================= */
+
+.hero-copy .eyebrow {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: clamp(2.8rem, 6vw, 5rem);
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: rgba(255,255,255,0.08);
+  pointer-events: none;
+}
+
+
+/* =========================
+   HEADLINE
+   ========================= */
+
+.hero-copy h1 {
+  font-size: clamp(3.6rem, 8vw, 6.8rem);
+  line-height: 1.03;
+  font-weight: 500;
+  margin-bottom: 1.6rem;
+}
+
+.hero-copy h1 em {
+  font-style: italic;
+  font-weight: 600;
+  color: var(--accent-main);
+}
+
+
+/* =========================
+   SUBLINE
+   ========================= */
+
+.hero-copy p {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: rgba(255,255,255,0.7);
+  max-width: 520px;
+  margin: 0 auto 3rem;
+}
+
+
+/* =========================
+   CTA
+   ========================= */
+
+.hero-copy button {
+  background: transparent;
+  color: #ffffff;
+  border: 1px solid rgba(255,255,255,0.35);
+  padding: 1.2rem 2.8rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.hero-copy button:hover {
+  background: #ffffff;
+  color: #000000;
+  transform: translateY(-1px);
+}
+
+
+/* =========================
+   VIGNETTE
+   ========================= */
+
+.hero-mycelium::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      120% 80% at 50% 50%,
+      rgba(0,0,0,0),
+      rgba(0,0,0,0.55)
+    );
+}
+
+

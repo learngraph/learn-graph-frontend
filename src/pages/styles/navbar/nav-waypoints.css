@@ -1,0 +1,82 @@
+.nav-waypoints {
+  position: fixed;
+  right: 2.5rem;          /* was 40px */
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 1.125rem;          /* was 18px */
+  z-index: 50;
+}
+
+.waypoint {
+  display: grid;
+  grid-template-columns: auto 0.875rem; /* was 14px */
+  align-items: center;
+  column-gap: 0.75rem;    /* was 12px */
+  gap: 0.625rem;          /* was 10px */
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.label {
+  font-size: 0.8125rem;   /* 13px */
+  letter-spacing: 0.04em; /* keep em here (correct) */
+  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.45);
+  text-align: right;      /* 👈 subtle polish for right alignment */
+}
+
+.diamond {
+  width: 0.75rem;         /* 12px */
+  height: 0.75rem;
+  background: rgba(255, 255, 255, 0.25);
+  transform: rotate(45deg);
+}
+
+.waypoint.active .label {
+  color: var(--theme-green);
+}
+
+.waypoint.active .diamond {
+  background: var(--theme-green);
+}
+
+/* ---------- Other nav bits (unchanged semantics) ---------- */
+
+.nav-cyber {
+  display: flex;
+  align-items: center;
+}
+
+.nav-left {
+  display: flex;
+  gap: 0.5rem;            /* 8px */
+}
+
+.nav-spacer {
+  flex: 1;
+}
+
+.nav-right {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Hide labels on very small screens, keep waypoints visible */
+@media (max-width: 30rem) { /* 480px */
+  .nav-waypoints .label {
+    display: none;
+  }
+  
+  .nav-waypoints {
+    right: 1rem; /* Reduce spacing on very small screens */
+  }
+  
+  .waypoint {
+    grid-template-columns: 0.875rem; /* Only show diamond */
+    justify-content: center;
+  }
+}

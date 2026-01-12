@@ -1,7 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import tailwindcss from "@tailwindcss/vite";
-import Sitemap from "vite-plugin-sitemap";
+
 
 /* Update sitemap.xml:
 ```sh
@@ -11,7 +10,7 @@ grep -o '"/[^"]*"' src/LearngraphOrgRoutes.tsx| sed -e 's,.*"/\([^"]*\)".*,\t"/\
 const sites = [
   "/university",
   "/nations",
-  "/industry",
+  "/enterprise",
   "/ecosystem",
   "/k-12",
   "/contact",
@@ -30,11 +29,10 @@ const sites = [
 export default defineConfig({
   plugins: [
     react(),
-    tailwindcss(),
-    Sitemap({ dynamicRoutes: sites, hostname: "https://learngraph.org" }),
   ],
   resolve: {
     alias: {
+      "@": "/src",
       "@src": "/src",
     },
   },

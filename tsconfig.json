@@ -6,6 +6,7 @@
     "module": "esnext",
     "skipLibCheck": true,
     "allowJs": true,
+    
 
     /* Bundler mode */
     "esModuleInterop": true,
@@ -22,9 +23,10 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
     "paths": {
+      "@/*": ["src/*"],
       "@src/*": ["src/*"]
     }
   },
-  "include": ["src"],
+  "include": ["src", "postcss.config.cjs"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

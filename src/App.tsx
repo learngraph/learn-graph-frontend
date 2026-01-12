@@ -1,43 +1,81 @@
-import { BrowserRouter, useLocation } from "react-router-dom";
-import { UserDataContextProvider } from "./Context/UserDataContext";
-import { LearngraphOrgRoutes } from "./LearngraphOrgRoutes";
-import { PostHogProvider } from "posthog-js/react";
-import { POSTHOG_API_KEY, POSTHOG_HOST } from "./constants";
-import { useEffect } from "react";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import DirectionController from "@/i18n/DirectionController";
+import LandingPage from "./pages/landing/landing";
+import UniversityPage from "./pages/customerGroups/UniversityPage";
+import IndividualPage from "./pages/customerGroups/IndividualPage";
+import EnterprisePage from "./pages/customerGroups/EnterprisePage";
+import CookieBanner from "@/pages/global/components/CookieBanner";
+import Footer from "@/pages/global/components/Footer";
+import ImprintPage from "@/pages/legal/Imprint";
 
-// Ensure that useNavigation().navigate('/target') reaches the top of the target page.
+/*
+// Enable later if/when multiple routes exist
 const ScrollToTop = (): null => {
   const { pathname } = useLocation();
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: "auto" });
   }, [pathname]);
   return null;
 };
+*/
 
-export const App = () => {
-  if (!POSTHOG_API_KEY) {
-    console.error("missing POSTHOG_API_KEY environemnt variable");
-  }
-  if (!POSTHOG_HOST) {
-    console.error("missing POSTHOG_HOST environemnt variable");
-  }
+
+export default function App() {
   return (
-    <PostHogProvider
-      apiKey={POSTHOG_API_KEY || ""}
-      options={{
-        api_host: POSTHOG_HOST,
-        autocapture: true,
-        capture_pageview: true,
-      }}
-    >
-      <BrowserRouter>
-        <UserDataContextProvider>
-          <ScrollToTop />
-          <LearngraphOrgRoutes />
-        </UserDataContextProvider>
-      </BrowserRouter>
-    </PostHogProvider>
+    <BrowserRouter>
+     <DirectionController />
+      <div className="min-h-screen flex flex-col">
+        <div className="flex-1">
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/university" element={<UniversityPage />} />
+            <Route path="/individual" element={<IndividualPage />} />
+            <Route path="/enterprise" element={<EnterprisePage />} />
+            <Route path="/imprint" element={<ImprintPage />} />
+            <Route path="/impressum" element={<ImprintPage />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </div>
+        <Footer />
+      </div>
+      <CookieBanner />
+    </BrowserRouter>
   );
-};
+}
 
-export default App;
+
+// export const App = () => {
+//   if (!POSTHOG_API_KEY) {
+//     console.warn("POSTHOG_API_KEY missing");
+//   }
+//   if (!POSTHOG_HOST) {
+//     console.warn("POSTHOG_HOST missing");
+//   }
+
+//   return (
+//     <PostHogProvider
+//       apiKey={POSTHOG_API_KEY || ""}
+//       options={{
+//         api_host: POSTHOG_HOST,
+//         autocapture: true,
+//         capture_pageview: true,
+//       }}
+//     >
+//       <BrowserRouter>
+//         {/* <ScrollToTop /> */}
+
+//         {/* <UserDataContextProvider> */}
+//         <Navbar />
+
+//         <Routes>
+//           <Route path="/" element={<LandingPage />} />
+//         </Routes>
+
+//         <Footer />
+//         {/* </UserDataContextProvider> */}
+//       </BrowserRouter>
+//     </PostHogProvider>
+//   );
+// };
+
+// export default App;

@@ -1,0 +1,50 @@
+/* =========================
+   HERO PALETTE
+   ========================= */
+
+:root {
+/* Core backgrounds */
+--bg-root: #0b0b0b;
+--bg-section: #0b0b0b;
+
+/* Text system */
+--text-primary: #eaeaea;
+--text-muted: #a9a9a9;
+
+
+/* Green theme */
+/* primary theme (active choice) */
+--theme-green-primary: #a3e635;
+/* alternative theme (warmer / organic) */
+--theme-green-organic: #c0e734;
+/* single switch */
+--theme-green: var(--theme-green-primary);
+
+/* Borders */
+--border-soft: rgba(255,255,255,0.18);
+--border-strong: rgba(255,255,255,0.35);
+
+/* Accent bridge (used outside hero) */
+--accent-main: var(--hero-accent);
+
+/* Layout */
+--nav-height: 72px;
+
+
+/* Tiles */
+--tile-hover-bg: rgba(255, 255, 255, 0.04);
+--tile-hover-glow: rgba(163, 230, 53, 0.25);   /* theme green */
+--tiles-ambient-glow: rgba(163, 230, 53, 0.25);
+
+/* Glass morphism */
+--glass-bg: rgba(255, 255, 255, 0.02);
+--glass-border: rgba(255, 255, 255, 0.18);
+
+/* Text */
+--text-primary: #eaeaea;
+--text-muted: #a9a9a9;
+
+
+--color-accent-soft: rgba(255, 0, 0, 0.2);
+}
+
