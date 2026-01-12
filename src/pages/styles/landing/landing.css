@@ -6,6 +6,9 @@
   position: relative;
   background: #0b0b0b;
   color: #eaeaea;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
 }
 
 
@@ -21,6 +24,10 @@
   align-items: center;
   justify-content: center;
   scroll-margin-top: 72px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 .landing .landing-static {

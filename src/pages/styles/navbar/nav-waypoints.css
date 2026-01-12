@@ -65,8 +65,18 @@
   justify-content: flex-end;
 }
 
-@media (max-width: 48rem) { /* 768px */
-  .nav-waypoints {
+/* Hide labels on very small screens, keep waypoints visible */
+@media (max-width: 30rem) { /* 480px */
+  .nav-waypoints .label {
     display: none;
+  }
+  
+  .nav-waypoints {
+    right: 1rem; /* Reduce spacing on very small screens */
+  }
+  
+  .waypoint {
+    grid-template-columns: 0.875rem; /* Only show diamond */
+    justify-content: center;
   }
 }

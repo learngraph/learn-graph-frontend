@@ -13,4 +13,7 @@ body {
   background-color: var(--bg-root);
   color: var(--text-primary);
   scroll-behavior: smooth;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
 }

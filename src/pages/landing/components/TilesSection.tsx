@@ -40,10 +40,10 @@ export default function TilesSection() {
         py-20 md:py-24
       "
     >
-      <div className="w-[90%] md:w-[80%] max-w-6xl mx-auto">
+      <div className="w-[90%] md:w-[80%] max-w-6xl mx-auto overflow-x-hidden">
 
         {/* Header */}
-        <div className="mb-24 max-w-5xl">
+        <div className="mb-24 max-w-5xl overflow-x-hidden">
           {/* Eyebrow */}
           <div className="text-sm tracking-[0.45em] uppercase text-white mb-6">
              {t("landing.TileSection.header.eyebrow")}
@@ -52,9 +52,9 @@ export default function TilesSection() {
           {/* Hero word */}
           <h2
             className="
-              text-7xl md:text-8xl font-bold tracking-tight
+              text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight
               text-[rgba(212,255,57,0.9)]
-              mb-8
+              mb-8 break-words overflow-x-hidden
             "
           >
            {t("landing.TileSection.header.title")}
