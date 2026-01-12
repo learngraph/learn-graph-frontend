@@ -8,6 +8,7 @@ const SECTIONS = [
   { id: "begin", label: "nav.begin" },
   { id: "compare", label: "nav.compare" },
   { id: "grow", label: "nav.grow" },
+  { id: "partners", label: "nav.partners" },
   { id: "people", label: "nav.people" },
 ];
 

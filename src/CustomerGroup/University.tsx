@@ -155,7 +155,7 @@ export interface Partner {
   learngraphRole: string;
 }
 
-const partners: Partner[] = [
+export const partners: Partner[] = [
   {
     id: 1,
     name: "Universitatea Nationala de Stiinta si Tehnologie POLITEHNICA Bucuresti",

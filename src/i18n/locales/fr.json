@@ -9,8 +9,9 @@
     "begin": "Début",
     "compare": "Comparer",
     "grow": "Évoluer",
+    "partners": "Partenaires",
     "people": "Personnes",
-    "launch": "Lancer l’application",
+    "launch": "Lancer l'application",
     "university": "Universités",
     "enterprise": "Entreprises",
     "individual": "Individus"
@@ -102,9 +103,16 @@
       }
     },
 
+    "LandingPartnersSection": {
+      "title": {
+        "prefix": "NOS",
+        "main": "PARTENAIRES"
+      }
+    },
+
     "LandingTeamSection": {
       "title": {
-        "prefix": "L’",
+        "prefix": "L'",
         "main": "ÉQUIPE"
       },
       "roles": {

@@ -6,8 +6,12 @@ const TEAM = [
   { id: "jamal", name: "Jamal Daho" },
   { id: "efecan", name: "Efecan Köse" },
   { id: "ralf", name: "Ralf Waldvogel" },
+  { id: "jamileh", name: "Jamileh Montazer" },
   { id: "arsham", name: "Arsham Delvarani" },
   { id: "talal", name: "Muhammad Talal" },
+  { id: "lea", name: "Lea Aimée von Freital" },
+  { id: "phil", name: "Phil Wolframm" },
+  { id: "joyce", name: "Joyce Chen" },
 ];
 
 export default function LandingTeamSection() {

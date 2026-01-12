@@ -10,6 +10,7 @@
     "begin": "Start",
     "compare": "Vergleich",
     "grow": "Wachsen",
+    "partners": "Partner",
     "people": "Menschen",
     "launch": "App starten",
     "university": "Hochschulen",
@@ -102,6 +103,13 @@
         "free": "Kostenlos für Individuen",
         "noAds": "Keine Werbung · Keine Paywalls · Keine Extraktion",
         "openSource": "Standardmäßig Open Source"
+      }
+    },
+
+    "LandingPartnersSection": {
+      "title": {
+        "prefix": "UNSERE",
+        "main": "PARTNER"
       }
     },
 

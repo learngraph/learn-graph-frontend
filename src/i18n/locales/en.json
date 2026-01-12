@@ -10,6 +10,7 @@
     "begin": "Begin",
     "compare": "Compare",
     "grow": "Grow",
+    "partners": "Partners",
     "people": "People",
     "launch": "Launch App",
     "university": "University",
@@ -101,6 +102,13 @@
         "free": "Free for individuals",
         "noAds": "No ads · No paywalls · No extraction",
         "openSource": "Open source by default"
+      }
+    },
+
+    "LandingPartnersSection": {
+      "title": {
+        "prefix": "OUR",
+        "main": "PARTNERS"
       }
     },
 

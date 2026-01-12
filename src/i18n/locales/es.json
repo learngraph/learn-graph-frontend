@@ -9,6 +9,7 @@
     "begin": "Inicio",
     "compare": "Comparar",
     "grow": "Crecer",
+    "partners": "Socios",
     "people": "Personas",
     "launch": "Lanzar app",
     "university": "Universidad",
@@ -99,6 +100,13 @@
         "free": "Gratis para individuos",
         "noAds": "Sin anuncios · Sin muros de pago · Sin extracción",
         "openSource": "Código abierto por defecto"
+      }
+    },
+
+    "LandingPartnersSection": {
+      "title": {
+        "prefix": "NUESTROS",
+        "main": "SOCIOS"
       }
     },
 

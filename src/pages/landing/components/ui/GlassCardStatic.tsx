@@ -15,10 +15,11 @@ export const GlassCardStatic: React.FC<GlassCardStaticProps> = ({
         relative
         bg-[var(--glass-bg)]
         backdrop-blur-xl
-        border border-glass-border
+        border
         text-white
         ${className}
       `}
+      style={{ borderColor: 'var(--glass-border)' }}
     >
       <div className="relative z-10">{children}</div>
     </div>

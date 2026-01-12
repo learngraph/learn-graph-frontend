@@ -6,6 +6,7 @@ import NavWaypoints from "../global/components/NavWaypoints";
 import CustomerGroupSpotlightSection from "./components/CustomerGroupSpotlightSection";
 import LandingStatsBar from "./components/LandingStatsBar";
 import LandingTeamSection from "./components/LandingTeamSection";
+import LandingPartnersSection from "./components/LandingPartnersSection";
 import HeroSphere from "./components/HeroSphere";
 
 
@@ -29,6 +30,7 @@ export default function LandingPage() {
       <LandingStatsBar />
       <TilesSection />
       <LandingSustainability />
+      <LandingPartnersSection />
       <LandingTeamSection />
 
 
