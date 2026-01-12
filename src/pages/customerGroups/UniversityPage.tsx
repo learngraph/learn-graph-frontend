@@ -1,6 +1,5 @@
 import { useI18n } from "@/i18n/i18n";
 import CustomerGroupPageShell from "./CustomerGroupPageShell";
-import CustomerGroupTiles from "./CustomerGroupTiles";
 
 export default function UniversityPage() {
   const { t } = useI18n();

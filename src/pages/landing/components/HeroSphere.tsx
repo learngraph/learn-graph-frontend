@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { LaunchButton } from "@/pages/global/components/LaunchButton";
 
 /* ============================================================
@@ -64,8 +64,6 @@ const PHASE_SPEED = 0.4;
 
 
 const GLOW_RADIUS = 2.8;     // 2.4 – 3.2
-const GLOW_CORE = 0.18;      // 0.12 – 0.22
-const GLOW_MID = 0.10;       // 0.06 – 0.14
 
 /* ============================================================
    COMPONENT
