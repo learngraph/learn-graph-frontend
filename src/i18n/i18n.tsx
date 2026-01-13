@@ -57,7 +57,9 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     useEffect(() => {
       try {
         localStorage.setItem("lang", lang);
-      } catch {}
+      } catch {
+        // Ignore localStorage errors (e.g., in private browsing mode)
+      }
     }, [lang]);
 
   const t = useMemo(() => {

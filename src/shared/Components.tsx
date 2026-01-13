@@ -8,7 +8,8 @@ import {
 } from "lucide-react";
 import { useI18n } from "../i18n/useI18nStub";
 
-export interface HrefProps extends AnchorHTMLAttributes<HTMLAnchorElement> {}
+// HrefProps extends AnchorHTMLAttributes for type compatibility
+export type HrefProps = AnchorHTMLAttributes<HTMLAnchorElement>;
 
 export const Href: FC<HrefProps> = ({ className = "", ...props }) => {
   return (
