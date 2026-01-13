@@ -1,7 +1,7 @@
 # default is nginx for linux/amd64
 ARG NGINX_IMAGE="nginx:1.12-alpine"
 
-FROM node:20.10.0 AS builder
+FROM node:24 AS builder
 WORKDIR /src
 ENV NODE_OPTIONS="--max-old-space-size=4096"
 COPY package.json package-lock.json ./
