@@ -3,8 +3,8 @@ ARG NGINX_IMAGE="nginx:1.12-alpine"
 
 FROM node:20.10.0 AS builder
 WORKDIR /src
-ENV NODE_ENV=production
-COPY . package.json package-lock.json ./
+ENV NODE_OPTIONS="--max-old-space-size=4096"
+COPY package.json package-lock.json ./
 RUN npm install
 COPY . ./
 RUN npm run build
