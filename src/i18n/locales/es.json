@@ -4,7 +4,6 @@
     "cta": "Iniciar aprendizaje",
     "temporary": "Próximamente"
   },
-
   "nav": {
     "begin": "Inicio",
     "compare": "Comparar",
@@ -16,7 +15,6 @@
     "enterprise": "Empresa",
     "individual": "Individuos"
   },
-
   "landing": {
     "TargetGroupsSection": {
       "headline": {
@@ -39,7 +37,6 @@
         }
       }
     },
-
     "CustomerGroupStatsBar": {
       "stats": {
         "institutions": {
@@ -64,7 +61,6 @@
         }
       }
     },
-
     "TileSection": {
       "header": {
         "eyebrow": "Cómo creces",
@@ -90,7 +86,6 @@
         }
       }
     },
-
     "LandingSustainability": {
       "title": {
         "prefix": "Sostenibilidad",
@@ -102,14 +97,12 @@
         "openSource": "Código abierto por defecto"
       }
     },
-
     "LandingPartnersSection": {
       "title": {
         "prefix": "NUESTROS",
         "main": "SOCIOS"
       }
     },
-
     "LandingTeamSection": {
       "title": {
         "prefix": "EL",
@@ -120,7 +113,7 @@
         "jamal": "Consultor Senior",
         "efecan": "Director de Estrategia Educativa",
         "ralf": "Ingeniero de Producto de Software",
-        "arsham": "Asesor de Marketing y Cultura",
+        "arsham": "Desarrollador de Negocio",
         "talal": "Ingeniero de Desarrollo",
         "jamileh": "Especialista en Machine Learning",
         "lea": "Diseño y Sistemas Visuales",
@@ -140,7 +133,6 @@
         "joyce": "Una voz vital para la perspectiva local y la realidad social—no se puede construir para el mundo sin escucharlo"
       }
     },
-
     "TileContentProject": {
       "forge": {
         "title": "Forja tu propio camino",
@@ -165,7 +157,6 @@
         },
         "closing": "Tu ruta de aprendizaje se convierte en un mapa vivo — creciendo con tu curiosidad y guiado por información real"
       },
-
       "institutions": {
         "title": "Sistemas que aprenden",
         "intro": "Cuando las instituciones aprenden como lo hacen sus estudiantes, la educación vuelve a cobrar vida",
@@ -185,7 +176,6 @@
         },
         "closing": "LearnGraph no es solo software — es una práctica de aprendizaje consciente"
       },
-
       "mission": {
         "title": "Código abierto, misión primero, impacto real",
         "intro": "No perseguimos ganancias — perseguimos propósito",
@@ -205,7 +195,6 @@
         },
         "closing": "LearnGraph construye infraestructura para una intención global"
       },
-
       "upskill": {
         "title": "Habilidades reales, resultados reales",
         "intro": "LearnGraph conecta la consultoría con el aprendizaje escalable",
@@ -231,7 +220,6 @@
       }
     }
   },
-
   "cookie": {
     "consentLabel": "Consentimiento de cookies",
     "description1": "Usamos cookies y tecnologías similares para funciones esenciales (por ejemplo, autenticación) y, con tu permiso, para análisis.",
@@ -245,18 +233,15 @@
     "analyticsTitle": "Analítica (PostHog)",
     "analyticsDesc": "Nos ayuda a entender el uso y mejorar el producto. Opcional."
   },
-
   "common": {
     "cancel": "Cancelar",
     "save": "Guardar"
   },
-
   "footer": {
     "tagline": "(c) {{year}} LearnGraph - Hecho con pasion",
     "imprint": "Aviso legal",
     "contact": "Contacto"
   },
-
   "legal": {
     "placeholder": "[PENDIENTE]",
     "imprint": {
@@ -280,14 +265,12 @@
       "accuracyBody": "El contenido de este sitio ha sido creado con el mayor cuidado posible. Sin embargo, no garantizamos la exactitud o actualidad de la información proporcionada."
     }
   },
-
-    "customers": {
+  "customers": {
     "general": {
       "for": "PARA",
       "backToBase": "Volver a la base"
     }
   },
-
   "enterprise": {
     "hero": {
       "highlight": "Escala",
@@ -295,113 +278,126 @@
       "subtitle": "LearnGraph conecta orientación personalizada con aprendizaje escalable y medible."
     }
   },
-
-
   "individual": {
-  "hero": {
-    "highlight": "Tu",
-    "title": "camino de aprendizaje personal",
-    "subtitle": "Despídete de los cursos genéricos. LearnGraph te ayuda a crear tu propio recorrido de aprendizaje con claridad, relevancia y retroalimentación."
-  },
-
-  "challenges": {
-    "generic": {
-      "title": "Demasiado genérico",
-      "text": "Un solo camino no funciona para todos. Tus objetivos necesitan su propio mapa."
+    "hero": {
+      "highlight": "Tu",
+      "title": "camino de aprendizaje personal",
+      "subtitle": "Despídete de los cursos genéricos. LearnGraph te ayuda a crear tu propio recorrido de aprendizaje con claridad, relevancia y retroalimentación."
     },
-    "motivation": {
-      "title": "Pérdida de motivación",
-      "text": "Sin relevancia, aprender se siente vacío, incluso para estudiantes avanzados."
+    "challenges": {
+      "generic": {
+        "title": "Demasiado genérico",
+        "text": "Un solo camino no funciona para todos. Tus objetivos necesitan su propio mapa."
+      },
+      "motivation": {
+        "title": "Pérdida de motivación",
+        "text": "Sin relevancia, aprender se siente vacío, incluso para estudiantes avanzados."
+      },
+      "overload": {
+        "title": "Sobrecarga de información",
+        "text": "Demasiados cursos, poca orientación. ¿Qué es realmente importante?"
+      },
+      "alone": {
+        "title": "Aprender en soledad",
+        "text": "Sin intercambio ni apoyo, el crecimiento se detiene."
+      }
     },
-    "overload": {
-      "title": "Sobrecarga de información",
-      "text": "Demasiados cursos, poca orientación. ¿Qué es realmente importante?"
+    "stats": {
+      "forget": {
+        "value": "80 %",
+        "label": "olvidan el contenido después de una semana"
+      },
+      "personalized": {
+        "value": "+30 %",
+        "label": "mejores resultados con personalización"
+      },
+      "peer": {
+        "value": "↑",
+        "label": "motivación a través del aprendizaje colaborativo"
+      },
+      "practice": {
+        "value": "✓",
+        "label": "proyectos sobre teoría"
+      }
     },
-    "alone": {
-      "title": "Aprender en soledad",
-      "text": "Sin intercambio ni apoyo, el crecimiento se detiene."
+    "offerings": {
+      "map": {
+        "title": "Un mapa hecho para ti",
+        "text": "Observa dónde estás, a dónde quieres ir y cómo llegar."
+      },
+      "support": {
+        "title": "No estás solo",
+        "text": "Mentoría, aprendizaje entre pares y responsabilidad compartida."
+      },
+      "relevance": {
+        "title": "Aprende lo que importa",
+        "text": "Práctico, relevante y transferible a la vida real."
+      }
     }
   },
-
-  "stats": {
-    "forget": { "value": "80 %", "label": "olvidan el contenido después de una semana" },
-    "personalized": { "value": "+30 %", "label": "mejores resultados con personalización" },
-    "peer": { "value": "↑", "label": "motivación a través del aprendizaje colaborativo" },
-    "practice": { "value": "✓", "label": "proyectos sobre teoría" }
-  },
-
-  "offerings": {
-    "map": {
-      "title": "Un mapa hecho para ti",
-      "text": "Observa dónde estás, a dónde quieres ir y cómo llegar."
+  "university": {
+    "hero": {
+      "highlight": "Potencie",
+      "title": "su institución",
+      "subtitle": "Transforme su ecosistema educativo con análisis personalizados, aprendizaje híbrido e interoperabilidad fluida."
     },
-    "support": {
-      "title": "No estás solo",
-      "text": "Mentoría, aprendizaje entre pares y responsabilidad compartida."
+    "challenges": {
+      "engagement": {
+        "title": "Mayor compromiso",
+        "text": "Impulse la participación a largo plazo mediante rutas de aprendizaje transparentes."
+      },
+      "integration": {
+        "title": "Rutas integradas",
+        "text": "Conecte currículos formales, aprendizaje informal e investigación."
+      },
+      "data": {
+        "title": "De datos a acciones",
+        "text": "Convierta datos educativos en decisiones concretas."
+      },
+      "interop": {
+        "title": "Interoperabilidad sin fricción",
+        "text": "Integre sistemas existentes sin dependencia de proveedores."
+      }
     },
-    "relevance": {
-      "title": "Aprende lo que importa",
-      "text": "Práctico, relevante y transferible a la vida real."
+    "stats": {
+      "completion": {
+        "value": "23 %",
+        "label": "mayor tasa de graduación"
+      },
+      "gaps": {
+        "value": "5 %",
+        "label": "reducción de brechas"
+      },
+      "retention": {
+        "value": "30 %",
+        "label": "mejor compromiso"
+      },
+      "dropout": {
+        "value": "11 %",
+        "label": "menos abandono"
+      }
+    },
+    "offerings": {
+      "hybrid": {
+        "title": "Contenedores de aprendizaje híbrido",
+        "text": "Espacios flexibles que combinan presencial, online y autoaprendizaje."
+      },
+      "peer": {
+        "title": "Coaching y mentoría entre pares",
+        "text": "Apoyo escalable mediante redes colaborativas."
+      },
+      "open": {
+        "title": "Interoperabilidad y código abierto",
+        "text": "Infraestructura abierta para innovación sostenible."
+      }
     }
-  }
-},
-
-"university": {
-  "hero": {
-    "highlight": "Potencie",
-    "title": "su institución",
-    "subtitle": "Transforme su ecosistema educativo con análisis personalizados, aprendizaje híbrido e interoperabilidad fluida."
   },
-
-  "challenges": {
-    "engagement": {
-      "title": "Mayor compromiso",
-      "text": "Impulse la participación a largo plazo mediante rutas de aprendizaje transparentes."
-    },
-    "integration": {
-      "title": "Rutas integradas",
-      "text": "Conecte currículos formales, aprendizaje informal e investigación."
-    },
-    "data": {
-      "title": "De datos a acciones",
-      "text": "Convierta datos educativos en decisiones concretas."
-    },
-    "interop": {
-      "title": "Interoperabilidad sin fricción",
-      "text": "Integre sistemas existentes sin dependencia de proveedores."
-    }
-  },
-
-  "stats": {
-    "completion": { "value": "23 %", "label": "mayor tasa de graduación" },
-    "gaps": { "value": "5 %", "label": "reducción de brechas" },
-    "retention": { "value": "30 %", "label": "mejor compromiso" },
-    "dropout": { "value": "11 %", "label": "menos abandono" }
-  },
-
-  "offerings": {
-    "hybrid": {
-      "title": "Contenedores de aprendizaje híbrido",
-      "text": "Espacios flexibles que combinan presencial, online y autoaprendizaje."
-    },
-    "peer": {
-      "title": "Coaching y mentoría entre pares",
-      "text": "Apoyo escalable mediante redes colaborativas."
-    },
-    "open": {
-      "title": "Interoperabilidad y código abierto",
-      "text": "Infraestructura abierta para innovación sostenible."
-    }
-  }
-},
-
-"enterprise": {
+  "enterprise": {
     "hero": {
       "highlight": "Habilidades reales,",
       "title": "resultados reales a escala",
       "subtitle": "LearnGraph combina consultoría personalizada con aprendizaje online escalable — para transferencia, rendimiento y ROI reales."
     },
-
     "challenges": {
       "scaling": {
         "title": "La consultoría no escala",
@@ -420,7 +416,6 @@
         "text": "Clics y certificados no son resultados. El impacto es difícil de medir."
       }
     },
-
     "stats": {
       "retention": {
         "value": "+40%",
@@ -439,7 +434,6 @@
         "label": "Datos accionables revelan el ROI"
       }
     },
-
     "offerings": {
       "paths": {
         "title": "Rutas de habilidades guiadas",
@@ -455,6 +449,4 @@
       }
     }
   }
-
-
 }

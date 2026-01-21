@@ -1,11 +1,9 @@
 {
-
   "hero": {
     "headline": "Learning that connects",
     "cta": "Initialize learning",
     "temporary": "Coming Soon"
   },
-
   "nav": {
     "begin": "Begin",
     "compare": "Compare",
@@ -17,14 +15,12 @@
     "enterprise": "Enterprise",
     "individual": "Individuals"
   },
-
   "landing": {
-
     "TargetGroupsSection": {
       "headline": {
-      "primary": "WAYS",
-      "secondary": "of",
-      "third": "learning"
+        "primary": "WAYS",
+        "secondary": "of",
+        "third": "learning"
       },
       "tiles": {
         "university": {
@@ -41,7 +37,6 @@
         }
       }
     },
-
     "CustomerGroupStatsBar": {
       "stats": {
         "institutions": {
@@ -66,7 +61,6 @@
         }
       }
     },
-
     "TileSection": {
       "header": {
         "eyebrow": "How you",
@@ -92,7 +86,6 @@
         }
       }
     },
-
     "LandingSustainability": {
       "title": {
         "prefix": "Product-powered",
@@ -104,14 +97,12 @@
         "openSource": "Open source by default"
       }
     },
-
     "LandingPartnersSection": {
       "title": {
         "prefix": "OUR",
         "main": "PARTNERS"
       }
     },
-
     "LandingTeamSection": {
       "title": {
         "prefix": "THE",
@@ -122,7 +113,7 @@
         "jamal": "Senior Consultant",
         "efecan": "Head of Education Strategy",
         "ralf": "Software Product Engineer",
-        "arsham": "Marketing & Culture Advisor",
+        "arsham": "Business Developer",
         "talal": "Development Engineer",
         "jamileh": "Machine Learning Specialist",
         "lea": "Design & Visual Systems",
@@ -142,7 +133,6 @@
         "joyce": "A vital voice for local perspective and social reality—no building for the world without listening to it"
       }
     },
-
     "TileContentProject": {
       "forge": {
         "title": "Forge Your Own Journey",
@@ -167,7 +157,6 @@
         },
         "closing": "Your learning path becomes a living map — growing with curiosity and powered by real insight"
       },
-
       "institutions": {
         "title": "Systems That Learn",
         "intro": "When institutions learn as their learners do, education comes alive again",
@@ -187,7 +176,6 @@
         },
         "closing": "LearnGraph is not just software — it’s a practice of conscious learning"
       },
-
       "mission": {
         "title": "Open-Source, Mission-First, Impact-Driven",
         "intro": "We don’t chase profit — we chase purpose",
@@ -207,7 +195,6 @@
         },
         "closing": "LearnGraph builds infrastructure for global intention"
       },
-
       "upskill": {
         "title": "Real Skills, Real Results",
         "intro": "LearnGraph bridges consulting and scalable learning",
@@ -233,7 +220,6 @@
       }
     }
   },
-
   "cookie": {
     "consentLabel": "Cookie consent",
     "description1": "We use cookies and similar technologies to operate essential site functions (e.g., authentication) and, with your permission, to enable analytics.",
@@ -247,18 +233,15 @@
     "analyticsTitle": "Analytics (PostHog)",
     "analyticsDesc": "Helps us understand usage and improve the product. Optional."
   },
-
   "common": {
     "cancel": "Cancel",
     "save": "Save"
   },
-
   "footer": {
     "tagline": "(c) {{year}} LearnGraph - Crafted with passion",
     "imprint": "Imprint",
     "contact": "Contact"
   },
-
   "legal": {
     "placeholder": "[TBD]",
     "imprint": {
@@ -282,16 +265,12 @@
       "accuracyBody": "The content of this site has been created with the greatest possible care. However, we assume no liability for the accuracy, completeness, or timeliness of the information provided."
     }
   },
-
-
   "customers": {
     "general": {
       "for": "FOR",
       "backToBase": "Back to base"
     }
   },
-
-
   "enterprise": {
     "hero": {
       "highlight": "Scale",
@@ -299,115 +278,126 @@
       "subtitle": "LearnGraph connects personalized guidance with scalable, measurable learning."
     }
   },
-
-
-
-
   "individual": {
-  "hero": {
-    "highlight": "Your",
-    "title": "personal learning path",
-    "subtitle": "Leave one-size-fits-all courses behind. LearnGraph helps you shape your own learning journey with clarity, relevance, and feedback."
-  },
-
-  "challenges": {
-    "generic": {
-      "title": "Too generic",
-      "text": "One path for everyone doesn’t work. Your goals need their own map."
+    "hero": {
+      "highlight": "Your",
+      "title": "personal learning path",
+      "subtitle": "Leave one-size-fits-all courses behind. LearnGraph helps you shape your own learning journey with clarity, relevance, and feedback."
     },
-    "motivation": {
-      "title": "Losing motivation",
-      "text": "Without relevance, learning feels empty — even for strong learners."
+    "challenges": {
+      "generic": {
+        "title": "Too generic",
+        "text": "One path for everyone doesn’t work. Your goals need their own map."
+      },
+      "motivation": {
+        "title": "Losing motivation",
+        "text": "Without relevance, learning feels empty — even for strong learners."
+      },
+      "overload": {
+        "title": "Information overload",
+        "text": "Too many courses, too little orientation. What actually matters?"
+      },
+      "alone": {
+        "title": "Learning alone",
+        "text": "Without exchange, support, and perspective, growth stalls."
+      }
     },
-    "overload": {
-      "title": "Information overload",
-      "text": "Too many courses, too little orientation. What actually matters?"
+    "stats": {
+      "forget": {
+        "value": "80%",
+        "label": "forget content after one week"
+      },
+      "personalized": {
+        "value": "+30%",
+        "label": "better results through personalization"
+      },
+      "peer": {
+        "value": "↑",
+        "label": "motivation through peer learning"
+      },
+      "practice": {
+        "value": "✓",
+        "label": "projects over theory"
+      }
     },
-    "alone": {
-      "title": "Learning alone",
-      "text": "Without exchange, support, and perspective, growth stalls."
+    "offerings": {
+      "map": {
+        "title": "A map made for you",
+        "text": "See where you are, where you want to go, and how to get there."
+      },
+      "support": {
+        "title": "You are not alone",
+        "text": "Mentoring, peer learning, and shared responsibility."
+      },
+      "relevance": {
+        "title": "Learn what matters",
+        "text": "Practical, relevant, and transferable to real life."
+      }
     }
   },
-
-  "stats": {
-    "forget": { "value": "80%", "label": "forget content after one week" },
-    "personalized": { "value": "+30%", "label": "better results through personalization" },
-    "peer": { "value": "↑", "label": "motivation through peer learning" },
-    "practice": { "value": "✓", "label": "projects over theory" }
-  },
-
-  "offerings": {
-    "map": {
-      "title": "A map made for you",
-      "text": "See where you are, where you want to go, and how to get there."
+  "university": {
+    "hero": {
+      "highlight": "Empower",
+      "title": "your institution",
+      "subtitle": "Transform your educational ecosystem with personalized analytics, hybrid learning models, and seamless interoperability."
     },
-    "support": {
-      "title": "You are not alone",
-      "text": "Mentoring, peer learning, and shared responsibility."
+    "challenges": {
+      "engagement": {
+        "title": "Stronger Engagement",
+        "text": "Foster long-term commitment through transparent learning paths and adaptive support."
+      },
+      "integration": {
+        "title": "Integrated Pathways",
+        "text": "Connect formal curricula, informal learning, and research into a coherent system."
+      },
+      "data": {
+        "title": "From Data to Action",
+        "text": "Turn learning data into concrete, traceable decisions."
+      },
+      "interop": {
+        "title": "Seamless Interoperability",
+        "text": "Integrate existing systems without vendor lock-in or media disruption."
+      }
     },
-    "relevance": {
-      "title": "Learn what matters",
-      "text": "Practical, relevant, and transferable to real life."
+    "stats": {
+      "completion": {
+        "value": "23 %",
+        "label": "higher graduation rates"
+      },
+      "gaps": {
+        "value": "5 %",
+        "label": "reduced performance gaps"
+      },
+      "retention": {
+        "value": "30 %",
+        "label": "improved engagement"
+      },
+      "dropout": {
+        "value": "11 %",
+        "label": "lower dropout rates"
+      }
+    },
+    "offerings": {
+      "hybrid": {
+        "title": "Hybrid Learning Containers",
+        "text": "Flexible learning spaces combining in-person, online, and self-directed learning."
+      },
+      "peer": {
+        "title": "Peer Coaching & Mentoring",
+        "text": "Scalable support through peer networks and guided learning processes."
+      },
+      "open": {
+        "title": "Interoperability & Open Source",
+        "text": "Open infrastructure for long-term independence and sustainable innovation."
+      }
     }
-  }
-},
-
-"university": {
-  "hero": {
-    "highlight": "Empower",
-    "title": "your institution",
-    "subtitle": "Transform your educational ecosystem with personalized analytics, hybrid learning models, and seamless interoperability."
   },
-
-  "challenges": {
-    "engagement": {
-      "title": "Stronger Engagement",
-      "text": "Foster long-term commitment through transparent learning paths and adaptive support."
-    },
-    "integration": {
-      "title": "Integrated Pathways",
-      "text": "Connect formal curricula, informal learning, and research into a coherent system."
-    },
-    "data": {
-      "title": "From Data to Action",
-      "text": "Turn learning data into concrete, traceable decisions."
-    },
-    "interop": {
-      "title": "Seamless Interoperability",
-      "text": "Integrate existing systems without vendor lock-in or media disruption."
-    }
-  },
-
-  "stats": {
-    "completion": { "value": "23 %", "label": "higher graduation rates" },
-    "gaps": { "value": "5 %", "label": "reduced performance gaps" },
-    "retention": { "value": "30 %", "label": "improved engagement" },
-    "dropout": { "value": "11 %", "label": "lower dropout rates" }
-  },
-
-  "offerings": {
-    "hybrid": {
-      "title": "Hybrid Learning Containers",
-      "text": "Flexible learning spaces combining in-person, online, and self-directed learning."
-    },
-    "peer": {
-      "title": "Peer Coaching & Mentoring",
-      "text": "Scalable support through peer networks and guided learning processes."
-    },
-    "open": {
-      "title": "Interoperability & Open Source",
-      "text": "Open infrastructure for long-term independence and sustainable innovation."
-    }
-  }
-},
-
-"enterprise": {
+  "enterprise": {
     "hero": {
       "highlight": "Real skills,",
       "title": "real results at scale",
       "subtitle": "LearnGraph combines personalized consulting with scalable online learning — delivering transfer, performance, and ROI."
     },
-
     "challenges": {
       "scaling": {
         "title": "Consulting doesn’t scale",
@@ -426,7 +416,6 @@
         "text": "Clicks and certificates aren’t outcomes. Transfer and impact remain hard to measure."
       }
     },
-
     "stats": {
       "retention": {
         "value": "+40%",
@@ -445,7 +434,6 @@
         "label": "Actionable data unlocks ROI"
       }
     },
-
     "offerings": {
       "paths": {
         "title": "Skill paths that guide",
@@ -461,6 +449,4 @@
       }
     }
   }
-
-
 }
