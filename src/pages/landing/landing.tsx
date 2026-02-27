@@ -22,7 +22,7 @@ export default function LandingPage() {
       <NavWaypoints />
 
     {/* breathing sphere */}
-    <section className="relative h-[80vh] w-full overflow-hidden">
+    <section className="relative h-[100svh] min-h-screen w-full overflow-hidden !p-0">
       <HeroSphere />
     </section>
 
