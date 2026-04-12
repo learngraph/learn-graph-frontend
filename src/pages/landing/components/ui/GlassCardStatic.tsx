@@ -16,7 +16,7 @@ export const GlassCardStatic: React.FC<GlassCardStaticProps> = ({
         bg-[var(--glass-bg)]
         backdrop-blur-xl
         border
-        text-white
+        text-foreground
         ${className}
       `}
       style={{ borderColor: 'var(--glass-border)' }}

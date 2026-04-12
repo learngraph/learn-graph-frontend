@@ -6,12 +6,12 @@ export default function EmptyLanding() {
       <h1 className="text-2xl font-semibold tracking-tight text-white">
         LearnGraph
       </h1>
-      <p className="text-sm text-white/60 max-w-md">
+      <p className="text-sm text-foreground/60 max-w-md">
         Deployment shell. Prior marketing page is available below.
       </p>
       <Link
         to="/learn"
-        className="text-sm font-medium text-lime-400 hover:text-lime-300 underline underline-offset-4"
+        className="text-sm font-medium text-accent hover:text-accent/80 underline underline-offset-4"
       >
         Marketing home
       </Link>

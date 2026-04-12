@@ -5,13 +5,13 @@
 /* trigger button */
 .lang-switcher button {
   background: transparent;
-  border: 1px solid rgba(255,255,255,0.28);
+  border: 1px solid var(--lang-border);
   padding: 11px 18px;
 
   font-size: 11px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #fff;
+  color: rgb(var(--foreground-rgb));
 
   backdrop-filter: blur(6px);
   cursor: pointer;
@@ -24,8 +24,8 @@
 }
 
 .lang-switcher button:hover {
-  background: rgba(255,255,255,0.06);
-  border-color: rgba(255,255,255,0.45);
+  background: var(--lang-hover-bg);
+  border-color: var(--lang-hover-border);
 }
 
 /* dropdown */
@@ -34,10 +34,10 @@
   right: 0;
   top: calc(100% + 8px);
 
-  background: rgba(10,10,10,0.75);
+  background: var(--lang-menu-bg);
   backdrop-filter: blur(10px);
 
-  border: 1px solid rgba(255,255,255,0.22);
+  border: 1px solid var(--lang-menu-border);
   padding: 6px;
   min-width: 80px;
 
@@ -45,7 +45,7 @@
   flex-direction: column;
   gap: 2px;
 
-  z-index: 100;
+  z-index: var(--z-modal);
 }
 
 .lang-switcher-menu button {
@@ -56,15 +56,15 @@
   letter-spacing: 0.12em;
   text-transform: uppercase;
 
-  color: rgba(255,255,255,0.75);
+  color: var(--lang-item-muted);
   cursor: pointer;
 }
 
 .lang-switcher-menu button:hover {
-  background: rgba(255,255,255,0.08);
-  color: #fff;
+  background: var(--lang-menu-item-hover);
+  color: rgb(var(--foreground-rgb));
 }
 
 .lang-switcher-menu button.active {
-  color: #fff;
+  color: rgb(var(--foreground-rgb));
 }

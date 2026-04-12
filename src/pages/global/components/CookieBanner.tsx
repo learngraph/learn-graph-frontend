@@ -51,11 +51,11 @@ export default function CookieBanner() {
 
   return (
     <div
-      className="fixed inset-x-0 bottom-0 z-50 flex justify-center px-4 pb-6"
+      className="fixed inset-x-0 bottom-0 z-cookie flex justify-center px-4 pb-6"
       aria-live="polite"
     >
       <div
-        className="w-[92%] max-w-3xl rounded-[var(--radius-card)] bg-[#0a2a45cc] backdrop-blur-xl border border-[color:rgba(126,200,255,0.5)] text-[var(--color-blue-100)] transition-all duration-300"
+        className="w-[92%] max-w-3xl rounded-[var(--radius-card)] bg-[var(--cookie-panel-bg)] backdrop-blur-xl border border-[var(--cookie-border-strong)] text-[var(--color-blue-100)] transition-all duration-300"
         role="dialog"
         aria-modal="true"
         aria-label={t("cookie.consentLabel")}
@@ -88,10 +88,10 @@ export default function CookieBanner() {
         )}
 
         {settingsOpen && (
-          <div className="px-6 py-6 border-t border-[color:rgba(126,200,255,0.25)]">
+          <div className="px-6 py-6 border-t border-[var(--cookie-border-soft)]">
             <h2 className="text-lg mb-4">{t("cookie.privacySettings")}</h2>
             <div className="space-y-4">
-              <div className="flex items-start justify-between gap-4 p-3 rounded-md bg-black/10">
+              <div className="flex items-start justify-between gap-4 p-3 rounded-md bg-[var(--cookie-row-bg)]">
                 <div>
                   <div className="font-medium">
                     {t("cookie.strictlyNecessaryTitle")}
@@ -108,7 +108,7 @@ export default function CookieBanner() {
                 />
               </div>
 
-              <div className="flex items-start justify-between gap-4 p-3 rounded-md bg-black/10">
+              <div className="flex items-start justify-between gap-4 p-3 rounded-md bg-[var(--cookie-row-bg)]">
                 <div>
                   <div className="font-medium">{t("cookie.analyticsTitle")}</div>
                   <div className="text-sm opacity-80">

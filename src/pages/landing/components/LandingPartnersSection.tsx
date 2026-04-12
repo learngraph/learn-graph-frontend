@@ -91,10 +91,10 @@ export default function LandingPartnersSection() {
       <div className="max-w-6xl mx-auto w-full overflow-x-hidden">
         {/* Heading */}
         <h2 className="font-serif mb-10 leading-tight overflow-x-hidden">
-          <span className="block text-white text-3xl tracking-wide break-words">
+          <span className="block text-foreground text-3xl tracking-wide break-words">
             {t("landing.LandingPartnersSection.title.prefix")}
           </span>
-          <span className="block text-lime-400 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight break-words">
+          <span className="block text-accent text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight break-words">
             {t("landing.LandingPartnersSection.title.main")}
           </span>
         </h2>
@@ -131,11 +131,11 @@ export default function LandingPartnersSection() {
             <>
               <button
                 onClick={goToPrev}
-                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-8 z-10 w-12 h-12 md:w-14 md:h-14 rounded-full bg-black/40 backdrop-blur-md border border-white/20 hover:border-lime-400/60 hover:bg-black/60 transition-all flex items-center justify-center group"
+                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-8 z-10 w-12 h-12 md:w-14 md:h-14 rounded-full bg-[var(--partner-arrow-bg)] backdrop-blur-md border border-foreground/20 hover:border-accent/60 hover:bg-[var(--partner-arrow-bg-hover)] transition-all flex items-center justify-center group"
                 aria-label="Previous partners"
               >
                 <svg
-                  className="w-6 h-6 text-white group-hover:text-lime-400 transition-colors"
+                  className="w-6 h-6 text-foreground group-hover:text-accent transition-colors"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -150,11 +150,11 @@ export default function LandingPartnersSection() {
               </button>
               <button
                 onClick={goToNext}
-                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-8 z-10 w-12 h-12 md:w-14 md:h-14 rounded-full bg-black/40 backdrop-blur-md border border-white/20 hover:border-lime-400/60 hover:bg-black/60 transition-all flex items-center justify-center group"
+                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-8 z-10 w-12 h-12 md:w-14 md:h-14 rounded-full bg-[var(--partner-arrow-bg)] backdrop-blur-md border border-foreground/20 hover:border-accent/60 hover:bg-[var(--partner-arrow-bg-hover)] transition-all flex items-center justify-center group"
                 aria-label="Next partners"
               >
                 <svg
-                  className="w-6 h-6 text-white group-hover:text-lime-400 transition-colors"
+                  className="w-6 h-6 text-foreground group-hover:text-accent transition-colors"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -179,8 +179,8 @@ export default function LandingPartnersSection() {
                   onClick={() => setCurrentIndex(index)}
                   className={`w-2 h-2 rounded-full transition-all ${
                     index === currentIndex
-                      ? "bg-lime-400 w-8"
-                      : "bg-white/30 hover:bg-white/50"
+                      ? "bg-accent w-8"
+                      : "bg-foreground/30 hover:bg-foreground/50"
                   }`}
                   aria-label={`Go to slide ${index + 1}`}
                 />
@@ -195,9 +195,9 @@ export default function LandingPartnersSection() {
 
 function PartnerCard({ partner }: { partner: Partner }) {
   return (
-    <GlassCardStatic className="p-6 h-full flex flex-col items-center justify-between hover:border-lime-400/60 transition-all group">
+    <GlassCardStatic className="p-6 h-full flex flex-col items-center justify-between hover:border-accent/60 transition-all group">
       {/* Logo */}
-      <div className="w-full h-32 mb-6 flex items-center justify-center bg-white/5 rounded-lg p-4">
+      <div className="w-full h-32 mb-6 flex items-center justify-center bg-[var(--glass-surface)] rounded-lg p-4">
         <img
           src={partner.logoUrl}
           alt={`${partner.name} logo`}
@@ -206,7 +206,7 @@ function PartnerCard({ partner }: { partner: Partner }) {
       </div>
 
       {/* Name */}
-      <h3 className="text-lg font-semibold text-white mb-4 text-center line-clamp-2 group-hover:text-lime-400 transition-colors">
+      <h3 className="text-lg font-semibold text-foreground mb-4 text-center line-clamp-2 group-hover:text-accent transition-colors">
         {partner.name}
       </h3>
 
@@ -215,7 +215,7 @@ function PartnerCard({ partner }: { partner: Partner }) {
         href={partner.website}
         target="_blank"
         rel="noopener noreferrer"
-        className="text-sm text-lime-400/80 hover:text-lime-400 underline underline-offset-2 transition-colors"
+        className="text-sm text-accent/80 hover:text-accent underline underline-offset-2 transition-colors"
         onClick={(e) => e.stopPropagation()}
       >
         Visit Website →

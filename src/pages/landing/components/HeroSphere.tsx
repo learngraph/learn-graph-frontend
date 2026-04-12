@@ -86,8 +86,40 @@ export default function HeroSphere() {
     let cy = 0;
     let sphereRadius = 300;
 
+    const readThemeColors = () => {
+      const root = getComputedStyle(document.documentElement);
+      const accentParts = root
+        .getPropertyValue("--accent-rgb")
+        .trim()
+        .split(/\s+/)
+        .map((v) => Number.parseInt(v, 10));
+      const ar = Number.isFinite(accentParts[0]) ? accentParts[0] : 212;
+      const ag = Number.isFinite(accentParts[1]) ? accentParts[1] : 255;
+      const ab = Number.isFinite(accentParts[2]) ? accentParts[2] : 57;
+      const fgParts = root
+        .getPropertyValue("--foreground-rgb")
+        .trim()
+        .split(/\s+/)
+        .map((v) => Number.parseInt(v, 10));
+      const fr = Number.isFinite(fgParts[0]) ? fgParts[0] : 255;
+      const fg = Number.isFinite(fgParts[1]) ? fgParts[1] : 255;
+      const fb = Number.isFinite(fgParts[2]) ? fgParts[2] : 255;
+      return {
+        ar,
+        ag,
+        ab,
+        canvasBg: root.getPropertyValue("--hero-canvas-bg").trim() || "#020202",
+        nodeCore: root.getPropertyValue("--hero-node-core").trim() || "#ffffff",
+        nodeGlow: (a: number) => `rgba(${fr},${fg},${fb},${a})`,
+        accentStroke: (a: number) => `rgba(${ar},${ag},${ab},${a})`,
+      };
+    };
+
+    let themeColors = readThemeColors();
+
     const resize = () => {
       pickProfile();
+      themeColors = readThemeColors();
 
       const rect = canvas.getBoundingClientRect();
       width = rect.width;
@@ -149,7 +181,7 @@ export default function HeroSphere() {
       time += 0.01;
       rotationY += ROTATION_SPEED;
 
-      ctx.fillStyle = "#020202";
+      ctx.fillStyle = themeColors.canvasBg;
       ctx.fillRect(0, 0, width, height);
 
       /* ============================================================
@@ -255,7 +287,7 @@ export default function HeroSphere() {
           ctx.beginPath();
           ctx.moveTo(a.x, a.y);
           ctx.lineTo(b.x, b.y);
-          ctx.strokeStyle = `rgba(212,249,54,${alpha})`;
+          ctx.strokeStyle = themeColors.accentStroke(alpha);
           ctx.lineWidth = widthMul * a.scale;
           ctx.stroke();
 
@@ -272,7 +304,7 @@ export default function HeroSphere() {
 
         ctx.beginPath();
         ctx.arc(n.x, n.y, size, 0, Math.PI * 2);
-        ctx.fillStyle = "#ffffff";
+        ctx.fillStyle = themeColors.nodeCore;
         ctx.fill();
 
         const glowRadius = size * GLOW_RADIUS;  // dial that glow in the top settings 
@@ -286,9 +318,9 @@ export default function HeroSphere() {
           glowRadius   // outer falloff
         );
 
-        gradient.addColorStop(0, "rgba(255,255,255,0.18)");
-        gradient.addColorStop(0.4, "rgba(255,255,255,0.10)");
-        gradient.addColorStop(1, "rgba(255,255,255,0)");
+        gradient.addColorStop(0, themeColors.nodeGlow(0.18));
+        gradient.addColorStop(0.4, themeColors.nodeGlow(0.1));
+        gradient.addColorStop(1, themeColors.nodeGlow(0));
 
         ctx.beginPath();
         ctx.arc(n.x, n.y, glowRadius, 0, Math.PI * 2);

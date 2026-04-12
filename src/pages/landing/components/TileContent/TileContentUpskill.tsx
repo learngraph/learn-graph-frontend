@@ -5,13 +5,13 @@ export default function TileContentUpskill() {
   const { t } = useI18n();
 
   return (
-    <div className="space-y-6 text-[#a9a9a9]">
+    <div className="space-y-6 text-ink-muted">
       <section>
-        <h3 className="text-2xl font-semibold text-[#eaeaea]">
+        <h3 className="text-2xl font-semibold text-ink">
           {t("landing.TileContentProject.upskill.title")}
         </h3>
 
-        <div className="h-px w-16 bg-white/20 my-4" />
+        <div className="h-px w-16 bg-foreground/20 my-4" />
 
         <p>{t("landing.TileContentProject.upskill.intro")}</p>
 
@@ -19,7 +19,7 @@ export default function TileContentUpskill() {
           <li className="flex gap-2">
             <Brain size={18} />
             <span>
-              <strong className="text-[#eaeaea]">
+              <strong className="text-ink">
                 {t("landing.TileContentProject.upskill.points.smarter.label")}
               </strong>{" "}
               ⟶ {t("landing.TileContentProject.upskill.points.smarter.desc")}
@@ -29,7 +29,7 @@ export default function TileContentUpskill() {
           <li className="flex gap-2">
             <Users size={18} />
             <span>
-              <strong className="text-[#eaeaea]">
+              <strong className="text-ink">
                 {t("landing.TileContentProject.upskill.points.collaborative.label")}
               </strong>{" "}
               ⟶ {t("landing.TileContentProject.upskill.points.collaborative.desc")}
@@ -39,7 +39,7 @@ export default function TileContentUpskill() {
           <li className="flex gap-2">
             <TrendingUp size={18} />
             <span>
-              <strong className="text-[#eaeaea]">
+              <strong className="text-ink">
                 {t("landing.TileContentProject.upskill.points.transfer.label")}
               </strong>{" "}
               ⟶ {t("landing.TileContentProject.upskill.points.transfer.desc")}
@@ -49,7 +49,7 @@ export default function TileContentUpskill() {
           <li className="flex gap-2">
             <BarChart3 size={18} />
             <span>
-              <strong className="text-[#eaeaea]">
+              <strong className="text-ink">
                 {t("landing.TileContentProject.upskill.points.impact.label")}
               </strong>{" "}
               ⟶ {t("landing.TileContentProject.upskill.points.impact.desc")}

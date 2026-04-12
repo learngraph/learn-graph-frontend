@@ -1,50 +1,125 @@
-/* =========================
-   HERO PALETTE
-   ========================= */
+/* =============================================================================
+   Single source of truth for colors (and related tokens).
+   - Tailwind references these via theme.extend in tailwind.config.cjs
+   - TSX uses semantic utilities (e.g. text-accent, bg-page) or var(--token)
+   - Canvas / imperative code reads --accent-rgb via getComputedStyle (see HeroSphere)
+   ============================================================================= */
 
 :root {
-/* Core backgrounds */
---bg-root: #0b0b0b;
---bg-section: #0b0b0b;
+  /* --- Base surfaces --- */
+  --bg-root: #0b0b0b;
+  --bg-section: #0b0b0b;
+  --bg-elevated: #111111;
+  --bg-hero-mycelium: #021909;
 
-/* Text system */
---text-primary: #eaeaea;
---text-muted: #a9a9a9;
+  /* --- Text --- */
+  --text-primary: #eaeaea;
+  --text-muted: #a9a9a9;
+  --text-on-accent: #000000;
 
+  /* --- Semantic aliases (used in TSX / legal / tiles) --- */
+  --color-page-bg: var(--bg-root);
+  --color-section-bg: var(--bg-section);
+  --color-text-primary: var(--text-primary);
+  --color-text-muted: var(--text-muted);
 
-/* Green theme */
-/* primary theme (active choice) */
---theme-green-primary: #a3e635;
-/* alternative theme (warmer / organic) */
---theme-green-organic: #c0e734;
-/* single switch */
---theme-green: var(--theme-green-primary);
+  /* Accent (lime) — space-separated for Tailwind rgb(... / <alpha>) */
+  --accent-rgb: 212 255 57;
+  --hero-accent: rgb(var(--accent-rgb));
+  --accent-main: var(--hero-accent);
+  --color-accent: var(--hero-accent);
 
-/* Borders */
---border-soft: rgba(255,255,255,0.18);
---border-strong: rgba(255,255,255,0.35);
+  /* --- Theme greens (nav / waypoints active) --- */
+  --theme-green-primary: #a3e635;
+  --theme-green-organic: #c0e734;
+  --theme-green: var(--theme-green-primary);
 
-/* Accent bridge (used outside hero) */
---accent-main: var(--hero-accent);
+  /* --- Foreground (white) channel for Tailwind opacity modifiers --- */
+  --foreground-rgb: 255 255 255;
 
-/* Layout */
---nav-height: 72px;
+  /* --- Borders & dividers --- */
+  --border-soft: rgba(255, 255, 255, 0.18);
+  --border-strong: rgba(255, 255, 255, 0.35);
+  --border-subtle: rgba(255, 255, 255, 0.07);
+  --border-rail: rgba(255, 255, 255, 0.55);
+  --border-hairline: rgba(255, 255, 255, 0.05);
+  --border-tile: rgba(255, 255, 255, 0.48);
+  --border-tile-hover: rgba(173, 255, 47, 0.9);
+  --border-glow-soft: rgba(173, 255, 47, 0.25);
 
+  /* --- Layout / chrome --- */
+  --nav-height: 72px;
+  --radius-card: 1rem;
 
-/* Tiles */
---tile-hover-bg: rgba(255, 255, 255, 0.04);
---tile-hover-glow: rgba(163, 230, 53, 0.25);   /* theme green */
---tiles-ambient-glow: rgba(163, 230, 53, 0.25);
+  /* --- Z-index scale --- */
+  --z-waypoints: 40;
+  --z-spotlight: 45;
+  --z-navbar: 50;
+  --z-modal: 100;
+  --z-tile-overlay: 200;
+  --z-cookie: 300;
 
-/* Glass morphism */
---glass-bg: rgba(255, 255, 255, 0.02);
---glass-border: rgba(255, 255, 255, 0.18);
+  /* --- Tiles & glass --- */
+  --tile-hover-bg: rgba(255, 255, 255, 0.04);
+  --tile-hover-glow: rgba(163, 230, 53, 0.25);
+  --tiles-ambient-glow: rgba(163, 230, 53, 0.25);
+  --glass-bg: rgba(255, 255, 255, 0.02);
+  --glass-border: rgba(255, 255, 255, 0.18);
+  --glass-surface: rgba(255, 255, 255, 0.05);
 
-/* Text */
---text-primary: #eaeaea;
---text-muted: #a9a9a9;
+  /* --- Stats / marketing bands --- */
+  --stats-band-bg: rgba(0, 0, 0, 0.3);
+  --stats-stat-hover: rgba(255, 255, 255, 0.05);
 
+  /* --- Navbar chrome --- */
+  --nav-bg: rgba(0, 0, 0, 0.4);
+  --nav-cta-border: rgba(255, 255, 255, 0.28);
+  --nav-cta-hover-bg: rgba(255, 255, 255, 0.06);
+  --nav-cta-hover-border: rgba(255, 255, 255, 0.45);
 
---color-accent-soft: rgba(255, 0, 0, 0.2);
+  /* --- Waypoints (inactive rail) --- */
+  --waypoint-label: rgba(255, 255, 255, 0.45);
+  --waypoint-diamond: rgba(255, 255, 255, 0.25);
+
+  /* --- Footer --- */
+  --footer-border: rgba(255, 255, 255, 0.08);
+  --footer-meta: rgba(255, 255, 255, 0.55);
+  --footer-link: rgba(255, 255, 255, 0.85);
+  --footer-accent: #caff00;
+
+  /* --- Language switcher --- */
+  --lang-border: rgba(255, 255, 255, 0.28);
+  --lang-hover-bg: rgba(255, 255, 255, 0.06);
+  --lang-hover-border: rgba(255, 255, 255, 0.45);
+  --lang-menu-bg: rgba(10, 10, 10, 0.75);
+  --lang-menu-border: rgba(255, 255, 255, 0.22);
+  --lang-item-muted: rgba(255, 255, 255, 0.75);
+  --lang-menu-item-hover: rgba(255, 255, 255, 0.08);
+
+  /* --- Cookie / consent (blue stack) --- */
+  --cookie-panel-bg: rgba(10, 42, 69, 0.8);
+  --cookie-border-strong: rgba(126, 200, 255, 0.5);
+  --cookie-border-soft: rgba(126, 200, 255, 0.25);
+  --color-blue-100: #e6f4ff;
+  --color-blue-300: #7ec8ff;
+  --cookie-row-bg: rgba(0, 0, 0, 0.1);
+
+  /* --- Shadows --- */
+  --shadow-text-soft: rgba(0, 0, 0, 0.4);
+  --shadow-tile-drop: rgba(0, 0, 0, 0.55);
+  --shadow-tile-inner: rgba(255, 255, 255, 0.5);
+  --shadow-tile-glow: rgba(173, 255, 47, 0.45);
+  --shadow-tile-glow-soft: rgba(173, 255, 47, 0.35);
+  --shadow-tile-deep: rgba(0, 0, 0, 0.75);
+
+  /* --- Hero canvas --- */
+  --hero-canvas-bg: #020202;
+  --hero-node-core: #ffffff;
+
+  /* --- Overlays (modals, partner carousel chrome) --- */
+  --film-scrim: rgb(0 0 0 / 0.7);
+  --film-close-bg: rgb(0 0 0 / 0.6);
+  --film-close-bg-hover: rgb(0 0 0 / 0.8);
+  --partner-arrow-bg: rgb(0 0 0 / 0.4);
+  --partner-arrow-bg-hover: rgb(0 0 0 / 0.6);
 }
-

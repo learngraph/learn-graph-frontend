@@ -8,21 +8,21 @@ export default function LandingSustainability() {
       <div className="max-w-4xl mx-auto w-full overflow-x-hidden">
         <h2 className="text-4xl sm:text-5xl md:text-6xl font-serif mb-10 break-words overflow-x-hidden">
           {t("landing.LandingSustainability.title.prefix")}{" "}
-          <span className="text-lime-400">
+          <span className="text-accent">
             {t("landing.LandingSustainability.title.highlight")}
           </span>
         </h2>
 
         <div className="flex flex-wrap gap-4">
-          <div className="px-5 py-2.5 rounded-full bg-lime-400 text-black text-sm font-medium">
+          <div className="px-5 py-2.5 rounded-full bg-accent text-onaccent text-sm font-medium">
             {t("landing.LandingSustainability.items.free")}
           </div>
 
-          <div className="px-5 py-2.5 rounded-full bg-lime-400 text-black text-sm font-medium">
+          <div className="px-5 py-2.5 rounded-full bg-accent text-onaccent text-sm font-medium">
             {t("landing.LandingSustainability.items.noAds")}
           </div>
 
-          <div className="px-5 py-2.5 rounded-full bg-lime-400 text-black text-sm font-medium">
+          <div className="px-5 py-2.5 rounded-full bg-accent text-onaccent text-sm font-medium">
             {t("landing.LandingSustainability.items.openSource")}
           </div>
         </div>

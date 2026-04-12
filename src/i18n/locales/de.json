@@ -7,7 +7,11 @@
     "compare": "Vergleich",
     "grow": "Wachsen",
     "partners": "Partner",
-    "people": "Menschen"
+    "people": "Menschen",
+    "launch": "App starten",
+    "university": "Hochschulen",
+    "enterprise": "Unternehmen",
+    "individual": "Individuen"
   },
   "landing": {
     "TargetGroupsSection": {
@@ -257,6 +261,183 @@
       "disclaimerBody": "Trotz sorgfältiger inhaltlicher Kontrolle übernehmen wir keine Haftung für die Inhalte externer Links. Für den Inhalt der verlinkten Seiten sind ausschließlich deren Betreiber verantwortlich.",
       "accuracyTitle": "Richtigkeit der Informationen",
       "accuracyBody": "Die Inhalte dieser Seite wurden mit größtmöglicher Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte übernehmen wir jedoch keine Gewähr."
+    }
+  },
+  "customers": {
+    "general": {
+      "for": "FÜR",
+      "backToBase": "Zurück zur Basis"
+    }
+  },
+  "enterprise": {
+    "hero": {
+      "highlight": "Echte Fähigkeiten,",
+      "title": "echte Ergebnisse im Maßstab",
+      "subtitle": "LearnGraph verbindet personalisierte Beratung mit skalierbarem Online-Lernen – für Transfer, Leistung und ROI."
+    },
+    "challenges": {
+      "scaling": {
+        "title": "Beratung ist nicht skalierbar",
+        "text": "Berater gehen, Wissen verschwindet. Lernen bleibt in Workshops gefangen statt sich im Unternehmen zu verbreiten."
+      },
+      "completion": {
+        "title": "Das 80%-Abschlussproblem",
+        "text": "Die meisten Mitarbeitenden beenden Online-Kurse nicht – und noch weniger wenden das Gelernte im Job an."
+      },
+      "silo": {
+        "title": "Lernen ist solo, Arbeit ist kollaborativ",
+        "text": "Training findet individuell statt, Arbeit im Team. Die Verbindung fehlt."
+      },
+      "roi": {
+        "title": "Kein klarer ROI für L&D",
+        "text": "Klicks und Zertifikate sind keine Ergebnisse. Transfer und Wirkung bleiben schwer messbar."
+      }
+    },
+    "stats": {
+      "retention": {
+        "value": "+40%",
+        "label": "Höhere Retention durch personalisierte Pfade"
+      },
+      "practice": {
+        "value": "2×",
+        "label": "Bessere Ergebnisse durch Praxisbezug"
+      },
+      "engagement": {
+        "value": "↑",
+        "label": "Relevanz steigert Engagement"
+      },
+      "roi": {
+        "value": "✓",
+        "label": "Umsetzbare Daten erschließen den ROI"
+      }
+    },
+    "offerings": {
+      "paths": {
+        "title": "Orientierende Kompetenzpfade",
+        "text": "Mitarbeitende sehen klar, was sie lernen sollen, in welcher Reihenfolge und wie es zur Arbeit passt."
+      },
+      "measure": {
+        "title": "Lernen messbar machen",
+        "text": "Echtzeit-Dashboards verbinden Training mit Ergebnissen — in Minuten statt Quartalen."
+      },
+      "workflow": {
+        "title": "Lernen im Arbeitsfluss",
+        "text": "Lernen findet im Kontext statt — innerhalb von Workflows, mit Kollegen und zum richtigen Zeitpunkt."
+      }
+    }
+  },
+  "individual": {
+    "hero": {
+      "highlight": "Dein",
+      "title": "persönlicher Lernweg",
+      "subtitle": "Verabschiede dich von Einheitskursen. LearnGraph hilft dir, deine eigene Lernreise mit Klarheit, Relevanz und Feedback zu gestalten."
+    },
+    "challenges": {
+      "generic": {
+        "title": "Zu allgemein",
+        "text": "Ein Weg für alle funktioniert nicht. Deine Ziele brauchen eine eigene Karte."
+      },
+      "motivation": {
+        "title": "Motivation verlieren",
+        "text": "Ohne Relevanz fühlt sich Lernen leer an – selbst für starke Lernende."
+      },
+      "overload": {
+        "title": "Informationsflut",
+        "text": "Zu viele Kurse, zu wenig Orientierung. Was ist wirklich wichtig?"
+      },
+      "alone": {
+        "title": "Allein lernen",
+        "text": "Ohne Austausch fehlt Halt, Perspektive und Wachstum."
+      }
+    },
+    "stats": {
+      "forget": {
+        "value": "80 %",
+        "label": "vergessen Inhalte nach einer Woche"
+      },
+      "personalized": {
+        "value": "+30 %",
+        "label": "bessere Ergebnisse durch Personalisierung"
+      },
+      "peer": {
+        "value": "↑",
+        "label": "Motivation durch Peer-Learning"
+      },
+      "practice": {
+        "value": "✓",
+        "label": "Projekte > Theorie"
+      }
+    },
+    "offerings": {
+      "map": {
+        "title": "Eine Karte nur für dich",
+        "text": "Sieh, wo du stehst, wohin du willst und wie du dort hinkommst."
+      },
+      "support": {
+        "title": "Du bist nicht allein",
+        "text": "Mentoring, Peer-Learning und gemeinsame Verantwortung."
+      },
+      "relevance": {
+        "title": "Lerne, was zählt",
+        "text": "Praxisnah, relevant und mit echtem Transfer ins Leben."
+      }
+    }
+  },
+  "university": {
+    "hero": {
+      "highlight": "Stärken",
+      "title": "Sie Ihre Institution",
+      "subtitle": "Transformieren Sie Ihr Bildungsökosystem mit personalisierten Analysen, hybriden Lernlösungen und nahtloser Interoperabilität."
+    },
+    "challenges": {
+      "engagement": {
+        "title": "Verbesserte Bindung",
+        "text": "Fördern Sie langfristiges Engagement durch transparente Lernpfade und adaptive Unterstützung."
+      },
+      "integration": {
+        "title": "Integrierte Pfade",
+        "text": "Verbinden Sie formale Curricula, informelles Lernen und Forschung in einem kohärenten System."
+      },
+      "data": {
+        "title": "Daten in Aktionen",
+        "text": "Verwandeln Sie Lerndaten in konkrete, nachvollziehbare Entscheidungen."
+      },
+      "interop": {
+        "title": "Nahtlose Interoperabilität",
+        "text": "Integrieren Sie bestehende Systeme ohne Vendor Lock-in oder Medienbrüche."
+      }
+    },
+    "stats": {
+      "completion": {
+        "value": "23 %",
+        "label": "Steigerung des Studienabschlusses"
+      },
+      "gaps": {
+        "value": "5 %",
+        "label": "Verringerte Leistungsunterschiede"
+      },
+      "retention": {
+        "value": "30 %",
+        "label": "Verbesserte Bindung"
+      },
+      "dropout": {
+        "value": "11 %",
+        "label": "Reduzierte Ausfallraten"
+      }
+    },
+    "offerings": {
+      "hybrid": {
+        "title": "Hybride Lerncontainer",
+        "text": "Flexible Lernräume, die Präsenz-, Online- und selbstgesteuertes Lernen verbinden."
+      },
+      "peer": {
+        "title": "Peer-Coaching & Mentoring",
+        "text": "Skalierbare Unterstützung durch Peer-Netzwerke und begleitete Lernprozesse."
+      },
+      "open": {
+        "title": "Interoperabilität & Open Source",
+        "text": "Offene Infrastruktur für langfristige Unabhängigkeit und nachhaltige Innovation."
+      }
     }
   }
 }

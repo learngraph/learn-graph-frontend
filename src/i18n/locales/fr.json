@@ -7,7 +7,11 @@
     "compare": "Comparer",
     "grow": "Évoluer",
     "partners": "Partenaires",
-    "people": "Personnes"
+    "people": "Personnes",
+    "launch": "Lancer l'application",
+    "university": "Universités",
+    "enterprise": "Entreprises",
+    "individual": "Individus"
   },
   "landing": {
     "TargetGroupsSection": {
@@ -257,6 +261,183 @@
       "disclaimerBody": "Malgré un contrôle attentif du contenu, nous n’assumons aucune responsabilité pour le contenu des liens externes. Les opérateurs des pages liées sont seuls responsables de leur contenu.",
       "accuracyTitle": "Exactitude des informations",
       "accuracyBody": "Le contenu de ce site a été créé avec le plus grand soin possible. Toutefois, nous n’assumons aucune responsabilité quant à l’exactitude, l’exhaustivité ou l’actualité des informations fournies."
+    }
+  },
+  "customers": {
+    "general": {
+      "for": "POUR",
+      "backToBase": "Retour à la base"
+    }
+  },
+  "enterprise": {
+    "hero": {
+      "highlight": "De vraies compétences,",
+      "title": "de vrais résultats à grande échelle",
+      "subtitle": "LearnGraph combine accompagnement personnalisé et apprentissage en ligne scalable — pour un transfert réel, de la performance et du ROI."
+    },
+    "challenges": {
+      "scaling": {
+        "title": "Le conseil ne passe pas à l’échelle",
+        "text": "Les experts partent, le savoir disparaît. L’apprentissage reste bloqué dans des ateliers."
+      },
+      "completion": {
+        "title": "Le problème des 80 %",
+        "text": "La majorité des employés ne termine pas les formations en ligne — encore moins les applique."
+      },
+      "silo": {
+        "title": "Apprendre seul, travailler ensemble",
+        "text": "La formation est individuelle, le travail est collaboratif. Le lien manque."
+      },
+      "roi": {
+        "title": "Aucun ROI clair pour le L&D",
+        "text": "Les clics et certificats ne sont pas des résultats. L’impact reste difficile à mesurer."
+      }
+    },
+    "stats": {
+      "retention": {
+        "value": "+40%",
+        "label": "Meilleure rétention grâce aux parcours personnalisés"
+      },
+      "practice": {
+        "value": "2×",
+        "label": "Meilleurs résultats grâce à la pratique réelle"
+      },
+      "engagement": {
+        "value": "↑",
+        "label": "L’engagement augmente avec la pertinence"
+      },
+      "roi": {
+        "value": "✓",
+        "label": "Des données exploitables révèlent le ROI"
+      }
+    },
+    "offerings": {
+      "paths": {
+        "title": "Parcours de compétences guidés",
+        "text": "Les employés savent quoi apprendre, dans quel ordre et pourquoi."
+      },
+      "measure": {
+        "title": "Rendre l’apprentissage mesurable",
+        "text": "Des tableaux de bord en temps réel relient formation et résultats."
+      },
+      "workflow": {
+        "title": "Apprendre dans le flux de travail",
+        "text": "L’apprentissage se fait dans le contexte — avec les équipes, au bon moment."
+      }
+    }
+  },
+  "individual": {
+    "hero": {
+      "highlight": "Votre",
+      "title": "parcours d’apprentissage personnel",
+      "subtitle": "Dites adieu aux formations standardisées. LearnGraph vous aide à façonner votre propre parcours d’apprentissage avec clarté, pertinence et feedback."
+    },
+    "challenges": {
+      "generic": {
+        "title": "Trop générique",
+        "text": "Un chemin unique ne fonctionne pas pour tous. Vos objectifs méritent leur propre carte."
+      },
+      "motivation": {
+        "title": "Perte de motivation",
+        "text": "Sans pertinence, l’apprentissage devient vide — même pour les apprenants avancés."
+      },
+      "overload": {
+        "title": "Surcharge d’information",
+        "text": "Trop de cours, pas assez d’orientation. Qu’est-ce qui compte vraiment ?"
+      },
+      "alone": {
+        "title": "Apprendre seul",
+        "text": "Sans échange, soutien et perspective, la progression stagne."
+      }
+    },
+    "stats": {
+      "forget": {
+        "value": "80 %",
+        "label": "oublient le contenu après une semaine"
+      },
+      "personalized": {
+        "value": "+30 %",
+        "label": "meilleurs résultats grâce à la personnalisation"
+      },
+      "peer": {
+        "value": "↑",
+        "label": "motivation par l’apprentissage entre pairs"
+      },
+      "practice": {
+        "value": "✓",
+        "label": "projets plutôt que théorie"
+      }
+    },
+    "offerings": {
+      "map": {
+        "title": "Une carte faite pour vous",
+        "text": "Visualisez où vous êtes, où vous voulez aller et comment y parvenir."
+      },
+      "support": {
+        "title": "Vous n’êtes pas seul",
+        "text": "Mentorat, apprentissage entre pairs et responsabilité partagée."
+      },
+      "relevance": {
+        "title": "Apprenez ce qui compte",
+        "text": "Pratique, pertinent et applicable à la vie réelle."
+      }
+    }
+  },
+  "university": {
+    "hero": {
+      "highlight": "Renforcez",
+      "title": "votre institution",
+      "subtitle": "Transformez votre écosystème éducatif grâce à des analyses personnalisées, des modèles hybrides et une interopérabilité fluide."
+    },
+    "challenges": {
+      "engagement": {
+        "title": "Engagement renforcé",
+        "text": "Favorisez l’engagement à long terme grâce à des parcours transparents et adaptatifs."
+      },
+      "integration": {
+        "title": "Parcours intégrés",
+        "text": "Reliez programmes formels, apprentissage informel et recherche dans un système cohérent."
+      },
+      "data": {
+        "title": "Des données à l’action",
+        "text": "Transformez les données d’apprentissage en décisions concrètes."
+      },
+      "interop": {
+        "title": "Interopérabilité fluide",
+        "text": "Intégrez les systèmes existants sans verrouillage fournisseur."
+      }
+    },
+    "stats": {
+      "completion": {
+        "value": "23 %",
+        "label": "augmentation des diplômes"
+      },
+      "gaps": {
+        "value": "5 %",
+        "label": "réduction des écarts de performance"
+      },
+      "retention": {
+        "value": "30 %",
+        "label": "engagement amélioré"
+      },
+      "dropout": {
+        "value": "11 %",
+        "label": "baisse du décrochage"
+      }
+    },
+    "offerings": {
+      "hybrid": {
+        "title": "Conteneurs d’apprentissage hybrides",
+        "text": "Espaces flexibles combinant présentiel, numérique et auto-apprentissage."
+      },
+      "peer": {
+        "title": "Coaching & mentorat entre pairs",
+        "text": "Soutien évolutif via des réseaux collaboratifs."
+      },
+      "open": {
+        "title": "Interopérabilité & open source",
+        "text": "Infrastructure ouverte pour une innovation durable."
+      }
     }
   }
 }

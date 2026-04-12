@@ -72,10 +72,10 @@ export default function LandingTeamSection() {
       <div className="max-w-6xl mx-auto w-full overflow-x-hidden">
         {/* Heading */}
         <h2 className="font-serif mb-10 leading-tight overflow-x-hidden">
-          <span className="block text-white text-3xl tracking-wide break-words">
+          <span className="block text-foreground text-3xl tracking-wide break-words">
             {t("landing.LandingTeamSection.title.prefix")}
           </span>
-          <span className="block text-lime-400 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight break-words">
+          <span className="block text-accent text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight break-words">
             {t("landing.LandingTeamSection.title.main")}
           </span>
         </h2>
@@ -90,16 +90,16 @@ export default function LandingTeamSection() {
               {/* Header */}
               <div className="mb-6">
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="text-lime-400 font-mono text-xs">|</span>
-                  <span className="text-lime-400 font-mono text-[10px] uppercase tracking-widest">
+                  <span className="text-accent font-mono text-xs">|</span>
+                  <span className="text-accent font-mono text-[10px] uppercase tracking-widest">
                     {teamRole(t, m.id)}
                   </span>
                 </div>
-                <h3 className="text-xl font-semibold text-white">{m.name}</h3>
+                <h3 className="text-xl font-semibold text-foreground">{m.name}</h3>
               </div>
 
               {/* Quote */}
-              <p className="text-white/90 text-sm italic leading-relaxed">
+              <p className="text-foreground/90 text-sm italic leading-relaxed">
                 “{teamQuote(t, m.id)}”
               </p>
             </GlassCardStatic>

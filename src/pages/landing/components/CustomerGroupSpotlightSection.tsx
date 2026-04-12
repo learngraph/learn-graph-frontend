@@ -5,7 +5,7 @@ export default function CustomerGroupSpotlightSection() {
   const { t } = useI18n();
 
   return (
-    <section id="begin" className="py-28 md:py-36">
+    <section id="begin" className="relative z-spotlight py-28 md:py-36">
       <div className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12 w-full overflow-x-hidden">
 
 
@@ -13,7 +13,7 @@ export default function CustomerGroupSpotlightSection() {
       <div className="flex items-center">
         <div className="max-w-xl lg:max-w-[36rem]">
           <h2 className="text-[clamp(3.2rem,5.5vw,5.6rem)] leading-[1.05] tracking-[-0.02em]">
-            <span className="block uppercase font-black text-[rgba(212,255,57,0.9)]">
+            <span className="block uppercase font-black text-accent/90">
               {t("landing.TargetGroupsSection.headline.primary")}
             </span>
 
