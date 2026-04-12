@@ -13,7 +13,10 @@
     "fmt": "prettier --write .",
     "init-git": "ln -sf ../../tools/pre-commit .git/hooks/pre-commit",
     "build-arm": "docker build -t test-frontend --build-arg='NGINX_IMAGE=arm64v8/nginx:stable-alpine' .",
-    "build-amd": "docker build -t test-frontend --build-arg='NGINX_IMAGE=nginx:1.12-alpine' ."
+    "build-amd": "docker build -t test-frontend --build-arg='NGINX_IMAGE=nginx:stable-alpine' ."
+  },
+  "engines": {
+    "node": ">=24"
   },
   "dependencies": {
     "@babel/plugin-transform-private-property-in-object": "^7.28.6",
@@ -24,10 +27,6 @@
     "@mui/icons-material": "^5.18.0",
     "@mui/material": "^5.18.0",
     "@posthog/react": "^1.5.2",
-    "@testing-library/jest-dom": "^6.9.1",
-    "@testing-library/react": "^14.3.1",
-    "@testing-library/user-event": "^14.6.1",
-    "@types/jest": "^29.5.14",
     "@types/mui-image": "^1.0.5",
     "@types/node": "^24.10.7",
     "@types/react": "^18.3.27",
@@ -35,8 +34,6 @@
     "@vitejs/plugin-react": "^4.2.1",
     "cross-fetch": "^4.0.0",
     "framer-motion": "^12.23.26",
-    "identity-obj-proxy": "^3.0.0",
-    "jest-environment-jsdom": "^29.7.0",
     "lexical": "^0.13.1",
     "lucide-react": "^0.503.0",
     "mui-image": "^1.0.7",
@@ -46,7 +43,6 @@
     "react-draggable": "^4.4.6",
     "react-icons": "^5.4.0",
     "react-router-dom": "^6.30.3",
-    "ts-jest": "^29.4.6",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3",
     "vite": "^7.3.1",
@@ -54,6 +50,9 @@
     "web-vitals": "^3.5.2"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^14.3.1",
+    "@testing-library/user-event": "^14.6.1",
     "@typescript-eslint/eslint-plugin": "^8.53.0",
     "@typescript-eslint/parser": "^8.53.0",
     "autoprefixer": "^10.4.23",
@@ -61,6 +60,7 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.5",
     "globals": "^17.0.0",
+    "jsdom": "^29.0.2",
     "postcss": "^8.5.6",
     "prettier": "^3.4.0",
     "tailwindcss": "^3.4.19"
