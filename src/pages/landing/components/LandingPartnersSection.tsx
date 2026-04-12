@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useI18n } from "@/i18n/i18n";
 import { GlassCardStatic } from "./ui/GlassCardStatic";
-import { partners, Partner } from "@/CustomerGroup/University";
+import { partners, type Partner } from "../partnersData";
 
 export default function LandingPartnersSection() {
   const { t } = useI18n();

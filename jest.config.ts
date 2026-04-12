@@ -7,6 +7,7 @@ export default {
   },
   transformIgnorePatterns: ["node_modules/(?!(three-spritetext))"],
   moduleNameMapper: {
+    "^@/(.*)$": "<rootDir>/src/$1",
     "^@src/(.*)$": "<rootDir>/src/$1",
   },
   rootDir: ".",

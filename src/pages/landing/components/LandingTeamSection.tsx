@@ -12,7 +12,57 @@ const TEAM = [
   { id: "lea", name: "Lea Aimée von Freital" },
   { id: "phil", name: "Phil Wolframm" },
   { id: "joyce", name: "Joyce Chen" },
-];
+] as const;
+
+function teamRole(t: (key: string, vars?: Record<string, unknown>) => string, id: (typeof TEAM)[number]["id"]) {
+  switch (id) {
+    case "laurin":
+      return t("landing.LandingTeamSection.roles.laurin");
+    case "jamal":
+      return t("landing.LandingTeamSection.roles.jamal");
+    case "efecan":
+      return t("landing.LandingTeamSection.roles.efecan");
+    case "ralf":
+      return t("landing.LandingTeamSection.roles.ralf");
+    case "jamileh":
+      return t("landing.LandingTeamSection.roles.jamileh");
+    case "arsham":
+      return t("landing.LandingTeamSection.roles.arsham");
+    case "talal":
+      return t("landing.LandingTeamSection.roles.talal");
+    case "lea":
+      return t("landing.LandingTeamSection.roles.lea");
+    case "phil":
+      return t("landing.LandingTeamSection.roles.phil");
+    case "joyce":
+      return t("landing.LandingTeamSection.roles.joyce");
+  }
+}
+
+function teamQuote(t: (key: string, vars?: Record<string, unknown>) => string, id: (typeof TEAM)[number]["id"]) {
+  switch (id) {
+    case "laurin":
+      return t("landing.LandingTeamSection.quotes.laurin");
+    case "jamal":
+      return t("landing.LandingTeamSection.quotes.jamal");
+    case "efecan":
+      return t("landing.LandingTeamSection.quotes.efecan");
+    case "ralf":
+      return t("landing.LandingTeamSection.quotes.ralf");
+    case "jamileh":
+      return t("landing.LandingTeamSection.quotes.jamileh");
+    case "arsham":
+      return t("landing.LandingTeamSection.quotes.arsham");
+    case "talal":
+      return t("landing.LandingTeamSection.quotes.talal");
+    case "lea":
+      return t("landing.LandingTeamSection.quotes.lea");
+    case "phil":
+      return t("landing.LandingTeamSection.quotes.phil");
+    case "joyce":
+      return t("landing.LandingTeamSection.quotes.joyce");
+  }
+}
 
 export default function LandingTeamSection() {
   const { t } = useI18n();
@@ -42,7 +92,7 @@ export default function LandingTeamSection() {
                 <div className="flex items-center gap-2 mb-2">
                   <span className="text-lime-400 font-mono text-xs">|</span>
                   <span className="text-lime-400 font-mono text-[10px] uppercase tracking-widest">
-                    {t(`landing.LandingTeamSection.roles.${m.id}`)}
+                    {teamRole(t, m.id)}
                   </span>
                 </div>
                 <h3 className="text-xl font-semibold text-white">{m.name}</h3>
@@ -50,7 +100,7 @@ export default function LandingTeamSection() {
 
               {/* Quote */}
               <p className="text-white/90 text-sm italic leading-relaxed">
-                “{t(`landing.LandingTeamSection.quotes.${m.id}`)}”
+                “{teamQuote(t, m.id)}”
               </p>
             </GlassCardStatic>
           ))}

@@ -1,19 +1,54 @@
 import "../../styles/navbar/nav-waypoints.css";
 import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useI18n } from "@/i18n/i18n";
 
 
 const SECTIONS = [
-  
-  { id: "begin", label: "nav.begin" },
-  { id: "compare", label: "nav.compare" },
-  { id: "grow", label: "nav.grow" },
-  { id: "partners", label: "nav.partners" },
-  { id: "people", label: "nav.people" },
+  { id: "begin" as const },
+  { id: "compare" as const },
+  { id: "grow" as const },
+  { id: "partners" as const },
+  { id: "people" as const },
 ];
 
+function waypointLabel(
+  t: (key: string, vars?: Record<string, unknown>) => string,
+  id: (typeof SECTIONS)[number]["id"],
+) {
+  switch (id) {
+    case "begin":
+      return t("nav.begin");
+    case "compare":
+      return t("nav.compare");
+    case "grow":
+      return t("nav.grow");
+    case "partners":
+      return t("nav.partners");
+    case "people":
+      return t("nav.people");
+  }
+}
+
+function waypointHref(id: (typeof SECTIONS)[number]["id"]): string {
+  switch (id) {
+    case "begin":
+      return "/learn";
+    case "compare":
+      return "/learn/compare";
+    case "grow":
+      return "/learn/grow";
+    case "partners":
+      return "/learn/partners";
+    case "people":
+      return "/learn/people";
+  }
+}
+
 export default function NavWaypoints() {
-  const { t } = useI18n();;
+  const { t } = useI18n();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [active, setActive] = useState<string | null>(null);
 
   useEffect(() => {
@@ -45,14 +80,16 @@ export default function NavWaypoints() {
         <button
           key={section.id}
           className={`waypoint ${isActive ? "active" : ""}`}
-          onClick={() =>
-            document
-              .getElementById(section.id)
-              ?.scrollIntoView({ behavior: "smooth" })
-          }
+          onClick={() => {
+            const href = waypointHref(section.id);
+            if (location.pathname === href) {
+              document.getElementById(section.id)?.scrollIntoView({ behavior: "smooth" });
+            } else {
+              navigate(href);
+            }
+          }}
         >
-          {/* 👇 THIS WAS THE MISSING PIECE */}
-          <span className="label">{t(section.label)}</span>
+          <span className="label">{waypointLabel(t, section.id)}</span>
           <span className="diamond" />
         </button>
       );
