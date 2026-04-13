@@ -12,6 +12,7 @@ import LandingPage from "./pages/landing/landing";
 import UniversityPage from "./pages/customerGroups/UniversityPage";
 import IndividualPage from "./pages/customerGroups/IndividualPage";
 import EnterprisePage from "./pages/customerGroups/EnterprisePage";
+import { ServiceOverviewPage } from "./pages/service/ServicePage";
 import CookieBanner from "@/pages/global/components/CookieBanner";
 import Footer from "@/pages/global/components/Footer";
 import ImprintPage from "@/pages/legal/Imprint";
@@ -42,6 +43,8 @@ export default function App() {
             <Route path="/learn/grow" element={<LandingPage />} />
             <Route path="/learn/partners" element={<LandingPage />} />
             <Route path="/learn/people" element={<LandingPage />} />
+            <Route path="/service" element={<ServiceOverviewPage />} />
+            <Route path="/service/*" element={<Navigate to="/service" replace />} />
             <Route path="/university" element={<UniversityPage />} />
             <Route path="/individual" element={<IndividualPage />} />
             <Route path="/enterprise" element={<EnterprisePage />} />

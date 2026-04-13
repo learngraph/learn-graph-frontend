@@ -269,6 +269,123 @@
       "backToBase": "Back to base"
     }
   },
+  "service": {
+    "shared": {
+      "scheduleCall": "Schedule a call"
+    },
+    "hero": {
+      "eyebrow": "Structured transformation",
+      "title": "Turn process pressure into a clear next step.",
+      "body": "When workflows are slow, manual, or person-dependent, another AI promise does not help. LearnGraph makes the bottleneck visible, defines the first realistic move, and supports delivery from architecture to adoption.",
+      "chipOne": "Process clarity",
+      "chipTwo": "Operational relief",
+      "chipThree": "Digital services with substance"
+    },
+    "pressure": {
+      "title": "What usually gets stuck first",
+      "intro": "The same pattern appears again and again in operations that carry real responsibility.",
+      "cards": {
+        "one": {
+          "title": "Too much manual load",
+          "body": "Skilled people spend their time on handovers, inboxes, and repetitive decisions instead of the work that actually needs them."
+        },
+        "two": {
+          "title": "Knowledge sits with individuals",
+          "body": "Critical know-how lives in heads, local routines, and exceptions nobody has written down properly."
+        },
+        "three": {
+          "title": "AI stays abstract",
+          "body": "The potential feels real, but the starting point, data basis, responsibilities, and safe architecture remain unclear."
+        },
+        "four": {
+          "title": "New offers stall",
+          "body": "A service idea exists, but scope, design, implementation, and market fit do not yet form one coherent path."
+        }
+      }
+    },
+    "compliance": {
+      "eyebrow": "Across every offer",
+      "title": "Readiness, security, and compliance are always part of the work.",
+      "body": "AI Act, NIS-2, ISO 27001-aligned security, governance, architecture, and safe integration are considered from the first step, not added at the end when they start blocking progress."
+    },
+    "trust": {
+      "title": "Why teams bring us into critical operations",
+      "intro": "We combine process understanding, technical delivery, and implementation support so change holds up in day-to-day work.",
+      "cards": {
+        "one": {
+          "title": "Process and operating reality",
+          "body": "We start with the real workflow, real bottlenecks, and the people closest to the work. That is how clarity becomes useful instead of abstract."
+        },
+        "two": {
+          "title": "Architecture and implementation",
+          "body": "We connect process analysis, software architecture, data, automation, and product delivery. The result is not a slide deck. It is a path that can be built."
+        },
+        "three": {
+          "title": "Context that carries responsibility",
+          "body": "Our background spans industry, energy, utilities, smart metering, logistics, embedded systems, and digital product work where reliability, integration, and accountability matter."
+        }
+      }
+    },
+    "offers": {
+      "title": "Three focused ways we help",
+      "intro": "Open the offer that matches your situation. Every one of them includes readiness, governance, security, and compliance support.",
+      "shared": {
+        "includedLabel": "Always included: readiness, security, compliance",
+        "whenTitle": "Good fit when",
+        "youGetTitle": "You get"
+      },
+      "clarity": {
+        "title": "Process-Clarity-Sprint",
+        "summary": "A focused entry point that makes one critical process visible, prioritizes friction, and defines the first realistic step.",
+        "when": {
+          "itemOne": "one process has become too slow, too error-prone, or too dependent on specific people.",
+          "itemTwo": "teams need relief, but nobody can clearly say where to begin.",
+          "itemThree": "business, IT, and operations each see a different problem."
+        },
+        "youGet": {
+          "itemOne": "a shared picture of the real workflow",
+          "itemTwo": "the biggest bottlenecks and first priorities",
+          "itemThree": "a realistic next-step roadmap instead of a vague transformation plan"
+        },
+        "note": "From the start we surface data gaps, ownership questions, security concerns, and regulatory constraints that would otherwise slow the next phase down."
+      },
+      "automation": {
+        "title": "Structured AI automation",
+        "summary": "We reduce manual workload, secure operational knowledge, and build automation that fits existing systems and daily routines.",
+        "when": {
+          "itemOne": "manual steps, inboxes, and handovers consume capacity every day.",
+          "itemTwo": "teams are overloaded and knowledge transfer is becoming fragile.",
+          "itemThree": "shadow tools are appearing faster than the organization can govern them."
+        },
+        "youGet": {
+          "itemOne": "a prioritized automation path instead of disconnected pilots",
+          "itemTwo": "workflows, integrations, and digital co-workers that fit the real landscape",
+          "itemThree": "less manual load, more stability, and better knowledge retention"
+        },
+        "note": "Security, governance, AI readiness, and rollout discipline stay inside the delivery work so automation does not create new risks while solving old ones."
+      },
+      "product": {
+        "title": "Product and service development",
+        "summary": "We sharpen digital offers, define a viable MVP, and connect design, architecture, and market logic from the beginning.",
+        "when": {
+          "itemOne": "an idea exists, but problem, audience, and scope are still not sharp enough.",
+          "itemTwo": "a new service should move quickly without becoming a technical dead end.",
+          "itemThree": "design, implementation, and validation must move together."
+        },
+        "youGet": {
+          "itemOne": "a clearer value proposition and MVP scope",
+          "itemTwo": "a first product or service version with real user value",
+          "itemThree": "a better foundation for validation, rollout, and iteration"
+        },
+        "note": "Readiness, governance, interfaces, and secure integration are part of the product work from the beginning so the offer can grow without rework."
+      }
+    },
+    "contact": {
+      "title": "Start with one blocked process or one offer that has stalled.",
+      "body": "We will show where the pressure really comes from, what should happen now, and what should wait.",
+      "emailPrefix": "Prefer email?"
+    }
+  },
   "enterprise": {
     "hero": {
       "highlight": "Real skills,",

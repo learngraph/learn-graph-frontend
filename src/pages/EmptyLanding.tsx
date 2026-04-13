@@ -15,6 +15,12 @@ export default function EmptyLanding() {
       >
         Marketing home
       </Link>
+      <Link
+        to="/service"
+        className="text-sm font-medium text-accent hover:text-accent/80 underline underline-offset-4"
+      >
+        Service offering
+      </Link>
     </main>
   );
 }
