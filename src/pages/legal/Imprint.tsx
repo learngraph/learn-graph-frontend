@@ -3,7 +3,7 @@ import { Navbar } from "../global/components/Navbar";
 
 export default function ImprintPage() {
   const { t } = useI18n();
-  const hrb = t("legal.placeholder");
+  const hrb = "22730";
 
   const imprintDetails = [
     {

@@ -10,6 +10,7 @@
 }
 
 .waypoint {
+  position: relative;
   display: grid;
   grid-template-columns: auto 0.875rem; /* was 14px */
   align-items: center;
@@ -65,18 +66,36 @@
   justify-content: flex-end;
 }
 
-/* Hide labels on very small screens, keep waypoints visible */
-@media (max-width: 30rem) { /* 480px */
-  .nav-waypoints .label {
-    display: none;
-  }
-  
+/* Small screens: diamonds only; tap opens labels briefly (.nav-waypoints--peek) */
+@media (max-width: 30rem) {
   .nav-waypoints {
-    right: 1rem; /* Reduce spacing on very small screens */
+    right: 1rem;
   }
-  
+
   .waypoint {
-    grid-template-columns: 0.875rem; /* Only show diamond */
-    justify-content: center;
+    grid-template-columns: 0.875rem;
+    justify-content: end;
+    justify-items: end;
+    width: min-content;
+    margin-left: auto;
+  }
+
+  .nav-waypoints .label {
+    position: absolute;
+    right: calc(100% + 0.5rem);
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: right;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+      opacity 0.22s ease,
+      visibility 0.22s ease;
+  }
+
+  .nav-waypoints.nav-waypoints--peek .label {
+    opacity: 1;
+    visibility: visible;
   }
 }

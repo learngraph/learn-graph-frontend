@@ -1,15 +1,9 @@
 import { useState, type ReactNode } from "react";
-import { CalendarDays, ChevronDown } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { useI18n } from "@/i18n/i18n";
 import { Navbar } from "../global/components/Navbar";
-
-const SCHEDULE_URL = "https://calendar.app.google/PnE55uBqE4Q3eCNs6";
+import ScheduleCallButton from "../customerGroups/ScheduleCallButton";
 const EMAIL_ADDRESS = "contact@learngraph.org";
-
-const RELEASE_PLACEHOLDERS = [
-  "[Placeholder before release: add energy-sector project with challenge, delivery scope, and measurable result.]",
-  "[Placeholder before release: add second proof point from industry, utilities, or service operations with a concrete operational outcome.]",
-];
 
 type OfferKey = "clarity" | "automation" | "product";
 
@@ -56,22 +50,6 @@ function Section({
       </div>
       {children}
     </section>
-  );
-}
-
-function PrimaryScheduleButton() {
-  const { t } = useI18n();
-
-  return (
-    <a
-      href={SCHEDULE_URL}
-      target="_blank"
-      rel="noreferrer"
-      className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-semibold text-onaccent transition-opacity hover:opacity-90"
-    >
-      <CalendarDays className="h-4 w-4" />
-      {t("service.shared.scheduleCall")}
-    </a>
   );
 }
 
@@ -250,7 +228,7 @@ export function ServiceOverviewPage() {
         </div>
 
         <div className="mt-10">
-          <PrimaryScheduleButton />
+          <ScheduleCallButton />
         </div>
       </section>
 
@@ -334,14 +312,29 @@ export function ServiceOverviewPage() {
         </div>
 
         <div className="grid gap-5 lg:grid-cols-2">
-          {RELEASE_PLACEHOLDERS.map((placeholder) => (
-            <div
-              key={placeholder}
-              className="rounded-[1.75rem] border border-dashed border-accent/35 bg-black/20 p-6 text-sm leading-6 text-foreground/75"
-            >
-              {placeholder}
-            </div>
-          ))}
+          <div className="rounded-[1.75rem] border border-accent/25 bg-accent/10 p-6">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-accent/80">
+              {t("service.trust.proofOne.label")}
+            </p>
+            <h3 className="mt-4 text-2xl font-semibold tracking-tight text-white">
+              {t("service.trust.proofOne.title")}
+            </h3>
+            <p className="mt-4 text-sm leading-6 text-foreground/75">
+              {t("service.trust.proofOne.body")}
+            </p>
+          </div>
+
+          <div className="rounded-[1.75rem] border border-accent/25 bg-accent/10 p-6">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-accent/80">
+              {t("service.trust.proofTwo.label")}
+            </p>
+            <h3 className="mt-4 text-2xl font-semibold tracking-tight text-white">
+              {t("service.trust.proofTwo.title")}
+            </h3>
+            <p className="mt-4 text-sm leading-6 text-foreground/75">
+              {t("service.trust.proofTwo.body")}
+            </p>
+          </div>
         </div>
       </Section>
 
@@ -376,7 +369,7 @@ export function ServiceOverviewPage() {
             {t("service.contact.body")}
           </p>
           <div className="pt-2">
-            <PrimaryScheduleButton />
+            <ScheduleCallButton />
           </div>
           <p className="text-sm leading-6 text-foreground/65">
             {t("service.contact.emailPrefix")}{" "}

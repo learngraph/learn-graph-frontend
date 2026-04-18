@@ -7,11 +7,11 @@ import {
   useLocation,
 } from "react-router-dom";
 import DirectionController from "@/i18n/DirectionController";
-import EmptyLanding from "./pages/EmptyLanding";
+import HomeLanding from "./pages/HomeLanding";
 import LandingPage from "./pages/landing/landing";
-import UniversityPage from "./pages/customerGroups/UniversityPage";
+import SchoolsPage from "./pages/customerGroups/SchoolsPage";
+import LabourMarketPage from "./pages/customerGroups/LabourMarketPage";
 import IndividualPage from "./pages/customerGroups/IndividualPage";
-import EnterprisePage from "./pages/customerGroups/EnterprisePage";
 import { ServiceOverviewPage } from "./pages/service/ServicePage";
 import CookieBanner from "@/pages/global/components/CookieBanner";
 import Footer from "@/pages/global/components/Footer";
@@ -37,7 +37,7 @@ export default function App() {
       <div className="min-h-screen flex flex-col">
         <div className="flex-1">
           <Routes>
-            <Route path="/" element={<EmptyLanding />} />
+            <Route path="/" element={<HomeLanding />} />
             <Route path="/learn" element={<LandingPage />} />
             <Route path="/learn/compare" element={<LandingPage />} />
             <Route path="/learn/grow" element={<LandingPage />} />
@@ -45,9 +45,11 @@ export default function App() {
             <Route path="/learn/people" element={<LandingPage />} />
             <Route path="/service" element={<ServiceOverviewPage />} />
             <Route path="/service/*" element={<Navigate to="/service" replace />} />
-            <Route path="/university" element={<UniversityPage />} />
+            <Route path="/schools" element={<SchoolsPage />} />
+            <Route path="/labour-market" element={<LabourMarketPage />} />
             <Route path="/individual" element={<IndividualPage />} />
-            <Route path="/enterprise" element={<EnterprisePage />} />
+            <Route path="/university" element={<Navigate to="/schools" replace />} />
+            <Route path="/enterprise" element={<Navigate to="/labour-market" replace />} />
             <Route path="/home" element={<Navigate to="/learn" replace />} />
             <Route path="/imprint" element={<ImprintPage />} />
             <Route path="/impressum" element={<ImprintPage />} />

@@ -345,7 +345,7 @@ export default function HeroSphere() {
         ref={canvasRef}
         className="absolute inset-0 w-full h-full block"
       />
-      <div className="absolute z-20 bottom-24 left-1/2 -translate-x-1/2 pointer-events-auto">
+      <div className="absolute z-20 bottom-24 left-1/2 -translate-x-1/2 pointer-events-auto flex w-full max-w-[min(100%,22rem)] justify-center px-3 sm:max-w-none sm:px-0">
         <LaunchButton />
       </div>
     </div>

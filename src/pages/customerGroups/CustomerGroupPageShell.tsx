@@ -7,7 +7,7 @@ import { useI18n } from "@/i18n/i18n";
 
 import CustomerGroupSelector from "./CustomerGroupSwitchingTiles";
 
-type CustomerGroup = "enterprise" | "university" | "individual";
+type CustomerGroup = "schools" | "labourMarket" | "individual";
 
 type CustomerGroupPageShellProps = {
   children: React.ReactNode;

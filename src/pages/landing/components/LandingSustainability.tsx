@@ -23,7 +23,7 @@ export default function LandingSustainability() {
           </div>
 
           <div className="px-5 py-2.5 rounded-full bg-accent text-onaccent text-sm font-medium">
-            {t("landing.LandingSustainability.items.openSource")}
+            {t("landing.LandingSustainability.items.openCore")}
           </div>
         </div>
       </div>

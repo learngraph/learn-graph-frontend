@@ -69,9 +69,9 @@ export default function LandingTeamSection() {
 
   return (
     <section id="people" className="px-6 py-24">
-      <div className="max-w-6xl mx-auto w-full overflow-x-hidden">
+      <div className="max-w-6xl mx-auto w-full min-w-0">
         {/* Heading */}
-        <h2 className="font-serif mb-10 leading-tight overflow-x-hidden">
+        <h2 className="font-serif mb-10 leading-tight overflow-clip">
           <span className="block text-foreground text-3xl tracking-wide break-words">
             {t("landing.LandingTeamSection.title.prefix")}
           </span>

@@ -2,6 +2,26 @@
   "hero": {
     "cta": "ابدأ التعلّم"
   },
+  "home": {
+    "mission": "نحن هنا لاستعادة وكالتنا الجماعية.",
+    "subline": "ينبغي أن توسّع التكنولوجيا ما تستطيعه المجتمعات أن تفعله لأنفسها: التوجيه والتأهيل والربط والاختيار — دون المساس بالكرامة أو الاستقلال.",
+    "illustrationAria": "يدان مفتوحتان تلتقيان في الوسط — المنصة والفريق كمساران متكاملان.",
+    "pathsTitle": "مساران للعمل معنا",
+    "detailsHint": "انقر للتفاصيل",
+    "detailsModalClose": "إغلاق",
+    "platform": {
+      "badge": "بنية تحتية مفتوحة",
+      "title": "منصة LearnGraph",
+      "body": "طبقة ذكاء تركز على الإنسان للتعلّم والمهارات ومراحل انتقال الحياة — عروض وحدات فوق نواة يمكنكم فهمها واستضافتها وتنميتها. من المؤسسات التعليمية إلى التشغيل والتدريب المهني والخدمات العامة عند تقاطع التعلّم والعمل والحياة.",
+      "cta": "استكشف المنصة"
+    },
+    "studio": {
+      "badge": "الفريق والتنفيذ",
+      "title": "التحوّل مع فريقنا",
+      "body": "أتمتة ذكاء اصطناعي منظّمة، وتطوير منتجات وخدمات، وتغيير عملي — مصمّم بالاشتراك مع من سيعيشون الحل. لمؤسسات تحتاج تنفيذًا حقيقيًا لا شرائح عرض فقط.",
+      "cta": "الخدمات والتواصل"
+    }
+  },
   "nav": {
     "begin": "ابدأ",
     "compare": "قارن",
@@ -9,9 +29,9 @@
     "partners": "الشركاء",
     "people": "الأشخاص",
     "launch": "إطلاق التطبيق",
-    "university": "الجامعات",
-    "enterprise": "المؤسسات",
-    "individual": "الأفراد"
+    "individual": "الأفراد",
+    "schools": "المدارس المهنية والتدريب",
+    "labourMarket": "أصحاب العمل والقطاع العام"
   },
   "landing": {
     "TargetGroupsSection": {
@@ -21,17 +41,17 @@
         "third": ""
       },
       "tiles": {
-        "university": {
-          "title": "الجامعات والتعليم",
-          "text": "مخططات تعلّم للمناهج، والبحث، والدراسة متعددة التخصصات"
-        },
-        "enterprise": {
-          "title": "المؤسسات",
-          "text": "أنظمة معرفة منظمة للفرق والمنظمات"
-        },
         "individual": {
           "title": "الأفراد",
           "text": "مسارات تعلّم شخصية تتكيف وتتطور"
+        },
+        "schools": {
+          "title": "المدارس المهنية والتدريب المشترك",
+          "text": "مسارات كفاءة تربط الصفّ والورشة والشركة"
+        },
+        "labourMarket": {
+          "title": "سوق العمل والمنطقة",
+          "text": "مواءمة مهارية لخدمات التوظيف والغرف وأصحاب العمل"
         }
       }
     },
@@ -61,38 +81,38 @@
     },
     "TileSection": {
       "header": {
-        "eyebrow": "كيف تنمو",
-        "title": "تتطوّر",
-        "subline": "وحدات مرنة تتوسع من مسارات فردية إلى أنظمة مؤسسية"
+        "eyebrow": "How you",
+        "title": "GROW",
+        "subline": "Vocational schools, regional employment services, individual learners—and an open core you can inspect, host, and extend."
       },
       "tiles": {
         "institutions": {
-          "title": "تمكين التعليم مع LearnGraph",
-          "text": "تحويل الأنظمة التعليمية عبر الانفتاح والمعرفة الجماعية"
+          "title": "Berufsschule to Betrieb",
+          "text": "Structured competence graphs for dual training: align school, workshop, and company without losing the human story of each learner."
         },
         "forge": {
-          "title": "اصنع مسارك الخاص",
-          "text": "لا نموذج واحد للجميع. LearnGraph يتكيف مع أهدافك وإيقاعك"
+          "title": "Your path, your pace",
+          "text": "Individuals get a living map—clarity, relevance, and feedback instead of one-size-fits-all courses."
         },
         "upskill": {
-          "title": "تطوير المهارات بدقة",
-          "text": "كل مهارة جديدة خطوة نحو الإتقان. LearnGraph يحوّل التقدم إلى مسار موجه"
+          "title": "Matching & public programmes",
+          "text": "Make skill gaps legible for people, counsellors, and employers; run regional pilots that respect procurement and data sovereignty."
         },
         "mission": {
-          "title": "مفتوح المصدر، يقوده الهدف",
-          "text": "نلاحق المعنى لا الربح. كل مساهمة تدعم مشاريع الأثر"
+          "title": "Open core · Independent & secure",
+          "text": "Self-hostable infrastructure: you control deployment, integrations, and where data lives—no black-box dependency."
         }
       }
     },
     "LandingSustainability": {
       "title": {
-        "prefix": "استدامة",
-        "highlight": "مدفوعة بالمنتج"
+        "prefix": "Independence",
+        "highlight": "& security"
       },
       "items": {
-        "free": "مجاني للأفراد",
-        "noAds": "بدون إعلانات · بدون حواجز دفع · بدون استغلال",
-        "openSource": "مفتوح المصدر افتراضيًا"
+        "free": "Free for individuals",
+        "noAds": "No ads · No paywalls · No extraction",
+        "openCore": "Open core · Self-hostable · You stay in control"
       }
     },
     "LandingPartnersSection": {
@@ -133,88 +153,88 @@
     },
     "TileContentProject": {
       "forge": {
-        "title": "اصنع مسارك الخاص",
-        "intro": "يساعدك LearnGraph على رسم خريطة تعلّمك الشخصية — أين أنت، وإلى أين تتجه، وكيف تصل",
+        "title": "Individuals first",
+        "intro": "A personal graph for your goals—not a catalogue thrown at everyone.",
         "points": {
           "generic": {
-            "label": "عام جدًا",
-            "desc": "تعامل معظم المنصات الجميع بنفس الطريقة. LearnGraph يتكيف معك"
+            "label": "No generic track",
+            "desc": "Paths reflect what you already know and what you still need for the role or project you care about."
           },
           "overload": {
-            "label": "تشبع معرفي",
-            "desc": "الوضوح يحل محل الفوضى عبر مسارات مدروسة"
+            "label": "Orientation",
+            "desc": "Fewer tabs, more signal: what to do next, and why it matters."
           },
           "alone": {
-            "label": "التعلّم الفردي",
-            "desc": "الإرشاد والدعم الجماعي يحافظان على التواصل والتحفيز"
+            "label": "Peers & mentors",
+            "desc": "Learning stays social—feedback and accountability without corporate theatre."
           },
           "relevance": {
-            "label": "صلة بالواقع",
-            "desc": "تتعلّم من خلال العمل والتطبيق العملي"
+            "label": "Practice",
+            "desc": "Tasks tie back to real outcomes, not checkbox completion."
           }
         },
-        "closing": "مسار تعلّمك يصبح خريطة حيّة تنمو مع فضولك"
+        "closing": "Your map updates as you grow—transparent to you, not opaque analytics."
       },
       "institutions": {
-        "title": "أنظمة تتعلّم",
-        "intro": "عندما تتعلّم المؤسسات كما يتعلّم أفرادها، يعود التعليم إلى الحياة",
+        "title": "Vocational schools & partners",
+        "intro": "Where learning and work meet, lists break down—competence needs structure, not another LMS skin.",
         "points": {
           "awareness": {
-            "label": "الوعي",
-            "desc": "اكتشاف الأنماط الخفية التي تشكّل التعلّم"
+            "label": "Dual structure",
+            "desc": "Link school standards, workshop practice, and company expectations in one navigable model."
           },
           "adaptation": {
-            "label": "التكيّف",
-            "desc": "السماح للأنظمة بالتطور مع مجتمعاتها"
+            "label": "Differentiation",
+            "desc": "Support heterogeneous classes without losing traceability for trainers and exam boards."
           },
           "empathy": {
-            "label": "التعاطف",
-            "desc": "التصميم للنمو والتوازن لا للكفاءة فقط"
+            "label": "Credible pilots",
+            "desc": "Experience from schools like ITECH Hamburg: competence-oriented, practice-heavy, digitally honest."
           }
         },
-        "closing": "LearnGraph ليس برنامجًا فقط — بل ممارسة للتعلّم الواعي"
+        "closing": "Built for Berufsschule realities—not slide decks about “future skills”."
       },
       "mission": {
-        "title": "مفتوح المصدر، يقوده الهدف، قائم على الأثر",
-        "intro": "نحن لا نطارد الربح — بل المعنى",
+        "title": "Open core, your operations",
+        "intro": "Independence is not a slogan—it's deployability, auditability, and exit options.",
         "points": {
           "sustainability": {
-            "label": "استدامة مدفوعة بالمنتج",
-            "desc": "خدمات للمؤسسات، مجانية للأفراد، مع إعادة استثمار الأثر"
+            "label": "Self-hosting",
+            "desc": "Run on your stack under your policies; integrate with identity, LMS, and HR systems you already use."
           },
           "access": {
-            "label": "وصول مفتوح للجميع",
-            "desc": "بدون تسجيل، بدون إعلانات، بدون حواجز"
+            "label": "Transparent core",
+            "desc": "Open core so procurement, IT security, and educators can inspect what runs in production."
           },
           "alignment": {
-            "label": "انسجام عالمي",
-            "desc": "مستوحى من رؤى اليونسكو وبرامج التنمية"
+            "label": "Data sovereignty",
+            "desc": "Sensitive labour-market and youth data stay where regulators and institutions require."
           }
         },
-        "closing": "LearnGraph يبني بنية تحتية للنية العالمية"
+        "closing": "No mandatory SaaS cliff—grow adoption without growing lock-in."
       },
       "upskill": {
-        "title": "مهارات حقيقية، نتائج حقيقية",
-        "intro": "يربط LearnGraph بين الاستشارات والتعلّم القابل للتوسع",
+        "title": "Employers & public services",
+        "intro": "Skill-based matching needs more than profiles—it needs gap logic both sides trust.",
         "points": {
           "smarter": {
-            "label": "تعلّم أذكى",
-            "desc": "تحويل البيانات إلى إرشاد عملي"
+            "label": "Visible gaps",
+            "desc": "Show which competencies are missing for a target role and what it takes to close them."
           },
           "collaborative": {
-            "label": "نمو تعاوني",
-            "desc": "تحديات جماعية وإرشاد فوري"
+            "label": "Counsellor-ready",
+            "desc": "أدوات تناسب مسارات دوائر التشغيل والغرف—وليس التدريب المؤسسي فقط."
           },
           "transfer": {
-            "label": "نقل المهارات",
-            "desc": "انتقال التعلّم مباشرة إلى العمل اليومي"
+            "label": "Regional pilots",
+            "desc": "Start with accompanied sprints, measure honestly, then scale what actually lands."
           },
           "impact": {
-            "label": "أثر قابل للقياس",
-            "desc": "كل خطوة تعزز أداء الفريق"
+            "label": "Employers included",
+            "desc": "Bring companies into the same competence language without reducing people to keywords."
           }
         },
-        "closing": "التدريب يصبح ثقافة لا دورة"
+        "closing": "Public programmes and firms meet on shared semantics—finally."
       }
     }
   },
@@ -267,63 +287,6 @@
     "general": {
       "for": "لِـ",
       "backToBase": "العودة إلى القاعدة"
-    }
-  },
-  "enterprise": {
-    "hero": {
-      "highlight": "مهارات حقيقية،",
-      "title": "نتائج حقيقية على نطاق واسع",
-      "subtitle": "يجمع LearnGraph بين الإرشاد المخصص والتعلم الرقمي القابل للتوسع — لتحقيق نقل المعرفة والأداء والعائد على الاستثمار."
-    },
-    "challenges": {
-      "scaling": {
-        "title": "الاستشارات لا تتوسع",
-        "text": "يغادر الخبراء وتضيع المعرفة. يبقى التعلم محصورًا في ورش العمل."
-      },
-      "completion": {
-        "title": "مشكلة إتمام 80٪",
-        "text": "معظم الموظفين لا يُكملون الدورات الرقمية — ونسبة أقل تطبق ما تعلمته."
-      },
-      "silo": {
-        "title": "التعلم فردي والعمل جماعي",
-        "text": "يحدث التدريب بشكل فردي بينما يتم العمل ضمن فرق. لا توجد صلة بينهما."
-      },
-      "roi": {
-        "title": "غياب عائد واضح على الاستثمار",
-        "text": "النقرات والشهادات ليست نتائج. يصعب قياس الأثر الحقيقي."
-      }
-    },
-    "stats": {
-      "retention": {
-        "value": "+40%",
-        "label": "تحسين الاحتفاظ من خلال مسارات مخصصة"
-      },
-      "practice": {
-        "value": "2×",
-        "label": "نتائج أفضل عبر التطبيق العملي"
-      },
-      "engagement": {
-        "value": "↑",
-        "label": "الملاءمة تزيد من التفاعل"
-      },
-      "roi": {
-        "value": "✓",
-        "label": "بيانات قابلة للتنفيذ تكشف العائد"
-      }
-    },
-    "offerings": {
-      "paths": {
-        "title": "مسارات مهارية موجهة",
-        "text": "يرى الموظفون ما يجب تعلمه، ومتى، وكيف يرتبط بالعمل."
-      },
-      "measure": {
-        "title": "تعلم قابل للقياس",
-        "text": "لوحات تحكم فورية تربط التدريب بالنتائج."
-      },
-      "workflow": {
-        "title": "التعلم داخل سير العمل",
-        "text": "يحدث التعلم في السياق — مع الزملاء وفي الوقت المناسب."
-      }
     }
   },
   "individual": {
@@ -383,60 +346,114 @@
       }
     }
   },
-  "university": {
+  "labourMarket": {
     "hero": {
-      "highlight": "عزّزوا",
-      "title": "مؤسستكم",
-      "subtitle": "حوّلوا منظومتكم التعليمية عبر تحليلات مخصصة ونماذج تعلم هجينة وتكامل سلس."
+      "highlight": "Labour market & region",
+      "title": "skill matching grounded in evidence",
+      "subtitle": "لخدمات التوظيف العامة والغرف وأصحاب العمل: يجعل LearnGraph فجوات المهارات واضحة، ويوائم الأشخاص والأدوار وفق الكفاءات—لا الشعارات—ويدعم تجارب جهوية يمكن تقييمها قبل التوسّع."
     },
     "challenges": {
-      "engagement": {
-        "title": "تعزيز المشاركة",
-        "text": "تعزيز الالتزام طويل الأمد عبر مسارات تعلم واضحة وداعمة."
+      "invisible": {
+        "title": "Potential stays invisible",
+        "text": "Formal qualifications alone miss what people can actually do—especially after career breaks, migration, or informal experience."
       },
-      "integration": {
-        "title": "مسارات متكاملة",
-        "text": "ربط المناهج الرسمية والتعلم غير الرسمي والبحث العلمي."
+      "alignment": {
+        "title": "Programmes and employers speak different languages",
+        "text": "Counsellors, funding rules, and hiring managers rarely share one competence map—so support fragments."
       },
-      "data": {
-        "title": "من البيانات إلى القرار",
-        "text": "تحويل بيانات التعلم إلى قرارات عملية."
+      "efficiency": {
+        "title": "Support is costly at scale",
+        "text": "Public employment services move enormous volume; small efficiency gains matter—but only if they respect dignity and privacy."
       },
-      "interop": {
-        "title": "تكامل سلس",
-        "text": "دمج الأنظمة دون قيود أو اعتماد على مزود واحد."
+      "trust": {
+        "title": "Black boxes erode trust",
+        "text": "Opaque scoring breaks acceptance with works councils, data-protection officers, and the people you serve."
       }
     },
     "stats": {
-      "completion": {
-        "value": "23٪",
-        "label": "زيادة معدلات التخرج"
+      "matching": {
+        "value": "→",
+        "label": "Competency-based matching, not keyword bingo"
       },
       "gaps": {
-        "value": "5٪",
-        "label": "تقليص فجوات الأداء"
+        "value": "Δ",
+        "label": "Gap visibility for roles and learning paths"
       },
-      "retention": {
-        "value": "30٪",
-        "label": "تحسين التفاعل"
+      "pilots": {
+        "value": "3",
+        "label": "Phased pilots: learn, then scale regionally"
       },
-      "dropout": {
-        "value": "11٪",
-        "label": "خفض معدلات الانسحاب"
+      "hosting": {
+        "value": "◎",
+        "label": "Deploy where your policies require"
       }
     },
     "offerings": {
-      "hybrid": {
-        "title": "حاويات تعلم هجينة",
-        "text": "مساحات مرنة تجمع بين الحضوري والرقمي والتعلم الذاتي."
+      "matching": {
+        "title": "Skill-based matching",
+        "text": "Connect jobseekers and employers on shared competence semantics—see fit, gaps, and development options in one place."
       },
-      "peer": {
-        "title": "الإرشاد والتوجيه الجماعي",
-        "text": "دعم قابل للتوسع عبر شبكات تعلم تعاونية."
+      "pilots": {
+        "title": "Accompanied regional pilots",
+        "text": "Structured phases with evaluation: prove outcomes with local partners before full system integration."
+      },
+      "stack": {
+        "title": "Open, integratable stack",
+        "text": "Interoperable with existing case and placement systems; open core so security and procurement can sign off."
+      }
+    }
+  },
+  "schools": {
+    "hero": {
+      "highlight": "Vocational schools",
+      "title": "& training partners",
+      "subtitle": "Dual training is where theory meets practice every week. LearnGraph maps competences across school, workshop, and company—so trainers, learners, and partners share one navigable path."
+    },
+    "demo": {
+      "germanNote": "This video is in German.",
+      "iframeTitle": "LearnGraph for vocational schools and training (German)"
+    },
+    "challenges": {
+      "pathways": {
+        "title": "Missing clarity around taught skills",
+        "text": "Learning goals live in curricula, workshop routines, and company expectations—rarely in one coherent graph learners can actually follow."
+      },
+      "practice": {
+        "title": "Inverted classroom: too much effort",
+        "text": "Individual support at scale is hard: heterogeneous groups, legal frameworks, and documentation that must stay audit-ready."
+      },
+      "partners": {
+        "title": "Skill demand shifts fast—tools go stale just as fast",
+        "text": "Training companies and schools need shared language on progress—without drowning in spreadsheets or proprietary tools."
+      },
+      "evidence": {
+        "title": "Trace growth with supportive analytics—not surveillance metrics",
+        "text": "You need traceability for exams and quality—not another opaque tracking dashboard that erodes trust."
+      }
+    },
+    "stats": {
+      "learners": {
+        "value": "1",
+        "label": "One skill-tree per learner—human-centered growth, not just grades"
+      },
+      "clarity": {
+        "value": "↔",
+        "label": "Shared view for school ↔ Betrieb"
+      },
+      "integration": {
+        "value": "API",
+        "label": "Interop with LMS, identity, and tools you use"
       },
       "open": {
-        "title": "التكامل والمصدر المفتوح",
-        "text": "بنية مفتوحة للاستقلال والابتكار المستدام."
+        "value": "◇",
+        "label": "Open core—inspectable, hostable infrastructure"
+      }
+    },
+    "caseStudies": {
+      "sectionTitle": "Case studies",
+      "comingSoon": "Coming soon",
+      "itech": {
+        "title": "ITECH (Hamburg)"
       }
     }
   }

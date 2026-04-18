@@ -2,6 +2,26 @@
   "hero": {
     "cta": "Έναρξη μάθησης"
   },
+  "home": {
+    "mission": "Είμαστε εδώ για να ανακτήσουμε τη συλλογική μας αυτενέργεια.",
+    "subline": "Η τεχνολογία πρέπει να διευρύνει τι μπορούν να κάνουν οι κοινότητες για τον εαυτό τους: προσανατολισμός, κατάρτιση, σύνδεση και επιλογή — χωρίς να θυσιάζεται αξιοπρέπεια ή ανεξαρτησία.",
+    "illustrationAria": "Δύο ανοιχτές παλάμες συναντιούνται στο κέντρο — η πλατφόρμα και η ομάδα ως δύο συμπληρωματικά μονοπάτια.",
+    "pathsTitle": "Δύο τρόποι συνεργασίας μαζί μας",
+    "detailsHint": "Κλικ για λεπτομέρειες",
+    "detailsModalClose": "Κλείσιμο",
+    "platform": {
+      "badge": "Ανοιχτή υποδομή",
+      "title": "Η πλατφόρμα LearnGraph",
+      "body": "Ένα επίπεδο νοημοσύνης με επίκεντρο τον άνθρωπο για μάθηση, δεξιότητες και μεταβάσεις ζωής — αρθρωτές προσφορές πάνω σε έναν πυρήνα που μπορείτε να κατανοήσετε, να φιλοξενήσετε και να αναπτύξετε. Από εκπαιδευτικά ιδρύματα έως απασχόληση, επαγγελματική κατάρτιση και δημόσιες υπηρεσίες στη διασταύρωση μάθησης, εργασίας και ζωής.",
+      "cta": "Ανακαλύψτε την πλατφόρμα"
+    },
+    "studio": {
+      "badge": "Ομάδα & υλοποίηση",
+      "title": "Μετάβαση με την ομάδα μας",
+      "body": "Δομημένη αυτοματοποίηση AI, ανάπτυξη προϊόντων και υπηρεσιών και αλλαγή με πράξη — συν-σχεδιασμένη με όσους θα ζήσουν τη λύση. Για οργανισμούς που χρειάζονται πραγματική υλοποίηση, όχι μόνο διαφάνειες.",
+      "cta": "Υπηρεσίες και επικοινωνία"
+    }
+  },
   "nav": {
     "begin": "Έναρξη",
     "compare": "Σύγκριση",
@@ -9,9 +29,9 @@
     "partners": "Συνεργάτες",
     "people": "Άνθρωποι",
     "launch": "Εκκίνηση εφαρμογής",
-    "university": "Πανεπιστήμια",
-    "enterprise": "Επιχειρήσεις",
-    "individual": "Άτομα"
+    "individual": "Άτομα",
+    "schools": "Επαγγ. σχολεία & εκπαίδευση",
+    "labourMarket": "Εργοδότες & δημόσιο"
   },
   "landing": {
     "TargetGroupsSection": {
@@ -21,17 +41,17 @@
         "third": "μάθησης"
       },
       "tiles": {
-        "university": {
-          "title": "Πανεπιστήμια & Εκπαίδευση",
-          "text": "Γράφοι μάθησης για προγράμματα σπουδών, έρευνα και διεπιστημονικές μελέτες"
-        },
-        "enterprise": {
-          "title": "Επιχειρήσεις",
-          "text": "Δομημένα συστήματα γνώσης για ομάδες και οργανισμούς"
-        },
         "individual": {
           "title": "Άτομα",
           "text": "Προσωπικές διαδρομές μάθησης που προσαρμόζονται και εξελίσσονται"
+        },
+        "schools": {
+          "title": "Επαγγελματικά σχολεία & εκπαίδευση",
+          "text": "Διαδρομές δεξιοτήτων που ενώνουν τάξη, εργαστήριο και επιχείρηση"
+        },
+        "labourMarket": {
+          "title": "Αγορά εργασίας & περιφέρεια",
+          "text": "Ταίριασμα δεξιοτήτων για υπηρεσίες απασχόλησης, επιμελητήρια και εργοδότες"
         }
       }
     },
@@ -61,38 +81,38 @@
     },
     "TileSection": {
       "header": {
-        "eyebrow": "Πώς",
-        "title": "ΑΝΑΠΤΥΣΣΕΣΑΙ",
-        "subline": "Αρθρωτά δομικά στοιχεία — από προσωπικές διαδρομές μάθησης έως θεσμικά συστήματα"
+        "eyebrow": "How you",
+        "title": "GROW",
+        "subline": "Vocational schools, regional employment services, individual learners—and an open core you can inspect, host, and extend."
       },
       "tiles": {
         "institutions": {
-          "title": "Ενδυνάμωση με το LearnGraph",
-          "text": "Μετασχηματισμός εκπαιδευτικών οικοσυστημάτων μέσω ανοιχτότητας και συλλογικής γνώσης"
+          "title": "Berufsschule to Betrieb",
+          "text": "Structured competence graphs for dual training: align school, workshop, and company without losing the human story of each learner."
         },
         "forge": {
-          "title": "Δημιούργησε τη δική σου διαδρομή",
-          "text": "Όχι ενιαία μοντέλα μάθησης. Το LearnGraph προσαρμόζεται στους στόχους, τον ρυθμό και τον τρόπο σου"
+          "title": "Your path, your pace",
+          "text": "Individuals get a living map—clarity, relevance, and feedback instead of one-size-fits-all courses."
         },
         "upskill": {
-          "title": "Ανάπτυξη δεξιοτήτων με ακρίβεια",
-          "text": "Κάθε νέα δεξιότητα είναι ένα βήμα προς την αριστεία"
+          "title": "Matching & public programmes",
+          "text": "Make skill gaps legible for people, counsellors, and employers; run regional pilots that respect procurement and data sovereignty."
         },
         "mission": {
-          "title": "Ανοιχτού κώδικα, με αποστολή",
-          "text": "Δεν κυνηγάμε το κέρδος — υπηρετούμε τον σκοπό"
+          "title": "Open core · Independent & secure",
+          "text": "Self-hostable infrastructure: you control deployment, integrations, and where data lives—no black-box dependency."
         }
       }
     },
     "LandingSustainability": {
       "title": {
-        "prefix": "Βιωσιμότητα",
-        "highlight": "μέσω προϊόντος"
+        "prefix": "Independence",
+        "highlight": "& security"
       },
       "items": {
-        "free": "Δωρεάν για άτομα",
-        "noAds": "Χωρίς διαφημίσεις · χωρίς paywalls · χωρίς εξαγωγή δεδομένων",
-        "openSource": "Ανοιχτού κώδικα εξ αρχής"
+        "free": "Free for individuals",
+        "noAds": "No ads · No paywalls · No extraction",
+        "openCore": "Open core · Self-hostable · You stay in control"
       }
     },
     "LandingPartnersSection": {
@@ -133,88 +153,88 @@
     },
     "TileContentProject": {
       "forge": {
-        "title": "Δημιούργησε τη δική σου διαδρομή",
-        "intro": "Το LearnGraph σε βοηθά να χαρτογραφήσεις τη μάθησή σου — πού βρίσκεσαι, πού πηγαίνεις και πώς θα φτάσεις εκεί",
+        "title": "Individuals first",
+        "intro": "A personal graph for your goals—not a catalogue thrown at everyone.",
         "points": {
           "generic": {
-            "label": "Υπερβολικά γενικό",
-            "desc": "Οι περισσότερες πλατφόρμες αντιμετωπίζουν όλους το ίδιο"
+            "label": "No generic track",
+            "desc": "Paths reflect what you already know and what you still need for the role or project you care about."
           },
           "overload": {
-            "label": "Υπερφόρτωση πληροφορίας",
-            "desc": "Η σαφήνεια αντικαθιστά το χάος"
+            "label": "Orientation",
+            "desc": "Fewer tabs, more signal: what to do next, and why it matters."
           },
           "alone": {
-            "label": "Μάθηση μόνος",
-            "desc": "Ενσωματωμένη καθοδήγηση και υποστήριξη"
+            "label": "Peers & mentors",
+            "desc": "Learning stays social—feedback and accountability without corporate theatre."
           },
           "relevance": {
-            "label": "Πραγματική αξία",
-            "desc": "Μαθαίνεις κάνοντας"
+            "label": "Practice",
+            "desc": "Tasks tie back to real outcomes, not checkbox completion."
           }
         },
-        "closing": "Η μαθησιακή σου διαδρομή γίνεται ένας ζωντανός χάρτης"
+        "closing": "Your map updates as you grow—transparent to you, not opaque analytics."
       },
       "institutions": {
-        "title": "Συστήματα που μαθαίνουν",
-        "intro": "Όταν τα ιδρύματα μαθαίνουν όπως οι μαθητευόμενοι τους, η εκπαίδευση ζωντανεύει",
+        "title": "Vocational schools & partners",
+        "intro": "Where learning and work meet, lists break down—competence needs structure, not another LMS skin.",
         "points": {
           "awareness": {
-            "label": "Επίγνωση",
-            "desc": "Αναγνώριση αόρατων μοτίβων"
+            "label": "Dual structure",
+            "desc": "Link school standards, workshop practice, and company expectations in one navigable model."
           },
           "adaptation": {
-            "label": "Προσαρμογή",
-            "desc": "Εξέλιξη μαζί με τις κοινότητες"
+            "label": "Differentiation",
+            "desc": "Support heterogeneous classes without losing traceability for trainers and exam boards."
           },
           "empathy": {
-            "label": "Ενσυναίσθηση",
-            "desc": "Σχεδιασμός για ισορροπία και ανάπτυξη"
+            "label": "Credible pilots",
+            "desc": "Experience from schools like ITECH Hamburg: competence-oriented, practice-heavy, digitally honest."
           }
         },
-        "closing": "Το LearnGraph δεν είναι απλώς λογισμικό — είναι πρακτική"
+        "closing": "Built for Berufsschule realities—not slide decks about “future skills”."
       },
       "mission": {
-        "title": "Ανοιχτού κώδικα, με αποστολή",
-        "intro": "Δεν κυνηγάμε το κέρδος — κυνηγάμε τον σκοπό",
+        "title": "Open core, your operations",
+        "intro": "Independence is not a slogan—it's deployability, auditability, and exit options.",
         "points": {
           "sustainability": {
-            "label": "Βιωσιμότητα μέσω προϊόντος",
-            "desc": "SaaS για ιδρύματα, δωρεάν για άτομα"
+            "label": "Self-hosting",
+            "desc": "Run on your stack under your policies; integrate with identity, LMS, and HR systems you already use."
           },
           "access": {
-            "label": "Ανοιχτή πρόσβαση για όλους",
-            "desc": "Χωρίς συνδέσεις, διαφημίσεις ή paywalls"
+            "label": "Transparent core",
+            "desc": "Open core so procurement, IT security, and educators can inspect what runs in production."
           },
           "alignment": {
-            "label": "Παγκόσμια ευθυγράμμιση",
-            "desc": "Εμπνευσμένο από UNESCO και UNDP"
+            "label": "Data sovereignty",
+            "desc": "Sensitive labour-market and youth data stay where regulators and institutions require."
           }
         },
-        "closing": "Το LearnGraph χτίζει υποδομή για παγκόσμια πρόθεση"
+        "closing": "No mandatory SaaS cliff—grow adoption without growing lock-in."
       },
       "upskill": {
-        "title": "Πραγματικές δεξιότητες, πραγματικά αποτελέσματα",
-        "intro": "Το LearnGraph γεφυρώνει τη συμβουλευτική με την κλιμακούμενη μάθηση",
+        "title": "Employers & public services",
+        "intro": "Skill-based matching needs more than profiles—it needs gap logic both sides trust.",
         "points": {
           "smarter": {
-            "label": "Εξυπνότερη μάθηση",
-            "desc": "Τα δεδομένα γίνονται καθοδήγηση"
+            "label": "Visible gaps",
+            "desc": "Show which competencies are missing for a target role and what it takes to close them."
           },
           "collaborative": {
-            "label": "Συνεργατική ανάπτυξη",
-            "desc": "Προκλήσεις και καθοδήγηση σε πραγματικό χρόνο"
+            "label": "Counsellor-ready",
+            "desc": "Εργαλεία που ταιριάζουν σε ροές δημόσιων υπηρεσιών απασχόλησης και επιμελητηρίων—όχι μόνο σε εταιρική κατάρτιση."
           },
           "transfer": {
-            "label": "Μεταφορά δεξιοτήτων",
-            "desc": "Η μάθηση περνά στην πράξη"
+            "label": "Regional pilots",
+            "desc": "Start with accompanied sprints, measure honestly, then scale what actually lands."
           },
           "impact": {
-            "label": "Αντίκτυπος με απόδοση",
-            "desc": "Κάθε βήμα ενισχύει την απόδοση της ομάδας"
+            "label": "Employers included",
+            "desc": "Bring companies into the same competence language without reducing people to keywords."
           }
         },
-        "closing": "Η εκπαίδευση γίνεται κουλτούρα — όχι μάθημα"
+        "closing": "Public programmes and firms meet on shared semantics—finally."
       }
     }
   },
@@ -267,63 +287,6 @@
     "general": {
       "for": "ΓΙΑ",
       "backToBase": "Επιστροφή στη βάση"
-    }
-  },
-  "enterprise": {
-    "hero": {
-      "highlight": "Πραγματικές δεξιότητες,",
-      "title": "πραγματικά αποτελέσματα σε κλίμακα",
-      "subtitle": "Το LearnGraph συνδυάζει εξατομικευμένη καθοδήγηση με κλιμακούμενη διαδικτυακή μάθηση — με πραγματική μεταφορά, απόδοση και ROI."
-    },
-    "challenges": {
-      "scaling": {
-        "title": "Η συμβουλευτική δεν κλιμακώνεται",
-        "text": "Οι ειδικοί φεύγουν, η γνώση χάνεται. Η μάθηση μένει σε workshops αντί να διαχέεται στον οργανισμό."
-      },
-      "completion": {
-        "title": "Το πρόβλημα του 80% ολοκλήρωσης",
-        "text": "Οι περισσότεροι εργαζόμενοι δεν ολοκληρώνουν online μαθήματα — και ακόμη λιγότεροι εφαρμόζουν όσα έμαθαν."
-      },
-      "silo": {
-        "title": "Η μάθηση είναι ατομική, η εργασία ομαδική",
-        "text": "Η εκπαίδευση γίνεται ατομικά, αλλά η εργασία σε ομάδες. Η σύνδεση λείπει."
-      },
-      "roi": {
-        "title": "Χωρίς σαφές ROI για το L&D",
-        "text": "Κλικ και πιστοποιήσεις δεν είναι αποτελέσματα. Η μεταφορά και ο αντίκτυπος παραμένουν ασαφή."
-      }
-    },
-    "stats": {
-      "retention": {
-        "value": "+40%",
-        "label": "Υψηλότερη διατήρηση μέσω εξατομικευμένων διαδρομών"
-      },
-      "practice": {
-        "value": "2×",
-        "label": "Καλύτερα αποτελέσματα μέσω πρακτικής εφαρμογής"
-      },
-      "engagement": {
-        "value": "↑",
-        "label": "Η συνάφεια αυξάνει τη δέσμευση"
-      },
-      "roi": {
-        "value": "✓",
-        "label": "Δράσιμα δεδομένα αποκαλύπτουν το ROI"
-      }
-    },
-    "offerings": {
-      "paths": {
-        "title": "Διαδρομές δεξιοτήτων με καθοδήγηση",
-        "text": "Οι εργαζόμενοι βλέπουν τι να μάθουν, πότε και πώς συνδέεται με την εργασία τους."
-      },
-      "measure": {
-        "title": "Μετρήσιμη μάθηση",
-        "text": "Ζωντανά dashboards συνδέουν την εκπαίδευση με τα αποτελέσματα — σε λεπτά, όχι τρίμηνα."
-      },
-      "workflow": {
-        "title": "Μάθηση μέσα στη ροή εργασίας",
-        "text": "Η μάθηση συμβαίνει στο πλαίσιο της δουλειάς — με συνεργάτες και τη σωστή στιγμή."
-      }
     }
   },
   "individual": {
@@ -380,6 +343,117 @@
       "relevance": {
         "title": "Μάθε ό,τι έχει σημασία",
         "text": "Πρακτικό, ουσιαστικό και εφαρμόσιμο στην πραγματική ζωή."
+      }
+    }
+  },
+  "labourMarket": {
+    "hero": {
+      "highlight": "Labour market & region",
+      "title": "skill matching grounded in evidence",
+      "subtitle": "Για δημόσιες υπηρεσίες απασχόλησης, επιμελητήρια και εργοδότες: το LearnGraph καθιστά ορατά τα κενά δεξιοτήτων, ταιριάζει ανθρώπους και ρόλους με βάση τις δεξιότητες—όχι λέξεις-κλειδιά—και υποστηρίζει περιφερειακούς πιλότους που μπορείτε να αξιολογήσετε πριν την κλιμάκωση."
+    },
+    "challenges": {
+      "invisible": {
+        "title": "Potential stays invisible",
+        "text": "Formal qualifications alone miss what people can actually do—especially after career breaks, migration, or informal experience."
+      },
+      "alignment": {
+        "title": "Programmes and employers speak different languages",
+        "text": "Counsellors, funding rules, and hiring managers rarely share one competence map—so support fragments."
+      },
+      "efficiency": {
+        "title": "Support is costly at scale",
+        "text": "Public employment services move enormous volume; small efficiency gains matter—but only if they respect dignity and privacy."
+      },
+      "trust": {
+        "title": "Black boxes erode trust",
+        "text": "Opaque scoring breaks acceptance with works councils, data-protection officers, and the people you serve."
+      }
+    },
+    "stats": {
+      "matching": {
+        "value": "→",
+        "label": "Competency-based matching, not keyword bingo"
+      },
+      "gaps": {
+        "value": "Δ",
+        "label": "Gap visibility for roles and learning paths"
+      },
+      "pilots": {
+        "value": "3",
+        "label": "Phased pilots: learn, then scale regionally"
+      },
+      "hosting": {
+        "value": "◎",
+        "label": "Deploy where your policies require"
+      }
+    },
+    "offerings": {
+      "matching": {
+        "title": "Skill-based matching",
+        "text": "Connect jobseekers and employers on shared competence semantics—see fit, gaps, and development options in one place."
+      },
+      "pilots": {
+        "title": "Accompanied regional pilots",
+        "text": "Structured phases with evaluation: prove outcomes with local partners before full system integration."
+      },
+      "stack": {
+        "title": "Open, integratable stack",
+        "text": "Interoperable with existing case and placement systems; open core so security and procurement can sign off."
+      }
+    }
+  },
+  "schools": {
+    "hero": {
+      "highlight": "Vocational schools",
+      "title": "& training partners",
+      "subtitle": "Dual training is where theory meets practice every week. LearnGraph maps competences across school, workshop, and company—so trainers, learners, and partners share one navigable path."
+    },
+    "demo": {
+      "germanNote": "This video is in German.",
+      "iframeTitle": "LearnGraph for vocational schools and training (German)"
+    },
+    "challenges": {
+      "pathways": {
+        "title": "Missing clarity around taught skills",
+        "text": "Learning goals live in curricula, workshop routines, and company expectations—rarely in one coherent graph learners can actually follow."
+      },
+      "practice": {
+        "title": "Inverted classroom: too much effort",
+        "text": "Individual support at scale is hard: heterogeneous groups, legal frameworks, and documentation that must stay audit-ready."
+      },
+      "partners": {
+        "title": "Skill demand shifts fast—tools go stale just as fast",
+        "text": "Training companies and schools need shared language on progress—without drowning in spreadsheets or proprietary tools."
+      },
+      "evidence": {
+        "title": "Trace growth with supportive analytics—not surveillance metrics",
+        "text": "You need traceability for exams and quality—not another opaque tracking dashboard that erodes trust."
+      }
+    },
+    "stats": {
+      "learners": {
+        "value": "1",
+        "label": "One skill-tree per learner—human-centered growth, not just grades"
+      },
+      "clarity": {
+        "value": "↔",
+        "label": "Shared view for school ↔ Betrieb"
+      },
+      "integration": {
+        "value": "API",
+        "label": "Interop with LMS, identity, and tools you use"
+      },
+      "open": {
+        "value": "◇",
+        "label": "Open core—inspectable, hostable infrastructure"
+      }
+    },
+    "caseStudies": {
+      "sectionTitle": "Case studies",
+      "comingSoon": "Coming soon",
+      "itech": {
+        "title": "ITECH (Hamburg)"
       }
     }
   }

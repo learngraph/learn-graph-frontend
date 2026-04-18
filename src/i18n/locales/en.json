@@ -2,6 +2,26 @@
   "hero": {
     "cta": "Initialize learning"
   },
+  "home": {
+    "mission": "We're here to regain collective agency.",
+    "subline": "Technology should expand what communities can do for themselves: orient, qualify, connect, and choose — without trading away dignity or independence.",
+    "illustrationAria": "Two open hands meeting in the middle, symbolizing the platform and the team as complementary paths.",
+    "pathsTitle": "Two ways to work with us",
+    "detailsHint": "Click for details",
+    "detailsModalClose": "Close",
+    "platform": {
+      "badge": "Open infrastructure",
+      "title": "The LearnGraph platform",
+      "body": "A human-centered intelligence layer for learning, skills, and life transitions — modular programs on a core you can understand, host, and grow with. From schools and universities to employability, vocational paths, and public services at the intersection of learning, work, and life.",
+      "cta": "Explore the platform"
+    },
+    "studio": {
+      "badge": "Team & delivery",
+      "title": "Transformation with our team",
+      "body": "Structured AI automation, product and service development, and hands-on change — co-designed with the people who will live the solution. For organizations that need real delivery, not slide decks.",
+      "cta": "Services & contact"
+    }
+  },
   "nav": {
     "begin": "Begin",
     "compare": "Compare",
@@ -9,8 +29,8 @@
     "partners": "Partners",
     "people": "People",
     "launch": "Launch App",
-    "university": "University",
-    "enterprise": "Enterprise",
+    "schools": "Schools & training",
+    "labourMarket": "Employers & public",
     "individual": "Individuals"
   },
   "landing": {
@@ -21,13 +41,13 @@
         "third": "learning"
       },
       "tiles": {
-        "university": {
-          "title": "Universities & Education",
-          "text": "Learning graphs for curricula, research, and interdisciplinary study"
+        "schools": {
+          "title": "Vocational schools & training partners",
+          "text": "Competence paths that connect classroom, workshop, and company"
         },
-        "enterprise": {
-          "title": "Enterprise",
-          "text": "Structured knowledge systems for teams and organizations"
+        "labourMarket": {
+          "title": "Labour market & region",
+          "text": "Skill-based matching for employment services, chambers, and employers"
         },
         "individual": {
           "title": "Individuals",
@@ -63,36 +83,36 @@
       "header": {
         "eyebrow": "How you",
         "title": "GROW",
-        "subline": "Modular building blocks that scale from individual learning paths to institutional systems"
+        "subline": "Vocational schools, regional employment services, individual learners—and an open core you can inspect, host, and extend."
       },
       "tiles": {
         "institutions": {
-          "title": "Empower with LearnGraph",
-          "text": "Transform educational ecosystems through openness and collective insight"
+          "title": "Berufsschule to Betrieb",
+          "text": "Structured competence graphs for dual training: align school, workshop, and company without losing the human story of each learner."
         },
         "forge": {
-          "title": "Forge Your Own Journey",
-          "text": "No one-size-fits-all learning. LearnGraph adapts to your goals, your pace, your way"
+          "title": "Your path, your pace",
+          "text": "Individuals get a living map—clarity, relevance, and feedback instead of one-size-fits-all courses."
         },
         "upskill": {
-          "title": "Upskill with Precision",
-          "text": "Every new skill is a step toward mastery. LearnGraph turns progress into a guided journey"
+          "title": "Matching & public programmes",
+          "text": "Make skill gaps legible for people, counsellors, and employers; run regional pilots that respect procurement and data sovereignty."
         },
         "mission": {
-          "title": "Open-Source, Mission-First",
-          "text": "We chase purpose. Every contribution fuels impact projects and keeps learning free for all."
+          "title": "Open core · Independent & secure",
+          "text": "Self-hostable infrastructure: you control deployment, integrations, and where data lives—no black-box dependency."
         }
       }
     },
     "LandingSustainability": {
       "title": {
-        "prefix": "Product-powered",
-        "highlight": "sustainability"
+        "prefix": "Independence",
+        "highlight": "& security"
       },
       "items": {
         "free": "Free for individuals",
         "noAds": "No ads · No paywalls · No extraction",
-        "openSource": "Open source by default"
+        "openCore": "Open core · Self-hostable · You stay in control"
       }
     },
     "LandingPartnersSection": {
@@ -133,88 +153,88 @@
     },
     "TileContentProject": {
       "forge": {
-        "title": "Forge Your Own Journey",
-        "intro": "LearnGraph helps you chart a personal learning map — where you are, where you're going, and how to get there",
+        "title": "Individuals first",
+        "intro": "A personal graph for your goals—not a catalogue thrown at everyone.",
         "points": {
           "generic": {
-            "label": "Too Generic",
-            "desc": "Most platforms treat everyone the same. LearnGraph adapts to your goals, pace, and curiosity"
+            "label": "No generic track",
+            "desc": "Paths reflect what you already know and what you still need for the role or project you care about."
           },
           "overload": {
-            "label": "Information Overload",
-            "desc": "Clarity replaces chaos with curated, meaningful paths"
+            "label": "Orientation",
+            "desc": "Fewer tabs, more signal: what to do next, and why it matters."
           },
           "alone": {
-            "label": "Learning Alone",
-            "desc": "Built-in mentorship and peer support keep you connected and motivated"
+            "label": "Peers & mentors",
+            "desc": "Learning stays social—feedback and accountability without corporate theatre."
           },
           "relevance": {
-            "label": "Real-World Relevance",
-            "desc": "You learn by doing — projects, feedback, and growth that actually stick"
+            "label": "Practice",
+            "desc": "Tasks tie back to real outcomes, not checkbox completion."
           }
         },
-        "closing": "Your learning path becomes a living map — growing with curiosity and powered by real insight"
+        "closing": "Your map updates as you grow—transparent to you, not opaque analytics."
       },
       "institutions": {
-        "title": "Systems That Learn",
-        "intro": "When institutions learn as their learners do, education comes alive again",
+        "title": "Vocational schools & partners",
+        "intro": "Where learning and work meet, lists break down—competence needs structure, not another LMS skin.",
         "points": {
           "awareness": {
-            "label": "Awareness",
-            "desc": "Recognizing invisible patterns that shape learning"
+            "label": "Dual structure",
+            "desc": "Link school standards, workshop practice, and company expectations in one navigable model."
           },
           "adaptation": {
-            "label": "Adaptation",
-            "desc": "Allowing systems to evolve with their communities"
+            "label": "Differentiation",
+            "desc": "Support heterogeneous classes without losing traceability for trainers and exam boards."
           },
           "empathy": {
-            "label": "Empathy",
-            "desc": "Designing for growth and balance, not efficiency alone"
+            "label": "Credible pilots",
+            "desc": "Experience from schools like ITECH Hamburg: competence-oriented, practice-heavy, digitally honest."
           }
         },
-        "closing": "LearnGraph is not just software — it’s a practice of conscious learning"
+        "closing": "Built for Berufsschule realities—not slide decks about “future skills”."
       },
       "mission": {
-        "title": "Open-Source, Mission-First, Impact-Driven",
-        "intro": "We don’t chase profit — we chase purpose",
+        "title": "Open core, your operations",
+        "intro": "Independence is not a slogan—it's deployability, auditability, and exit options.",
         "points": {
           "sustainability": {
-            "label": "Product-Powered Sustainability",
-            "desc": "SaaS for institutions, free for individuals. Profits reinvested into impact projects"
+            "label": "Self-hosting",
+            "desc": "Run on your stack under your policies; integrate with identity, LMS, and HR systems you already use."
           },
           "access": {
-            "label": "Open Access for All",
-            "desc": "No logins, no ads, no paywalls. Free, production-grade code"
+            "label": "Transparent core",
+            "desc": "Open core so procurement, IT security, and educators can inspect what runs in production."
           },
           "alignment": {
-            "label": "Global Framework Alignment",
-            "desc": "Inspired by UNESCO and UNDP visions for self-governed learning"
+            "label": "Data sovereignty",
+            "desc": "Sensitive labour-market and youth data stay where regulators and institutions require."
           }
         },
-        "closing": "LearnGraph builds infrastructure for global intention"
+        "closing": "No mandatory SaaS cliff—grow adoption without growing lock-in."
       },
       "upskill": {
-        "title": "Real Skills, Real Results",
-        "intro": "LearnGraph bridges consulting and scalable learning",
+        "title": "Employers & public services",
+        "intro": "Skill-based matching needs more than profiles—it needs gap logic both sides trust.",
         "points": {
           "smarter": {
-            "label": "Smarter Learning",
-            "desc": "Turns data into guidance and accelerates application"
+            "label": "Visible gaps",
+            "desc": "Show which competencies are missing for a target role and what it takes to close them."
           },
           "collaborative": {
-            "label": "Collaborative Growth",
-            "desc": "Peer challenges and real-time mentorship"
+            "label": "Counsellor-ready",
+            "desc": "Tools that fit employment-service and chamber workflows—not only corporate L&D narratives."
           },
           "transfer": {
-            "label": "Skill Transfer",
-            "desc": "Learning flows directly into daily work"
+            "label": "Regional pilots",
+            "desc": "Start with accompanied sprints, measure honestly, then scale what actually lands."
           },
           "impact": {
-            "label": "ROI-Driven Impact",
-            "desc": "Every learning step strengthens team performance"
+            "label": "Employers included",
+            "desc": "Bring companies into the same competence language without reducing people to keywords."
           }
         },
-        "closing": "Training becomes culture — not a course"
+        "closing": "Public programmes and firms meet on shared semantics—finally."
       }
     }
   },
@@ -324,6 +344,16 @@
           "title": "Context that carries responsibility",
           "body": "Our background spans industry, energy, utilities, smart metering, logistics, embedded systems, and digital product work where reliability, integration, and accountability matter."
         }
+      },
+      "proofOne": {
+        "label": "Energy and critical infrastructure",
+        "title": "From firefighting to coordinated cloud migration",
+        "body": "In smart metering and critical-infrastructure contexts, our work has supported teams under heavy migration pressure by taking load off key people, making hidden dependencies visible, and running cross-team architecture and event-storming inspired workshops. The result was shared ownership, less conflict, and migration work that moved forward instead of stalling."
+      },
+      "proofTwo": {
+        "label": "Interoperability and governance",
+        "title": "Architecture work from company scale to European scale",
+        "body": "Our background includes interoperability and architecture work in fragmented ecosystems, including European-scale digital infrastructure contexts. That matters here because complex transformations rarely fail on code alone. They fail when systems, stakeholders, and governance do not become visible enough to move together."
       }
     },
     "offers": {
@@ -386,60 +416,60 @@
       "emailPrefix": "Prefer email?"
     }
   },
-  "enterprise": {
+  "labourMarket": {
     "hero": {
-      "highlight": "Real skills,",
-      "title": "real results at scale",
-      "subtitle": "LearnGraph combines personalized consulting with scalable online learning — delivering transfer, performance, and ROI."
+      "highlight": "Labour market & region",
+      "title": "skill matching grounded in evidence",
+      "subtitle": "For public employment services, chambers, and employers: LearnGraph makes skill gaps legible, matches people and roles on competencies—not buzzwords—and supports regional pilots you can evaluate before scaling."
     },
     "challenges": {
-      "scaling": {
-        "title": "Consulting doesn’t scale",
-        "text": "Experts leave, knowledge disappears. Learning remains trapped in workshops instead of spreading across the organization."
+      "invisible": {
+        "title": "Potential stays invisible",
+        "text": "Formal qualifications alone miss what people can actually do—especially after career breaks, migration, or informal experience."
       },
-      "completion": {
-        "title": "The 80% completion problem",
-        "text": "Most employees don’t finish online courses — and even fewer apply what they learned at work."
+      "alignment": {
+        "title": "Programmes and employers speak different languages",
+        "text": "Counsellors, funding rules, and hiring managers rarely share one competence map—so support fragments."
       },
-      "silo": {
-        "title": "Learning is solo, work is collaborative",
-        "text": "Training happens individually, but work is done in teams. There’s no bridge between the two."
+      "efficiency": {
+        "title": "Support is costly at scale",
+        "text": "Public employment services move enormous volume; small efficiency gains matter—but only if they respect dignity and privacy."
       },
-      "roi": {
-        "title": "No clear ROI for L&D",
-        "text": "Clicks and certificates aren’t outcomes. Transfer and impact remain hard to measure."
+      "trust": {
+        "title": "Black boxes erode trust",
+        "text": "Opaque scoring breaks acceptance with works councils, data-protection officers, and the people you serve."
       }
     },
     "stats": {
-      "retention": {
-        "value": "+40%",
-        "label": "Higher retention through personalized paths"
+      "matching": {
+        "value": "→",
+        "label": "Competency-based matching, not keyword bingo"
       },
-      "practice": {
-        "value": "2×",
-        "label": "Better outcomes through real-world practice"
+      "gaps": {
+        "value": "Δ",
+        "label": "Gap visibility for roles and learning paths"
       },
-      "engagement": {
-        "value": "↑",
-        "label": "Engagement grows with relevance"
+      "pilots": {
+        "value": "3",
+        "label": "Phased pilots: learn, then scale regionally"
       },
-      "roi": {
-        "value": "✓",
-        "label": "Actionable data unlocks ROI"
+      "hosting": {
+        "value": "◎",
+        "label": "Deploy where your policies require"
       }
     },
     "offerings": {
-      "paths": {
-        "title": "Skill paths that guide",
-        "text": "Employees see exactly what to learn, in which order, and how it connects to real work."
+      "matching": {
+        "title": "Skill-based matching",
+        "text": "Connect jobseekers and employers on shared competence semantics—see fit, gaps, and development options in one place."
       },
-      "measure": {
-        "title": "Make learning measurable",
-        "text": "Live dashboards connect training to outcomes — in minutes, not quarters."
+      "pilots": {
+        "title": "Accompanied regional pilots",
+        "text": "Structured phases with evaluation: prove outcomes with local partners before full system integration."
       },
-      "workflow": {
-        "title": "Learning that moves with work",
-        "text": "Learning happens in context — inside workflows, with peers, and at the right moment."
+      "stack": {
+        "title": "Open, integratable stack",
+        "text": "Interoperable with existing case and placement systems; open core so security and procurement can sign off."
       }
     }
   },
@@ -448,6 +478,9 @@
       "highlight": "Your",
       "title": "personal learning path",
       "subtitle": "Leave one-size-fits-all courses behind. LearnGraph helps you shape your own learning journey with clarity, relevance, and feedback."
+    },
+    "demo": {
+      "iframeTitle": "LearnGraph platform walkthrough"
     },
     "challenges": {
       "generic": {
@@ -500,60 +533,57 @@
       }
     }
   },
-  "university": {
+  "schools": {
     "hero": {
-      "highlight": "Empower",
-      "title": "your institution",
-      "subtitle": "Transform your educational ecosystem with personalized analytics, hybrid learning models, and seamless interoperability."
+      "highlight": "Vocational schools",
+      "title": "& training partners",
+      "subtitle": "Dual training is where theory meets practice every week. LearnGraph maps competences across school, workshop, and company—so trainers, learners, and partners share one navigable path."
+    },
+    "demo": {
+      "germanNote": "This video is in German.",
+      "iframeTitle": "LearnGraph for vocational schools and training (German)"
     },
     "challenges": {
-      "engagement": {
-        "title": "Stronger Engagement",
-        "text": "Foster long-term commitment through transparent learning paths and adaptive support."
+      "pathways": {
+        "title": "Missing clarity around taught skills",
+        "text": "Learning goals live in curricula, workshop routines, and company expectations—rarely in one coherent graph learners can actually follow."
       },
-      "integration": {
-        "title": "Integrated Pathways",
-        "text": "Connect formal curricula, informal learning, and research into a coherent system."
+      "practice": {
+        "title": "Inverted classroom: too much effort",
+        "text": "Individual support at scale is hard: heterogeneous groups, legal frameworks, and documentation that must stay audit-ready."
       },
-      "data": {
-        "title": "From Data to Action",
-        "text": "Turn learning data into concrete, traceable decisions."
+      "partners": {
+        "title": "Skill demand shifts fast—tools go stale just as fast",
+        "text": "Training companies and schools need shared language on progress—without drowning in spreadsheets or proprietary tools."
       },
-      "interop": {
-        "title": "Seamless Interoperability",
-        "text": "Integrate existing systems without vendor lock-in or media disruption."
+      "evidence": {
+        "title": "Trace growth with supportive analytics—not surveillance metrics",
+        "text": "You need traceability for exams and quality—not another opaque tracking dashboard that erodes trust."
       }
     },
     "stats": {
-      "completion": {
-        "value": "23 %",
-        "label": "higher graduation rates"
+      "learners": {
+        "value": "1",
+        "label": "One skill-tree per learner—human-centered growth, not just grades"
       },
-      "gaps": {
-        "value": "5 %",
-        "label": "reduced performance gaps"
+      "clarity": {
+        "value": "↔",
+        "label": "Shared view for school ↔ Betrieb"
       },
-      "retention": {
-        "value": "30 %",
-        "label": "improved engagement"
-      },
-      "dropout": {
-        "value": "11 %",
-        "label": "lower dropout rates"
-      }
-    },
-    "offerings": {
-      "hybrid": {
-        "title": "Hybrid Learning Containers",
-        "text": "Flexible learning spaces combining in-person, online, and self-directed learning."
-      },
-      "peer": {
-        "title": "Peer Coaching & Mentoring",
-        "text": "Scalable support through peer networks and guided learning processes."
+      "integration": {
+        "value": "API",
+        "label": "Interop with LMS, identity, and tools you use"
       },
       "open": {
-        "title": "Interoperability & Open Source",
-        "text": "Open infrastructure for long-term independence and sustainable innovation."
+        "value": "◇",
+        "label": "Open core—inspectable, hostable infrastructure"
+      }
+    },
+    "caseStudies": {
+      "sectionTitle": "Case studies",
+      "comingSoon": "Coming soon",
+      "itech": {
+        "title": "ITECH (Hamburg)"
       }
     }
   }

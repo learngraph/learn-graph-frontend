@@ -1,7 +1,10 @@
 import "../../styles/navbar/nav-waypoints.css";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useI18n } from "@/i18n/i18n";
+
+const MOBILE_WAYPOINTS_MQ = "(max-width: 30rem)";
+const LABEL_PEEK_MS = 2800;
 
 
 const SECTIONS = [
@@ -50,6 +53,30 @@ export default function NavWaypoints() {
   const navigate = useNavigate();
   const location = useLocation();
   const [active, setActive] = useState<string | null>(null);
+  const [peekLabels, setPeekLabels] = useState(false);
+  const peekTimeoutRef = useRef<number | null>(null);
+
+  const triggerLabelPeek = () => {
+    if (typeof window === "undefined" || !window.matchMedia(MOBILE_WAYPOINTS_MQ).matches) {
+      return;
+    }
+    setPeekLabels(true);
+    if (peekTimeoutRef.current != null) {
+      window.clearTimeout(peekTimeoutRef.current);
+    }
+    peekTimeoutRef.current = window.setTimeout(() => {
+      setPeekLabels(false);
+      peekTimeoutRef.current = null;
+    }, LABEL_PEEK_MS);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (peekTimeoutRef.current != null) {
+        window.clearTimeout(peekTimeoutRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -72,15 +99,21 @@ export default function NavWaypoints() {
   }, []);
 
   return (
-  <nav className="nav-waypoints" aria-label="Page sections">
+  <nav
+    className={`nav-waypoints${peekLabels ? " nav-waypoints--peek" : ""}`}
+    aria-label="Page sections"
+  >
     {SECTIONS.map(section => {
       const isActive = active === section.id;
 
       return (
         <button
           key={section.id}
+          type="button"
           className={`waypoint ${isActive ? "active" : ""}`}
+          aria-label={waypointLabel(t, section.id)}
           onClick={() => {
+            triggerLabelPeek();
             const href = waypointHref(section.id);
             if (location.pathname === href) {
               document.getElementById(section.id)?.scrollIntoView({ behavior: "smooth" });

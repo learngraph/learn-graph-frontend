@@ -7,26 +7,26 @@ export default function CustomerGroupSpotlightTiles() {
   return (
     <div className="flex flex-col gap-6 max-w-xl">
       <Link
-        to="/university"
+        to="/schools"
         className="tile-base block w-full p-10 text-left no-underline outline-none cursor-pointer"
       >
         <h3 className="text-lg tracking-[0.35em] uppercase font-semibold text-foreground mb-6">
-          {t("landing.TargetGroupsSection.tiles.university.title")}
+          {t("landing.TargetGroupsSection.tiles.schools.title")}
         </h3>
         <p className="text-lg italic leading-[1.75] text-foreground/85">
-          {t("landing.TargetGroupsSection.tiles.university.text")}
+          {t("landing.TargetGroupsSection.tiles.schools.text")}
         </p>
       </Link>
 
       <Link
-        to="/enterprise"
+        to="/labour-market"
         className="tile-base block w-full p-10 text-left no-underline outline-none cursor-pointer"
       >
         <h3 className="text-lg tracking-[0.35em] uppercase font-semibold text-foreground mb-6">
-          {t("landing.TargetGroupsSection.tiles.enterprise.title")}
+          {t("landing.TargetGroupsSection.tiles.labourMarket.title")}
         </h3>
         <p className="text-lg italic leading-[1.75] text-foreground/85">
-          {t("landing.TargetGroupsSection.tiles.enterprise.text")}
+          {t("landing.TargetGroupsSection.tiles.labourMarket.text")}
         </p>
       </Link>
 
