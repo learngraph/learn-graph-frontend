@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import "../styles/landing/landing.css";
 import LandingSustainability from "./components/LandingSustainability";
 import TilesSection from "./components/TilesSection";
@@ -9,6 +11,11 @@ import LandingTeamSection from "./components/LandingTeamSection";
 import LandingPartnersSection from "./components/LandingPartnersSection";
 import HeroSphere from "./components/HeroSphere";
 
+function scrollTargetFromPath(pathname: string): string | null {
+  const m = pathname.match(/^\/learn\/(compare|grow|partners|people)$/);
+  return m ? m[1] : null;
+}
+
 
 
 
@@ -16,6 +23,17 @@ import HeroSphere from "./components/HeroSphere";
 
 
 export default function LandingPage() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    const id = scrollTargetFromPath(pathname);
+    if (!id) return;
+    const t = window.setTimeout(() => {
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    }, 0);
+    return () => clearTimeout(t);
+  }, [pathname]);
+
   return (
     <main className="landing">
       <Navbar />

@@ -2,53 +2,47 @@ import "../styles/customer/customer.css";
 import { useNavigate } from "react-router-dom";
 import { useI18n } from "@/i18n/i18n";
 
-type Group = "enterprise" | "university" | "individual";
+type Group = "schools" | "labourMarket" | "individual";
 
 type Props = {
   current: Group;
 };
 
-export default function CustomerGroupSelector({ current }: Props) {
+export default function CustomerGroupSwitchingTiles({ current }: Props) {
   const navigate = useNavigate();
   const { t } = useI18n();
 
   return (
     <section className="group-selector">
-      {/* Enterprise */}
-      {current === "enterprise" ? (
-        <div className="group-tile active">
-          {t("nav.enterprise")}
-        </div>
+      {current === "schools" ? (
+        <div className="group-tile active">{t("nav.schools")}</div>
       ) : (
         <button
+          type="button"
           className="group-tile inactive"
-          onClick={() => navigate("/enterprise")}
+          onClick={() => navigate("/schools")}
         >
-          {t("nav.enterprise")}
+          {t("nav.schools")}
         </button>
       )}
 
-      {/* University */}
-      {current === "university" ? (
-        <div className="group-tile active">
-          {t("nav.university")}
-        </div>
+      {current === "labourMarket" ? (
+        <div className="group-tile active">{t("nav.labourMarket")}</div>
       ) : (
         <button
+          type="button"
           className="group-tile inactive"
-          onClick={() => navigate("/university")}
+          onClick={() => navigate("/labour-market")}
         >
-          {t("nav.university")}
+          {t("nav.labourMarket")}
         </button>
       )}
 
-      {/* Individual */}
       {current === "individual" ? (
-        <div className="group-tile active">
-          {t("nav.individual")}
-        </div>
+        <div className="group-tile active">{t("nav.individual")}</div>
       ) : (
         <button
+          type="button"
           className="group-tile inactive"
           onClick={() => navigate("/individual")}
         >

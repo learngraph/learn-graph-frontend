@@ -1,20 +1,82 @@
 import "../../styles/navbar/nav-waypoints.css";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useI18n } from "@/i18n/i18n";
+
+const MOBILE_WAYPOINTS_MQ = "(max-width: 30rem)";
+const LABEL_PEEK_MS = 2800;
 
 
 const SECTIONS = [
-  
-  { id: "begin", label: "nav.begin" },
-  { id: "compare", label: "nav.compare" },
-  { id: "grow", label: "nav.grow" },
-  { id: "partners", label: "nav.partners" },
-  { id: "people", label: "nav.people" },
+  { id: "begin" as const },
+  { id: "compare" as const },
+  { id: "grow" as const },
+  { id: "partners" as const },
+  { id: "people" as const },
 ];
 
+function waypointLabel(
+  t: (key: string, vars?: Record<string, unknown>) => string,
+  id: (typeof SECTIONS)[number]["id"],
+) {
+  switch (id) {
+    case "begin":
+      return t("nav.begin");
+    case "compare":
+      return t("nav.compare");
+    case "grow":
+      return t("nav.grow");
+    case "partners":
+      return t("nav.partners");
+    case "people":
+      return t("nav.people");
+  }
+}
+
+function waypointHref(id: (typeof SECTIONS)[number]["id"]): string {
+  switch (id) {
+    case "begin":
+      return "/learn";
+    case "compare":
+      return "/learn/compare";
+    case "grow":
+      return "/learn/grow";
+    case "partners":
+      return "/learn/partners";
+    case "people":
+      return "/learn/people";
+  }
+}
+
 export default function NavWaypoints() {
-  const { t } = useI18n();;
+  const { t } = useI18n();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [active, setActive] = useState<string | null>(null);
+  const [peekLabels, setPeekLabels] = useState(false);
+  const peekTimeoutRef = useRef<number | null>(null);
+
+  const triggerLabelPeek = () => {
+    if (typeof window === "undefined" || !window.matchMedia(MOBILE_WAYPOINTS_MQ).matches) {
+      return;
+    }
+    setPeekLabels(true);
+    if (peekTimeoutRef.current != null) {
+      window.clearTimeout(peekTimeoutRef.current);
+    }
+    peekTimeoutRef.current = window.setTimeout(() => {
+      setPeekLabels(false);
+      peekTimeoutRef.current = null;
+    }, LABEL_PEEK_MS);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (peekTimeoutRef.current != null) {
+        window.clearTimeout(peekTimeoutRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -37,22 +99,30 @@ export default function NavWaypoints() {
   }, []);
 
   return (
-  <nav className="nav-waypoints" aria-label="Page sections">
+  <nav
+    className={`nav-waypoints${peekLabels ? " nav-waypoints--peek" : ""}`}
+    aria-label="Page sections"
+  >
     {SECTIONS.map(section => {
       const isActive = active === section.id;
 
       return (
         <button
           key={section.id}
+          type="button"
           className={`waypoint ${isActive ? "active" : ""}`}
-          onClick={() =>
-            document
-              .getElementById(section.id)
-              ?.scrollIntoView({ behavior: "smooth" })
-          }
+          aria-label={waypointLabel(t, section.id)}
+          onClick={() => {
+            triggerLabelPeek();
+            const href = waypointHref(section.id);
+            if (location.pathname === href) {
+              document.getElementById(section.id)?.scrollIntoView({ behavior: "smooth" });
+            } else {
+              navigate(href);
+            }
+          }}
         >
-          {/* 👇 THIS WAS THE MISSING PIECE */}
-          <span className="label">{t(section.label)}</span>
+          <span className="label">{waypointLabel(t, section.id)}</span>
           <span className="diamond" />
         </button>
       );

@@ -7,10 +7,12 @@ import {
   useLocation,
 } from "react-router-dom";
 import DirectionController from "@/i18n/DirectionController";
+import HomeLanding from "./pages/HomeLanding";
 import LandingPage from "./pages/landing/landing";
-import UniversityPage from "./pages/customerGroups/UniversityPage";
+import SchoolsPage from "./pages/customerGroups/SchoolsPage";
+import LabourMarketPage from "./pages/customerGroups/LabourMarketPage";
 import IndividualPage from "./pages/customerGroups/IndividualPage";
-import EnterprisePage from "./pages/customerGroups/EnterprisePage";
+import { ServiceOverviewPage } from "./pages/service/ServicePage";
 import CookieBanner from "@/pages/global/components/CookieBanner";
 import Footer from "@/pages/global/components/Footer";
 import ImprintPage from "@/pages/legal/Imprint";
@@ -18,6 +20,9 @@ import ImprintPage from "@/pages/legal/Imprint";
 const ScrollToTop = (): null => {
   const { pathname } = useLocation();
   useEffect(() => {
+    if (/^\/learn\/(compare|grow|partners|people)$/.test(pathname)) {
+      return;
+    }
     window.scrollTo({ top: 0, behavior: "auto" });
   }, [pathname]);
   return null;
@@ -32,10 +37,20 @@ export default function App() {
       <div className="min-h-screen flex flex-col">
         <div className="flex-1">
           <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/university" element={<UniversityPage />} />
+            <Route path="/" element={<HomeLanding />} />
+            <Route path="/learn" element={<LandingPage />} />
+            <Route path="/learn/compare" element={<LandingPage />} />
+            <Route path="/learn/grow" element={<LandingPage />} />
+            <Route path="/learn/partners" element={<LandingPage />} />
+            <Route path="/learn/people" element={<LandingPage />} />
+            <Route path="/service" element={<ServiceOverviewPage />} />
+            <Route path="/service/*" element={<Navigate to="/service" replace />} />
+            <Route path="/schools" element={<SchoolsPage />} />
+            <Route path="/labour-market" element={<LabourMarketPage />} />
             <Route path="/individual" element={<IndividualPage />} />
-            <Route path="/enterprise" element={<EnterprisePage />} />
+            <Route path="/university" element={<Navigate to="/schools" replace />} />
+            <Route path="/enterprise" element={<Navigate to="/labour-market" replace />} />
+            <Route path="/home" element={<Navigate to="/learn" replace />} />
             <Route path="/imprint" element={<ImprintPage />} />
             <Route path="/impressum" element={<ImprintPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
@@ -47,40 +62,3 @@ export default function App() {
     </BrowserRouter>
   );
 }
-
-
-// export const App = () => {
-//   if (!POSTHOG_API_KEY) {
-//     console.warn("POSTHOG_API_KEY missing");
-//   }
-//   if (!POSTHOG_HOST) {
-//     console.warn("POSTHOG_HOST missing");
-//   }
-
-//   return (
-//     <PostHogProvider
-//       apiKey={POSTHOG_API_KEY || ""}
-//       options={{
-//         api_host: POSTHOG_HOST,
-//         autocapture: true,
-//         capture_pageview: true,
-//       }}
-//     >
-//       <BrowserRouter>
-//         {/* <ScrollToTop /> */}
-
-//         {/* <UserDataContextProvider> */}
-//         <Navbar />
-
-//         <Routes>
-//           <Route path="/" element={<LandingPage />} />
-//         </Routes>
-
-//         <Footer />
-//         {/* </UserDataContextProvider> */}
-//       </BrowserRouter>
-//     </PostHogProvider>
-//   );
-// };
-
-// export default App;

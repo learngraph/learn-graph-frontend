@@ -9,6 +9,7 @@ import TileContentMission from "../components/TileContent/TileContentMission";
 export default function TilesSection() {
   const { t } = useI18n();
 
+  /* Order: vocational schools → labour market & public → individuals → open core */
   const tiles = [
     {
       title: t("landing.TileSection.tiles.institutions.title"),
@@ -16,14 +17,14 @@ export default function TilesSection() {
       content: <TileContentInstitutions />,
     },
     {
-      title: t("landing.TileSection.tiles.forge.title"),
-      text: t("landing.TileSection.tiles.forge.text"),
-      content: <TileContentForge />,
-    },
-    {
       title: t("landing.TileSection.tiles.upskill.title"),
       text: t("landing.TileSection.tiles.upskill.text"),
       content: <TileContentUpskill />,
+    },
+    {
+      title: t("landing.TileSection.tiles.forge.title"),
+      text: t("landing.TileSection.tiles.forge.text"),
+      content: <TileContentForge />,
     },
     {
       title: t("landing.TileSection.tiles.mission.title"),
@@ -33,19 +34,16 @@ export default function TilesSection() {
   ];
 
   return (
-    <section id="grow"
-      className="
-        bg-[var(--color-section-bg)]
-        text-[var(--color-text-primary)]
-        py-20 md:py-24
-      "
+    <section
+      id="grow"
+      className="bg-section text-ink py-20 md:py-24"
     >
-      <div className="w-[90%] md:w-[80%] max-w-6xl mx-auto overflow-x-hidden">
+      <div className="w-[90%] md:w-[80%] max-w-6xl mx-auto min-w-0">
 
         {/* Header */}
-        <div className="mb-24 max-w-5xl overflow-x-hidden">
+        <div className="mb-24 max-w-5xl min-w-0">
           {/* Eyebrow */}
-          <div className="text-sm tracking-[0.45em] uppercase text-white mb-6">
+          <div className="text-sm tracking-[0.45em] uppercase text-foreground mb-6">
              {t("landing.TileSection.header.eyebrow")}
           </div>
 
@@ -53,15 +51,15 @@ export default function TilesSection() {
           <h2
             className="
               text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight
-              text-[rgba(212,255,57,0.9)]
-              mb-8 break-words overflow-x-hidden
+              text-accent/90
+              mb-8 break-words overflow-clip
             "
           >
            {t("landing.TileSection.header.title")}
           </h2>
 
           {/* Subline */}
-          <p className="italic text-white text-lg leading-relaxed max-w-2xl">
+          <p className="italic text-foreground text-lg leading-relaxed max-w-2xl">
             {t("landing.TileSection.header.subline")}
           </p>
         </div>
@@ -69,7 +67,7 @@ export default function TilesSection() {
         {/* Tiles */}
         <div
           className="
-            grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4
+            grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4
             gap-8 items-stretch
           "
         >

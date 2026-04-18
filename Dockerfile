@@ -1,5 +1,5 @@
 # default is nginx for linux/amd64
-ARG NGINX_IMAGE="nginx:1.12-alpine"
+ARG NGINX_IMAGE="nginx:stable-alpine"
 
 FROM node:24 AS builder
 WORKDIR /src

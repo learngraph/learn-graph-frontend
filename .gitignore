@@ -25,3 +25,5 @@ yarn-error.log*
 .env
 venv/
 dist/
+.cursor/
+*.log

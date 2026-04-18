@@ -3,7 +3,7 @@ import { Navbar } from "../global/components/Navbar";
 
 export default function ImprintPage() {
   const { t } = useI18n();
-  const hrb = t("legal.placeholder");
+  const hrb = "22730";
 
   const imprintDetails = [
     {
@@ -33,7 +33,7 @@ export default function ImprintPage() {
     <>
       <Navbar />
       <main className="min-h-screen bg-[var(--color-page-bg)] text-[var(--color-text-primary)] pb-24 pt-24">
-        <header className="max-w-4xl mx-auto px-6 pt-12 pb-12 border-b border-white/5">
+        <header className="max-w-4xl mx-auto px-6 pt-12 pb-12 border-b border-foreground/5">
           <p className="text-sm uppercase tracking-widest text-blue-400 font-bold mb-4">
             {t("legal.imprint.subtitle")}
           </p>
@@ -43,12 +43,12 @@ export default function ImprintPage() {
         </header>
 
         <div className="max-w-4xl mx-auto px-6 py-12 space-y-16">
-          <section className="bg-white/5 border border-white/10 rounded-3xl overflow-hidden">
-            <dl className="grid md:grid-cols-2 divide-y divide-x divide-white/5 border-white/5">
+          <section className="bg-foreground/5 border border-foreground/10 rounded-3xl overflow-hidden">
+            <dl className="grid md:grid-cols-2 divide-y divide-x divide-foreground/5 border-foreground/5">
               {imprintDetails.map((item) => (
                 <div
                   key={item.label}
-                  className="p-8 flex flex-col space-y-2 border-white/5"
+                  className="p-8 flex flex-col space-y-2 border-foreground/5"
                 >
                   <dt className="text-xs uppercase tracking-widest text-[var(--color-text-muted)] font-semibold">
                     {item.label}

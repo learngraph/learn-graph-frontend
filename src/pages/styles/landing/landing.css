@@ -4,8 +4,8 @@
 
 .landing {
   position: relative;
-  background: #0b0b0b;
-  color: #eaeaea;
+  background: var(--bg-root);
+  color: var(--text-primary);
   overflow-x: hidden;
   width: 100%;
   max-width: 100%;
@@ -41,7 +41,11 @@
    ========================= */
 
 #graph {
-  background: radial-gradient(circle at center, #111 0%, #0b0b0b 70%);
+  background: radial-gradient(
+    circle at center,
+    var(--bg-elevated) 0%,
+    var(--bg-root) 70%
+  );
 }
 
 #signals { background: #0e0e0e; }
@@ -76,38 +80,25 @@
 
 
 .tile-base {
-  /* background:
-    linear-gradient(
-      180deg,
-      rgba(255,255,255,0.08),
-      rgba(0,0,0,0.25)
-    ); */
-  background: rgba(255, 255, 255, 0.02); 
-  border: 1px solid rgba(255,255,255,0.48);
-  color: rgba(255,255,255,0.85);
+  background: var(--glass-bg);
+  border: 1px solid var(--border-tile);
+  color: rgb(var(--foreground-rgb) / 0.85);
   border-radius: 16px;
   box-shadow:
-    0 10px 30px rgba(0,0,0,0.55),
-    inset 0 1px 0 rgba(255,255,255,0.5);
+    0 10px 30px var(--shadow-tile-drop),
+    inset 0 1px 0 var(--shadow-tile-inner);
   transition: all 0.25s ease;
 }
 
 
 
 .tile-base:hover {
-  border-color: rgba(173,255,47,0.9);
-  background: rgba(255,255,255,0.04);
-  /* background:
-    linear-gradient(
-      180deg,
-      rgba(255,255,255,0.14),  
-      rgba(0,0,0,0.20)         
-    ); */
+  border-color: var(--border-tile-hover);
+  background: var(--tile-hover-bg);
   box-shadow:
-    0 0 0 1px rgba(173,255,47,0.6),
-    0 0 36px rgba(173,255,47,0.45),
-    0 18px 40px rgba(0,0,0,0.75);
-
+    0 0 0 1px rgb(var(--accent-rgb) / 0.6),
+    0 0 36px var(--shadow-tile-glow),
+    0 18px 40px var(--shadow-tile-deep);
 }
 
 
@@ -115,16 +106,16 @@
 .tile-base.tile-open {
   background: linear-gradient(
     180deg,
-    rgba(255,255,255,0.02),
-    rgba(0,0,0,0.55)
+    var(--glass-bg),
+    rgb(0 0 0 / 0.55)
   );
 
-  border-color: rgba(173,255,47,0.95);
+  border-color: rgb(var(--accent-rgb) / 0.95);
 
   box-shadow:
-    0 0 0 1px rgba(173,255,47,0.6),
-    0 0 36px rgba(173,255,47,0.35),
-    0 20px 40px rgba(0,0,0,0.75);
+    0 0 0 1px rgb(var(--accent-rgb) / 0.6),
+    0 0 36px var(--shadow-tile-glow-soft),
+    0 20px 40px var(--shadow-tile-deep);
 }
 
 
@@ -137,11 +128,11 @@
 .hero-mycelium {
   position: relative;
   min-height: 100vh;
-  background: #021909;
+  background: var(--bg-hero-mycelium);
   overflow: hidden;
   display: grid;
   place-items: center;
-  color: #ffffff;
+  color: var(--hero-node-core);
 }
 
 .hero-mycelium canvas {
@@ -178,7 +169,7 @@
   letter-spacing: 0.45em;
   text-transform: uppercase;
   font-weight: 700;
-  color: rgba(255,255,255,0.08);
+  color: rgb(var(--foreground-rgb) / 0.08);
   pointer-events: none;
 }
 
@@ -208,7 +199,7 @@
 .hero-copy p {
   font-size: 1.05rem;
   line-height: 1.65;
-  color: rgba(255,255,255,0.7);
+  color: rgb(var(--foreground-rgb) / 0.7);
   max-width: 520px;
   margin: 0 auto 3rem;
 }
@@ -220,8 +211,8 @@
 
 .hero-copy button {
   background: transparent;
-  color: #ffffff;
-  border: 1px solid rgba(255,255,255,0.35);
+  color: var(--hero-node-core);
+  border: 1px solid var(--border-strong);
   padding: 1.2rem 2.8rem;
   font-size: 0.75rem;
   font-weight: 600;
@@ -232,8 +223,8 @@
 }
 
 .hero-copy button:hover {
-  background: #ffffff;
-  color: #000000;
+  background: var(--hero-node-core);
+  color: var(--text-on-accent);
   transform: translateY(-1px);
 }
 
@@ -250,8 +241,8 @@
   background:
     radial-gradient(
       120% 80% at 50% 50%,
-      rgba(0,0,0,0),
-      rgba(0,0,0,0.55)
+      rgb(0 0 0 / 0),
+      rgb(0 0 0 / 0.55)
     );
 }
 
