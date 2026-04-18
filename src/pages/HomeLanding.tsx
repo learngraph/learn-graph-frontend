@@ -2,6 +2,7 @@ import {
   useCallback,
   useEffect,
   useId,
+  useLayoutEffect,
   useRef,
   useState,
   type KeyboardEvent,
@@ -206,10 +207,33 @@ function PathCard({
 }
 
 export default function HomeLanding() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const heroRef = useRef<HTMLElement>(null);
+  const bleedParentRef = useRef<HTMLDivElement>(null);
+  const [bleed, setBleed] = useState<{ width: number; marginLeft: number } | null>(null);
   const [morphProgress, setMorphProgress] = useState(0);
   const [headlineOpacity, setHeadlineOpacity] = useState(1);
+
+  /* `100vw`/`50vw` include scrollbar gutter; `%` does not — alignment drifts on wide viewports. */
+  useLayoutEffect(() => {
+    const parent = bleedParentRef.current;
+    if (!parent) return;
+
+    const sync = () => {
+      const cw = document.documentElement.clientWidth;
+      setBleed({ width: cw, marginLeft: -parent.getBoundingClientRect().left });
+    };
+
+    sync();
+    const ro = new ResizeObserver(sync);
+    ro.observe(parent);
+    window.addEventListener("resize", sync);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", sync);
+    };
+  }, [lang]);
+
   useEffect(() => {
     const tick = () => {
       const sec = heroRef.current;
@@ -254,9 +278,21 @@ export default function HomeLanding() {
         className="relative z-[1] mx-auto flex min-h-[100svh] max-w-6xl flex-col px-4 pt-28 sm:px-6 lg:px-8 lg:pt-32"
       >
         <div className="flex min-h-0 w-full flex-1 flex-col pb-8 sm:pb-10">
-          <div className="flex w-full min-w-0 flex-1 items-center justify-center overflow-x-visible pt-2">
-            {/* Full-viewport width so strokes clip at screen edges, not at the content column */}
-            <div className="pointer-events-none relative w-screen max-w-[100vw] shrink-0 ml-[calc(50%-50vw)]">
+          <div
+            ref={bleedParentRef}
+            className="flex w-full min-w-0 flex-1 items-center justify-start overflow-x-visible pt-2"
+          >
+            <div
+              className={`pointer-events-none relative shrink-0 ${bleed ? "" : "w-screen max-w-[100vw] ml-[calc(50%-50vw)]"}`}
+              style={
+                bleed
+                  ? {
+                      width: bleed.width,
+                      marginLeft: bleed.marginLeft,
+                    }
+                  : undefined
+              }
+            >
               <PullingLoopsGraphic
                 progress={morphProgress}
                 ariaLabel={t("home.illustrationAria")}
