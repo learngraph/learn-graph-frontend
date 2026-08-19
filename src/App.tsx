@@ -1,4 +1,11 @@
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { useEffect } from "react";
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+} from "react-router-dom";
 import DirectionController from "@/i18n/DirectionController";
 import LandingPage from "./pages/landing/landing";
 import UniversityPage from "./pages/customerGroups/UniversityPage";
@@ -8,8 +15,6 @@ import CookieBanner from "@/pages/global/components/CookieBanner";
 import Footer from "@/pages/global/components/Footer";
 import ImprintPage from "@/pages/legal/Imprint";
 
-/*
-// Enable later if/when multiple routes exist
 const ScrollToTop = (): null => {
   const { pathname } = useLocation();
   useEffect(() => {
@@ -17,13 +22,13 @@ const ScrollToTop = (): null => {
   }, [pathname]);
   return null;
 };
-*/
 
 
 export default function App() {
   return (
     <BrowserRouter>
-     <DirectionController />
+      <DirectionController />
+      <ScrollToTop />
       <div className="min-h-screen flex flex-col">
         <div className="flex-1">
           <Routes>

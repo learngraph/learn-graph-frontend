@@ -20,6 +20,10 @@ export default function CustomerGroupPageShell({
 }: CustomerGroupPageShellProps) {
   const navigate = useNavigate();
   const { t } = useI18n();
+  const handleBackToBase = () => {
+    navigate("/");
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  };
 
   return (
     <main className="customer-page min-h-screen bg-[var(--color-section-bg)] text-[var(--color-text-primary)]">
@@ -31,14 +35,14 @@ export default function CustomerGroupPageShell({
       </div>
 
       {/* PAGE CONTENT */}
-        {children}
+      <div className="customer-content">{children}</div>
 
 
       {/* BACK TO BASE */}
       <div className="customer-back-to-base">
         <button
           className="customer-tile back"
-          onClick={() => navigate("/")}
+          onClick={handleBackToBase}
         >
           ← {t("customers.general.backToBase")}
         </button>

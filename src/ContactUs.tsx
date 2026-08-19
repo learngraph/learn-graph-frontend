@@ -92,7 +92,7 @@ Message: ${formData.message}`,
       } else {
         setError("There was an error sending your message. Please try again.");
       }
-    } catch (err) {
+    } catch (_err) {
       setError("There was an error sending your message. Please try again.");
     }
   };

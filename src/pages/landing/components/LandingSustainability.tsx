@@ -5,8 +5,8 @@ export default function LandingSustainability() {
 
   return (
     <section className="px-6 py-10 landing-static">
-      <div className="max-w-4xl mx-auto">
-        <h2 className="text-6xl font-serif mb-10">
+      <div className="max-w-4xl mx-auto w-full overflow-x-hidden">
+        <h2 className="text-4xl sm:text-5xl md:text-6xl font-serif mb-10 break-words overflow-x-hidden">
           {t("landing.LandingSustainability.title.prefix")}{" "}
           <span className="text-lime-400">
             {t("landing.LandingSustainability.title.highlight")}

@@ -32,11 +32,15 @@ export default function LandingStatsBar() {
                     border-y border-white/55
                     bg-black/30">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
-        <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-white/55">
+        <div className="grid grid-cols-2 md:grid-cols-4">
           {STATS.map((stat, i) => (
             <div
               key={i}
-              className="text-center py-12 px-4 group hover:bg-white/5 transition-colors"
+              className={`text-center py-12 px-4 group hover:bg-white/5 transition-colors ${
+                i % 2 === 1 ? "border-l border-white/55" : ""
+              } ${i >= 2 ? "border-t border-white/55" : ""} ${
+                i > 0 ? "md:border-l md:border-white/55" : ""
+              } ${i >= 2 ? "md:border-t-0" : ""}`}
             >
               <div className="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">
                 {t(stat.valueKey)}

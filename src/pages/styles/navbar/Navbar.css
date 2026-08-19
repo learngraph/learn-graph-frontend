@@ -44,6 +44,7 @@
 .nav-status {
   font-size: 10px;
   letter-spacing: 0.12em;
+  color: var(--theme-green);
   opacity: 0.8;
 }
 
