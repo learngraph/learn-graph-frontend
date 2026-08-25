@@ -27,3 +27,7 @@ venv/
 dist/
 .cursor/
 *.log
+
+# Local source documents used for content research; never commit raw material by default.
+/source-material/raw/*
+!/source-material/raw/UPLOAD-HERE.txt

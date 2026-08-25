@@ -1,0 +1,3 @@
+Drop the original source files into this folder.
+
+Useful formats include PDF, PPTX, DOCX, Markdown, and plain text.

@@ -7,7 +7,6 @@ import {
   useLocation,
 } from "react-router-dom";
 import DirectionController from "@/i18n/DirectionController";
-import HomeLanding from "./pages/HomeLanding";
 import LandingPage from "./pages/landing/landing";
 import SchoolsPage from "./pages/customerGroups/SchoolsPage";
 import LabourMarketPage from "./pages/customerGroups/LabourMarketPage";
@@ -16,6 +15,7 @@ import { ServiceOverviewPage } from "./pages/service/ServicePage";
 import CookieBanner from "@/pages/global/components/CookieBanner";
 import Footer from "@/pages/global/components/Footer";
 import ImprintPage from "@/pages/legal/Imprint";
+import GraphWebsite from "@/pages/graph/GraphWebsite";
 
 const ScrollToTop = (): null => {
   const { pathname } = useLocation();
@@ -28,6 +28,11 @@ const ScrollToTop = (): null => {
   return null;
 };
 
+const RouteFooter = () => {
+  const { pathname } = useLocation();
+  return pathname === "/" ? null : <Footer />;
+};
+
 
 export default function App() {
   return (
@@ -37,7 +42,7 @@ export default function App() {
       <div className="min-h-screen flex flex-col">
         <div className="flex-1">
           <Routes>
-            <Route path="/" element={<HomeLanding />} />
+            <Route path="/" element={<GraphWebsite />} />
             <Route path="/learn" element={<LandingPage />} />
             <Route path="/learn/compare" element={<LandingPage />} />
             <Route path="/learn/grow" element={<LandingPage />} />
@@ -56,7 +61,7 @@ export default function App() {
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </div>
-        <Footer />
+        <RouteFooter />
       </div>
       <CookieBanner />
     </BrowserRouter>
