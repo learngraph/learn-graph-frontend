@@ -119,15 +119,15 @@
 .graph-edge {
   stroke: var(--graph-line);
   stroke-width: 1;
-  stroke-dasharray: 2 3;
+  stroke-dasharray: 2px 6px;
   transition: stroke 400ms ease, stroke-width 400ms ease;
 }
 
 .graph-edge--active {
   stroke: var(--graph-line-active);
   stroke-width: 1.3;
-  stroke-dasharray: 100;
-  animation: graph-edge-resolve 420ms ease-out both;
+  stroke-dasharray: 18px 24px;
+  animation: graph-edge-flow 2.2s linear infinite;
 }
 
 .graph-core,
@@ -264,9 +264,9 @@
   animation: graph-focus-resolve 360ms ease-out both;
 }
 
-@keyframes graph-edge-resolve {
+@keyframes graph-edge-flow {
   from {
-    stroke-dashoffset: 100;
+    stroke-dashoffset: 42px;
   }
   to {
     stroke-dashoffset: 0;
@@ -323,43 +323,39 @@
   width: 1rem;
 }
 
-.graph-focus__connections {
+.graph-focus__return {
   align-self: end;
   border-top: 1px solid rgb(255 255 255 / 0.13);
   padding-top: 1rem;
 }
 
-.graph-focus__connections > p {
-  margin: 0 0 1.25rem;
-  color: rgb(255 255 255 / 0.36);
-  font-size: 0.62rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-.graph-focus__connections button {
-  display: flex;
+.graph-focus__return button {
+  display: inline-flex;
   width: 100%;
-  flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.6rem;
+  align-items: center;
+  justify-content: space-between;
   border: 0;
-  border-bottom: 1px solid rgb(255 255 255 / 0.1);
-  padding: 0.9rem 0;
+  padding: 0.4rem 0;
   background: transparent;
-  color: rgb(255 255 255 / 0.78);
+  color: rgb(255 255 255 / 0.48);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
   text-align: left;
+  text-transform: uppercase;
   cursor: pointer;
+  transition: color 180ms ease;
 }
 
-.graph-focus__connections button:hover,
-.graph-focus__connections button:focus-visible {
+.graph-focus__return button:hover,
+.graph-focus__return button:focus-visible {
   color: rgb(var(--accent-rgb) / 0.9);
   outline: none;
 }
 
-.graph-focus__connections button span {
-  color: rgb(255 255 255 / 0.34);
-  font-size: 0.6rem;
+.graph-focus__return svg {
+  width: 0.9rem;
+  height: 0.9rem;
 }
 
 .graph-site__legal {
@@ -493,7 +489,7 @@
     padding: 0 0 1rem;
   }
 
-  .graph-focus__connections {
+  .graph-focus__return {
     margin-top: 1rem;
   }
 }

@@ -1,11 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ArrowDown, ArrowUpRight } from "lucide-react";
+import { ArrowDown, ArrowUp, ArrowUpRight } from "lucide-react";
 import { Link, useSearchParams } from "react-router-dom";
 import {
   territories,
   territoryOrder,
   topics,
-  type GraphSelection,
   type TerritoryId,
   type TopicId,
 } from "./graphModel";
@@ -61,7 +60,7 @@ function Edge({ from, to, active = false }: { from: Point; to: Point; active?: b
       y1={from.y}
       x2={to.x}
       y2={to.y}
-      pathLength={100}
+      strokeLinecap="round"
       className={active ? "graph-edge graph-edge--active" : "graph-edge"}
       vectorEffect="non-scaling-stroke"
     />
@@ -149,12 +148,12 @@ export default function GraphWebsite() {
     }
   };
 
-  const selectConnection = (selection: GraphSelection) => {
-    if (selection in territories) {
-      selectTerritory(selection as TerritoryId);
-      return;
-    }
-    selectTopic(selection as TopicId, false);
+  const returnToGraph = () => {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    graphRef.current?.scrollIntoView({
+      behavior: reduceMotion ? "auto" : "smooth",
+      block: "start",
+    });
   };
 
   return (
@@ -171,7 +170,7 @@ export default function GraphWebsite() {
         <button
           type="button"
           className="graph-site__mode"
-          onClick={() => graphRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })}
+          onClick={returnToGraph}
         >
           Enter the graph
           <ArrowDown aria-hidden="true" />
@@ -321,21 +320,12 @@ export default function GraphWebsite() {
           )}
         </article>
 
-        {selectedTopic.connections && selectedTopic.connections.length > 0 && (
-          <aside className="graph-focus__connections" aria-label="Connected topics">
-            <p>Connected thinking</p>
-            {selectedTopic.connections.map((connection) => (
-              <button
-                type="button"
-                key={connection.id}
-                onClick={() => selectConnection(connection.id)}
-              >
-                <span>{connection.relation}</span>
-                {topics[connection.id].label}
-              </button>
-            ))}
-          </aside>
-        )}
+        <div className="graph-focus__return">
+          <button type="button" onClick={returnToGraph}>
+            Return to graph
+            <ArrowUp aria-hidden="true" />
+          </button>
+        </div>
       </section>
 
       <div className="graph-site__legal">
