@@ -1,13 +1,23 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { ArrowDown, ArrowUp, ArrowUpRight } from "lucide-react";
-import { Link, useSearchParams } from "react-router-dom";
 import {
+  Link,
+  Navigate,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
+import {
+  pathForTopic,
   territories,
+  territoryFromSlug,
   territoryOrder,
+  topicFromRoute,
   topics,
   type TerritoryId,
   type TopicId,
 } from "./graphModel";
+import { articleByTopicId } from "../../content/nodes";
 import "./graphWebsite.css";
 
 interface Point {
@@ -53,7 +63,15 @@ function isTopicId(value: string | null): value is TopicId {
   return value !== null && value in topics;
 }
 
-function Edge({ from, to, active = false }: { from: Point; to: Point; active?: boolean }) {
+function Edge({
+  from,
+  to,
+  active = false,
+}: {
+  from: Point;
+  to: Point;
+  active?: boolean;
+}) {
   return (
     <line
       x1={from.x}
@@ -99,70 +117,138 @@ function GraphNode({
 }
 
 export default function GraphWebsite() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const { territorySlug, topicSlug } = useParams<{
+    territorySlug?: string;
+    topicSlug?: string;
+  }>();
+  const palette = searchParams.get("palette") === "blue" ? "blue" : "green";
   const graphRef = useRef<HTMLElement>(null);
   const focusRef = useRef<HTMLElement>(null);
+  const focusRevealTimerRef = useRef<number | null>(null);
   const requestedFocus = searchParams.get("focus");
-  const selectedTopicId: TopicId = isTopicId(requestedFocus)
-    ? requestedFocus
-    : "platform-model";
+  const routedTerritory = territoryFromSlug(territorySlug);
+  const routedTopic = topicFromRoute(routedTerritory, topicSlug);
+  const hasExplicitSelection = routedTopic !== undefined;
+  const selectedTopicId: TopicId = routedTopic?.id ?? "platform-model";
   const selectedTopic = topics[selectedTopicId];
-  const selectedTerritory = selectedTopic.territory;
-  const [expandedTerritory, setExpandedTerritory] = useState<TerritoryId | null>(
-    selectedTerritory,
-  );
-  const activeTopics = useMemo(
-    () =>
-      expandedTerritory
-        ? territories[expandedTerritory].topics.map((topicId) => topics[topicId])
-        : [],
-    [expandedTerritory],
-  );
+  const selectedArticle = articleByTopicId[selectedTopicId];
+  const selectedTerritory =
+    routedTopic?.territory ?? routedTerritory?.id ?? "platform";
+  const expandedTerritory = routedTerritory?.id ?? null;
+  const activeTopics = expandedTerritory
+    ? territories[expandedTerritory].topics.map((topicId) => topics[topicId])
+    : [];
 
-  useEffect(() => {
-    setExpandedTerritory(selectedTerritory);
-  }, [selectedTerritory]);
+  useEffect(
+    () => () => {
+      if (focusRevealTimerRef.current !== null) {
+        window.clearTimeout(focusRevealTimerRef.current);
+      }
+    },
+    [],
+  );
 
   const selectTopic = (topicId: TopicId, reveal = true) => {
-    setExpandedTerritory(topics[topicId].territory);
-    setSearchParams({ focus: topicId });
-    if (!reveal) return;
-    window.requestAnimationFrame(() => {
-      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      focusRef.current?.scrollIntoView({
-        behavior: reduceMotion ? "auto" : "smooth",
-        block: "start",
-      });
+    const topic = topics[topicId];
+    navigate({
+      pathname: pathForTopic(topic),
+      search: palette === "blue" ? "?palette=blue" : "",
     });
+    if (!reveal) return;
+
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (focusRevealTimerRef.current !== null) {
+      window.clearTimeout(focusRevealTimerRef.current);
+    }
+    focusRevealTimerRef.current = window.setTimeout(
+      () => {
+        const focus = focusRef.current;
+        if (!focus) return;
+
+        const retainedContext =
+          window.innerWidth <= 760
+            ? 72
+            : Math.min(window.innerHeight * 0.18, 160);
+        const targetTop =
+          focus.getBoundingClientRect().top + window.scrollY - retainedContext;
+        window.scrollTo({
+          top: Math.max(0, targetTop),
+          behavior: reduceMotion ? "auto" : "smooth",
+        });
+        focusRevealTimerRef.current = null;
+      },
+      reduceMotion ? 0 : 260,
+    );
   };
 
   const selectTerritory = (territoryId: TerritoryId) => {
     if (expandedTerritory === territoryId) {
-      setExpandedTerritory(null);
+      navigate({
+        pathname: "/",
+        search: palette === "blue" ? "?palette=blue" : "",
+      });
       return;
     }
 
-    setExpandedTerritory(territoryId);
-    if (selectedTerritory !== territoryId) {
-      selectTopic(territories[territoryId].topics[0], false);
-    }
+    navigate({
+      pathname: `/${territories[territoryId].slug}`,
+      search: palette === "blue" ? "?palette=blue" : "",
+    });
   };
 
   const returnToGraph = () => {
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
     graphRef.current?.scrollIntoView({
       behavior: reduceMotion ? "auto" : "smooth",
       block: "start",
     });
   };
 
+  if (!territorySlug && isTopicId(requestedFocus)) {
+    const legacyParams = new URLSearchParams(searchParams);
+    legacyParams.delete("focus");
+    const legacySearch = legacyParams.toString();
+    return (
+      <Navigate
+        to={`${pathForTopic(topics[requestedFocus])}${legacySearch ? `?${legacySearch}` : ""}`}
+        replace
+      />
+    );
+  }
+
+  if (territorySlug && !routedTerritory) {
+    return (
+      <Navigate to={palette === "blue" ? "/?palette=blue" : "/"} replace />
+    );
+  }
+
+  if (topicSlug && !routedTopic && routedTerritory) {
+    return (
+      <Navigate
+        to={`/${routedTerritory.slug}${palette === "blue" ? "?palette=blue" : ""}`}
+        replace
+      />
+    );
+  }
+
   return (
-    <main className="graph-site">
+    <main className="graph-site" data-palette={palette}>
       <header className="graph-site__masthead">
         <button
           type="button"
           className="graph-site__brand"
-          onClick={() => selectTopic("platform-model", false)}
+          onClick={() =>
+            navigate({
+              pathname: "/",
+              search: palette === "blue" ? "?palette=blue" : "",
+            })
+          }
           aria-label="Return to the beginning"
         >
           LEARNGRAPH
@@ -183,12 +269,16 @@ export default function GraphWebsite() {
           Learning becomes navigable when relationships become visible.
         </h1>
         <p>
-          Start anywhere. 
-          Follow a relationship through the product and the thinking beneath it
+          Start anywhere. Follow a relationship through the product and the
+          thinking beneath it
         </p>
       </section>
 
-      <section ref={graphRef} className="graph-zone" aria-label="LearnGraph website map">
+      <section
+        ref={graphRef}
+        className="graph-zone"
+        aria-label="LearnGraph website map"
+      >
         <div className="graph-canvas graph-canvas--desktop">
           <svg
             className="graph-lines"
@@ -227,7 +317,10 @@ export default function GraphWebsite() {
                 point={rootPositions[territoryId]}
                 label={territory.label}
                 selected={territoryId === expandedTerritory}
-                quiet={expandedTerritory !== null && territoryId !== expandedTerritory}
+                quiet={
+                  expandedTerritory !== null &&
+                  territoryId !== expandedTerritory
+                }
                 className="graph-node--territory"
                 onClick={() => selectTerritory(territoryId)}
               />
@@ -264,9 +357,7 @@ export default function GraphWebsite() {
           </div>
           {expandedTerritory && (
             <>
-              <p className="graph-mobile-relation">
-                {territories[expandedTerritory].statement}
-              </p>
+              <div className="graph-mobile-spine" aria-hidden="true" />
               <div
                 className="graph-mobile-topics"
                 aria-label={`${territories[expandedTerritory].label} topics`}
@@ -288,45 +379,54 @@ export default function GraphWebsite() {
         </div>
       </section>
 
-      <section ref={focusRef} className="graph-focus" aria-live="polite">
-        <div className="graph-focus__rail">
-          <span>Selected relationship</span>
-          <span className="graph-focus__index">
-            {String(territories[selectedTerritory].topics.indexOf(selectedTopicId) + 1).padStart(2, "0")}
-            /04
-          </span>
-        </div>
-
-        <article key={selectedTopic.id} className="graph-focus__content">
-          <p className="graph-focus__eyebrow">{selectedTopic.eyebrow}</p>
-          <h2>{selectedTopic.title}</h2>
-          <p className="graph-focus__lead">{selectedTopic.lead}</p>
-          <div className="graph-focus__body">
-            {selectedTopic.body.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
-            ))}
+      {hasExplicitSelection && (
+        <section ref={focusRef} className="graph-focus" aria-live="polite">
+          <div className="graph-focus__rail">
+            <span>Path in focus</span>
+            <span className="graph-focus__index">
+              {String(
+                territories[selectedTerritory].topics.indexOf(selectedTopicId) +
+                  1,
+              ).padStart(2, "0")}
+              /04
+            </span>
           </div>
 
-          {selectedTopic.action && (
-            <a
-              className="graph-focus__action"
-              href={selectedTopic.action.href}
-              target={selectedTopic.action.external ? "_blank" : undefined}
-              rel={selectedTopic.action.external ? "noreferrer" : undefined}
-            >
-              {selectedTopic.action.label}
-              <ArrowUpRight aria-hidden="true" />
-            </a>
-          )}
-        </article>
+          <article key={selectedTopic.id} className="graph-focus__content">
+            <p className="graph-focus__eyebrow">
+              <span>{territories[selectedTerritory].label}</span>
+              <span aria-hidden="true">/</span>
+              <span>{selectedTopic.label}</span>
+            </p>
+            <h2>{selectedArticle.title}</h2>
+            <p className="graph-focus__lead">{selectedArticle.lead}</p>
+            <div className="graph-focus__body">
+              {selectedArticle.body.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+            </div>
 
-        <div className="graph-focus__return">
-          <button type="button" onClick={returnToGraph}>
-            Return to graph
-            <ArrowUp aria-hidden="true" />
-          </button>
-        </div>
-      </section>
+            {selectedArticle.action && (
+              <a
+                className="graph-focus__action"
+                href={selectedArticle.action.href}
+                target={selectedArticle.action.external ? "_blank" : undefined}
+                rel={selectedArticle.action.external ? "noreferrer" : undefined}
+              >
+                {selectedArticle.action.label}
+                <ArrowUpRight aria-hidden="true" />
+              </a>
+            )}
+          </article>
+
+          <div className="graph-focus__return">
+            <button type="button" onClick={returnToGraph}>
+              Return to graph
+              <ArrowUp aria-hidden="true" />
+            </button>
+          </div>
+        </section>
+      )}
 
       <div className="graph-site__legal">
         <span>© {new Date().getFullYear()} LearnGraph</span>

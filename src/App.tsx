@@ -17,10 +17,19 @@ import Footer from "@/pages/global/components/Footer";
 import ImprintPage from "@/pages/legal/Imprint";
 import GraphWebsite from "@/pages/graph/GraphWebsite";
 
+const GRAPH_PATH = /^\/(platform|collaborate|about|research)(?:\/[^/]+)?$/;
+
+function isGraphPath(pathname: string): boolean {
+  return pathname === "/" || GRAPH_PATH.test(pathname);
+}
+
 const ScrollToTop = (): null => {
   const { pathname } = useLocation();
   useEffect(() => {
-    if (/^\/learn\/(compare|grow|partners|people)$/.test(pathname)) {
+    if (
+      isGraphPath(pathname) ||
+      /^\/learn\/(compare|grow|partners|people)$/.test(pathname)
+    ) {
       return;
     }
     window.scrollTo({ top: 0, behavior: "auto" });
@@ -30,9 +39,8 @@ const ScrollToTop = (): null => {
 
 const RouteFooter = () => {
   const { pathname } = useLocation();
-  return pathname === "/" ? null : <Footer />;
+  return isGraphPath(pathname) ? null : <Footer />;
 };
-
 
 export default function App() {
   return (
@@ -43,18 +51,32 @@ export default function App() {
         <div className="flex-1">
           <Routes>
             <Route path="/" element={<GraphWebsite />} />
+            <Route path="/:territorySlug" element={<GraphWebsite />} />
+            <Route
+              path="/:territorySlug/:topicSlug"
+              element={<GraphWebsite />}
+            />
             <Route path="/learn" element={<LandingPage />} />
             <Route path="/learn/compare" element={<LandingPage />} />
             <Route path="/learn/grow" element={<LandingPage />} />
             <Route path="/learn/partners" element={<LandingPage />} />
             <Route path="/learn/people" element={<LandingPage />} />
             <Route path="/service" element={<ServiceOverviewPage />} />
-            <Route path="/service/*" element={<Navigate to="/service" replace />} />
+            <Route
+              path="/service/*"
+              element={<Navigate to="/service" replace />}
+            />
             <Route path="/schools" element={<SchoolsPage />} />
             <Route path="/labour-market" element={<LabourMarketPage />} />
             <Route path="/individual" element={<IndividualPage />} />
-            <Route path="/university" element={<Navigate to="/schools" replace />} />
-            <Route path="/enterprise" element={<Navigate to="/labour-market" replace />} />
+            <Route
+              path="/university"
+              element={<Navigate to="/schools" replace />}
+            />
+            <Route
+              path="/enterprise"
+              element={<Navigate to="/labour-market" replace />}
+            />
             <Route path="/home" element={<Navigate to="/learn" replace />} />
             <Route path="/imprint" element={<ImprintPage />} />
             <Route path="/impressum" element={<ImprintPage />} />
