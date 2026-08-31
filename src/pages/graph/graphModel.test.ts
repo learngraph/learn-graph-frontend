@@ -1,5 +1,4 @@
 import { describe, expect, it } from "vitest";
-import { articleByTopicId } from "../../content/nodes";
 import {
   pathForTopic,
   territories,
@@ -7,42 +6,45 @@ import {
   territoryOrder,
   topicFromRoute,
   topics,
+  workEstimateLabels,
 } from "./graphModel";
 
-describe("graph website model", () => {
-  it("gives every territory four unique topics", () => {
+describe("graph website workbench model", () => {
+  it("projects the real unequal topic architecture", () => {
     const allTopicIds = territoryOrder.flatMap((id) => territories[id].topics);
 
-    territoryOrder.forEach((id) => {
-      expect(territories[id].topics).toHaveLength(4);
-    });
+    expect(territoryOrder.map((id) => territories[id].topics.length)).toEqual([
+      4, 5, 4, 4,
+    ]);
     expect(new Set(allTopicIds).size).toBe(allTopicIds.length);
   });
 
-  it("gives every visible edge a relationship", () => {
+  it("retains Collaborate's two clusters", () => {
+    const collaborateTopics = territories.collaborate.topics.map(
+      (id) => topics[id],
+    );
+
+    expect(
+      collaborateTopics.filter(
+        (topic) => topic.clusterLabel === "Transformation services",
+      ),
+    ).toHaveLength(3);
+    expect(
+      collaborateTopics.filter(
+        (topic) => topic.clusterLabel === "LearnGraph partnerships",
+      ),
+    ).toHaveLength(2);
+  });
+
+  it("gives every topic a visible editorial state", () => {
     Object.values(topics).forEach((topic) => {
-      expect(topic.relation.trim()).not.toBe("");
-      topic.connections?.forEach((connection) => {
-        expect(connection.relation.trim()).not.toBe("");
-      });
+      expect(topic.purpose.trim()).not.toBe("");
+      expect(workEstimateLabels[topic.slot.workEstimate].trim()).not.toBe("");
+      expect(topic.slot.statusNote.trim()).not.toBe("");
     });
   });
 
-  it("keeps all topic and cross-connection references valid", () => {
-    territoryOrder.forEach((territoryId) => {
-      territories[territoryId].topics.forEach((topicId) => {
-        expect(topics[topicId].territory).toBe(territoryId);
-      });
-    });
-
-    Object.values(topics).forEach((topic) => {
-      topic.connections?.forEach((connection) => {
-        expect(topics[connection.id]).toBeDefined();
-      });
-    });
-  });
-
-  it("gives every territory and topic a unique canonical address", () => {
+  it("keeps every workbench address unique and routable", () => {
     const territorySlugs = territoryOrder.map((id) => territories[id].slug);
     const topicPaths = Object.values(topics).map(pathForTopic);
 
@@ -55,9 +57,7 @@ describe("graph website model", () => {
     });
   });
 
-  it("keeps one portable article for every graph topic", () => {
-    expect(Object.keys(articleByTopicId).sort()).toEqual(
-      Object.keys(topics).sort(),
-    );
+  it("marks Research / Open Source as reserved", () => {
+    expect(territories.research.architectureStatus).toBe("reserved");
   });
 });

@@ -5,6 +5,7 @@ export const contentSlots = [
     nodeId: "platform-model",
     sourceAvailability: "legacy-and-project",
     copyStatus: "needs-revision",
+    workEstimate: "substantial-revision",
     statusNote: "Strong ideas exist; no article is approved for reuse.",
     blockers: ["Current model entities and relationships need confirmation"],
     supportingMaterial: [
@@ -15,6 +16,7 @@ export const contentSlots = [
     nodeId: "platform-personal-paths",
     sourceAvailability: "legacy-and-project",
     copyStatus: "needs-revision",
+    workEstimate: "owner-facts-first",
     statusNote: "Conceptual material exists; the article must be rebuilt.",
     blockers: ["Current path behaviour needs product confirmation"],
     supportingMaterial: [
@@ -29,6 +31,7 @@ export const contentSlots = [
     nodeId: "platform-learning-evidence",
     sourceAvailability: "legacy-and-project",
     copyStatus: "needs-revision",
+    workEstimate: "owner-facts-first",
     statusNote: "Principle is well sourced; mechanism copy is not ready.",
     blockers: [
       "Evidence model, visibility, review, and portability are unknown",
@@ -46,6 +49,7 @@ export const contentSlots = [
     nodeId: "platform-sovereignty",
     sourceAvailability: "legacy-and-project",
     copyStatus: "needs-revision",
+    workEstimate: "owner-facts-first",
     statusNote: "Values material exists; public copy must follow facts.",
     blockers: ["Licensing, deployment, data, API, and exit facts are pending"],
     supportingMaterial: [
@@ -60,6 +64,7 @@ export const contentSlots = [
     nodeId: "collaborate-find-constraint",
     sourceAvailability: "legacy-content",
     copyStatus: "needs-revision",
+    workEstimate: "substantial-revision",
     statusNote:
       "A coherent offer exists in legacy material; it needs rebuilding.",
     blockers: ["Named experience and deliverable boundary need confirmation"],
@@ -80,6 +85,7 @@ export const contentSlots = [
     nodeId: "collaborate-reduce-manual-load",
     sourceAvailability: "legacy-content",
     copyStatus: "needs-revision",
+    workEstimate: "substantial-revision",
     statusNote: "Usable service logic exists; claims and form need revision.",
     blockers: ["Automation scope and outcome claims need verification"],
     supportingMaterial: [
@@ -91,6 +97,7 @@ export const contentSlots = [
     nodeId: "collaborate-build-offer",
     sourceAvailability: "legacy-content",
     copyStatus: "needs-revision",
+    workEstimate: "substantial-revision",
     statusNote:
       "Offer material exists; public label and distinction need work.",
     blockers: [
@@ -110,6 +117,7 @@ export const contentSlots = [
     nodeId: "collaborate-pilot-learngraph",
     sourceAvailability: "legacy-and-project",
     copyStatus: "not-created",
+    workEstimate: "new-assembly",
     statusNote:
       "Rich application material exists; no dedicated article exists.",
     blockers: ["Completed pilots must be separated from proposed applications"],
@@ -127,6 +135,7 @@ export const contentSlots = [
     nodeId: "collaborate-implementation-partnerships",
     sourceAvailability: "legacy-and-project",
     copyStatus: "not-created",
+    workEstimate: "new-assembly",
     statusNote:
       "Role logic exists across sources; no dedicated article exists.",
     blockers: ["Actively sought partnership types need owner confirmation"],
@@ -147,6 +156,7 @@ export const contentSlots = [
     nodeId: "about-why-learngraph",
     sourceAvailability: "legacy-and-project",
     copyStatus: "needs-revision",
+    workEstimate: "substantial-revision",
     statusNote:
       "Strong position material exists; no article is approved unchanged.",
     blockers: [],
@@ -162,6 +172,7 @@ export const contentSlots = [
     nodeId: "about-founding-commitment",
     sourceAvailability: "project-material",
     copyStatus: "not-created",
+    workEstimate: "new-assembly",
     statusNote:
       "Substantial source material exists; the public chapter is not written.",
     blockers: ["Public label and exact framing remain open"],
@@ -177,6 +188,7 @@ export const contentSlots = [
     nodeId: "about-people",
     sourceAvailability: "legacy-content",
     copyStatus: "needs-revision",
+    workEstimate: "factual-assembly",
     statusNote:
       "Legacy roster exists; every entry requires current attribution.",
     blockers: [
@@ -194,6 +206,7 @@ export const contentSlots = [
     nodeId: "about-network",
     sourceAvailability: "legacy-content",
     copyStatus: "needs-revision",
+    workEstimate: "factual-assembly",
     statusNote:
       "Names and logos exist; relationships are not yet publication-ready.",
     blockers: [
@@ -216,6 +229,7 @@ export const contentSlots = [
     nodeId: "research-open-core",
     sourceAvailability: "legacy-content",
     copyStatus: "needs-revision",
+    workEstimate: "owner-facts-first",
     statusNote: "Legacy claims exist; the topic remains hidden.",
     blockers: [
       "Open boundary, license intent, and public artifacts are unresolved",
@@ -232,6 +246,7 @@ export const contentSlots = [
     nodeId: "research-interoperability",
     sourceAvailability: "legacy-and-project",
     copyStatus: "needs-revision",
+    workEstimate: "owner-facts-first",
     statusNote:
       "Principles exist; inspectable interoperability evidence does not.",
     blockers: [
@@ -249,6 +264,7 @@ export const contentSlots = [
     nodeId: "research-questions",
     sourceAvailability: "legacy-and-project",
     copyStatus: "needs-revision",
+    workEstimate: "owner-facts-first",
     statusNote:
       "Questions and direction exist; publishable research work is unresolved.",
     blockers: [
@@ -262,6 +278,7 @@ export const contentSlots = [
     nodeId: "research-contribute",
     sourceAvailability: "legacy-content",
     copyStatus: "needs-revision",
+    workEstimate: "owner-facts-first",
     statusNote:
       "A contribution invitation exists; supportability is unverified.",
     blockers: [

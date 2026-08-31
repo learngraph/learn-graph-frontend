@@ -128,6 +128,15 @@ export type CopyStatus =
   | "ready-for-review"
   | "approved";
 
+export type WorkEstimate =
+  | "light-revision"
+  | "substantial-revision"
+  | "new-assembly"
+  | "factual-assembly"
+  | "owner-facts-first"
+  | "review"
+  | "ready";
+
 export type SupportingMaterialStatus =
   | "missing"
   | "candidate"
@@ -151,6 +160,7 @@ export interface ContentSlot {
   nodeId: string;
   sourceAvailability: SourceAvailability;
   copyStatus: CopyStatus;
+  workEstimate: WorkEstimate;
   statusNote: string;
   blockers: string[];
   supportingMaterial: SupportingMaterialNeed[];

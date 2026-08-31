@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { ArrowDown, ArrowUp, ArrowUpRight } from "lucide-react";
+import { ArrowDown, ArrowUp } from "lucide-react";
 import {
   Link,
   Navigate,
@@ -9,15 +9,17 @@ import {
 } from "react-router-dom";
 import {
   pathForTopic,
+  sourceAvailabilityLabels,
   territories,
   territoryFromSlug,
   territoryOrder,
   topicFromRoute,
   topics,
+  workEstimateLabels,
   type TerritoryId,
   type TopicId,
 } from "./graphModel";
-import { articleByTopicId } from "../../content/nodes";
+import { contentGraphRegistry } from "../../content/graph";
 import "./graphWebsite.css";
 
 interface Point {
@@ -27,7 +29,7 @@ interface Point {
 
 const rootPositions: Record<TerritoryId, Point> = {
   platform: { x: 29, y: 38 },
-  work: { x: 71, y: 38 },
+  collaborate: { x: 71, y: 38 },
   about: { x: 29, y: 62 },
   research: { x: 71, y: 62 },
 };
@@ -39,11 +41,12 @@ const topicPositions: Record<TerritoryId, Point[]> = {
     { x: 7, y: 38 },
     { x: 22, y: 7 },
   ],
-  work: [
-    { x: 67, y: 12 },
-    { x: 91, y: 14 },
-    { x: 78, y: 7 },
-    { x: 93, y: 38 },
+  collaborate: [
+    { x: 64, y: 10 },
+    { x: 80, y: 7 },
+    { x: 94, y: 14 },
+    { x: 88, y: 31 },
+    { x: 96, y: 42 },
   ],
   about: [
     { x: 7, y: 62 },
@@ -89,7 +92,7 @@ function GraphNode({
   point,
   selected,
   quiet = false,
-  relation,
+  meta,
   label,
   onClick,
   className = "",
@@ -97,7 +100,7 @@ function GraphNode({
   point: Point;
   selected: boolean;
   quiet?: boolean;
-  relation?: string;
+  meta?: string;
   label: string;
   onClick: () => void;
   className?: string;
@@ -110,8 +113,8 @@ function GraphNode({
       aria-pressed={selected}
       onClick={onClick}
     >
-      {relation && <span className="graph-node__relation">{relation}</span>}
       <span className="graph-node__label">{label}</span>
+      {meta && <span className="graph-node__meta">{meta}</span>}
     </button>
   );
 }
@@ -133,7 +136,9 @@ export default function GraphWebsite() {
   const hasExplicitSelection = routedTopic !== undefined;
   const selectedTopicId: TopicId = routedTopic?.id ?? "platform-model";
   const selectedTopic = topics[selectedTopicId];
-  const selectedArticle = articleByTopicId[selectedTopicId];
+  const selectedBrief = contentGraphRegistry.briefs.find(
+    (brief) => brief.nodeId === selectedTopicId,
+  );
   const selectedTerritory =
     routedTopic?.territory ?? routedTerritory?.id ?? "platform";
   const expandedTerritory = routedTerritory?.id ?? null;
@@ -318,6 +323,11 @@ export default function GraphWebsite() {
                 key={territoryId}
                 point={rootPositions[territoryId]}
                 label={territory.label}
+                meta={
+                  territory.architectureStatus === "reserved"
+                    ? "Reserved"
+                    : undefined
+                }
                 selected={territoryId === expandedTerritory}
                 quiet={
                   expandedTerritory !== null &&
@@ -335,7 +345,7 @@ export default function GraphWebsite() {
                 key={topic.id}
                 point={topicPositions[expandedTerritory][index]}
                 label={topic.label}
-                relation={topic.relation}
+                meta={workEstimateLabels[topic.slot.workEstimate]}
                 selected={topic.id === selectedTopicId}
                 className="graph-node--topic"
                 onClick={() => selectTopic(topic.id)}
@@ -371,8 +381,8 @@ export default function GraphWebsite() {
                     className={topic.id === selectedTopicId ? "is-active" : ""}
                     onClick={() => selectTopic(topic.id)}
                   >
-                    <span>{topic.relation}</span>
-                    {topic.label}
+                    <strong>{topic.label}</strong>
+                    <span>{workEstimateLabels[topic.slot.workEstimate]}</span>
                   </button>
                 ))}
               </div>
@@ -382,7 +392,12 @@ export default function GraphWebsite() {
       </section>
 
       {hasExplicitSelection && (
-        <section ref={focusRef} className="graph-focus" aria-live="polite">
+        <section
+          id="editorial-workbench"
+          ref={focusRef}
+          className="graph-focus"
+          aria-live="polite"
+        >
           <div className="graph-focus__rail">
             <span>Path in focus</span>
             <span className="graph-focus__index">
@@ -390,35 +405,94 @@ export default function GraphWebsite() {
                 territories[selectedTerritory].topics.indexOf(selectedTopicId) +
                   1,
               ).padStart(2, "0")}
-              /04
+              /
+              {String(territories[selectedTerritory].topics.length).padStart(
+                2,
+                "0",
+              )}
             </span>
           </div>
 
           <article key={selectedTopic.id} className="graph-focus__content">
             <p className="graph-focus__eyebrow">
               <span>{territories[selectedTerritory].label}</span>
+              {selectedTopic.clusterLabel && (
+                <>
+                  <span aria-hidden="true">/</span>
+                  <span>{selectedTopic.clusterLabel}</span>
+                </>
+              )}
               <span aria-hidden="true">/</span>
               <span>{selectedTopic.label}</span>
             </p>
-            <h2>{selectedArticle.title}</h2>
-            <p className="graph-focus__lead">{selectedArticle.lead}</p>
-            <div className="graph-focus__body">
-              {selectedArticle.body.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
-            </div>
+            <p className="graph-focus__workbench-flag">
+              Editorial workbench · Not publication content
+            </p>
+            <h2>{selectedTopic.slot.statusNote}</h2>
+            <p className="graph-focus__lead">{selectedTopic.purpose}</p>
 
-            {selectedArticle.action && (
-              <a
-                className="graph-focus__action"
-                href={selectedArticle.action.href}
-                target={selectedArticle.action.external ? "_blank" : undefined}
-                rel={selectedArticle.action.external ? "noreferrer" : undefined}
-              >
-                {selectedArticle.action.label}
-                <ArrowUpRight aria-hidden="true" />
-              </a>
-            )}
+            <div className="graph-focus__workbench">
+              <section>
+                <h3>Current state</h3>
+                <dl>
+                  <div>
+                    <dt>Source</dt>
+                    <dd>
+                      {
+                        sourceAvailabilityLabels[
+                          selectedTopic.slot.sourceAvailability
+                        ]
+                      }
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>Expected work</dt>
+                    <dd>
+                      {workEstimateLabels[selectedTopic.slot.workEstimate]}
+                    </dd>
+                  </div>
+                </dl>
+              </section>
+
+              {selectedBrief && (
+                <section>
+                  <h3>Argument kernel</h3>
+                  <p>{selectedBrief.coreClaim}</p>
+                  <p className="graph-focus__workbench-memory">
+                    Intended memory: {selectedBrief.intendedMemory}
+                  </p>
+                </section>
+              )}
+
+              <section>
+                <h3>Before publication</h3>
+                {selectedTopic.slot.blockers.length > 0 ? (
+                  <ul>
+                    {selectedTopic.slot.blockers.map((blocker) => (
+                      <li key={blocker}>{blocker}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p>No factual blocker identified before editorial review.</p>
+                )}
+              </section>
+
+              <section>
+                <h3>Supporting material</h3>
+                {selectedTopic.slot.supportingMaterial.length > 0 ? (
+                  <ul className="graph-focus__materials">
+                    {selectedTopic.slot.supportingMaterial.map((material) => (
+                      <li key={`${material.kind}-${material.label}`}>
+                        <span>{material.label}</span>
+                        <small>{material.status}</small>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p>No additional media requirement identified.</p>
+                )}
+              </section>
+            </div>
           </article>
 
           <div className="graph-focus__return">

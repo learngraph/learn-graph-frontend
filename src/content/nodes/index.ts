@@ -1,4 +1,3 @@
-import type { TopicId } from "../../pages/graph/graphModel";
 import { aboutContactArticle } from "./about/contact";
 import { aboutNetworkArticle } from "./about/network";
 import { aboutTeamArticle } from "./about/team";
@@ -19,7 +18,25 @@ import { workTogetherArticle } from "./work/work-together";
 
 export type { NodeArticle, NodeArticleAction } from "./types";
 
-export const articleByTopicId: Record<TopicId, NodeArticle> = {
+export type LegacyTopicId =
+  | "platform-model"
+  | "platform-paths"
+  | "platform-evidence"
+  | "platform-sovereignty"
+  | "work-clarity"
+  | "work-automation"
+  | "work-products"
+  | "work-together"
+  | "about-origin"
+  | "about-team"
+  | "about-network"
+  | "about-contact"
+  | "research-fields"
+  | "research-open"
+  | "research-interoperability"
+  | "research-contribute";
+
+export const articleByTopicId: Record<LegacyTopicId, NodeArticle> = {
   "platform-model": platformModelArticle,
   "platform-paths": platformPathsArticle,
   "platform-evidence": platformEvidenceArticle,
