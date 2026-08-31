@@ -1,6 +1,6 @@
 # Platform content brief review
 
-Status: **proposed for owner approval**. This reviews the populated content structure; it does not approve final copy or unverified claims.
+Status: **content structures approved 2026-08-31**. This approval does not extend to final copy or unverified claims.
 
 ## Territory verdict
 
@@ -138,9 +138,9 @@ The registry may retain all meaningful relationships. The public graph should ex
 | Learning evidence | Strong principle, weak mechanism detail | Substantial only after owner answers | Evidence model, visibility, review, portability |
 | Sovereignty       | Strong principle and requirements       | Minimal prose; factual assembly      | Licensing, deployment, data, API, exit facts    |
 
-## Approval recommendation
+## Approval decision
 
-Approve all four **content structures**, with two explicit gates:
+All four **content structures are approved**, with two explicit gates:
 
 1. Learning evidence remains structurally approved but operationally unpublishable until its current mechanism is confirmed.
 2. Sovereignty remains structurally approved but fact-led; it should not be handed out as a conventional prose-writing assignment.
