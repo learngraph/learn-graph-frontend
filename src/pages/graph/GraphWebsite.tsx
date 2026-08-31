@@ -26,36 +26,36 @@ interface Point {
 }
 
 const rootPositions: Record<TerritoryId, Point> = {
-  platform: { x: 27, y: 29 },
-  work: { x: 73, y: 29 },
-  about: { x: 27, y: 71 },
-  research: { x: 73, y: 71 },
+  platform: { x: 29, y: 38 },
+  work: { x: 71, y: 38 },
+  about: { x: 29, y: 62 },
+  research: { x: 71, y: 62 },
 };
 
 const topicPositions: Record<TerritoryId, Point[]> = {
   platform: [
-    { x: 8, y: 8 },
-    { x: 29, y: 7 },
-    { x: 6, y: 35 },
-    { x: 28, y: 52 },
+    { x: 9, y: 14 },
+    { x: 33, y: 12 },
+    { x: 7, y: 38 },
+    { x: 22, y: 7 },
   ],
   work: [
-    { x: 71, y: 7 },
-    { x: 92, y: 8 },
-    { x: 94, y: 35 },
-    { x: 72, y: 52 },
+    { x: 67, y: 12 },
+    { x: 91, y: 14 },
+    { x: 78, y: 7 },
+    { x: 93, y: 38 },
   ],
   about: [
-    { x: 6, y: 66 },
-    { x: 27, y: 49 },
-    { x: 8, y: 93 },
-    { x: 29, y: 94 },
+    { x: 7, y: 62 },
+    { x: 22, y: 93 },
+    { x: 9, y: 86 },
+    { x: 33, y: 88 },
   ],
   research: [
-    { x: 73, y: 49 },
-    { x: 94, y: 66 },
-    { x: 72, y: 94 },
-    { x: 93, y: 93 },
+    { x: 67, y: 88 },
+    { x: 91, y: 86 },
+    { x: 78, y: 93 },
+    { x: 93, y: 62 },
   ],
 };
 
@@ -170,7 +170,7 @@ export default function GraphWebsite() {
         if (!focus) return;
 
         const retainedContext =
-          window.innerWidth <= 760
+          window.innerWidth <= 980
             ? 72
             : Math.min(window.innerHeight * 0.18, 160);
         const targetTop =
@@ -279,7 +279,9 @@ export default function GraphWebsite() {
         className="graph-zone"
         aria-label="LearnGraph website map"
       >
-        <div className="graph-canvas graph-canvas--desktop">
+        <div
+          className={`graph-canvas graph-canvas--desktop ${expandedTerritory ? "graph-canvas--expanded" : "graph-canvas--closed"}`}
+        >
           <svg
             className="graph-lines"
             viewBox="0 0 100 100"
