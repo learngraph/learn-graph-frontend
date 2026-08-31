@@ -4,6 +4,14 @@ export type ArchitectureStatus = "approved" | "provisional" | "reserved";
 export type PublicationStatus = "draft" | "review" | "publishable" | "hidden";
 export type LabelStatus = "approved" | "provisional" | "open";
 
+export type TruthStatus =
+  | "current-capability"
+  | "verified-evidence"
+  | "proposed-application"
+  | "principle"
+  | "direction"
+  | "requires-verification";
+
 export interface ContentGraphNode {
   id: string;
   kind: NodeKind;
@@ -18,23 +26,29 @@ export interface ContentGraphNode {
   contentId?: string;
 }
 
-export interface ProseBlock {
+export interface ContentBlockMeta {
+  truthStatus?: TruthStatus;
+  sourceRefs?: string[];
+  reviewNote?: string;
+}
+
+export interface ProseBlock extends ContentBlockMeta {
   type: "prose";
   paragraphs: string[];
 }
 
-export interface KeyPointsBlock {
+export interface KeyPointsBlock extends ContentBlockMeta {
   type: "key-points";
   items: string[];
 }
 
-export interface DiagramBlock {
+export interface DiagramBlock extends ContentBlockMeta {
   type: "diagram";
   assetId: string;
   caption?: string;
 }
 
-export interface MediaBlock {
+export interface MediaBlock extends ContentBlockMeta {
   type: "media";
   mediaKind: "image" | "video" | "audio";
   src: string;
@@ -42,7 +56,7 @@ export interface MediaBlock {
   caption?: string;
 }
 
-export interface TechnicalFactsBlock {
+export interface TechnicalFactsBlock extends ContentBlockMeta {
   type: "technical-facts";
   facts: Array<{
     label: string;
@@ -50,12 +64,12 @@ export interface TechnicalFactsBlock {
   }>;
 }
 
-export interface ArtifactReferenceBlock {
+export interface ArtifactReferenceBlock extends ContentBlockMeta {
   type: "artifact-reference";
   artifactIds: string[];
 }
 
-export interface LinkGroupBlock {
+export interface LinkGroupBlock extends ContentBlockMeta {
   type: "link-group";
   links: Array<{
     label: string;
@@ -64,7 +78,7 @@ export interface LinkGroupBlock {
   }>;
 }
 
-export interface ActionBlock {
+export interface ActionBlock extends ContentBlockMeta {
   type: "action";
   label: string;
   href: string;
@@ -83,8 +97,10 @@ export type ContentBlock =
 
 export interface NodeContent {
   id: string;
+  publicationStatus: PublicationStatus;
   title?: string;
   lead?: string;
+  sourceRefs?: string[];
   blocks: ContentBlock[];
 }
 
@@ -98,14 +114,6 @@ export type ArtifactKind =
   | "repository"
   | "paper"
   | "technical-reference";
-
-export type TruthStatus =
-  | "current-capability"
-  | "verified-evidence"
-  | "proposed-application"
-  | "principle"
-  | "direction"
-  | "requires-verification";
 
 export interface ContentArtifact {
   id: string;

@@ -58,4 +58,29 @@ describe("content graph registry", () => {
     expect(foundingCommitment?.labelStatus).toBe("open");
     expect(foundingCommitment?.canonicalPath).toBeUndefined();
   });
+
+  it("populates Platform as draft content without promoting unverified claims", () => {
+    const platformTopics = contentGraphRegistry.nodes.filter(
+      (node) => node.parentId === "territory-platform",
+    );
+    const platformContentIds = platformTopics.map((node) => node.contentId);
+
+    expect(platformContentIds).toHaveLength(4);
+    expect(platformContentIds.every(Boolean)).toBe(true);
+    expect(
+      contentGraphRegistry.contents
+        .filter((content) => platformContentIds.includes(content.id))
+        .every((content) => content.publicationStatus === "draft"),
+    ).toBe(true);
+
+    const unverifiedArtifacts = contentGraphRegistry.artifacts.filter(
+      (artifact) => artifact.truthStatus === "requires-verification",
+    );
+    expect(unverifiedArtifacts).toHaveLength(5);
+    expect(
+      unverifiedArtifacts.some(
+        (artifact) => artifact.publicationStatus === "hidden",
+      ),
+    ).toBe(true);
+  });
 });

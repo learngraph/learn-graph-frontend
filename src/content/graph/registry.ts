@@ -1,4 +1,9 @@
 import type { ContentGraphNode, ContentGraphRegistry } from "./types";
+import {
+  platformArtifacts,
+  platformContents,
+  platformRelationships,
+} from "./platform";
 
 const approved = {
   architectureStatus: "approved",
@@ -32,6 +37,7 @@ export const contentGraphNodes = [
     label: "The model",
     purpose:
       "Explain the connected structure beneath LearnGraph as product logic rather than visual metaphor.",
+    contentId: "content-platform-model",
     ...approved,
   },
   {
@@ -43,6 +49,7 @@ export const contentGraphNodes = [
     label: "Personal paths",
     purpose:
       "Show how the shared model becomes legible orientation and adaptable movement for a learner.",
+    contentId: "content-platform-personal-paths",
     ...approved,
   },
   {
@@ -54,6 +61,7 @@ export const contentGraphNodes = [
     label: "Learning evidence",
     purpose:
       "Explain how work, artifacts, feedback, progress, and demonstrated capability attach to the learning structure.",
+    contentId: "content-platform-learning-evidence",
     ...approved,
   },
   {
@@ -65,6 +73,7 @@ export const contentGraphNodes = [
     label: "Sovereignty",
     purpose:
       "Explain the control conditions around inspectability, deployment, data location, integration, and exit options.",
+    contentId: "content-platform-sovereignty",
     ...approved,
   },
   {
@@ -267,7 +276,7 @@ export const contentGraphNodes = [
 
 export const contentGraphRegistry: ContentGraphRegistry = {
   nodes: [...contentGraphNodes],
-  contents: [],
-  artifacts: [],
-  relationships: [],
+  contents: [...platformContents],
+  artifacts: [...platformArtifacts],
+  relationships: [...platformRelationships],
 };
