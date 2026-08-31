@@ -41,6 +41,9 @@ export function validateContentGraph(registry: ContentGraphRegistry): string[] {
   duplicateValues(registry.contentSlots.map((slot) => slot.nodeId)).forEach(
     (id) => errors.push(`Duplicate content slot for node: ${id}`),
   );
+  duplicateValues(registry.sourceCandidates.map((source) => source.id)).forEach(
+    (id) => errors.push(`Duplicate source candidate id: ${id}`),
+  );
   duplicateValues(registry.artifacts.map((artifact) => artifact.id)).forEach(
     (id) => errors.push(`Duplicate artifact id: ${id}`),
   );
@@ -122,12 +125,26 @@ export function validateContentGraph(registry: ContentGraphRegistry): string[] {
       errors.push(`Content slot ${slot.nodeId} must belong to a topic`);
     }
   });
+  registry.sourceCandidates.forEach((source) => {
+    const node = nodeById.get(source.nodeId);
+    if (!node) {
+      errors.push(`Source candidate references missing node ${source.nodeId}`);
+    } else if (node.kind !== "topic") {
+      errors.push(`Source candidate ${source.id} must belong to a topic`);
+    }
+  });
   registry.nodes
     .filter((node) => node.kind === "topic")
     .forEach((node) => {
       const slot = slotByNodeId.get(node.id);
       if (!slot) {
         errors.push(`Topic ${node.id} needs a content slot`);
+      }
+      if (
+        slot?.sourceAvailability !== "none" &&
+        !registry.sourceCandidates.some((source) => source.nodeId === node.id)
+      ) {
+        errors.push(`Topic ${node.id} claims sources but has no source shelf`);
       }
       if (
         node.publicationStatus === "publishable" &&

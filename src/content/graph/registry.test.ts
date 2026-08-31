@@ -99,4 +99,16 @@ describe("content graph registry", () => {
       ),
     ).toBe(false);
   });
+
+  it("puts identified source material within reach of every sourced topic", () => {
+    contentGraphRegistry.contentSlots
+      .filter((slot) => slot.sourceAvailability !== "none")
+      .forEach((slot) => {
+        expect(
+          contentGraphRegistry.sourceCandidates.some(
+            (source) => source.nodeId === slot.nodeId,
+          ),
+        ).toBe(true);
+      });
+  });
 });

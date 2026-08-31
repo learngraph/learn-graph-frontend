@@ -3,6 +3,7 @@ import type {
   ArchitectureStatus,
   ContentGraphNode,
   ContentSlot,
+  SourceCandidate,
   WorkEstimate,
 } from "../../content/graph";
 
@@ -21,6 +22,7 @@ export interface Topic {
   purpose: string;
   clusterLabel?: string;
   slot: ContentSlot;
+  sources: SourceCandidate[];
 }
 
 export interface Territory {
@@ -50,6 +52,17 @@ export const sourceAvailabilityLabels: Record<
   "legacy-content": "Legacy website material available",
   "project-material": "Project source material available",
   "legacy-and-project": "Legacy and project material available",
+};
+
+export const sourceCandidateStatusLabels: Record<
+  SourceCandidate["status"],
+  string
+> = {
+  strong: "Strong source",
+  partial: "Partial source",
+  "factual-only": "Factual source",
+  "proposal-only": "Proposal only",
+  "verification-required": "Verify before use",
 };
 
 const territoryNodeIds: Record<TerritoryId, string> = {
@@ -108,6 +121,9 @@ export const topics = Object.fromEntries(
         purpose: node.purpose,
         clusterLabel: parent?.kind === "cluster" ? parent.label : undefined,
         slot,
+        sources: contentGraphRegistry.sourceCandidates.filter(
+          (source) => source.nodeId === node.id,
+        ),
       };
       return [node.id, topic];
     }),

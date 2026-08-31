@@ -1,5 +1,6 @@
 import type { ContentGraphNode, ContentGraphRegistry } from "./types";
 import { contentSlots } from "./contentSlots";
+import { sourceCandidates } from "./sourceCandidates";
 import {
   platformArtifacts,
   platformBriefs,
@@ -275,6 +276,7 @@ export const contentGraphRegistry: ContentGraphRegistry = {
   nodes: [...contentGraphNodes],
   briefs: [...platformBriefs],
   contentSlots: [...contentSlots],
+  sourceCandidates: [...sourceCandidates],
   contents: [],
   artifacts: [...platformArtifacts],
   relationships: [...platformRelationships],

@@ -10,6 +10,7 @@ import {
 import {
   pathForTopic,
   sourceAvailabilityLabels,
+  sourceCandidateStatusLabels,
   territories,
   territoryFromSlug,
   territoryOrder,
@@ -452,6 +453,29 @@ export default function GraphWebsite() {
                     </dd>
                   </div>
                 </dl>
+              </section>
+
+              <section>
+                <h3>Source shelf</h3>
+                <div className="graph-focus__source-shelf">
+                  {selectedTopic.sources.map((source) => (
+                    <article key={source.id}>
+                      <div className="graph-focus__source-heading">
+                        <h4>{source.title}</h4>
+                        <span>
+                          {sourceCandidateStatusLabels[source.status]}
+                        </span>
+                      </div>
+                      <p>{source.usefulFor}</p>
+                      <ul>
+                        {source.usefulMaterial.map((material) => (
+                          <li key={material}>{material}</li>
+                        ))}
+                      </ul>
+                      <small>{source.provenance}</small>
+                    </article>
+                  ))}
+                </div>
               </section>
 
               {selectedBrief && (

@@ -166,6 +166,23 @@ export interface ContentSlot {
   supportingMaterial: SupportingMaterialNeed[];
 }
 
+export type SourceCandidateStatus =
+  | "strong"
+  | "partial"
+  | "factual-only"
+  | "proposal-only"
+  | "verification-required";
+
+export interface SourceCandidate {
+  id: string;
+  nodeId: string;
+  title: string;
+  provenance: string;
+  status: SourceCandidateStatus;
+  usefulFor: string;
+  usefulMaterial: string[];
+}
+
 export type ArtifactKind =
   | "case"
   | "evidence"
@@ -209,6 +226,7 @@ export interface ContentGraphRegistry {
   nodes: ContentGraphNode[];
   briefs: EditorialBrief[];
   contentSlots: ContentSlot[];
+  sourceCandidates: SourceCandidate[];
   contents: NodeContent[];
   artifacts: ContentArtifact[];
   relationships: ContentRelationship[];

@@ -372,6 +372,57 @@
   text-transform: uppercase;
 }
 
+.graph-focus__source-shelf {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.graph-focus__source-shelf article {
+  border: 1px solid rgb(255 255 255 / 0.1);
+  padding: 1rem;
+  background: rgb(255 255 255 / 0.018);
+}
+
+.graph-focus__source-heading {
+  display: flex;
+  gap: 1rem;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.graph-focus__source-heading h4 {
+  margin: 0;
+  color: rgb(255 255 255 / 0.86);
+  font-size: 0.82rem;
+  font-weight: 650;
+}
+
+.graph-focus__source-heading span {
+  flex: 0 0 auto;
+  color: rgb(var(--graph-accent-rgb) / 0.7);
+  font-size: 0.5rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.graph-focus__source-shelf article > p {
+  margin-top: 0.65rem;
+  color: rgb(255 255 255 / 0.52);
+}
+
+.graph-focus__source-shelf ul {
+  margin-top: 0.8rem;
+}
+
+.graph-focus__source-shelf article > small {
+  display: block;
+  margin-top: 0.85rem;
+  color: rgb(255 255 255 / 0.3);
+  font-size: 0.56rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
 .graph-focus__workbench p,
 .graph-focus__workbench li,
 .graph-focus__workbench dd {
@@ -644,6 +695,12 @@
 
   .graph-focus__workbench dl {
     grid-template-columns: 1fr;
+  }
+
+  .graph-focus__source-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.35rem;
   }
 
   .graph-focus {
