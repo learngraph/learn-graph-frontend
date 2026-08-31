@@ -59,19 +59,20 @@ describe("content graph registry", () => {
     expect(foundingCommitment?.canonicalPath).toBeUndefined();
   });
 
-  it("populates Platform as draft content without promoting unverified claims", () => {
+  it("holds Platform as argument briefs without premature article copy", () => {
     const platformTopics = contentGraphRegistry.nodes.filter(
       (node) => node.parentId === "territory-platform",
     );
-    const platformContentIds = platformTopics.map((node) => node.contentId);
+    const briefNodeIds = contentGraphRegistry.briefs.map(
+      (brief) => brief.nodeId,
+    );
 
-    expect(platformContentIds).toHaveLength(4);
-    expect(platformContentIds.every(Boolean)).toBe(true);
-    expect(
-      contentGraphRegistry.contents
-        .filter((content) => platformContentIds.includes(content.id))
-        .every((content) => content.publicationStatus === "draft"),
-    ).toBe(true);
+    expect(platformTopics).toHaveLength(4);
+    expect(briefNodeIds).toEqual(platformTopics.map((topic) => topic.id));
+    expect(contentGraphRegistry.contents).toEqual([]);
+    expect(platformTopics.every((topic) => topic.contentId === undefined)).toBe(
+      true,
+    );
 
     const unverifiedArtifacts = contentGraphRegistry.artifacts.filter(
       (artifact) => artifact.truthStatus === "requires-verification",
@@ -82,5 +83,20 @@ describe("content graph registry", () => {
         (artifact) => artifact.publicationStatus === "hidden",
       ),
     ).toBe(true);
+  });
+
+  it("tracks an explicit editorial state for every topic", () => {
+    const topicIds = contentGraphRegistry.nodes
+      .filter((node) => node.kind === "topic")
+      .map((node) => node.id);
+
+    expect(
+      contentGraphRegistry.contentSlots.map((slot) => slot.nodeId),
+    ).toEqual(topicIds);
+    expect(
+      contentGraphRegistry.contentSlots.some(
+        (slot) => slot.copyStatus === "approved",
+      ),
+    ).toBe(false);
   });
 });

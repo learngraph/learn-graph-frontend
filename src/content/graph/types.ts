@@ -104,6 +104,58 @@ export interface NodeContent {
   blocks: ContentBlock[];
 }
 
+export interface EditorialBrief {
+  nodeId: string;
+  status: "draft" | "approved";
+  coreClaim: string;
+  tension: string;
+  intendedMemory: string;
+  mustShow: string[];
+  availableMaterial: string[];
+  avoid: string[];
+  sourceRefs: string[];
+}
+
+export type SourceAvailability =
+  | "none"
+  | "legacy-content"
+  | "project-material"
+  | "legacy-and-project";
+
+export type CopyStatus =
+  | "not-created"
+  | "needs-revision"
+  | "ready-for-review"
+  | "approved";
+
+export type SupportingMaterialStatus =
+  | "missing"
+  | "candidate"
+  | "blocked"
+  | "available";
+
+export interface SupportingMaterialNeed {
+  kind:
+    | "diagram"
+    | "video"
+    | "case"
+    | "technical-facts"
+    | "roster"
+    | "relationship-directory"
+    | "application";
+  label: string;
+  status: SupportingMaterialStatus;
+}
+
+export interface ContentSlot {
+  nodeId: string;
+  sourceAvailability: SourceAvailability;
+  copyStatus: CopyStatus;
+  statusNote: string;
+  blockers: string[];
+  supportingMaterial: SupportingMaterialNeed[];
+}
+
 export type ArtifactKind =
   | "case"
   | "evidence"
@@ -145,6 +197,8 @@ export interface ContentRelationship {
 
 export interface ContentGraphRegistry {
   nodes: ContentGraphNode[];
+  briefs: EditorialBrief[];
+  contentSlots: ContentSlot[];
   contents: NodeContent[];
   artifacts: ContentArtifact[];
   relationships: ContentRelationship[];

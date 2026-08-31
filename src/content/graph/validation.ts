@@ -35,6 +35,12 @@ export function validateContentGraph(registry: ContentGraphRegistry): string[] {
   duplicateValues(registry.contents.map((content) => content.id)).forEach(
     (id) => errors.push(`Duplicate content id: ${id}`),
   );
+  duplicateValues(registry.briefs.map((brief) => brief.nodeId)).forEach((id) =>
+    errors.push(`Duplicate editorial brief for node: ${id}`),
+  );
+  duplicateValues(registry.contentSlots.map((slot) => slot.nodeId)).forEach(
+    (id) => errors.push(`Duplicate content slot for node: ${id}`),
+  );
   duplicateValues(registry.artifacts.map((artifact) => artifact.id)).forEach(
     (id) => errors.push(`Duplicate artifact id: ${id}`),
   );
@@ -95,6 +101,41 @@ export function validateContentGraph(registry: ContentGraphRegistry): string[] {
       );
     }
   });
+
+  registry.briefs.forEach((brief) => {
+    const node = nodeById.get(brief.nodeId);
+    if (!node) {
+      errors.push(`Editorial brief references missing node ${brief.nodeId}`);
+    } else if (node.kind !== "topic") {
+      errors.push(`Editorial brief ${brief.nodeId} must belong to a topic`);
+    }
+  });
+
+  const slotByNodeId = new Map(
+    registry.contentSlots.map((slot) => [slot.nodeId, slot]),
+  );
+  registry.contentSlots.forEach((slot) => {
+    const node = nodeById.get(slot.nodeId);
+    if (!node) {
+      errors.push(`Content slot references missing node ${slot.nodeId}`);
+    } else if (node.kind !== "topic") {
+      errors.push(`Content slot ${slot.nodeId} must belong to a topic`);
+    }
+  });
+  registry.nodes
+    .filter((node) => node.kind === "topic")
+    .forEach((node) => {
+      const slot = slotByNodeId.get(node.id);
+      if (!slot) {
+        errors.push(`Topic ${node.id} needs a content slot`);
+      }
+      if (
+        node.publicationStatus === "publishable" &&
+        slot?.copyStatus !== "approved"
+      ) {
+        errors.push(`Publishable topic ${node.id} needs approved copy`);
+      }
+    });
 
   registry.contents.forEach((content) => {
     content.blocks.forEach((block) => {

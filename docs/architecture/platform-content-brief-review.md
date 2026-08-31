@@ -145,4 +145,8 @@ All four **content structures are approved**, with two explicit gates:
 1. Learning evidence remains structurally approved but operationally unpublishable until its current mechanism is confirmed.
 2. Sovereignty remains structurally approved but fact-led; it should not be handed out as a conventional prose-writing assignment.
 
-After approval, Sol can draft **The model** from existing material. Personal paths should receive a bounded draft only after a current product walkthrough is selected. Learning evidence and Sovereignty should wait for owner facts rather than being filled with persuasive language.
+## Subsequent editorial decision
+
+Finished prose is paused across Platform. The first drafting pass proved that structurally correct, claim-safe copy can still be generic, frictionless, and forgettable. The approved structures therefore remain, but their working representation is now limited to argument kernels: core claim, tension, intended memory, material, and language or habits to avoid.
+
+No node should return to prose merely because its sources are sufficient. Writing resumes when the argument and visual form can produce language with a specific point of view and a reason to remain in the reader's memory.
