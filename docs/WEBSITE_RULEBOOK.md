@@ -54,7 +54,7 @@ A reserved node may remain unpublished indefinitely.
 
 A node is not automatically an article.
 
-Its strongest form may be one sentence, a diagram, an interface fragment, a case, a technical artifact, a video — or nothing yet.
+Its strongest form may be one sentence, a diagram, an interface fragment, a case, a technical artifact, a video, or nothing yet.
 
 Do not write prose because the display has room for it.
 
@@ -116,6 +116,7 @@ Avoid:
 - generic empowerment copy
 - trend words used as decoration
 - inspirational endings added by habit
+- em dashes used as automatic dramatic rhythm
 
 Prefer things with weight:
 

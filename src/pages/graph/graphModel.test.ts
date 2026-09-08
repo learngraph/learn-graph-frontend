@@ -14,7 +14,7 @@ describe("graph website workbench model", () => {
     const allTopicIds = territoryOrder.flatMap((id) => territories[id].topics);
 
     expect(territoryOrder.map((id) => territories[id].topics.length)).toEqual([
-      4, 5, 4, 4,
+      4, 6, 5, 4,
     ]);
     expect(new Set(allTopicIds).size).toBe(allTopicIds.length);
   });
@@ -33,7 +33,7 @@ describe("graph website workbench model", () => {
       collaborateTopics.filter(
         (topic) => topic.clusterLabel === "LearnGraph partnerships",
       ),
-    ).toHaveLength(2);
+    ).toHaveLength(3);
   });
 
   it("gives every topic a visible editorial state", () => {

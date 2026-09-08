@@ -4,123 +4,100 @@ import type {
   EditorialBrief,
 } from "./types";
 
+const platformCopySource = "Desktop/LG Website/NODE CONTENT/Platform";
 const projectPresentation =
   "source-material/raw/Project Presentation - midi version/LG Project Presentation - ALL PAGES  - mid.docx";
-const legacySummary = "source-material/raw/Websiste legacy content .docx";
 
 export const platformBriefs = [
   {
+    nodeId: "platform-using-learngraph",
+    status: "draft",
+    coreClaim:
+      "LearnGraph is one connected working environment entered through several practical tasks.",
+    tension:
+      "A role-by-role feature inventory would repeat the product while hiding how its working areas connect.",
+    intendedMemory:
+      "I understand where I would enter LearnGraph and what I could do there.",
+    mustShow: [
+      "Atlas to Zone to Skill Library as the shared route",
+      "Cohort and organisation work as branches from the same environment",
+      "Studio as the public-contribution entrance",
+      "Current product interface rather than illustrative mockups",
+    ],
+    availableMaterial: ["Product-tour working brief"],
+    avoid: [
+      "Four isolated persona presentations",
+      "Feature cards",
+      "Invented interface imagery",
+      "Grand closing claim",
+    ],
+    sourceRefs: [projectPresentation],
+  },
+  {
     nodeId: "platform-model",
     status: "draft",
-    coreClaim: "Learning becomes navigable when relationships are visible.",
-    tension:
-      "Most systems separate content, skills, goals, evidence, and progress into inventories that show parts without showing what the parts mean together.",
-    intendedMemory:
-      "A list tells you what exists. A graph can show what it means in relation to something else.",
-    mustShow: ["Position", "Dependency", "Direction", "Possible movement"],
-    availableMaterial: [
-      "A Living Map for Learning",
-      "From Map to Movement",
-      "Beyond the Score",
-      "A future model diagram grounded in the current implementation",
-    ],
-    avoid: [
-      "Feature inventory",
-      "Audience roll-call",
-      "Personalised learning platform",
-      "Connected ecosystem",
-      "Future of education",
-      "Unlocking potential",
-    ],
-    sourceRefs: [projectPresentation, legacySummary],
-  },
-  {
-    nodeId: "platform-personal-paths",
-    status: "draft",
     coreClaim:
-      "A useful learning path begins with a person's actual position, not a generic sequence.",
+      "Learning structures become reusable when their relationships remain first-class data.",
     tension:
-      "Conventional programmes often begin with what is available to deliver rather than what a person already knows, needs, or is trying to reach.",
+      "Courses and catalogues tend to contain learning inside the context that first produced it.",
     intendedMemory:
-      "A path is not a prescribed line. It is movement whose reasons remain visible.",
+      "A journey can begin with one person and remain useful beyond the course, project, or institution that created it.",
     mustShow: [
-      "A real starting position",
-      "A goal and its dependencies",
-      "Why a next step belongs",
-      "How the route can change",
+      "Who can shape a journey",
+      "How one structure can move between contexts",
+      "Relationships as product logic",
     ],
-    availableMaterial: [
-      "Beyond the Score",
-      "From Map to Movement",
-      "Legacy individual-learning synthesis",
-      "A current product walkthrough, still to be selected",
-    ],
-    avoid: [
-      "Automatic personalisation",
-      "One perfect path",
-      "Learner empowerment",
-      "Adaptive-learning magic",
-      "Outcome claims without evidence",
-    ],
-    sourceRefs: [projectPresentation, legacySummary],
-  },
-  {
-    nodeId: "platform-learning-evidence",
-    status: "draft",
-    coreClaim:
-      "Learning should become visible through meaningful work, not be inferred from attendance alone.",
-    tension:
-      "Scores and completion records compress activity into results while often losing the work, judgment, and context behind them.",
-    intendedMemory:
-      "Evidence belongs to the learning structure; it is not a trophy cabinet for LearnGraph.",
-    mustShow: [
-      "What can count as evidence",
-      "Where evidence attaches",
-      "Who can see and assess it",
-      "Whether it can move with the learner",
-    ],
-    availableMaterial: [
-      "Beyond the Score",
-      "Vocational evidence material",
-      "An evidence lifecycle or relationship diagram still to be designed",
-      "ITECH and Bildungszentrum Optimum case candidates, still unverified",
-    ],
-    avoid: [
-      "Confusing learning evidence with proof that LearnGraph works",
-      "Reducing people to scores",
-      "Portability or recognition claims without owner truth",
-      "Logos, testimonials, and decorative metrics",
-    ],
-    sourceRefs: [projectPresentation, legacySummary],
+    availableMaterial: ["A Graph That Grows editorial baseline"],
+    avoid: ["Feature inventory", "Graph as visual metaphor only"],
+    sourceRefs: [`${platformCopySource}/The model.docx`, projectPresentation],
   },
   {
     nodeId: "platform-sovereignty",
     status: "draft",
     coreClaim:
-      "Control over learning infrastructure has to remain operational rather than rhetorical.",
+      "A learner's position should remain granular and useful as their context changes.",
     tension:
-      "Institutions and communities can become dependent on systems they cannot inspect, place, connect, or leave.",
+      "Broad labels and course completion flatten uneven knowledge and strand it inside one programme.",
     intendedMemory:
-      "Sovereignty is proven by the choices that remain possible when requirements or relationships change.",
+      "Learning can outlive the course without averaging the learner into a score.",
     mustShow: [
-      "What can be inspected",
-      "Where the system and data can live",
-      "What can connect to it",
-      "What a credible exit looks like",
+      "Granular differences",
+      "Changing goals and circumstances",
+      "What persists today versus what remains direction",
     ],
-    availableMaterial: [
-      "Project principles around openness and independence",
-      "Protected-context requirements from the Afghan pilot proposal",
-      "Owner-verified technical facts, still pending",
-      "Inspectable artifacts, still pending",
-    ],
+    availableMaterial: ["Learning Sovereignty editorial baseline"],
     avoid: [
-      "Open-source claims inferred from repository visibility",
-      "Self-hosting claims inferred from containerization",
-      "Generic privacy and security assurances",
-      "Long values prose in place of technical facts",
+      "Infrastructure-sovereignty claims",
+      "Cross-institution portability presented without verification",
     ],
-    sourceRefs: [projectPresentation, legacySummary],
+    sourceRefs: [
+      `${platformCopySource}/Learning Sovereignty.docx`,
+      projectPresentation,
+    ],
+  },
+  {
+    nodeId: "platform-inclusive-learning",
+    status: "draft",
+    coreClaim:
+      "A shared learning structure does not require one way of being taught.",
+    tension:
+      "Accessibility is too often added after the learning experience has already chosen one presumed learner.",
+    intendedMemory:
+      "The structure can stay shared while the way into it becomes personal.",
+    mustShow: [
+      "Language variation",
+      "Presentation and guidance variation",
+      "The difference between design condition and accessibility layer",
+    ],
+    availableMaterial: ["Inclusive Learning editorial baseline"],
+    avoid: [
+      "Universal-access claims",
+      "A toolbox list without a human consequence",
+    ],
+    sourceRefs: [
+      `${platformCopySource}/Inclusive Learning.docx`,
+      projectPresentation,
+    ],
   },
 ] as const satisfies readonly EditorialBrief[];
 
@@ -134,81 +111,26 @@ export const platformArtifacts = [
     sourceRefs: [projectPresentation],
   },
   {
-    id: "artifact-platform-path-walkthrough",
+    id: "artifact-platform-inclusive-demo",
     kind: "video",
-    title: "Current personal-path product walkthrough",
+    title: "Adaptive presentation demonstration",
     truthStatus: "requires-verification",
     publicationStatus: "draft",
-    sourceRefs: [projectPresentation],
-  },
-  {
-    id: "artifact-case-itech",
-    kind: "case",
-    title: "ITECH case source pack",
-    truthStatus: "requires-verification",
-    publicationStatus: "hidden",
-    sourceRefs: [legacySummary],
-  },
-  {
-    id: "artifact-case-bildungszentrum-optimum",
-    kind: "case",
-    title: "Bildungszentrum Optimum case source pack",
-    truthStatus: "requires-verification",
-    publicationStatus: "hidden",
-    sourceRefs: [legacySummary],
-  },
-  {
-    id: "artifact-sovereignty-technical-reference",
-    kind: "technical-reference",
-    title: "Verified sovereignty and deployment facts",
-    truthStatus: "requires-verification",
-    publicationStatus: "hidden",
-    sourceRefs: [
-      "docs/architecture/research-open-source-owner-check.md",
-      projectPresentation,
-    ],
+    sourceRefs: [`${platformCopySource}/Inclusive Learning.docx`],
   },
 ] as const satisfies readonly ContentArtifact[];
 
 export const platformRelationships = [
   {
     sourceId: "platform-model",
-    targetId: "platform-personal-paths",
+    targetId: "platform-sovereignty",
     kind: "contributes-to",
-    label: "enables",
+    label: "lets history remain in motion",
   },
   {
-    sourceId: "platform-personal-paths",
-    targetId: "platform-learning-evidence",
-    kind: "depends-on",
-    label: "becomes legible through",
-  },
-  {
-    sourceId: "platform-sovereignty",
-    targetId: "platform-model",
-    kind: "depends-on",
-    label: "constrains how it is deployed",
-  },
-  {
-    sourceId: "platform-sovereignty",
-    targetId: "platform-learning-evidence",
-    kind: "depends-on",
-    label: "protects how it is handled",
-  },
-  {
-    sourceId: "platform-learning-evidence",
-    targetId: "artifact-case-itech",
-    kind: "supported-by",
-  },
-  {
-    sourceId: "platform-learning-evidence",
-    targetId: "artifact-case-bildungszentrum-optimum",
-    kind: "supported-by",
-  },
-  {
-    sourceId: "platform-sovereignty",
-    targetId: "research-open-core",
-    kind: "depends-on",
-    label: "must eventually be substantiated by",
+    sourceId: "platform-model",
+    targetId: "platform-inclusive-learning",
+    kind: "contributes-to",
+    label: "keeps structure shared while presentation changes",
   },
 ] as const satisfies readonly ContentRelationship[];

@@ -1,0 +1,1 @@
+export { editorialContents } from "./editorial";

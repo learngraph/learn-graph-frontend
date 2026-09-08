@@ -1,4 +1,4 @@
-export type NodeKind = "territory" | "cluster" | "topic";
+export type NodeKind = "root" | "territory" | "cluster" | "topic";
 
 export type ArchitectureStatus = "approved" | "provisional" | "reserved";
 export type PublicationStatus = "draft" | "review" | "publishable" | "hidden";
@@ -34,12 +34,127 @@ export interface ContentBlockMeta {
 
 export interface ProseBlock extends ContentBlockMeta {
   type: "prose";
+  kicker?: string;
   paragraphs: string[];
 }
 
 export interface KeyPointsBlock extends ContentBlockMeta {
   type: "key-points";
   items: string[];
+}
+
+export interface StatementsBlock extends ContentBlockMeta {
+  type: "statements";
+  items: Array<{
+    label?: string;
+    text: string;
+  }>;
+}
+
+export interface PullQuoteBlock extends ContentBlockMeta {
+  type: "pull-quote";
+  text: string;
+}
+
+export interface FragmentsBlock extends ContentBlockMeta {
+  type: "fragments";
+  items: Array<{
+    text: string;
+    source?: string;
+  }>;
+}
+
+export interface RosterBlock extends ContentBlockMeta {
+  type: "roster";
+  people: Array<{
+    name: string;
+    role?: string;
+    quote?: string;
+  }>;
+}
+
+export interface CaseStudiesBlock extends ContentBlockMeta {
+  type: "case-studies";
+  cases: Array<{
+    id: string;
+    kicker: string;
+    title: string;
+    teaser: string;
+    lede: string;
+    websiteUrl?: string;
+    websiteLabel?: string;
+    sections: Array<
+      | {
+          type: "prose";
+          paragraphs: string[];
+        }
+      | {
+          type: "quote";
+          text: string;
+          attribution: string;
+        }
+    >;
+  }>;
+}
+
+export interface ProductTourBlock extends ContentBlockMeta {
+  type: "product-tour";
+  roleSummaries: Array<{
+    role: string;
+    introduction: string;
+    destinations: Array<{
+      name: string;
+      job: string;
+    }>;
+  }>;
+  crossCutting: {
+    afterChapterId: string;
+    label: string;
+    introduction: string;
+    items: Array<{
+      name: string;
+      job: string;
+    }>;
+  };
+  chapters: Array<{
+    id: string;
+    label: string;
+    layout: "route" | "system" | "studio";
+    stages: Array<{
+      id: string;
+      name: string;
+      roles: string[];
+      description: string;
+      actions: string[];
+      imageSrc?: string;
+      imageAlt?: string;
+      captureLabel: string;
+    }>;
+  }>;
+}
+
+export interface RelationshipAtlasBlock extends ContentBlockMeta {
+  type: "relationship-atlas";
+  relationships: Array<{
+    name: string;
+    context?: string;
+    introduction: string;
+    theirField: string;
+    sharedWork: string;
+    weight?: "primary" | "secondary";
+  }>;
+  europeanField?: {
+    heading: string;
+    introduction: string;
+    organisations: Array<{
+      name: string;
+      location: string;
+      description: string;
+      quote?: string;
+      attribution?: string;
+    }>;
+    note?: string;
+  };
 }
 
 export interface DiagramBlock extends ContentBlockMeta {
@@ -88,6 +203,13 @@ export interface ActionBlock extends ContentBlockMeta {
 export type ContentBlock =
   | ProseBlock
   | KeyPointsBlock
+  | StatementsBlock
+  | PullQuoteBlock
+  | FragmentsBlock
+  | RosterBlock
+  | CaseStudiesBlock
+  | ProductTourBlock
+  | RelationshipAtlasBlock
   | DiagramBlock
   | MediaBlock
   | TechnicalFactsBlock
@@ -98,6 +220,17 @@ export type ContentBlock =
 export interface NodeContent {
   id: string;
   publicationStatus: PublicationStatus;
+  layout?:
+    | "compact"
+    | "composition"
+    | "editorial"
+    | "index"
+    | "origin"
+    | "impact"
+    | "atlas"
+    | "frontiers"
+    | "product-tour";
+  kicker?: string;
   title?: string;
   lead?: string;
   sourceRefs?: string[];
@@ -146,12 +279,14 @@ export type SupportingMaterialStatus =
 export interface SupportingMaterialNeed {
   kind:
     | "diagram"
+    | "image"
     | "video"
     | "case"
     | "technical-facts"
     | "roster"
     | "relationship-directory"
-    | "application";
+    | "application"
+    | "timeline";
   label: string;
   status: SupportingMaterialStatus;
 }

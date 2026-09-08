@@ -2,61 +2,74 @@ import type { ContentSlot } from "./types";
 
 export const contentSlots = [
   {
+    nodeId: "platform-using-learngraph",
+    sourceAvailability: "project-material",
+    copyStatus: "ready-for-review",
+    workEstimate: "factual-assembly",
+    statusNote:
+      "The product-tour structure is assembled; real interface captures and a current capability check remain.",
+    blockers: [
+      "Replace every capture slot with current product imagery",
+      "Verify each described workflow against the operational product",
+    ],
+    supportingMaterial: [
+      { kind: "image", label: "Atlas interface capture", status: "missing" },
+      { kind: "video", label: "Zone movement capture", status: "missing" },
+      {
+        kind: "image",
+        label: "Skill Library interface capture",
+        status: "missing",
+      },
+      {
+        kind: "image",
+        label: "Cohort and organisation interface captures",
+        status: "missing",
+      },
+      { kind: "image", label: "Studio interface capture", status: "missing" },
+    ],
+  },
+  {
     nodeId: "platform-model",
-    sourceAvailability: "legacy-and-project",
-    copyStatus: "needs-revision",
-    workEstimate: "substantial-revision",
-    statusNote: "Strong ideas exist; no article is approved for reuse.",
-    blockers: ["Current model entities and relationships need confirmation"],
+    sourceAvailability: "project-material",
+    copyStatus: "ready-for-review",
+    workEstimate: "review",
+    statusNote: "Current editorial baseline is ready for product review.",
+    blockers: ["Current authoring roles and graph entities need confirmation"],
     supportingMaterial: [
       { kind: "diagram", label: "Current model diagram", status: "missing" },
     ],
   },
   {
-    nodeId: "platform-personal-paths",
-    sourceAvailability: "legacy-and-project",
-    copyStatus: "needs-revision",
-    workEstimate: "owner-facts-first",
-    statusNote: "Conceptual material exists; the article must be rebuilt.",
-    blockers: ["Current path behaviour needs product confirmation"],
-    supportingMaterial: [
-      {
-        kind: "video",
-        label: "Current product walkthrough",
-        status: "missing",
-      },
-    ],
-  },
-  {
-    nodeId: "platform-learning-evidence",
-    sourceAvailability: "legacy-and-project",
-    copyStatus: "needs-revision",
-    workEstimate: "owner-facts-first",
-    statusNote: "Principle is well sourced; mechanism copy is not ready.",
+    nodeId: "platform-sovereignty",
+    sourceAvailability: "project-material",
+    copyStatus: "ready-for-review",
+    workEstimate: "review",
+    statusNote: "Current editorial baseline is ready for product review.",
     blockers: [
-      "Evidence model, visibility, review, and portability are unknown",
+      "Cross-course and cross-institution persistence needs confirmation",
     ],
     supportingMaterial: [
       {
         kind: "diagram",
-        label: "Evidence lifecycle",
-        status: "blocked",
+        label: "Granular learner-position example",
+        status: "candidate",
       },
-      { kind: "case", label: "Verified contextual case", status: "candidate" },
     ],
   },
   {
-    nodeId: "platform-sovereignty",
-    sourceAvailability: "legacy-and-project",
-    copyStatus: "needs-revision",
-    workEstimate: "owner-facts-first",
-    statusNote: "Values material exists; public copy must follow facts.",
-    blockers: ["Licensing, deployment, data, API, and exit facts are pending"],
+    nodeId: "platform-inclusive-learning",
+    sourceAvailability: "project-material",
+    copyStatus: "ready-for-review",
+    workEstimate: "review",
+    statusNote: "Current editorial baseline is ready for product review.",
+    blockers: [
+      "Current accessibility and neurodiversity controls need confirmation",
+    ],
     supportingMaterial: [
       {
-        kind: "technical-facts",
-        label: "Owner-verified sovereignty facts",
-        status: "blocked",
+        kind: "video",
+        label: "Adaptive presentation demonstration",
+        status: "candidate",
       },
     ],
   },
@@ -153,29 +166,48 @@ export const contentSlots = [
     ],
   },
   {
-    nodeId: "about-why-learngraph",
-    sourceAvailability: "legacy-and-project",
-    copyStatus: "needs-revision",
-    workEstimate: "substantial-revision",
+    nodeId: "collaborate-learning-without-frontiers",
+    sourceAvailability: "project-material",
+    copyStatus: "ready-for-review",
+    workEstimate: "review",
     statusNote:
-      "Strong position material exists; no article is approved unchanged.",
+      "A complete editorial baseline and a current field example are ready for review.",
     blockers: [],
     supportingMaterial: [
       {
-        kind: "diagram",
-        label: "Material versus usable access",
+        kind: "case",
+        label: "Afghanistan language-learning collaboration",
+        status: "available",
+      },
+    ],
+  },
+  {
+    nodeId: "about-origin",
+    sourceAvailability: "project-material",
+    copyStatus: "ready-for-review",
+    workEstimate: "owner-facts-first",
+    statusNote:
+      "The opening is ready for review; the milestone layer is still missing.",
+    blockers: ["Four to six meaningful, verifiable turning points are needed"],
+    supportingMaterial: [
+      {
+        kind: "timeline",
+        label: "Turning points with dates and artifacts",
         status: "missing",
       },
     ],
   },
   {
-    nodeId: "about-founding-commitment",
+    nodeId: "about-access",
     sourceAvailability: "project-material",
-    copyStatus: "not-created",
-    workEstimate: "new-assembly",
+    copyStatus: "needs-revision",
+    workEstimate: "substantial-revision",
     statusNote:
-      "Substantial source material exists; the public chapter is not written.",
-    blockers: ["Public label and exact framing remain open"],
+      "The node has a distinct job; the current body still overlaps Platform.",
+    blockers: [
+      "Public label remains provisional",
+      "Implemented capability, proposed application, and founding commitment must be separated",
+    ],
     supportingMaterial: [
       {
         kind: "application",
@@ -186,11 +218,11 @@ export const contentSlots = [
   },
   {
     nodeId: "about-people",
-    sourceAvailability: "legacy-content",
-    copyStatus: "needs-revision",
+    sourceAvailability: "legacy-and-project",
+    copyStatus: "ready-for-review",
     workEstimate: "factual-assembly",
     statusNote:
-      "Legacy roster exists; every entry requires current attribution.",
+      "The credit-field baseline is ready; incomplete entries remain blocked.",
     blockers: [
       "Current roles, contributions, and publication consent are pending",
     ],
@@ -222,6 +254,34 @@ export const contentSlots = [
         kind: "case",
         label: "ITECH relationship and case",
         status: "candidate",
+      },
+    ],
+  },
+  {
+    nodeId: "about-impact",
+    sourceAvailability: "legacy-content",
+    copyStatus: "ready-for-review",
+    workEstimate: "substantial-revision",
+    statusNote:
+      "Two complete legacy cases are migrated; editorial pruning and outcome review remain.",
+    blockers: [
+      "Case claims, attribution, currentness, and publication permission need confirmation",
+    ],
+    supportingMaterial: [
+      {
+        kind: "case",
+        label: "ITECH case study",
+        status: "available",
+      },
+      {
+        kind: "case",
+        label: "Bildungszentrum Optimum case study",
+        status: "available",
+      },
+      {
+        kind: "technical-facts",
+        label: "Measured outcomes",
+        status: "blocked",
       },
     ],
   },

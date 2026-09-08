@@ -6,6 +6,7 @@ import {
   platformBriefs,
   platformRelationships,
 } from "./platform";
+import { editorialContents } from "./editorialContent";
 
 const approved = {
   architectureStatus: "approved",
@@ -21,13 +22,37 @@ const reserved = {
 
 export const contentGraphNodes = [
   {
+    id: "root-learngraph",
+    kind: "root",
+    slug: "learngraph",
+    canonicalPath: "/",
+    label: "LearnGraph",
+    purpose: "Introduce where LearnGraph came from and what holds it together.",
+    contentId: "content-lg-introduction",
+    ...approved,
+  },
+  {
     id: "territory-platform",
     kind: "territory",
+    parentId: "root-learngraph",
     slug: "platform",
     canonicalPath: "/platform",
     label: "Platform",
     purpose:
       "Explain what LearnGraph is, how it makes learning navigable, and under which conditions people and institutions can trust it.",
+    contentId: "content-platform-introduction",
+    ...approved,
+  },
+  {
+    id: "platform-using-learngraph",
+    kind: "topic",
+    parentId: "territory-platform",
+    slug: "using-learngraph",
+    canonicalPath: "/platform/using-learngraph",
+    label: "Using LearnGraph",
+    purpose:
+      "Give a literal tour of the product, its working areas, and the different kinds of work people can do inside them.",
+    contentId: "content-platform-using-learngraph",
     ...approved,
   },
   {
@@ -39,28 +64,7 @@ export const contentGraphNodes = [
     label: "The model",
     purpose:
       "Explain the connected structure beneath LearnGraph as product logic rather than visual metaphor.",
-    ...approved,
-  },
-  {
-    id: "platform-personal-paths",
-    kind: "topic",
-    parentId: "territory-platform",
-    slug: "personal-paths",
-    canonicalPath: "/platform/personal-paths",
-    label: "Personal paths",
-    purpose:
-      "Show how the shared model becomes legible orientation and adaptable movement for a learner.",
-    ...approved,
-  },
-  {
-    id: "platform-learning-evidence",
-    kind: "topic",
-    parentId: "territory-platform",
-    slug: "evidence",
-    canonicalPath: "/platform/evidence",
-    label: "Learning evidence",
-    purpose:
-      "Explain how work, artifacts, feedback, progress, and demonstrated capability attach to the learning structure.",
+    contentId: "content-platform-model",
     ...approved,
   },
   {
@@ -69,14 +73,28 @@ export const contentGraphNodes = [
     parentId: "territory-platform",
     slug: "sovereignty",
     canonicalPath: "/platform/sovereignty",
-    label: "Sovereignty",
+    label: "Learning Sovereignty",
     purpose:
-      "Explain the control conditions around inspectability, deployment, data location, integration, and exit options.",
+      "Show how a granular learning history can remain useful as goals, journeys, and contexts change.",
+    contentId: "content-platform-sovereignty",
+    ...approved,
+  },
+  {
+    id: "platform-inclusive-learning",
+    kind: "topic",
+    parentId: "territory-platform",
+    slug: "inclusive-learning",
+    canonicalPath: "/platform/inclusive-learning",
+    label: "Inclusive Learning",
+    purpose:
+      "Show how one shared learning structure can support different languages, presentations, and learning needs.",
+    contentId: "content-platform-inclusive-learning",
     ...approved,
   },
   {
     id: "territory-collaborate",
     kind: "territory",
+    parentId: "root-learngraph",
     slug: "collaborate",
     canonicalPath: "/collaborate",
     label: "Collaborate",
@@ -162,37 +180,40 @@ export const contentGraphNodes = [
     ...approved,
   },
   {
+    id: "collaborate-learning-without-frontiers",
+    kind: "topic",
+    parentId: "cluster-learngraph-partnerships",
+    slug: "learning-without-frontiers",
+    canonicalPath: "/collaborate/learning-without-frontiers",
+    label: "Learning Without Frontiers",
+    purpose:
+      "Invite concrete collaboration where access to learning is obstructed by money, language, absent institutions, or political restriction.",
+    contentId: "content-collaborate-learning-without-frontiers",
+    ...approved,
+  },
+  {
     id: "territory-about",
     kind: "territory",
+    parentId: "root-learngraph",
     slug: "about",
     canonicalPath: "/about",
     label: "About",
     purpose:
       "Explain why LearnGraph exists, what informs it, who is responsible, and through which relationships it develops.",
+    contentId: "content-about-introduction",
     ...approved,
   },
   {
-    id: "about-why-learngraph",
+    id: "about-origin",
     kind: "topic",
     parentId: "territory-about",
-    slug: "why-learngraph",
-    canonicalPath: "/about/why-learngraph",
-    label: "Why LearnGraph",
+    slug: "origin",
+    canonicalPath: "/about/origin",
+    label: "Origin",
     purpose:
-      "State the educational thesis that material becomes usable through orientation, relationships, support, and agency.",
+      "Show the turning points through which LearnGraph changed in meaning, reach, or possibility.",
+    contentId: "content-about-origin",
     ...approved,
-  },
-  {
-    id: "about-founding-commitment",
-    kind: "topic",
-    parentId: "territory-about",
-    slug: "founding-commitment",
-    label: "Founding commitment",
-    labelStatus: "open",
-    purpose:
-      "Address obstructed, restricted, unsafe, unequal, or politically constrained learning and provide a serious entry point into relevant work.",
-    architectureStatus: "approved",
-    publicationStatus: "draft",
   },
   {
     id: "about-people",
@@ -203,7 +224,22 @@ export const contentGraphNodes = [
     label: "People",
     purpose:
       "Identify the current people responsible for LearnGraph and the contribution each can factually claim.",
+    contentId: "content-about-people",
     ...approved,
+  },
+  {
+    id: "about-access",
+    kind: "topic",
+    parentId: "territory-about",
+    slug: "access",
+    canonicalPath: "/about/access",
+    label: "Access",
+    labelStatus: "provisional",
+    purpose:
+      "Address what LearnGraph is prepared to confront when learning is obstructed by circumstance, institutions, geography, money, exclusion, or political restriction.",
+    contentId: "content-about-access",
+    architectureStatus: "approved",
+    publicationStatus: "draft",
   },
   {
     id: "about-network",
@@ -214,11 +250,25 @@ export const contentGraphNodes = [
     label: "Network",
     purpose:
       "Give honest context for institutional and collaborative relationships using explicit relationship types.",
+    contentId: "content-about-network",
+    ...approved,
+  },
+  {
+    id: "about-impact",
+    kind: "topic",
+    parentId: "territory-about",
+    slug: "impact",
+    canonicalPath: "/about/impact",
+    label: "Impact",
+    purpose:
+      "Show what changed when LearnGraph entered a real learning or institutional context, through grounded outcomes and case studies.",
+    contentId: "content-about-impact",
     ...approved,
   },
   {
     id: "territory-research-open-source",
     kind: "territory",
+    parentId: "root-learngraph",
     slug: "research",
     canonicalPath: "/research",
     label: "Research / Open Source",
@@ -277,7 +327,7 @@ export const contentGraphRegistry: ContentGraphRegistry = {
   briefs: [...platformBriefs],
   contentSlots: [...contentSlots],
   sourceCandidates: [...sourceCandidates],
-  contents: [],
+  contents: [...editorialContents],
   artifacts: [...platformArtifacts],
   relationships: [...platformRelationships],
 };

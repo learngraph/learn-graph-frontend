@@ -7,7 +7,7 @@ describe("content graph registry", () => {
     expect(validateContentGraph(contentGraphRegistry)).toEqual([]);
   });
 
-  it("models Collaborate through two unequal clusters", () => {
+  it("models Collaborate through its two distinct clusters", () => {
     const clusters = contentGraphRegistry.nodes.filter(
       (node) => node.kind === "cluster",
     );
@@ -22,7 +22,7 @@ describe("content graph registry", () => {
       "cluster-transformation-services",
       "cluster-learngraph-partnerships",
     ]);
-    expect(childCounts).toEqual([3, 2]);
+    expect(childCounts).toEqual([3, 3]);
   });
 
   it("keeps Research / Open Source reserved and hidden", () => {
@@ -48,18 +48,18 @@ describe("content graph registry", () => {
     const buildOffer = contentGraphRegistry.nodes.find(
       (node) => node.id === "collaborate-build-offer",
     );
-    const foundingCommitment = contentGraphRegistry.nodes.find(
-      (node) => node.id === "about-founding-commitment",
+    const access = contentGraphRegistry.nodes.find(
+      (node) => node.id === "about-access",
     );
 
     expect(buildOffer?.architectureStatus).toBe("approved");
     expect(buildOffer?.labelStatus).toBe("provisional");
-    expect(foundingCommitment?.architectureStatus).toBe("approved");
-    expect(foundingCommitment?.labelStatus).toBe("open");
-    expect(foundingCommitment?.canonicalPath).toBeUndefined();
+    expect(access?.architectureStatus).toBe("approved");
+    expect(access?.labelStatus).toBe("provisional");
+    expect(access?.canonicalPath).toBe("/about/access");
   });
 
-  it("holds Platform as argument briefs without premature article copy", () => {
+  it("holds the approved Platform baseline in the typed content graph", () => {
     const platformTopics = contentGraphRegistry.nodes.filter(
       (node) => node.parentId === "territory-platform",
     );
@@ -69,19 +69,55 @@ describe("content graph registry", () => {
 
     expect(platformTopics).toHaveLength(4);
     expect(briefNodeIds).toEqual(platformTopics.map((topic) => topic.id));
-    expect(contentGraphRegistry.contents).toEqual([]);
-    expect(platformTopics.every((topic) => topic.contentId === undefined)).toBe(
+    expect(platformTopics.every((topic) => topic.contentId !== undefined)).toBe(
       true,
     );
+    platformTopics.forEach((topic) => {
+      expect(
+        contentGraphRegistry.contents.some(
+          (content) => content.id === topic.contentId,
+        ),
+      ).toBe(true);
+    });
 
     const unverifiedArtifacts = contentGraphRegistry.artifacts.filter(
       (artifact) => artifact.truthStatus === "requires-verification",
     );
-    expect(unverifiedArtifacts).toHaveLength(5);
+    expect(unverifiedArtifacts).toHaveLength(2);
+  });
+
+  it("models LearnGraph and Platform as content-bearing parents", () => {
+    const root = contentGraphRegistry.nodes.find(
+      (node) => node.id === "root-learngraph",
+    );
+    const platform = contentGraphRegistry.nodes.find(
+      (node) => node.id === "territory-platform",
+    );
+
+    expect(root?.kind).toBe("root");
+    expect(root?.contentId).toBe("content-lg-introduction");
+    expect(platform?.parentId).toBe(root?.id);
+    expect(platform?.contentId).toBe("content-platform-introduction");
+  });
+
+  it("keeps About substance-led and gives Impact its own case-study job", () => {
+    const about = contentGraphRegistry.nodes.find(
+      (node) => node.id === "territory-about",
+    );
+    const aboutTopics = contentGraphRegistry.nodes.filter(
+      (node) => node.parentId === about?.id,
+    );
+
+    expect(about?.contentId).toBe("content-about-introduction");
+    expect(aboutTopics.map((node) => node.id)).toEqual([
+      "about-origin",
+      "about-people",
+      "about-access",
+      "about-network",
+      "about-impact",
+    ]);
     expect(
-      unverifiedArtifacts.some(
-        (artifact) => artifact.publicationStatus === "hidden",
-      ),
+      contentGraphRegistry.nodes.some((node) => node.id === "about-impact"),
     ).toBe(true);
   });
 
@@ -91,8 +127,8 @@ describe("content graph registry", () => {
       .map((node) => node.id);
 
     expect(
-      contentGraphRegistry.contentSlots.map((slot) => slot.nodeId),
-    ).toEqual(topicIds);
+      contentGraphRegistry.contentSlots.map((slot) => slot.nodeId).sort(),
+    ).toEqual([...topicIds].sort());
     expect(
       contentGraphRegistry.contentSlots.some(
         (slot) => slot.copyStatus === "approved",

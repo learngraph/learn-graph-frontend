@@ -6,6 +6,21 @@ const legacyDigest = "Legacy review · Websiste legacy content .docx";
 
 export const sourceCandidates = [
   {
+    id: "source-using-learngraph-product-tour",
+    nodeId: "platform-using-learngraph",
+    title: "Using LearnGraph · product-tour working brief",
+    provenance: "Owner and editorial working session · 8 September 2026",
+    status: "partial",
+    usefulFor:
+      "The shared product route, role signals, operating areas, and required interface captures.",
+    usefulMaterial: [
+      "Atlas, Zone, and Skill Library form the shared learner-facing route.",
+      "Cohort and organisation tools extend the same environment for guided and institutional work.",
+      "Studio provides a distinct route for public graph contribution.",
+      "All workflow statements still require comparison with the operational product before publication.",
+    ],
+  },
+  {
     id: "source-model-living-map",
     nodeId: "platform-model",
     title: "A Living Map for Learning",
@@ -34,7 +49,7 @@ export const sourceCandidates = [
   },
   {
     id: "source-paths-movement",
-    nodeId: "platform-personal-paths",
+    nodeId: "platform-model",
     title: "From Map to Movement",
     provenance: `${presentation} · section 05`,
     status: "strong",
@@ -48,7 +63,7 @@ export const sourceCandidates = [
   },
   {
     id: "source-paths-beyond-score",
-    nodeId: "platform-personal-paths",
+    nodeId: "platform-sovereignty",
     title: "Beyond the Score",
     provenance: `${presentation} · section 02`,
     status: "strong",
@@ -61,7 +76,7 @@ export const sourceCandidates = [
   },
   {
     id: "source-evidence-beyond-score",
-    nodeId: "platform-learning-evidence",
+    nodeId: "platform-sovereignty",
     title: "Beyond the Score",
     provenance: `${presentation} · section 02`,
     status: "strong",
@@ -74,7 +89,7 @@ export const sourceCandidates = [
   },
   {
     id: "source-evidence-vocational",
-    nodeId: "platform-learning-evidence",
+    nodeId: "platform-inclusive-learning",
     title: "Vocational learning and workplace evidence",
     provenance: `${legacyDigest} · vocational school / workplace sections`,
     status: "partial",
@@ -253,33 +268,47 @@ export const sourceCandidates = [
     ],
   },
   {
-    id: "source-why-broader-idea",
-    nodeId: "about-why-learngraph",
-    title: "A Broader Idea of Education",
-    provenance: `${presentation} · section 01`,
+    id: "source-learning-without-frontiers-draft",
+    nodeId: "collaborate-learning-without-frontiers",
+    title: "Learning Without Frontiers · editorial draft 01",
+    provenance: "Owner-provided website copy · 7 September 2026",
     status: "strong",
     usefulFor:
-      "The founding educational position without repeating product mechanics.",
+      "The complete public argument and its current Afghanistan field example.",
     usefulMaterial: [
-      "Free material alone does not create access when orientation, connection, support, and continuity are missing.",
-      "The project begins from making relationships, gaps, progress, and possible next steps usable.",
+      "Four distinct access conditions: money, language, absent institutions, and political restriction.",
+      "A teacher in Afghanistan is currently using LearnGraph for language learning with women whose access to education is severely restricted.",
+      "The collaboration invitation addresses educators, foundations, cultural institutions, and grassroots organisations.",
     ],
   },
   {
-    id: "source-why-orphaned-home",
-    nodeId: "about-why-learngraph",
-    title: "Agency, dignity, and independence",
-    provenance: "Legacy HomeLanding.tsx and home.* translations",
-    status: "verification-required",
-    usefulFor: "A broader mission strand that may still belong to LearnGraph.",
+    id: "source-origin-current-draft",
+    nodeId: "about-origin",
+    title: "Before there was a graph",
+    provenance: "Desktop/LG Website/NODE CONTENT/About/Origin.docx",
+    status: "strong",
+    usefulFor: "The human opening of the origin chapter.",
     usefulMaterial: [
-      "The orphaned page frames technology as something people should use without trading away dignity or independence.",
-      "An owner must decide whether this remains enduring organisational truth.",
+      "The project began through a loose constellation rather than a polished founding narrative.",
+      "The opening names developers, students, educators, activists, and people already working on access to learning.",
+    ],
+  },
+  {
+    id: "source-origin-milestone-brief",
+    nodeId: "about-origin",
+    title: "Milestone collection brief",
+    provenance: "Desktop/LG Website/NODE CONTENT/About/Origin.docx",
+    status: "partial",
+    usefulFor:
+      "Finding four to six moments when the meaning or reach of LearnGraph changed.",
+    usefulMaterial: [
+      "Collect what happened, roughly when, who was involved, why it mattered, and any artifact that can be shown.",
+      "Release dates belong only when they changed what became possible for people.",
     ],
   },
   {
     id: "source-commitment-unequal-conditions",
-    nodeId: "about-founding-commitment",
+    nodeId: "about-access",
     title: "Learning Access Under Unequal Conditions",
     provenance: `${presentation} · Where Potential Gets Buried and section 08`,
     status: "strong",
@@ -293,7 +322,7 @@ export const sourceCandidates = [
   },
   {
     id: "source-commitment-protected-map",
-    nodeId: "about-founding-commitment",
+    nodeId: "about-access",
     title: "Protected Learning Maps project material",
     provenance:
       "Afghan Women Project · project response, programme design, and access-safety model",
@@ -331,6 +360,33 @@ export const sourceCandidates = [
       "The site lists ITECH, Win4SMEs CoVE, All Digital, EGINA, POLITEHNICA București, FETICO, and Nebrija.",
       "Names and logos establish neither current relationship nor endorsement.",
       "The legacy figures of 20 institutions, 200 learners, and 8 countries have no usable provenance.",
+    ],
+  },
+  {
+    id: "source-impact-itech-case",
+    nodeId: "about-impact",
+    title: "ITECH case candidate",
+    provenance: "Deployed legacy website successStories.itech content object",
+    status: "strong",
+    usefulFor:
+      "A vocational-learning case connecting visible paths across school, workshop, and employer contexts.",
+    usefulMaterial: [
+      "The complete legacy narrative and three attributed teacher quotations are available.",
+      "The case centres on visible learning paths, less repeated baseline orientation, more mentoring time, and competence evidence beyond grades.",
+    ],
+  },
+  {
+    id: "source-impact-optimum-case",
+    nodeId: "about-impact",
+    title: "Bildungszentrum Optimum case candidate",
+    provenance:
+      "https://learngraph.org/schools/success-stories/bildungszentrum-optimum",
+    status: "strong",
+    usefulFor:
+      "A tutoring case about visible starting points, differentiated next steps, continuity, and reduced manual sorting.",
+    usefulMaterial: [
+      "The complete legacy narrative, fourth-grade example, and three attributed quotations are available.",
+      "The case centres on systematic personalisation, follow-up, continuity, and protecting educator time for human support.",
     ],
   },
   {

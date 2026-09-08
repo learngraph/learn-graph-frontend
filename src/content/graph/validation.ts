@@ -56,14 +56,17 @@ export function validateContentGraph(registry: ContentGraphRegistry): string[] {
   registry.nodes.forEach((node) => {
     const parent = node.parentId ? nodeById.get(node.parentId) : undefined;
 
-    if (node.kind === "territory" && node.parentId) {
-      errors.push(`Territory ${node.id} cannot have a parent`);
+    if (node.kind === "root" && node.parentId) {
+      errors.push(`Root ${node.id} cannot have a parent`);
     }
-    if (node.kind !== "territory" && !node.parentId) {
+    if (node.kind !== "root" && !node.parentId) {
       errors.push(`${node.kind} ${node.id} must have a parent`);
     }
     if (node.parentId && !parent) {
       errors.push(`Node ${node.id} references missing parent ${node.parentId}`);
+    }
+    if (node.kind === "territory" && parent?.kind !== "root") {
+      errors.push(`Territory ${node.id} must belong to the root`);
     }
     if (node.kind === "cluster" && parent?.kind !== "territory") {
       errors.push(`Cluster ${node.id} must belong to a territory`);
