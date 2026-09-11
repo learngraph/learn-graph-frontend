@@ -77,6 +77,7 @@ export interface CaseStudiesBlock extends ContentBlockMeta {
   type: "case-studies";
   cases: Array<{
     id: string;
+    partner: string;
     kicker: string;
     title: string;
     teaser: string;
@@ -107,7 +108,7 @@ export interface ProductTourBlock extends ContentBlockMeta {
       job: string;
     }>;
   }>;
-  crossCutting: {
+  crossCutting?: {
     afterChapterId: string;
     label: string;
     introduction: string;
@@ -130,6 +131,51 @@ export interface ProductTourBlock extends ContentBlockMeta {
       imageAlt?: string;
       captureLabel: string;
     }>;
+  }>;
+}
+
+export interface ModelSystemBlock extends ContentBlockMeta {
+  type: "model-system";
+  plate: {
+    nodes: Array<{
+      id: string;
+      name: string;
+      description: string;
+    }>;
+    relations: Array<{
+      sourceId: string;
+      targetId: string;
+      label: string;
+      reading: string;
+    }>;
+  };
+  specimen: string;
+  goalTopicId: string;
+  topics: Array<{
+    id: string;
+    name: string;
+    description: string;
+    basic?: boolean;
+  }>;
+  dependencies: Array<{
+    topicId: string;
+    prerequisiteId: string;
+  }>;
+  resources: Array<{
+    topicId: string;
+    name: string;
+    kind: string;
+  }>;
+  views: Array<{
+    id: string;
+    label: string;
+    knownTopicIds: string[];
+    journeyTopicIds: string[];
+    reading: string;
+  }>;
+  findings: Array<{
+    fact: string;
+    meaning: string;
   }>;
 }
 
@@ -209,6 +255,7 @@ export type ContentBlock =
   | RosterBlock
   | CaseStudiesBlock
   | ProductTourBlock
+  | ModelSystemBlock
   | RelationshipAtlasBlock
   | DiagramBlock
   | MediaBlock
@@ -229,6 +276,7 @@ export interface NodeContent {
     | "impact"
     | "atlas"
     | "frontiers"
+    | "model-system"
     | "product-tour";
   kicker?: string;
   title?: string;

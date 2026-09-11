@@ -52,30 +52,6 @@ export const platformBriefs = [
     sourceRefs: [`${platformCopySource}/The model.docx`, projectPresentation],
   },
   {
-    nodeId: "platform-sovereignty",
-    status: "draft",
-    coreClaim:
-      "A learner's position should remain granular and useful as their context changes.",
-    tension:
-      "Broad labels and course completion flatten uneven knowledge and strand it inside one programme.",
-    intendedMemory:
-      "Learning can outlive the course without averaging the learner into a score.",
-    mustShow: [
-      "Granular differences",
-      "Changing goals and circumstances",
-      "What persists today versus what remains direction",
-    ],
-    availableMaterial: ["Learning Sovereignty editorial baseline"],
-    avoid: [
-      "Infrastructure-sovereignty claims",
-      "Cross-institution portability presented without verification",
-    ],
-    sourceRefs: [
-      `${platformCopySource}/Learning Sovereignty.docx`,
-      projectPresentation,
-    ],
-  },
-  {
     nodeId: "platform-inclusive-learning",
     status: "draft",
     coreClaim:
@@ -123,7 +99,7 @@ export const platformArtifacts = [
 export const platformRelationships = [
   {
     sourceId: "platform-model",
-    targetId: "platform-sovereignty",
+    targetId: "learning-access-sovereignty",
     kind: "contributes-to",
     label: "lets history remain in motion",
   },

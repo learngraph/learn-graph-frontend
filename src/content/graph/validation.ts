@@ -93,9 +93,34 @@ export function validateContentGraph(registry: ContentGraphRegistry): string[] {
         `Publishable node ${node.id} needs a canonical path and approved label`,
       );
     }
+    if (
+      node.publicationStatus === "publishable" &&
+      parent &&
+      parent.publicationStatus !== "publishable"
+    ) {
+      errors.push(
+        `Publishable node ${node.id} needs a publishable parent ${parent.id}`,
+      );
+    }
+    if (
+      node.publicationStatus === "publishable" &&
+      node.kind === "topic" &&
+      !node.contentId
+    ) {
+      errors.push(`Publishable topic ${node.id} needs content`);
+    }
     if (node.contentId && !contentById.has(node.contentId)) {
       errors.push(
         `Node ${node.id} references missing content ${node.contentId}`,
+      );
+    }
+    if (
+      node.publicationStatus === "publishable" &&
+      node.contentId &&
+      contentById.get(node.contentId)?.publicationStatus !== "publishable"
+    ) {
+      errors.push(
+        `Publishable node ${node.id} needs publishable content ${node.contentId}`,
       );
     }
   });
@@ -198,4 +223,47 @@ export function visibleArchitectureNodes(
       node.architectureStatus !== "reserved" &&
       node.publicationStatus !== "hidden",
   );
+}
+
+export function publicArchitectureNodes(
+  registry: ContentGraphRegistry,
+): ContentGraphNode[] {
+  const nodeById = new Map(
+    registry.nodes.map((node) => [node.id, node] as const),
+  );
+  const contentById = new Map(
+    registry.contents.map((content) => [content.id, content] as const),
+  );
+  const visibility = new Map<string, boolean>();
+
+  const isPublic = (node: ContentGraphNode): boolean => {
+    const cached = visibility.get(node.id);
+    if (cached !== undefined) return cached;
+
+    const contentIsPublic =
+      !node.contentId ||
+      contentById.get(node.contentId)?.publicationStatus === "publishable";
+    const nodeIsPublic =
+      node.architectureStatus !== "reserved" &&
+      node.publicationStatus === "publishable" &&
+      node.labelStatus === "approved" &&
+      contentIsPublic;
+
+    if (!nodeIsPublic) {
+      visibility.set(node.id, false);
+      return false;
+    }
+
+    if (!node.parentId) {
+      visibility.set(node.id, true);
+      return true;
+    }
+
+    const parent = nodeById.get(node.parentId);
+    const result = parent ? isPublic(parent) : false;
+    visibility.set(node.id, result);
+    return result;
+  };
+
+  return registry.nodes.filter(isPublic);
 }

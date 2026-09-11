@@ -9,11 +9,15 @@ import {
 } from "react-router-dom";
 import {
   pathForTopic,
+  publicTerritoryOrder,
   sourceAvailabilityLabels,
   sourceCandidateStatusLabels,
   territories,
+  territoryIsPublic,
   territoryFromSlug,
   territoryOrder,
+  topicIdsForView,
+  topicIsPublic,
   topicFromRoute,
   topics,
   workEstimateLabels,
@@ -23,6 +27,7 @@ import {
 import { contentGraphRegistry } from "../../content/graph";
 import type {
   CaseStudiesBlock,
+  ModelSystemBlock,
   NodeContent,
   ProductTourBlock,
 } from "../../content/graph";
@@ -34,10 +39,11 @@ interface Point {
 }
 
 const rootPositions: Record<TerritoryId, Point> = {
-  platform: { x: 29, y: 38 },
-  collaborate: { x: 71, y: 38 },
-  about: { x: 29, y: 62 },
-  research: { x: 71, y: 62 },
+  platform: { x: 29, y: 35 },
+  "learning-access": { x: 67, y: 68 },
+  collaborate: { x: 72, y: 31 },
+  about: { x: 27, y: 69 },
+  research: { x: 89, y: 57 },
 };
 
 const topicPositions: Record<TerritoryId, Point[]> = {
@@ -47,13 +53,15 @@ const topicPositions: Record<TerritoryId, Point[]> = {
     { x: 33, y: 12 },
     { x: 7, y: 38 },
   ],
+  "learning-access": [
+    { x: 55, y: 91 },
+    { x: 72, y: 94 },
+    { x: 87, y: 86 },
+  ],
   collaborate: [
     { x: 64, y: 10 },
-    { x: 80, y: 7 },
-    { x: 94, y: 14 },
-    { x: 88, y: 31 },
-    { x: 96, y: 42 },
-    { x: 89, y: 53 },
+    { x: 84, y: 11 },
+    { x: 94, y: 29 },
   ],
   about: [
     { x: 7, y: 62 },
@@ -63,10 +71,10 @@ const topicPositions: Record<TerritoryId, Point[]> = {
     { x: 40, y: 72 },
   ],
   research: [
-    { x: 67, y: 88 },
-    { x: 91, y: 86 },
-    { x: 78, y: 93 },
-    { x: 93, y: 62 },
+    { x: 82, y: 82 },
+    { x: 96, y: 80 },
+    { x: 95, y: 35 },
+    { x: 84, y: 15 },
   ],
 };
 
@@ -151,7 +159,10 @@ function CaseStudyCollection({ block }: { block: CaseStudiesBlock }) {
               <span className="graph-focus__case-number">
                 {String(index + 1).padStart(2, "0")}
               </span>
-              <span className="graph-focus__case-kicker">{caseStudy.kicker}</span>
+              <span className="graph-focus__case-kicker">
+                {caseStudy.kicker}
+              </span>
+              <h3>{caseStudy.partner}</h3>
               <strong>{caseStudy.title}</strong>
               <span className="graph-focus__case-command">
                 {isOpen ? "Collapse story" : "Unfold story"}
@@ -214,22 +225,27 @@ function CaseStudyCollection({ block }: { block: CaseStudiesBlock }) {
 function ProductTour({ block }: { block: ProductTourBlock }) {
   return (
     <div className="graph-focus__product-tour">
-      <div className="graph-focus__tour-roles" aria-label="Ways to use LearnGraph">
-        {block.roleSummaries.map((item) => (
-          <article key={item.role}>
-            <h2>{item.role}</h2>
-            <p>{item.introduction}</p>
-            <ol>
-              {item.destinations.map((destination) => (
-                <li key={destination.name}>
-                  <strong>{destination.name}</strong>
-                  <span>{destination.job}</span>
-                </li>
-              ))}
-            </ol>
-          </article>
-        ))}
-      </div>
+      {block.roleSummaries.length > 0 && (
+        <div
+          className="graph-focus__tour-roles"
+          aria-label="Ways to use LearnGraph"
+        >
+          {block.roleSummaries.map((item) => (
+            <article key={item.role}>
+              <h2>{item.role}</h2>
+              <p>{item.introduction}</p>
+              <ol>
+                {item.destinations.map((destination) => (
+                  <li key={destination.name}>
+                    <strong>{destination.name}</strong>
+                    <span>{destination.job}</span>
+                  </li>
+                ))}
+              </ol>
+            </article>
+          ))}
+        </div>
+      )}
 
       {block.chapters.map((chapter, chapterIndex) => (
         <div key={chapter.id}>
@@ -277,25 +293,210 @@ function ProductTour({ block }: { block: ProductTourBlock }) {
             </div>
           </section>
 
-          {chapter.id === block.crossCutting.afterChapterId && (
-            <aside className="graph-focus__tour-crosscut">
-              <header>
-                <h2>{block.crossCutting.label}</h2>
-                <p>{block.crossCutting.introduction}</p>
-              </header>
-              <div>
-                {block.crossCutting.items.map((item) => (
-                  <article key={item.name}>
-                    <h3>{item.name}</h3>
-                    <p>{item.job}</p>
-                  </article>
-                ))}
-              </div>
-            </aside>
-          )}
+          {block.crossCutting &&
+            chapter.id === block.crossCutting.afterChapterId && (
+              <aside className="graph-focus__tour-crosscut">
+                <header>
+                  <h2>{block.crossCutting.label}</h2>
+                  <p>{block.crossCutting.introduction}</p>
+                </header>
+                <div>
+                  {block.crossCutting.items.map((item) => (
+                    <article key={item.name}>
+                      <h3>{item.name}</h3>
+                      <p>{item.job}</p>
+                    </article>
+                  ))}
+                </div>
+              </aside>
+            )}
         </div>
       ))}
     </div>
+  );
+}
+
+function ModelSystem({ block }: { block: ModelSystemBlock }) {
+  const [hoveredPlateNodeId, setHoveredPlateNodeId] = useState("");
+  const [activeViewId, setActiveViewId] = useState(block.views[0]?.id ?? "");
+  const activeView =
+    block.views.find((view) => view.id === activeViewId) ?? block.views[0];
+  const specimenPositions: Record<string, { x: number; y: number }> = {
+    "light-shadow": { x: 150, y: 125 },
+    "earth-moon-sun": { x: 150, y: 415 },
+    "shadow-cone": { x: 410, y: 125 },
+    "orbital-motion": { x: 410, y: 415 },
+    alignment: { x: 675, y: 270 },
+    "solar-eclipse": { x: 900, y: 270 },
+  };
+
+  if (!activeView) return null;
+
+  return (
+    <section className="graph-focus__model-specimen">
+      <section className="graph-focus__system-plate">
+        <header>
+          <p>SYSTEM PLATE</p>
+        </header>
+
+        <div className="graph-focus__system-field">
+          {hoveredPlateNodeId && (
+            <span
+              aria-hidden="true"
+              className="graph-focus__system-beam"
+              data-panel={hoveredPlateNodeId}
+            />
+          )}
+          <div className="graph-focus__system-core">
+            <strong>LearnGraph</strong>
+            <span>shared relation model</span>
+          </div>
+          {block.plate.nodes.map((node) => (
+            <article
+              className="graph-focus__system-panel"
+              data-panel={node.id}
+              key={node.id}
+              onMouseEnter={() => setHoveredPlateNodeId(node.id)}
+              onMouseLeave={() => setHoveredPlateNodeId("")}
+            >
+              <strong>{node.name}</strong>
+              <span className="graph-focus__system-node-description">
+                {node.description}
+              </span>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="graph-focus__specimen">
+        <header className="graph-focus__specimen-header">
+          <p>ILLUSTRATIVE LEARNING PATH</p>
+          <h3>Make the Sun disappear</h3>
+          <p>
+            A solar eclipse is the goal. Choose what the learner already
+            understands. The required route changes while the concept map stays
+            intact
+          </p>
+        </header>
+
+        <nav
+          aria-label="Choose the learner's starting knowledge"
+          className="graph-focus__specimen-controls"
+        >
+          <p>WHAT DOES THE LEARNER ALREADY KNOW?</p>
+          <div>
+            {block.views.map((view) => (
+              <button
+                aria-pressed={view.id === activeView.id}
+                className={view.id === activeView.id ? "is-active" : ""}
+                key={view.id}
+                onClick={() => setActiveViewId(view.id)}
+                type="button"
+              >
+                <span aria-hidden="true" />
+                {view.label}
+              </button>
+            ))}
+          </div>
+        </nav>
+
+        <div className="graph-focus__specimen-stage">
+          <svg
+            aria-hidden="true"
+            className="graph-focus__specimen-connections"
+            preserveAspectRatio="none"
+            viewBox="0 0 1000 540"
+          >
+            {block.dependencies.map((dependency) => {
+              const source = specimenPositions[dependency.prerequisiteId];
+              const target = specimenPositions[dependency.topicId];
+              const sourceIsKnown = activeView.knownTopicIds.includes(
+                dependency.prerequisiteId,
+              );
+              const targetIsKnown = activeView.knownTopicIds.includes(
+                dependency.topicId,
+              );
+              const sourceIsRequired = activeView.journeyTopicIds.includes(
+                dependency.prerequisiteId,
+              );
+              const targetIsRequired = activeView.journeyTopicIds.includes(
+                dependency.topicId,
+              );
+              const isRequired =
+                targetIsRequired && (sourceIsRequired || sourceIsKnown);
+              const isKnown = sourceIsKnown && targetIsKnown;
+
+              if (!source || !target) return null;
+
+              return (
+                <line
+                  className={`${isRequired ? "is-required" : ""} ${isKnown ? "is-known" : ""}`}
+                  key={`${dependency.prerequisiteId}-${dependency.topicId}`}
+                  x1={source.x}
+                  x2={target.x}
+                  y1={source.y}
+                  y2={target.y}
+                />
+              );
+            })}
+          </svg>
+
+          {block.topics.map((topic) => {
+            const isKnown = activeView.knownTopicIds.includes(topic.id);
+            const isRequired = activeView.journeyTopicIds.includes(topic.id);
+            const prerequisites = block.dependencies.filter(
+              (dependency) => dependency.topicId === topic.id,
+            );
+            const isStart =
+              isRequired &&
+              (prerequisites.length === 0 ||
+                prerequisites.every((dependency) =>
+                  activeView.knownTopicIds.includes(dependency.prerequisiteId),
+                ));
+            const isGoal = topic.id === block.goalTopicId;
+
+            return (
+              <article
+                className={`${isKnown ? "is-known" : ""} ${isRequired ? "is-required" : ""} ${isStart ? "is-start" : ""} ${isGoal ? "is-goal" : ""}`}
+                data-topic={topic.id}
+                key={topic.id}
+              >
+                {isGoal && (
+                  <span
+                    aria-hidden="true"
+                    className="graph-focus__specimen-eclipse"
+                  >
+                    <i />
+                  </span>
+                )}
+                <div>
+                  <h4>{topic.name}</h4>
+                  <p>{topic.description}</p>
+                </div>
+                <p className="graph-focus__specimen-position">
+                  {isGoal
+                    ? "GOAL"
+                    : isKnown
+                      ? "ALREADY KNOWN"
+                      : isStart
+                        ? "START HERE"
+                        : isRequired
+                          ? "REQUIRED"
+                          : "NOT NEEDED"}
+                </p>
+              </article>
+            );
+          })}
+        </div>
+
+        <footer className="graph-focus__specimen-reading" aria-live="polite">
+          <p>{activeView.reading}</p>
+          <span>
+            {activeView.journeyTopicIds.length} concepts remain on this route
+          </span>
+        </footer>
+      </section>
+    </section>
   );
 }
 
@@ -410,6 +611,12 @@ function EditorialContent({
             );
           }
 
+          if (block.type === "model-system") {
+            return (
+              <ModelSystem block={block} key={`${content.id}-${blockIndex}`} />
+            );
+          }
+
           if (block.type === "relationship-atlas") {
             return (
               <div className="graph-focus__atlas" key={blockIndex}>
@@ -424,7 +631,9 @@ function EditorialContent({
                         <span>{String(index + 1).padStart(2, "0")}</span>
                         <div>
                           <h3>{relationship.name}</h3>
-                          {relationship.context && <p>{relationship.context}</p>}
+                          {relationship.context && (
+                            <p>{relationship.context}</p>
+                          )}
                         </div>
                       </header>
                       <p className="graph-focus__atlas-intro">
@@ -435,7 +644,10 @@ function EditorialContent({
                           <span>Their field</span>
                           {relationship.theirField}
                         </p>
-                        <span className="graph-focus__atlas-axis" aria-hidden="true">
+                        <span
+                          className="graph-focus__atlas-axis"
+                          aria-hidden="true"
+                        >
                           <i />
                           <i />
                         </span>
@@ -513,12 +725,31 @@ export default function GraphWebsite() {
     topicSlug?: string;
   }>();
   const palette = searchParams.get("palette") === "blue" ? "blue" : "green";
+  const publicPreview = searchParams.get("view") === "public";
+  const editorialView = import.meta.env.DEV && !publicPreview;
+  const displayedTerritoryOrder = editorialView
+    ? territoryOrder
+    : publicTerritoryOrder;
+  const navigationParams = new URLSearchParams();
+  if (palette === "blue") navigationParams.set("palette", "blue");
+  if (publicPreview) navigationParams.set("view", "public");
+  const navigationQuery = navigationParams.toString();
+  const navigationSearch = navigationQuery ? `?${navigationQuery}` : "";
   const graphRef = useRef<HTMLElement>(null);
   const focusRef = useRef<HTMLElement>(null);
   const focusRevealTimerRef = useRef<number | null>(null);
   const requestedFocus = searchParams.get("focus");
-  const routedTerritory = territoryFromSlug(territorySlug);
-  const routedTopic = topicFromRoute(routedTerritory, topicSlug);
+  const requestedTerritory = territoryFromSlug(territorySlug);
+  const routedTerritory =
+    requestedTerritory &&
+    (editorialView || territoryIsPublic(requestedTerritory.id))
+      ? requestedTerritory
+      : undefined;
+  const requestedTopic = topicFromRoute(routedTerritory, topicSlug);
+  const routedTopic =
+    requestedTopic && (editorialView || topicIsPublic(requestedTopic.id))
+      ? requestedTopic
+      : undefined;
   const selectedTopicId = routedTopic?.id;
   const selectedTopic = selectedTopicId ? topics[selectedTopicId] : undefined;
   const selectedBrief = contentGraphRegistry.briefs.find(
@@ -527,18 +758,26 @@ export default function GraphWebsite() {
   const selectedTerritory = routedTopic?.territory ?? routedTerritory?.id;
   const expandedTerritory = routedTerritory?.id ?? null;
   const activeTopics = expandedTerritory
-    ? territories[expandedTerritory].topics.map((topicId) => topics[topicId])
+    ? topicIdsForView(expandedTerritory, editorialView).map(
+        (topicId) => topics[topicId],
+      )
     : [];
   const selectedNodeId =
     selectedTopicId ?? routedTerritory?.nodeId ?? "root-learngraph";
   const selectedNode = contentGraphRegistry.nodes.find(
     (node) => node.id === selectedNodeId,
   );
-  const selectedContent = selectedNode?.contentId
+  const selectedContentCandidate = selectedNode?.contentId
     ? contentGraphRegistry.contents.find(
         (content) => content.id === selectedNode.contentId,
       )
     : undefined;
+  const selectedContent =
+    selectedContentCandidate &&
+    (editorialView ||
+      selectedContentCandidate.publicationStatus === "publishable")
+      ? selectedContentCandidate
+      : undefined;
 
   useEffect(
     () => () => {
@@ -553,7 +792,7 @@ export default function GraphWebsite() {
     const topic = topics[topicId];
     navigate({
       pathname: pathForTopic(topic),
-      search: palette === "blue" ? "?palette=blue" : "",
+      search: navigationSearch,
     });
     if (!reveal) return;
 
@@ -588,14 +827,14 @@ export default function GraphWebsite() {
     if (expandedTerritory === territoryId && !selectedTopicId) {
       navigate({
         pathname: "/",
-        search: palette === "blue" ? "?palette=blue" : "",
+        search: navigationSearch,
       });
       return;
     }
 
     navigate({
       pathname: `/${territories[territoryId].slug}`,
-      search: palette === "blue" ? "?palette=blue" : "",
+      search: navigationSearch,
     });
   };
 
@@ -622,22 +861,21 @@ export default function GraphWebsite() {
   }
 
   if (territorySlug && !routedTerritory) {
-    return (
-      <Navigate to={palette === "blue" ? "/?palette=blue" : "/"} replace />
-    );
+    return <Navigate to={`/${navigationSearch}`} replace />;
   }
 
   if (topicSlug && !routedTopic && routedTerritory) {
     return (
-      <Navigate
-        to={`/${routedTerritory.slug}${palette === "blue" ? "?palette=blue" : ""}`}
-        replace
-      />
+      <Navigate to={`/${routedTerritory.slug}${navigationSearch}`} replace />
     );
   }
 
   return (
-    <main className="graph-site" data-palette={palette}>
+    <main
+      className="graph-site"
+      data-palette={palette}
+      data-view={editorialView ? "editorial" : "public"}
+    >
       <header className="graph-site__masthead">
         <button
           type="button"
@@ -645,7 +883,7 @@ export default function GraphWebsite() {
           onClick={() =>
             navigate({
               pathname: "/",
-              search: palette === "blue" ? "?palette=blue" : "",
+              search: navigationSearch,
             })
           }
           aria-label="Return to the beginning"
@@ -687,7 +925,7 @@ export default function GraphWebsite() {
             preserveAspectRatio="none"
             aria-hidden="true"
           >
-            {territoryOrder.map((territoryId) => (
+            {displayedTerritoryOrder.map((territoryId) => (
               <Edge
                 key={territoryId}
                 from={{ x: 50, y: 50 }}
@@ -712,7 +950,7 @@ export default function GraphWebsite() {
             onClick={() =>
               navigate({
                 pathname: "/",
-                search: palette === "blue" ? "?palette=blue" : "",
+                search: navigationSearch,
               })
             }
             aria-pressed={selectedNodeId === "root-learngraph"}
@@ -721,7 +959,7 @@ export default function GraphWebsite() {
             <span>LG</span>
           </button>
 
-          {territoryOrder.map((territoryId) => {
+          {displayedTerritoryOrder.map((territoryId) => {
             const territory = territories[territoryId];
             return (
               <GraphNode
@@ -765,14 +1003,14 @@ export default function GraphWebsite() {
             onClick={() =>
               navigate({
                 pathname: "/",
-                search: palette === "blue" ? "?palette=blue" : "",
+                search: navigationSearch,
               })
             }
           >
             LEARNGRAPH
           </button>
           <div className="graph-mobile-territories" aria-label="Territories">
-            {territoryOrder.map((territoryId) => (
+            {displayedTerritoryOrder.map((territoryId) => (
               <button
                 type="button"
                 key={territoryId}
@@ -811,7 +1049,7 @@ export default function GraphWebsite() {
         <section
           id="editorial-workbench"
           ref={focusRef}
-          className={`graph-focus ${selectedContent?.layout === "atlas" ? "graph-focus--atlas" : ""} ${selectedContent?.layout === "impact" ? "graph-focus--impact" : ""} ${selectedContent?.layout === "frontiers" ? "graph-focus--frontiers" : ""} ${selectedContent?.layout === "product-tour" ? "graph-focus--product-tour" : ""}`}
+          className={`graph-focus ${selectedContent?.layout === "atlas" ? "graph-focus--atlas" : ""} ${selectedContent?.layout === "impact" ? "graph-focus--impact" : ""} ${selectedContent?.layout === "frontiers" ? "graph-focus--frontiers" : ""} ${selectedContent?.layout === "product-tour" ? "graph-focus--product-tour" : ""} ${selectedContent?.layout === "model-system" ? "graph-focus--model-system" : ""}`}
           aria-live="polite"
         >
           <div className="graph-focus__rail">
@@ -819,12 +1057,13 @@ export default function GraphWebsite() {
             <span className="graph-focus__index">
               {selectedTopicId && selectedTerritory
                 ? `${String(
-                    territories[selectedTerritory].topics.indexOf(
-                      selectedTopicId,
+                    activeTopics.findIndex(
+                      (topic) => topic.id === selectedTopicId,
                     ) + 1,
-                  ).padStart(2, "0")}/${String(
-                    territories[selectedTerritory].topics.length,
-                  ).padStart(2, "0")}`
+                  ).padStart(2, "0")}/${String(activeTopics.length).padStart(
+                    2,
+                    "0",
+                  )}`
                 : selectedTerritory
                   ? "Territory"
                   : "Root"}

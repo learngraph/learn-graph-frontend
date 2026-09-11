@@ -1,28 +1,33 @@
 import { describe, expect, it } from "vitest";
 import { contentGraphRegistry } from "./registry";
-import { validateContentGraph, visibleArchitectureNodes } from "./validation";
+import {
+  publicArchitectureNodes,
+  validateContentGraph,
+  visibleArchitectureNodes,
+} from "./validation";
 
 describe("content graph registry", () => {
   it("passes structural validation", () => {
     expect(validateContentGraph(contentGraphRegistry)).toEqual([]);
   });
 
-  it("models Collaborate through its two distinct clusters", () => {
+  it("keeps Collaborate direct while its service architecture is being resolved", () => {
     const clusters = contentGraphRegistry.nodes.filter(
       (node) => node.kind === "cluster",
     );
-    const childCounts = clusters.map(
-      (cluster) =>
-        contentGraphRegistry.nodes.filter(
-          (node) => node.parentId === cluster.id,
-        ).length,
+    const collaborateTopics = contentGraphRegistry.nodes.filter(
+      (node) => node.parentId === "territory-collaborate",
     );
 
-    expect(clusters.map((cluster) => cluster.id)).toEqual([
-      "cluster-transformation-services",
-      "cluster-learngraph-partnerships",
+    expect(clusters).toHaveLength(0);
+    expect(collaborateTopics.map((topic) => topic.id)).toEqual([
+      "collaborate-services",
+      "collaborate-pilot-learngraph",
+      "collaborate-implementation-partnerships",
     ]);
-    expect(childCounts).toEqual([3, 3]);
+    expect(collaborateTopics[0]?.contentId).toBe(
+      "content-collaborate-services-workbench",
+    );
   });
 
   it("keeps Research / Open Source reserved and hidden", () => {
@@ -44,30 +49,64 @@ describe("content graph registry", () => {
     ).toBe(false);
   });
 
+  it("publishes only complete branches with approved content", () => {
+    const publicNodeIds = new Set([
+      "root-learngraph",
+      "territory-platform",
+      "platform-using-learngraph",
+    ]);
+    const publicContentIds = new Set([
+      "content-lg-introduction",
+      "content-platform-introduction",
+      "content-platform-using-learngraph",
+    ]);
+    const registry = {
+      ...contentGraphRegistry,
+      nodes: contentGraphRegistry.nodes.map((node) => ({
+        ...node,
+        publicationStatus: publicNodeIds.has(node.id)
+          ? ("publishable" as const)
+          : node.publicationStatus,
+      })),
+      contents: contentGraphRegistry.contents.map((content) => ({
+        ...content,
+        publicationStatus: publicContentIds.has(content.id)
+          ? ("publishable" as const)
+          : content.publicationStatus,
+      })),
+    };
+
+    expect(publicArchitectureNodes(registry).map((node) => node.id)).toEqual([
+      "root-learngraph",
+      "territory-platform",
+      "platform-using-learngraph",
+    ]);
+  });
+
   it("preserves approved concepts whose public labels remain unresolved", () => {
-    const buildOffer = contentGraphRegistry.nodes.find(
-      (node) => node.id === "collaborate-build-offer",
+    const services = contentGraphRegistry.nodes.find(
+      (node) => node.id === "collaborate-services",
     );
     const access = contentGraphRegistry.nodes.find(
-      (node) => node.id === "about-access",
+      (node) => node.id === "learning-access",
     );
 
-    expect(buildOffer?.architectureStatus).toBe("approved");
-    expect(buildOffer?.labelStatus).toBe("provisional");
+    expect(services?.architectureStatus).toBe("approved");
+    expect(services?.labelStatus).toBe("provisional");
     expect(access?.architectureStatus).toBe("approved");
     expect(access?.labelStatus).toBe("provisional");
-    expect(access?.canonicalPath).toBe("/about/access");
+    expect(access?.canonicalPath).toBe("/who-gets-to-learn/access");
   });
 
   it("holds the approved Platform baseline in the typed content graph", () => {
     const platformTopics = contentGraphRegistry.nodes.filter(
       (node) => node.parentId === "territory-platform",
     );
-    const briefNodeIds = contentGraphRegistry.briefs.map(
-      (brief) => brief.nodeId,
-    );
+    const briefNodeIds = contentGraphRegistry.briefs
+      .map((brief) => brief.nodeId)
+      .filter((nodeId) => platformTopics.some((topic) => topic.id === nodeId));
 
-    expect(platformTopics).toHaveLength(4);
+    expect(platformTopics).toHaveLength(3);
     expect(briefNodeIds).toEqual(platformTopics.map((topic) => topic.id));
     expect(platformTopics.every((topic) => topic.contentId !== undefined)).toBe(
       true,
@@ -112,13 +151,33 @@ describe("content graph registry", () => {
     expect(aboutTopics.map((node) => node.id)).toEqual([
       "about-origin",
       "about-people",
-      "about-access",
       "about-network",
       "about-impact",
     ]);
     expect(
       contentGraphRegistry.nodes.some((node) => node.id === "about-impact"),
     ).toBe(true);
+  });
+
+  it("separates learning access from About, Collaborate, and Platform behaviour", () => {
+    const territory = contentGraphRegistry.nodes.find(
+      (node) => node.id === "territory-learning-access",
+    );
+    const territoryTopics = contentGraphRegistry.nodes.filter(
+      (node) => node.parentId === territory?.id,
+    );
+
+    expect(territory?.contentId).toBe("content-learning-access-introduction");
+    expect(territoryTopics.map((node) => node.id)).toEqual([
+      "learning-access",
+      "learning-access-sovereignty",
+      "learning-access-frontiers",
+    ]);
+    expect(
+      contentGraphRegistry.nodes.find(
+        (node) => node.id === "platform-inclusive-learning",
+      )?.parentId,
+    ).toBe("territory-platform");
   });
 
   it("tracks an explicit editorial state for every topic", () => {

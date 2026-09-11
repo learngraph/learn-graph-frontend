@@ -63,7 +63,7 @@ export const sourceCandidates = [
   },
   {
     id: "source-paths-beyond-score",
-    nodeId: "platform-sovereignty",
+    nodeId: "learning-access-sovereignty",
     title: "Beyond the Score",
     provenance: `${presentation} · section 02`,
     status: "strong",
@@ -76,7 +76,7 @@ export const sourceCandidates = [
   },
   {
     id: "source-evidence-beyond-score",
-    nodeId: "platform-sovereignty",
+    nodeId: "learning-access-sovereignty",
     title: "Beyond the Score",
     provenance: `${presentation} · section 02`,
     status: "strong",
@@ -102,7 +102,7 @@ export const sourceCandidates = [
   },
   {
     id: "source-sovereignty-independence",
-    nodeId: "platform-sovereignty",
+    nodeId: "learning-access-sovereignty",
     title: "Independence and open-core direction",
     provenance: `${legacyDigest} · open core / institutional independence synthesis`,
     status: "verification-required",
@@ -116,7 +116,7 @@ export const sourceCandidates = [
   },
   {
     id: "source-sovereignty-protected-context",
-    nodeId: "platform-sovereignty",
+    nodeId: "learning-access-sovereignty",
     title: "Protected-context requirements",
     provenance:
       "Afghan Women Project · v1_06 access-safety model and v1_03 project response",
@@ -131,7 +131,7 @@ export const sourceCandidates = [
   },
   {
     id: "source-constraint-service",
-    nodeId: "collaborate-find-constraint",
+    nodeId: "collaborate-services",
     title: "Process clarity offer",
     provenance:
       "Legacy service page · service.hero, service.pressure, service.offers.clarity",
@@ -146,7 +146,7 @@ export const sourceCandidates = [
   },
   {
     id: "source-constraint-experience",
-    nodeId: "collaborate-find-constraint",
+    nodeId: "collaborate-services",
     title: "Energy / critical-infrastructure experience",
     provenance: "Legacy inventory · LEG-SRV-005",
     status: "verification-required",
@@ -159,7 +159,7 @@ export const sourceCandidates = [
   },
   {
     id: "source-automation-service",
-    nodeId: "collaborate-reduce-manual-load",
+    nodeId: "collaborate-services",
     title: "Structured automation offer",
     provenance:
       "Legacy service page · service.pressure, service.compliance, service.offers.automation",
@@ -174,7 +174,7 @@ export const sourceCandidates = [
   },
   {
     id: "source-automation-current-draft",
-    nodeId: "collaborate-reduce-manual-load",
+    nodeId: "collaborate-services",
     title: "Current graph-site draft",
     provenance: "src/content/nodes/work/reduce-manual-load.ts",
     status: "partial",
@@ -187,7 +187,7 @@ export const sourceCandidates = [
   },
   {
     id: "source-offer-service",
-    nodeId: "collaborate-build-offer",
+    nodeId: "collaborate-services",
     title: "Product and service development offer",
     provenance:
       "Legacy service page · service.pressure.cards.four and service.offers.product",
@@ -202,7 +202,7 @@ export const sourceCandidates = [
   },
   {
     id: "source-offer-current-draft",
-    nodeId: "collaborate-build-offer",
+    nodeId: "collaborate-services",
     title: "Current graph-site draft",
     provenance: "src/content/nodes/work/build-the-offer.ts",
     status: "partial",
@@ -269,7 +269,7 @@ export const sourceCandidates = [
   },
   {
     id: "source-learning-without-frontiers-draft",
-    nodeId: "collaborate-learning-without-frontiers",
+    nodeId: "learning-access-frontiers",
     title: "Learning Without Frontiers · editorial draft 01",
     provenance: "Owner-provided website copy · 7 September 2026",
     status: "strong",
@@ -308,7 +308,7 @@ export const sourceCandidates = [
   },
   {
     id: "source-commitment-unequal-conditions",
-    nodeId: "about-access",
+    nodeId: "learning-access",
     title: "Learning Access Under Unequal Conditions",
     provenance: `${presentation} · Where Potential Gets Buried and section 08`,
     status: "strong",
@@ -322,7 +322,7 @@ export const sourceCandidates = [
   },
   {
     id: "source-commitment-protected-map",
-    nodeId: "about-access",
+    nodeId: "learning-access",
     title: "Protected Learning Maps project material",
     provenance:
       "Afghan Women Project · project response, programme design, and access-safety model",

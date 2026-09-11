@@ -40,7 +40,7 @@ export const contentSlots = [
     ],
   },
   {
-    nodeId: "platform-sovereignty",
+    nodeId: "learning-access-sovereignty",
     sourceAvailability: "project-material",
     copyStatus: "ready-for-review",
     workEstimate: "review",
@@ -74,56 +74,23 @@ export const contentSlots = [
     ],
   },
   {
-    nodeId: "collaborate-find-constraint",
+    nodeId: "collaborate-services",
     sourceAvailability: "legacy-content",
-    copyStatus: "needs-revision",
-    workEstimate: "substantial-revision",
+    copyStatus: "not-created",
+    workEstimate: "new-assembly",
     statusNote:
-      "A coherent offer exists in legacy material; it needs rebuilding.",
-    blockers: ["Named experience and deliverable boundary need confirmation"],
-    supportingMaterial: [
-      {
-        kind: "diagram",
-        label: "Diagnostic and output pattern",
-        status: "missing",
-      },
-      {
-        kind: "case",
-        label: "Verified experience artifact",
-        status: "blocked",
-      },
-    ],
-  },
-  {
-    nodeId: "collaborate-reduce-manual-load",
-    sourceAvailability: "legacy-content",
-    copyStatus: "needs-revision",
-    workEstimate: "substantial-revision",
-    statusNote: "Usable service logic exists; claims and form need revision.",
-    blockers: ["Automation scope and outcome claims need verification"],
-    supportingMaterial: [
-      { kind: "diagram", label: "Implementation pattern", status: "missing" },
-      { kind: "case", label: "Verified delivery case", status: "blocked" },
-    ],
-  },
-  {
-    nodeId: "collaborate-build-offer",
-    sourceAvailability: "legacy-content",
-    copyStatus: "needs-revision",
-    workEstimate: "substantial-revision",
-    statusNote:
-      "Offer material exists; public label and distinction need work.",
+      "The weekend workshop is sorting raw service material into coherent offers.",
     blockers: [
-      "Public label remains provisional",
-      "No publishable case is established",
+      "No offer family has survived the shared workshop test yet",
+      "Relationship to LearnGraph and delivery ownership remain unresolved",
     ],
     supportingMaterial: [
       {
         kind: "diagram",
-        label: "Discovery-to-release sequence",
-        status: "missing",
+        label: "Offer-family map",
+        status: "candidate",
       },
-      { kind: "case", label: "Verified build artifact", status: "blocked" },
+      { kind: "case", label: "Verified service examples", status: "blocked" },
     ],
   },
   {
@@ -166,7 +133,7 @@ export const contentSlots = [
     ],
   },
   {
-    nodeId: "collaborate-learning-without-frontiers",
+    nodeId: "learning-access-frontiers",
     sourceAvailability: "project-material",
     copyStatus: "ready-for-review",
     workEstimate: "review",
@@ -198,7 +165,7 @@ export const contentSlots = [
     ],
   },
   {
-    nodeId: "about-access",
+    nodeId: "learning-access",
     sourceAvailability: "project-material",
     copyStatus: "needs-revision",
     workEstimate: "substantial-revision",

@@ -1,7 +1,7 @@
 import type { NodeContent } from "../../types";
 
 export const learningWithoutFrontiersContent = {
-  id: "content-collaborate-learning-without-frontiers",
+  id: "content-learning-access-frontiers",
   publicationStatus: "review",
   layout: "frontiers",
   lead: "Access to education still depends far too much on where someone was born, what they can afford and which institutions happen to be available to them.",

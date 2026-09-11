@@ -7,6 +7,7 @@ import {
   platformRelationships,
 } from "./platform";
 import { editorialContents } from "./editorialContent";
+import { learningAccessBriefs } from "./learningAccess";
 
 const approved = {
   architectureStatus: "approved",
@@ -68,18 +69,6 @@ export const contentGraphNodes = [
     ...approved,
   },
   {
-    id: "platform-sovereignty",
-    kind: "topic",
-    parentId: "territory-platform",
-    slug: "sovereignty",
-    canonicalPath: "/platform/sovereignty",
-    label: "Learning Sovereignty",
-    purpose:
-      "Show how a granular learning history can remain useful as goals, journeys, and contexts change.",
-    contentId: "content-platform-sovereignty",
-    ...approved,
-  },
-  {
     id: "platform-inclusive-learning",
     kind: "topic",
     parentId: "territory-platform",
@@ -103,64 +92,23 @@ export const contentGraphNodes = [
     ...approved,
   },
   {
-    id: "cluster-transformation-services",
-    kind: "cluster",
+    id: "collaborate-services",
+    kind: "topic",
     parentId: "territory-collaborate",
-    slug: "transformation-services",
-    label: "Transformation services",
-    purpose:
-      "Group the team's distinct offers for organisational process, automation, and product or service work.",
-    ...approved,
-  },
-  {
-    id: "collaborate-find-constraint",
-    kind: "topic",
-    parentId: "cluster-transformation-services",
-    slug: "find-the-constraint",
-    canonicalPath: "/collaborate/find-the-constraint",
-    label: "Find the constraint",
-    purpose:
-      "Make one consequential workflow, its dependencies, ownership, constraints, and first viable intervention visible.",
-    ...approved,
-  },
-  {
-    id: "collaborate-reduce-manual-load",
-    kind: "topic",
-    parentId: "cluster-transformation-services",
-    slug: "reduce-manual-load",
-    canonicalPath: "/collaborate/reduce-manual-load",
-    label: "Reduce manual load",
-    purpose:
-      "Explain how operational load can be reduced without creating another opaque or fragile system.",
-    ...approved,
-  },
-  {
-    id: "collaborate-build-offer",
-    kind: "topic",
-    parentId: "cluster-transformation-services",
-    slug: "build-the-offer",
-    canonicalPath: "/collaborate/build-the-offer",
-    label: "Build the offer",
+    slug: "services",
+    canonicalPath: "/collaborate/services",
+    label: "Services",
     labelStatus: "provisional",
     purpose:
-      "Turn an insufficiently defined product or service idea into a coherent proposition and viable first version.",
+      "Sort the work the team can genuinely provide into offers that an outside person can understand, request, and receive.",
+    contentId: "content-collaborate-services-workbench",
     architectureStatus: "approved",
     publicationStatus: "draft",
   },
   {
-    id: "cluster-learngraph-partnerships",
-    kind: "cluster",
-    parentId: "territory-collaborate",
-    slug: "learngraph-partnerships",
-    label: "LearnGraph partnerships",
-    purpose:
-      "Group bounded LearnGraph applications and the partnership structures needed to implement them responsibly.",
-    ...approved,
-  },
-  {
     id: "collaborate-pilot-learngraph",
     kind: "topic",
-    parentId: "cluster-learngraph-partnerships",
+    parentId: "territory-collaborate",
     slug: "pilots",
     canonicalPath: "/collaborate/pilots",
     label: "Pilot LearnGraph",
@@ -171,7 +119,7 @@ export const contentGraphNodes = [
   {
     id: "collaborate-implementation-partnerships",
     kind: "topic",
-    parentId: "cluster-learngraph-partnerships",
+    parentId: "territory-collaborate",
     slug: "partnerships",
     canonicalPath: "/collaborate/partnerships",
     label: "Implementation partnerships",
@@ -180,15 +128,53 @@ export const contentGraphNodes = [
     ...approved,
   },
   {
-    id: "collaborate-learning-without-frontiers",
+    id: "territory-learning-access",
+    kind: "territory",
+    parentId: "root-learngraph",
+    slug: "who-gets-to-learn",
+    canonicalPath: "/who-gets-to-learn",
+    label: "Who Gets to Learn",
+    purpose:
+      "Examine the conditions that decide who can begin learning, continue, and carry knowledge forward.",
+    contentId: "content-learning-access-introduction",
+    ...approved,
+  },
+  {
+    id: "learning-access",
     kind: "topic",
-    parentId: "cluster-learngraph-partnerships",
+    parentId: "territory-learning-access",
+    slug: "access",
+    canonicalPath: "/who-gets-to-learn/access",
+    label: "Access",
+    labelStatus: "provisional",
+    purpose:
+      "Address what LearnGraph is prepared to confront when learning is obstructed by circumstance, institutions, geography, money, exclusion, or political restriction.",
+    contentId: "content-learning-access",
+    architectureStatus: "approved",
+    publicationStatus: "draft",
+  },
+  {
+    id: "learning-access-sovereignty",
+    kind: "topic",
+    parentId: "territory-learning-access",
+    slug: "learning-sovereignty",
+    canonicalPath: "/who-gets-to-learn/learning-sovereignty",
+    label: "Learning Sovereignty",
+    purpose:
+      "Show how a granular learning history can remain useful and under the learner's control as goals, journeys, and contexts change.",
+    contentId: "content-learning-access-sovereignty",
+    ...approved,
+  },
+  {
+    id: "learning-access-frontiers",
+    kind: "topic",
+    parentId: "territory-learning-access",
     slug: "learning-without-frontiers",
-    canonicalPath: "/collaborate/learning-without-frontiers",
+    canonicalPath: "/who-gets-to-learn/learning-without-frontiers",
     label: "Learning Without Frontiers",
     purpose:
       "Invite concrete collaboration where access to learning is obstructed by money, language, absent institutions, or political restriction.",
-    contentId: "content-collaborate-learning-without-frontiers",
+    contentId: "content-learning-access-frontiers",
     ...approved,
   },
   {
@@ -226,20 +212,6 @@ export const contentGraphNodes = [
       "Identify the current people responsible for LearnGraph and the contribution each can factually claim.",
     contentId: "content-about-people",
     ...approved,
-  },
-  {
-    id: "about-access",
-    kind: "topic",
-    parentId: "territory-about",
-    slug: "access",
-    canonicalPath: "/about/access",
-    label: "Access",
-    labelStatus: "provisional",
-    purpose:
-      "Address what LearnGraph is prepared to confront when learning is obstructed by circumstance, institutions, geography, money, exclusion, or political restriction.",
-    contentId: "content-about-access",
-    architectureStatus: "approved",
-    publicationStatus: "draft",
   },
   {
     id: "about-network",
@@ -324,7 +296,7 @@ export const contentGraphNodes = [
 
 export const contentGraphRegistry: ContentGraphRegistry = {
   nodes: [...contentGraphNodes],
-  briefs: [...platformBriefs],
+  briefs: [...platformBriefs, ...learningAccessBriefs],
   contentSlots: [...contentSlots],
   sourceCandidates: [...sourceCandidates],
   contents: [...editorialContents],

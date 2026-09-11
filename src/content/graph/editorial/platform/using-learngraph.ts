@@ -4,7 +4,7 @@ export const usingLearnGraphContent = {
   id: "content-platform-using-learngraph",
   publicationStatus: "review",
   layout: "product-tour",
-  lead: "Spaces for finding, shaping & following learning. Working with groups, running programmes & contributing knowledge to the public graph",
+  lead: "A direct tour through the working areas of LearnGraph and what each one does",
   sourceRefs: ["Owner and editorial working session · 8 September 2026"],
   blocks: [
     {

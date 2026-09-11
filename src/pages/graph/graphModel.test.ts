@@ -1,9 +1,11 @@
 import { describe, expect, it } from "vitest";
 import {
   pathForTopic,
+  publicTerritoryOrder,
   territories,
   territoryFromSlug,
   territoryOrder,
+  topicIdsForView,
   topicFromRoute,
   topics,
   workEstimateLabels,
@@ -14,26 +16,38 @@ describe("graph website workbench model", () => {
     const allTopicIds = territoryOrder.flatMap((id) => territories[id].topics);
 
     expect(territoryOrder.map((id) => territories[id].topics.length)).toEqual([
-      4, 6, 5, 4,
+      3, 3, 3, 4, 4,
     ]);
     expect(new Set(allTopicIds).size).toBe(allTopicIds.length);
   });
 
-  it("retains Collaborate's two clusters", () => {
-    const collaborateTopics = territories.collaborate.topics.map(
-      (id) => topics[id],
-    );
+  it("keeps Collaborate direct while Services remains a provisional workbench", () => {
+    expect(territories.collaborate.topics).toEqual([
+      "collaborate-services",
+      "collaborate-pilot-learngraph",
+      "collaborate-implementation-partnerships",
+    ]);
+    expect(topics["collaborate-services"].slot.copyStatus).toBe("not-created");
+    expect(topics["collaborate-services"].clusterLabel).toBeUndefined();
+  });
 
-    expect(
-      collaborateTopics.filter(
-        (topic) => topic.clusterLabel === "Transformation services",
-      ),
-    ).toHaveLength(3);
-    expect(
-      collaborateTopics.filter(
-        (topic) => topic.clusterLabel === "LearnGraph partnerships",
-      ),
-    ).toHaveLength(3);
+  it("gives learning access its own territory without absorbing product behaviour", () => {
+    expect(territories["learning-access"].label).toBe("Who Gets to Learn");
+    expect(territories["learning-access"].topics).toEqual([
+      "learning-access",
+      "learning-access-sovereignty",
+      "learning-access-frontiers",
+    ]);
+    expect(territories.platform.topics).toContain(
+      "platform-inclusive-learning",
+    );
+    expect(territories.about.topics).not.toContain("learning-access");
+    expect(territories.platform.topics).not.toContain(
+      "learning-access-sovereignty",
+    );
+    expect(territories.collaborate.topics).not.toContain(
+      "learning-access-frontiers",
+    );
   });
 
   it("gives every topic a visible editorial state", () => {
@@ -59,5 +73,13 @@ describe("graph website workbench model", () => {
 
   it("marks Research / Open Source as reserved", () => {
     expect(territories.research.architectureStatus).toBe("reserved");
+  });
+
+  it("keeps the editorial map available while the public map stays closed", () => {
+    expect(topicIdsForView("platform", true)).toEqual(
+      territories.platform.topics,
+    );
+    expect(publicTerritoryOrder).toEqual([]);
+    expect(topicIdsForView("platform", false)).toEqual([]);
   });
 });

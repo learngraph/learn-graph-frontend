@@ -2,7 +2,7 @@ import type { NodeContent } from "../../types";
 import { nodeContentSource } from "../source";
 
 export const sovereigntyContent = {
-  id: "content-platform-sovereignty",
+  id: "content-learning-access-sovereignty",
   publicationStatus: "review",
   layout: "editorial",
   title: "LearnGraph keeps a learner’s history in motion.",

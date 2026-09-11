@@ -18,8 +18,8 @@ export const platformContent = {
           text: "Knowledge becomes a graph of prerequisites, alternatives and possible routes. The structure grows as people learn, build and contribute.",
         },
         {
-          label: "Learning Sovereignty",
-          text: "A person’s knowledge and experience shape where the journey goes next. Every new step changes what becomes possible after it.",
+          label: "Using LearnGraph",
+          text: "Atlas, Zone, Skill Library, Cohorts, Organisation and Studio form one connected environment for learning, guiding, organising and contributing.",
         },
         {
           label: "Inclusive Learning",

@@ -2,7 +2,7 @@ import type { NodeContent } from "../../types";
 import { nodeContentSource } from "../source";
 
 export const accessContent = {
-  id: "content-about-access",
+  id: "content-learning-access",
   publicationStatus: "review",
   layout: "editorial",
   title: "Direction is not decoration. It is part of access.",

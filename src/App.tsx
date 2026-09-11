@@ -17,7 +17,8 @@ import Footer from "@/pages/global/components/Footer";
 import ImprintPage from "@/pages/legal/Imprint";
 import GraphWebsite from "@/pages/graph/GraphWebsite";
 
-const GRAPH_PATH = /^\/(platform|collaborate|about|research)(?:\/[^/]+)?$/;
+const GRAPH_PATH =
+  /^\/(platform|who-gets-to-learn|collaborate|about|research)(?:\/[^/]+)?$/;
 
 function isGraphPath(pathname: string): boolean {
   return pathname === "/" || GRAPH_PATH.test(pathname);
@@ -51,6 +52,40 @@ export default function App() {
         <div className="flex-1">
           <Routes>
             <Route path="/" element={<GraphWebsite />} />
+            <Route
+              path="/about/access"
+              element={<Navigate to="/who-gets-to-learn/access" replace />}
+            />
+            <Route
+              path="/collaborate/learning-without-frontiers"
+              element={
+                <Navigate
+                  to="/who-gets-to-learn/learning-without-frontiers"
+                  replace
+                />
+              }
+            />
+            <Route
+              path="/platform/sovereignty"
+              element={
+                <Navigate
+                  to="/who-gets-to-learn/learning-sovereignty"
+                  replace
+                />
+              }
+            />
+            <Route
+              path="/collaborate/find-the-constraint"
+              element={<Navigate to="/collaborate/services" replace />}
+            />
+            <Route
+              path="/collaborate/reduce-manual-load"
+              element={<Navigate to="/collaborate/services" replace />}
+            />
+            <Route
+              path="/collaborate/build-the-offer"
+              element={<Navigate to="/collaborate/services" replace />}
+            />
             <Route path="/:territorySlug" element={<GraphWebsite />} />
             <Route
               path="/:territorySlug/:topicSlug"

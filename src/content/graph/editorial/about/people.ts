@@ -13,18 +13,13 @@ export const peopleContent = {
       reviewNote:
         "Incomplete roles, preferred public titles, and publication consent still need confirmation.",
       people: [
-        { name: "Laurin Hagemann", role: "CEO" },
-        { name: "Arsham Delvarani", role: "Business Developer" },
+        { name: "Laurin Hagemann", role: "CEO & Backend Lead" },
         { name: "Muhammad Talal", role: "Development Engineer" },
-        {
-          name: "Lea Aimée von Freital",
-          role: "Design & Visual Systems",
-        },
-        { name: "Phil Wolframm", role: "Backend Engineering" },
+        { name: "Varun Kukreja", role: "Finance & Project Support" },
+        { name: "Arsham Delvarani", role: "Business Developer" },
+        { name: "Phil Wolframm", role: "Outreach & Project Support" },
         { name: "Jamal Daho", role: "Senior Consultant" },
-        { name: "Julius" },
-        { name: "Avi Gupta" },
-        { name: "Varun Kukreja" },
+        { name: "Lea Aimée von Freital", role: "Design & Visual Systems" },
       ],
     },
   ],

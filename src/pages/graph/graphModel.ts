@@ -1,4 +1,8 @@
-import { contentGraphNodes, contentGraphRegistry } from "../../content/graph";
+import {
+  contentGraphNodes,
+  contentGraphRegistry,
+  publicArchitectureNodes,
+} from "../../content/graph";
 import type {
   ArchitectureStatus,
   ContentGraphNode,
@@ -9,7 +13,12 @@ import type {
 
 type TopicNode = Extract<(typeof contentGraphNodes)[number], { kind: "topic" }>;
 
-export type TerritoryId = "platform" | "collaborate" | "about" | "research";
+export type TerritoryId =
+  | "platform"
+  | "learning-access"
+  | "collaborate"
+  | "about"
+  | "research";
 export type TopicId = TopicNode["id"];
 export type GraphSelection = TerritoryId | TopicId;
 
@@ -67,6 +76,7 @@ export const sourceCandidateStatusLabels: Record<
 
 const territoryNodeIds: Record<TerritoryId, string> = {
   platform: "territory-platform",
+  "learning-access": "territory-learning-access",
   collaborate: "territory-collaborate",
   about: "territory-about",
   research: "territory-research-open-source",
@@ -131,10 +141,15 @@ export const topics = Object.fromEntries(
 
 export const territoryOrder: TerritoryId[] = [
   "platform",
+  "learning-access",
   "collaborate",
   "about",
   "research",
 ];
+
+const publicNodeIds = new Set(
+  publicArchitectureNodes(contentGraphRegistry).map((node) => node.id),
+);
 
 export const territories = Object.fromEntries(
   territoryOrder.map((id) => {
@@ -154,6 +169,28 @@ export const territories = Object.fromEntries(
     return [id, territory];
   }),
 ) as Record<TerritoryId, Territory>;
+
+export const publicTerritoryOrder = territoryOrder.filter((id) =>
+  publicNodeIds.has(territories[id].nodeId),
+);
+
+export function topicIdsForView(
+  territoryId: TerritoryId,
+  editorialView: boolean,
+): TopicId[] {
+  const topicIds = territories[territoryId].topics;
+  return editorialView
+    ? topicIds
+    : topicIds.filter((topicId) => publicNodeIds.has(topicId));
+}
+
+export function territoryIsPublic(territoryId: TerritoryId): boolean {
+  return publicNodeIds.has(territories[territoryId].nodeId);
+}
+
+export function topicIsPublic(topicId: TopicId): boolean {
+  return publicNodeIds.has(topicId);
+}
 
 export function isTerritory(id: GraphSelection): id is TerritoryId {
   return territoryOrder.includes(id as TerritoryId);

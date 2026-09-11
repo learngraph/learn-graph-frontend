@@ -5,7 +5,6 @@ export const impactContent = {
   publicationStatus: "review",
   layout: "impact",
   title: "What matters is what changed once LearnGraph entered the room.",
-  lead: "Sometimes change shows up in a learner surprised by how well learning worked for them.",
   sourceRefs: [
     "https://learngraph.org/schools/success-stories/bildungszentrum-optimum",
     "Deployed legacy website successStories.itech content object",
@@ -14,6 +13,7 @@ export const impactContent = {
     {
       type: "prose",
       paragraphs: [
+        "Sometimes change shows up in a learner surprised by how well learning worked for them.",
         "It can also show up behind the scenes, when an educator prepares learning material for a mixed group with different needs far more easily than expected.",
       ],
     },
@@ -24,8 +24,9 @@ export const impactContent = {
       cases: [
         {
           id: "itech",
+          partner: "ITECH Hamburg",
           kicker: "Vocational school · Hamburg",
-          title: "The learning path becomes visible—more room for personal mentoring",
+          title: "The learning path becomes visible. More room for personal mentoring",
           teaser:
             "Visible learning paths and more room for mentoring—evidence of competence, not only grades.",
           lede:
@@ -71,8 +72,9 @@ export const impactContent = {
         },
         {
           id: "bildungszentrum-optimum",
+          partner: "Bildungszentrum Optimum",
           kicker: "Tutoring & learning centre",
-          title: "Systemic quality—not market luck: children first, not revenue",
+          title: "Systemic quality, not market luck. Children first, not revenue",
           teaser:
             "Structured support with clear learning paths—visible to mentors, learners, and families.",
           lede:
