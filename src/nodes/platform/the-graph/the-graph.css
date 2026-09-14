@@ -1,0 +1,317 @@
+.graph-focus.graph-focus--graph-essay {
+  grid-template-columns: minmax(6rem, 0.3fr) minmax(0, 3.7fr);
+  width: min(100% - 2.5rem, 82rem);
+}
+
+.graph-focus.graph-focus--graph-essay .graph-focus__return {
+  grid-column: 2;
+  justify-self: end;
+}
+
+.graph-focus__content.graph-focus__content--graph-essay {
+  width: 100%;
+}
+
+.graph-focus__content--graph-essay > h2 {
+  margin-top: clamp(2rem, 4vw, 3.5rem);
+}
+
+.graph-focus__content--graph-essay > .graph-focus__lead {
+  max-width: 40rem;
+  color: rgb(255 255 255 / 0.64);
+}
+
+.graph-focus__content--graph-essay .graph-focus__blocks {
+  max-width: none;
+  gap: 0;
+  margin-top: clamp(4rem, 8vw, 7rem);
+  padding-bottom: clamp(5rem, 10vw, 9rem);
+}
+
+.graph-article h3,
+.graph-article h4,
+.graph-article p {
+  margin: 0;
+}
+
+.graph-article__introduction {
+  max-width: 46rem;
+  margin: 0 4% clamp(5rem, 10vw, 8rem) auto;
+}
+
+.graph-article__introduction p {
+  color: rgb(232 239 241 / 0.69);
+  font-size: clamp(1rem, 1.35vw, 1.16rem);
+  line-height: 1.72;
+}
+
+.graph-article__introduction p + p {
+  margin-top: 1.4rem;
+}
+
+.graph-article__section {
+  display: grid;
+  grid-template-columns: minmax(10rem, 0.56fr) minmax(0, 1.44fr);
+  gap: clamp(2.5rem, 7vw, 7rem);
+  border-top: 1px solid rgb(255 255 255 / 0.16);
+  padding: clamp(3rem, 6vw, 5rem) 0;
+}
+
+.graph-article__section > header {
+  padding-top: 0.08rem;
+}
+
+.graph-article__section h3 {
+  max-width: 14rem;
+  color: rgb(245 248 249 / 0.9);
+  font-size: clamp(1.05rem, 1.45vw, 1.3rem);
+  font-weight: 540;
+  letter-spacing: -0.025em;
+  line-height: 1.18;
+}
+
+.graph-article__section > div {
+  max-width: 42rem;
+}
+
+.graph-article__section > div > p {
+  color: rgb(220 230 234 / 0.58);
+  font-size: clamp(0.9rem, 1.08vw, 0.98rem);
+  line-height: 1.72;
+}
+
+.graph-article__section > div > p + p {
+  margin-top: 1.35rem;
+}
+
+.graph-article__section--editors > div > p:first-child {
+  max-width: 35rem;
+  color: rgb(235 241 243 / 0.71);
+}
+
+.graph-article__editor {
+  margin-top: clamp(2.4rem, 4vw, 3.4rem);
+}
+
+.graph-article__editor h4 {
+  color: rgb(245 248 249 / 0.84);
+  font-size: 0.88rem;
+  font-weight: 560;
+  letter-spacing: -0.01em;
+}
+
+.graph-article__editor p {
+  margin-top: 0.62rem;
+  color: rgb(220 230 234 / 0.52);
+  font-size: clamp(0.86rem, 1vw, 0.94rem);
+  line-height: 1.7;
+}
+
+.graph-article__editor:last-child {
+  border-left: 1px solid rgb(var(--graph-accent-rgb) / 0.62);
+  padding-left: clamp(1.2rem, 2.5vw, 2rem);
+}
+
+.graph-article__editor:last-child h4 {
+  color: rgb(var(--graph-accent-rgb) / 0.82);
+}
+
+/* ── Visual / network section ─────────────────────────────────────────── */
+
+.graph-article__section--visual {
+  display: block;
+  border-top: 1px solid rgb(255 255 255 / 0.16);
+  padding: clamp(3rem, 6vw, 5rem) 0;
+}
+
+.graph-article__section--visual > header {
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+}
+
+.graph-article__section--visual > header h3 {
+  max-width: 14rem;
+  color: rgb(245 248 249 / 0.9);
+  font-size: clamp(1.05rem, 1.45vw, 1.3rem);
+  font-weight: 540;
+  letter-spacing: -0.025em;
+  line-height: 1.18;
+}
+
+.graph-article__visual-block {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.graph-article__network-image {
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #050809;
+}
+
+.graph-article__network-img {
+  display: block;
+  width: 100%;
+  /* Show the full image — the peripheral nodes are part of the story */
+  max-height: 560px;
+  object-fit: contain;
+  object-position: center;
+  filter: saturate(1.08) contrast(1.1) brightness(0.96);
+  /*
+   * TODO: Replace with a live Neo4j graph render.
+   * Planned interaction: scroll to zoom, pan, hover nodes to reveal topic name
+   * and connection count. Static screenshot is the placeholder.
+   */
+}
+
+.graph-article__network-caption {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 2rem;
+  padding: clamp(0.9rem, 1.5vw, 1.2rem) clamp(1rem, 2vw, 1.6rem);
+  background: rgb(255 255 255 / 0.04);
+  border-top: 1px solid rgb(255 255 255 / 0.1);
+}
+
+.graph-article__caption-item {
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: rgb(220 230 234 / 0.5);
+  padding-left: 1.1rem;
+  position: relative;
+}
+
+.graph-article__caption-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.42em;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+}
+
+.graph-article__caption-item--dense::before {
+  background: rgb(var(--graph-accent-rgb) / 0.8);
+}
+
+.graph-article__caption-item--frontier::before {
+  background: rgb(255 255 255 / 0.28);
+}
+
+.graph-article__visual-note {
+  max-width: 46rem;
+  color: rgb(220 230 234 / 0.52);
+  font-size: clamp(0.88rem, 1vw, 0.96rem);
+  line-height: 1.7;
+}
+
+/* ── Three-layer strip ────────────────────────────────────────────────── */
+
+.graph-article__layers {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  margin-top: clamp(2rem, 4vw, 3rem);
+  border: 1px solid rgb(255 255 255 / 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  background: rgb(255 255 255 / 0.1);
+}
+
+.graph-article__layer {
+  padding: clamp(1.2rem, 2vw, 1.6rem);
+  background: rgb(8 10 11);
+}
+
+.graph-article__layer--public {
+  background: rgb(8 10 11);
+  border-left: 2px solid rgb(var(--graph-accent-rgb) / 0.5);
+  margin-left: -1px;
+}
+
+.graph-article__layer h4 {
+  color: rgb(245 248 249 / 0.84);
+  font-size: 0.84rem;
+  font-weight: 580;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.6rem;
+}
+
+.graph-article__layer--public h4 {
+  color: rgb(var(--graph-accent-rgb) / 0.9);
+}
+
+.graph-article__layer p {
+  color: rgb(220 230 234 / 0.5);
+  font-size: 0.82rem;
+  line-height: 1.65;
+  margin: 0;
+}
+
+@media (max-width: 720px) {
+  .graph-article__layers {
+    grid-template-columns: 1fr;
+  }
+
+  .graph-article__layer--public {
+    border-left: none;
+    border-top: 2px solid rgb(var(--graph-accent-rgb) / 0.5);
+    margin-left: 0;
+    margin-top: -1px;
+  }
+
+  .graph-article__network-caption {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+}
+
+/* ────────────────────────────────────────────────────────────────────── */
+
+.graph-article__closing {
+  display: grid;
+  grid-template-columns: minmax(10rem, 0.56fr) minmax(0, 1.44fr);
+  gap: clamp(2.5rem, 7vw, 7rem);
+  border-top: 1px solid rgb(255 255 255 / 0.16);
+  padding-top: clamp(3rem, 6vw, 5rem);
+}
+
+.graph-article__closing p {
+  grid-column: 2;
+  max-width: 38rem;
+  color: rgb(235 241 243 / 0.7);
+  font-size: clamp(0.95rem, 1.2vw, 1.06rem);
+  line-height: 1.68;
+}
+
+@media (max-width: 980px) {
+  .graph-focus.graph-focus--graph-essay {
+    grid-template-columns: 1fr;
+  }
+
+  .graph-focus.graph-focus--graph-essay .graph-focus__return {
+    grid-column: 1;
+  }
+}
+
+@media (max-width: 720px) {
+  .graph-article__introduction {
+    margin-right: 0;
+  }
+
+  .graph-article__section,
+  .graph-article__closing {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .graph-article__section h3 {
+    max-width: 22rem;
+  }
+
+  .graph-article__closing p {
+    grid-column: 1;
+  }
+}
