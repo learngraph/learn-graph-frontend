@@ -1,0 +1,157 @@
+.graph-focus--convictions {
+  grid-template-columns: minmax(7rem, 0.45fr) minmax(0, 4fr);
+  width: min(100% - 2.5rem, 90rem);
+}
+
+.graph-focus--convictions .graph-focus__return {
+  grid-column: 2;
+  justify-self: end;
+}
+
+.graph-focus__content--convictions {
+  --convictions-copy-color: rgb(255 255 255 / 0.64);
+  --convictions-copy-size: clamp(0.95rem, 1.1vw, 1.08rem);
+  width: min(100%, 64rem);
+}
+
+.convictions-opening {
+  max-width: 50rem;
+  padding: clamp(1.5rem, 4vw, 3.5rem) 0 0;
+}
+
+.convictions-opening > h2 {
+  max-width: 46rem;
+  margin: 0;
+  color: rgb(255 255 255 / 0.88);
+  font-size: clamp(2.2rem, 3.8vw, 3.6rem);
+  font-weight: 360;
+  line-height: 0.98;
+  letter-spacing: -0.05em;
+}
+
+.convictions-opening__lead {
+  max-width: 43rem;
+  margin: clamp(1.75rem, 3vw, 2.5rem) 0 0;
+  color: var(--convictions-copy-color);
+  font-size: var(--convictions-copy-size);
+  line-height: 1.76;
+}
+
+.convictions-section h3,
+.convictions-section p {
+  margin: 0;
+}
+
+.convictions-section--0 {
+  max-width: 43rem;
+  margin-top: clamp(2.5rem, 4vw, 3.5rem);
+}
+
+.convictions-section__copy {
+  display: grid;
+  gap: 0.9rem;
+  max-width: 43rem;
+}
+
+.convictions-section__copy p {
+  color: var(--convictions-copy-color);
+  font-size: var(--convictions-copy-size);
+  line-height: 1.76;
+}
+
+.convictions-section__copy .is-conclusion {
+  margin-top: clamp(0.65rem, 1vw, 1rem);
+  color: inherit;
+  font-size: inherit;
+  font-weight: 600;
+  line-height: inherit;
+}
+
+.convictions-awareness {
+  display: grid;
+  width: 100%;
+  place-items: center;
+  padding: clamp(3.75rem, 7vw, 5.5rem) 0;
+}
+
+.convictions-awareness p {
+  display: grid;
+  justify-items: center;
+  margin: 0;
+  color: rgb(var(--graph-accent-rgb) / 0.94);
+  line-height: 0.94;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.convictions-awareness span {
+  font-size: clamp(1.55rem, 3.5vw, 3.1rem);
+  font-weight: 400;
+  letter-spacing: 0.2em;
+}
+
+.convictions-awareness span:nth-child(2) {
+  margin: 0.5em 0;
+  font-size: clamp(0.6rem, 0.9vw, 0.75rem);
+  font-weight: 650;
+  letter-spacing: 0.46em;
+}
+
+.convictions-chapters {
+  display: grid;
+  gap: clamp(3.75rem, 6vw, 5rem);
+  padding: 0 0 clamp(5rem, 9vw, 8rem);
+}
+
+.convictions-chapters .convictions-section {
+  max-width: 48rem;
+}
+
+.convictions-section h3 {
+  max-width: 36rem;
+  color: rgb(255 255 255 / 0.78);
+  font-size: clamp(1.65rem, 2.7vw, 2.5rem);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+}
+
+.convictions-chapters .convictions-section__copy {
+  margin-top: clamp(1.75rem, 3vw, 2.5rem);
+}
+
+/* Section 2 = "Information is not direction": two consecutive conclusion
+   paragraphs sit flush — no gap between "A pile…" and "LearnGraph is built…". */
+.convictions-section--2 .is-conclusion + .is-conclusion {
+  margin-top: 0;
+}
+
+/* Section 1 = "Knowledge should travel": paragraph 3 ("Sometimes it crosses…")
+   opens the geographic sequence and needs a small visual breath above it. */
+.convictions-section--1 .convictions-section__copy p:nth-child(3) {
+  margin-top: 0.75rem;
+}
+
+@media (max-width: 980px) {
+  .graph-focus--convictions {
+    grid-template-columns: 1fr;
+  }
+
+  .graph-focus--convictions .graph-focus__return {
+    grid-column: 1;
+  }
+
+  .convictions-opening {
+    padding-top: 0.5rem;
+  }
+}
+
+@media (max-width: 560px) {
+  .convictions-awareness {
+    padding: 3.5rem 0;
+  }
+
+  .convictions-awareness span {
+    letter-spacing: 0.11em;
+  }
+}

@@ -1,0 +1,295 @@
+.graph-focus__content--impact {
+  width: min(100%, 65rem);
+}
+
+.graph-focus__content--impact > h2 {
+  max-width: 46rem;
+  font-size: clamp(1.9rem, 2.3vw, 2.6rem);
+  font-weight: 360;
+  line-height: 1.14;
+  letter-spacing: -0.03em;
+}
+
+.graph-focus__content--impact .graph-focus__blocks {
+  gap: clamp(3rem, 5vw, 4.5rem);
+  max-width: none;
+  margin-top: clamp(3rem, 5vw, 4.5rem);
+  padding-bottom: clamp(4rem, 8vw, 7rem);
+}
+
+.graph-focus__content--impact
+  .graph-focus__blocks
+  > .graph-focus__body:first-child {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: clamp(2rem, 6vw, 6rem);
+  max-width: 60rem;
+}
+
+.graph-focus__content--impact
+  .graph-focus__blocks
+  > .graph-focus__body:first-child
+  p {
+  margin: 0;
+  color: rgb(255 255 255 / 0.86);
+  font-size: 0.98rem;
+  font-weight: 450;
+  line-height: 1.65;
+}
+
+.graph-focus__cases {
+  display: grid;
+  gap: 1rem;
+  margin-top: 0;
+}
+
+.graph-focus__case {
+  border: 1px solid rgb(255 255 255 / 0.15);
+  background: rgb(255 255 255 / 0.012);
+  transition:
+    border-color 180ms ease,
+    background 180ms ease;
+}
+
+.graph-focus__case.is-open {
+  border-color: rgb(var(--graph-accent-rgb) / 0.7);
+  background: rgb(var(--graph-accent-rgb) / 0.025);
+}
+
+.graph-focus__case-header {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr auto;
+  gap: 0;
+  align-items: flex-start;
+  border: 0;
+  padding: clamp(1.25rem, 2.5vw, 2rem);
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.graph-focus__case:hover,
+.graph-focus__case:focus-within {
+  border-color: rgb(var(--graph-accent-rgb) / 0.7);
+}
+
+.graph-focus__case-header:focus-visible {
+  outline: none;
+}
+
+.graph-focus__case-number,
+.graph-focus__case-kicker,
+.graph-focus__case-command {
+  font-size: 0.56rem;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.graph-focus__case-number {
+  color: rgb(var(--graph-accent-rgb) / 0.72);
+}
+
+.graph-focus__case-kicker {
+  grid-column: 1;
+  grid-row: 1;
+  margin-left: 2.75rem;
+  color: rgb(255 255 255 / 0.34);
+}
+
+.graph-focus__case-header strong {
+  grid-column: 1 / -1;
+  max-width: 36rem;
+  margin-top: 0.9rem;
+  color: rgb(255 255 255 / 0.52);
+  font-size: 0.92rem;
+  font-weight: 450;
+  line-height: 1.6;
+}
+
+.graph-focus__case-header h3 {
+  grid-column: 1 / -1;
+  max-width: 46rem;
+  margin: clamp(2.25rem, 4vw, 3.5rem) 0 0;
+  color: rgb(255 255 255 / 0.94);
+  font-size: clamp(1.3rem, 1.8vw, 1.65rem);
+  font-weight: 520;
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+}
+
+.graph-focus__case-command {
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: end;
+  color: rgb(var(--graph-accent-rgb) / 0.76);
+  white-space: nowrap;
+}
+
+.graph-focus__case-detail {
+  max-width: 55rem;
+  margin-left: clamp(4rem, 8vw, 8rem);
+  padding: clamp(2.5rem, 5vw, 5rem) clamp(1.25rem, 3vw, 3rem)
+    clamp(4rem, 7vw, 7rem);
+  animation: graph-focus-resolve 300ms ease-out both;
+}
+
+.graph-focus__case-detail header > p,
+.graph-focus__case-detail header > div,
+.graph-focus__case-detail h3,
+.graph-focus__case-story p,
+.graph-focus__case-story blockquote,
+.graph-focus__case-story cite {
+  margin: 0;
+}
+
+.graph-focus__case-detail header > div {
+  max-width: 43rem;
+  color: rgb(255 255 255 / 0.62);
+  font-size: clamp(0.98rem, 1.25vw, 1.12rem);
+  line-height: 1.7;
+}
+
+.graph-focus__case-story {
+  display: grid;
+  gap: clamp(2.5rem, 5vw, 4.5rem);
+  margin-top: clamp(3.5rem, 7vw, 6rem);
+}
+
+.graph-focus__case-story > div {
+  max-width: 43rem;
+}
+
+.graph-focus__case-story p {
+  color: rgb(255 255 255 / 0.58);
+  font-size: 0.92rem;
+  line-height: 1.8;
+}
+
+.graph-focus__case-story p + p {
+  margin-top: 1.35rem;
+}
+
+.graph-focus__case-story blockquote {
+  width: min(88%, 42rem);
+  margin-left: auto;
+  color: rgb(255 255 255 / 0.9);
+  font-size: clamp(1.15rem, 1.8vw, 1.6rem);
+  font-weight: 520;
+  line-height: 1.35;
+  letter-spacing: -0.025em;
+}
+
+.graph-focus__case-story cite {
+  display: block;
+  margin-top: 0.9rem;
+  color: rgb(var(--graph-accent-rgb) / 0.58);
+  font-size: 0.54rem;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.graph-focus__case-end {
+  display: flex;
+  gap: clamp(2rem, 6vw, 6rem);
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-top: clamp(4rem, 7vw, 6rem);
+}
+
+.graph-focus__case-end a {
+  display: grid;
+  gap: 0.55rem;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.graph-focus__case-end a span {
+  color: rgb(255 255 255 / 0.34);
+  font-size: 0.56rem;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.graph-focus__case-end a strong {
+  color: rgb(255 255 255 / 0.82);
+  font-size: clamp(0.92rem, 1.15vw, 1.05rem);
+  font-weight: 520;
+  letter-spacing: -0.015em;
+}
+
+.graph-focus__case-end a:hover strong,
+.graph-focus__case-end a:focus-visible strong {
+  color: rgb(var(--graph-accent-rgb));
+}
+
+.graph-focus__case-end a:focus-visible {
+  outline: none;
+}
+
+.graph-focus__case-collapse {
+  flex: 0 0 auto;
+  margin: 0;
+  border: 0;
+  padding: 0 0 0.35rem;
+  background: transparent;
+  color: rgb(var(--graph-accent-rgb) / 0.78);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.graph-focus__case-collapse:hover,
+.graph-focus__case-collapse:focus-visible {
+  color: rgb(var(--graph-accent-rgb));
+  outline: none;
+}
+.graph-focus--impact {
+  grid-template-columns: minmax(8rem, 0.45fr) minmax(0, 4fr);
+  width: min(100% - 2.5rem, 90rem);
+}
+.graph-focus--impact .graph-focus__return {
+  grid-column: 2;
+  justify-self: end;
+}
+@media (max-width: 980px) {
+  .graph-focus__content--impact
+    .graph-focus__blocks
+    > .graph-focus__body:first-child {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+  .graph-focus__case-header {
+    grid-template-columns: 1fr auto;
+  }
+
+  .graph-focus__case-header strong,
+  .graph-focus__case-kicker {
+    grid-column: 1 / -1;
+  }
+
+  .graph-focus__case-command {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+  }
+
+  .graph-focus__case-detail {
+    margin-left: 2.25rem;
+  }
+
+  .graph-focus__case-story blockquote {
+    width: 94%;
+  }
+  .graph-focus--impact {
+    grid-template-columns: 1fr;
+  }
+  .graph-focus--impact .graph-focus__return {
+    grid-column: 1;
+  }
+}

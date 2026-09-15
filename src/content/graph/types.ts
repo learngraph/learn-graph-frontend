@@ -36,6 +36,10 @@ export interface ProseBlock extends ContentBlockMeta {
   type: "prose";
   kicker?: string;
   paragraphs: string[];
+  /** Index from which paragraphs receive the "conclusion" treatment.
+   *  Defaults to the final paragraph only. Set to e.g. 3 to mark the
+   *  last two paragraphs of a five-paragraph block as conclusions. */
+  conclusionFrom?: number;
 }
 
 export interface KeyPointsBlock extends ContentBlockMeta {
@@ -230,6 +234,44 @@ export interface ArtifactReferenceBlock extends ContentBlockMeta {
   artifactIds: string[];
 }
 
+export interface PilotRecordBlock extends ContentBlockMeta {
+  type: "pilot-record";
+  status: "incomplete" | "verified";
+  partner: string;
+  introduction?: string;
+  facts: Array<{
+    label: string;
+    value?: string;
+  }>;
+  before?: {
+    paragraphs: string[];
+    observation?: {
+      text: string;
+      attribution: string;
+    };
+  };
+  boundary: Array<{
+    label: string;
+    value?: string;
+  }>;
+  sharedPath?: string[];
+  perspectives?: {
+    learner: Array<{ label: string; value: string }>;
+    educator: Array<{ label: string; value: string }>;
+  };
+  after?: {
+    observed?: string;
+    unresolved?: string;
+    next?: string;
+  };
+  unresolvedFacts: string[];
+  closing: string;
+  action: {
+    label: string;
+    href: string;
+  };
+}
+
 export interface LinkGroupBlock extends ContentBlockMeta {
   type: "link-group";
   links: Array<{
@@ -261,6 +303,7 @@ export type ContentBlock =
   | MediaBlock
   | TechnicalFactsBlock
   | ArtifactReferenceBlock
+  | PilotRecordBlock
   | LinkGroupBlock
   | ActionBlock;
 
@@ -268,16 +311,20 @@ export interface NodeContent {
   id: string;
   publicationStatus: PublicationStatus;
   layout?:
+    | "access"
     | "compact"
     | "composition"
+    | "convictions"
     | "editorial"
     | "index"
     | "origin"
     | "impact"
     | "atlas"
     | "frontiers"
+    | "graph-essay"
     | "model-system"
-    | "product-tour";
+    | "product-tour"
+    | "pilot";
   kicker?: string;
   title?: string;
   lead?: string;
