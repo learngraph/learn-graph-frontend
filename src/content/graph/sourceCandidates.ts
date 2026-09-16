@@ -380,7 +380,7 @@ export const sourceCandidates = [
     nodeId: "about-people",
     title: "Legacy ten-person roster",
     provenance:
-      "src/pages/landing/LandingTeamSection.tsx and src/i18n/locales/en.json",
+      "Legacy site archive · commit 9ff97dc and src/i18n/locales/en.json",
     status: "factual-only",
     usefulFor: "Names, legacy roles, and candidate first-person material.",
     usefulMaterial: [
@@ -394,7 +394,7 @@ export const sourceCandidates = [
     nodeId: "about-network",
     title: "Legacy organisation roster",
     provenance:
-      "src/pages/landing/partnersData.ts and landing partner components",
+      "Legacy site archive · commit 9ff97dc and current Network material",
     status: "factual-only",
     usefulFor: "Candidate names and links for a relationship-typed directory.",
     usefulMaterial: [

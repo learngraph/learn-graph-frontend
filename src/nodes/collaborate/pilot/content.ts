@@ -43,7 +43,7 @@ export const itechPilotData = {
   truthStatus: "requires-verification",
   sourceRefs: [
     "src/nodes/about/impact/content.ts · ITECH case candidate",
-    "src/pages/customerGroups/SchoolsPage.tsx · ITECH video candidate",
+    "ITECH video candidate · https://www.youtube.com/watch?v=bcNzNqi_vVg",
   ],
   reviewNote:
     "The frame is implemented before the ITECH fact record is complete. Missing values are visible only in development.",

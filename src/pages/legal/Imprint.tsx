@@ -1,5 +1,5 @@
 import { useI18n } from "@/i18n/i18n";
-import { Navbar } from "../global/components/Navbar";
+import { Link } from "react-router-dom";
 
 export default function ImprintPage() {
   const { t } = useI18n();
@@ -31,7 +31,14 @@ export default function ImprintPage() {
 
   return (
     <>
-      <Navbar />
+      <header className="px-6 py-6">
+        <Link
+          to="/"
+          className="text-xs font-semibold tracking-[0.16em] text-[var(--color-text-primary)]"
+        >
+          LEARNGRAPH
+        </Link>
+      </header>
       <main className="min-h-screen bg-[var(--color-page-bg)] text-[var(--color-text-primary)] pb-24 pt-24">
         <header className="max-w-4xl mx-auto px-6 pt-12 pb-12 border-b border-foreground/5">
           <p className="text-sm uppercase tracking-widest text-blue-400 font-bold mb-4">
@@ -101,5 +108,3 @@ export default function ImprintPage() {
     </>
   );
 }
-
-
