@@ -349,6 +349,10 @@
   color: rgb(255 255 255 / 0.64);
 }
 
+.graph-node--case .graph-node__label {
+  font-size: 0.61rem;
+}
+
 .graph-node__label {
   max-width: 100%;
   font-size: 0.68rem;
@@ -798,6 +802,16 @@
     gap: 0.35rem;
     justify-content: center;
     color: rgb(255 255 255 / 0.78);
+  }
+
+  .graph-mobile-topics button.is-cluster {
+    grid-column: 1 / -1;
+    border-color: rgb(var(--graph-accent-rgb) / 0.4);
+  }
+
+  .graph-mobile-topics button.is-case {
+    min-height: 3.5rem;
+    margin-left: 1rem;
   }
 
   .graph-mobile-topics button span {

@@ -174,6 +174,63 @@ export const contentSlots = [
     ],
   },
   {
+    nodeId: "activism-gfcca",
+    sourceAvailability: "legacy-content",
+    copyStatus: "ready-for-review",
+    workEstimate: "factual-assembly",
+    statusNote:
+      "The supplied case copy is preserved; relationship claims and publication permission still need confirmation.",
+    blockers: [
+      "Confirm GFCCA activities, Erasmus call support, emergency payment, product role, and current status",
+      "Confirm GFCCA permission to publish the relationship and claims",
+    ],
+    supportingMaterial: [
+      { kind: "image", label: "Approved GFCCA field image", status: "missing" },
+      { kind: "case", label: "GFCCA relationship record", status: "blocked" },
+    ],
+  },
+  {
+    nodeId: "activism-afghanistan",
+    sourceAvailability: "legacy-and-project",
+    copyStatus: "ready-for-review",
+    workEstimate: "factual-assembly",
+    statusNote:
+      "The supplied case copy is preserved and overlaps existing Afghanistan material; safety and accuracy review remain.",
+    blockers: [
+      "Confirm connectivity payments, current product use, teaching arrangement, and current status",
+      "Confirm that publication creates no participant, teacher, or operational safety risk",
+      "Resolve duplication with Learning Without Frontiers",
+    ],
+    supportingMaterial: [
+      {
+        kind: "image",
+        label: "Safety-approved contextual image",
+        status: "blocked",
+      },
+      {
+        kind: "case",
+        label: "Afghanistan activity record",
+        status: "available",
+      },
+    ],
+  },
+  {
+    nodeId: "activism-world-educare-network",
+    sourceAvailability: "legacy-content",
+    copyStatus: "ready-for-review",
+    workEstimate: "factual-assembly",
+    statusNote:
+      "The supplied case copy is preserved; donations, platform support, partnerships, and permissions need confirmation.",
+    blockers: [
+      "Confirm WENET activities, donations, platform access, partner institutions, curriculum work, and current status",
+      "Confirm Joseph Okino's quotation and WENET permission to publish",
+    ],
+    supportingMaterial: [
+      { kind: "image", label: "Approved WENET field image", status: "missing" },
+      { kind: "case", label: "WENET relationship record", status: "blocked" },
+    ],
+  },
+  {
     nodeId: "about-origin",
     sourceAvailability: "project-material",
     copyStatus: "ready-for-review",

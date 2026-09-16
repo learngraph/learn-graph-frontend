@@ -8,14 +8,15 @@ describe("content graph registry", () => {
   });
 
   it("keeps Collaborate direct while its service architecture is being resolved", () => {
-    const clusters = contentGraphRegistry.nodes.filter(
-      (node) => node.kind === "cluster",
+    const collaborateClusters = contentGraphRegistry.nodes.filter(
+      (node) =>
+        node.kind === "cluster" && node.parentId === "territory-collaborate",
     );
     const collaborateTopics = contentGraphRegistry.nodes.filter(
       (node) => node.parentId === "territory-collaborate",
     );
 
-    expect(clusters).toHaveLength(0);
+    expect(collaborateClusters).toHaveLength(0);
     expect(collaborateTopics.map((topic) => topic.id)).toEqual([
       "collaborate-services",
       "collaborate-pilot-learngraph",
@@ -156,6 +157,16 @@ describe("content graph registry", () => {
       "learning-access",
       "learning-access-sovereignty",
       "learning-access-frontiers",
+      "learning-access-activism",
+    ]);
+    expect(
+      contentGraphRegistry.nodes
+        .filter((node) => node.parentId === "learning-access-activism")
+        .map((node) => node.id),
+    ).toEqual([
+      "activism-gfcca",
+      "activism-afghanistan",
+      "activism-world-educare-network",
     ]);
     expect(
       contentGraphRegistry.nodes.find(

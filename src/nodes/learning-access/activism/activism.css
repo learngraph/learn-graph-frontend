@@ -1,0 +1,134 @@
+.graph-focus__content--activism,
+.graph-focus__content--activism-case {
+  width: min(100%, 62rem);
+}
+
+.graph-focus__content--activism > h2,
+.graph-focus__content--activism-case > h2 {
+  max-width: 14ch;
+  margin-top: clamp(2.5rem, 5vw, 4.5rem);
+  color: rgb(255 255 255 / 0.94);
+  font-size: clamp(2.4rem, 5.5vw, 5.25rem);
+  font-weight: 420;
+  letter-spacing: -0.065em;
+  line-height: 0.98;
+}
+
+.graph-focus__content--activism-case > h2 {
+  max-width: 19ch;
+  font-size: clamp(2.1rem, 4.2vw, 4.15rem);
+}
+
+.graph-focus__content--activism > .graph-focus__lead,
+.graph-focus__content--activism-case > .graph-focus__lead {
+  max-width: 36rem;
+  margin-top: 1.4rem;
+  color: rgb(255 255 255 / 0.58);
+  font-size: clamp(1rem, 1.35vw, 1.18rem);
+  line-height: 1.6;
+}
+
+.activism-content {
+  display: grid;
+  gap: clamp(3.5rem, 7vw, 6.5rem);
+  margin-top: clamp(4rem, 8vw, 7rem);
+  padding-bottom: clamp(5rem, 9vw, 8rem);
+}
+
+.activism-principles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid rgb(var(--graph-accent-rgb) / 0.46);
+}
+
+.activism-principles section {
+  min-height: 15rem;
+  padding: 1.4rem clamp(1rem, 2vw, 1.8rem) 2rem 0;
+}
+
+.activism-principles section + section {
+  border-left: 1px solid rgb(255 255 255 / 0.12);
+  padding-left: clamp(1rem, 2vw, 1.8rem);
+}
+
+.activism-principles h3,
+.activism-section h3 {
+  margin: 0 0 1.4rem;
+  color: rgb(var(--graph-accent-rgb) / 0.9);
+  font-size: 0.58rem;
+  font-weight: 650;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.activism-principles p,
+.activism-section p,
+.activism-section li {
+  margin: 0;
+  color: rgb(255 255 255 / 0.66);
+  font-size: clamp(0.9rem, 1.1vw, 1rem);
+  line-height: 1.75;
+}
+
+.activism-action svg {
+  width: 1rem;
+}
+
+.activism-section {
+  display: grid;
+  grid-template-columns: minmax(8rem, 0.42fr) minmax(0, 1.58fr);
+  gap: clamp(2rem, 6vw, 6rem);
+  max-width: 55rem;
+  border-top: 1px solid rgb(255 255 255 / 0.14);
+  padding-top: 1.5rem;
+}
+
+.activism-section ul {
+  display: grid;
+  gap: 1.2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.activism-section li {
+  border-left: 1px solid rgb(var(--graph-accent-rgb) / 0.48);
+  padding-left: 1.25rem;
+}
+
+.activism-action {
+  display: inline-flex;
+  width: max-content;
+  gap: 0.6rem;
+  align-items: center;
+  border-bottom: 1px solid rgb(var(--graph-accent-rgb) / 0.62);
+  padding-bottom: 0.35rem;
+  color: rgb(var(--graph-accent-rgb) / 0.92);
+  font-size: 0.68rem;
+  font-weight: 650;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+@media (max-width: 720px) {
+  .activism-principles {
+    grid-template-columns: 1fr;
+  }
+
+  .activism-principles section {
+    min-height: 0;
+    border-bottom: 1px solid rgb(255 255 255 / 0.12);
+    padding: 1.5rem 0 2rem;
+  }
+
+  .activism-principles section + section {
+    border-left: 0;
+    padding-left: 0;
+  }
+
+  .activism-section {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+}

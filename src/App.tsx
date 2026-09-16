@@ -12,7 +12,7 @@ import ImprintPage from "@/pages/legal/Imprint";
 import GraphWebsite from "@/pages/graph/GraphWebsite";
 
 const GRAPH_PATH =
-  /^\/(platform|who-gets-to-learn|collaborate|about)(?:\/[^/]+)?$/;
+  /^\/(platform|who-gets-to-learn|collaborate|about)(?:\/[^/]+){0,2}$/;
 
 function isGraphPath(pathname: string): boolean {
   return pathname === "/" || GRAPH_PATH.test(pathname);
@@ -73,6 +73,10 @@ export default function App() {
             <Route path="/:territorySlug" element={<GraphWebsite />} />
             <Route
               path="/:territorySlug/:topicSlug"
+              element={<GraphWebsite />}
+            />
+            <Route
+              path="/:territorySlug/:clusterSlug/:topicSlug"
               element={<GraphWebsite />}
             />
             <Route

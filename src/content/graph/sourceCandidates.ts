@@ -310,6 +310,51 @@ export const sourceCandidates = [
     ],
   },
   {
+    id: "source-activism-gfcca-supplied-page",
+    nodeId: "activism-gfcca",
+    title: "GFCCA activism case",
+    provenance:
+      "Activism page copy and screenshots supplied by Lea · 16 September 2026",
+    status: "verification-required",
+    usefulFor:
+      "The GFCCA case structure, described field activity, financial support, European call support, and intended LearnGraph role.",
+    usefulMaterial: [
+      "The source describes regenerative learning with smallholders and interns in Western Kenya.",
+      "It states that LearnGraph supported access to Erasmus-oriented calls and sent emergency funds.",
+      "It describes LearnGraph as a future infrastructure layer; implementation status is not independently established.",
+    ],
+  },
+  {
+    id: "source-activism-afghanistan-supplied-page",
+    nodeId: "activism-afghanistan",
+    title: "Afghanistan activism case",
+    provenance:
+      "Activism page copy and screenshots supplied by Lea · 16 September 2026",
+    status: "verification-required",
+    usefulFor:
+      "The German-learning activity, phone-first operating conditions, connectivity support, and intended product role.",
+    usefulMaterial: [
+      "The source describes German learning for visas, exams, and work through WhatsApp and low-bandwidth teaching.",
+      "It states that LearnGraph sends money for connectivity and is becoming an operating layer for mentors and teachers.",
+      "The case overlaps the existing Learning Without Frontiers field example and requires a safety review.",
+    ],
+  },
+  {
+    id: "source-activism-wenet-supplied-page",
+    nodeId: "activism-world-educare-network",
+    title: "World EduCare Network activism case",
+    provenance:
+      "Activism page copy and screenshots supplied by Lea · 16 September 2026",
+    status: "verification-required",
+    usefulFor:
+      "The WENET activity description, donations, platform access, cross-border mentoring, and curriculum collaboration.",
+    usefulMaterial: [
+      "The source names Joseph Okino and describes education, ICT, WASH, enterprise, vocational, and rural-hub activity in Uganda.",
+      "It states that LearnGraph donations bought computers and connectivity and that platform access is offered without cost.",
+      "The quotation, relationships, support details, and present status require owner and partner confirmation.",
+    ],
+  },
+  {
     id: "source-origin-current-draft",
     nodeId: "about-origin",
     title: "Before there was a graph",

@@ -18,31 +18,39 @@ const rootPositions: Record<TerritoryId, Point> = {
   about: { x: 30, y: 70 },
 };
 
-const topicPositions: Record<TerritoryId, Point[]> = {
-  platform: [
-    { x: 11, y: 29 },
-    { x: 17, y: 9 },
-    { x: 31, y: 4 },
-    { x: 43, y: 13 },
-  ],
-  "learning-access": [
-    { x: 58, y: 93 },
-    { x: 75, y: 96 },
-    { x: 88, y: 83 },
-  ],
-  collaborate: [
-    { x: 58, y: 7 },
-    { x: 75, y: 4 },
-    { x: 88, y: 17 },
-  ],
-  about: [
-    { x: 11, y: 57 },
-    { x: 9, y: 76 },
-    { x: 19, y: 94 },
-    { x: 34, y: 97 },
-    { x: 47, y: 84 },
-  ],
+const topicPositions: Record<TerritoryId, Record<string, Point>> = {
+  platform: {
+    "platform-using-learngraph": { x: 11, y: 29 },
+    "platform-model": { x: 17, y: 9 },
+    "platform-graph": { x: 31, y: 4 },
+    "platform-inclusive-learning": { x: 43, y: 13 },
+  },
+  "learning-access": {
+    "learning-access": { x: 54, y: 93 },
+    "learning-access-sovereignty": { x: 68, y: 96 },
+    "learning-access-frontiers": { x: 82, y: 90 },
+    "learning-access-activism": { x: 88, y: 70 },
+    "activism-gfcca": { x: 94, y: 50 },
+    "activism-afghanistan": { x: 95, y: 67 },
+    "activism-world-educare-network": { x: 93, y: 84 },
+  },
+  collaborate: {
+    "collaborate-services": { x: 58, y: 7 },
+    "collaborate-pilot-learngraph": { x: 75, y: 4 },
+    "collaborate-implementation-partnerships": { x: 88, y: 17 },
+  },
+  about: {
+    "about-origin": { x: 11, y: 57 },
+    "about-convictions": { x: 9, y: 76 },
+    "about-people": { x: 19, y: 94 },
+    "about-network": { x: 34, y: 97 },
+    "about-impact": { x: 47, y: 84 },
+  },
 };
+
+function pointForTopic(topic: Topic): Point {
+  return topicPositions[topic.territory][topic.id] ?? { x: 50, y: 50 };
+}
 
 function Edge({
   from,
@@ -147,6 +155,19 @@ export const GraphCanvas = forwardRef<HTMLElement, GraphCanvasProps>(
     },
     ref,
   ) {
+    const selectedTopic = activeTopics.find(
+      (topic) => topic.id === selectedTopicId,
+    );
+    const activePathIds = new Set<TopicId>();
+    let pathTopic = selectedTopic;
+
+    while (pathTopic && !activePathIds.has(pathTopic.id)) {
+      activePathIds.add(pathTopic.id);
+      pathTopic = activeTopics.find(
+        (candidate) => candidate.id === pathTopic?.parentId,
+      );
+    }
+
     return (
       <section
         ref={ref}
@@ -171,14 +192,23 @@ export const GraphCanvas = forwardRef<HTMLElement, GraphCanvasProps>(
               />
             ))}
             {expandedTerritory &&
-              activeTopics.map((topic, index) => (
-                <Edge
-                  key={topic.id}
-                  from={rootPositions[expandedTerritory]}
-                  to={topicPositions[expandedTerritory][index]}
-                  selected={topic.id === selectedTopicId}
-                />
-              ))}
+              activeTopics.map((topic) => {
+                const parent = activeTopics.find(
+                  (candidate) => candidate.id === topic.parentId,
+                );
+                return (
+                  <Edge
+                    key={topic.id}
+                    from={
+                      parent
+                        ? pointForTopic(parent)
+                        : rootPositions[expandedTerritory]
+                    }
+                    to={pointForTopic(topic)}
+                    selected={activePathIds.has(topic.id)}
+                  />
+                );
+              })}
           </svg>
 
           <button
@@ -210,13 +240,13 @@ export const GraphCanvas = forwardRef<HTMLElement, GraphCanvasProps>(
           })}
 
           {expandedTerritory &&
-            activeTopics.map((topic, index) => (
+            activeTopics.map((topic) => (
               <GraphNode
                 key={topic.id}
-                point={topicPositions[expandedTerritory][index]}
+                point={pointForTopic(topic)}
                 label={topic.label}
-                selected={topic.id === selectedTopicId}
-                className="graph-node--topic"
+                selected={activePathIds.has(topic.id)}
+                className={`graph-node--topic graph-node--${topic.kind}${topic.clusterLabel ? " graph-node--case" : ""}`}
                 onClick={() => onSelectTopic(topic.id)}
               />
             ))}
@@ -253,7 +283,7 @@ export const GraphCanvas = forwardRef<HTMLElement, GraphCanvasProps>(
                   <button
                     type="button"
                     key={topic.id}
-                    className={topic.id === selectedTopicId ? "is-active" : ""}
+                    className={`${activePathIds.has(topic.id) ? "is-active" : ""}${topic.kind === "cluster" ? " is-cluster" : ""}${topic.clusterLabel ? " is-case" : ""}`}
                     onClick={() => onSelectTopic(topic.id)}
                   >
                     <strong>{topic.label}</strong>

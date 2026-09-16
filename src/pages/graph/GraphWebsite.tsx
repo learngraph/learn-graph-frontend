@@ -42,8 +42,9 @@ function isTopicId(value: string | null): value is TopicId {
 export default function GraphWebsite() {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
-  const { territorySlug, topicSlug } = useParams<{
+  const { territorySlug, clusterSlug, topicSlug } = useParams<{
     territorySlug?: string;
+    clusterSlug?: string;
     topicSlug?: string;
   }>();
   const legacyPalette =
@@ -89,7 +90,11 @@ export default function GraphWebsite() {
     (editorialView || territoryIsPublic(requestedTerritory.id))
       ? requestedTerritory
       : undefined;
-  const requestedTopic = topicFromRoute(routedTerritory, topicSlug);
+  const requestedTopic = topicFromRoute(
+    routedTerritory,
+    topicSlug,
+    clusterSlug,
+  );
   const routedTopic =
     requestedTopic && (editorialView || topicIsPublic(requestedTopic.id))
       ? requestedTopic
@@ -325,6 +330,9 @@ export default function GraphWebsite() {
                 selectedTerritory
                   ? [
                       territories[selectedTerritory].label,
+                      ...(selectedTopic?.clusterLabel
+                        ? [selectedTopic.clusterLabel]
+                        : []),
                       ...(selectedTopic ? [selectedTopic.label] : []),
                     ]
                   : ["LearnGraph"]

@@ -16,7 +16,7 @@ describe("graph website workbench model", () => {
     const allTopicIds = territoryOrder.flatMap((id) => territories[id].topics);
 
     expect(territoryOrder.map((id) => territories[id].topics.length)).toEqual([
-      4, 3, 3, 5,
+      4, 7, 3, 5,
     ]);
     expect(new Set(allTopicIds).size).toBe(allTopicIds.length);
   });
@@ -27,7 +27,7 @@ describe("graph website workbench model", () => {
       "collaborate-pilot-learngraph",
       "collaborate-implementation-partnerships",
     ]);
-    expect(topics["collaborate-services"].slot.copyStatus).toBe("not-created");
+    expect(topics["collaborate-services"].slot?.copyStatus).toBe("not-created");
     expect(topics["collaborate-services"].clusterLabel).toBeUndefined();
   });
 
@@ -37,6 +37,10 @@ describe("graph website workbench model", () => {
       "learning-access",
       "learning-access-sovereignty",
       "learning-access-frontiers",
+      "learning-access-activism",
+      "activism-gfcca",
+      "activism-afghanistan",
+      "activism-world-educare-network",
     ]);
     expect(territories.platform.topics).toContain(
       "platform-inclusive-learning",
@@ -51,11 +55,16 @@ describe("graph website workbench model", () => {
   });
 
   it("gives every topic a visible editorial state", () => {
-    Object.values(topics).forEach((topic) => {
-      expect(topic.purpose.trim()).not.toBe("");
-      expect(workEstimateLabels[topic.slot.workEstimate].trim()).not.toBe("");
-      expect(topic.slot.statusNote.trim()).not.toBe("");
-    });
+    Object.values(topics)
+      .filter((topic) => topic.kind === "topic")
+      .forEach((topic) => {
+        expect(topic.purpose.trim()).not.toBe("");
+        expect(topic.slot).toBeDefined();
+        expect(workEstimateLabels[topic.slot!.workEstimate].trim()).not.toBe(
+          "",
+        );
+        expect(topic.slot!.statusNote.trim()).not.toBe("");
+      });
   });
 
   it("keeps every workbench address unique and routable", () => {
@@ -67,8 +76,25 @@ describe("graph website workbench model", () => {
 
     Object.values(topics).forEach((topic) => {
       const territory = territoryFromSlug(territories[topic.territory].slug);
-      expect(topicFromRoute(territory, topic.slug)?.id).toBe(topic.id);
+      const clusterSlug = topic.clusterLabel
+        ? Object.values(topics).find(
+            (candidate) =>
+              candidate.kind === "cluster" &&
+              candidate.label === topic.clusterLabel,
+          )?.slug
+        : undefined;
+      expect(topicFromRoute(territory, topic.slug, clusterSlug)?.id).toBe(
+        topic.id,
+      );
     });
+  });
+
+  it("keeps activism as a real cluster with three case nodes", () => {
+    expect(topics["learning-access-activism"].kind).toBe("cluster");
+    expect(topics["activism-gfcca"].parentId).toBe("learning-access-activism");
+    expect(pathForTopic(topics["activism-afghanistan"])).toBe(
+      "/who-gets-to-learn/activism/afghanistan",
+    );
   });
 
   it("keeps the editorial map available while the public map stays closed", () => {

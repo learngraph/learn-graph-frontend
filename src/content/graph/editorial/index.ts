@@ -13,6 +13,12 @@ import { learningAccessContent } from "../../../nodes/learning-access/content";
 import { accessContent } from "../../../nodes/learning-access/access/content";
 import { learningWithoutFrontiersContent } from "../../../nodes/learning-access/learning-without-frontiers/content";
 import { sovereigntyContent } from "../../../nodes/learning-access/sovereignty/content";
+import {
+  activismContent,
+  afghanistanActivismContent,
+  gfccaContent,
+  worldEduCareContent,
+} from "../../../nodes/learning-access/activism/content";
 import { platformContent } from "../../../nodes/platform/content";
 import { inclusiveLearningContent } from "../../../nodes/platform/inclusive-learning/content";
 import { modelContent } from "../../../nodes/platform/model/content";
@@ -30,6 +36,10 @@ export const editorialContents = [
   accessContent,
   sovereigntyContent,
   learningWithoutFrontiersContent,
+  activismContent,
+  gfccaContent,
+  afghanistanActivismContent,
+  worldEduCareContent,
   servicesWorkbenchContent,
   pilotLearnGraphContent,
   implementationPartnershipsContent,

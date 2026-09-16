@@ -44,6 +44,7 @@ export interface ProseBlock extends ContentBlockMeta {
 
 export interface KeyPointsBlock extends ContentBlockMeta {
   type: "key-points";
+  kicker?: string;
   items: string[];
 }
 
@@ -347,6 +348,8 @@ export interface NodeContent {
   publicationStatus: PublicationStatus;
   layout?:
     | "access"
+    | "activism"
+    | "activism-case"
     | "compact"
     | "composition"
     | "convictions"

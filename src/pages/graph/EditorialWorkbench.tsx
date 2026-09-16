@@ -15,6 +15,8 @@ export function EditorialWorkbench({
   topic: Topic;
   brief: EditorialBrief | undefined;
 }) {
+  if (!topic.slot) return null;
+
   return (
     <article key={topic.id} className="graph-focus__content">
       <p className="graph-focus__eyebrow">

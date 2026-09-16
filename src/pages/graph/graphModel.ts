@@ -12,24 +12,31 @@ import type {
 } from "../../content/graph";
 
 type TopicNode = Extract<(typeof contentGraphNodes)[number], { kind: "topic" }>;
+type ClusterNode = Extract<
+  (typeof contentGraphNodes)[number],
+  { kind: "cluster" }
+>;
+type NavigableNode = TopicNode | ClusterNode;
 
 export type TerritoryId =
   | "platform"
   | "learning-access"
   | "collaborate"
   | "about";
-export type TopicId = TopicNode["id"];
+export type TopicId = NavigableNode["id"];
 export type GraphSelection = TerritoryId | TopicId;
 
 export interface Topic {
   id: TopicId;
+  kind: NavigableNode["kind"];
+  parentId?: string;
   territory: TerritoryId;
   slug: string;
   canonicalPath?: string;
   label: string;
   purpose: string;
   clusterLabel?: string;
-  slot: ContentSlot;
+  slot?: ContentSlot;
   sources: SourceCandidate[];
 }
 
@@ -89,11 +96,11 @@ const territoryIdByNodeId = new Map(
 const nodeById = new Map<string, ContentGraphNode>(
   contentGraphRegistry.nodes.map((node) => [node.id, node]),
 );
-const slotByNodeId = new Map(
+const slotByNodeId = new Map<string, ContentSlot>(
   contentGraphRegistry.contentSlots.map((slot) => [slot.nodeId, slot]),
 );
 
-function territoryIdForTopic(node: TopicNode): TerritoryId {
+function territoryIdForTopic(node: NavigableNode): TerritoryId {
   const parent = node.parentId ? nodeById.get(node.parentId) : undefined;
   const territoryNode =
     parent?.kind === "territory"
@@ -113,15 +120,20 @@ function territoryIdForTopic(node: TopicNode): TerritoryId {
 
 export const topics = Object.fromEntries(
   contentGraphNodes
-    .filter((node): node is TopicNode => node.kind === "topic")
+    .filter(
+      (node): node is NavigableNode =>
+        node.kind === "topic" || node.kind === "cluster",
+    )
     .map((node) => {
       const slot = slotByNodeId.get(node.id);
-      if (!slot)
+      if (node.kind === "topic" && !slot)
         throw new Error(`Topic ${node.id} has no editorial content slot`);
 
       const parent = node.parentId ? nodeById.get(node.parentId) : undefined;
       const topic: Topic = {
         id: node.id,
+        kind: node.kind,
+        parentId: node.parentId,
         territory: territoryIdForTopic(node),
         slug: node.slug,
         canonicalPath: "canonicalPath" in node ? node.canonicalPath : undefined,
@@ -212,11 +224,29 @@ export function territoryFromSlug(
 export function topicFromRoute(
   territory: Territory | undefined,
   slug: string | undefined,
+  clusterSlug?: string,
 ): Topic | undefined {
   if (!territory || !slug) return undefined;
+
+  if (clusterSlug) {
+    const cluster = territory.topics
+      .map((id) => topics[id])
+      .find((topic) => topic.kind === "cluster" && topic.slug === clusterSlug);
+    if (!cluster) return undefined;
+
+    return territory.topics
+      .map((id) => topics[id])
+      .find((topic) => topic.parentId === cluster.id && topic.slug === slug);
+  }
+
   return territory.topics
     .map((id) => topics[id])
-    .find((topic) => topic.slug === slug);
+    .find(
+      (topic) =>
+        topic.slug === slug &&
+        (topic.kind === "cluster" ||
+          topic.parentId === territories[topic.territory].nodeId),
+    );
 }
 
 export function pathForTopic(topic: Topic): string {
