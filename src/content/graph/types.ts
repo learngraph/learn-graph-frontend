@@ -153,34 +153,6 @@ export interface ModelSystemBlock extends ContentBlockMeta {
       reading: string;
     }>;
   };
-  specimen: string;
-  goalTopicId: string;
-  topics: Array<{
-    id: string;
-    name: string;
-    description: string;
-    basic?: boolean;
-  }>;
-  dependencies: Array<{
-    topicId: string;
-    prerequisiteId: string;
-  }>;
-  resources: Array<{
-    topicId: string;
-    name: string;
-    kind: string;
-  }>;
-  views: Array<{
-    id: string;
-    label: string;
-    knownTopicIds: string[];
-    journeyTopicIds: string[];
-    reading: string;
-  }>;
-  findings: Array<{
-    fact: string;
-    meaning: string;
-  }>;
 }
 
 export interface RelationshipAtlasBlock extends ContentBlockMeta {

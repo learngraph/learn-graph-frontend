@@ -1,7 +1,6 @@
 import { forwardRef } from "react";
 import {
   territories,
-  workEstimateLabels,
   type TerritoryId,
   type Topic,
   type TopicId,
@@ -13,57 +12,85 @@ interface Point {
 }
 
 const rootPositions: Record<TerritoryId, Point> = {
-  platform: { x: 29, y: 35 },
-  "learning-access": { x: 71, y: 72 },
-  collaborate: { x: 71, y: 32 },
-  about: { x: 29, y: 68 },
+  platform: { x: 30, y: 34 },
+  "learning-access": { x: 70, y: 70 },
+  collaborate: { x: 70, y: 30 },
+  about: { x: 30, y: 70 },
 };
 
 const topicPositions: Record<TerritoryId, Point[]> = {
   platform: [
-    { x: 11, y: 16 },
-    { x: 4, y: 37 },
-    { x: 22, y: 7 },
-    { x: 38, y: 11 },
+    { x: 11, y: 29 },
+    { x: 17, y: 9 },
+    { x: 31, y: 4 },
+    { x: 43, y: 13 },
   ],
   "learning-access": [
-    { x: 57, y: 90 },
-    { x: 74, y: 93 },
-    { x: 89, y: 83 },
+    { x: 58, y: 93 },
+    { x: 75, y: 96 },
+    { x: 88, y: 83 },
   ],
   collaborate: [
-    { x: 62, y: 13 },
-    { x: 80, y: 10 },
-    { x: 93, y: 27 },
+    { x: 58, y: 7 },
+    { x: 75, y: 4 },
+    { x: 88, y: 17 },
   ],
   about: [
-    { x: 8, y: 57 },
-    { x: 16, y: 83 },
-    { x: 7, y: 71 },
-    { x: 32, y: 88 },
-    { x: 43, y: 75 },
+    { x: 11, y: 57 },
+    { x: 9, y: 76 },
+    { x: 19, y: 94 },
+    { x: 34, y: 97 },
+    { x: 47, y: 84 },
   ],
 };
 
 function Edge({
   from,
   to,
-  active = false,
+  selected = false,
 }: {
   from: Point;
   to: Point;
-  active?: boolean;
+  selected?: boolean;
 }) {
   return (
-    <line
-      x1={from.x}
-      y1={from.y}
-      x2={to.x}
-      y2={to.y}
-      strokeLinecap="round"
-      className={active ? "graph-edge graph-edge--active" : "graph-edge"}
-      vectorEffect="non-scaling-stroke"
-    />
+    <>
+      <line
+        x1={from.x}
+        y1={from.y}
+        x2={to.x}
+        y2={to.y}
+        strokeLinecap="round"
+        className="graph-edge"
+        vectorEffect="non-scaling-stroke"
+      />
+      {selected && (
+        <line
+          x1={from.x}
+          y1={from.y}
+          x2={to.x}
+          y2={to.y}
+          strokeLinecap="round"
+          className="graph-edge graph-edge--selected"
+          vectorEffect="non-scaling-stroke"
+        >
+          <animate
+            attributeName="x2"
+            from={from.x}
+            to={to.x}
+            dur="240ms"
+            fill="freeze"
+          />
+          <animate
+            attributeName="y2"
+            from={from.y}
+            to={to.y}
+            dur="240ms"
+            fill="freeze"
+          />
+        </line>
+      )}
+    </>
   );
 }
 
@@ -71,7 +98,6 @@ function GraphNode({
   point,
   selected,
   quiet = false,
-  meta,
   label,
   onClick,
   className = "",
@@ -79,7 +105,6 @@ function GraphNode({
   point: Point;
   selected: boolean;
   quiet?: boolean;
-  meta?: string;
   label: string;
   onClick: () => void;
   className?: string;
@@ -93,7 +118,6 @@ function GraphNode({
       onClick={onClick}
     >
       <span className="graph-node__label">{label}</span>
-      {meta && <span className="graph-node__meta">{meta}</span>}
     </button>
   );
 }
@@ -143,7 +167,7 @@ export const GraphCanvas = forwardRef<HTMLElement, GraphCanvasProps>(
                 key={territoryId}
                 from={{ x: 50, y: 50 }}
                 to={rootPositions[territoryId]}
-                active={territoryId === expandedTerritory}
+                selected={territoryId === expandedTerritory}
               />
             ))}
             {expandedTerritory &&
@@ -152,7 +176,7 @@ export const GraphCanvas = forwardRef<HTMLElement, GraphCanvasProps>(
                   key={topic.id}
                   from={rootPositions[expandedTerritory]}
                   to={topicPositions[expandedTerritory][index]}
-                  active={topic.id === selectedTopicId}
+                  selected={topic.id === selectedTopicId}
                 />
               ))}
           </svg>
@@ -174,11 +198,6 @@ export const GraphCanvas = forwardRef<HTMLElement, GraphCanvasProps>(
                 key={territoryId}
                 point={rootPositions[territoryId]}
                 label={territory.label}
-                meta={
-                  territory.architectureStatus === "reserved"
-                    ? "Reserved"
-                    : undefined
-                }
                 selected={territoryId === expandedTerritory}
                 quiet={
                   expandedTerritory !== null &&
@@ -196,7 +215,6 @@ export const GraphCanvas = forwardRef<HTMLElement, GraphCanvasProps>(
                 key={topic.id}
                 point={topicPositions[expandedTerritory][index]}
                 label={topic.label}
-                meta={workEstimateLabels[topic.slot.workEstimate]}
                 selected={topic.id === selectedTopicId}
                 className="graph-node--topic"
                 onClick={() => onSelectTopic(topic.id)}
@@ -239,7 +257,6 @@ export const GraphCanvas = forwardRef<HTMLElement, GraphCanvasProps>(
                     onClick={() => onSelectTopic(topic.id)}
                   >
                     <strong>{topic.label}</strong>
-                    <span>{workEstimateLabels[topic.slot.workEstimate]}</span>
                   </button>
                 ))}
               </div>

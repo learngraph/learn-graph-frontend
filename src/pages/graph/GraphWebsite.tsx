@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type CSSProperties } from "react";
 import { ArrowDown, ArrowUp } from "lucide-react";
 import {
   Link,
@@ -24,6 +24,14 @@ import {
 import { EditorialWorkbench } from "./EditorialWorkbench";
 import { GraphCanvas } from "./GraphCanvas";
 import { NodeRenderer } from "./NodeRenderer";
+import {
+  BLUE_GRAPH_HUE,
+  DEFAULT_GRAPH_HUE,
+  blueGraphPalette,
+  graphPaletteForHue,
+  greenGraphPalette,
+  parseHue,
+} from "./graphPalette";
 import { contentGraphRegistry } from "../../content/graph";
 import "./graphWebsite.css";
 
@@ -32,20 +40,42 @@ function isTopicId(value: string | null): value is TopicId {
 }
 
 export default function GraphWebsite() {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const { territorySlug, topicSlug } = useParams<{
     territorySlug?: string;
     topicSlug?: string;
   }>();
-  const palette = searchParams.get("palette") === "blue" ? "blue" : "green";
+  const legacyPalette =
+    searchParams.get("palette") === "blue" ? "blue" : "green";
+  const requestedHue = parseHue(searchParams.get("hue"));
+  const hue =
+    requestedHue ??
+    (legacyPalette === "blue" ? BLUE_GRAPH_HUE : DEFAULT_GRAPH_HUE);
+  const graphPalette =
+    requestedHue !== undefined
+      ? graphPaletteForHue(hue)
+      : legacyPalette === "blue"
+        ? blueGraphPalette
+        : greenGraphPalette;
+  const graphStyle = {
+    "--graph-accent-rgb": graphPalette.accentRgb,
+    "--graph-ambient-rgb": graphPalette.ambientRgb,
+    "--graph-bg-root": `rgb(${graphPalette.backgroundRgb})`,
+    "--graph-node-bg-rgb": graphPalette.backgroundRgb,
+    "--graph-ambient-alpha": graphPalette.ambientAlpha,
+  } as CSSProperties;
   const publicPreview = searchParams.get("view") === "public";
   const editorialView = import.meta.env.DEV && !publicPreview;
   const displayedTerritoryOrder = editorialView
     ? territoryOrder
     : publicTerritoryOrder;
   const navigationParams = new URLSearchParams();
-  if (palette === "blue") navigationParams.set("palette", "blue");
+  if (requestedHue !== undefined) {
+    navigationParams.set("hue", String(Math.round(hue)));
+  } else if (legacyPalette === "blue") {
+    navigationParams.set("palette", "blue");
+  }
   if (publicPreview) navigationParams.set("view", "public");
   const navigationQuery = navigationParams.toString();
   const navigationSearch = navigationQuery ? `?${navigationQuery}` : "";
@@ -162,6 +192,13 @@ export default function GraphWebsite() {
     });
   };
 
+  const selectHue = (nextHue: number) => {
+    const nextParams = new URLSearchParams(searchParams);
+    nextParams.delete("palette");
+    nextParams.set("hue", String(Math.round(nextHue)));
+    setSearchParams(nextParams, { replace: true });
+  };
+
   if (!territorySlug && isTopicId(requestedFocus)) {
     const legacyParams = new URLSearchParams(searchParams);
     legacyParams.delete("focus");
@@ -187,8 +224,9 @@ export default function GraphWebsite() {
   return (
     <main
       className="graph-site"
-      data-palette={palette}
+      data-palette={requestedHue === undefined ? legacyPalette : "spectrum"}
       data-view={editorialView ? "editorial" : "public"}
+      style={graphStyle}
     >
       <header className="graph-site__masthead">
         <button
@@ -204,6 +242,19 @@ export default function GraphWebsite() {
         >
           LEARNGRAPH
         </button>
+        <label className="graph-hue-control">
+          <span>Colour spectrum</span>
+          <input
+            type="range"
+            min="0"
+            max="359"
+            step="1"
+            value={Math.round(hue)}
+            onChange={(event) => selectHue(Number(event.target.value))}
+            aria-label="Graph colour"
+            aria-valuetext={`${Math.round(hue)} degrees`}
+          />
+        </label>
         <button
           type="button"
           className="graph-site__mode"
@@ -280,10 +331,7 @@ export default function GraphWebsite() {
               }
             />
           ) : selectedTopic ? (
-            <EditorialWorkbench
-              topic={selectedTopic}
-              brief={selectedBrief}
-            />
+            <EditorialWorkbench topic={selectedTopic} brief={selectedBrief} />
           ) : null}
 
           <div className="graph-focus__return">

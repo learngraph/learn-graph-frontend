@@ -1,6 +1,5 @@
 import type { ModelSystemBlock, NodeContent } from "../../../content/graph";
 import { NodeShell } from "../../shared/NodeShell";
-import { LearningPathSpecimen } from "./components/LearningPathSpecimen";
 import { SystemPlate } from "./components/SystemPlate";
 import "./model.css";
 
@@ -8,12 +7,6 @@ function ModelSystem({ block }: { block: ModelSystemBlock }) {
   return (
     <section className="graph-focus__model-specimen">
       <SystemPlate plate={block.plate} />
-      <LearningPathSpecimen
-        topics={block.topics}
-        dependencies={block.dependencies}
-        views={block.views}
-        goalTopicId={block.goalTopicId}
-      />
     </section>
   );
 }

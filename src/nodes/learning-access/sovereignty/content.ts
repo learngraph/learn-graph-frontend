@@ -11,7 +11,7 @@ export const sovereigntyContent = {
   blocks: [
     {
       type: "pull-quote",
-      text: "“A grade tells you almost nothing about where a learner actually stands",
+      text: "A grade tells you almost nothing about where a learner actually stands",
     },
     {
       type: "prose",

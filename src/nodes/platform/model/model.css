@@ -24,6 +24,7 @@
   margin-top: clamp(5rem, 9vw, 8rem);
   padding-bottom: clamp(6rem, 12vw, 11rem);
 }
+
 .graph-focus__model-specimen {
   --specimen-line: rgb(255 255 255 / 0.16);
   --specimen-muted: rgb(255 255 255 / 0.42);
@@ -249,323 +250,27 @@
   line-height: 1.58;
 }
 
-.graph-focus__specimen {
-  display: grid;
-  width: 100%;
-  max-width: 84rem;
-  gap: clamp(2rem, 4vw, 3.5rem);
-  margin-inline: auto;
-}
-
-.graph-focus__specimen-header {
-  display: grid;
-  max-width: 48rem;
-  gap: 0.75rem;
-}
-
-.graph-focus__specimen-header h3 {
-  color: rgb(255 255 255 / 0.82);
-  font-size: clamp(1.5rem, 2.4vw, 2.25rem);
-  font-weight: 430;
-  letter-spacing: -0.04em;
-}
-
-.graph-focus__specimen-header p {
-  color: rgb(255 255 255 / 0.48);
-  font-size: clamp(0.72rem, 0.9vw, 0.82rem);
-  line-height: 1.65;
-}
-
-.graph-focus__specimen-header p:first-child {
-  color: rgb(var(--graph-accent-rgb) / 0.7);
-  font-size: 0.48rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.graph-focus__specimen-controls {
-  display: grid;
-  grid-template-columns: minmax(12rem, 0.42fr) minmax(0, 1.58fr);
-  gap: clamp(2rem, 5vw, 5rem);
-  align-items: center;
-}
-
-.graph-focus__specimen-controls > p {
-  color: rgb(255 255 255 / 0.34);
-  font-size: 0.48rem;
-  font-weight: 560;
-  letter-spacing: 0.11em;
-  line-height: 1.5;
-}
-
-.graph-focus__specimen-controls > div {
-  display: flex;
-  gap: clamp(1rem, 2.5vw, 2.5rem);
-  align-items: stretch;
-}
-
-.graph-focus__specimen-controls button {
-  display: flex;
-  min-width: 0;
-  flex: 1 1 0;
-  gap: 0.7rem;
-  align-items: center;
-  border: 0;
-  padding: 0.7rem 0;
-  background: transparent;
-  color: rgb(255 255 255 / 0.38);
-  font: inherit;
-  font-size: 0.67rem;
-  line-height: 1.4;
-  text-align: left;
-  cursor: pointer;
-  transition: color 180ms ease;
-}
-
-.graph-focus__specimen-controls button > span {
-  width: 0.7rem;
-  height: 0.7rem;
-  flex: 0 0 auto;
-  border: 1px solid rgb(255 255 255 / 0.34);
-  border-radius: 50%;
-  transition:
-    border-color 180ms ease,
-    background 180ms ease;
-}
-
-.graph-focus__specimen-controls button:hover,
-.graph-focus__specimen-controls button:focus-visible,
-.graph-focus__specimen-controls button.is-active {
-  color: rgb(255 255 255 / 0.82);
-  outline: none;
-}
-
-.graph-focus__specimen-controls button:focus-visible > span {
-  box-shadow: 0 0 0 0.22rem rgb(var(--graph-accent-rgb) / 0.12);
-}
-
-.graph-focus__specimen-controls button.is-active > span {
-  border-color: rgb(var(--graph-accent-rgb) / 0.9);
-  background: rgb(var(--graph-accent-rgb) / 0.88);
-}
-
-.graph-focus__specimen-stage {
-  position: relative;
-  min-height: 34rem;
-  overflow: hidden;
-  background:
-    radial-gradient(
-      circle at 90% 50%,
-      rgb(255 255 255 / 0.025),
-      transparent 18%
-    ),
-    rgb(3 6 8 / 0.35);
-}
-
-.graph-focus__specimen-connections {
-  position: absolute;
-  z-index: 0;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-
-.graph-focus__specimen-connections line {
-  stroke: rgb(153 177 188 / 0.12);
-  stroke-width: 1;
-  vector-effect: non-scaling-stroke;
-  transition:
-    stroke 320ms ease,
-    stroke-width 320ms ease,
-    opacity 320ms ease;
-}
-
-.graph-focus__specimen-connections line.is-known {
-  stroke: rgb(153 177 188 / 0.22);
-}
-
-.graph-focus__specimen-connections line.is-required {
-  stroke: rgb(var(--graph-accent-rgb) / 0.72);
-  stroke-width: 1.4;
-}
-
-.graph-focus__specimen-stage > article {
-  position: absolute;
-  z-index: 1;
-  top: 50%;
-  left: 50%;
-  display: grid;
-  width: clamp(9.5rem, 13vw, 12rem);
-  gap: 0.65rem;
-  color: rgb(255 255 255 / 0.24);
-  pointer-events: none;
-  transform: translate(-50%, -50%);
-  transition:
-    color 320ms ease,
-    opacity 320ms ease;
-}
-
-.graph-focus__specimen-stage > article[data-topic="light-shadow"] {
-  top: 23%;
-  left: 15%;
-}
-
-.graph-focus__specimen-stage > article[data-topic="earth-moon-sun"] {
-  top: 77%;
-  left: 15%;
-}
-
-.graph-focus__specimen-stage > article[data-topic="shadow-cone"] {
-  top: 23%;
-  left: 41%;
-}
-
-.graph-focus__specimen-stage > article[data-topic="orbital-motion"] {
-  top: 77%;
-  left: 41%;
-}
-
-.graph-focus__specimen-stage > article[data-topic="alignment"] {
-  top: 50%;
-  left: 67.5%;
-}
-
-.graph-focus__specimen-stage > article[data-topic="solar-eclipse"] {
-  top: 50%;
-  left: 90%;
-  width: clamp(10rem, 14vw, 13rem);
-}
-
-.graph-focus__specimen-stage > article.is-known {
-  color: rgb(191 207 214 / 0.38);
-}
-
-.graph-focus__specimen-stage > article.is-required,
-.graph-focus__specimen-stage > article.is-goal {
-  color: rgb(231 239 243 / 0.9);
-}
-
-.graph-focus__specimen-stage article > div {
-  display: grid;
-  gap: 0.6rem;
-}
-
-.graph-focus__specimen-stage h4 {
-  color: currentcolor;
-  font-size: clamp(0.82rem, 1.05vw, 0.96rem);
-  font-weight: 470;
-  letter-spacing: -0.025em;
-}
-
-.graph-focus__specimen-stage article > div > p {
-  color: currentcolor;
-  font-size: 0.58rem;
-  line-height: 1.55;
-  opacity: 0.58;
-}
-
-.graph-focus__specimen-position {
-  color: currentcolor;
-  font-size: 0.43rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  opacity: 0.72;
-}
-
-.graph-focus__specimen-stage article.is-start .graph-focus__specimen-position,
-.graph-focus__specimen-stage article.is-goal .graph-focus__specimen-position {
-  color: rgb(var(--graph-accent-rgb) / 0.9);
-  opacity: 1;
-}
-
-.graph-focus__specimen-stage > article.is-goal {
-  grid-template-columns: 4.6rem minmax(0, 1fr);
-  align-items: center;
-}
-
-.graph-focus__specimen-stage > article.is-goal .graph-focus__specimen-position {
-  grid-column: 2;
-}
-
-.graph-focus__specimen-eclipse {
-  position: relative;
-  width: 4.3rem;
-  aspect-ratio: 1;
-  grid-row: 1 / span 2;
-  border-radius: 50%;
-  background: rgb(227 235 238 / 0.92);
-  box-shadow:
-    0 0 0.7rem rgb(227 235 238 / 0.18),
-    0 0 2.2rem rgb(227 235 238 / 0.08);
-}
-
-.graph-focus__specimen-eclipse i {
-  position: absolute;
-  inset: 0.22rem -0.1rem -0.22rem 0.1rem;
-  border-radius: 50%;
-  background: rgb(3 6 8);
-}
-
-.graph-focus__specimen-reading {
-  display: flex;
-  gap: 2rem;
-  align-items: baseline;
-  justify-content: space-between;
-}
-
-.graph-focus__specimen-reading p {
-  max-width: 42rem;
-  color: rgb(255 255 255 / 0.72);
-  font-size: clamp(0.85rem, 1.2vw, 1.05rem);
-  line-height: 1.55;
-}
-
-.graph-focus__specimen-reading span {
-  color: rgb(var(--graph-accent-rgb) / 0.72);
-  font-size: 0.52rem;
-  font-weight: 560;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-}
-@keyframes system-beam-in {
-  0% {
-    opacity: 0;
-    clip-path: inset(0 0 0 100%);
-  }
-
-  16% {
-    opacity: 1;
-  }
-
-  to {
-    opacity: 0.9;
-    clip-path: inset(0);
-  }
-}
 .graph-focus--model-system {
   grid-template-columns: minmax(8rem, 0.45fr) minmax(0, 4fr);
   width: min(100% - 2.5rem, 94rem);
 }
+
 .graph-focus--model-system .graph-focus__return {
   grid-column: 2;
   justify-self: end;
 }
+
 @media (max-width: 980px) {
   .graph-focus--model-system {
     grid-template-columns: 1fr;
   }
+
   .graph-focus--model-system .graph-focus__return {
     grid-column: 1;
   }
+
   .graph-focus__content--model-system > h2 {
     font-size: clamp(3.2rem, 19vw, 5.5rem);
-  }
-  .graph-focus__specimen-header {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 1.5rem;
   }
 
   .graph-focus__system-plate > header {
@@ -619,20 +324,8 @@
     justify-self: start;
     padding: 0;
   }
-
-  .graph-focus__specimen-controls {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-
-  .graph-focus__specimen-stage > article {
-    width: clamp(8rem, 18vw, 10rem);
-  }
-
-  .graph-focus__specimen-stage > article[data-topic="solar-eclipse"] {
-    width: clamp(9rem, 20vw, 11rem);
-  }
 }
+
 @media (max-width: 620px) {
   .graph-focus__system-field {
     grid-template-columns: 1fr;
@@ -641,39 +334,8 @@
   .graph-focus__system-panel[data-panel="application-architecture"] {
     grid-column: 1;
   }
-
-  .graph-focus__specimen-controls > div {
-    flex-direction: column;
-    gap: 0;
-  }
-
-  .graph-focus__specimen-connections {
-    display: none;
-  }
-
-  .graph-focus__specimen-stage {
-    display: grid;
-    min-height: 0;
-    gap: 2.5rem;
-    padding: 2rem 1.25rem;
-  }
-
-  .graph-focus__specimen-stage > article,
-  .graph-focus__specimen-stage > article[data-topic] {
-    position: relative;
-    top: auto;
-    left: auto;
-    width: 100%;
-    max-width: 22rem;
-    transform: none;
-  }
-
-  .graph-focus__specimen-reading {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
 }
+
 @media (prefers-reduced-motion: reduce) {
   .graph-focus__system-beam {
     opacity: 0.9;

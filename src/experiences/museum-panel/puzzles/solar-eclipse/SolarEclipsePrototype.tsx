@@ -1,14 +1,8 @@
 import { useState } from "react";
-import type { ModelSystemBlock } from "../../../../content/graph";
+import { solarEclipsePuzzle } from "./content";
+import "./solarEclipse.css";
 
-interface LearningPathSpecimenProps {
-  topics: ModelSystemBlock["topics"];
-  dependencies: ModelSystemBlock["dependencies"];
-  views: ModelSystemBlock["views"];
-  goalTopicId: string;
-}
-
-const specimenPositions: Record<string, { x: number; y: number }> = {
+const positions: Record<string, { x: number; y: number }> = {
   "light-shadow": { x: 150, y: 125 },
   "earth-moon-sun": { x: 150, y: 415 },
   "shadow-cone": { x: 410, y: 125 },
@@ -17,23 +11,18 @@ const specimenPositions: Record<string, { x: number; y: number }> = {
   "solar-eclipse": { x: 900, y: 270 },
 };
 
-export function LearningPathSpecimen({
-  topics,
-  dependencies,
-  views,
-  goalTopicId,
-}: LearningPathSpecimenProps) {
+export function SolarEclipsePrototype() {
+  const { dependencies, goalTopicId, topics, views } = solarEclipsePuzzle;
   const [activeViewId, setActiveViewId] = useState(views[0]?.id ?? "");
-  const activeView =
-    views.find((view) => view.id === activeViewId) ?? views[0];
+  const activeView = views.find((view) => view.id === activeViewId) ?? views[0];
 
   if (!activeView) return null;
 
   return (
-    <section className="graph-focus__specimen">
-      <header className="graph-focus__specimen-header">
-        <p>ILLUSTRATIVE LEARNING PATH</p>
-        <h3>Make the Sun disappear</h3>
+    <section className="museum-eclipse">
+      <header className="museum-eclipse__header">
+        <p>PROTOTYPE LEARNING PATH</p>
+        <h3>{solarEclipsePuzzle.title}</h3>
         <p>
           A solar eclipse is the goal. Choose what the learner already
           understands. The required route changes while the concept map stays
@@ -43,7 +32,7 @@ export function LearningPathSpecimen({
 
       <nav
         aria-label="Choose the learner's starting knowledge"
-        className="graph-focus__specimen-controls"
+        className="museum-eclipse__controls"
       >
         <p>WHAT DOES THE LEARNER ALREADY KNOW?</p>
         <div>
@@ -62,16 +51,16 @@ export function LearningPathSpecimen({
         </div>
       </nav>
 
-      <div className="graph-focus__specimen-stage">
+      <div className="museum-eclipse__stage">
         <svg
           aria-hidden="true"
-          className="graph-focus__specimen-connections"
+          className="museum-eclipse__connections"
           preserveAspectRatio="none"
           viewBox="0 0 1000 540"
         >
           {dependencies.map((dependency) => {
-            const source = specimenPositions[dependency.prerequisiteId];
-            const target = specimenPositions[dependency.topicId];
+            const source = positions[dependency.prerequisiteId];
+            const target = positions[dependency.topicId];
             const sourceIsKnown = activeView.knownTopicIds.includes(
               dependency.prerequisiteId,
             );
@@ -124,10 +113,7 @@ export function LearningPathSpecimen({
               key={topic.id}
             >
               {isGoal && (
-                <span
-                  aria-hidden="true"
-                  className="graph-focus__specimen-eclipse"
-                >
+                <span aria-hidden="true" className="museum-eclipse__disc">
                   <i />
                 </span>
               )}
@@ -135,7 +121,7 @@ export function LearningPathSpecimen({
                 <h4>{topic.name}</h4>
                 <p>{topic.description}</p>
               </div>
-              <p className="graph-focus__specimen-position">
+              <p className="museum-eclipse__position">
                 {isGoal
                   ? "GOAL"
                   : isKnown
@@ -151,7 +137,7 @@ export function LearningPathSpecimen({
         })}
       </div>
 
-      <footer className="graph-focus__specimen-reading" aria-live="polite">
+      <footer className="museum-eclipse__reading" aria-live="polite">
         <p>{activeView.reading}</p>
         <span>
           {activeView.journeyTopicIds.length} concepts remain on this route
