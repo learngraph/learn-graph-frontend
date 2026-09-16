@@ -722,6 +722,7 @@
 
   .graph-mobile-core {
     position: relative;
+    display: block;
     width: max-content;
     margin: 0 auto 2.5rem;
     border: 1px solid rgb(var(--graph-accent-rgb) / 0.6);
@@ -810,8 +811,14 @@
   }
 
   .graph-mobile-topics button.is-case {
+    width: calc(100% - 1rem);
     min-height: 3.5rem;
-    margin-left: 1rem;
+    justify-self: center;
+  }
+
+  .graph-mobile-topics button.is-case.is-orphan {
+    width: calc((100% - 0.65rem) / 2);
+    grid-column: 1 / -1;
   }
 
   .graph-mobile-topics button span {

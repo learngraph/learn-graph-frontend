@@ -168,6 +168,12 @@ export const GraphCanvas = forwardRef<HTMLElement, GraphCanvasProps>(
       );
     }
 
+    const caseTopics = activeTopics.filter((topic) => topic.clusterLabel);
+    const orphanCaseId =
+      caseTopics.length % 2 === 1
+        ? caseTopics[caseTopics.length - 1]?.id
+        : undefined;
+
     return (
       <section
         ref={ref}
@@ -283,7 +289,7 @@ export const GraphCanvas = forwardRef<HTMLElement, GraphCanvasProps>(
                   <button
                     type="button"
                     key={topic.id}
-                    className={`${activePathIds.has(topic.id) ? "is-active" : ""}${topic.kind === "cluster" ? " is-cluster" : ""}${topic.clusterLabel ? " is-case" : ""}`}
+                    className={`${activePathIds.has(topic.id) ? "is-active" : ""}${topic.kind === "cluster" ? " is-cluster" : ""}${topic.clusterLabel ? " is-case" : ""}${topic.id === orphanCaseId ? " is-orphan" : ""}`}
                     onClick={() => onSelectTopic(topic.id)}
                   >
                     <strong>{topic.label}</strong>
