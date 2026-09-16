@@ -754,8 +754,20 @@
     content: "";
   }
 
+  .graph-mobile-level {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+  }
+
+  .graph-mobile-level--nested {
+    margin-top: 0.25rem;
+  }
+
   .graph-mobile-territories,
-  .graph-mobile-topics {
+  .graph-mobile-topics,
+  .graph-mobile-cases {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 0.65rem;
@@ -763,7 +775,8 @@
   }
 
   .graph-mobile-territories button,
-  .graph-mobile-topics button {
+  .graph-mobile-topics button,
+  .graph-mobile-cases button {
     min-height: 4.25rem;
     border: 1px solid rgb(255 255 255 / 0.16);
     padding: 0.75rem;
@@ -773,31 +786,52 @@
     cursor: pointer;
   }
 
-  .graph-mobile-topics button strong {
+  .graph-mobile-cases button {
+    min-height: 3.35rem;
+    font-size: 0.64rem;
+    color: rgb(255 255 255 / 0.68);
+  }
+
+  .graph-mobile-cases button:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    width: calc((100% - 0.65rem) / 2);
+    justify-self: center;
+  }
+
+  .graph-mobile-topics button strong,
+  .graph-mobile-cases button strong {
     font-size: inherit;
     font-weight: 600;
   }
 
   .graph-mobile-territories button,
-  .graph-mobile-topics button {
+  .graph-mobile-topics button,
+  .graph-mobile-cases button {
     min-width: 0;
     overflow-wrap: anywhere;
   }
 
   .graph-mobile-territories button.is-active,
-  .graph-mobile-topics button.is-active {
+  .graph-mobile-topics button.is-active,
+  .graph-mobile-cases button.is-active {
     border-color: rgb(var(--graph-accent-rgb) / 0.75);
     color: white;
   }
 
   .graph-mobile-spine {
     width: 1px;
-    height: 4rem;
+    height: 2.75rem;
     margin: 0 auto;
     background: rgb(var(--graph-accent-rgb) / 0.42);
   }
 
-  .graph-mobile-topics button {
+  .graph-mobile-spine--nested {
+    height: 2rem;
+    background: rgb(var(--graph-accent-rgb) / 0.32);
+  }
+
+  .graph-mobile-topics button,
+  .graph-mobile-cases button {
     display: flex;
     flex-direction: column;
     gap: 0.35rem;
@@ -806,24 +840,7 @@
   }
 
   .graph-mobile-topics button.is-cluster {
-    grid-column: 1 / -1;
     border-color: rgb(var(--graph-accent-rgb) / 0.4);
-  }
-
-  .graph-mobile-topics button.is-case {
-    width: calc(100% - 1rem);
-    min-height: 3.5rem;
-    justify-self: center;
-  }
-
-  .graph-mobile-topics button.is-case.is-orphan {
-    width: calc((100% - 0.65rem) / 2);
-    grid-column: 1 / -1;
-  }
-
-  .graph-mobile-topics button span {
-    color: rgb(255 255 255 / 0.34);
-    font-size: 0.56rem;
   }
 
   .graph-focus__statements > div {

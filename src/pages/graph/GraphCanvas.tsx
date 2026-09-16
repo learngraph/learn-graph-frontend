@@ -168,11 +168,22 @@ export const GraphCanvas = forwardRef<HTMLElement, GraphCanvasProps>(
       );
     }
 
-    const caseTopics = activeTopics.filter((topic) => topic.clusterLabel);
-    const orphanCaseId =
-      caseTopics.length % 2 === 1
-        ? caseTopics[caseTopics.length - 1]?.id
-        : undefined;
+    const territoryNodeId = expandedTerritory
+      ? territories[expandedTerritory].nodeId
+      : undefined;
+    const territoryTopics = territoryNodeId
+      ? activeTopics.filter((topic) => topic.parentId === territoryNodeId)
+      : [];
+    const clusterCaseBlocks = territoryTopics
+      .filter((topic) => topic.kind === "cluster")
+      .map((cluster) => ({
+        cluster,
+        cases: activeTopics.filter((topic) => topic.parentId === cluster.id),
+      }))
+      .filter(
+        (block) =>
+          block.cases.length > 0 && activePathIds.has(block.cluster.id),
+      );
 
     return (
       <section
@@ -280,22 +291,52 @@ export const GraphCanvas = forwardRef<HTMLElement, GraphCanvasProps>(
           </div>
           {expandedTerritory && (
             <>
-              <div className="graph-mobile-spine" aria-hidden="true" />
-              <div
-                className="graph-mobile-topics"
-                aria-label={`${territories[expandedTerritory].label} topics`}
-              >
-                {activeTopics.map((topic) => (
-                  <button
-                    type="button"
-                    key={topic.id}
-                    className={`${activePathIds.has(topic.id) ? "is-active" : ""}${topic.kind === "cluster" ? " is-cluster" : ""}${topic.clusterLabel ? " is-case" : ""}${topic.id === orphanCaseId ? " is-orphan" : ""}`}
-                    onClick={() => onSelectTopic(topic.id)}
-                  >
-                    <strong>{topic.label}</strong>
-                  </button>
-                ))}
+              <div className="graph-mobile-level">
+                <div className="graph-mobile-spine" aria-hidden="true" />
+                <div
+                  className="graph-mobile-topics"
+                  aria-label={`${territories[expandedTerritory].label} topics`}
+                >
+                  {territoryTopics.map((topic) => (
+                    <button
+                      type="button"
+                      key={topic.id}
+                      className={`${activePathIds.has(topic.id) ? "is-active" : ""}${topic.kind === "cluster" ? " is-cluster" : ""}`}
+                      onClick={() => onSelectTopic(topic.id)}
+                    >
+                      <strong>{topic.label}</strong>
+                    </button>
+                  ))}
+                </div>
               </div>
+              {clusterCaseBlocks.map(({ cluster, cases }) => (
+                <div
+                  key={cluster.id}
+                  className="graph-mobile-level graph-mobile-level--nested"
+                >
+                  <div
+                    className="graph-mobile-spine graph-mobile-spine--nested"
+                    aria-hidden="true"
+                  />
+                  <div
+                    className="graph-mobile-cases"
+                    aria-label={`${cluster.label} initiatives`}
+                  >
+                    {cases.map((topic) => (
+                      <button
+                        type="button"
+                        key={topic.id}
+                        className={
+                          activePathIds.has(topic.id) ? "is-active" : ""
+                        }
+                        onClick={() => onSelectTopic(topic.id)}
+                      >
+                        <strong>{topic.label}</strong>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ))}
             </>
           )}
         </div>
