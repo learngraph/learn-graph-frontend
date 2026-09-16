@@ -16,7 +16,7 @@ describe("graph website workbench model", () => {
     const allTopicIds = territoryOrder.flatMap((id) => territories[id].topics);
 
     expect(territoryOrder.map((id) => territories[id].topics.length)).toEqual([
-      3, 3, 3, 4, 4,
+      4, 3, 3, 5,
     ]);
     expect(new Set(allTopicIds).size).toBe(allTopicIds.length);
   });
@@ -69,10 +69,6 @@ describe("graph website workbench model", () => {
       const territory = territoryFromSlug(territories[topic.territory].slug);
       expect(topicFromRoute(territory, topic.slug)?.id).toBe(topic.id);
     });
-  });
-
-  it("marks Research / Open Source as reserved", () => {
-    expect(territories.research.architectureStatus).toBe("reserved");
   });
 
   it("keeps the editorial map available while the public map stays closed", () => {

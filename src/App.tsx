@@ -18,7 +18,7 @@ import ImprintPage from "@/pages/legal/Imprint";
 import GraphWebsite from "@/pages/graph/GraphWebsite";
 
 const GRAPH_PATH =
-  /^\/(platform|who-gets-to-learn|collaborate|about|research)(?:\/[^/]+)?$/;
+  /^\/(platform|who-gets-to-learn|collaborate|about)(?:\/[^/]+)?$/;
 
 function isGraphPath(pathname: string): boolean {
   return pathname === "/" || GRAPH_PATH.test(pathname);

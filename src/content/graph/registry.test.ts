@@ -1,10 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { contentGraphRegistry } from "./registry";
-import {
-  publicArchitectureNodes,
-  validateContentGraph,
-  visibleArchitectureNodes,
-} from "./validation";
+import { publicArchitectureNodes, validateContentGraph } from "./validation";
 
 describe("content graph registry", () => {
   it("passes structural validation", () => {
@@ -28,25 +24,9 @@ describe("content graph registry", () => {
     expect(collaborateTopics[0]?.contentId).toBe(
       "content-collaborate-services-workbench",
     );
-  });
-
-  it("keeps Research / Open Source reserved and hidden", () => {
-    const researchNodes = contentGraphRegistry.nodes.filter(
-      (node) =>
-        node.id === "territory-research-open-source" ||
-        node.parentId === "territory-research-open-source",
+    expect(collaborateTopics[2]?.contentId).toBe(
+      "content-collaborate-implementation-partnerships",
     );
-
-    expect(researchNodes).toHaveLength(5);
-    researchNodes.forEach((node) => {
-      expect(node.architectureStatus).toBe("reserved");
-      expect(node.publicationStatus).toBe("hidden");
-    });
-    expect(
-      visibleArchitectureNodes(contentGraphRegistry).some(
-        (node) => node.id === "territory-research-open-source",
-      ),
-    ).toBe(false);
   });
 
   it("publishes only complete branches with approved content", () => {
@@ -106,7 +86,7 @@ describe("content graph registry", () => {
       .map((brief) => brief.nodeId)
       .filter((nodeId) => platformTopics.some((topic) => topic.id === nodeId));
 
-    expect(platformTopics).toHaveLength(3);
+    expect(platformTopics).toHaveLength(4);
     expect(briefNodeIds).toEqual(platformTopics.map((topic) => topic.id));
     expect(platformTopics.every((topic) => topic.contentId !== undefined)).toBe(
       true,
@@ -150,10 +130,14 @@ describe("content graph registry", () => {
     expect(about?.contentId).toBe("content-about-introduction");
     expect(aboutTopics.map((node) => node.id)).toEqual([
       "about-origin",
+      "about-convictions",
       "about-people",
       "about-network",
       "about-impact",
     ]);
+    expect(
+      aboutTopics.find((node) => node.id === "about-convictions")?.contentId,
+    ).toBe("content-about-convictions");
     expect(
       contentGraphRegistry.nodes.some((node) => node.id === "about-impact"),
     ).toBe(true);

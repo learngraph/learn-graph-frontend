@@ -207,15 +207,14 @@ Exit condition: returning to LG feels like returning to the centre of the system
 
 Exit condition: the launch projection is coherent, factual, usable and free of unfinished doors.
 
+## Removed from the active architecture
+
+Research / Open Source, Open core, Interoperability, Research questions and Contribute were removed. None had the facts, content or evidence to earn a door; relevant future work can return in the territory where it has real substance.
+
 ## Reserved after launch
 
 These remain in the architecture without a launch promise:
 
-- Research / Open Source
-- Open core
-- Interoperability
-- Research questions
-- Contribute
 - service topics that fail the workshop test
 - any conditional node whose facts, permission or media do not arrive
 

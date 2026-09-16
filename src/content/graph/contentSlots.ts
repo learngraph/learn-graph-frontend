@@ -40,6 +40,25 @@ export const contentSlots = [
     ],
   },
   {
+    nodeId: "platform-graph",
+    sourceAvailability: "project-material",
+    copyStatus: "ready-for-review",
+    workEstimate: "review",
+    statusNote:
+      "The editorial node exists; ontology names and ownership boundaries need product review.",
+    blockers: [
+      "Confirm the current names and boundaries for shared, contextual, personal, and connected material",
+      "Confirm which contribution and publication stages exist in the operational product",
+    ],
+    supportingMaterial: [
+      {
+        kind: "technical-facts",
+        label: "Current graph entities and relation vocabulary",
+        status: "blocked",
+      },
+    ],
+  },
+  {
     nodeId: "learning-access-sovereignty",
     sourceAvailability: "project-material",
     copyStatus: "ready-for-review",
@@ -96,11 +115,14 @@ export const contentSlots = [
   {
     nodeId: "collaborate-pilot-learngraph",
     sourceAvailability: "legacy-and-project",
-    copyStatus: "not-created",
+    copyStatus: "needs-revision",
     workEstimate: "new-assembly",
     statusNote:
-      "Rich application material exists; no dedicated article exists.",
-    blockers: ["Completed pilots must be separated from proposed applications"],
+      "The editorial frame and typed ITECH record exist; verified case facts and evidence are still pending.",
+    blockers: [
+      "The ITECH activity type, scope, participants, use, observations, and permissions need verification",
+      "Completed pilots must be separated from proposed applications",
+    ],
     supportingMaterial: [
       { kind: "diagram", label: "Pilot pattern", status: "missing" },
       {
@@ -114,16 +136,19 @@ export const contentSlots = [
   {
     nodeId: "collaborate-implementation-partnerships",
     sourceAvailability: "legacy-and-project",
-    copyStatus: "not-created",
-    workEstimate: "new-assembly",
+    copyStatus: "ready-for-review",
+    workEstimate: "review",
     statusNote:
-      "Role logic exists across sources; no dedicated article exists.",
-    blockers: ["Actively sought partnership types need owner confirmation"],
+      "An interactive role model now makes contribution, responsibility, dependency, and shared decisions explicit.",
+    blockers: [
+      "Actively sought partnership types need owner confirmation",
+      "Current LearnGraph delivery and adaptation capacity needs owner confirmation",
+    ],
     supportingMaterial: [
       {
         kind: "diagram",
         label: "Partner roles and relationships",
-        status: "missing",
+        status: "available",
       },
       {
         kind: "case",
@@ -163,6 +188,16 @@ export const contentSlots = [
         status: "missing",
       },
     ],
+  },
+  {
+    nodeId: "about-convictions",
+    sourceAvailability: "legacy-content",
+    copyStatus: "ready-for-review",
+    workEstimate: "review",
+    statusNote:
+      "A focused three-part manifesto now grounds access, travelling knowledge, and orientation in explicit structural demands.",
+    blockers: [],
+    supportingMaterial: [],
   },
   {
     nodeId: "learning-access",
@@ -248,73 +283,6 @@ export const contentSlots = [
       {
         kind: "technical-facts",
         label: "Measured outcomes",
-        status: "blocked",
-      },
-    ],
-  },
-  {
-    nodeId: "research-open-core",
-    sourceAvailability: "legacy-content",
-    copyStatus: "needs-revision",
-    workEstimate: "owner-facts-first",
-    statusNote: "Legacy claims exist; the topic remains hidden.",
-    blockers: [
-      "Open boundary, license intent, and public artifacts are unresolved",
-    ],
-    supportingMaterial: [
-      {
-        kind: "technical-facts",
-        label: "Verified open-core boundary",
-        status: "blocked",
-      },
-    ],
-  },
-  {
-    nodeId: "research-interoperability",
-    sourceAvailability: "legacy-and-project",
-    copyStatus: "needs-revision",
-    workEstimate: "owner-facts-first",
-    statusNote:
-      "Principles exist; inspectable interoperability evidence does not.",
-    blockers: [
-      "Public APIs, schemas, exports, or demonstrations are unverified",
-    ],
-    supportingMaterial: [
-      {
-        kind: "diagram",
-        label: "Verified interoperability model",
-        status: "blocked",
-      },
-    ],
-  },
-  {
-    nodeId: "research-questions",
-    sourceAvailability: "legacy-and-project",
-    copyStatus: "needs-revision",
-    workEstimate: "owner-facts-first",
-    statusNote:
-      "Questions and direction exist; publishable research work is unresolved.",
-    blockers: [
-      "Named work needs owners, methods, status, and publishable outputs",
-    ],
-    supportingMaterial: [
-      { kind: "case", label: "Publishable research output", status: "blocked" },
-    ],
-  },
-  {
-    nodeId: "research-contribute",
-    sourceAvailability: "legacy-content",
-    copyStatus: "needs-revision",
-    workEstimate: "owner-facts-first",
-    statusNote:
-      "A contribution invitation exists; supportability is unverified.",
-    blockers: [
-      "Governance, licensing, review capacity, and decision authority are unresolved",
-    ],
-    supportingMaterial: [
-      {
-        kind: "technical-facts",
-        label: "Supported contribution routes",
         status: "blocked",
       },
     ],

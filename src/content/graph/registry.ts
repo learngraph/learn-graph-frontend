@@ -15,12 +15,6 @@ const approved = {
   labelStatus: "approved",
 } as const;
 
-const reserved = {
-  architectureStatus: "reserved",
-  publicationStatus: "hidden",
-  labelStatus: "approved",
-} as const;
-
 export const contentGraphNodes = [
   {
     id: "root-learngraph",
@@ -69,6 +63,18 @@ export const contentGraphNodes = [
     ...approved,
   },
   {
+    id: "platform-graph",
+    kind: "topic",
+    parentId: "territory-platform",
+    slug: "graph",
+    canonicalPath: "/platform/graph",
+    label: "The Graph",
+    purpose:
+      "Let visitors inspect the shared graph itself, then see how context, personal state, and publication flow change its projection without collapsing into one thing.",
+    contentId: "content-platform-graph",
+    ...approved,
+  },
+  {
     id: "platform-inclusive-learning",
     kind: "topic",
     parentId: "territory-platform",
@@ -114,6 +120,7 @@ export const contentGraphNodes = [
     label: "Pilot LearnGraph",
     purpose:
       "Explain how LearnGraph can be applied and evaluated with a partner before broader rollout.",
+    contentId: "content-collaborate-pilot-learngraph",
     ...approved,
   },
   {
@@ -125,6 +132,7 @@ export const contentGraphNodes = [
     label: "Implementation partnerships",
     purpose:
       "Clarify the roles through which organisations, foundations, networks, facilitators, and LearnGraph can build contextual work together.",
+    contentId: "content-collaborate-implementation-partnerships",
     ...approved,
   },
   {
@@ -202,6 +210,18 @@ export const contentGraphNodes = [
     ...approved,
   },
   {
+    id: "about-convictions",
+    kind: "topic",
+    parentId: "territory-about",
+    slug: "convictions",
+    canonicalPath: "/about/convictions",
+    label: "Convictions",
+    purpose:
+      "Give the principles beneath LearnGraph one deliberate place, grounded in the choices and tensions they create.",
+    contentId: "content-about-convictions",
+    ...approved,
+  },
+  {
     id: "about-people",
     kind: "topic",
     parentId: "territory-about",
@@ -236,61 +256,6 @@ export const contentGraphNodes = [
       "Show what changed when LearnGraph entered a real learning or institutional context, through grounded outcomes and case studies.",
     contentId: "content-about-impact",
     ...approved,
-  },
-  {
-    id: "territory-research-open-source",
-    kind: "territory",
-    parentId: "root-learngraph",
-    slug: "research",
-    canonicalPath: "/research",
-    label: "Research / Open Source",
-    purpose:
-      "Expose technical and research work only when it can be inspected, challenged, reused, or contributed to.",
-    ...reserved,
-  },
-  {
-    id: "research-open-core",
-    kind: "topic",
-    parentId: "territory-research-open-source",
-    slug: "open-core",
-    canonicalPath: "/research/open-core",
-    label: "Open core",
-    purpose:
-      "Define precisely what is open, under which license, and how it can be inspected or deployed.",
-    ...reserved,
-  },
-  {
-    id: "research-interoperability",
-    kind: "topic",
-    parentId: "territory-research-open-source",
-    slug: "interoperability",
-    canonicalPath: "/research/interoperability",
-    label: "Interoperability",
-    purpose:
-      "Explain and demonstrate how meaning, evidence, or learning structures can cross system and organisational boundaries.",
-    ...reserved,
-  },
-  {
-    id: "research-questions",
-    kind: "topic",
-    parentId: "territory-research-open-source",
-    slug: "questions",
-    canonicalPath: "/research/questions",
-    label: "Research questions",
-    purpose:
-      "Publish active questions with owners, methods, status, and outputs rather than presenting principles as findings.",
-    ...reserved,
-  },
-  {
-    id: "research-contribute",
-    kind: "topic",
-    parentId: "territory-research-open-source",
-    slug: "contribute",
-    canonicalPath: "/research/contribute",
-    label: "Contribute",
-    purpose:
-      "Explain concrete contribution routes, governance, licensing, review, safety, and decision authority.",
-    ...reserved,
   },
 ] as const satisfies readonly ContentGraphNode[];
 

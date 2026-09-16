@@ -52,6 +52,33 @@ export const platformBriefs = [
     sourceRefs: [`${platformCopySource}/The model.docx`, projectPresentation],
   },
   {
+    nodeId: "platform-graph",
+    status: "draft",
+    coreClaim:
+      "The graph is LearnGraph's common coordinate system, while routes, contexts, personal state, and connected material retain different boundaries.",
+    tension:
+      "A graph becomes meaningless when every object, state, and action is flattened into the same kind of node.",
+    intendedMemory:
+      "The structure is shared, the route is contextual, and the state is personal.",
+    mustShow: [
+      "Why relationships remain available beyond one course or institution",
+      "Shared, contextual, personal, and connected boundaries",
+      "Generation, review, and publication as separate events",
+      "The practical operations that relationships permit",
+    ],
+    availableMaterial: [
+      "A Living Map for Learning",
+      "Current model and product-boundary material",
+    ],
+    avoid: [
+      "A second overview of the complete product model",
+      "Decorative graph imagery",
+      "A generic database explanation",
+      "Unverified infrastructure claims",
+    ],
+    sourceRefs: [projectPresentation],
+  },
+  {
     nodeId: "platform-inclusive-learning",
     status: "draft",
     coreClaim:

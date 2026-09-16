@@ -6,10 +6,6 @@ import { platformEvidenceArticle } from "./platform/evidence";
 import { platformModelArticle } from "./platform/model";
 import { platformPathsArticle } from "./platform/personal-paths";
 import { platformSovereigntyArticle } from "./platform/sovereignty";
-import { researchContributeArticle } from "./research/contribute";
-import { researchInteroperabilityArticle } from "./research/interoperability";
-import { researchOpenArticle } from "./research/open-core";
-import { researchFieldsArticle } from "./research/questions";
 import type { NodeArticle } from "./types";
 import { workProductsArticle } from "./work/build-the-offer";
 import { workClarityArticle } from "./work/find-the-constraint";
@@ -30,11 +26,7 @@ export type LegacyTopicId =
   | "about-origin"
   | "about-team"
   | "about-network"
-  | "about-contact"
-  | "research-fields"
-  | "research-open"
-  | "research-interoperability"
-  | "research-contribute";
+  | "about-contact";
 
 export const articleByTopicId: Record<LegacyTopicId, NodeArticle> = {
   "platform-model": platformModelArticle,
@@ -49,8 +41,4 @@ export const articleByTopicId: Record<LegacyTopicId, NodeArticle> = {
   "about-team": aboutTeamArticle,
   "about-network": aboutNetworkArticle,
   "about-contact": aboutContactArticle,
-  "research-fields": researchFieldsArticle,
-  "research-open": researchOpenArticle,
-  "research-interoperability": researchInteroperabilityArticle,
-  "research-contribute": researchContributeArticle,
 };

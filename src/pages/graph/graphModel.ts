@@ -17,8 +17,7 @@ export type TerritoryId =
   | "platform"
   | "learning-access"
   | "collaborate"
-  | "about"
-  | "research";
+  | "about";
 export type TopicId = TopicNode["id"];
 export type GraphSelection = TerritoryId | TopicId;
 
@@ -79,7 +78,6 @@ const territoryNodeIds: Record<TerritoryId, string> = {
   "learning-access": "territory-learning-access",
   collaborate: "territory-collaborate",
   about: "territory-about",
-  research: "territory-research-open-source",
 };
 
 const territoryIdByNodeId = new Map(
@@ -144,7 +142,6 @@ export const territoryOrder: TerritoryId[] = [
   "learning-access",
   "collaborate",
   "about",
-  "research",
 ];
 
 const publicNodeIds = new Set(

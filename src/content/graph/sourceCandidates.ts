@@ -62,6 +62,34 @@ export const sourceCandidates = [
     ],
   },
   {
+    id: "source-graph-living-structure",
+    nodeId: "platform-graph",
+    title: "A Living Map for Learning",
+    provenance: `${presentation} · sections 04 and 05`,
+    status: "strong",
+    usefulFor:
+      "The distinction between shared graph structure, a person's position, and movement through connected knowledge.",
+    usefulMaterial: [
+      "Knowledge becomes navigable through visible relationships rather than isolated entries.",
+      "A route can respond to what a learner already knows without requiring a second disconnected knowledge universe.",
+      "The graph supports human judgment rather than replacing it with an opaque recommendation.",
+    ],
+  },
+  {
+    id: "source-graph-product-boundaries",
+    nodeId: "platform-graph",
+    title: "Current product boundary material",
+    provenance:
+      "Using LearnGraph working brief and current model implementation sources",
+    status: "verification-required",
+    usefulFor:
+      "Separating graph structure, contextual routes, personal state, resources, and contribution flow.",
+    usefulMaterial: [
+      "Atlas, journeys, cohorts, Studio, user state, resources, and ingestion are described as distinct operating concerns.",
+      "The precise entity names, ownership boundaries, and publication stages require confirmation against the operational product.",
+    ],
+  },
+  {
     id: "source-paths-beyond-score",
     nodeId: "learning-access-sovereignty",
     title: "Beyond the Score",
@@ -307,6 +335,19 @@ export const sourceCandidates = [
     ],
   },
   {
+    id: "source-convictions-legacy-language",
+    nodeId: "about-convictions",
+    title: "Legacy values and positioning language",
+    provenance: "Legacy website inventory · human-centred and agency themes",
+    status: "partial",
+    usefulFor:
+      "Raw material for deciding which convictions are specific enough to deserve a public argument.",
+    usefulMaterial: [
+      "The legacy material repeatedly returns to agency, dignity, independence, access, and human judgment.",
+      "These are candidate positions, not publication copy; each surviving conviction needs a concrete consequence or tension.",
+    ],
+  },
+  {
     id: "source-commitment-unequal-conditions",
     nodeId: "learning-access",
     title: "Learning Access Under Unequal Conditions",
@@ -387,57 +428,6 @@ export const sourceCandidates = [
     usefulMaterial: [
       "The complete legacy narrative, fourth-grade example, and three attributed quotations are available.",
       "The case centres on systematic personalisation, follow-up, continuity, and protecting educator time for human support.",
-    ],
-  },
-  {
-    id: "source-open-core-direction",
-    nodeId: "research-open-core",
-    title: "Join the Map — open-core direction",
-    provenance: `${presentation} · section 09`,
-    status: "verification-required",
-    usefulFor:
-      "The intended openness principle, not a current license statement.",
-    usefulMaterial: [
-      "The core is described as something that should remain freely accessible as it grows.",
-      "This is direction; it does not define what is open today, under which license, or with what support.",
-    ],
-  },
-  {
-    id: "source-interoperability-travel",
-    nodeId: "research-interoperability",
-    title: "Knowledge That Travels and Returns",
-    provenance: `${presentation} · section 07`,
-    status: "strong",
-    usefulFor:
-      "The social reason for portable, locally adaptable learning structures.",
-    usefulMaterial: [
-      "Paths and solutions should be able to travel, adapt, and leave shared memory without making communities identical.",
-      "The thought is strong; it is not technical evidence of APIs, schemas, or exports.",
-    ],
-  },
-  {
-    id: "source-research-question-field",
-    nodeId: "research-questions",
-    title: "Question field across the project presentation",
-    provenance: `${presentation} · sections 02, 05, 07–08`,
-    status: "partial",
-    usefulFor: "Candidate research questions, not findings.",
-    usefulMaterial: [
-      "The material raises questions about orientation, visible gaps, evidence beyond scores, human judgment, adaptable community knowledge, unequal access, privacy, and support under restriction.",
-      "No owner, method, status, or publishable output is currently attached.",
-    ],
-  },
-  {
-    id: "source-contribute-conventions",
-    nodeId: "research-contribute",
-    title: "Repository contribution conventions",
-    provenance: "Frontend repository · README and contribution files",
-    status: "verification-required",
-    usefulFor:
-      "A possible technical contribution route if the team confirms it is actively supported.",
-    usefulMaterial: [
-      "Contribution mechanics exist in the repository.",
-      "That does not prove that external contributions are invited, governable, or supportable today.",
     ],
   },
 ] as const satisfies readonly SourceCandidate[];
