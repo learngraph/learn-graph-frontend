@@ -1,0 +1,243 @@
+/* ─── Outer layout ──────────────────────────────────────────────────── */
+
+.graph-focus--partnership-field,
+.graph-focus--partnership-model {
+  grid-template-columns: minmax(7rem, 0.4fr) minmax(0, 4fr);
+  width: min(100% - 2.5rem, 90rem);
+}
+
+.graph-focus--partnership-field .graph-focus__return,
+.graph-focus--partnership-model .graph-focus__return {
+  grid-column: 2;
+  justify-self: end;
+}
+
+.graph-focus__content--partnership-field,
+.graph-focus__content--partnership-model {
+  width: min(100%, 68rem);
+}
+
+
+/* ─── Shared tokens ─────────────────────────────────────────────────── */
+
+.partnership-field {
+  --p-accent:  rgb(var(--graph-accent-rgb) / 0.88);
+  --p-heading: rgb(255 255 255 / 0.88);
+  --p-body:    rgb(255 255 255 / 0.62);
+  --p-muted:   rgb(255 255 255 / 0.36);
+  --p-kicker:  0.58rem;
+  --p-copy:    0.94rem;
+}
+
+.partnership-field h3,
+.partnership-field p,
+.partnership-field dl,
+.partnership-field dd {
+  margin: 0;
+}
+
+
+/* ─── Section header ────────────────────────────────────────────────── */
+
+.pf-section {
+  margin-top: clamp(3.5rem, 7vw, 6rem);
+}
+
+.pf-section__header > p {
+  color: var(--p-accent);
+  font-size: clamp(1.35rem, 2.1vw, 1.9rem);
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+
+
+/* ─── Contribution bubbles ──────────────────────────────────────────── */
+
+.contribution-field {
+  margin-top: clamp(2rem, 4vw, 3rem);
+}
+
+/* 2-column grid — last item (LearnGraph) spans full width */
+.contribution-bubbles {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.65rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.contribution-bubble:last-child {
+  grid-column: 1 / -1;
+}
+
+.contribution-bubble {
+  padding: clamp(0.85rem, 1.5vw, 1.1rem) clamp(1rem, 1.8vw, 1.3rem);
+  border: 1px solid rgb(255 255 255 / 0.08);
+  border-radius: 3px;
+  cursor: default;
+  transition:
+    border-color 220ms ease,
+    background 220ms ease;
+}
+
+.contribution-bubble:focus-visible {
+  outline: none;
+  border-color: rgb(255 255 255 / 0.24);
+}
+
+.contribution-bubble.is-active {
+  border-color: rgb(var(--graph-accent-rgb) / 0.38);
+  background: rgb(var(--graph-accent-rgb) / 0.04);
+}
+
+.contribution-bubble__label {
+  display: block;
+  color: var(--p-heading);
+  font-size: var(--p-copy);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  transition: color 220ms ease;
+}
+
+.contribution-bubble.is-active .contribution-bubble__label {
+  color: var(--p-accent);
+}
+
+.contribution-bubble__desc {
+  display: block;
+  margin-top: 0.25rem;
+  color: var(--p-muted);
+  font-size: var(--p-copy);
+  line-height: 1.5;
+  transition: color 220ms ease;
+}
+
+.contribution-bubble.is-active .contribution-bubble__desc {
+  color: var(--p-body);
+}
+
+
+/* ─── Reinforcement passage ─────────────────────────────────────────── */
+
+.contribution-reinforcement {
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+  max-width: 52rem;
+}
+
+.contribution-reinforcement h3 {
+  color: var(--p-accent);
+  font-size: clamp(1.35rem, 2.1vw, 1.9rem);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+
+/* Paragraph spacing — use adjacent sibling to avoid !important */
+.contribution-reinforcement h3 + p,
+.contribution-reinforcement p + p {
+  margin-top: 1rem;
+}
+
+.contribution-reinforcement__intro {
+  color: var(--p-body);
+  font-size: var(--p-copy);
+  line-height: 1.65;
+}
+
+.contribution-reinforcement__body {
+  color: var(--p-body);
+  font-size: var(--p-copy);
+  line-height: 1.85;
+}
+
+/* Sentences — highlight when their linked bubble is active */
+.contribution-sentence {
+  transition: color 220ms ease;
+}
+
+.contribution-sentence.is-active {
+  color: var(--p-heading);
+}
+
+.contribution-sentence.is-dim {
+  color: var(--p-muted);
+}
+
+.contribution-reinforcement__closing {
+  color: var(--p-body);
+  font-size: var(--p-copy);
+  line-height: 1.7;
+}
+
+
+/* ─── Closing node ──────────────────────────────────────────────────── */
+
+.pf-section--closing {
+  max-width: 52rem;
+  padding-bottom: clamp(5rem, 9vw, 8rem);
+}
+
+.pf-closing__heading {
+  color: var(--p-accent);
+  font-size: clamp(1.35rem, 2.1vw, 1.9rem);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+
+/* First body paragraph gets tighter top margin; subsequent ones breathe more */
+.pf-closing__heading + .pf-closing__body {
+  margin-top: 1.1rem;
+}
+
+.pf-closing__body + .pf-closing__body {
+  margin-top: 0.9rem;
+}
+
+.pf-closing__body {
+  color: var(--p-body);
+  font-size: var(--p-copy);
+  font-weight: 400;
+  line-height: 1.7;
+  letter-spacing: -0.01em;
+}
+
+/* Last paragraph — slightly elevated weight to land as a conclusion */
+.pf-closing__body:last-of-type {
+  color: var(--p-heading);
+}
+
+.pf-section--closing .graph-focus__action {
+  margin-top: clamp(3rem, 5vw, 4rem);
+  border: 1px solid rgb(var(--graph-accent-rgb) / 0.5);
+  padding: 0.55rem 1.1rem;
+}
+
+
+/* ─── Responsive ────────────────────────────────────────────────────── */
+
+@media (max-width: 980px) {
+  .graph-focus--partnership-field,
+  .graph-focus--partnership-model {
+    grid-template-columns: 1fr;
+  }
+
+  .graph-focus--partnership-field .graph-focus__return,
+  .graph-focus--partnership-model .graph-focus__return {
+    grid-column: 1;
+  }
+}
+
+
+/* ─── Reduced motion ────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .contribution-bubble,
+  .contribution-bubble__label,
+  .contribution-bubble__desc,
+  .contribution-sentence {
+    transition: none;
+  }
+}

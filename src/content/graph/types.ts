@@ -272,6 +272,67 @@ export interface PilotRecordBlock extends ContentBlockMeta {
   };
 }
 
+export interface PartnershipModelBlock extends ContentBlockMeta {
+  type: "partnership-model";
+  center: {
+    label: string;
+    statement: string;
+    invitation: string;
+    resolved: string;
+  };
+  roles: Array<{
+    id: string;
+    label: string;
+    shortLabel: string;
+    description: string;
+    contribution: string;
+    responsibility: string;
+    dependency: string;
+  }>;
+  sharedQuestions: Array<{
+    label: string;
+    question: string;
+  }>;
+  closing: string;
+  action: {
+    label: string;
+    href: string;
+  };
+}
+
+export interface PartnershipFieldBlock extends ContentBlockMeta {
+  type: "partnership-field";
+  /** Five contribution bubbles — the vocabulary for the reinforcement paragraph below */
+  contributions: Array<{
+    id: string;
+    label: string;
+    description: string;
+  }>;
+  /** Passage that names the same contributions and shows how they reinforce each other.
+   *  Structured as a list of paragraphs; each paragraph is a list of sentences, each
+   *  sentence linked to one contribution via contributionId — hover/focus on a bubble
+   *  highlights the matching sentence(s) and vice versa. */
+  reinforcement: {
+    heading: string;
+    intro: string;
+    paragraphs: Array<
+      Array<{
+        contributionId: string;
+        text: string;
+      }>
+    >;
+    closing: string;
+  };
+  closing: {
+    heading: string;
+    paragraphs: string[];
+  };
+  action: {
+    label: string;
+    href: string;
+  };
+}
+
 export interface LinkGroupBlock extends ContentBlockMeta {
   type: "link-group";
   links: Array<{
@@ -304,6 +365,8 @@ export type ContentBlock =
   | TechnicalFactsBlock
   | ArtifactReferenceBlock
   | PilotRecordBlock
+  | PartnershipModelBlock
+  | PartnershipFieldBlock
   | LinkGroupBlock
   | ActionBlock;
 
@@ -323,6 +386,8 @@ export interface NodeContent {
     | "frontiers"
     | "graph-essay"
     | "model-system"
+    | "partnership-model"
+    | "partnership-field"
     | "product-tour"
     | "pilot";
   kicker?: string;
