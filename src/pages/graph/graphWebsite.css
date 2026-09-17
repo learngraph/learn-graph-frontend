@@ -367,6 +367,8 @@
 
 .graph-focus {
   --graph-focus-rule-inset: 1rem;
+  --graph-focus-meta-size: 0.63rem;
+  --graph-focus-meta-line-height: 1.25;
   display: grid;
   grid-template-columns: minmax(8rem, 0.6fr) minmax(0, 2fr) minmax(
       12rem,
@@ -394,7 +396,8 @@
   border-left: 1px solid rgb(var(--graph-accent-rgb) / 0.42);
   padding-left: var(--graph-focus-rule-inset);
   color: rgb(255 255 255 / 0.4);
-  font-size: 0.63rem;
+  font-size: var(--graph-focus-meta-size);
+  line-height: var(--graph-focus-meta-line-height);
   letter-spacing: 0.13em;
   text-transform: uppercase;
 }
@@ -674,10 +677,11 @@
   align-items: center;
   justify-content: flex-start;
   border: 0;
-  padding: 0.4rem 0;
+  padding: 0;
   background: transparent;
   color: rgb(255 255 255 / 0.48);
-  font-size: 0.65rem;
+  font-size: var(--graph-focus-meta-size);
+  line-height: var(--graph-focus-meta-line-height);
   letter-spacing: 0.12em;
   text-align: left;
   text-transform: uppercase;
