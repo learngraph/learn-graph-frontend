@@ -1,5 +1,5 @@
 import { useEffect, useRef, type CSSProperties } from "react";
-import { ArrowDown, ArrowUp } from "lucide-react";
+import { ArrowDown } from "lucide-react";
 import {
   Link,
   Navigate,
@@ -247,19 +247,6 @@ export default function GraphWebsite() {
         >
           LEARNGRAPH
         </button>
-        <label className="graph-hue-control">
-          <span>Colour spectrum</span>
-          <input
-            type="range"
-            min="0"
-            max="359"
-            step="1"
-            value={Math.round(hue)}
-            onChange={(event) => selectHue(Number(event.target.value))}
-            aria-label="Graph colour"
-            aria-valuetext={`${Math.round(hue)} degrees`}
-          />
-        </label>
         <button
           type="button"
           className="graph-site__mode"
@@ -302,7 +289,7 @@ export default function GraphWebsite() {
         <section
           id="editorial-workbench"
           ref={focusRef}
-          className={`graph-focus${selectedContent?.layout ? ` graph-focus--${selectedContent.layout}` : ""}`}
+          className={`graph-focus graph-focus--with-utility${selectedContent?.layout ? ` graph-focus--${selectedContent.layout}` : ""}`}
           aria-live="polite"
         >
           <div className="graph-focus__rail">
@@ -342,11 +329,26 @@ export default function GraphWebsite() {
             <EditorialWorkbench topic={selectedTopic} brief={selectedBrief} />
           ) : null}
 
-          <div className="graph-focus__return">
-            <button type="button" onClick={returnToGraph}>
-              Return to graph
-              <ArrowUp aria-hidden="true" />
-            </button>
+          <div className="graph-focus__utility">
+            <label className="graph-hue-control graph-focus__hue">
+              <span>Colour</span>
+              <input
+                type="range"
+                min="0"
+                max="359"
+                step="1"
+                value={Math.round(hue)}
+                onChange={(event) => selectHue(Number(event.target.value))}
+                aria-label="Graph colour"
+                aria-valuetext={`${Math.round(hue)} degrees`}
+              />
+            </label>
+
+            <div className="graph-focus__return">
+              <button type="button" onClick={returnToGraph}>
+                Return to graph
+              </button>
+            </div>
           </div>
         </section>
       )}
