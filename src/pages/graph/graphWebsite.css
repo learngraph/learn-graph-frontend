@@ -366,6 +366,7 @@
 }
 
 .graph-focus {
+  --graph-focus-rule-inset: 1rem;
   display: grid;
   grid-template-columns: minmax(8rem, 0.6fr) minmax(0, 2fr) minmax(
       12rem,
@@ -391,7 +392,7 @@
   justify-content: space-between;
   min-height: 17rem;
   border-left: 1px solid rgb(var(--graph-accent-rgb) / 0.42);
-  padding-left: 1rem;
+  padding-left: var(--graph-focus-rule-inset);
   color: rgb(255 255 255 / 0.4);
   font-size: 0.63rem;
   letter-spacing: 0.13em;
@@ -661,13 +662,14 @@
 }
 
 .graph-focus__return {
-  width: calc(100% - 1rem);
-  align-self: flex-start;
+  width: auto;
+  margin-right: var(--graph-focus-rule-inset);
+  align-self: flex-end;
 }
 
 .graph-focus__return button {
   display: inline-flex;
-  width: 100%;
+  width: auto;
   gap: 0.6rem;
   align-items: center;
   justify-content: flex-start;
@@ -937,7 +939,8 @@
     grid-row: 3;
     grid-column: 1;
     width: 100%;
-    margin-top: 1rem;
+    margin: 1rem 0 0;
+    align-self: stretch;
   }
 }
 
